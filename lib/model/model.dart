@@ -62,7 +62,7 @@ class WidgetCategory {
 
 /// Defines the control class.
 class Control {
-  /// Constructor holds the tile, description, status etc., of the [Control].
+  /// Constructor holds the tile, description, status etc., of the [Control]
   Control(
     this.title,
     this.description,
@@ -339,7 +339,10 @@ class SampleModel extends Listenable {
   /// Holds the current theme data.
   late ThemeData themeData;
 
-  /// Holds theme based color of web outputcontainer.
+  /// holds the base app bar item color based on theme
+  Color baseAppBarItemColor = Colors.white;
+
+  /// Holds theme based color of web output container.
   Color textColor = const Color.fromRGBO(51, 51, 51, 1);
 
   /// Holds theme based color of home card title.
@@ -529,6 +532,7 @@ class SampleModel extends Listenable {
 
         // baseNavigationBarTextColor = Colors.white;
         // homeCardTitleTextColor = currentThemeData.colorScheme.primary;
+        baseAppBarItemColor = Colors.white;
         textColor = const Color.fromRGBO(51, 51, 51, 1);
         break;
 
@@ -548,6 +552,7 @@ class SampleModel extends Listenable {
 
         // baseNavigationBarTextColor = Colors.white;
         // homeCardTitleTextColor = currentThemeData.colorScheme.primary;
+        baseAppBarItemColor = Colors.white;
         textColor = const Color.fromRGBO(242, 242, 242, 1);
         break;
     }
@@ -556,37 +561,49 @@ class SampleModel extends Listenable {
   void _updateMaterial3Colors(ThemeData currentThemeData) {
     switch (currentThemeData.brightness) {
       case Brightness.light:
-        backgroundColor = const Color(0xFFFFFBFE);
-        homeCardColor = const Color(0xFFF7F2FB);
+        final Color primaryColor = Color.alphaBlend(
+            Colors.white.withOpacity(0.9),
+            currentThemeData.colorScheme.primary);
+        backgroundColor = Color.alphaBlend(Colors.white.withOpacity(0.95),
+            currentThemeData.colorScheme.primary);
+        homeCardColor = primaryColor;
         sampleOutputCardColor = const Color(0xFFFFFBFE);
-        leftNavigationBarBackgroundColor = const Color(0xFFF7F2FB);
+        leftNavigationBarBackgroundColor = primaryColor;
         dividerColor = currentThemeData.colorScheme.outlineVariant;
         drawerIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
-        subSamplesTabBarColor = const Color(0xFFF7F2FB);
+        subSamplesTabBarColor = primaryColor;
         drawerTextIconColor = currentThemeData.colorScheme.onSurface;
         drawerBackgroundColor = const Color(0xFFFFFBFE);
-        footerColor = const Color(0xFFEEE8F4);
+        footerColor = Color.alphaBlend(Colors.white.withOpacity(0.85),
+            currentThemeData.colorScheme.primary);
 
         // baseNavigationBarTextColor = currentThemeData.colorScheme.surface;
         // homeCardTitleTextColor = currentThemeData.colorScheme.surface;
+        baseAppBarItemColor = Colors.white;
         textColor = currentThemeData.colorScheme.onSurface;
         break;
 
       case Brightness.dark:
-        backgroundColor = const Color(0xFF1C1B1F);
-        homeCardColor = const Color(0xFF25232A);
+        final Color primaryColor = Color.alphaBlend(
+            Colors.black.withOpacity(0.85),
+            currentThemeData.colorScheme.primary);
+        backgroundColor = Color.alphaBlend(Colors.black.withOpacity(0.9),
+            currentThemeData.colorScheme.primary);
+        homeCardColor = primaryColor;
         sampleOutputCardColor = const Color(0xFF1C1B1F);
-        leftNavigationBarBackgroundColor = const Color(0xFF25232A);
+        leftNavigationBarBackgroundColor = primaryColor;
         dividerColor = currentThemeData.colorScheme.outlineVariant;
         drawerIconColor = const Color.fromRGBO(255, 255, 255, 0.65);
-        subSamplesTabBarColor = const Color(0xFF25232A);
+        subSamplesTabBarColor = primaryColor;
         drawerTextIconColor = currentThemeData.colorScheme.onSurface;
         drawerBackgroundColor = const Color(0xFF1C1B1F);
-        footerColor = const Color(0xFF302D38);
+        footerColor = Color.alphaBlend(Colors.black.withOpacity(0.8),
+            currentThemeData.colorScheme.primary);
 
         // baseNavigationBarTextColor =
         //     currentThemeData.colorScheme.primaryContainer;
         // homeCardTitleTextColor = currentThemeData.colorScheme.surface;
+        baseAppBarItemColor = currentThemeData.colorScheme.onPrimary;
         textColor = currentThemeData.colorScheme.onSurface;
         break;
     }

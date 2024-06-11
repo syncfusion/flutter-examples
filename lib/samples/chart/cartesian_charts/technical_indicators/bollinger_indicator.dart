@@ -25,7 +25,6 @@ class _BollingerIndicatorState extends SampleViewState {
   late double _period;
   late double _standardDeviation;
   TrackballBehavior? _trackballBehavior;
-  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -41,7 +40,6 @@ class _BollingerIndicatorState extends SampleViewState {
             : const Color.fromRGBO(255, 255, 255, 1),
       ),
     );
-    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
     _standardDeviation = 1;
   }
 
@@ -61,22 +59,23 @@ class _BollingerIndicatorState extends SampleViewState {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Period',
-                        softWrap: false,
-                        style: TextStyle(fontSize: 16, color: model.textColor),
-                      ),
-                      SizedBox(height: model.isMobile ? 30.0 : 16.0),
-                      Text(
-                        model.isWebFullView
-                            ? 'Standard \ndeviation'
-                            : 'Standard deviation',
-                        softWrap: false,
-                        style: TextStyle(fontSize: 16, color: model.textColor),
-                      ),
-                    ]),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Period',
+                      softWrap: false,
+                      style: TextStyle(fontSize: 16, color: model.textColor),
+                    ),
+                    SizedBox(height: model.isMobile ? 30.0 : 16.0),
+                    Text(
+                      model.isWebFullView
+                          ? 'Standard \ndeviation'
+                          : 'Standard deviation',
+                      softWrap: false,
+                      style: TextStyle(fontSize: 16, color: model.textColor),
+                    ),
+                  ],
+                ),
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -127,13 +126,13 @@ class _BollingerIndicatorState extends SampleViewState {
         maximum: DateTime(2017),
       ),
       primaryYAxis: const NumericAxis(
-          minimum: 70,
-          maximum: 130,
-          interval: 20,
-          labelFormat: r'${value}',
-          axisLine: AxisLine(width: 0)),
+        minimum: 70,
+        maximum: 130,
+        interval: 20,
+        labelFormat: r'${value}',
+        axisLine: AxisLine(width: 0),
+      ),
       trackballBehavior: _trackballBehavior,
-      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// Bollinger band indicator mentioned here.
         BollingerBandIndicator<ChartSampleData, DateTime>(
@@ -146,16 +145,15 @@ class _BollingerIndicatorState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings:
-                const EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: getChartData(),
-            opacity: 0.7,
-            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-            lowValueMapper: (ChartSampleData sales, _) => sales.low,
-            highValueMapper: (ChartSampleData sales, _) => sales.high,
-            openValueMapper: (ChartSampleData sales, _) => sales.open,
-            closeValueMapper: (ChartSampleData sales, _) => sales.close,
-            name: 'AAPL'),
+          dataSource: getChartData(),
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
+          lowValueMapper: (ChartSampleData sales, _) => sales.low,
+          highValueMapper: (ChartSampleData sales, _) => sales.high,
+          openValueMapper: (ChartSampleData sales, _) => sales.open,
+          closeValueMapper: (ChartSampleData sales, _) => sales.close,
+          name: 'AAPL',
+          opacity: 0.7,
+        ),
       ],
     );
   }

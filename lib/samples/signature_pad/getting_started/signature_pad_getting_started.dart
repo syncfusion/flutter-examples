@@ -232,7 +232,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                   onPressed: _handleClearButtonPressed,
                   style: ButtonStyle(
                     foregroundColor:
-                        MaterialStateProperty.all<Color>(model.primaryColor),
+                        WidgetStateProperty.all<Color>(model.primaryColor),
                   ),
                   child: const Text(
                     'CLEAR',
@@ -249,7 +249,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                   },
                   style: ButtonStyle(
                     foregroundColor:
-                        MaterialStateProperty.all<Color>(model.primaryColor),
+                        WidgetStateProperty.all<Color>(model.primaryColor),
                   ),
                   child: const Text('SAVE',
                       style: TextStyle(

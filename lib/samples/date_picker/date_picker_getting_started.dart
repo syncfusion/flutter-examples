@@ -1,6 +1,7 @@
 ///Package import
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 
 ///Date picker imports
@@ -272,7 +273,10 @@ class _GettingStartedDatePickerState extends SampleViewState {
             } else if (_controller.view == DateRangePickerView.century) {
               _viewModeString = 'century';
             }
-            stateSetter(() {});
+            SchedulerBinding.instance
+                .addPostFrameCallback((Duration timeStamp) {
+              stateSetter(() {});
+            });
           }
         });
       }

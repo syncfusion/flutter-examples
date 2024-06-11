@@ -607,7 +607,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
             ? picker.DateRangePickerSelectionMode.single
             : picker.DateRangePickerSelectionMode.range,
         showActionButtons: true,
-        onCancel: () => Navigator.pop(context, null),
+        onCancel: () => Navigator.pop(context),
         minDate: widget.minDate,
         maxDate: widget.maxDate,
         todayHighlightColor: Colors.transparent,
@@ -639,7 +639,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
         initialDisplayDate: widget.displayDate,
         showNavigationArrow: true,
         showActionButtons: true,
-        onCancel: () => Navigator.pop(context, null),
+        onCancel: () => Navigator.pop(context),
         enableMultiView: _range != null && _isWeb,
         selectionMode: _range == null
             ? picker.DateRangePickerSelectionMode.single

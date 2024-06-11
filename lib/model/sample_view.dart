@@ -152,10 +152,10 @@ class LocalizationSampleViewState<T extends LocalizationSampleView>
   }
 
   /// Method to get the widget's color based on the widget state
-  Color? getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.selected,
+  Color? getColor(Set<WidgetState> states) {
+    const Set<WidgetState> interactiveStates = <WidgetState>{
+      WidgetState.pressed,
+      WidgetState.selected,
     };
     if (states.any(interactiveStates.contains)) {
       return model.primaryColor;

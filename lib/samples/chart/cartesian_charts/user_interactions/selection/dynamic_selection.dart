@@ -147,7 +147,7 @@ class _DefaultSelectionState extends SampleViewState {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(model.primaryColor),
+                          WidgetStateProperty.all<Color>(model.primaryColor),
                     ),
                     onPressed: () {
                       selection(_seriesIndex, _pointIndex);

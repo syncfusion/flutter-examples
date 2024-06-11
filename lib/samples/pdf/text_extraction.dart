@@ -40,11 +40,11 @@ class _TextExtractionPdfState extends SampleViewState {
                   children: <Widget>[
                     TextButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            model.primaryColor),
+                        backgroundColor:
+                            WidgetStateProperty.all<Color>(model.primaryColor),
                         padding: model.isMobile
                             ? null
-                            : MaterialStateProperty.all(
+                            : WidgetStateProperty.all(
                                 const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 15)),
                       ),
@@ -58,11 +58,11 @@ class _TextExtractionPdfState extends SampleViewState {
                     ),
                     TextButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            model.primaryColor),
+                        backgroundColor:
+                            WidgetStateProperty.all<Color>(model.primaryColor),
                         padding: model.isMobile
                             ? null
-                            : MaterialStateProperty.all(
+                            : WidgetStateProperty.all(
                                 const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 15)),
                       ),

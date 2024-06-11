@@ -24,7 +24,6 @@ class _ATRIndicatorState extends SampleViewState {
   _ATRIndicatorState();
   late double _period;
   TrackballBehavior? _trackballBehavior;
-  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -35,7 +34,6 @@ class _ATRIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
-    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
@@ -81,41 +79,43 @@ class _ATRIndicatorState extends SampleViewState {
         maximum: DateTime(2017),
       ),
       primaryYAxis: const NumericAxis(
-          minimum: 70,
-          maximum: 130,
-          interval: 20,
-          labelFormat: r'${value}',
-          axisLine: AxisLine(width: 0)),
+        minimum: 70,
+        maximum: 130,
+        interval: 20,
+        labelFormat: r'${value}',
+        axisLine: AxisLine(width: 0),
+      ),
       axes: const <ChartAxis>[
         NumericAxis(
-            axisLine: AxisLine(width: 0),
-            majorGridLines: MajorGridLines(width: 0),
-            opposedPosition: true,
-            name: 'yaxes',
-            minimum: 2,
-            maximum: 10,
-            interval: 2)
+          axisLine: AxisLine(width: 0),
+          majorGridLines: MajorGridLines(width: 0),
+          opposedPosition: true,
+          name: 'yAxis',
+          minimum: 2,
+          maximum: 10,
+          interval: 2,
+        ),
       ],
       trackballBehavior: _trackballBehavior,
-      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// ATR indicator mentioned here.
         AtrIndicator<ChartSampleData, DateTime>(
-            seriesName: 'AAPL', yAxisName: 'yaxes', period: _period.toInt()),
+          seriesName: 'AAPL',
+          yAxisName: 'yAxis',
+          period: _period.toInt(),
+        ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          emptyPointSettings:
-              const EmptyPointSettings(mode: EmptyPointMode.zero),
           dataSource: getChartData(),
-          opacity: 0.7,
           xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
           lowValueMapper: (ChartSampleData sales, _) => sales.low,
           highValueMapper: (ChartSampleData sales, _) => sales.high,
           openValueMapper: (ChartSampleData sales, _) => sales.open,
           closeValueMapper: (ChartSampleData sales, _) => sales.close,
           name: 'AAPL',
+          opacity: 0.7,
         )
       ],
     );

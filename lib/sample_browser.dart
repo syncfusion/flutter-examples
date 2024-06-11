@@ -28,8 +28,9 @@ class SampleBrowser extends StatefulWidget {
 
 class _SampleBrowserState extends State<SampleBrowser> {
   late SampleModel _sampleListModel;
-  bool _isMaterial3 = false;
+  bool _isMaterial3 = true;
   Brightness? _brightness;
+  late GlobalKey initialKey;
 
   void _refresh(bool isMaterial3, Brightness brightness) {
     setState(() {
@@ -69,6 +70,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
 
   @override
   void initState() {
+    initialKey = GlobalKey<State>();
     _sampleListModel = SampleModel.instance;
     _addColors();
     _initializeProperties();
@@ -79,25 +81,25 @@ class _SampleBrowserState extends State<SampleBrowser> {
 
   @override
   Widget build(BuildContext context) {
-    _sampleListModel.systemTheme = Theme.of(context);
     if (_brightness == null) {
       if (_sampleListModel.isWebFullView) {
         _brightness ??= Brightness.light;
       } else {
+        final Brightness platformBrightness =
+            MediaQuery.platformBrightnessOf(context);
+        _sampleListModel.systemTheme = platformBrightness == Brightness.light
+            ? ThemeData.light(useMaterial3: _isMaterial3)
+            : ThemeData.dark(useMaterial3: _isMaterial3);
         _brightness ??= _sampleListModel.systemTheme.brightness;
       }
     }
-    final ThemeData themeData = _brightness == Brightness.light
+    ThemeData themeData = _brightness == Brightness.light
         ? ThemeData.light(useMaterial3: _isMaterial3)
         : ThemeData.dark(useMaterial3: _isMaterial3);
     _updateBaseColor(themeData);
-    if (selectedColorPaletteIndex != 0) {
-      _sampleListModel.primaryColor =
-          _sampleListModel.paletteColors[selectedColorPaletteIndex];
-    } else {
-      _sampleListModel.primaryColor =
-          ThemeData.light(useMaterial3: _isMaterial3).colorScheme.primary;
-    }
+    themeData =
+        _themeData(_sampleListModel.paletteColors[selectedColorPaletteIndex]);
+    _sampleListModel.primaryColor = themeData.colorScheme.primary;
     final Map<String, WidgetBuilder> navigationRoutes = <String, WidgetBuilder>{
       _sampleListModel.isWebFullView ? '/' : '/demos': (BuildContext context) =>
           HomePage(refresh: _refresh)
@@ -115,7 +117,7 @@ class _SampleBrowserState extends State<SampleBrowser> {
 
       navigationRoutes[sampleRoute.routeName!] =
           (BuildContext context) => WebLayoutPage(
-                key: GlobalKey<State>(),
+                key: initialKey,
                 routeName: sampleRoute.routeName,
                 sampleModel: _sampleListModel,
                 category: category,
@@ -127,6 +129,8 @@ class _SampleBrowserState extends State<SampleBrowser> {
     _sampleListModel.themeData = _themeData(_sampleListModel.primaryColor);
     _sampleListModel.changeTheme(
         _sampleListModel.themeData, _sampleListModel.themeData.useMaterial3);
+    _sampleListModel.searchBar = CustomSearchBar(
+        key: GlobalKey<SearchBarState>(), sampleListModel: _sampleListModel);
 
     /// Avoiding page popping on escape key press.
     final Map<ShortcutActivator, Intent> shortcuts =
@@ -156,14 +160,14 @@ class _SampleBrowserState extends State<SampleBrowser> {
       title: 'Demos & Examples of Syncfusion Flutter Widgets',
       theme: _sampleListModel.themeData.copyWith(
         scrollbarTheme: const ScrollbarThemeData().copyWith(
-          thumbColor: MaterialStateProperty.all(
+          thumbColor: WidgetStateProperty.all(
             const Color.fromRGBO(128, 128, 128, 0.3),
           ),
         ),
       ),
       darkTheme: _sampleListModel.themeData.copyWith(
         scrollbarTheme: const ScrollbarThemeData().copyWith(
-          thumbColor: MaterialStateProperty.all(
+          thumbColor: WidgetStateProperty.all(
             const Color.fromRGBO(255, 255, 255, 0.3),
           ),
         ),
@@ -302,6 +306,7 @@ class _HomePageState extends State<HomePage> {
     return PreferredSize(
       preferredSize: const Size.fromHeight(46.0),
       child: AppBar(
+        iconTheme: IconThemeData(color: model.baseAppBarItemColor),
         leading: (!model.isWebFullView && Platform.isIOS) ? Container() : null,
         elevation: 0.0,
         bottomOpacity: 0.0,
@@ -309,12 +314,12 @@ class _HomePageState extends State<HomePage> {
         title: AnimateOpacityWidget(
           controller: controller,
           opacity: 0,
-          child: const Text(
+          child: Text(
             'Flutter UI Widgets',
             style: TextStyle(
               fontSize: 18,
               fontFamily: 'HeeboMedium',
-              color: Colors.white,
+              color: model.baseAppBarItemColor,
             ),
           ),
         ),
@@ -323,10 +328,7 @@ class _HomePageState extends State<HomePage> {
             height: 40,
             width: 40,
             child: IconButton(
-              icon: const Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
+              icon: Icon(Icons.settings, color: model.baseAppBarItemColor),
               onPressed: () {
                 model.isWebFullView
                     ? scaffoldKey.currentState!.openEndDrawer()
@@ -357,8 +359,8 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _sampleName(),
-              _sampleNameDescription(),
+              _sampleName(model),
+              _sampleNameDescription(model),
               const SizedBox(height: 15),
               Expanded(
                 child: Transform.translate(
@@ -386,7 +388,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: EdgeInsets.only(top: 20, right: isMaterial3 ? 20 : 13),
               child: buildM2ToM3SwapOption(model, context, MainAxisSize.min,
-                  Colors.white, widget.refresh),
+                  model.baseAppBarItemColor, widget.refresh),
             ),
           // if (haveSpace && isMaterial3) _buildVerticalDivider(),
           if (MediaQuery.of(context).size.width < 500)
@@ -404,19 +406,19 @@ class _HomePageState extends State<HomePage> {
             Container()
           else
             _buildGetPackageButton(isMaxXSize, model),
-          _buildSettingsButton(isMaxXSize, context),
+          _buildSettingsButton(isMaxXSize, context, model),
         ],
       ),
     );
   }
 
-  Padding _sampleName() {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(24, 10, 0, 0),
+  Padding _sampleName(SampleModel model) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 10, 0, 0),
       child: Text(
         'Flutter UI Widgets ',
         style: TextStyle(
-          color: Colors.white,
+          color: model.baseAppBarItemColor,
           fontSize: 28,
           letterSpacing: 0.53,
           fontFamily: 'Roboto-Bold',
@@ -425,13 +427,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Padding _sampleNameDescription() {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(24, 0, 0, 0),
+  Padding _sampleNameDescription(SampleModel model) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
       child: Text(
         'Fast . Fluid . Flexible',
         style: TextStyle(
-          color: Colors.white,
+          color: model.baseAppBarItemColor,
           fontSize: 14,
           fontFamily: 'Roboto-Regular',
           letterSpacing: 0.26,
@@ -477,7 +479,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           Container(
             height: 35,
-            decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+            decoration: BoxDecoration(
+                border: Border.all(color: model.baseAppBarItemColor)),
             child: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return MouseRegion(
@@ -488,7 +491,7 @@ class _HomePageState extends State<HomePage> {
                     setState(() => _isDownloadButtonHover = false);
                   },
                   child: InkWell(
-                    hoverColor: Colors.white,
+                    hoverColor: model.baseAppBarItemColor,
                     onTap: () {
                       launchUrl(
                         Uri.parse(
@@ -503,7 +506,7 @@ class _HomePageState extends State<HomePage> {
                           style: TextStyle(
                             color: _isDownloadButtonHover
                                 ? model.themeData.colorScheme.primary
-                                : Colors.white,
+                                : model.baseAppBarItemColor,
                             fontSize: 12,
                             fontFamily: 'Roboto-Medium',
                           ),
@@ -528,7 +531,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           Container(
             height: 35,
-            decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+            decoration: BoxDecoration(
+                border: Border.all(color: model.baseAppBarItemColor)),
             child: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return MouseRegion(
@@ -539,7 +543,7 @@ class _HomePageState extends State<HomePage> {
                     setState(() => _isGetPackageButtonHover = false);
                   },
                   child: InkWell(
-                    hoverColor: Colors.white,
+                    hoverColor: model.baseAppBarItemColor,
                     onTap: () {
                       launchUrl(Uri.parse(
                           'https://pub.dev/publishers/syncfusion.com/packages'));
@@ -563,7 +567,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 color: _isGetPackageButtonHover
                                     ? model.themeData.colorScheme.primary
-                                    : Colors.white,
+                                    : model.baseAppBarItemColor,
                                 fontSize: 12,
                                 fontFamily: 'Roboto-Medium',
                               ),
@@ -582,11 +586,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildSettingsButton(bool isMaxXSize, BuildContext context) {
+  Widget _buildSettingsButton(
+      bool isMaxXSize, BuildContext context, SampleModel model) {
     return Padding(
       padding: const EdgeInsets.only(top: 20, left: 3),
       child: IconButton(
-        color: Colors.white,
+        color: model.baseAppBarItemColor,
         padding: const EdgeInsets.only(left: 20, right: 20),
         icon: const Icon(Icons.settings),
         onPressed: () {
@@ -620,16 +625,16 @@ class _HomePageState extends State<HomePage> {
           controller: controller,
           physics: const ClampingScrollPhysics(),
           slivers: <Widget>[
-            const SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                     child: Text(
                       'Flutter UI Widgets',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: model.baseAppBarItemColor,
                         fontSize: 25,
                         letterSpacing: 0.53,
                         fontFamily: 'HeeboBold',
@@ -638,11 +643,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 8, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 8, 0, 0),
                     child: Text(
                       'Fast . Fluid . Flexible',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: model.baseAppBarItemColor,
                         fontSize: 14,
                         letterSpacing: 0.26,
                         fontFamily: 'HeeboBold',

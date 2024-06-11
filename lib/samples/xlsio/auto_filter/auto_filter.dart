@@ -89,11 +89,11 @@ class _AutoFilterXlsIOState extends SampleViewState {
                 child: material.TextButton(
               style: material.ButtonStyle(
                 backgroundColor:
-                    material.MaterialStateProperty.all<material.Color>(
+                    material.WidgetStateProperty.all<material.Color>(
                         model.primaryColor),
                 padding: model.isMobile
                     ? null
-                    : material.MaterialStateProperty.all(
+                    : material.WidgetStateProperty.all(
                         const material.EdgeInsets.symmetric(
                             vertical: 15, horizontal: 15)),
               ),

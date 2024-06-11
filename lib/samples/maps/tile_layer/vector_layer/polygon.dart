@@ -140,9 +140,9 @@ class _MapPolygonPageState extends SampleViewState {
 
   ButtonStyle _getButtonStyle(bool isSelected) {
     return ButtonStyle(
-      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.hovered)) {
+      backgroundColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.hovered)) {
             return _isLightTheme
                 ? const Color.fromRGBO(217, 217, 217, 1.0)
                 : const Color.fromRGBO(102, 102, 102, 1.0);
@@ -157,12 +157,12 @@ class _MapPolygonPageState extends SampleViewState {
                       88, 88, 88, 1.0)); // Use the component's default.
         },
       ),
-      shape: MaterialStateProperty.all<OutlinedBorder>(
+      shape: WidgetStateProperty.all<OutlinedBorder>(
         const RoundedRectangleBorder(
           side: BorderSide(color: Colors.transparent),
         ),
       ),
-      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
         EdgeInsets.zero,
       ),
     );

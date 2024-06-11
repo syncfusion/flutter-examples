@@ -22,7 +22,6 @@ class AdIndicator extends SampleView {
 class _AdIndicatorState extends SampleViewState {
   _AdIndicatorState();
   TrackballBehavior? _trackballBehavior;
-  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -32,7 +31,6 @@ class _AdIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
-    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
@@ -53,46 +51,45 @@ class _AdIndicatorState extends SampleViewState {
         maximum: DateTime(2017),
       ),
       primaryYAxis: const NumericAxis(
-          minimum: 70,
-          maximum: 130,
-          interval: 20,
-          labelFormat: r'${value}',
-          axisLine: AxisLine(width: 0)),
+        minimum: 70,
+        maximum: 130,
+        interval: 20,
+        labelFormat: r'${value}',
+        axisLine: AxisLine(width: 0),
+      ),
       axes: <ChartAxis>[
         NumericAxis(
           axisLine: const AxisLine(width: 0),
           majorGridLines: const MajorGridLines(width: 0),
           opposedPosition: true,
-          name: 'yaxes',
+          name: 'yAxis',
           minimum: -5000000000,
           maximum: 5000000000,
           interval: 2500000000,
           numberFormat: NumberFormat.compact(),
-        )
+        ),
       ],
       trackballBehavior: _trackballBehavior,
-      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// AD indicator mentioned here.
         AccumulationDistributionIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
-          yAxisName: 'yaxes',
+          yAxisName: 'yAxis',
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings:
-                const EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: getChartData(),
-            opacity: 0.7,
-            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-            lowValueMapper: (ChartSampleData sales, _) => sales.low,
-            highValueMapper: (ChartSampleData sales, _) => sales.high,
-            openValueMapper: (ChartSampleData sales, _) => sales.open,
-            closeValueMapper: (ChartSampleData sales, _) => sales.close,
-            volumeValueMapper: (ChartSampleData sales, _) => sales.volume,
-            name: 'AAPL'),
+          dataSource: getChartData(),
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
+          lowValueMapper: (ChartSampleData sales, _) => sales.low,
+          highValueMapper: (ChartSampleData sales, _) => sales.high,
+          openValueMapper: (ChartSampleData sales, _) => sales.open,
+          closeValueMapper: (ChartSampleData sales, _) => sales.close,
+          volumeValueMapper: (ChartSampleData sales, _) => sales.volume,
+          name: 'AAPL',
+          opacity: 0.7,
+        ),
       ],
     );
   }

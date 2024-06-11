@@ -190,8 +190,8 @@ class _PaginationState extends SampleViewState {
         ? const Color.fromRGBO(104, 104, 104, 1)
         : const Color.fromRGBO(242, 242, 242, 1);
     final ButtonStyle style = ButtonStyle(
-      shape: MaterialStateProperty.all(const RoundedRectangleBorder()),
-      backgroundColor: MaterialStateProperty.resolveWith(getColor),
+      shape: WidgetStateProperty.all(const RoundedRectangleBorder()),
+      backgroundColor: WidgetStateProperty.resolveWith(getColor),
     );
     final Map<int, Widget> buttons = <int, Widget>{};
     for (int i = 0; i <= 4; i++) {
@@ -231,13 +231,13 @@ class _PaginationState extends SampleViewState {
   }
 
   /// Returns color for the button based on interaction performed
-  Color? getColor(Set<MaterialState> states) {
-    if (states.contains(MaterialState.hovered)) {
+  Color? getColor(Set<WidgetState> states) {
+    if (states.contains(WidgetState.hovered)) {
       return model.themeData.brightness == Brightness.light
           ? const Color.fromRGBO(235, 235, 235, 1)
           : const Color.fromRGBO(104, 104, 104, 1);
-    } else if (states.contains(MaterialState.focused) ||
-        states.contains(MaterialState.pressed)) {
+    } else if (states.contains(WidgetState.focused) ||
+        states.contains(WidgetState.pressed)) {
       return const Color.fromRGBO(224, 224, 224, 1);
     } else {
       return null;

@@ -515,7 +515,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
+          backgroundColor: WidgetStateProperty.all<Color>(
               const Color.fromRGBO(255, 102, 102, 1.0)),
         ),
 

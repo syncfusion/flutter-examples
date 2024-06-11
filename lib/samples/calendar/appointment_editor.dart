@@ -277,10 +277,15 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.
-                    _events.appointments
-                        .removeAt(_events.appointments.indexOf(newAppointment));
-                    _events.notifyListeners(CalendarDataSourceAction.remove,
-                        <Appointment>[newAppointment]);
+                    final int appointmentIndex =
+                        _events.appointments.indexOf(newAppointment);
+                    if ((appointmentIndex <= _events.appointments.length - 1) &&
+                        appointmentIndex >= 0) {
+                      _events.appointments.removeAt(
+                          _events.appointments.indexOf(newAppointment));
+                      _events.notifyListeners(CalendarDataSourceAction.remove,
+                          <Appointment>[newAppointment]);
+                    }
                   }
                 },
                 child: Center(
@@ -2027,12 +2032,22 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                               return PopScope(
                                 onPopInvoked: (bool value) {
                                   if (widget.newAppointment != null) {
-                                    widget.events.appointments!.removeAt(widget
+                                    final int appointmentIndex = widget
                                         .events.appointments!
-                                        .indexOf(widget.newAppointment));
-                                    widget.events.notifyListeners(
-                                        CalendarDataSourceAction.remove,
-                                        <Appointment>[widget.newAppointment!]);
+                                        .indexOf(widget.newAppointment);
+                                    if (appointmentIndex <=
+                                            widget.events.appointments!.length -
+                                                1 &&
+                                        appointmentIndex >= 0) {
+                                      widget.events.appointments!.removeAt(
+                                          widget.events.appointments!
+                                              .indexOf(widget.newAppointment));
+                                      widget.events.notifyListeners(
+                                          CalendarDataSourceAction.remove,
+                                          <Appointment>[
+                                            widget.newAppointment!
+                                          ]);
+                                    }
                                   }
                                 },
                                 child: AppointmentEditorWeb(
@@ -3511,7 +3526,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                       ),
                                       TextField(
                                         mouseCursor:
-                                            MaterialStateMouseCursor.clickable,
+                                            WidgetStateMouseCursor.clickable,
                                         controller: TextEditingController(
                                             text: _selectedRecurrenceType),
                                         decoration: InputDecoration(
@@ -4030,9 +4045,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                             textAlign: TextAlign.start,
                                           ),
                                           TextField(
-                                            mouseCursor:
-                                                MaterialStateMouseCursor
-                                                    .clickable,
+                                            mouseCursor: WidgetStateMouseCursor
+                                                .clickable,
                                             controller: TextEditingController(
                                                 text: _monthName),
                                             decoration: InputDecoration(
@@ -4392,7 +4406,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                                   bottom: 6),
                                                           child: TextField(
                                                             mouseCursor:
-                                                                MaterialStateMouseCursor
+                                                                WidgetStateMouseCursor
                                                                     .clickable,
                                                             controller:
                                                                 TextEditingController(
@@ -4907,8 +4921,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 margin: const EdgeInsets.only(left: 8),
                                 width: 102,
                                 child: TextField(
-                                  mouseCursor:
-                                      MaterialStateMouseCursor.clickable,
+                                  mouseCursor: WidgetStateMouseCursor.clickable,
                                   controller: TextEditingController(
                                       text: _weekNumberText),
                                   decoration: InputDecoration(
@@ -4982,8 +4995,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 width: 127,
                                 margin: const EdgeInsets.only(left: 10),
                                 child: TextField(
-                                  mouseCursor:
-                                      MaterialStateMouseCursor.clickable,
+                                  mouseCursor: WidgetStateMouseCursor.clickable,
                                   controller: TextEditingController(
                                       text: _dayOfWeekText),
                                   decoration: InputDecoration(
@@ -5260,12 +5272,18 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                         child: RawMaterialButton(
                           onPressed: () {
                             if (widget.newAppointment != null) {
-                              widget.events.appointments!.removeAt(widget
-                                  .events.appointments!
-                                  .indexOf(widget.newAppointment));
-                              widget.events.notifyListeners(
-                                  CalendarDataSourceAction.remove,
-                                  <Appointment>[widget.newAppointment!]);
+                              final int index = widget.events.appointments!
+                                  .indexOf(widget.newAppointment);
+                              if ((index <=
+                                      widget.events.appointments!.length - 1) &&
+                                  index >= 0) {
+                                widget.events.appointments!.removeAt(widget
+                                    .events.appointments!
+                                    .indexOf(widget.newAppointment));
+                                widget.events.notifyListeners(
+                                    CalendarDataSourceAction.remove,
+                                    <Appointment>[widget.newAppointment!]);
+                              }
                             }
                             Navigator.pop(context);
                           },
@@ -5635,14 +5653,14 @@ ColorScheme _getColorScheme(SampleModel model, bool isDatePicker) {
     return ColorScheme.dark(
       primary: model.primaryColor,
       secondary: model.primaryColor,
-      surface: isDatePicker ? model.primaryColor : Colors.grey[850]!,
+      surface: isDatePicker ? model.backgroundColor : Colors.grey[850]!,
     );
   }
 
   return ColorScheme.light(
     primary: model.primaryColor,
     secondary: model.primaryColor,
-    surface: isDatePicker ? model.primaryColor : Colors.white,
+    surface: isDatePicker ? model.backgroundColor : Colors.white,
   );
 }
 

@@ -167,6 +167,7 @@ class _RadialSliderExampleState extends SampleViewState {
           pointers: <GaugePointer>[
             RangePointer(
                 width: 0.2,
+                color: model.primaryColor,
                 value: _cardCurrentValue,
                 onValueChanged: handleCardPointerValueChanged,
                 onValueChangeEnd: handleCardPointerValueChanged,
@@ -188,19 +189,19 @@ class _RadialSliderExampleState extends SampleViewState {
                   children: <Widget>[
                     Text(
                       _cardAnnotationValue,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Times',
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF00A8B5)),
+                          color: model.primaryColor),
                     ),
-                    const Text(
+                    Text(
                       '%',
                       style: TextStyle(
                           fontSize: 20,
                           fontFamily: 'Times',
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF00A8B5)),
+                          color: model.primaryColor),
                     )
                   ],
                 ),

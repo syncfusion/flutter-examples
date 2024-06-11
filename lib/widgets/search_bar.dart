@@ -88,6 +88,11 @@ class SearchBarState extends State<CustomSearchBar>
   ///height of the each search results
   final num _itemHeight = 38;
 
+  /// Holds Material 3 search bar item color
+  Color? _searchBarColorM3;
+
+  Color? _searchBarBackgroundColorM3;
+
   @override
   void initState() {
     searchIcon = Icon(Icons.search,
@@ -140,9 +145,10 @@ class SearchBarState extends State<CustomSearchBar>
                   widget.sampleListModel.editingController.text.isNotEmpty
               ? null
               : Icon(Icons.search,
-                  color: widget.sampleListModel.isWebFullView
-                      ? Colors.white.withOpacity(0.5)
-                      : Colors.grey);
+                  color: _searchBarColorM3 ??
+                      (widget.sampleListModel.isWebFullView
+                          ? Colors.white.withOpacity(0.5)
+                          : Colors.grey));
         });
       }
       hint = isFocus.hasFocus ? '' : 'Search';
@@ -459,6 +465,19 @@ class SearchBarState extends State<CustomSearchBar>
 
   @override
   Widget build(BuildContext context) {
+    _searchBarBackgroundColorM3 = widget.sampleListModel.themeData.useMaterial3
+        ? widget.sampleListModel.baseAppBarItemColor.withOpacity(0.2)
+        : null;
+    _searchBarColorM3 = widget.sampleListModel.themeData.useMaterial3
+        ? widget.sampleListModel.baseAppBarItemColor
+        : null;
+    if (searchIcon != null) {
+      searchIcon = Icon(Icons.search,
+          color: _searchBarColorM3 ??
+              (widget.sampleListModel.isWebFullView
+                  ? Colors.white.withOpacity(0.5)
+                  : Colors.grey));
+    }
     return KeyboardListener(
       focusNode: _rawKeyFocusNode,
       onKeyEvent: (KeyEvent event) => !widget.sampleListModel.isMobileResolution
@@ -471,9 +490,10 @@ class SearchBarState extends State<CustomSearchBar>
             height: widget.sampleListModel.isWebFullView ? 35 : 45,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: widget.sampleListModel.isWebFullView
-                  ? Colors.grey[100]!.withOpacity(0.2)
-                  : Colors.white,
+              color: _searchBarBackgroundColorM3 ??
+                  (widget.sampleListModel.isWebFullView
+                      ? Colors.grey[100]!.withOpacity(0.2)
+                      : Colors.white),
               borderRadius: const BorderRadius.all(Radius.circular(5.0)),
             ),
             child: Padding(
@@ -486,10 +506,11 @@ class SearchBarState extends State<CustomSearchBar>
                       _navigateToSample(_selectionIndex!);
                     }
                   },
-                  mouseCursor: MaterialStateMouseCursor.clickable,
-                  cursorColor: widget.sampleListModel.isWebFullView
-                      ? Colors.white
-                      : Colors.grey,
+                  mouseCursor: WidgetStateMouseCursor.clickable,
+                  cursorColor: _searchBarColorM3 ??
+                      (widget.sampleListModel.isWebFullView
+                          ? Colors.white
+                          : Colors.grey),
                   focusNode: isFocus,
                   onChanged: (String value) {
                     closeIcon = isFocus.hasFocus &&
@@ -502,9 +523,10 @@ class SearchBarState extends State<CustomSearchBar>
                                 size: widget.sampleListModel.isWebFullView
                                     ? 20
                                     : 24,
-                                color: widget.sampleListModel.isWebFullView
-                                    ? Colors.white
-                                    : Colors.grey),
+                                color: _searchBarColorM3 ??
+                                    (widget.sampleListModel.isWebFullView
+                                        ? Colors.white
+                                        : Colors.grey)),
                             onPressed: () {
                               widget.sampleListModel.editingController.text =
                                   '';
@@ -531,9 +553,10 @@ class SearchBarState extends State<CustomSearchBar>
                   },
                   style: TextStyle(
                     fontFamily: 'Roboto-Regular',
-                    color: widget.sampleListModel.isWebFullView
-                        ? Colors.white
-                        : Colors.grey,
+                    color: _searchBarColorM3 ??
+                        (widget.sampleListModel.isWebFullView
+                            ? Colors.white
+                            : Colors.grey),
                     fontSize: 13,
                   ),
                   controller: widget.sampleListModel.editingController,
@@ -541,18 +564,20 @@ class SearchBarState extends State<CustomSearchBar>
                   decoration: InputDecoration(
                     labelStyle: TextStyle(
                       fontFamily: 'Roboto-Regular',
-                      color: widget.sampleListModel.isWebFullView
-                          ? Colors.white
-                          : Colors.grey,
+                      color: _searchBarColorM3 ??
+                          (widget.sampleListModel.isWebFullView
+                              ? Colors.white
+                              : Colors.grey),
                       fontSize: 13,
                     ),
                     hintText: hint,
                     hintStyle: TextStyle(
                       fontSize: 13,
                       fontFamily: 'Roboto-Regular',
-                      color: widget.sampleListModel.isWebFullView
-                          ? Colors.white.withOpacity(0.5)
-                          : Colors.grey,
+                      color: _searchBarColorM3 ??
+                          (widget.sampleListModel.isWebFullView
+                              ? Colors.white.withOpacity(0.5)
+                              : Colors.grey),
                     ),
                     contentPadding: EdgeInsets.zero,
                     isDense: true,

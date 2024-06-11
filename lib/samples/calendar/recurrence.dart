@@ -134,10 +134,17 @@ class RecurrenceCalendarState extends SampleViewState {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.
-                    _dataSource.appointments.removeAt(
-                        _dataSource.appointments.indexOf(newAppointment));
-                    _dataSource.notifyListeners(CalendarDataSourceAction.remove,
-                        <Appointment>[newAppointment]);
+                    final int appointmentIndex =
+                        _dataSource.appointments.indexOf(newAppointment);
+                    if (appointmentIndex <=
+                            _dataSource.appointments.length - 1 &&
+                        appointmentIndex >= 0) {
+                      _dataSource.appointments.removeAt(
+                          _dataSource.appointments.indexOf(newAppointment));
+                      _dataSource.notifyListeners(
+                          CalendarDataSourceAction.remove,
+                          <Appointment>[newAppointment]);
+                    }
                   }
                 },
                 child: Center(

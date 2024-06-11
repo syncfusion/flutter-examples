@@ -71,6 +71,16 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   final double _kColorPaletteWidth = 316.0;
   final double _kColorPaletteHeight = 312.0;
 
+  bool _canShowToast = false;
+  PdfTextSelectionChangedDetails? _textSelectionDetails;
+  Color? _contextMenuTextColor;
+  final double _kWebContextMenuHeight = 48;
+  final double _kContextMenuMargin = 10;
+  final double _kMobileContextMenuHeight = 40;
+  final double _kContextMenuBottom = 55;
+  final double _kMobileContextMenuWidth = 270;
+  final double _kWebContextMenuWidth = 225;
+
   Color? _fillColor;
   Orientation? _deviceOrientation;
   final TextEditingController _textFieldController = TextEditingController();
@@ -109,6 +119,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     super.didChangeDependencies();
     _useMaterial3 = model.themeData.useMaterial3;
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
+    _contextMenuTextColor =
+        _isLight ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
     _contextMenuColor = _useMaterial3
         ? _isLight
             ? const Color(0xFFEEE8F4)
@@ -595,6 +607,236 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         ),
       ),
     );
+  }
+
+  /// Show Context menu for Text Selection.
+  void _showContextMenu(BuildContext context, Offset? offset) {
+    final RenderBox renderBoxContainer =
+        context.findRenderObject()! as RenderBox;
+    if (renderBoxContainer != null) {
+      const List<BoxShadow> boxShadows = <BoxShadow>[
+        BoxShadow(
+          color: Color.fromRGBO(0, 0, 0, 0.14),
+          blurRadius: 2,
+        ),
+        BoxShadow(
+          color: Color.fromRGBO(0, 0, 0, 0.12),
+          blurRadius: 2,
+          offset: Offset(0, 2),
+        ),
+        BoxShadow(
+          color: Color.fromRGBO(0, 0, 0, 0.2),
+          blurRadius: 3,
+          offset: Offset(0, 1),
+        ),
+      ];
+      final double contextMenuHeight =
+          _isDesktopWeb ? _kWebContextMenuHeight : _kMobileContextMenuHeight;
+      final double contextMenuWidth =
+          _isDesktopWeb ? _kWebContextMenuWidth : _kMobileContextMenuWidth;
+      final Size screenSize = MediaQuery.sizeOf(context);
+      final Offset containerOffset = renderBoxContainer.localToGlobal(
+        renderBoxContainer.paintBounds.topLeft,
+      );
+      if (_textSelectionDetails != null &&
+              _textSelectionDetails!.globalSelectedRegion != null &&
+              containerOffset.dy <
+                  _textSelectionDetails!.globalSelectedRegion!.topLeft.dy -
+                      _kContextMenuBottom ||
+          (containerOffset.dy <
+              _textSelectionDetails!.globalSelectedRegion!.center.dy -
+                  (contextMenuHeight / 2))) {
+        double top = 0.0;
+        double left = 0.0;
+        final Rect globalSelectedRect =
+            _textSelectionDetails!.globalSelectedRegion!;
+        if (offset != null) {
+          top = offset.dy;
+          left = offset.dx;
+        } else if ((globalSelectedRect.top) <= screenSize.height / 2) {
+          top = globalSelectedRect.bottomLeft.dy +
+              _kContextMenuBottom -
+              _kContextMenuBottom / 2;
+          left = globalSelectedRect.bottomLeft.dx;
+        } else {
+          top = globalSelectedRect.height > contextMenuWidth
+              ? globalSelectedRect.center.dy - (contextMenuHeight / 2)
+              : globalSelectedRect.topLeft.dy - _kContextMenuBottom;
+
+          left = globalSelectedRect.height > contextMenuWidth
+              ? globalSelectedRect.center.dx - (contextMenuWidth / 2)
+              : globalSelectedRect.bottomLeft.dx;
+        }
+
+        if (left + contextMenuWidth > screenSize.width - _kContextMenuMargin) {
+          left = screenSize.width - contextMenuWidth - _kContextMenuMargin;
+        }
+        if (left < _kContextMenuMargin) {
+          left = _kContextMenuMargin;
+        }
+
+        final OverlayState overlayState =
+            Overlay.of(context, rootOverlay: true);
+        _selectionOverlayEntry = OverlayEntry(
+          builder: (BuildContext context) => Positioned(
+            top: top,
+            left: left,
+            child: Container(
+              decoration: BoxDecoration(
+                color: _contextMenuColor,
+                boxShadow: boxShadows,
+              ),
+              constraints: BoxConstraints.tightFor(
+                  width: contextMenuWidth, height: contextMenuHeight),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Tooltip(
+                    message: 'Copy',
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 9),
+                      child: IconButton(
+                        onPressed: () async {
+                          _handleContextMenuClose();
+                          _pdfViewerController.clearSelection();
+                          if (_textSearchKey.currentState != null &&
+                              _textSearchKey.currentState!.pdfTextSearchResult
+                                  .hasResult) {
+                            setState(() {
+                              _canShowToolbar = false;
+                            });
+                          }
+                          await Clipboard.setData(ClipboardData(
+                              text: _textSelectionDetails!.selectedText!));
+                          setState(() {
+                            _canShowToast = true;
+                          });
+                          await Future<dynamic>.delayed(
+                              const Duration(seconds: 1));
+                          setState(() {
+                            _canShowToast = false;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.copy,
+                          size: _isDesktopWeb ? 17 : 15,
+                          color: _contextMenuTextColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Tooltip(
+                    message: 'Highlight',
+                    child: IconButton(
+                      onPressed: () async {
+                        _handleContextMenuClose();
+                        final List<PdfTextLine>? selectedTextLines =
+                            _pdfViewerKey.currentState?.getSelectedTextLines();
+                        if (selectedTextLines != null &&
+                            selectedTextLines.isNotEmpty) {
+                          final HighlightAnnotation highlightAnnotation =
+                              HighlightAnnotation(
+                            textBoundsCollection: selectedTextLines,
+                          );
+                          _pdfViewerController
+                              .addAnnotation(highlightAnnotation);
+                        }
+                        _pdfViewerController.clearSelection();
+                      },
+                      icon: ImageIcon(
+                        const AssetImage('images/pdf_viewer/highlight.png'),
+                        size: _isDesktopWeb ? 17 : 15,
+                        color: _contextMenuTextColor,
+                      ),
+                    ),
+                  ),
+                  Tooltip(
+                    message: 'Underline',
+                    child: IconButton(
+                      onPressed: () async {
+                        _handleContextMenuClose();
+                        final List<PdfTextLine>? selectedTextLines =
+                            _pdfViewerKey.currentState?.getSelectedTextLines();
+                        if (selectedTextLines != null &&
+                            selectedTextLines.isNotEmpty) {
+                          final UnderlineAnnotation underlineAnnotation =
+                              UnderlineAnnotation(
+                            textBoundsCollection: selectedTextLines,
+                          );
+                          _pdfViewerController
+                              .addAnnotation(underlineAnnotation);
+                        }
+                        _pdfViewerController.clearSelection();
+                      },
+                      icon: ImageIcon(
+                        const AssetImage('images/pdf_viewer/underline.png'),
+                        size: _isDesktopWeb ? 17 : 15,
+                        color: _contextMenuTextColor,
+                      ),
+                    ),
+                  ),
+                  Tooltip(
+                    message: 'Strikethrough',
+                    child: IconButton(
+                      onPressed: () async {
+                        _handleContextMenuClose();
+                        final List<PdfTextLine>? selectedTextLines =
+                            _pdfViewerKey.currentState?.getSelectedTextLines();
+                        if (selectedTextLines != null &&
+                            selectedTextLines.isNotEmpty) {
+                          final StrikethroughAnnotation
+                              strikethroughAnnotation = StrikethroughAnnotation(
+                            textBoundsCollection: selectedTextLines,
+                          );
+                          _pdfViewerController
+                              .addAnnotation(strikethroughAnnotation);
+                        }
+                        _pdfViewerController.clearSelection();
+                      },
+                      icon: ImageIcon(
+                        const AssetImage('images/pdf_viewer/strikethrough.png'),
+                        size: _isDesktopWeb ? 17 : 15,
+                        color: _contextMenuTextColor,
+                      ),
+                    ),
+                  ),
+                  Tooltip(
+                    message: 'Squiggly',
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 9),
+                      child: IconButton(
+                        onPressed: () async {
+                          _handleContextMenuClose();
+                          final List<PdfTextLine>? selectedTextLines =
+                              _pdfViewerKey.currentState
+                                  ?.getSelectedTextLines();
+                          if (selectedTextLines != null &&
+                              selectedTextLines.isNotEmpty) {
+                            final SquigglyAnnotation squigglyAnnotation =
+                                SquigglyAnnotation(
+                              textBoundsCollection: selectedTextLines,
+                            );
+                            _pdfViewerController
+                                .addAnnotation(squigglyAnnotation);
+                          }
+                          _pdfViewerController.clearSelection();
+                        },
+                        icon: ImageIcon(
+                          const AssetImage('images/pdf_viewer/squiggly.png'),
+                          size: _isDesktopWeb ? 17 : 15,
+                          color: _contextMenuTextColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+        overlayState.insert(_selectionOverlayEntry!);
+      }
+    }
   }
 
   /// Check and close the text selection context menu.
@@ -1563,6 +1805,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   child: SfPdfViewer.asset(
                     _documentPath!,
                     key: _pdfViewerKey,
+                    canShowTextSelectionMenu: false,
                     controller: _pdfViewerController,
                     undoController: _undoHistoryController,
                     interactionMode: _interactionMode,
@@ -1581,6 +1824,18 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                         _hasPasswordDialog = false;
                         _passwordDialogFocusNode.unfocus();
                         _textFieldController.clear();
+                      }
+                    },
+                    onTextSelectionChanged:
+                        (PdfTextSelectionChangedDetails details) async {
+                      if (details.selectedText == null &&
+                          _selectionOverlayEntry != null) {
+                        _textSelectionDetails = null;
+                        _handleContextMenuClose();
+                      } else if (details.selectedText != null &&
+                          _selectionOverlayEntry == null) {
+                        _textSelectionDetails = details;
+                        _showContextMenu(context, null);
                       }
                     },
                     onDocumentLoadFailed:
@@ -1692,8 +1947,25 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       _showTextSearchMenu();
                     }
                   },
-                  child: pdfViewer,
+                  child: GestureDetector(
+                      onSecondaryTapDown: (TapDownDetails details) {
+                        if (_textSelectionDetails != null &&
+                            _textSelectionDetails!.globalSelectedRegion !=
+                                null &&
+                            _textSelectionDetails!.globalSelectedRegion!
+                                .contains(details.globalPosition)) {
+                          if (_selectionOverlayEntry != null) {
+                            _handleContextMenuClose();
+                            _showContextMenu(context, details.globalPosition);
+                          } else if (_selectionOverlayEntry == null) {
+                            _showContextMenu(context, details.globalPosition);
+                          }
+                        }
+                      },
+                      child: pdfViewer),
                 ),
+                showToast(
+                    context, _canShowToast, Alignment.bottomCenter, 'Copied'),
                 _showWebPasswordDialogue(),
               ]);
             }
@@ -1712,6 +1984,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       _textSearchKey.currentState?.canShowToast ?? false,
                       Alignment.center,
                       'No result'),
+                  showToast(
+                      context, _canShowToast, Alignment.bottomCenter, 'Copied'),
                 ]),
               ),
             );

@@ -86,7 +86,8 @@ class _LayoutPageState extends State<LayoutPage> {
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.arrow_back,
+                  color: widget.sampleModel!.baseAppBarItemColor),
               onPressed: () => Navigator.maybePop(context, false),
             ),
             backgroundColor: _model.primaryColor,
@@ -174,6 +175,7 @@ class _LayoutPageState extends State<LayoutPage> {
                         }
                       }
                     },
+                    dividerColor: widget.sampleModel!.primaryColor,
                     indicator: const UnderlineTabIndicator(
                       borderSide: BorderSide(
                         width: 5.0,
@@ -188,10 +190,10 @@ class _LayoutPageState extends State<LayoutPage> {
                   ),
             title: Text(
               '${_category.controlList![_category.selectedIndex!].title}',
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16.0,
-                color: Colors.white,
+                color: widget.sampleModel!.baseAppBarItemColor,
                 letterSpacing: 0.3,
               ),
             ),
@@ -223,7 +225,8 @@ class _LayoutPageState extends State<LayoutPage> {
                               child: IconButton(
                                 icon: Image.asset(
                                   'images/git_hub_mobile.png',
-                                  color: Colors.white,
+                                  color:
+                                      widget.sampleModel!.baseAppBarItemColor,
                                 ),
                                 onPressed: () {
                                   launchUrl(
@@ -250,8 +253,9 @@ class _LayoutPageState extends State<LayoutPage> {
                               height: 40,
                               width: 40,
                               child: IconButton(
-                                icon: const Icon(Icons.info_outline,
-                                    color: Colors.white),
+                                icon: Icon(Icons.info_outline,
+                                    color: widget
+                                        .sampleModel!.baseAppBarItemColor),
                                 onPressed: () {
                                   showBottomInfo(
                                       context, currentSample!.description!);
@@ -329,7 +333,9 @@ class _LayoutPageState extends State<LayoutPage> {
                     style: tabView != 'parent'
                         ? const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.normal)
-                        : const TextStyle(fontSize: 15, color: Colors.white)),
+                        : TextStyle(
+                            fontSize: 15,
+                            color: widget.sampleModel!.baseAppBarItemColor)),
                 if (status == '')
                   Container()
                 else
@@ -639,7 +645,10 @@ class _LayoutPageState extends State<LayoutPage> {
                               }
                             },
                             unselectedLabelColor: Colors.black,
-                            labelColor: Colors.blue,
+                            labelColor:
+                                model.baseAppBarItemColor != Colors.white
+                                    ? model.baseAppBarItemColor
+                                    : model.primaryColor,
                             indicatorColor: Colors.transparent,
                             indicatorWeight: 0.1,
                             isScrollable: true,
@@ -707,7 +716,10 @@ class _LayoutPageState extends State<LayoutPage> {
                               }
                             },
                             unselectedLabelColor: Colors.black,
-                            labelColor: Colors.blue,
+                            labelColor:
+                                model.baseAppBarItemColor != Colors.white
+                                    ? model.baseAppBarItemColor
+                                    : model.primaryColor,
                             indicatorColor: Colors.transparent,
                             indicatorWeight: 0.1,
                             isScrollable: true,
