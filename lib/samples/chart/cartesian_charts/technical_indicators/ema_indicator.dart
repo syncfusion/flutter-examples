@@ -24,7 +24,6 @@ class _EMAIndicatorState extends SampleViewState {
   _EMAIndicatorState();
   late double _period;
   TrackballBehavior? _trackballBehavior;
-  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -35,7 +34,6 @@ class _EMAIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
-    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
@@ -81,31 +79,32 @@ class _EMAIndicatorState extends SampleViewState {
         maximum: DateTime(2017),
       ),
       primaryYAxis: const NumericAxis(
-          minimum: 70,
-          maximum: 130,
-          interval: 20,
-          labelFormat: r'${value}',
-          axisLine: AxisLine(width: 0)),
+        minimum: 70,
+        maximum: 130,
+        interval: 20,
+        labelFormat: r'${value}',
+        axisLine: AxisLine(width: 0),
+      ),
       trackballBehavior: _trackballBehavior,
-      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// EMA indicator mentioned here.
         EmaIndicator<ChartSampleData, DateTime>(
-            seriesName: 'AAPL', period: _period.toInt()),
+          seriesName: 'AAPL',
+          period: _period.toInt(),
+        ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings:
-                const EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: getChartData(),
-            opacity: 0.7,
-            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-            lowValueMapper: (ChartSampleData sales, _) => sales.low,
-            highValueMapper: (ChartSampleData sales, _) => sales.high,
-            openValueMapper: (ChartSampleData sales, _) => sales.open,
-            closeValueMapper: (ChartSampleData sales, _) => sales.close,
-            name: 'AAPL'),
+          dataSource: getChartData(),
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
+          lowValueMapper: (ChartSampleData sales, _) => sales.low,
+          highValueMapper: (ChartSampleData sales, _) => sales.high,
+          openValueMapper: (ChartSampleData sales, _) => sales.open,
+          closeValueMapper: (ChartSampleData sales, _) => sales.close,
+          name: 'AAPL',
+          opacity: 0.7,
+        ),
       ],
     );
   }

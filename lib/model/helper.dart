@@ -93,11 +93,12 @@ void onTapExpandSample(
   );
   model.sampleList.clear();
   model.editingController.text = '';
+  final currentState = (model.searchBar!.key! as GlobalKey).currentState;
   if (!model.isWebFullView &&
       model.searchBar != null &&
-      model.searchBar!.key != null) {
-    final SearchBarState searchBarState =
-        (model.searchBar!.key! as GlobalKey).currentState! as SearchBarState;
+      model.searchBar!.key != null &&
+      currentState != null) {
+    final SearchBarState searchBarState = currentState as SearchBarState;
     searchBarState.isFocus.unfocus();
     searchBarState.isOpen = false;
   }
@@ -321,7 +322,11 @@ class _FullViewSampleLayout extends StatelessWidget {
 
   Widget _buildAppBar(BuildContext context, SampleModel model) {
     return AppBar(
-      title: Text(sample!.title!),
+      iconTheme: IconThemeData(color: model.baseAppBarItemColor),
+      title: Text(
+        sample!.title!,
+        style: TextStyle(color: model.baseAppBarItemColor),
+      ),
       actions: (sample!.description != null && sample!.description != '')
           ? <Widget>[
               if (sample!.codeLink != null && sample!.codeLink != '')
@@ -332,7 +337,7 @@ class _FullViewSampleLayout extends StatelessWidget {
                     width: 37,
                     child: IconButton(
                       icon: Image.asset('images/git_hub_mobile.png',
-                          color: Colors.white),
+                          color: model.baseAppBarItemColor),
                       onPressed: () {
                         launchUrl(Uri.parse(sample!.codeLink!));
                       },
@@ -347,9 +352,9 @@ class _FullViewSampleLayout extends StatelessWidget {
                   height: 40,
                   width: 40,
                   child: IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.info_outline,
-                      color: Colors.white,
+                      color: model.baseAppBarItemColor,
                     ),
                     onPressed: () {
                       showBottomInfo(context, sample!.description!);
@@ -368,7 +373,7 @@ class _FullViewSampleLayout extends StatelessWidget {
                       child: IconButton(
                         icon: Image.asset(
                           'images/git_hub_mobile.png',
-                          color: Colors.white,
+                          color: model.baseAppBarItemColor,
                         ),
                         onPressed: () {
                           launchUrl(Uri.parse(sample!.codeLink!));
@@ -1060,8 +1065,9 @@ Widget buildWebThemeSettings(
                         child: Text(
                           'Light theme',
                           style: TextStyle(
-                            color:
-                                selectedValue == 0 ? Colors.white : textColor,
+                            color: selectedValue == 0
+                                ? model.baseAppBarItemColor
+                                : textColor,
                             fontFamily: 'Roboto-Medium',
                           ),
                         ),
@@ -1072,8 +1078,9 @@ Widget buildWebThemeSettings(
                         child: Text(
                           'Dark theme',
                           style: TextStyle(
-                            color:
-                                selectedValue == 1 ? Colors.white : textColor,
+                            color: selectedValue == 1
+                                ? model.baseAppBarItemColor
+                                : textColor,
                             fontFamily: 'Roboto-Medium',
                           ),
                         ),
@@ -1181,9 +1188,13 @@ void changeColorPalette(
     model.paletteBorderColors[j] = Colors.transparent;
   }
 
+  final Brightness brightness = selectedThemeValue == -1
+      ? model.systemTheme.brightness
+      : selectedThemeValue == 0
+          ? Brightness.light
+          : Brightness.dark;
   setState?.call(() {});
-  refresh(isMaterial3,
-      selectedThemeValue == 0 ? Brightness.light : Brightness.dark);
+  refresh(isMaterial3, brightness);
 }
 
 /// UI for switching m2 and m3.
@@ -1192,10 +1203,12 @@ Widget buildM2ToM3SwapOption(SampleModel model, BuildContext context,
   final bool isMaterial3 = model.themeData.useMaterial3;
   final Widget themeSwitch = SwitchTheme(
     data: SwitchThemeData(
-      trackOutlineColor: MaterialStateProperty.resolveWith((states) {
-        return states.contains(MaterialState.selected) ? Colors.white : null;
+      trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+        return states.contains(WidgetState.selected)
+            ? model.baseAppBarItemColor
+            : null;
       }),
-      trackOutlineWidth: MaterialStateProperty.resolveWith((states) {
+      trackOutlineWidth: WidgetStateProperty.resolveWith((states) {
         return 1.0;
       }),
     ),
@@ -1340,7 +1353,9 @@ void showBottomSettingsPanel(
                       child: Text(
                         'System theme',
                         style: TextStyle(
-                          color: selectedValue == 0 ? Colors.white : textColor,
+                          color: selectedValue == 0
+                              ? model.baseAppBarItemColor
+                              : textColor,
                           fontFamily: 'HeeboMedium',
                         ),
                       ),
@@ -1351,7 +1366,9 @@ void showBottomSettingsPanel(
                       child: Text(
                         'Light theme',
                         style: TextStyle(
-                          color: selectedValue == 1 ? Colors.white : textColor,
+                          color: selectedValue == 1
+                              ? model.baseAppBarItemColor
+                              : textColor,
                           fontFamily: 'HeeboMedium',
                         ),
                       ),
@@ -1362,7 +1379,9 @@ void showBottomSettingsPanel(
                       child: Text(
                         'Dark theme',
                         style: TextStyle(
-                          color: selectedValue == 2 ? Colors.white : textColor,
+                          color: selectedValue == 2
+                              ? model.baseAppBarItemColor
+                              : textColor,
                           fontFamily: 'HeeboMedium',
                         ),
                       ),
@@ -1410,7 +1429,15 @@ void showBottomSettingsPanel(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: _buildColorPalettes(
-                        model, context, selectedValue, refresh, setState),
+                        model,
+                        context,
+                        selectedValue == 0
+                            ? -1
+                            : selectedValue == 1
+                                ? 0
+                                : 1,
+                        refresh,
+                        setState),
                   ),
                 ),
               ],

@@ -23,7 +23,6 @@ class MomentummIndicator extends SampleView {
 class _MomentummIndicatorState extends SampleViewState {
   _MomentummIndicatorState();
   late double _period;
-  TooltipBehavior? _tooltipBehavior;
   TrackballBehavior? _trackballBehavior;
 
   @override
@@ -34,7 +33,6 @@ class _MomentummIndicatorState extends SampleViewState {
         enable: !isCardView,
         activationMode: ActivationMode.singleTap,
         tooltipDisplayMode: TrackballDisplayMode.groupAllPoints);
-    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
@@ -80,41 +78,44 @@ class _MomentummIndicatorState extends SampleViewState {
         maximum: DateTime(2017),
       ),
       primaryYAxis: const NumericAxis(
-          minimum: 70,
-          maximum: 130,
-          interval: 20,
-          labelFormat: r'${value}',
-          axisLine: AxisLine(width: 0)),
+        minimum: 70,
+        maximum: 130,
+        interval: 20,
+        labelFormat: r'${value}',
+        axisLine: AxisLine(width: 0),
+      ),
       axes: const <ChartAxis>[
         NumericAxis(
-            majorGridLines: MajorGridLines(width: 0),
-            opposedPosition: true,
-            name: 'yaxes',
-            minimum: 50,
-            maximum: 150,
-            interval: 20,
-            axisLine: AxisLine(width: 0))
+          majorGridLines: MajorGridLines(width: 0),
+          opposedPosition: true,
+          name: 'yAxis',
+          minimum: 50,
+          maximum: 150,
+          interval: 20,
+          axisLine: AxisLine(width: 0),
+        ),
       ],
       trackballBehavior: _trackballBehavior,
-      tooltipBehavior: _tooltipBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// Momentum indicator mentioned here.
         MomentumIndicator<ChartSampleData, DateTime>(
-            seriesName: 'AAPL', yAxisName: 'yaxes', period: _period.toInt()),
+          seriesName: 'AAPL',
+          yAxisName: 'yAxis',
+          period: _period.toInt(),
+        ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings:
-                const EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: getChartData(),
-            opacity: 0.7,
-            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-            lowValueMapper: (ChartSampleData sales, _) => sales.low,
-            highValueMapper: (ChartSampleData sales, _) => sales.high,
-            openValueMapper: (ChartSampleData sales, _) => sales.open,
-            closeValueMapper: (ChartSampleData sales, _) => sales.close,
-            name: 'AAPL'),
+          dataSource: getChartData(),
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
+          lowValueMapper: (ChartSampleData sales, _) => sales.low,
+          highValueMapper: (ChartSampleData sales, _) => sales.high,
+          openValueMapper: (ChartSampleData sales, _) => sales.open,
+          closeValueMapper: (ChartSampleData sales, _) => sales.close,
+          name: 'AAPL',
+          opacity: 0.7,
+        ),
       ],
     );
   }

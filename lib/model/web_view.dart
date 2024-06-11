@@ -1,6 +1,8 @@
 /// package imports
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///Local imports
@@ -181,10 +183,10 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
           elevation: 0.0,
           backgroundColor: primary,
           titleSpacing: MediaQuery.of(context).size.width <= 768 ? 0 : -30,
-          title: const Text(
+          title: Text(
             'Flutter UI Widgets ',
             style: TextStyle(
-              color: Colors.white,
+              color: model.baseAppBarItemColor,
               fontSize: 18,
               letterSpacing: 0.53,
               fontFamily: 'Roboto-Medium',
@@ -206,7 +208,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
             else
               _buildGetPackageButton(),
             const SizedBox(width: 15),
-            //_buildSettingsButton(context),
+            _buildSettingsButton(context),
           ],
         ),
       ),
@@ -224,7 +226,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
 
   IconButton _buildSideDrawer(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.menu, color: Colors.white),
+      icon: Icon(Icons.menu, color: model.baseAppBarItemColor),
       onPressed: () {
         if (outputContainer != null) {
           final GlobalKey globalKey = outputContainer.key! as GlobalKey;
@@ -254,7 +256,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
       height: 60,
       width: 60,
       child: IconButton(
-        icon: const Icon(Icons.settings, color: Colors.white),
+        icon: Icon(Icons.settings, color: model.baseAppBarItemColor),
         onPressed: () {
           if (outputContainer != null) {
             final GlobalKey globalKey = outputContainer.key! as GlobalKey;
@@ -288,7 +290,8 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
         children: [
           Container(
             height: 35,
-            decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+            decoration: BoxDecoration(
+                border: Border.all(color: model.baseAppBarItemColor)),
             child: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
                 return MouseRegion(
@@ -299,7 +302,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                     setState(() => _isDownloadButtonHover = false);
                   },
                   child: InkWell(
-                    hoverColor: Colors.white,
+                    hoverColor: model.baseAppBarItemColor,
                     onTap: () {
                       launchUrl(
                         Uri.parse(
@@ -313,7 +316,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                         style: TextStyle(
                           color: _isDownloadButtonHover
                               ? model.themeData.colorScheme.primary
-                              : Colors.white,
+                              : model.baseAppBarItemColor,
                           fontSize: 12,
                           fontFamily: 'Roboto-Medium',
                         ),
@@ -335,7 +338,8 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
       children: [
         Container(
           height: 35,
-          decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+          decoration: BoxDecoration(
+              border: Border.all(color: model.baseAppBarItemColor)),
           child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return MouseRegion(
@@ -346,7 +350,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                   setState(() => _isGetPackageButtonHover = false);
                 },
                 child: InkWell(
-                  hoverColor: Colors.white,
+                  hoverColor: model.baseAppBarItemColor,
                   onTap: () {
                     launchUrl(Uri.parse(
                         'https://pub.dev/publishers/syncfusion.com/packages'));
@@ -367,7 +371,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                           style: TextStyle(
                             color: _isGetPackageButtonHover
                                 ? model.themeData.colorScheme.primary
-                                : Colors.white,
+                                : model.baseAppBarItemColor,
                             fontSize: 12,
                             fontFamily: 'Roboto-Medium',
                           ),
@@ -1185,7 +1189,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
             ? _buildTabController(model, width, tabs, sampleSubItem, isSelected)
             : DecoratedBox(
                 decoration: BoxDecoration(
-                  color: model.backgroundColor,
+                  color: model.sampleOutputCardColor,
                   border: Border.all(
                     color: (model.themeData.colorScheme.brightness ==
                             Brightness.light
@@ -1211,9 +1215,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
       height: 36,
       decoration: BoxDecoration(
         color: model.subSamplesTabBarColor,
-        border: Border(
-          bottom: BorderSide(color: model.dividerColor, width: 0.8),
-        ),
+        border: Border.all(color: model.dividerColor, width: 0.8),
       ),
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Row(
@@ -1234,9 +1236,15 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
   }
 
   Widget _buildOutputContainer(SampleModel model, SubItem sampleSubItem) {
+    final BorderSide borderSide =
+        BorderSide(color: widget.sampleModel!.dividerColor, width: 0.75);
     return Expanded(
-      child: ColoredBox(
-        color: model.sampleOutputCardColor,
+      child: Container(
+        decoration: BoxDecoration(
+          color: model.sampleOutputCardColor,
+          border:
+              Border(right: borderSide, bottom: borderSide, left: borderSide),
+        ),
         child: _OutputContainer(
           key: GlobalKey(),
           sampleOutputContainerState: this,
@@ -1354,6 +1362,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
 
   Widget _buildTabController(SampleModel model, double width,
       List<Widget>? tabs, SubItem sampleSubItem, List<bool> isSelected) {
+    final BorderSide borderSide =
+        BorderSide(color: widget.sampleModel!.dividerColor, width: 0.75);
     return DefaultTabController(
       initialIndex:
           (tabIndex ?? widget.webLayoutPageState!.sample.sampleIndex)!,
@@ -1375,10 +1385,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
               height: 36,
               decoration: BoxDecoration(
                 color: model.subSamplesTabBarColor,
-                border: Border.all(
-                  color: model.dividerColor,
-                  width: 0.8,
-                ),
+                border: Border.all(color: model.dividerColor, width: 0.8),
               ),
               padding: width < 500
                   ? const EdgeInsets.fromLTRB(2, 5, 2, 0)
@@ -1411,9 +1418,16 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
               ),
             ),
             Expanded(
-              child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: _buildTabViewChildren(model, subItems),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: model.sampleOutputCardColor,
+                  border: Border(
+                      right: borderSide, bottom: borderSide, left: borderSide),
+                ),
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: _buildTabViewChildren(model, subItems),
+                ),
               ),
             ),
           ],
@@ -1728,6 +1742,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     return Padding(
       padding: const EdgeInsets.only(left: 25, right: 30),
       child: TabBar(
+        overlayColor: WidgetStateProperty.all(model.hoverColor),
         indicatorPadding: const EdgeInsets.only(left: 2, right: 2),
         indicatorColor: model.primaryColor,
         onTap: (int value) {
@@ -2060,59 +2075,64 @@ class _OutputContainerState extends State<_OutputContainer> {
       widget.sampleModel!.propertyPanelKey =
           widget.sampleModel!.currentRenderSample.key as GlobalKey;
       widget.sampleModel!.currentSampleKey = widget.subItem!.key;
-      final BorderSide borderSide =
-          BorderSide(color: widget.sampleModel!.dividerColor, width: 0.75);
       return ClipRect(
-        child: Scaffold(
-          backgroundColor: widget.sampleModel!.sampleOutputCardColor,
-          body: widget.sampleModel!.needToMaximize
-              ? Container()
-              : DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: borderSide,
-                      bottom: borderSide,
-                      left: borderSide,
-                    ),
-                  ),
-                  child: StatefulBuilder(
-                    builder: (BuildContext context, StateSetter stateSetter) {
-                      propertyPanelStateChange = stateSetter;
-                      return Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
+        child: MaterialApp(
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            SfGlobalLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en', 'US'), Locale('ar', 'AE')],
+          locale: const Locale('en', 'US'),
+          debugShowCheckedModeBanner: false,
+          theme: widget.sampleModel!.themeData,
+          initialRoute: widget.subItem!.breadCrumbText,
+          routes: <String, WidgetBuilder>{
+            widget.subItem!.breadCrumbText!: (BuildContext cotext) => Scaffold(
+                  backgroundColor: widget.sampleModel!.sampleOutputCardColor,
+                  body: widget.sampleModel!.needToMaximize
+                      ? Container()
+                      : StatefulBuilder(
+                          builder:
+                              (BuildContext context, StateSetter stateSetter) {
+                            propertyPanelStateChange = stateSetter;
+                            return Row(
                               children: <Widget>[
                                 Expanded(
-                                    child: widget
-                                        .sampleModel!.currentRenderSample),
-                                if (widget.subItem!.sourceLink != null &&
-                                    widget.subItem!.sourceLink != '')
-                                  _buildSourceLink()
+                                  child: Column(
+                                    children: <Widget>[
+                                      Expanded(
+                                          child: widget.sampleModel!
+                                              .currentRenderSample),
+                                      if (widget.subItem!.sourceLink != null &&
+                                          widget.subItem!.sourceLink != '')
+                                        _buildSourceLink()
+                                      else
+                                        Container(),
+                                    ],
+                                  ),
+                                ),
+                                if (_needsPropertyPanel &&
+                                    MediaQuery.of(context).size.width > 720 &&
+                                    (widget.sampleModel!
+                                            .isPropertyPanelOpened ||
+                                        (!widget.sampleModel!
+                                                .isPropertyPanelOpened &&
+                                            widget.sampleModel!
+                                                .isPropertyPanelTapped)))
+                                  _PropertiesPanel(
+                                    sampleModel: widget.sampleModel,
+                                    subItem: widget.subItem,
+                                    key: propertyPanelWidgetKey,
+                                    openState: true,
+                                  )
                                 else
                                   Container(),
                               ],
-                            ),
-                          ),
-                          if (_needsPropertyPanel &&
-                              MediaQuery.of(context).size.width > 720 &&
-                              (widget.sampleModel!.isPropertyPanelOpened ||
-                                  (!widget.sampleModel!.isPropertyPanelOpened &&
-                                      widget
-                                          .sampleModel!.isPropertyPanelTapped)))
-                            _PropertiesPanel(
-                              sampleModel: widget.sampleModel,
-                              subItem: widget.subItem,
-                              key: propertyPanelWidgetKey,
-                              openState: true,
-                            )
-                          else
-                            Container(),
-                        ],
-                      );
-                    },
-                  ),
+                            );
+                          },
+                        ),
                 ),
+          },
         ),
       );
     }
@@ -2222,11 +2242,10 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
                 decoration: BoxDecoration(
                   color: widget.sampleModel!.drawerBackgroundColor,
                   border: (widget.openState ?? false)
-                      ? Border(
-                          left: BorderSide(
+                      ? Border.all(
                           color: widget.sampleModel!.textColor.withOpacity(0.3),
                           width: 0.5,
-                        ))
+                        )
                       : Border.all(
                           color: const Color.fromRGBO(0, 0, 0, 0.12),
                           width: 2,
@@ -2690,7 +2709,7 @@ class _PopupState extends State<_Popup> {
               ? Scaffold(
                   key: scaffoldKey,
                   endDrawerEnableOpenDragGesture: false,
-                  backgroundColor: model!.leftNavigationBarBackgroundColor,
+                  backgroundColor: model!.sampleOutputCardColor,
                   endDrawer: _propertiesPanel,
                   appBar: PreferredSize(
                     preferredSize: const Size.fromHeight(40),
@@ -2774,10 +2793,10 @@ class _PopupState extends State<_Popup> {
   }
 
   /// Method to get the widget's color based on the widget state.
-  Color? colorBasedOnState(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.selected,
+  Color? colorBasedOnState(Set<WidgetState> states) {
+    const Set<WidgetState> interactiveStates = <WidgetState>{
+      WidgetState.pressed,
+      WidgetState.selected,
     };
 
     if (states.any(interactiveStates.contains)) {

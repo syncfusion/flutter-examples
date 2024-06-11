@@ -143,10 +143,12 @@ import 'samples/chart/cartesian_charts/technical_indicators/bollinger_indicator.
 import 'samples/chart/cartesian_charts/technical_indicators/ema_indicator.dart';
 import 'samples/chart/cartesian_charts/technical_indicators/macd_indicator.dart';
 import 'samples/chart/cartesian_charts/technical_indicators/momentum_indicator.dart';
+import 'samples/chart/cartesian_charts/technical_indicators/roc_indicator.dart';
 import 'samples/chart/cartesian_charts/technical_indicators/rsi_indicator.dart';
 import 'samples/chart/cartesian_charts/technical_indicators/sma_indicator.dart';
 import 'samples/chart/cartesian_charts/technical_indicators/stochastic_indicator.dart';
 import 'samples/chart/cartesian_charts/technical_indicators/tma_indicator.dart';
+import 'samples/chart/cartesian_charts/technical_indicators/wma_indicator.dart';
 import 'samples/chart/cartesian_charts/trendline/default_trendline.dart';
 import 'samples/chart/cartesian_charts/trendline/trendline_forecast.dart';
 import 'samples/chart/cartesian_charts/user_interactions/add_point_on_click.dart';
@@ -561,6 +563,8 @@ Map<String, Function> getSampleWidget() {
     'stochastic_indicator': (Key key) => StochasticcIndicator(key),
     'tma_indicator': (Key key) => TMAIndicator(key),
     'macd_indicator': (Key key) => MACDIndicator(key),
+    'roc_indicator': (Key key) => ROCIndicator(key),
+    'wma_indicator': (Key key) => WMAIndicator(key),
 
     //User Interaction
     'chart_with_crosshair': (Key key) => DefaultCrossHair(key),

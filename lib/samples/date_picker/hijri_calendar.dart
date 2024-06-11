@@ -1,6 +1,7 @@
 ///Package import
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 /// core import
 // ignore: depend_on_referenced_packages
@@ -266,7 +267,10 @@ class _HijriDatePickerState extends SampleViewState {
             } else if (_controller.view == HijriDatePickerView.decade) {
               _viewModeString = 'decade';
             }
-            stateSetter(() {});
+            SchedulerBinding.instance
+                .addPostFrameCallback((Duration timeStamp) {
+              stateSetter(() {});
+            });
           }
         });
       }

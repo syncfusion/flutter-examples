@@ -31,7 +31,6 @@ class _MACDIndicatorState extends SampleViewState {
   late String _selectedMacdIndicatorType;
   late MacdType _macdType = MacdType.both;
   TrackballBehavior? _trackballBehavior;
-  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
@@ -47,7 +46,6 @@ class _MACDIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
-    _tooltipBehavior = TooltipBehavior(enable: isCardView ? true : false);
   }
 
   @override
@@ -228,17 +226,19 @@ class _MACDIndicatorState extends SampleViewState {
         maximum: DateTime(2017),
       ),
       primaryYAxis: const NumericAxis(
-          minimum: 70,
-          maximum: 130,
-          interval: 20,
-          axisLine: AxisLine(width: 0)),
+        minimum: 70,
+        maximum: 130,
+        interval: 20,
+        axisLine: AxisLine(width: 0),
+      ),
       axes: const <ChartAxis>[
         NumericAxis(
-            majorGridLines: MajorGridLines(width: 0),
-            axisLine: AxisLine(width: 0),
-            opposedPosition: true,
-            name: 'agybrd',
-            interval: 2)
+          majorGridLines: MajorGridLines(width: 0),
+          axisLine: AxisLine(width: 0),
+          opposedPosition: true,
+          name: 'yAxis',
+          interval: 2,
+        ),
       ],
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// MACD indicator mentioned here.
@@ -248,23 +248,21 @@ class _MACDIndicatorState extends SampleViewState {
             shortPeriod: _shortPeriod.toInt(),
             macdType: _macdType,
             seriesName: 'AAPL',
-            yAxisName: 'agybrd'),
+            yAxisName: 'yAxis'),
       ],
       trackballBehavior: _trackballBehavior,
-      tooltipBehavior: _tooltipBehavior,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
       series: <CartesianSeries<ChartSampleData, DateTime>>[
         HiloOpenCloseSeries<ChartSampleData, DateTime>(
-            emptyPointSettings:
-                const EmptyPointSettings(mode: EmptyPointMode.zero),
-            dataSource: getChartData(),
-            opacity: 0.7,
-            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-            lowValueMapper: (ChartSampleData sales, _) => sales.low,
-            highValueMapper: (ChartSampleData sales, _) => sales.high,
-            openValueMapper: (ChartSampleData sales, _) => sales.open,
-            closeValueMapper: (ChartSampleData sales, _) => sales.close,
-            name: 'AAPL'),
+          dataSource: getChartData(),
+          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
+          lowValueMapper: (ChartSampleData sales, _) => sales.low,
+          highValueMapper: (ChartSampleData sales, _) => sales.high,
+          openValueMapper: (ChartSampleData sales, _) => sales.open,
+          closeValueMapper: (ChartSampleData sales, _) => sales.close,
+          name: 'AAPL',
+          opacity: 0.7,
+        ),
       ],
     );
   }

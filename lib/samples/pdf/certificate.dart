@@ -103,12 +103,11 @@ class _CertificatePdfState extends SampleViewState {
                     onPressed: _createCertificate,
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(model.primaryColor),
+                          WidgetStateProperty.all<Color>(model.primaryColor),
                       padding: model.isMobile
                           ? null
-                          : MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15)),
+                          : WidgetStateProperty.all(const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15)),
                     ),
                     child: const Text(
                       'Generate PDF',

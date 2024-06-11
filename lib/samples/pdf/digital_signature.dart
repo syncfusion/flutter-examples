@@ -74,12 +74,11 @@ class _SignPdfState extends SampleViewState {
                       child: TextButton(
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(model.primaryColor),
+                          WidgetStateProperty.all<Color>(model.primaryColor),
                       padding: model.isMobile
                           ? null
-                          : MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15)),
+                          : WidgetStateProperty.all(const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15)),
                     ),
                     onPressed: _signPDF,
                     child: const Text('Sign PDF',

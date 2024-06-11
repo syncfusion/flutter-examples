@@ -408,7 +408,7 @@ class _MapBubblePageState extends SampleViewState
                     scale: _facebookAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
+                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_facebook.png'),
                       iconSize: 50,
                       onPressed: () {
@@ -457,7 +457,7 @@ class _MapBubblePageState extends SampleViewState
                     scale: _twitterAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
+                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_twitter.png'),
                       iconSize: 50,
                       onPressed: () {
@@ -506,7 +506,7 @@ class _MapBubblePageState extends SampleViewState
                     scale: _instagramAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
+                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_instagram.png'),
                       iconSize: 50,
                       onPressed: () {
@@ -555,7 +555,7 @@ class _MapBubblePageState extends SampleViewState
                     scale: _snapchatAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
+                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_snapchat.png'),
                       iconSize: 50,
                       onPressed: () {
@@ -607,7 +607,7 @@ class _MapBubblePageState extends SampleViewState
                     scale: _tiktokAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: MaterialStatePropertyAll(Size(70, 70))),
+                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
                       icon: Image.asset('images/maps_tiktok.png'),
                       iconSize: 50,
                       onPressed: () {

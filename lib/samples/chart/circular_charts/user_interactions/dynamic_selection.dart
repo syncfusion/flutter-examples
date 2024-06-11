@@ -72,7 +72,7 @@ class _CircularSelectionState extends SampleViewState {
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(model.primaryColor),
+                        WidgetStateProperty.all<Color>(model.primaryColor),
                   ),
                   onPressed: () {
                     selectionBehavior!.selectDataPoints(_pointIndex);

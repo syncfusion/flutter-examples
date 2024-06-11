@@ -170,6 +170,7 @@
         ]
       },
       {
+        "status": "Updated",
         "title": "Cartesian Charts",
         "description": "Plot over 30 chart types ranging from line charts to financial charts",
         "image": "images/cartesian_types.png",
@@ -1448,6 +1449,20 @@
                 "title": "MACD Indicator",
                 "key": "macd_indicator",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/technical_indicators/macd_indicator.dart",
+                "needsPropertyPanel": true
+              },
+              {
+                "status": "New",
+                "title": "ROC Indicator",
+                "key": "roc_indicator",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/technical_indicators/roc_indicator.dart",
+                "needsPropertyPanel": true
+              },
+              {
+                "status": "New",
+                "title": "WMA Indicator",
+                "key": "wma_indicator",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/technical_indicators/wma_indicator.dart",
                 "needsPropertyPanel": true
               }
             ]
@@ -3183,6 +3198,7 @@
             "type": "sample",
             "title": "Custom Toolbar",
             "key": "pdf_viewer_custom_toolbar",
+            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_custom_toolbar.dart"
           },
           {
@@ -3195,7 +3211,6 @@
             "type": "sample",
             "title": "Form Filling",
             "key": "pdf_viewer_form_filling",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_form_filling.dart"
           },
           {
@@ -3232,7 +3247,6 @@
         "description": "Create PDF document with text, images and tables",
         "image": "images/pdf.png",
         "displayType": "tab",
-        "status": "Updated",
         "controlId": 1,
         "subItems": [
           {
@@ -3263,7 +3277,6 @@
             "type": "sample",
             "title": "Import and Export Annotations",
             "key": "import_and_export_annotation_data",
-            "status": "New",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf/import_and_export_annotation_data.dart"
           },
           {

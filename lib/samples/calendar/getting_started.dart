@@ -57,6 +57,15 @@ class GettingStartedCalendarState extends SampleViewState {
     '7 days'
   ].toList();
 
+  final List<String> _numberOfDaysListWorkWeek = <String>[
+    'default',
+    '1 day',
+    '2 days',
+    '3 days',
+    '4 days',
+    '5 days',
+  ].toList();
+
   /// Global key used to maintain the state, when we change the parent of the
   /// widget
   final GlobalKey _globalKey = GlobalKey();
@@ -68,6 +77,7 @@ class GettingStartedCalendarState extends SampleViewState {
   bool _showDatePickerButton = true;
   bool _allowViewNavigation = true;
   bool _showCurrentTimeIndicator = true;
+  StateSetter? _setter;
 
   ViewNavigationMode _viewNavigationMode = ViewNavigationMode.snap;
   String _viewNavigationModeString = 'snap';
@@ -139,6 +149,16 @@ class GettingStartedCalendarState extends SampleViewState {
 
     SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
+        if (_calendarController.view == CalendarView.workWeek) {
+          if (_numberOfDaysString == '6 days' ||
+              _numberOfDaysString == '7 days') {
+            _numberOfDaysString = '5 days';
+          }
+        }
+        if (_numberOfDays > 5 &&
+            _calendarController.view == CalendarView.workWeek) {
+          _numberOfDays = 5;
+        }
         if (_calendarController.view == CalendarView.month ||
             _calendarController.view == CalendarView.timelineMonth) {
           _blackoutDates = blockedDates;
@@ -146,6 +166,9 @@ class GettingStartedCalendarState extends SampleViewState {
           _blackoutDates.clear();
         }
       });
+      if (_setter != null) {
+        _setter!(() {});
+      }
     });
 
     /// Creates new appointment collection based on
@@ -269,6 +292,7 @@ class GettingStartedCalendarState extends SampleViewState {
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter stateSetter) {
+      _setter = stateSetter;
       return ListView(
         shrinkWrap: true,
         children: <Widget>[
@@ -476,7 +500,10 @@ class GettingStartedCalendarState extends SampleViewState {
                       underline:
                           Container(color: const Color(0xFFBDBDBD), height: 1),
                       value: _numberOfDaysString,
-                      items: _numberOfDaysList.map((String value) {
+                      items: (_calendarController.view == CalendarView.workWeek
+                              ? _numberOfDaysListWorkWeek
+                              : _numberOfDaysList)
+                          .map((String value) {
                         return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'default',
                             child: Text(value,

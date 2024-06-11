@@ -144,10 +144,16 @@ class _ShiftSchedulerState extends SampleViewState {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.
-                    _events.appointments!.removeAt(
-                        _events.appointments!.indexOf(newAppointment));
-                    _events.notifyListeners(CalendarDataSourceAction.remove,
-                        <Appointment>[newAppointment]);
+                    final int appointmentIndex =
+                        _events.appointments!.indexOf(newAppointment);
+
+                    if (appointmentIndex <= _events.appointments!.length - 1 &&
+                        appointmentIndex >= 0) {
+                      _events.appointments!.removeAt(
+                          _events.appointments!.indexOf(newAppointment));
+                      _events.notifyListeners(CalendarDataSourceAction.remove,
+                          <Appointment>[newAppointment]);
+                    }
                   }
                 },
                 child: Center(

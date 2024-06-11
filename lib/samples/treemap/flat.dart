@@ -183,9 +183,9 @@ class _TreemapLayoutSampleState extends SampleViewState {
                     ),
                     child: TextButton(
                       style: ButtonStyle(
-                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(45 / 2))),
-                        backgroundColor: MaterialStateProperty.all(
+                        backgroundColor: WidgetStateProperty.all(
                             themeData.colorScheme.surface),
                       ),
                       onPressed: () {

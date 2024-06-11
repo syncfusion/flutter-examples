@@ -45,7 +45,7 @@ class _FormFillingPdfState extends SampleViewState {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2000),
+        firstDate: DateTime(1000),
         lastDate: DateTime(2100));
     if (picked != null && picked != selectedDate) {
       setState(() {
@@ -227,10 +227,10 @@ class _FormFillingPdfState extends SampleViewState {
       TextButton(
         onPressed: _viewTemplate,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(model.primaryColor),
+          backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
           padding: model.isMobile
               ? null
-              : MaterialStateProperty.all(
+              : WidgetStateProperty.all(
                   const EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
         ),
         child: const Text(
@@ -242,10 +242,10 @@ class _FormFillingPdfState extends SampleViewState {
       TextButton(
         onPressed: () => _fillFormFields(false),
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(model.primaryColor),
+          backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
           padding: model.isMobile
               ? null
-              : MaterialStateProperty.all(
+              : WidgetStateProperty.all(
                   const EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
         ),
         child: const Text(
@@ -257,10 +257,10 @@ class _FormFillingPdfState extends SampleViewState {
       TextButton(
         onPressed: () => _fillFormFields(true),
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(model.primaryColor),
+          backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
           padding: model.isMobile
               ? null
-              : MaterialStateProperty.all(
+              : WidgetStateProperty.all(
                   const EdgeInsets.symmetric(vertical: 15, horizontal: 15)),
         ),
         child: const Text(

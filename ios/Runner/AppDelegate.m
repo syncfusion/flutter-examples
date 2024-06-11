@@ -46,5 +46,7 @@ UIDocumentInteractionController* _uiController;
   // Override point for customization after application launch.
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
-
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
+    return [UIApplication sharedApplication].delegate.window.rootViewController;
+}
 @end

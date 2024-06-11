@@ -131,7 +131,7 @@ class _AnimationDefaultState extends SampleViewState {
   ElevatedButton _buildColumnButton() {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(model.primaryColor),
+        backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
       ),
       onPressed: () {
         _chartSeriesController2?.animate();
@@ -145,7 +145,7 @@ class _AnimationDefaultState extends SampleViewState {
   ElevatedButton _buildLineButton() {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(model.primaryColor),
+        backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
       ),
       onPressed: () {
         _chartSeriesController1?.animate();
