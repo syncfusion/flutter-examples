@@ -21,93 +21,92 @@ class ConditionalStylingDataGrid extends SampleView {
 
 class _ConditionalStylingDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  final ConditionalStyleDataGridSource conditionalStyleDataGridSource =
-      ConditionalStyleDataGridSource();
+  late final ConditionalStyleDataGridSource _conditionalStyleDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _conditionalStyleDataGridSource = ConditionalStyleDataGridSource();
   }
 
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
-      source: conditionalStyleDataGridSource,
+      source: _conditionalStyleDataGridSource,
       columnWidthMode: ColumnWidthMode.fill,
-      columns: <GridColumn>[
-        GridColumn(
-          columnName: 'name',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Name',
+      columns: _obtainColumns(),
+    );
+  }
+
+  List<GridColumn> _obtainColumns() {
+    return <GridColumn>[
+      GridColumn(
+        columnName: 'name',
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text(
+            'Name',
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+      GridColumn(
+        columnName: 'qs1',
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        label: Container(
+          padding: const EdgeInsets.all(8.0),
+          child: const Center(
+            child: Text(
+              'Q1',
               overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
-        GridColumn(
-          columnName: 'qs1',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-          label: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: const Center(
-              child: Text(
-                'Q1',
-                overflow: TextOverflow.ellipsis,
-              ),
+      ),
+      GridColumn(
+        columnName: 'qs2',
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        label: Container(
+          padding: const EdgeInsets.all(8.0),
+          child: const Center(
+            child: Text(
+              'Q2',
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
-        GridColumn(
-          columnName: 'qs2',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-          label: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: const Center(
-              child: Text(
-                'Q2',
-                overflow: TextOverflow.ellipsis,
-              ),
+      ),
+      GridColumn(
+        columnName: 'qs3',
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        label: Container(
+          padding: const EdgeInsets.all(8.0),
+          child: const Center(
+            child: Text(
+              'Q3',
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
-        GridColumn(
-          columnName: 'qs3',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-          label: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: const Center(
-              child: Text(
-                'Q3',
-                overflow: TextOverflow.ellipsis,
-              ),
+      ),
+      GridColumn(
+        columnName: 'qs4',
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        label: Container(
+          padding: const EdgeInsets.all(8.0),
+          child: const Center(
+            child: Text(
+              'Q4',
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
-        GridColumn(
-          columnName: 'qs4',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-          label: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: const Center(
-              child: Text(
-                'Q4',
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+      ),
+    ];
   }
 
   @override

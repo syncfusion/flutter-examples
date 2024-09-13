@@ -17,8 +17,8 @@ import '../model/stockinfo.dart';
 class StockInfoDataGridSource extends DataGridSource {
   /// Creates the stock data source class with required details.
   StockInfoDataGridSource({this.isGroupingSample = false}) {
-    _stocks = _getStocks(100);
-    buildDataGridRows();
+    _stocks = _fetchStocks(100);
+    _buildDataGridRows();
   }
 
   /// Checks whether it's a grouping sample source or not.
@@ -32,7 +32,7 @@ class StockInfoDataGridSource extends DataGridSource {
 
   /// Rows are generated once and for CRUD operation we have to refresh
   /// the data row.
-  void buildDataGridRows() {
+  void _buildDataGridRows() {
     _dataGridRows = _stocks
         .map<DataGridRow>((StockInfo dataGridRow) =>
             DataGridRow(cells: <DataGridCell<dynamic>>[
@@ -279,7 +279,7 @@ class StockInfoDataGridSource extends DataGridSource {
     'Martha'
   ];
 
-  List<StockInfo> _getStocks(int count) {
+  List<StockInfo> _fetchStocks(int count) {
     final List<StockInfo> stockData = <StockInfo>[];
     for (int i = 1; i < count; i++) {
       stockData.add(StockInfo(

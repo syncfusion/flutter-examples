@@ -27,7 +27,7 @@ class Dealer {
   String shipCountry;
 
   /// Get datagrid row of the dealer.
-  DataGridRow getDataGridRow() {
+  DataGridRow obtainDataGridRow() {
     return DataGridRow(cells: <DataGridCell>[
       DataGridCell<int>(columnName: 'Product No', value: productNo),
       DataGridCell<String>(columnName: 'Dealer Name', value: dealerName),

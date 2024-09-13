@@ -273,7 +273,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
               }
 
               return PopScope(
-                onPopInvoked: (bool value) {
+                onPopInvokedWithResult: (bool value, Object? result) async {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.
@@ -1000,7 +1000,12 @@ Widget _editRecurrence(
                   context: context,
                   builder: (BuildContext context) {
                     return PopScope(
-                        onPopInvoked: (bool value) {},
+                        onPopInvokedWithResult:
+                            (bool value, Object? result) async {
+                          if (value) {
+                            return;
+                          }
+                        },
                         child: Theme(
                           data: model.themeData,
                           child: AppointmentEditorWeb(
@@ -1035,7 +1040,12 @@ Widget _editRecurrence(
                   context: context,
                   builder: (BuildContext context) {
                     return PopScope(
-                        onPopInvoked: (bool value) {},
+                        onPopInvokedWithResult:
+                            (bool value, Object? result) async {
+                          if (value) {
+                            return;
+                          }
+                        },
                         child: Theme(
                           data: model.themeData,
                           child: AppointmentEditorWeb(
@@ -1106,7 +1116,12 @@ Widget displayAppointmentDetails(
                 context: context,
                 builder: (BuildContext context) {
                   return PopScope(
-                      onPopInvoked: (bool value) {},
+                      onPopInvokedWithResult:
+                          (bool value, Object? result) async {
+                        if (value) {
+                          return;
+                        }
+                      },
                       child: Theme(
                         data: model.themeData,
                         child: selectedAppointment.appointmentType ==
@@ -1150,7 +1165,12 @@ Widget displayAppointmentDetails(
                   context: context,
                   builder: (BuildContext context) {
                     return PopScope(
-                        onPopInvoked: (bool value) {},
+                        onPopInvokedWithResult:
+                            (bool value, Object? result) async {
+                          if (value) {
+                            return;
+                          }
+                        },
                         child: Theme(
                           data: model.themeData,
                           child: _deleteRecurrence(
@@ -1315,7 +1335,9 @@ class _CalendarColorPickerState extends State<_CalendarColorPicker> {
                         // ignore: always_specify_types
                         Future.delayed(const Duration(milliseconds: 200), () {
                           // When task is over, close the dialog
-                          Navigator.pop(context);
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
                         });
                       },
                     ));
@@ -1379,7 +1401,9 @@ class _ResourcePickerState extends State<_ResourcePicker> {
                           // ignore: always_specify_types
                           Future.delayed(const Duration(milliseconds: 200), () {
                             // When task is over, close the dialog
-                            Navigator.pop(context);
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
                           });
                         },
                       ));
@@ -1460,7 +1484,9 @@ class _CalendarTimeZonePickerState extends State<_CalendarTimeZonePicker> {
                           // ignore: always_specify_types
                           Future.delayed(const Duration(milliseconds: 200), () {
                             // When task is over, close the dialog
-                            Navigator.pop(context);
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
                           });
                         },
                       ));
@@ -2030,7 +2056,8 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                                 resourceIds: _resourceIds,
                               );
                               return PopScope(
-                                onPopInvoked: (bool value) {
+                                onPopInvokedWithResult:
+                                    (bool value, Object? result) async {
                                   if (widget.newAppointment != null) {
                                     final int appointmentIndex = widget
                                         .events.appointments!
@@ -5318,7 +5345,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return PopScope(
-                                          onPopInvoked: (bool value) {},
+                                          onPopInvokedWithResult: (bool value,
+                                              Object? result) async {
+                                            if (value) {
+                                              return;
+                                            }
+                                          },
                                           child: Theme(
                                             data: widget.model.themeData,
                                             child: AlertDialog(
@@ -5427,7 +5459,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return PopScope(
-                                          onPopInvoked: (bool value) {},
+                                          onPopInvokedWithResult: (bool value,
+                                              Object? result) async {
+                                            if (value) {
+                                              return;
+                                            }
+                                          },
                                           child: Theme(
                                               data: widget.model.themeData,
                                               child: _editExceptionSeries(
@@ -6136,7 +6173,12 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                     context: context,
                     builder: (BuildContext context) {
                       return PopScope(
-                          onPopInvoked: (bool value) {},
+                          onPopInvokedWithResult:
+                              (bool value, Object? result) async {
+                            if (value) {
+                              return;
+                            }
+                          },
                           child: Theme(
                             data: widget.model.themeData,
                             // ignore: prefer_const_literals_to_create_immutables
@@ -6359,7 +6401,12 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                               context: context,
                               builder: (BuildContext context) {
                                 return PopScope(
-                                    onPopInvoked: (bool value) {},
+                                    onPopInvokedWithResult:
+                                        (bool value, Object? result) async {
+                                      if (value) {
+                                        return;
+                                      }
+                                    },
                                     child: Theme(
                                       data: widget.model.themeData,
                                       // ignore: prefer_const_literals_to_create_immutables
@@ -6492,7 +6539,12 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return PopScope(
-                                        onPopInvoked: (bool value) {},
+                                        onPopInvokedWithResult:
+                                            (bool value, Object? result) async {
+                                          if (value) {
+                                            return;
+                                          }
+                                        },
                                         child: Theme(
                                           data: widget.model.themeData,
                                           // ignore: prefer_const_literals_to_create_immutables

@@ -25,14 +25,12 @@ class _GaugeCompassExampleState extends SampleViewState {
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       _annotationTextSize = 22;
       _markerOffset = 0.71;
-      _positionFactor = 0.025;
       _markerHeight = 10;
       _markerWidth = 15;
       _labelFontSize = 11;
     } else {
       _annotationTextSize = model.isWebFullView ? 22 : 16;
       _markerOffset = model.isWebFullView ? 0.71 : 0.69;
-      _positionFactor = model.isWebFullView ? 0.025 : 0.05;
       _markerHeight = model.isWebFullView ? 10 : 5;
       _markerWidth = model.isWebFullView ? 15 : 10;
       _labelFontSize = model.isWebFullView ? 11 : 10;
@@ -40,56 +38,62 @@ class _GaugeCompassExampleState extends SampleViewState {
     final Widget widget = SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-            showAxisLine: false,
-            radiusFactor: 1,
-            canRotateLabels: true,
-            tickOffset: 0.32,
-            offsetUnit: GaugeSizeUnit.factor,
-            onLabelCreated: _handleAxisLabelCreated,
-            startAngle: 270,
-            endAngle: 270,
-            labelOffset: 0.05,
-            maximum: 360,
-            interval: 30,
-            minorTicksPerInterval: 4,
-            axisLabelStyle: GaugeTextStyle(
-                color: const Color(0xFF949494),
-                fontSize: isCardView ? 10 : _labelFontSize),
-            minorTickStyle: const MinorTickStyle(
-                color: Color(0xFF616161),
-                thickness: 1.6,
-                length: 0.058,
-                lengthUnit: GaugeSizeUnit.factor),
-            majorTickStyle: const MajorTickStyle(
-                color: Color(0xFF949494),
-                thickness: 2.3,
-                length: 0.087,
-                lengthUnit: GaugeSizeUnit.factor),
-            backgroundImage: const AssetImage('images/dark_theme_gauge.png'),
-            pointers: <GaugePointer>[
-              MarkerPointer(
-                  value: 90,
+          showAxisLine: false,
+          radiusFactor: 1,
+          canRotateLabels: true,
+          tickOffset: 0.32,
+          offsetUnit: GaugeSizeUnit.factor,
+          onLabelCreated: _handleAxisLabelCreated,
+          startAngle: 270,
+          endAngle: 270,
+          labelOffset: 0.05,
+          maximum: 360,
+          interval: 30,
+          minorTicksPerInterval: 4,
+          axisLabelStyle: GaugeTextStyle(
+            color: const Color(0xFF949494),
+            fontSize: isCardView ? 10 : _labelFontSize,
+          ),
+          minorTickStyle: const MinorTickStyle(
+            color: Color(0xFF616161),
+            thickness: 1.6,
+            length: 0.058,
+            lengthUnit: GaugeSizeUnit.factor,
+          ),
+          majorTickStyle: const MajorTickStyle(
+            color: Color(0xFF949494),
+            thickness: 2.3,
+            length: 0.087,
+            lengthUnit: GaugeSizeUnit.factor,
+          ),
+          backgroundImage: const AssetImage('images/dark_theme_gauge.png'),
+          pointers: <GaugePointer>[
+            MarkerPointer(
+              value: 90,
+              color: const Color(0xFFDF5F2D),
+              enableAnimation: true,
+              animationDuration: 1200,
+              markerOffset: isCardView ? 0.69 : _markerOffset,
+              offsetUnit: GaugeSizeUnit.factor,
+              markerType: MarkerType.triangle,
+              markerHeight: isCardView ? 8 : _markerHeight,
+              markerWidth: isCardView ? 8 : _markerWidth,
+            ),
+          ],
+          annotations: <GaugeAnnotation>[
+            GaugeAnnotation(
+              angle: 270,
+              widget: Text(
+                '90',
+                style: TextStyle(
                   color: const Color(0xFFDF5F2D),
-                  enableAnimation: true,
-                  animationDuration: 1200,
-                  markerOffset: isCardView ? 0.69 : _markerOffset,
-                  offsetUnit: GaugeSizeUnit.factor,
-                  markerType: MarkerType.triangle,
-                  markerHeight: isCardView ? 8 : _markerHeight,
-                  markerWidth: isCardView ? 8 : _markerWidth)
-            ],
-            annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  angle: 270,
-                  positionFactor: _positionFactor,
-                  widget: Text(
-                    '90',
-                    style: TextStyle(
-                        color: const Color(0xFFDF5F2D),
-                        fontWeight: FontWeight.bold,
-                        fontSize: isCardView ? 16 : _annotationTextSize),
-                  ))
-            ])
+                  fontWeight: FontWeight.bold,
+                  fontSize: isCardView ? 16 : _annotationTextSize,
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
     if (model.isWebFullView) {
@@ -127,7 +131,6 @@ class _GaugeCompassExampleState extends SampleViewState {
   }
 
   double _annotationTextSize = 22;
-  double _positionFactor = 0.025;
   double _markerHeight = 10;
   double _markerWidth = 15;
   double _markerOffset = 0.71;

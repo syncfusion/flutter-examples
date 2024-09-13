@@ -24,43 +24,41 @@ class _CustomHeaderDataGridState extends SampleViewState {
   GlobalKey key = GlobalKey();
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late ProductDataGridSource source;
+  late ProductDataGridSource _source;
 
   /// Collection of GridColumn and it required for SfDataGrid
-  late List<GridColumn> columns;
+  late List<GridColumn> _columns;
 
   /// Default sorting operating in drop down widget
-  List<String> showMenuItems = <String>[
+  final List<String> _showMenuItems = <String>[
     'Ascending',
     'Descending',
     'Clear Sorting'
   ];
 
-  late bool isWebOrDesktop;
-
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    columns = getColumns();
-    source = ProductDataGridSource('Custom Header', productDataCount: 20);
+    _columns = _obtainColumns();
+    _source = ProductDataGridSource('Custom Header', productDataCount: 20);
   }
 
-  Widget buildMenuItem(GridColumn column, String value) {
+  Widget _buildMenuItem(GridColumn column, String value) {
     return GestureDetector(
         onTap: () {
           setState(() {
-            processShowMenuFunctions(value, column);
+            _processShowMenuFunctions(value, column);
           });
           Navigator.pop(context);
         },
         child: SizedBox(width: 130, height: 30, child: Text(value)));
   }
 
-  List<PopupMenuItem<String>> buildMenuItems(GridColumn column) {
+  List<PopupMenuItem<String>> _buildMenuItems(GridColumn column) {
     List<PopupMenuItem<String>> menuItems;
-    final SortColumnDetails? sortColumn = source.sortedColumns.firstWhereOrNull(
-        (SortColumnDetails sortColumn) => sortColumn.name == column.columnName);
+    final SortColumnDetails? sortColumn = _source.sortedColumns
+        .firstWhereOrNull((SortColumnDetails sortColumn) =>
+            sortColumn.name == column.columnName);
 
     bool isEnabled(DataGridSortDirection direction) {
       if (sortColumn == null) {
@@ -71,52 +69,52 @@ class _CustomHeaderDataGridState extends SampleViewState {
 
     menuItems = <PopupMenuItem<String>>[
       PopupMenuItem<String>(
-        value: showMenuItems[0],
+        value: _showMenuItems[0],
         enabled: isEnabled(DataGridSortDirection.descending),
-        child: buildMenuItem(column, showMenuItems[0]),
+        child: _buildMenuItem(column, _showMenuItems[0]),
       ),
       PopupMenuItem<String>(
-        value: showMenuItems[1],
+        value: _showMenuItems[1],
         enabled: isEnabled(DataGridSortDirection.ascending),
-        child: buildMenuItem(column, showMenuItems[1]),
+        child: _buildMenuItem(column, _showMenuItems[1]),
       ),
     ];
 
     if (sortColumn != null) {
       menuItems.add(PopupMenuItem<String>(
-        value: showMenuItems[2],
-        enabled: source.sortedColumns.isNotEmpty,
-        child: buildMenuItem(column, showMenuItems[2]),
+        value: _showMenuItems[2],
+        enabled: _source.sortedColumns.isNotEmpty,
+        child: _buildMenuItem(column, _showMenuItems[2]),
       ));
     }
 
     return menuItems;
   }
 
-  void processShowMenuFunctions(String value, GridColumn gridColumn) {
+  void _processShowMenuFunctions(String value, GridColumn gridColumn) {
     switch (value) {
       case 'Ascending':
       case 'Descending':
-        if (source.sortedColumns.isNotEmpty) {
-          source.sortedColumns.clear();
+        if (_source.sortedColumns.isNotEmpty) {
+          _source.sortedColumns.clear();
         }
-        source.sortedColumns.add(SortColumnDetails(
+        _source.sortedColumns.add(SortColumnDetails(
             name: gridColumn.columnName,
             sortDirection: value == 'Ascending'
                 ? DataGridSortDirection.ascending
                 : DataGridSortDirection.descending));
-        source.sort();
+        _source.sort();
         break;
       case 'Clear Sorting':
-        if (source.sortedColumns.isNotEmpty) {
-          source.sortedColumns.clear();
-          source.sort();
+        if (_source.sortedColumns.isNotEmpty) {
+          _source.sortedColumns.clear();
+          _source.sort();
         }
         break;
     }
   }
 
-  Widget buildHeaderCell(Widget headerChild) {
+  Widget _buildHeaderCell(Widget headerChild) {
     final bool isMaterial3 = model.themeData.useMaterial3;
     return Row(
       children: <Widget>[
@@ -132,7 +130,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
     );
   }
 
-  void buildShowMenu(BuildContext context, DataGridCellTapDetails details) {
+  void _buildShowMenu(BuildContext context, DataGridCellTapDetails details) {
     const double rowHeight = 56.0;
     final RenderBox renderBox =
         Overlay.of(context).context.findRenderObject()! as RenderBox;
@@ -143,32 +141,32 @@ class _CustomHeaderDataGridState extends SampleViewState {
     showMenu(
         context: context,
         position: RelativeRect.fromLTRB(dx, dy, dx + 200, dy + 200),
-        items: buildMenuItems(details.column));
+        items: _buildMenuItems(details.column));
   }
 
   @override
   Widget build(BuildContext context) {
     return SfDataGrid(
       key: key,
-      source: source,
-      columns: columns,
+      source: _source,
+      columns: _columns,
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
       onCellTap: (DataGridCellTapDetails details) {
         if (details.rowColumnIndex.rowIndex == 0) {
-          buildShowMenu(context, details);
+          _buildShowMenu(context, details);
         }
       },
     );
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
           columnName: 'id',
           width: 140,
-          label: buildHeaderCell(Container(
+          label: _buildHeaderCell(Container(
             padding: const EdgeInsets.all(8),
             child: const Text(
               'Order ID',
@@ -178,7 +176,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'productId',
           width: 150,
-          label: buildHeaderCell(Container(
+          label: _buildHeaderCell(Container(
             padding: const EdgeInsets.all(8),
             child: const Text(
               'Product ID',
@@ -188,7 +186,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'name',
           width: 185,
-          label: buildHeaderCell(Container(
+          label: _buildHeaderCell(Container(
             padding: const EdgeInsets.all(8),
             child: const Text(
               'Customer Name',
@@ -198,7 +196,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'product',
           width: 135,
-          label: buildHeaderCell(Container(
+          label: _buildHeaderCell(Container(
             padding: const EdgeInsets.all(8),
             child: const Text(
               'Product',
@@ -208,7 +206,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'orderDate',
           width: 150,
-          label: buildHeaderCell(Container(
+          label: _buildHeaderCell(Container(
             padding: const EdgeInsets.all(8),
             child: const Text(
               'Order Date',
@@ -218,7 +216,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'quantity',
           width: 135,
-          label: buildHeaderCell(Container(
+          label: _buildHeaderCell(Container(
             padding: const EdgeInsets.all(8),
             child: const Text(
               'Quantity',
@@ -228,7 +226,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'city',
           width: 130,
-          label: buildHeaderCell(Container(
+          label: _buildHeaderCell(Container(
             padding: const EdgeInsets.all(8),
             child: const Text(
               'City',
@@ -238,7 +236,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'unitPrice',
           width: 140,
-          label: buildHeaderCell(Container(
+          label: _buildHeaderCell(Container(
             padding: const EdgeInsets.all(8),
             child: const Text(
               'Unit Price',

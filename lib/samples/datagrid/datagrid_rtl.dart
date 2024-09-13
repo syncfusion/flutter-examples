@@ -21,28 +21,28 @@ class RTLModeDataGrid extends DirectionalitySampleView {
 
 class _SelectionDataGridPageState extends DirectionalitySampleViewState {
   /// Determine to decide whether the device in landscape or in portrait.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
   late OrderInfoDataGridSource _rtlDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   late String _customerName, _price, _orderID, _customerID, _freight, _city;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
 
-    columns = isWebOrDesktop
+    columns = _isWebOrDesktop
         ? <GridColumn>[
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'id',
@@ -56,7 +56,7 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 150.0
                   : double.nan,
               columnName: 'customerId',
@@ -70,7 +70,7 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'name',
@@ -84,7 +84,7 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
                   : double.nan,
               columnName: 'freight',
@@ -98,7 +98,7 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'city',
@@ -112,7 +112,7 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
               ),
             ),
             GridColumn(
-                width: (isWebOrDesktop && model.isMobileResolution)
+                width: (_isWebOrDesktop && model.isMobileResolution)
                     ? 120.0
                     : double.nan,
                 columnName: 'price',
@@ -177,19 +177,19 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
 
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
-      columnWidthMode: isWebOrDesktop || isLandscapeInMobileView
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
           ? ColumnWidthMode.fill
           : ColumnWidthMode.none,
       source: _rtlDataGridSource,
       isScrollbarAlwaysShown: true,
-      columns: getColumns(),
+      columns: _obtainColumns(),
     );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -210,8 +210,8 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
         _city = 'City';
         _freight = 'Freight';
         _rtlDataGridSource = OrderInfoDataGridSource(
-            isWebOrDesktop: isWebOrDesktop,
-            ordersCollection: getEnglishOrders());
+            isWebOrDesktop: _isWebOrDesktop,
+            ordersCollection: _fetchOrdersInEnglish());
         break;
       case 'ar_AE':
         _customerName = 'اسم';
@@ -221,12 +221,12 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
         _city = 'مدينة';
         _freight = 'شحن';
         _rtlDataGridSource = OrderInfoDataGridSource(
-            isWebOrDesktop: isWebOrDesktop,
-            ordersCollection: getArabicOrders());
+            isWebOrDesktop: _isWebOrDesktop,
+            ordersCollection: _fetchOrdersInArabic());
     }
   }
 
-  List<OrderInfo> getArabicOrders() {
+  List<OrderInfo> _fetchOrdersInArabic() {
     return [
       OrderInfo(1000, 1700, 'بيكو', 1270, 'لندن', 1569),
       OrderInfo(1001, 1701, 'كيفي', 1570, 'بويز', 1559),
@@ -261,7 +261,7 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
     ];
   }
 
-  List<OrderInfo> getEnglishOrders() {
+  List<OrderInfo> _fetchOrdersInEnglish() {
     return [
       OrderInfo(1000, 1700, 'Picco', 1270, 'London', 1569),
       OrderInfo(1001, 1701, 'Keefe', 1570, 'Boise', 1559),

@@ -15,8 +15,8 @@ import '../model/team.dart';
 class TeamDataGridSource extends DataGridSource {
   /// Creates the team data source class with required details.
   TeamDataGridSource() {
-    _teams = _getTeams(_teamNames.length);
-    buildDataGridRows();
+    _teams = _fetchTeams(_teamNames.length);
+    _buildDataGridRows();
   }
 
   List<Team> _teams = <Team>[];
@@ -24,7 +24,7 @@ class TeamDataGridSource extends DataGridSource {
   List<DataGridRow> _dataGridRows = <DataGridRow>[];
 
   /// Building DataGridRows
-  void buildDataGridRows() {
+  void _buildDataGridRows() {
     _dataGridRows = _teams.map<DataGridRow>((Team team) {
       return DataGridRow(cells: <DataGridCell>[
         DataGridCell<Image>(columnName: 'image', value: team.image),
@@ -202,7 +202,7 @@ class TeamDataGridSource extends DataGridSource {
     78
   ];
 
-  List<Team> _getTeams(int count) {
+  List<Team> _fetchTeams(int count) {
     final List<Team> teamData = <Team>[];
     for (int i = 0; i < count; i++) {
       teamData.add(Team(
@@ -222,8 +222,8 @@ class TeamDataGridSource extends DataGridSource {
 class EmployeeDataGridSource extends DataGridSource {
   /// Creates the employee data source class with required details.
   EmployeeDataGridSource() {
-    _employees = _getEmployees(20);
-    buildDataGridRows();
+    _employees = _obtainEmployees(20);
+    _buildDataGridRows();
   }
 
   final math.Random _random = math.Random();
@@ -231,7 +231,7 @@ class EmployeeDataGridSource extends DataGridSource {
   List<Employee> _employees = <Employee>[];
 
   /// Building DataGridRows
-  void buildDataGridRows() {
+  void _buildDataGridRows() {
     _dataGridRows = _employees.map<DataGridRow>((Employee employee) {
       return DataGridRow(cells: <DataGridCell>[
         DataGridCell<String>(
@@ -259,7 +259,7 @@ class EmployeeDataGridSource extends DataGridSource {
   Widget _buildEmployeeName(dynamic value) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
-      child: _getWidget(
+      child: _buildWidget(
           Icon(Icons.account_circle, size: 30, color: Colors.blue[300]), value),
     );
   }
@@ -267,7 +267,7 @@ class EmployeeDataGridSource extends DataGridSource {
   Widget _buildLocation(dynamic value) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
-      child: _getWidget(const Icon(Icons.location_on, size: 20), value),
+      child: _buildWidget(const Icon(Icons.location_on, size: 20), value),
     );
   }
 
@@ -276,23 +276,23 @@ class EmployeeDataGridSource extends DataGridSource {
     if (value == 'Perfect') {
       return Padding(
         padding: const EdgeInsets.only(left: 16.0),
-        child: _getWidget(_images[trust]!, trust),
+        child: _buildWidget(_images[trust]!, trust),
       );
     } else if (value == 'Insufficient') {
       return Padding(
         padding: const EdgeInsets.only(left: 16.0),
-        child: _getWidget(_images[trust]!, trust),
+        child: _buildWidget(_images[trust]!, trust),
       );
     } else {
       return Padding(
         padding: const EdgeInsets.only(left: 16.0),
-        child: _getWidget(_images[trust]!, trust),
+        child: _buildWidget(_images[trust]!, trust),
       );
     }
   }
 
   Widget _buildSoftwareProficiency(dynamic value) {
-    Widget getLinearProgressBar(int progressValue) {
+    Widget createLinearProgressBar(int progressValue) {
       return SizedBox(
         width: 100,
         child: Row(
@@ -313,10 +313,10 @@ class EmployeeDataGridSource extends DataGridSource {
       );
     }
 
-    return getLinearProgressBar(value);
+    return createLinearProgressBar(value);
   }
 
-  Widget _getWidget(Widget image, String text) {
+  Widget _buildWidget(Widget image, String text) {
     return Container(
       color: Colors.transparent,
       child: Row(
@@ -335,7 +335,7 @@ class EmployeeDataGridSource extends DataGridSource {
     );
   }
 
-  TextStyle _getStatusTextStyle(dynamic value) {
+  TextStyle _styleForStatusText(dynamic value) {
     if (value == 'Active') {
       return const TextStyle(color: Colors.green);
     } else {
@@ -369,7 +369,7 @@ class EmployeeDataGridSource extends DataGridSource {
           alignment: Alignment.center,
           child: Text(
             row.getCells()[4].value.toString(),
-            style: _getStatusTextStyle(row.getCells()[4].value),
+            style: _styleForStatusText(row.getCells()[4].value),
           )),
       _buildTrustWorthiness(row.getCells()[5].value.toString()),
       _buildSoftwareProficiency(row.getCells()[6].value),
@@ -491,7 +491,7 @@ class EmployeeDataGridSource extends DataGridSource {
     'Mexico'
   ];
 
-  List<Employee> _getEmployees(int count) {
+  List<Employee> _obtainEmployees(int count) {
     final List<Employee> employeeData = <Employee>[];
     for (int i = 0; i < _employeeNames.length - 1; i++) {
       employeeData.add(Employee(

@@ -62,22 +62,13 @@
 </head>
 
 <body id = "app-container">
-  <!-- This script installs service_worker.js to provide PWA functionality to
-       application. For more information, see:
-       https://developers.google.com/web/fundamentals/primers/service-workers -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js');
-      });
-    }
-  </script>
   <!-- This script installs pdf.min.js to render the PDF page as an image in the
     application and load in syncfusion_flutter_pdfviewer widget -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
   <script type="text/javascript">
     pdfjsLib.GlobalWorkerOptions.workerSrc = "//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js";
   </script>
+  <script src="flutter_bootstrap.js" async></script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>

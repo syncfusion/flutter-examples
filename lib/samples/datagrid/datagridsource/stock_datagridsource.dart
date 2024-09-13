@@ -15,8 +15,8 @@ import '../model/stock.dart';
 class ConditionalStyleDataGridSource extends DataGridSource {
   /// Creates the stock data source class with required details.
   ConditionalStyleDataGridSource() {
-    _stocks = _getStocks(100);
-    buildDataGridRows();
+    _stocks = _fetchStocks(100);
+    _buildDataGridRows();
   }
 
   final math.Random _random = math.Random();
@@ -27,7 +27,7 @@ class ConditionalStyleDataGridSource extends DataGridSource {
 
   /// Rows are generated once and for CRUD operation we have to refresh
   /// the data row.
-  void buildDataGridRows() {
+  void _buildDataGridRows() {
     _dataGridRows = _stocks
         .map<DataGridRow>(
             (Stock dataGridRow) => DataGridRow(cells: <DataGridCell<dynamic>>[
@@ -271,7 +271,7 @@ class ConditionalStyleDataGridSource extends DataGridSource {
     'Martha'
   ];
 
-  List<Stock> _getStocks(int count) {
+  List<Stock> _fetchStocks(int count) {
     final List<Stock> stockData = <Stock>[];
     for (int i = 1; i < count; i++) {
       stockData.add(Stock(

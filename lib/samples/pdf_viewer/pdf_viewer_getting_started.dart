@@ -23,7 +23,6 @@ class GettingStartedPdfViewer extends SampleView {
 
 class _GettingStartedPdfViewerState extends SampleViewState {
   late bool _canShowPdf;
-  final PdfViewerController _pdfViewerController = PdfViewerController();
 
   @override
   void initState() {
@@ -53,7 +52,6 @@ class _GettingStartedPdfViewerState extends SampleViewState {
                 data: const SfPdfViewerThemeData(),
                 child: SfPdfViewer.asset(
                   'assets/pdf/flutter_succinctly.pdf',
-                  controller: _pdfViewerController,
                 ),
               );
             } else {

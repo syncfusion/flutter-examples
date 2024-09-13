@@ -21,9 +21,9 @@ class LoadMoreInfiniteScrollingDataGrid extends SampleView {
 
 class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource employeeDataSource;
+  late OrderInfoDataGridSource _employeeDataSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   /// Building the progress indicator when DataGrid scroller reach the bottom
   Widget _buildProgressIndicator() {
@@ -32,9 +32,9 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
         alignment: Alignment.center,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: loadingIndicatorBackgroundColor(),
+            color: _loadingIndicatorBackgroundColor(),
             border:
-                BorderDirectional(top: BorderSide(color: topBorderColor()))),
+                BorderDirectional(top: BorderSide(color: _topBorderColor()))),
         child: Container(
             width: 40,
             height: 40,
@@ -45,7 +45,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
             )));
   }
 
-  Color topBorderColor() {
+  Color _topBorderColor() {
     final bool isMaterial3 = model.themeData.useMaterial3;
     final bool isLight =
         model.themeData.colorScheme.brightness == Brightness.light;
@@ -56,7 +56,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
             : const Color.fromRGBO(255, 255, 255, 0.26);
   }
 
-  Color loadingIndicatorBackgroundColor() {
+  Color _loadingIndicatorBackgroundColor() {
     final bool isMaterial3 = model.themeData.useMaterial3;
     final bool isLight =
         model.themeData.colorScheme.brightness == Brightness.light;
@@ -91,27 +91,27 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return SfDataGrid(
-        source: employeeDataSource,
+        source: _employeeDataSource,
         loadMoreViewBuilder: _buildLoadMoreView,
-        columns: _getColumns());
+        columns: _obtainColumns());
   }
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    employeeDataSource =
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _employeeDataSource =
         OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 25);
   }
 
-  List<GridColumn> _getColumns() {
+  List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
           columnName: 'id',
           width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
+              (_isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
               padding: const EdgeInsets.all(8),
               alignment: Alignment.centerRight,
@@ -122,10 +122,10 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'customerId',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: !isWebOrDesktop
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+          width: !_isWebOrDesktop
               ? 120
-              : (isWebOrDesktop && model.isMobileResolution)
+              : (_isWebOrDesktop && model.isMobileResolution)
                   ? 150
                   : double.nan,
           label: Container(
@@ -138,7 +138,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'name',
           width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
+              (_isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
           label: Container(
               padding: const EdgeInsets.all(8),
               alignment: Alignment.centerLeft,
@@ -148,7 +148,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           width:
-              (isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
+              (_isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
           columnName: 'freight',
           label: Container(
               padding: const EdgeInsets.all(8),
@@ -160,9 +160,9 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'city',
           width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
+              (_isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
               padding: const EdgeInsets.all(8),
               alignment: Alignment.centerLeft,
@@ -172,7 +172,7 @@ class _LoadMoreInfiniteScrollingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
+              (_isWebOrDesktop && model.isMobileResolution) ? 120 : double.nan,
           columnName: 'price',
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(

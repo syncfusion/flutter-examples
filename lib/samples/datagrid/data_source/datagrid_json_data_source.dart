@@ -20,18 +20,18 @@ class JsonDataSourceDataGrid extends SampleView {
 
 class _JsonDataSourceDataGridState extends SampleViewState {
   /// DataGridSource Required for SfDataGrid to obtain the row data.
-  late EmployeeDataGridSource jsonDataGridSource;
+  late EmployeeDataGridSource _jsonDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   Widget sampleWidget() => const JsonDataSourceDataGrid();
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
         columnName: 'id',
-        width: isWebOrDesktop ? 135 : 90,
+        width: _isWebOrDesktop ? 135 : 90,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
@@ -57,7 +57,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'companyName',
-        width: isWebOrDesktop ? 165 : 140,
+        width: _isWebOrDesktop ? 165 : 140,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
@@ -70,7 +70,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'city',
-        width: isWebOrDesktop ? 150 : 120,
+        width: _isWebOrDesktop ? 150 : 120,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
@@ -83,7 +83,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'country',
-        width: isWebOrDesktop ? 150 : 120,
+        width: _isWebOrDesktop ? 150 : 120,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
@@ -132,8 +132,8 @@ class _JsonDataSourceDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    jsonDataGridSource = EmployeeDataGridSource('JSON');
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _jsonDataGridSource = EmployeeDataGridSource('JSON');
   }
 
   @override
@@ -142,13 +142,14 @@ class _JsonDataSourceDataGridState extends SampleViewState {
         future: Future<String>.delayed(
             const Duration(milliseconds: 500), () => 'Loaded'),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          return jsonDataGridSource.employees.isEmpty
+          return _jsonDataGridSource.employees.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 3,
                   ),
                 )
-              : SfDataGrid(source: jsonDataGridSource, columns: getColumns());
+              : SfDataGrid(
+                  source: _jsonDataGridSource, columns: _obtainColumns());
         });
   }
 }

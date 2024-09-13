@@ -410,14 +410,23 @@ class SampleModel extends Listenable {
   /// Contains the light theme palette colors.
   final List<Color> paletteColors = <Color>[];
 
+  /// Contains the M3 light theme palette colors.
+  final List<Color> paletteColorsM3 = <Color>[];
+
   /// Contains the primary color.
   late Color primaryColor;
 
   /// Contains the pallete's border colors.
   final List<Color> paletteBorderColors = List.filled(4, Colors.transparent);
 
+  /// Contains the M3 pallete's border colors.
+  final List<Color> paletteBorderColorsM3 = List.filled(4, Colors.transparent);
+
   /// Contains dark theme theme palette colors.
   final List<Color> darkPaletteColors = <Color>[];
+
+  /// Contains the M3 dark theme palette colors.
+  final List<Color> darkPaletteColorsM3 = <Color>[];
 
   /// Holds current palette color.
   // Color currentPaletteColor = const Color.fromRGBO(0, 116, 227, 1);

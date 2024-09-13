@@ -19,25 +19,25 @@ class FilteringDataGrid extends SampleView {
 
 class _FilteringDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  final OrderInfoDataGridSource orderInfoDataGridSource =
-      OrderInfoDataGridSource(
-          isWebOrDesktop: true, orderDataCount: 100, isFilteringSample: true);
+  late final OrderInfoDataGridSource _orderInfoDataGridSource;
 
   /// Determine to decide whether the device in landscape or in portrait.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _orderInfoDataGridSource = OrderInfoDataGridSource(
+        isWebOrDesktop: true, orderDataCount: 100, isFilteringSample: true);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -46,24 +46,24 @@ class _FilteringDataGridState extends SampleViewState {
     return SfDataGrid(
       allowSorting: true,
       allowFiltering: true,
-      source: orderInfoDataGridSource,
-      columns: getColumns(),
+      source: _orderInfoDataGridSource,
+      columns: _obtainColumns(),
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
-      columnWidthMode: isWebOrDesktop || isLandscapeInMobileView
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
           ? ColumnWidthMode.fill
           : ColumnWidthMode.none,
     );
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     final bool isMobileView =
-        !isWebOrDesktop || (isWebOrDesktop && model.isMobileResolution);
+        !_isWebOrDesktop || (_isWebOrDesktop && model.isMobileResolution);
     return <GridColumn>[
       GridColumn(
           columnName: 'Order ID',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           width: isMobileView ? 120.0 : double.nan,
           label: Container(
             alignment: Alignment.centerRight,
@@ -76,7 +76,7 @@ class _FilteringDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'Customer ID',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           width: isMobileView ? 150.0 : double.nan,
           label: Container(
             alignment: Alignment.centerRight,
@@ -113,7 +113,7 @@ class _FilteringDataGridState extends SampleViewState {
         columnName: 'City',
         width: isMobileView ? 120.0 : double.nan,
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),

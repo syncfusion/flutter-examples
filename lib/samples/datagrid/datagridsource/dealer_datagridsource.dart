@@ -16,60 +16,61 @@ import '../model/dealer.dart';
 class DealerDataGridSource extends DataGridSource {
   /// Creates the dealer data source class with required details.
   DealerDataGridSource(this.sampleModel) {
-    textStyle = sampleModel.themeData.colorScheme.brightness == Brightness.light
-        ? const TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-            color: Colors.black87)
-        : const TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-            color: Color.fromRGBO(255, 255, 255, 1));
-    dealers = _getDealerDetails(100);
-    buildDataGridRows();
+    _textStyle =
+        sampleModel.themeData.colorScheme.brightness == Brightness.light
+            ? const TextStyle(
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: Colors.black87)
+            : const TextStyle(
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: Color.fromRGBO(255, 255, 255, 1));
+    _dealers = _obtainDealerDetails(100);
+    _buildDataGridRows();
   }
 
   /// Helps to change the widget appearance based on the sample browser theme.
   SampleModel sampleModel;
 
   /// Collection of dealer info.
-  late List<Dealer> dealers;
+  late List<Dealer> _dealers;
 
   /// Collection of [DataGridRow].
-  late List<DataGridRow> dataGridRows;
+  late List<DataGridRow> _dataGridRows;
 
   /// Helps to change the [TextStyle] of editable widget.
   /// Decide the text appearance of editable widget based on [Brightness].
-  late TextStyle textStyle;
+  late TextStyle _textStyle;
 
   /// Help to generate the random number.
-  Random random = Random();
+  final Random _random = Random();
 
   /// Help to control the editable text in [TextField] widget.
-  TextEditingController editingController = TextEditingController();
+  final TextEditingController _editingController = TextEditingController();
 
   /// Helps to hold the new value of all editable widget.
   /// Based on the new value we will commit the new value into the corresponding
   /// [DataGridCell] on [onSubmitCell] method.
-  dynamic newCellValue;
+  dynamic _newCellValue;
 
   /// Helps to prevent the multiple time calling of [showDatePicker] when focus
   /// get into it.By default, datagrid sets the focus to editable widget. As
   /// Date picker showing when the container got focused, this flag helps to
   /// prevent to show the date picker again after date is picked from popup.
-  bool isDatePickerVisible = false;
+  bool _isDatePickerVisible = false;
 
   /// Building the [DataGridRow]'s.
-  void buildDataGridRows() {
-    dataGridRows = dealers
-        .map<DataGridRow>((Dealer dealer) => dealer.getDataGridRow())
+  void _buildDataGridRows() {
+    _dataGridRows = _dealers
+        .map<DataGridRow>((Dealer dealer) => dealer.obtainDataGridRow())
         .toList();
   }
 
   @override
-  List<DataGridRow> get rows => dataGridRows;
+  List<DataGridRow> get rows => _dataGridRows;
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
@@ -114,7 +115,7 @@ class DealerDataGridSource extends DataGridSource {
     // The new cell value must be reset.
     // To avoid committing the [DataGridCell] value that was previously edited
     // into the current non-modified [DataGridCell].
-    newCellValue = null;
+    _newCellValue = null;
 
     if (column.columnName == 'Shipped Date') {
       return _buildDateTimePicker(displayText, submitCell);
@@ -146,49 +147,50 @@ class DealerDataGridSource extends DataGridSource {
             ?.value ??
         '';
 
-    final int dataRowIndex = dataGridRows.indexOf(dataGridRow);
+    final int dataRowIndex = _dataGridRows.indexOf(dataGridRow);
 
-    if (newCellValue == null || oldValue == newCellValue) {
+    if (_newCellValue == null || oldValue == _newCellValue) {
       return;
     }
 
     if (column.columnName == 'Shipped Date') {
-      dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
+      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<DateTime>(
-              columnName: 'Shipped Date', value: newCellValue);
-      dealers[dataRowIndex].shippedDate = newCellValue as DateTime;
+              columnName: 'Shipped Date', value: _newCellValue);
+      _dealers[dataRowIndex].shippedDate = _newCellValue as DateTime;
     } else if (column.columnName == 'Product No') {
-      dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<int>(columnName: 'Product No', value: newCellValue);
-      dealers[dataRowIndex].productNo = newCellValue as int;
+      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
+          DataGridCell<int>(columnName: 'Product No', value: _newCellValue);
+      _dealers[dataRowIndex].productNo = _newCellValue as int;
     } else if (column.columnName == 'Price') {
-      dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<double>(columnName: 'Price', value: newCellValue);
-      dealers[dataRowIndex].productPrice = newCellValue as double;
+      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
+          DataGridCell<double>(columnName: 'Price', value: _newCellValue);
+      _dealers[dataRowIndex].productPrice = _newCellValue as double;
     } else if (column.columnName == 'Dealer Name') {
-      dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<String>(columnName: 'Dealer Name', value: newCellValue);
-      dealers[dataRowIndex].dealerName = newCellValue.toString();
+      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
+          DataGridCell<String>(columnName: 'Dealer Name', value: _newCellValue);
+      _dealers[dataRowIndex].dealerName = _newCellValue.toString();
     } else if (column.columnName == 'Ship Country') {
-      dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<String>(columnName: 'Ship Country', value: newCellValue);
-      final dynamic dataGridCell = dataGridRows[dataRowIndex]
+      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
+          DataGridCell<String>(
+              columnName: 'Ship Country', value: _newCellValue);
+      final dynamic dataGridCell = _dataGridRows[dataRowIndex]
           .getCells()
           .firstWhereOrNull(
               (DataGridCell element) => element.columnName == 'Ship City');
       final int dataCellIndex =
-          dataGridRows[dataRowIndex].getCells().indexOf(dataGridCell);
-      dataGridRows[dataRowIndex].getCells()[dataCellIndex] =
+          _dataGridRows[dataRowIndex].getCells().indexOf(dataGridCell);
+      _dataGridRows[dataRowIndex].getCells()[dataCellIndex] =
           const DataGridCell<String>(columnName: 'Ship City', value: '');
-      dealers[dataRowIndex].shipCountry = newCellValue.toString();
+      _dealers[dataRowIndex].shipCountry = _newCellValue.toString();
     } else {
-      dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<String>(columnName: 'Ship City', value: newCellValue);
-      dealers[dataRowIndex].shipCity = newCellValue.toString();
+      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
+          DataGridCell<String>(columnName: 'Ship City', value: _newCellValue);
+      _dealers[dataRowIndex].shipCity = _newCellValue.toString();
     }
   }
 
-  RegExp _getRegExp(bool isNumericKeyBoard, String columnName) {
+  RegExp _makeRegExp(bool isNumericKeyBoard, String columnName) {
     return isNumericKeyBoard
         ? columnName == 'Price'
             ? RegExp('[0-9.]')
@@ -207,7 +209,7 @@ class DealerDataGridSource extends DataGridSource {
         column.columnName == 'Product No' || column.columnName == 'Price';
 
     // Holds regular expression pattern based on the column type.
-    final RegExp regExp = _getRegExp(isNumericKeyBoardType, column.columnName);
+    final RegExp regExp = _makeRegExp(isNumericKeyBoardType, column.columnName);
 
     return Container(
       padding: const EdgeInsets.all(8.0),
@@ -215,7 +217,7 @@ class DealerDataGridSource extends DataGridSource {
           isTextAlignRight ? Alignment.centerRight : Alignment.centerLeft,
       child: TextField(
         autofocus: true,
-        controller: editingController..text = displayText,
+        controller: _editingController..text = displayText,
         textAlign: isTextAlignRight ? TextAlign.right : TextAlign.left,
         autocorrect: false,
         keyboardAppearance: sampleModel.themeData.colorScheme.brightness,
@@ -223,7 +225,7 @@ class DealerDataGridSource extends DataGridSource {
             contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
             focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: sampleModel.primaryColor))),
-        style: textStyle,
+        style: _textStyle,
         cursorColor: sampleModel.primaryColor,
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(regExp)
@@ -233,14 +235,14 @@ class DealerDataGridSource extends DataGridSource {
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericKeyBoardType) {
-              newCellValue = column.columnName == 'Price'
+              _newCellValue = column.columnName == 'Price'
                   ? double.parse(value)
                   : int.parse(value);
             } else {
-              newCellValue = value;
+              _newCellValue = value;
             }
           } else {
-            newCellValue = null;
+            _newCellValue = null;
           }
         },
         onSubmitted: (String value) {
@@ -259,7 +261,7 @@ class DealerDataGridSource extends DataGridSource {
     final DateTime lastDate = DateTime.parse('2016-12-31');
 
     // To restrict the multiple time calls for the datepicker.
-    isDatePickerVisible = false;
+    _isDatePickerVisible = false;
     displayText = DateFormat('MM/dd/yyyy').format(DateTime.parse(displayText));
     return Builder(
       builder: (BuildContext context) {
@@ -270,8 +272,8 @@ class DealerDataGridSource extends DataGridSource {
             autofocus: true,
             focusNode: FocusNode()
               ..addListener(() async {
-                if (!isDatePickerVisible) {
-                  isDatePickerVisible = true;
+                if (!_isDatePickerVisible) {
+                  _isDatePickerVisible = true;
                   await showDatePicker(
                       context: context,
                       initialDate: selectedDate,
@@ -291,7 +293,7 @@ class DealerDataGridSource extends DataGridSource {
                           child: child!,
                         );
                       }).then((DateTime? value) {
-                    newCellValue = value;
+                    _newCellValue = value;
 
                     /// Call [CellSubmit] callback to fire the canSubmitCell and
                     /// onCellSubmit to commit the new value in single place.
@@ -302,7 +304,7 @@ class DealerDataGridSource extends DataGridSource {
             child: Text(
               displayText,
               textAlign: TextAlign.right,
-              style: textStyle,
+              style: _textStyle,
             ),
           ),
         );
@@ -311,7 +313,7 @@ class DealerDataGridSource extends DataGridSource {
   }
 
   //// Drop down color of items
-  Color dropDownColor() {
+  Color _dropDownColor() {
     if (sampleModel.themeData.useMaterial3) {
       return sampleModel.themeData.brightness == Brightness.light
           ? const Color(0xFFEEE8F4)
@@ -328,16 +330,16 @@ class DealerDataGridSource extends DataGridSource {
       padding: const EdgeInsets.all(8.0),
       alignment: Alignment.centerLeft,
       child: DropdownButton<String>(
-          dropdownColor: dropDownColor(),
+          dropdownColor: _dropDownColor(),
           value: displayText,
           autofocus: true,
           focusColor: Colors.transparent,
           underline: const SizedBox.shrink(),
           icon: const Icon(Icons.arrow_drop_down_sharp),
           isExpanded: true,
-          style: textStyle,
+          style: _textStyle,
           onChanged: (String? value) {
-            newCellValue = value;
+            _newCellValue = value;
 
             /// Call [CellSubmit] callback to fire the canSubmitCell and
             /// onCellSubmit to commit the new value in single place.
@@ -356,20 +358,20 @@ class DealerDataGridSource extends DataGridSource {
   // ------------- Populating the dealer info collection's. ----------------
   // ------------------------------------------------------------------------
 
-  List<Dealer> _getDealerDetails(int count) {
+  List<Dealer> _obtainDealerDetails(int count) {
     final List<Dealer> dealerDetails = <Dealer>[];
-    final List<DateTime> shippedDate = getDateBetween(2001, 2016, count);
+    final List<DateTime> shippedDate = _rangeOfDates(2001, 2016, count);
     for (int i = 1; i <= count; i++) {
-      final String selectedShipCountry = _shipCountry[random.nextInt(5)];
+      final String selectedShipCountry = _shipCountry[_random.nextInt(5)];
       final List<String> selectedShipCities = _shipCity[selectedShipCountry]!;
       final Dealer ord = Dealer(
-          _productNo[random.nextInt(15)],
+          _productNo[_random.nextInt(15)],
           i.isEven
-              ? _customersMale[random.nextInt(15)]
-              : _customersFemale[random.nextInt(14)],
+              ? _customersMale[_random.nextInt(15)]
+              : _customersFemale[_random.nextInt(14)],
           shippedDate[i - 1],
           selectedShipCountry,
-          selectedShipCities[random.nextInt(selectedShipCities.length - 1)],
+          selectedShipCities[_random.nextInt(selectedShipCities.length - 1)],
           next(2000, 10000).toDouble());
       dealerDetails.add(ord);
     }
@@ -378,15 +380,15 @@ class DealerDataGridSource extends DataGridSource {
   }
 
   /// Helps to populate the random number between the [min] and [max] value.
-  int next(int min, int max) => min + random.nextInt(max - min);
+  int next(int min, int max) => min + _random.nextInt(max - min);
 
   /// Populate the random date between the [startYear] and [endYear]
-  List<DateTime> getDateBetween(int startYear, int endYear, int count) {
+  List<DateTime> _rangeOfDates(int startYear, int endYear, int count) {
     final List<DateTime> date = <DateTime>[];
     for (int i = 0; i < count; i++) {
       final int year = next(startYear, endYear);
-      final int month = random.nextInt(12);
-      final int day = random.nextInt(30);
+      final int month = _random.nextInt(12);
+      final int day = _random.nextInt(30);
       date.add(DateTime(year, month, day));
     }
 

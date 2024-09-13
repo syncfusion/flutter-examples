@@ -24,17 +24,16 @@ class StackedHeaderDataGrid extends SampleView {
 
 class _StackedHeaderDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  final ProductDataGridSource stackedHeaderDataGridSource =
-      ProductDataGridSource('Stacked Header', productDataCount: 30);
+  late final ProductDataGridSource _stackedHeaderDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
-  List<GridColumn> _getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
           columnName: 'customerName',
-          width: isWebOrDesktop ? 180 : 140,
+          width: _isWebOrDesktop ? 180 : 140,
           label: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8.0),
@@ -45,7 +44,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'city',
-          width: isWebOrDesktop ? 140 : 100,
+          width: _isWebOrDesktop ? 140 : 100,
           label: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8.0),
@@ -56,7 +55,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'orderId',
-          width: isWebOrDesktop ? 140 : 90,
+          width: _isWebOrDesktop ? 140 : 90,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -67,7 +66,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'orderDate',
-          width: isWebOrDesktop ? 140 : 110,
+          width: _isWebOrDesktop ? 140 : 110,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -78,7 +77,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'product',
-          width: isWebOrDesktop ? 160 : 100,
+          width: _isWebOrDesktop ? 160 : 100,
           label: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8.0),
@@ -89,7 +88,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'productId',
-          width: isWebOrDesktop ? 150 : 100,
+          width: _isWebOrDesktop ? 150 : 100,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -100,7 +99,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'quantity',
-          width: isWebOrDesktop ? 150 : 90,
+          width: _isWebOrDesktop ? 150 : 90,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -111,7 +110,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'unitPrice',
-          width: isWebOrDesktop ? 140 : 100,
+          width: _isWebOrDesktop ? 140 : 100,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -124,7 +123,7 @@ class _StackedHeaderDataGridState extends SampleViewState {
     return columns;
   }
 
-  Color _getHeaderCellBackgroundColor() {
+  Color _headerCellBackgroundColor() {
     final bool isMaterial3 = model.themeData.useMaterial3;
     return isMaterial3
         ? model.themeData.colorScheme.surface.withOpacity(0.0001)
@@ -133,31 +132,31 @@ class _StackedHeaderDataGridState extends SampleViewState {
             : const Color(0xFF3A3A3A);
   }
 
-  Widget _getWidgetForStackedHeaderCell(String title) {
+  Widget _buildStackedHeaderWidget(String title) {
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         alignment: Alignment.centerLeft,
         child: Text(title));
   }
 
-  List<StackedHeaderRow> _getStackedHeaderRows() {
+  List<StackedHeaderRow> _buildStackedHeaderRows() {
     List<StackedHeaderRow> stackedHeaderRows;
     stackedHeaderRows = <StackedHeaderRow>[
       StackedHeaderRow(cells: <StackedHeaderCell>[
         StackedHeaderCell(columnNames: <String>[
           'customerName',
           'city',
-        ], child: _getWidgetForStackedHeaderCell('Customer Details')),
+        ], child: _buildStackedHeaderWidget('Customer Details')),
         StackedHeaderCell(columnNames: <String>[
           'orderId',
           'orderDate',
-        ], child: _getWidgetForStackedHeaderCell('Order Details')),
+        ], child: _buildStackedHeaderWidget('Order Details')),
         StackedHeaderCell(columnNames: <String>[
           'product',
           'productId',
           'quantity',
           'unitPrice'
-        ], child: _getWidgetForStackedHeaderCell('Product Details'))
+        ], child: _buildStackedHeaderWidget('Product Details'))
       ])
     ];
     return stackedHeaderRows;
@@ -166,22 +165,24 @@ class _StackedHeaderDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
+    _stackedHeaderDataGridSource =
+        ProductDataGridSource('Stacked Header', productDataCount: 30);
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
   @override
   Widget build(BuildContext context) {
     return SfDataGridTheme(
         data: SfDataGridThemeData(
-          headerColor: _getHeaderCellBackgroundColor(),
+          headerColor: _headerCellBackgroundColor(),
           headerHoverColor: Colors.transparent,
         ),
         child: SfDataGrid(
           gridLinesVisibility: GridLinesVisibility.both,
           headerGridLinesVisibility: GridLinesVisibility.both,
-          source: stackedHeaderDataGridSource,
-          columns: _getColumns(),
-          stackedHeaderRows: _getStackedHeaderRows(),
+          source: _stackedHeaderDataGridSource,
+          columns: _obtainColumns(),
+          stackedHeaderRows: _buildStackedHeaderRows(),
         ));
   }
 }

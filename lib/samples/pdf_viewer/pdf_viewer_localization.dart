@@ -1,6 +1,5 @@
 ///Package import
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// Core theme import
 // ignore: depend_on_referenced_packages
@@ -28,7 +27,6 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
   late Color _color;
   late bool _isLight;
   late Color _disabledColor;
-  final PdfViewerController _pdfViewerController = PdfViewerController();
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   bool _isPdfLoaded = false;
   bool _isInitialBookmarkShown = false;
@@ -171,7 +169,6 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
                     child: SfPdfViewer.asset(
                       'assets/pdf/flutter_succinctly.pdf',
                       key: _pdfViewerKey,
-                      controller: _pdfViewerController,
                       canShowScrollHead: false,
                       onDocumentLoaded: (PdfDocumentLoadedDetails details) {
                         setState(() {

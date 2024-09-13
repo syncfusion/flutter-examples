@@ -21,33 +21,33 @@ class CheckboxSelectionDataGrid extends SampleView {
 
 class _CheckboxSelectionDataGridState extends SampleViewState {
   /// Determine to decide whether the device in landscape or in portrait.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource checkboxDataGridSource;
+  late OrderInfoDataGridSource _checkboxDataGridSource;
 
   final DataGridController _dataGridController = DataGridController();
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   /// DataGridController to do the programmatical selection.
-  DataGridController getDataGridController() {
+  DataGridController _buildDataGridController() {
     _dataGridController.selectedRows
-        .add(checkboxDataGridSource.dataGridRows[2]);
+        .add(_checkboxDataGridSource.dataGridRows[2]);
     _dataGridController.selectedRows
-        .add(checkboxDataGridSource.dataGridRows[4]);
+        .add(_checkboxDataGridSource.dataGridRows[4]);
     _dataGridController.selectedRows
-        .add(checkboxDataGridSource.dataGridRows[6]);
+        .add(_checkboxDataGridSource.dataGridRows[6]);
     return _dataGridController;
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
 
-    columns = isWebOrDesktop
+    columns = _isWebOrDesktop
         ? <GridColumn>[
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'id',
@@ -61,7 +61,7 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 150.0
                   : double.nan,
               columnName: 'customerId',
@@ -75,7 +75,7 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'name',
@@ -89,7 +89,7 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
                   : double.nan,
               columnName: 'freight',
@@ -103,7 +103,7 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'city',
@@ -117,7 +117,7 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-                width: (isWebOrDesktop && model.isMobileResolution)
+                width: (_isWebOrDesktop && model.isMobileResolution)
                     ? 120.0
                     : double.nan,
                 columnName: 'price',
@@ -182,14 +182,14 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
 
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
-      columnWidthMode: isWebOrDesktop || isLandscapeInMobileView
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
           ? ColumnWidthMode.fill
           : ColumnWidthMode.none,
-      source: checkboxDataGridSource,
+      source: _checkboxDataGridSource,
       showCheckboxColumn: true,
       selectionMode: SelectionMode.multiple,
-      controller: getDataGridController(),
-      columns: getColumns(),
+      controller: _buildDataGridController(),
+      columns: _obtainColumns(),
     );
   }
 
@@ -197,15 +197,15 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    checkboxDataGridSource = OrderInfoDataGridSource(
-        isWebOrDesktop: isWebOrDesktop, orderDataCount: 100);
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _checkboxDataGridSource = OrderInfoDataGridSource(
+        isWebOrDesktop: _isWebOrDesktop, orderDataCount: 100);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
