@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Fields>
+  <dob>05/01/1992</dob>
+  <name>John</name>
+  <email>John.simonsbistro@gmail.com</email>
+  <gender>Male</gender>
+  <state>Georgia</state>
+  <newsletter>On</newsletter>
+</Fields>
