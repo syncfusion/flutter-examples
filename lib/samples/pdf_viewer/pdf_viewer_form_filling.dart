@@ -51,6 +51,14 @@ class _FormFillingPdfViewerState extends SampleViewState {
   }
 
   @override
+  void dispose() {
+    _undoHistoryController.dispose();
+    super.dispose();
+    _pdfViewerController.dispose();
+    _pdfViewerKey.currentState?.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -374,25 +382,29 @@ class _FormFillingPdfViewerState extends SampleViewState {
       final Directory directory = await getApplicationSupportDirectory();
       final String path = directory.path;
       final File file = File('$path/$fileName');
-      await file.writeAsBytes(dataBytes);
-      _showDialog(message + path + r'\' + fileName);
+      try {
+        await file.writeAsBytes(dataBytes);
+        _showDialog('Document saved', message + path + r'\' + fileName);
+      } catch (e) {
+        _showDialog('Error', 'Error in saving the document');
+      }
     }
   }
 
   /// Alert dialog for save and export
-  void _showDialog(String text) {
+  void _showDialog(String title, String message) {
     showDialog<Widget>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Document saved'),
+            title: Text(title),
             content: SizedBox(
               width: 328.0,
               child: Scrollbar(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
-                  child: Text(text),
+                  child: Text(message),
                 ),
               ),
             ),

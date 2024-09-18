@@ -20,9 +20,9 @@ class LoadMoreDataGrid extends SampleView {
 
 class _LoadMoreDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource employeeDataSource;
+  late OrderInfoDataGridSource _employeeDataSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   /// Building the progress indicator when DataGrid scroller reach the bottom
   Widget _buildProgressIndicator(bool isLight) {
@@ -31,9 +31,9 @@ class _LoadMoreDataGridState extends SampleViewState {
         alignment: Alignment.center,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: loadMoreBackgroundColor(),
+            color: _loadMoreBackgroundColor(),
             border:
-                BorderDirectional(top: BorderSide(color: topBorderColor()))),
+                BorderDirectional(top: BorderSide(color: _topBorderColor()))),
         child: Container(
             width: 40,
             height: 40,
@@ -44,7 +44,7 @@ class _LoadMoreDataGridState extends SampleViewState {
             )));
   }
 
-  Color topBorderColor() {
+  Color _topBorderColor() {
     final bool isMaterial3 = model.themeData.useMaterial3;
     final bool isLight =
         model.themeData.colorScheme.brightness == Brightness.light;
@@ -55,7 +55,7 @@ class _LoadMoreDataGridState extends SampleViewState {
             : const Color.fromRGBO(255, 255, 255, 0.26);
   }
 
-  Color loadMoreBackgroundColor() {
+  Color _loadMoreBackgroundColor() {
     final bool isMaterial3 = model.themeData.useMaterial3;
     final bool isLight =
         model.themeData.colorScheme.brightness == Brightness.light;
@@ -81,11 +81,11 @@ class _LoadMoreDataGridState extends SampleViewState {
               width: double.infinity,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: loadMoreBackgroundColor(),
+                  color: _loadMoreBackgroundColor(),
                   border: BorderDirectional(
-                      top: BorderSide(color: topBorderColor()))),
+                      top: BorderSide(color: _topBorderColor()))),
               child: Container(
-                width: isWebOrDesktop ? 350.0 : 142.0,
+                width: _isWebOrDesktop ? 350.0 : 142.0,
                 height: 36,
                 decoration: BoxDecoration(
                     color: model.primaryColor,
@@ -127,7 +127,7 @@ class _LoadMoreDataGridState extends SampleViewState {
                   },
                   child: Text('LOAD MORE',
                       style: TextStyle(
-                          letterSpacing: isWebOrDesktop ? 1.35 : 0.35,
+                          letterSpacing: _isWebOrDesktop ? 1.35 : 0.35,
                           fontSize: 14,
                           color: Colors.white)),
                 ),
@@ -135,14 +135,15 @@ class _LoadMoreDataGridState extends SampleViewState {
     });
   }
 
-  List<GridColumn> _getColumns() {
+  List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
           columnName: 'id',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.all(8.0),
@@ -153,10 +154,10 @@ class _LoadMoreDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'customerId',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: !isWebOrDesktop
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+          width: !_isWebOrDesktop
               ? 120
-              : (isWebOrDesktop && model.isMobileResolution)
+              : (_isWebOrDesktop && model.isMobileResolution)
                   ? 150.0
                   : double.nan,
           label: Container(
@@ -168,8 +169,9 @@ class _LoadMoreDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'name',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           label: Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(8.0),
@@ -179,8 +181,9 @@ class _LoadMoreDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'freight',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 110.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 110.0
+              : double.nan,
           label: Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.all(8.0),
@@ -190,10 +193,11 @@ class _LoadMoreDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'city',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(8.0),
@@ -203,8 +207,9 @@ class _LoadMoreDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'price',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               alignment: Alignment.centerRight,
@@ -219,16 +224,16 @@ class _LoadMoreDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    employeeDataSource =
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _employeeDataSource =
         OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 25);
   }
 
   @override
   Widget build(BuildContext context) {
     return SfDataGrid(
-        source: employeeDataSource,
+        source: _employeeDataSource,
         loadMoreViewBuilder: _buildLoadMoreView,
-        columns: _getColumns());
+        columns: _obtainColumns());
   }
 }

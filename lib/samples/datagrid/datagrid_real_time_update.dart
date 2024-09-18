@@ -24,37 +24,37 @@ class RealTimeUpdateDataGrid extends SampleView {
 
 class _RealTimeUpdateDataGridPageState extends SampleViewState {
   /// Used to refresh the widget for every 200ms respectively.
-  late Timer timer;
+  late Timer _timer;
 
   /// Decide whether to use the sample in  mobile or web mode.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late RealTimeUpdateDataGridSource realTimeUpdateDataGridSource;
+  late RealTimeUpdateDataGridSource _realTimeUpdateDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    realTimeUpdateDataGridSource =
-        RealTimeUpdateDataGridSource(isWebOrDesktop: isWebOrDesktop);
-    timer = Timer.periodic(const Duration(milliseconds: 200), (Timer args) {
-      realTimeUpdateDataGridSource.timerTick(args);
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _realTimeUpdateDataGridSource =
+        RealTimeUpdateDataGridSource(isWebOrDesktop: _isWebOrDesktop);
+    _timer = Timer.periodic(const Duration(milliseconds: 200), (Timer args) {
+      _realTimeUpdateDataGridSource.timerTick(args);
     });
   }
 
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
-      source: realTimeUpdateDataGridSource,
-      columnWidthMode: isWebOrDesktop || isLandscapeInMobileView
+      source: _realTimeUpdateDataGridSource,
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
           ? ColumnWidthMode.fill
           : ColumnWidthMode.none,
       columns: <GridColumn>[
         GridColumn(
             columnName: 'symbol',
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
             label: Container(
@@ -63,8 +63,9 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
             )),
         GridColumn(
           columnName: 'stock',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 150.0
+              : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text('Stock'),
@@ -72,15 +73,16 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
         ),
         GridColumn(
           columnName: 'open',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 150.0
+              : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text(' Open'),
           ),
         ),
         GridColumn(
-          width: (isWebOrDesktop && model.isMobileResolution) ? 150.0 : 130.0,
+          width: (_isWebOrDesktop && model.isMobileResolution) ? 150.0 : 130.0,
           columnName: 'previousClose',
           label: Container(
             alignment: Alignment.center,
@@ -89,8 +91,9 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
         ),
         GridColumn(
           columnName: 'lastTrade',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 150.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 150.0
+              : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text('Last Trade'),
@@ -103,7 +106,7 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -115,6 +118,6 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
   @override
   void dispose() {
     super.dispose();
-    timer.cancel();
+    _timer.cancel();
   }
 }

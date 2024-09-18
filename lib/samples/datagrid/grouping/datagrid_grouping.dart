@@ -20,19 +20,19 @@ class GroupingDataGrid extends SampleView {
 
 class _GroupingDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  final OrderInfoDataGridSource groupingDataGridSource =
-      OrderInfoDataGridSource(
-          isWebOrDesktop: true, orderDataCount: 100, isGrouping: true);
+  late final OrderInfoDataGridSource groupingDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
-  late List<GridColumn> columns;
+  late List<GridColumn> _columns;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    columns = _getColumns();
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _columns = _obtainColumns();
+    groupingDataGridSource = OrderInfoDataGridSource(
+        isWebOrDesktop: true, orderDataCount: 100, isGrouping: true);
     groupingDataGridSource
         .addColumnGroup(ColumnGroup(name: 'City', sortGroupRows: true));
   }
@@ -41,7 +41,7 @@ class _GroupingDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfDataGrid(
       source: groupingDataGridSource,
-      columns: columns,
+      columns: _columns,
       selectionMode: SelectionMode.multiple,
       navigationMode: GridNavigationMode.cell,
       gridLinesVisibility: GridLinesVisibility.both,
@@ -51,14 +51,15 @@ class _GroupingDataGridState extends SampleViewState {
     );
   }
 
-  List<GridColumn> _getColumns() {
+  List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
           columnName: 'ID',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.all(8.0),
@@ -69,10 +70,10 @@ class _GroupingDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'CustomerId',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: !isWebOrDesktop
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+          width: !_isWebOrDesktop
               ? 120
-              : (isWebOrDesktop && model.isMobileResolution)
+              : (_isWebOrDesktop && model.isMobileResolution)
                   ? 150.0
                   : 160,
           label: Container(
@@ -85,9 +86,10 @@ class _GroupingDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'Name',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           label: Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(8.0),
@@ -96,11 +98,12 @@ class _GroupingDataGridState extends SampleViewState {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnName: 'Freight',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.all(8.0),
@@ -109,11 +112,12 @@ class _GroupingDataGridState extends SampleViewState {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnName: 'City',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(8.0),
@@ -123,10 +127,11 @@ class _GroupingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'Price',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.all(8.0),

@@ -30,7 +30,9 @@ import 'samples/chart/cartesian_charts/axis_features/multiple_axis_chart.dart';
 import 'samples/chart/cartesian_charts/axis_features/opposed_axes.dart';
 import 'samples/chart/cartesian_charts/axis_features/plot_band.dart';
 import 'samples/chart/cartesian_charts/axis_features/plot_band_recurrence.dart';
+import 'samples/chart/cartesian_charts/axis_features/plot_offset.dart';
 import 'samples/chart/cartesian_charts/axis_features/positioning_axis_label.dart';
+import 'samples/chart/cartesian_charts/axis_features/range_padding.dart';
 import 'samples/chart/cartesian_charts/axis_types/category/default_category_axis.dart';
 import 'samples/chart/cartesian_charts/axis_types/category/indexed_category_axis.dart';
 import 'samples/chart/cartesian_charts/axis_types/category/label_placement.dart';
@@ -202,6 +204,8 @@ import 'samples/chart/funnel_charts/funnel_with_smart_labels.dart';
 import 'samples/chart/pyramid_charts/default_pyramid_chart.dart';
 import 'samples/chart/pyramid_charts/pyramid_with_legend.dart';
 import 'samples/chart/pyramid_charts/pyramid_with_smart_labels.dart';
+import 'samples/chat/customization.dart';
+import 'samples/chat/getting_started.dart';
 import 'samples/datagrid/apperance/conditional_styling/datagrid_conditional_styling.dart';
 import 'samples/datagrid/apperance/styling/datagrid_styling.dart';
 import 'samples/datagrid/columns/datagrid_checkbox_selection.dart';
@@ -516,6 +520,8 @@ Map<String, Function> getSampleWidget() {
     'axis_crossing': (Key key) => AxisCrossing(key),
     'positioning_axis_labels': (Key key) => LabelCustomization(key),
     'axis_animation': (Key key) => AxisAnimationDefault(key),
+    'plot_offset': (Key key) => PlotOffset(key),
+    'range_padding': (Key key) => RangePaddingView(key),
     'edgelabel_placement': (Key key) => EdgeLabel(key),
     'chart_maximum_label_width': (Key key) => ChartMaximumLabelWidth(key),
     'interval_type': (Key key) => IntervalType(key),
@@ -1078,5 +1084,9 @@ Map<String, Function> getSampleWidget() {
     'squarified_treemap_drilldown': (Key key) => TreemapDrilldownSample(key),
     'treemap_text_direction': (Key key) => TreemapTextDirectionPage(key),
     'treemap_Localization': (Key key) => TreemapLocalizationPage(key),
+
+    // Chat
+    'getting_started': (Key key) => ChatGettingStartedSample(key),
+    'customization': (Key key) => ChatCustomizationSample(key),
   };
 }

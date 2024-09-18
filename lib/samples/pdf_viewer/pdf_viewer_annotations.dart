@@ -17,6 +17,7 @@ import '../pdf/helper/save_file_mobile.dart'
     if (dart.library.html) '../pdf/helper/save_file_web.dart';
 import './shared/mobile_helper.dart'
     if (dart.library.html) './shared/web_helper.dart' as helper;
+import 'pdf_viewer_custom_toolbar.dart';
 import 'shared/helper.dart';
 import 'shared/toolbar_widgets.dart';
 
@@ -36,16 +37,22 @@ class AnnotationsPdfViewer extends SampleView {
 class _AnnotationsPdfViewerState extends SampleViewState {
   bool _canShowPdf = false;
   OverlayEntry? _colorPaletteOverlayEntry;
+  OverlayEntry? _stickyNoteIconMenuOverlayEntry;
+  Color? _contextMenuColor;
   bool _needToMaximize = false;
   String? _documentPath;
   final GlobalKey<AnnotationToolbarState> _toolbarKey = GlobalKey();
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
+
   final PdfViewerController _pdfViewerController = PdfViewerController();
   final UndoHistoryController _undoHistoryController = UndoHistoryController();
   late bool _isLight;
   late bool _isDesktopWeb;
   final double _kColorPaletteWidth = 316.0;
   final double _kColorPaletteHeight = 312.0;
+  final double _kStickyNoteIconMenuWidth = 185.0;
+  final double _kStickyNoteIconMenuHeight = 312.0;
+  final double _kStickyNoteIconMenuItemHeight = 40.0;
   Annotation? _selectedAnnotation;
   Color? _selectedColor;
   double _opacity = 1;
@@ -66,8 +73,10 @@ class _AnnotationsPdfViewerState extends SampleViewState {
 
   @override
   void dispose() {
-    _closeOverlays();
     super.dispose();
+    _closeOverlays();
+    _pdfViewerController.dispose();
+    _undoHistoryController.dispose();
   }
 
   @override
@@ -75,6 +84,13 @@ class _AnnotationsPdfViewerState extends SampleViewState {
     super.didChangeDependencies();
     _useMaterial3 = Theme.of(context).useMaterial3;
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
+    _contextMenuColor = _useMaterial3
+        ? _isLight
+            ? const Color(0xFFEEE8F4)
+            : const Color(0xFF302D38)
+        : _isLight
+            ? const Color(0xFFFFFFFF)
+            : const Color(0xFF424242);
     if (_needToMaximize != model.needToMaximize) {
       _closeOverlays();
       _needToMaximize = model.needToMaximize;
@@ -114,19 +130,28 @@ class _AnnotationsPdfViewerState extends SampleViewState {
           onTap: (Object toolbarItem) async {
             if (_isDesktopWeb) {
               if (toolbarItem.runtimeType == PdfAnnotationMode) {
+                _pdfViewerController.annotationSettings.stickyNote.icon =
+                    PdfStickyNoteIcon.comment;
                 _handleColorPaletteOverlayClose();
+                _handleStickyNoteIconOverlayClose();
+
                 if (_pdfViewerController.annotationMode == toolbarItem) {
                   _pdfViewerController.annotationMode = PdfAnnotationMode.none;
                   _toolbarKey.currentState
                       ?._changeToolbarItemVisibility('Color Palette', false);
+                  _toolbarKey.currentState?._changeToolbarItemVisibility(
+                      'Sticky note icons', false);
                 } else {
                   _pdfViewerController.annotationMode =
                       toolbarItem as PdfAnnotationMode;
                   _toolbarKey.currentState
                       ?._changeToolbarItemVisibility('Color Palette', true);
+                  if (toolbarItem == PdfAnnotationMode.stickyNote) {
+                    _toolbarKey.currentState?._changeToolbarItemVisibility(
+                        'Sticky note icons', true);
+                  }
                 }
               }
-
               if (toolbarItem == 'Delete') {
                 if (_selectedAnnotation != null) {
                   _pdfViewerController.removeAnnotation(_selectedAnnotation!);
@@ -145,6 +170,21 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                 }
               } else if (toolbarItem != 'Color Palette') {
                 _handleColorPaletteOverlayClose();
+              }
+
+              if (toolbarItem == 'Sticky note icons') {
+                if (_stickyNoteIconMenuOverlayEntry == null) {
+                  if (_selectedAnnotation == null ||
+                      _selectedAnnotation != null &&
+                          !_selectedAnnotation!.isLocked &&
+                          _selectedAnnotation is StickyNoteAnnotation) {
+                    _showStickyNoteAnnotationIconMenu(context);
+                  }
+                } else {
+                  _handleStickyNoteIconOverlayClose();
+                }
+              } else if (toolbarItem != 'Sticky note icons') {
+                _handleStickyNoteIconOverlayClose();
               }
 
               if (toolbarItem == 'Lock') {
@@ -220,6 +260,8 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                       if (_isDesktopWeb) {
                         _toolbarKey.currentState
                             ?._changeToolbarItemFillColor('Text Markup', false);
+                        _toolbarKey.currentState?._changeToolbarItemFillColor(
+                            'Sticky note icons', false);
                         _toolbarKey.currentState
                             ?._setAnnotationLocked(annotation.isLocked);
                         _toolbarKey.currentState
@@ -228,6 +270,11 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                             ?._changeToolbarItemVisibility('Delete', true);
                         _toolbarKey.currentState?._changeToolbarItemVisibility(
                             'Color Palette', true);
+                        if (annotation is StickyNoteAnnotation) {
+                          _toolbarKey.currentState
+                              ?._changeToolbarItemVisibility(
+                                  'Sticky note icons', true);
+                        }
                       } else {
                         setState(() {
                           _selectedAnnotation = annotation;
@@ -244,6 +291,8 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                             ?._changeToolbarItemVisibility('Delete', false);
                         _toolbarKey.currentState?._changeToolbarItemVisibility(
                             'Color Palette', false);
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                            'Sticky note icons', false);
                       } else {
                         setState(() {
                           _selectedAnnotation = null;
@@ -261,6 +310,8 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                       pdfViewerController: _pdfViewerController,
                       undoController: _undoHistoryController,
                       model: model,
+                      showAddTextMarkupToolbar: false,
+                      showStickyNoteIcon: true,
                       selectedAnnotation: _selectedAnnotation,
                       onBackButtonPressed: () {
                         if (_selectedAnnotation != null) {
@@ -301,25 +352,29 @@ class _AnnotationsPdfViewerState extends SampleViewState {
       final Directory directory = await getApplicationSupportDirectory();
       final String path = directory.path;
       final File file = File('$path/$fileName');
-      await file.writeAsBytes(dataBytes);
-      _showDialog(message + path + r'\' + fileName);
+      try {
+        await file.writeAsBytes(dataBytes);
+        _showDialog('Document saved', message + path + r'\' + fileName);
+      } catch (e) {
+        _showDialog('Error', 'Error in saving the document');
+      }
     }
   }
 
   /// Alert dialog for save.
-  void _showDialog(String text) {
+  void _showDialog(String title, String message) {
     showDialog<Widget>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Document saved'),
+            title: Text(title),
             content: SizedBox(
               width: 328.0,
               child: Scrollbar(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
-                  child: Text(text),
+                  child: Text(message),
                 ),
               ),
             ),
@@ -427,10 +482,102 @@ class _AnnotationsPdfViewerState extends SampleViewState {
         ?._changeToolbarItemFillColor('Color Palette', false);
   }
 
+  /// Shows the sticky note icon menu for web platform.
+  void _showStickyNoteAnnotationIconMenu(BuildContext context) {
+    _toolbarKey.currentState
+        ?._changeToolbarItemFillColor('Sticky note icons', true);
+
+    final RenderBox? stickyNoteAnnotationMenuRenderBox = _toolbarKey
+        .currentState?._stickyNoteKey.currentContext
+        ?.findRenderObject() as RenderBox?;
+
+    if (stickyNoteAnnotationMenuRenderBox != null) {
+      final Widget child = _stickyNoteIconMenuContainer();
+      final Offset position = stickyNoteAnnotationMenuRenderBox.localToGlobal(
+          Offset(
+              -(_kStickyNoteIconMenuWidth -
+                  stickyNoteAnnotationMenuRenderBox.size.width),
+              0));
+      _stickyNoteIconMenuOverlayEntry = _showDropDownOverlay(
+          stickyNoteAnnotationMenuRenderBox,
+          _stickyNoteIconMenuOverlayEntry,
+          BoxConstraints.tightFor(
+              width: _kStickyNoteIconMenuWidth,
+              height: _kStickyNoteIconMenuHeight),
+          child,
+          position);
+    }
+  }
+
+  /// Sticky note icons menu container.
+  Widget _stickyNoteIconMenuContainer() {
+    return Container(
+      width: _kStickyNoteIconMenuWidth,
+      height: _kStickyNoteIconMenuHeight,
+      decoration: ShapeDecoration(
+        color: _contextMenuColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _stickyNoteIconMenuItem('Note', PdfStickyNoteIcon.note),
+            _stickyNoteIconMenuItem('Insert', PdfStickyNoteIcon.insert),
+            _stickyNoteIconMenuItem('Comment', PdfStickyNoteIcon.comment),
+            _stickyNoteIconMenuItem('Key', PdfStickyNoteIcon.key),
+            _stickyNoteIconMenuItem('Help', PdfStickyNoteIcon.help),
+            _stickyNoteIconMenuItem('Paragraph', PdfStickyNoteIcon.paragraph),
+            _stickyNoteIconMenuItem(
+                'New Paragraph', PdfStickyNoteIcon.newParagraph),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Sticky note icons menu item.
+  Widget _stickyNoteIconMenuItem(String name, PdfStickyNoteIcon icon) {
+    return StickyNoteIconMenuItem(
+      stickyNoteIconName: name,
+      icon: icon,
+      model: model,
+      onPressed: () => _handleStickyNoteIconSelection(icon),
+      height: _kStickyNoteIconMenuItemHeight,
+      width: _kStickyNoteIconMenuWidth,
+    );
+  }
+
+  /// Handles sticky note icon selection.
+  void _handleStickyNoteIconSelection(PdfStickyNoteIcon icon) {
+    if (_selectedAnnotation != null &&
+        _selectedAnnotation is StickyNoteAnnotation) {
+      final StickyNoteAnnotation stickyNoteAnnotation =
+          _selectedAnnotation! as StickyNoteAnnotation;
+      stickyNoteAnnotation.icon = icon;
+    } else {
+      _pdfViewerController.annotationSettings.stickyNote.icon = icon;
+    }
+    _handleStickyNoteIconOverlayClose();
+  }
+
+  /// Close sticky note icon overlay.
+  void _handleStickyNoteIconOverlayClose() {
+    _toolbarKey.currentState
+        ?._changeToolbarItemFillColor('Sticky note icons', false);
+    if (_stickyNoteIconMenuOverlayEntry != null) {
+      _stickyNoteIconMenuOverlayEntry?.remove();
+      _stickyNoteIconMenuOverlayEntry = null;
+    }
+  }
+
   /// Close all the overlays.
   void _closeOverlays() {
     if (_isDesktopWeb) {
       _handleColorPaletteOverlayClose();
+      _handleStickyNoteIconOverlayClose();
     }
   }
 }
@@ -472,19 +619,28 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
   Color? _fillColor;
   Color? _disabledColor;
   Color? _colorPaletteFillColor;
+  Color? _stickyNoteIconFillColor;
   late bool _isLight;
   final GlobalKey _colorPaletteKey = GlobalKey();
+  final GlobalKey _stickyNoteKey = GlobalKey();
   bool _isWeb = false;
   bool _canShowColorPaletteIcon = false;
+  bool _canshowStickyNoteIconMenu = false;
   bool _canShowDeleteIcon = false;
   bool _canShowLockIcon = false;
   bool _isAnnotationLocked = false;
   late bool _useMaterial3;
+  Color? _annotationIconColor;
 
   @override
   void didChangeDependencies() {
     _isLight = Theme.of(context).brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
+    _annotationIconColor = _useMaterial3
+        ? widget.model?.themeData.colorScheme.onSurfaceVariant
+        : (widget.model?.themeData.brightness == Brightness.light)
+            ? Colors.black.withOpacity(0.87)
+            : Colors.white;
     _color = _useMaterial3
         ? _isLight
             ? const Color.fromRGBO(73, 69, 79, 1)
@@ -514,6 +670,8 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
     setState(() {
       if (toolbarItem == 'Color Palette') {
         _colorPaletteFillColor = isFocused ? _fillColor : null;
+      } else if (toolbarItem == 'Sticky note icons') {
+        _stickyNoteIconFillColor = isFocused ? _fillColor : null;
       }
     });
   }
@@ -527,6 +685,8 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
         _canShowDeleteIcon = isVisible;
       } else if (toolbarItem == 'Lock') {
         _canShowLockIcon = isVisible;
+      } else if (toolbarItem == 'Sticky note icons') {
+        _canshowStickyNoteIconMenu = isVisible;
       }
     });
   }
@@ -538,13 +698,61 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
     });
   }
 
+  /// Get the annotation icon based on the annotation mode.
+  ImageIcon _annotationIcon(PdfAnnotationMode mode) {
+    String iconPath = '';
+    double iconSize = 16;
+    switch (mode) {
+      case PdfAnnotationMode.highlight:
+        iconPath = _isLight
+            ? 'images/pdf_viewer/highlight_light.png'
+            : 'images/pdf_viewer/highlight_dark.png';
+        iconSize = 18;
+        break;
+      case PdfAnnotationMode.strikethrough:
+        iconPath = _isLight
+            ? 'images/pdf_viewer/strikethrough_light.png'
+            : 'images/pdf_viewer/strikethrough_dark.png';
+        iconSize = 18;
+        break;
+      case PdfAnnotationMode.underline:
+        iconPath = _isLight
+            ? 'images/pdf_viewer/underline_light.png'
+            : 'images/pdf_viewer/underline_dark.png';
+        iconSize = 18;
+        break;
+      case PdfAnnotationMode.squiggly:
+        iconPath = _isLight
+            ? 'images/pdf_viewer/squiggly_light.png'
+            : 'images/pdf_viewer/squiggly_dark.png';
+        iconSize = 18;
+        break;
+
+      case PdfAnnotationMode.none:
+        break;
+      case PdfAnnotationMode.stickyNote:
+        iconPath = _isLight
+            ? 'images/pdf_viewer/note_light.png'
+            : 'images/pdf_viewer/note_dark.png';
+        iconSize = 18;
+        break;
+    }
+
+    return ImageIcon(
+      AssetImage(iconPath),
+      size: iconSize,
+      color: _annotationIconColor,
+    );
+  }
+
   /// Constructs web toolbar item widget.
   Widget _webToolbarItem(String toolTip, Widget child, {Key? key}) {
     return Padding(
       padding: toolTip == 'Lock' ||
               toolTip == 'Unlock' ||
               toolTip == 'Delete' ||
-              toolTip == 'Color Palette'
+              toolTip == 'Color Palette' ||
+              toolTip == 'Sticky note icons'
           ? const EdgeInsets.only(right: 8)
           : const EdgeInsets.only(left: 8),
       child: Tooltip(
@@ -571,6 +779,36 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
             width: toolTip == 'Options' ? 50 : 36,
             child: child),
       ),
+    );
+  }
+
+  /// Constructs the web toolbar button.
+  Widget _webToolbarButton({
+    required Widget child,
+    required void Function()? onPressed,
+    Color? fillColor,
+    double elevation = 0,
+    double focusElevation = 0,
+    double hoverElevation = 0,
+    double highlightElevation = 0,
+    ShapeBorder? shape,
+  }) {
+    return RawMaterialButton(
+      onPressed: onPressed,
+      fillColor: fillColor,
+      elevation: elevation,
+      focusElevation: focusElevation,
+      hoverElevation: hoverElevation,
+      highlightElevation: highlightElevation,
+      shape: shape ??
+          (_useMaterial3
+              ? const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                )
+              : const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(2)),
+                )),
+      child: child,
     );
   }
 
@@ -610,20 +848,11 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
               children: <Widget>[
                 _webToolbarItem(
                   'Save',
-                  RawMaterialButton(
-                    elevation: 0,
-                    focusElevation: 0,
-                    hoverElevation: 0,
-                    highlightElevation: 0,
+                  _webToolbarButton(
                     onPressed: () async {
                       widget.pdfViewerController.clearSelection();
                       widget.onTap?.call('Save');
                     },
-                    shape: _useMaterial3
-                        ? const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)))
-                        : const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2))),
                     child: Icon(
                       Icons.save,
                       color: _color,
@@ -638,18 +867,7 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     valueListenable: widget.undoHistoryController!,
                     builder: (BuildContext context, UndoHistoryValue value,
                         Widget? child) {
-                      return RawMaterialButton(
-                        elevation: 0,
-                        focusElevation: 0,
-                        hoverElevation: 0,
-                        highlightElevation: 0,
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
+                      return _webToolbarButton(
                         onPressed: value.canUndo
                             ? () {
                                 widget.undoHistoryController!.undo();
@@ -671,18 +889,7 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     valueListenable: widget.undoHistoryController!,
                     builder: (BuildContext context, UndoHistoryValue value,
                         Widget? child) {
-                      return RawMaterialButton(
-                        elevation: 0,
-                        focusElevation: 0,
-                        hoverElevation: 0,
-                        highlightElevation: 0,
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
+                      return _webToolbarButton(
                         onPressed: value.canRedo
                             ? () {
                                 widget.undoHistoryController!.redo();
@@ -704,120 +911,73 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
               children: <Widget>[
                 _webToolbarItem(
                   'Highlight',
-                  RawMaterialButton(
-                    elevation: 0,
-                    focusElevation: 0,
-                    hoverElevation: 0,
-                    highlightElevation: 0,
+                  _webToolbarButton(
+                    onPressed: () {
+                      widget.onTap?.call(PdfAnnotationMode.highlight);
+                    },
                     fillColor: widget.pdfViewerController.annotationMode ==
                             PdfAnnotationMode.highlight
                         ? _fillColor
                         : null,
-                    onPressed: () {
-                      widget.onTap?.call(PdfAnnotationMode.highlight);
-                    },
-                    shape: _useMaterial3
-                        ? const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)))
-                        : const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2))),
-                    child: ImageIcon(
-                      const AssetImage(
-                        'images/pdf_viewer/highlight.png',
-                      ),
-                      size: 16,
-                      color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
-                    ),
+                    child: _annotationIcon(PdfAnnotationMode.highlight),
                   ),
                 ),
                 _webToolbarItem(
                   'Underline',
-                  RawMaterialButton(
+                  _webToolbarButton(
+                    onPressed: () {
+                      widget.onTap?.call(PdfAnnotationMode.underline);
+                    },
                     fillColor: widget.pdfViewerController.annotationMode ==
                             PdfAnnotationMode.underline
                         ? _fillColor
                         : null,
-                    elevation: 0,
-                    focusElevation: 0,
-                    hoverElevation: 0,
-                    highlightElevation: 0,
-                    shape: _useMaterial3
-                        ? const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)))
-                        : const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2))),
-                    onPressed: () {
-                      widget.onTap?.call(PdfAnnotationMode.underline);
-                    },
-                    child: ImageIcon(
-                      const AssetImage(
-                        'images/pdf_viewer/underline.png',
-                      ),
-                      size: 16,
-                      color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
-                    ),
+                    child: _annotationIcon(PdfAnnotationMode.underline),
                   ),
                 ),
                 _webToolbarItem(
                   'Strikethrough',
-                  RawMaterialButton(
+                  _webToolbarButton(
+                    onPressed: () {
+                      widget.onTap?.call(PdfAnnotationMode.strikethrough);
+                    },
                     fillColor: widget.pdfViewerController.annotationMode ==
                             PdfAnnotationMode.strikethrough
                         ? _fillColor
                         : null,
-                    elevation: 0,
-                    focusElevation: 0,
-                    hoverElevation: 0,
-                    highlightElevation: 0,
-                    shape: _useMaterial3
-                        ? const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)))
-                        : const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2))),
-                    onPressed: () {
-                      widget.onTap?.call(PdfAnnotationMode.strikethrough);
-                    },
-                    child: ImageIcon(
-                      const AssetImage(
-                        'images/pdf_viewer/strikethrough.png',
-                      ),
-                      size: 16,
-                      color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
-                    ),
+                    child: _annotationIcon(PdfAnnotationMode.strikethrough),
                   ),
                 ),
                 _webToolbarItem(
                   'Squiggly',
-                  RawMaterialButton(
+                  _webToolbarButton(
+                    onPressed: () {
+                      widget.onTap?.call(PdfAnnotationMode.squiggly);
+                    },
                     fillColor: widget.pdfViewerController.annotationMode ==
                             PdfAnnotationMode.squiggly
                         ? _fillColor
                         : null,
-                    elevation: 0,
-                    focusElevation: 0,
-                    hoverElevation: 0,
-                    highlightElevation: 0,
-                    shape: _useMaterial3
-                        ? const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)))
-                        : const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(2))),
+                    child: _annotationIcon(PdfAnnotationMode.squiggly),
+                  ),
+                ),
+                _webToolbarItem(
+                  'Sticky note',
+                  _webToolbarButton(
                     onPressed: () {
-                      widget.onTap?.call(PdfAnnotationMode.squiggly);
+                      widget.onTap?.call(PdfAnnotationMode.stickyNote);
                     },
-                    child: ImageIcon(
-                      const AssetImage(
-                        'images/pdf_viewer/squiggly.png',
-                      ),
-                      size: 16,
-                      color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
-                    ),
+                    fillColor: widget.pdfViewerController.annotationMode ==
+                            PdfAnnotationMode.stickyNote
+                        ? _fillColor
+                        : null,
+                    child: _annotationIcon(PdfAnnotationMode.stickyNote),
                   ),
                 ),
               ],
             ),
             SizedBox(
-              width: 132,
+              width: 250,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -825,26 +985,14 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     visible: _canShowColorPaletteIcon && !_isAnnotationLocked,
                     child: _webToolbarItem(
                       'Color Palette',
-                      RawMaterialButton(
-                        elevation: 0,
-                        focusElevation: 0,
-                        hoverElevation: 0,
-                        highlightElevation: 0,
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
-                        fillColor: _colorPaletteFillColor,
+                      _webToolbarButton(
                         onPressed: () {
                           widget.onTap?.call('Color Palette');
                         },
+                        fillColor: _colorPaletteFillColor,
                         child: ImageIcon(
                           const AssetImage(
-                            'images/pdf_viewer/color_palette.png',
-                          ),
+                              'images/pdf_viewer/color_palette.png'),
                           size: 17,
                           color:
                               _isLight ? Colors.black : const Color(0xFFFFFFFF),
@@ -854,28 +1002,41 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     ),
                   ),
                   Visibility(
+                    visible: _canshowStickyNoteIconMenu && !_isAnnotationLocked,
+                    child: _webToolbarItem(
+                      'Sticky note icons',
+                      _webToolbarButton(
+                        onPressed: () {
+                          widget.onTap?.call('Sticky note icons');
+                        },
+                        fillColor: _stickyNoteIconFillColor,
+                        child: _isLight
+                            ? ImageIcon(
+                                const AssetImage(
+                                    'images/pdf_viewer/Note_light.png'),
+                                size: 17,
+                                color: _annotationIconColor,
+                              )
+                            : ImageIcon(
+                                const AssetImage(
+                                    'images/pdf_viewer/Note_dark.png'),
+                                size: 17,
+                                color: _annotationIconColor,
+                              ),
+                      ),
+                      key: _stickyNoteKey,
+                    ),
+                  ),
+                  Visibility(
                     visible: _canShowDeleteIcon && !_isAnnotationLocked,
                     child: _webToolbarItem(
                       'Delete',
-                      RawMaterialButton(
-                        elevation: 0,
-                        focusElevation: 0,
-                        hoverElevation: 0,
-                        highlightElevation: 0,
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
+                      _webToolbarButton(
                         onPressed: () {
                           widget.onTap?.call('Delete');
                         },
                         child: ImageIcon(
-                          const AssetImage(
-                            'images/pdf_viewer/delete.png',
-                          ),
+                          const AssetImage('images/pdf_viewer/delete.png'),
                           size: 17,
                           color:
                               _isLight ? Colors.black : const Color(0xFFFFFFFF),
@@ -887,18 +1048,7 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     visible: _canShowLockIcon,
                     child: _webToolbarItem(
                       _isAnnotationLocked ? 'Unlock' : 'Lock',
-                      RawMaterialButton(
-                        elevation: 0,
-                        focusElevation: 0,
-                        hoverElevation: 0,
-                        highlightElevation: 0,
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
+                      _webToolbarButton(
                         onPressed: () {
                           widget.onTap?.call('Lock');
                         },

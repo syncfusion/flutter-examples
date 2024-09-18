@@ -22,18 +22,19 @@ class PullToRefreshDataGrid extends SampleView {
 
 class _PullToRefreshDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource employeeDataSource;
+  late OrderInfoDataGridSource _employeeDataSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
-  List<GridColumn> _getColumns() {
+  List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
           columnName: 'id',
-          width:
-              (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.centerRight,
@@ -45,10 +46,10 @@ class _PullToRefreshDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'customerId',
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: !_isWebOrDesktop
             ? 120
-            : (isWebOrDesktop && model.isMobileResolution)
+            : (_isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         label: Container(
@@ -63,7 +64,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'name',
         width:
-            (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
@@ -76,7 +77,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'freight',
         width:
-            (isWebOrDesktop && model.isMobileResolution) ? 110.0 : double.nan,
+            (_isWebOrDesktop && model.isMobileResolution) ? 110.0 : double.nan,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.center,
@@ -89,9 +90,9 @@ class _PullToRefreshDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'city',
         width:
-            (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
@@ -104,7 +105,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'price',
         width:
-            (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
         columnWidthMode: ColumnWidthMode.lastColumnFill,
         label: Container(
           padding: const EdgeInsets.all(8),
@@ -121,29 +122,24 @@ class _PullToRefreshDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    employeeDataSource =
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _employeeDataSource =
         OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 25);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-        data: ThemeData(
-          useMaterial3: Theme.of(context).useMaterial3,
-          brightness: model.themeData.colorScheme.brightness,
-        ),
-        child: ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context).copyWith(
-            dragDevices: {
-              PointerDeviceKind.mouse,
-              PointerDeviceKind.touch,
-            },
-          ),
-          child: SfDataGrid(
-              source: employeeDataSource,
-              allowPullToRefresh: true,
-              columns: _getColumns()),
-        ));
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch,
+        },
+      ),
+      child: SfDataGrid(
+          source: _employeeDataSource,
+          allowPullToRefresh: true,
+          columns: _obtainColumns()),
+    );
   }
 }

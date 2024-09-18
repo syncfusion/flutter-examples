@@ -1,6 +1,6 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 25.2.5
+version: 27.1.48
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
@@ -18,21 +18,22 @@ dependencies:
   path_provider_foundation: ^2.1.0
   desktop_window: 0.4.0
   intl: '>=0.18.1 <0.20.0'
+  cupertino_icons: ^1.0.8
   
-  syncfusion_localizations: ^26.1.35
-  syncfusion_flutter_datagrid_export: ^26.1.35
-  syncfusion_flutter_calendar: ^26.1.35
-  syncfusion_flutter_datepicker: ^26.1.35
-  syncfusion_flutter_charts: ^26.1.35
-  syncfusion_flutter_gauges: ^26.1.35
-  syncfusion_flutter_sliders: ^26.1.35
-  syncfusion_flutter_pdf: ^26.1.35
-  syncfusion_flutter_barcodes: ^26.1.35
-  syncfusion_officechart: ^26.1.35
-  syncfusion_flutter_maps: ^26.1.35
-  syncfusion_flutter_signaturepad: ^26.1.35
-  syncfusion_flutter_pdfviewer: ^26.1.35
-  syncfusion_flutter_treemap: ^26.1.35
+  syncfusion_localizations: ^27.1.48
+  syncfusion_flutter_datagrid_export: ^27.1.48
+  syncfusion_flutter_calendar: ^27.1.48
+  syncfusion_flutter_datepicker: ^27.1.48
+  syncfusion_flutter_charts: ^27.1.48
+  syncfusion_flutter_gauges: ^27.1.48
+  syncfusion_flutter_sliders: ^27.1.48
+  syncfusion_flutter_pdf: ^27.1.48
+  syncfusion_flutter_barcodes: ^27.1.48
+  syncfusion_officechart: ^27.1.48
+  syncfusion_flutter_maps: ^27.1.48
+  syncfusion_flutter_signaturepad: ^27.1.48
+  syncfusion_flutter_pdfviewer: ^27.1.48
+  syncfusion_flutter_treemap: ^27.1.48
 
 flutter:
   uses-material-design: true

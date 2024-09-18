@@ -22,7 +22,7 @@ class AutoFilterXlsIO extends SampleView {
 class _AutoFilterXlsIOState extends SampleViewState {
   _AutoFilterXlsIOState();
   late String _selectMode;
-  List<String>? _modeType;
+  late List<String>? _modeType;
 
   @override
   void initState() {

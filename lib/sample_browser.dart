@@ -47,6 +47,11 @@ class _SampleBrowserState extends State<SampleBrowser> {
     _sampleListModel.paletteColors.add(const Color.fromRGBO(216, 27, 96, 1));
     _sampleListModel.paletteColors.add(const Color.fromRGBO(2, 137, 123, 1));
 
+    _sampleListModel.paletteColorsM3.add(const Color(0xff65558f));
+    _sampleListModel.paletteColorsM3.add(const Color(0xff8f4b38));
+    _sampleListModel.paletteColorsM3.add(const Color(0xff8e4958));
+    _sampleListModel.paletteColorsM3.add(const Color(0xff006b5f));
+
     _sampleListModel.darkPaletteColors.add(Colors.transparent);
     _sampleListModel.darkPaletteColors
         .add(const Color.fromRGBO(255, 110, 64, 1));
@@ -54,6 +59,11 @@ class _SampleBrowserState extends State<SampleBrowser> {
         .add(const Color.fromRGBO(238, 79, 132, 1));
     _sampleListModel.darkPaletteColors
         .add(const Color.fromRGBO(29, 233, 182, 1));
+
+    _sampleListModel.darkPaletteColorsM3.add(const Color(0xffd0bcfe));
+    _sampleListModel.darkPaletteColorsM3.add(const Color(0xffffb5a0));
+    _sampleListModel.darkPaletteColorsM3.add(const Color(0xffffb2bf));
+    _sampleListModel.darkPaletteColorsM3.add(const Color(0xff82d5c7));
   }
 
   void _updateBaseColor(ThemeData themeData) {
@@ -62,9 +72,13 @@ class _SampleBrowserState extends State<SampleBrowser> {
     if (themeData.colorScheme.brightness == Brightness.light) {
       _sampleListModel.paletteBorderColors[selectedColorPaletteIndex] =
           _sampleListModel.paletteColors[selectedColorPaletteIndex];
+      _sampleListModel.paletteBorderColorsM3[selectedColorPaletteIndex] =
+          _sampleListModel.paletteColorsM3[selectedColorPaletteIndex];
     } else {
       _sampleListModel.paletteBorderColors[selectedColorPaletteIndex] =
           _sampleListModel.darkPaletteColors[selectedColorPaletteIndex];
+      _sampleListModel.paletteBorderColorsM3[selectedColorPaletteIndex] =
+          _sampleListModel.darkPaletteColorsM3[selectedColorPaletteIndex];
     }
   }
 
@@ -863,7 +877,7 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
           firstColumnWidgets
               .add(Padding(padding: EdgeInsets.only(top: padding)));
           firstColumnControlCount += model.categoryList[i].controlList!.length;
-        } else if (secondColumnControlCount < model.controlList.length / 3 &&
+        } else if (secondColumnControlCount < model.controlList.length / 4 &&
             (secondColumnControlCount +
                     model.categoryList[i].controlList!.length <
                 model.controlList.length / 3)) {

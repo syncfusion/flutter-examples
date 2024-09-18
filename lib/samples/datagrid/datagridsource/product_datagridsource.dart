@@ -13,13 +13,13 @@ class ProductDataGridSource extends DataGridSource {
   /// Creates the product data source class with required details.
   ProductDataGridSource(String sampleType,
       {required this.productDataCount, columns}) {
-    products = getProducts(productDataCount);
+    _products = _fetchProducts(productDataCount);
     _sampleName = sampleType;
     if (columns != null) {
       _columns = columns;
     }
 
-    buildDataGridRows(sampleType);
+    _buildDataGridRows(sampleType);
   }
 
   final Random _random = Random();
@@ -28,17 +28,17 @@ class ProductDataGridSource extends DataGridSource {
   final int productDataCount;
 
   /// Instance of products.
-  List<Product> products = <Product>[];
+  List<Product> _products = <Product>[];
 
   /// Instance of DataGridRow.
-  List<DataGridRow> dataGridRows = <DataGridRow>[];
+  List<DataGridRow> _dataGridRows = <DataGridRow>[];
   String _sampleName = '';
 
   List<GridColumn> _columns = [];
 
   /// Build DataGridRows
-  void buildDataGridRows(String sampleType) {
-    dataGridRows = products.map<DataGridRow>((Product product) {
+  void _buildDataGridRows(String sampleType) {
+    _dataGridRows = _products.map<DataGridRow>((Product product) {
       if (sampleType == 'Stacked Header') {
         return DataGridRow(cells: <DataGridCell<dynamic>>[
           DataGridCell<String>(columnName: 'name', value: product.name),
@@ -70,7 +70,7 @@ class ProductDataGridSource extends DataGridSource {
   }
 
   @override
-  List<DataGridRow> get rows => dataGridRows;
+  List<DataGridRow> get rows => _dataGridRows;
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
@@ -355,7 +355,7 @@ class ProductDataGridSource extends DataGridSource {
   ];
 
   /// Get products collection
-  List<Product> getProducts(int count) {
+  List<Product> _fetchProducts(int count) {
     final List<Product> productData = <Product>[];
     for (int i = 0; i < count; i++) {
       productData.add(

@@ -24,18 +24,17 @@ class ColumnResizingDataGrid extends SampleView {
 }
 
 class _ColumnResizingDataGridState extends SampleViewState {
-  late ProductDataGridSource columnResizingDataGridSource;
-  late List<GridColumn> columns;
-  late double orderIdColumnWidth;
-  late double customerNameColumnWidth;
-  late double productIdColumnWidth;
-  late double productColumnWidth;
-  late double quantityColumnWidth;
-  late double cityColumnWidth;
-  late double unitPriceColumnWidth;
-  late double orderDateColumnWidth;
+  late ProductDataGridSource _columnResizingDataGridSource;
+  late double _orderIdColumnWidth;
+  late double _customerNameColumnWidth;
+  late double _productIdColumnWidth;
+  late double _productColumnWidth;
+  late double _quantityColumnWidth;
+  late double _cityColumnWidth;
+  late double _unitPriceColumnWidth;
+  late double _orderDateColumnWidth;
 
-  Color _getHeaderCellBackgroundColor() {
+  Color _headerCellBackgroundColor() {
     final bool isMaterial3 = model.themeData.useMaterial3;
     return isMaterial3
         ? model.themeData.colorScheme.surface.withOpacity(0.0001)
@@ -44,12 +43,12 @@ class _ColumnResizingDataGridState extends SampleViewState {
             : const Color(0xFF3A3A3A);
   }
 
-  List<GridColumn> _getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
           columnName: 'orderId',
-          width: orderIdColumnWidth,
+          width: _orderIdColumnWidth,
           minimumWidth: 15.0,
           label: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -60,7 +59,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'productId',
-          width: productIdColumnWidth,
+          width: _productIdColumnWidth,
           minimumWidth: 15.0,
           label: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -71,7 +70,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'customerName',
-          width: customerNameColumnWidth,
+          width: _customerNameColumnWidth,
           minimumWidth: 15.0,
           label: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -82,7 +81,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'product',
-          width: productColumnWidth,
+          width: _productColumnWidth,
           minimumWidth: 15.0,
           label: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -93,7 +92,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'orderDate',
-          width: orderDateColumnWidth,
+          width: _orderDateColumnWidth,
           minimumWidth: 15.0,
           label: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -104,7 +103,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'quantity',
-          width: quantityColumnWidth,
+          width: _quantityColumnWidth,
           minimumWidth: 15.0,
           label: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -115,7 +114,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'city',
-          width: cityColumnWidth,
+          width: _cityColumnWidth,
           minimumWidth: 15.0,
           label: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -126,7 +125,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'unitPrice',
-          width: unitPriceColumnWidth,
+          width: _unitPriceColumnWidth,
           minimumWidth: 15.0,
           label: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -142,16 +141,15 @@ class _ColumnResizingDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    orderIdColumnWidth = model.isWeb ? 150 : 90;
-    customerNameColumnWidth = model.isWeb ? 150 : 140;
-    productIdColumnWidth = model.isWeb ? 150 : 120;
-    productColumnWidth = model.isWeb ? 150 : 90;
-    quantityColumnWidth = model.isWeb ? 150 : 90;
-    cityColumnWidth = model.isWeb ? 150 : 90;
-    unitPriceColumnWidth = model.isWeb ? 150 : 120;
-    orderDateColumnWidth = model.isWeb ? 150 : 120;
-    columns = _getColumns();
-    columnResizingDataGridSource =
+    _orderIdColumnWidth = model.isWeb ? 150 : 90;
+    _customerNameColumnWidth = model.isWeb ? 150 : 140;
+    _productIdColumnWidth = model.isWeb ? 150 : 120;
+    _productColumnWidth = model.isWeb ? 150 : 90;
+    _quantityColumnWidth = model.isWeb ? 150 : 90;
+    _cityColumnWidth = model.isWeb ? 150 : 90;
+    _unitPriceColumnWidth = model.isWeb ? 150 : 120;
+    _orderDateColumnWidth = model.isWeb ? 150 : 120;
+    _columnResizingDataGridSource =
         ProductDataGridSource('Column Resizing', productDataCount: 30);
   }
 
@@ -226,34 +224,34 @@ class _ColumnResizingDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-          headerColor: _getHeaderCellBackgroundColor(),
-          headerHoverColor: _getHeaderCellBackgroundColor(),
+          headerColor: _headerCellBackgroundColor(),
+          headerHoverColor: _headerCellBackgroundColor(),
           columnResizeIndicatorColor: model.primaryColor),
       child: SfDataGrid(
         gridLinesVisibility: GridLinesVisibility.both,
         headerGridLinesVisibility: GridLinesVisibility.both,
-        source: columnResizingDataGridSource,
-        columns: _getColumns(),
+        source: _columnResizingDataGridSource,
+        columns: _obtainColumns(),
         allowColumnsResizing: true,
         columnResizeMode: columnResizeMode,
         onColumnResizeUpdate: (ColumnResizeUpdateDetails args) {
           setState(() {
             if (args.column.columnName == 'orderId') {
-              orderIdColumnWidth = args.width;
+              _orderIdColumnWidth = args.width;
             } else if (args.column.columnName == 'productId') {
-              productIdColumnWidth = args.width;
+              _productIdColumnWidth = args.width;
             } else if (args.column.columnName == 'customerName') {
-              customerNameColumnWidth = args.width;
+              _customerNameColumnWidth = args.width;
             } else if (args.column.columnName == 'product') {
-              productColumnWidth = args.width;
+              _productColumnWidth = args.width;
             } else if (args.column.columnName == 'orderDate') {
-              orderDateColumnWidth = args.width;
+              _orderDateColumnWidth = args.width;
             } else if (args.column.columnName == 'quantity') {
-              quantityColumnWidth = args.width;
+              _quantityColumnWidth = args.width;
             } else if (args.column.columnName == 'city') {
-              cityColumnWidth = args.width;
+              _cityColumnWidth = args.width;
             } else if (args.column.columnName == 'unitPrice') {
-              unitPriceColumnWidth = args.width;
+              _unitPriceColumnWidth = args.width;
             }
           });
           return true;

@@ -25,35 +25,33 @@ class _ContextMenuDataGridState extends SampleViewState {
   GlobalKey key = GlobalKey();
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late ProductDataGridSource source;
-
-  /// Collection of GridColumn and it required for SfDataGrid
-  late List<GridColumn> columns;
+  late ProductDataGridSource _source;
 
   ///Decides whether the device in landscape or in portrait.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
   /// sorting options
-  List<String> menuItems = <String>[
+  final List<String> _menuItems = <String>[
     'Sort Ascending',
     'Sort Descending',
     'Clear Sorting'
   ];
 
-  late bool isDesktop;
+  late bool _isDesktop;
 
   @override
   void initState() {
     super.initState();
-    isDesktop = model.isDesktop;
-    source = ProductDataGridSource('Context Menu', productDataCount: 20);
+    _isDesktop = model.isDesktop;
+    _source = ProductDataGridSource('Context Menu', productDataCount: 20);
   }
 
   ///create popup menu items
-  List<PopupMenuItem<String>> buildMenuItems(GridColumn column) {
+  List<PopupMenuItem<String>> _buildMenuItems(GridColumn column) {
     List<PopupMenuItem<String>> popupmenuItems;
-    final SortColumnDetails? sortColumn = source.sortedColumns.firstWhereOrNull(
-        (SortColumnDetails sortColumn) => sortColumn.name == column.columnName);
+    final SortColumnDetails? sortColumn = _source.sortedColumns
+        .firstWhereOrNull((SortColumnDetails sortColumn) =>
+            sortColumn.name == column.columnName);
 
     bool isEnabled(DataGridSortDirection direction) {
       if (sortColumn == null) {
@@ -70,13 +68,13 @@ class _ContextMenuDataGridState extends SampleViewState {
         value: itemName,
         enabled: sortDirection != null
             ? isEnabled(sortDirection)
-            : source.sortedColumns.isNotEmpty,
+            : _source.sortedColumns.isNotEmpty,
         child: GestureDetector(
           onTap: () {
-            handleMenuItemTap(itemName, column);
+            _handleMenuItemTap(itemName, column);
             Navigator.pop(context);
           },
-          child: buildItem(
+          child: _buildItem(
               column,
               itemName,
               Icon(
@@ -90,23 +88,23 @@ class _ContextMenuDataGridState extends SampleViewState {
     popupmenuItems = <PopupMenuItem<String>>[
       ///create popup menu item
       buildMenuItem(
-        menuItems[0],
+        _menuItems[0],
         Icons.arrow_upward,
         column,
         sortDirection: DataGridSortDirection.descending,
       ),
       buildMenuItem(
-        menuItems[1],
+        _menuItems[1],
         Icons.arrow_downward,
         column,
         sortDirection: DataGridSortDirection.ascending,
       ),
-      buildMenuItem(menuItems[2], Icons.clear, column),
+      buildMenuItem(_menuItems[2], Icons.clear, column),
     ];
     return popupmenuItems;
   }
 
-  Widget buildItem(GridColumn column, String value, Icon icon) {
+  Widget _buildItem(GridColumn column, String value, Icon icon) {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(5),
@@ -133,24 +131,24 @@ class _ContextMenuDataGridState extends SampleViewState {
     );
   }
 
-  void handleMenuItemTap(String value, GridColumn gridColumn) {
+  void _handleMenuItemTap(String value, GridColumn gridColumn) {
     switch (value) {
       case 'Sort Ascending':
       case 'Sort Descending':
-        if (source.sortedColumns.isNotEmpty) {
-          source.sortedColumns.clear();
+        if (_source.sortedColumns.isNotEmpty) {
+          _source.sortedColumns.clear();
         }
-        source.sortedColumns.add(SortColumnDetails(
+        _source.sortedColumns.add(SortColumnDetails(
             name: gridColumn.columnName,
             sortDirection: value == 'Sort Ascending'
                 ? DataGridSortDirection.ascending
                 : DataGridSortDirection.descending));
-        source.sort();
+        _source.sort();
         break;
       case 'Clear Sorting':
-        if (source.sortedColumns.isNotEmpty) {
-          source.sortedColumns.clear();
-          source.sort();
+        if (_source.sortedColumns.isNotEmpty) {
+          _source.sortedColumns.clear();
+          _source.sort();
         }
         break;
     }
@@ -160,16 +158,16 @@ class _ContextMenuDataGridState extends SampleViewState {
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
       key: key,
-      source: source,
-      columns: getColumns(),
-      columnWidthMode:
-          ((isDesktop || isLandscapeInMobileView) && !model.isMobileResolution)
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+      source: _source,
+      columns: _obtainColumns(),
+      columnWidthMode: ((_isDesktop || _isLandscapeInMobileView) &&
+              !model.isMobileResolution)
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.none,
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
       onCellLongPress: (DataGridCellLongPressDetails details) {
-        if (!isDesktop) {
+        if (!_isDesktop) {
           ///Get the global position from renderObject while longPress in mobile platform.
           final RenderBox renderObject =
               context.findRenderObject()! as RenderBox;
@@ -178,11 +176,11 @@ class _ContextMenuDataGridState extends SampleViewState {
               position: RelativeRect.fromRect(
                   details.globalPosition & Size.zero,
                   Offset.zero & renderObject.size),
-              items: buildMenuItems(details.column));
+              items: _buildMenuItems(details.column));
         }
       },
       onCellSecondaryTap: (DataGridCellTapDetails details) {
-        if (isDesktop) {
+        if (_isDesktop) {
           ///Get the global position from renderObject while secondaryTap in desktop platform
           final RenderBox renderObject =
               context.findRenderObject()! as RenderBox;
@@ -192,7 +190,7 @@ class _ContextMenuDataGridState extends SampleViewState {
               context: context,
               position: RelativeRect.fromSize(
                   localPosition & Size.zero, renderObject.size),
-              items: buildMenuItems(details.column));
+              items: _buildMenuItems(details.column));
         }
       },
     );
@@ -201,7 +199,7 @@ class _ContextMenuDataGridState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isDesktop &&
+    _isLandscapeInMobileView = !_isDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -211,12 +209,12 @@ class _ContextMenuDataGridState extends SampleViewState {
   }
 
   ///column's collection
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
           columnName: 'id',
-          width: (isDesktop && model.isMobileResolution) ? 140 : double.nan,
+          width: (_isDesktop && model.isMobileResolution) ? 140 : double.nan,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8),
@@ -226,7 +224,7 @@ class _ContextMenuDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'productId',
-          width: (isDesktop && model.isMobileResolution) ? 150 : double.nan,
+          width: (_isDesktop && model.isMobileResolution) ? 150 : double.nan,
           label: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.centerRight,
@@ -236,7 +234,7 @@ class _ContextMenuDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'name',
-          width: (isDesktop && model.isMobileResolution) ? 170 : 140,
+          width: (_isDesktop && model.isMobileResolution) ? 170 : 140,
           label: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.centerLeft,
@@ -246,7 +244,7 @@ class _ContextMenuDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'product',
-          width: (isDesktop && model.isMobileResolution) ? 135 : double.nan,
+          width: (_isDesktop && model.isMobileResolution) ? 135 : double.nan,
           label: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.centerLeft,
@@ -256,7 +254,7 @@ class _ContextMenuDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'orderDate',
-          width: (isDesktop && model.isMobileResolution) ? 185 : 140,
+          width: (_isDesktop && model.isMobileResolution) ? 185 : 140,
           label: Container(
               padding: const EdgeInsets.all(8),
               alignment: Alignment.centerRight,
@@ -265,7 +263,7 @@ class _ContextMenuDataGridState extends SampleViewState {
               ))),
       GridColumn(
           columnName: 'quantity',
-          width: (isDesktop && model.isMobileResolution) ? 135 : double.nan,
+          width: (_isDesktop && model.isMobileResolution) ? 135 : double.nan,
           label: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.centerRight,
@@ -275,7 +273,7 @@ class _ContextMenuDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'city',
-          width: (isDesktop && model.isMobileResolution) ? 130 : double.nan,
+          width: (_isDesktop && model.isMobileResolution) ? 130 : double.nan,
           label: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8),
@@ -285,7 +283,7 @@ class _ContextMenuDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'unitPrice',
-          width: (isDesktop && model.isMobileResolution) ? 140 : double.nan,
+          width: (_isDesktop && model.isMobileResolution) ? 140 : double.nan,
           label: Container(
             padding: const EdgeInsets.all(8),
             alignment: Alignment.centerRight,

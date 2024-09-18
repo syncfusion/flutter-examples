@@ -34,26 +34,26 @@ class _ExportingDataGridState extends SampleViewState {
   final GlobalKey<SfDataGridState> _key = GlobalKey<SfDataGridState>();
 
   /// DataGridSource of [SfDataGrid]
-  late DealerDataGridSource dataGridSource;
+  late DealerDataGridSource _dataGridSource;
 
   /// Determine to decide whether the device in landscape or in portrait.
-  late bool isLandscapeInMobileView;
+  late bool _isLandscapeInMobileView;
 
   /// Help to identify the desktop or mobile.
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    dataGridSource = DealerDataGridSource(model);
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _dataGridSource = DealerDataGridSource(model);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    dataGridSource.sampleModel = model;
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _dataGridSource.sampleModel = model;
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -144,84 +144,88 @@ class _ExportingDataGridState extends SampleViewState {
                         : const Color.fromRGBO(255, 255, 255, 0.26)))),
         child: SfDataGrid(
           key: _key,
-          source: dataGridSource,
-          columnWidthMode: isWebOrDesktop
-              ? (isWebOrDesktop && model.isMobileResolution)
+          source: _dataGridSource,
+          columnWidthMode: _isWebOrDesktop
+              ? (_isWebOrDesktop && model.isMobileResolution)
                   ? ColumnWidthMode.none
                   : ColumnWidthMode.fill
-              : isLandscapeInMobileView
+              : _isLandscapeInMobileView
                   ? ColumnWidthMode.fill
                   : ColumnWidthMode.none,
-          columns: <GridColumn>[
-            GridColumn(
-                columnName: 'Product No',
-                width: isWebOrDesktop ? double.nan : 110,
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerRight,
-                  child: const Text(
-                    'Product No',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )),
-            GridColumn(
-                columnName: 'Dealer Name',
-                width: isWebOrDesktop ? double.nan : 110,
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'Dealer Name',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )),
-            GridColumn(
-                columnName: 'Shipped Date',
-                width: isWebOrDesktop ? double.nan : 110,
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerRight,
-                  child: const Text(
-                    'Shipped Date',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )),
-            GridColumn(
-                columnName: 'Ship Country',
-                width: isWebOrDesktop ? double.nan : 110,
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'Ship Country',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )),
-            GridColumn(
-                columnName: 'Ship City',
-                width: isWebOrDesktop ? double.nan : 110,
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'Ship City',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )),
-            GridColumn(
-                columnName: 'Price',
-                label: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  alignment: Alignment.centerRight,
-                  child: const Text(
-                    'Price',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )),
-          ],
+          columns: _obtainColumns(),
         ),
       ),
     );
+  }
+
+  List<GridColumn> _obtainColumns() {
+    return <GridColumn>[
+      GridColumn(
+          columnName: 'Product No',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerRight,
+            child: const Text(
+              'Product No',
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+      GridColumn(
+          columnName: 'Dealer Name',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              'Dealer Name',
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+      GridColumn(
+          columnName: 'Shipped Date',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerRight,
+            child: const Text(
+              'Shipped Date',
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+      GridColumn(
+          columnName: 'Ship Country',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              'Ship Country',
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+      GridColumn(
+          columnName: 'Ship City',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              'Ship City',
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+      GridColumn(
+          columnName: 'Price',
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerRight,
+            child: const Text(
+              'Price',
+              overflow: TextOverflow.ellipsis,
+            ),
+          )),
+    ];
   }
 
   Widget _buildExportingButton(String buttonName, String imagePath,

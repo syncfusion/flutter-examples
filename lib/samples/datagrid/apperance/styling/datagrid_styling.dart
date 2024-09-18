@@ -24,23 +24,23 @@ class StylingDataGrid extends SampleView {
 
 class _StylingDataGridState extends SampleViewState {
   /// Supported to notify the panel visibility
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
+  final ValueNotifier<bool> _frontPanelVisible = ValueNotifier<bool>(true);
+  void _subscribeToValueNotifier() => panelOpen = _frontPanelVisible.value;
   bool panelOpen = false;
 
   /// Determine to decide whether the device in landscape or in portrait
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
   /// Required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource stylingDataGridSource;
+  late OrderInfoDataGridSource _stylingDataGridSource;
 
   /// Determine to set the gridLineVisibility of SfDataGrid.
-  late String gridLinesVisibility;
+  late String _gridLinesVisibility;
 
   /// Determine to set the gridLineVisibility of SfDataGrid.
-  late GridLinesVisibility gridLineVisibility;
+  late GridLinesVisibility _gridLineVisibility;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   /// GridLineVisibility strings for drop down widget.
   final List<String> _encoding = <String>[
@@ -51,32 +51,32 @@ class _StylingDataGridState extends SampleViewState {
   ];
 
   void _onGridLinesVisibilityChanges(String item) {
-    gridLinesVisibility = item;
-    switch (gridLinesVisibility) {
+    _gridLinesVisibility = item;
+    switch (_gridLinesVisibility) {
       case 'both':
-        gridLineVisibility = GridLinesVisibility.both;
+        _gridLineVisibility = GridLinesVisibility.both;
         break;
       case 'horizontal':
-        gridLineVisibility = GridLinesVisibility.horizontal;
+        _gridLineVisibility = GridLinesVisibility.horizontal;
         break;
       case 'none':
-        gridLineVisibility = GridLinesVisibility.none;
+        _gridLineVisibility = GridLinesVisibility.none;
         break;
       case 'vertical':
-        gridLineVisibility = GridLinesVisibility.vertical;
+        _gridLineVisibility = GridLinesVisibility.vertical;
         break;
     }
     setState(() {});
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     const TextStyle textStyle =
         TextStyle(color: Color.fromRGBO(255, 255, 255, 1));
-    return isWebOrDesktop
+    return _isWebOrDesktop
         ? <GridColumn>[
             GridColumn(
               columnName: 'orderId',
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
                   : double.nan,
               label: Container(
@@ -104,7 +104,7 @@ class _StylingDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'name',
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
                   : double.nan,
               label: Container(
@@ -119,7 +119,7 @@ class _StylingDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'freight',
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 100.0
                   : double.nan,
               label: Container(
@@ -134,7 +134,7 @@ class _StylingDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'city',
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 100.0
                   : double.nan,
               label: Container(
@@ -149,7 +149,7 @@ class _StylingDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'price',
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 115.0
                   : double.nan,
               label: Container(
@@ -179,7 +179,7 @@ class _StylingDataGridState extends SampleViewState {
             GridColumn(
               width: 100,
               columnName: 'customerId',
-              columnWidthMode: isLandscapeInMobileView
+              columnWidthMode: _isLandscapeInMobileView
                   ? ColumnWidthMode.fill
                   : ColumnWidthMode.none,
               label: Container(
@@ -225,10 +225,10 @@ class _StylingDataGridState extends SampleViewState {
           headerHoverColor: Colors.white.withOpacity(0.3),
           headerColor: model.primaryColor),
       child: SfDataGrid(
-        source: stylingDataGridSource,
+        source: _stylingDataGridSource,
         columnWidthMode: ColumnWidthMode.fill,
         gridLinesVisibility: gridLineVisibility,
-        columns: getColumns(),
+        columns: _obtainColumns(),
       ),
     );
   }
@@ -236,19 +236,19 @@ class _StylingDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    stylingDataGridSource = OrderInfoDataGridSource(
-        model: model, isWebOrDesktop: isWebOrDesktop, orderDataCount: 100);
-    gridLinesVisibility = 'horizontal';
-    gridLineVisibility = GridLinesVisibility.horizontal;
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _stylingDataGridSource = OrderInfoDataGridSource(
+        model: model, isWebOrDesktop: _isWebOrDesktop, orderDataCount: 100);
+    _gridLinesVisibility = 'horizontal';
+    _gridLineVisibility = GridLinesVisibility.horizontal;
+    panelOpen = _frontPanelVisible.value;
+    _frontPanelVisible.addListener(_subscribeToValueNotifier);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -273,7 +273,7 @@ class _StylingDataGridState extends SampleViewState {
               child: DropdownButton<String>(
                   dropdownColor: model.drawerBackgroundColor,
                   focusColor: Colors.transparent,
-                  value: gridLinesVisibility,
+                  value: _gridLinesVisibility,
                   items: _encoding.map((String value) {
                     return DropdownMenuItem<String>(
                         value: (value != null) ? value : 'none',
@@ -290,7 +290,7 @@ class _StylingDataGridState extends SampleViewState {
     });
   }
 
-  BoxDecoration drawBorder() {
+  BoxDecoration _drawBorder() {
     final BorderSide borderSide = BorderSide(
         color: model.themeData.colorScheme.brightness == Brightness.light
             ? const Color.fromRGBO(0, 0, 0, 0.26)
@@ -298,7 +298,7 @@ class _StylingDataGridState extends SampleViewState {
 
     // Restricts the right side border when Datagrid has gridlinesVisibility
     // to both and vertical to maintains the border thickness.
-    switch (gridLineVisibility) {
+    switch (_gridLineVisibility) {
       case GridLinesVisibility.none:
       case GridLinesVisibility.horizontal:
         return BoxDecoration(
@@ -318,7 +318,7 @@ class _StylingDataGridState extends SampleViewState {
             ? const Color(0xFFFAFAFA)
             : null,
         child: Card(
-            margin: isWebOrDesktop
+            margin: _isWebOrDesktop
                 ? const EdgeInsets.all(24.0)
                 : const EdgeInsets.all(16.0),
             clipBehavior: Clip.antiAlias,
@@ -326,8 +326,8 @@ class _StylingDataGridState extends SampleViewState {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: DecoratedBox(
-                  decoration: drawBorder(),
-                  child: _buildDataGrid(gridLineVisibility)),
+                  decoration: _drawBorder(),
+                  child: _buildDataGrid(_gridLineVisibility)),
             )));
   }
 }

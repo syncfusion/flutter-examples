@@ -23,15 +23,15 @@ class _CustomSortingDataGridState extends SampleViewState {
   late ProductDataGridSource _customSortingDataGridSource;
 
   /// Collection of GridColumn and it required for SfDataGrid
-  late List<GridColumn> columns;
+  late List<GridColumn> _columns;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    columns = getColumns();
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _columns = _obtainColumns();
     _customSortingDataGridSource =
         ProductDataGridSource('Custom Sorting', productDataCount: 20);
 
@@ -46,17 +46,17 @@ class _CustomSortingDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfDataGrid(
       source: _customSortingDataGridSource,
-      columns: columns,
+      columns: _columns,
       allowSorting: true,
-      columnWidthMode: isWebOrDesktop
-          ? (isWebOrDesktop && model.isMobileResolution)
+      columnWidthMode: _isWebOrDesktop
+          ? (_isWebOrDesktop && model.isMobileResolution)
               ? ColumnWidthMode.none
               : ColumnWidthMode.fill
           : ColumnWidthMode.none,
     );
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
           columnName: 'id',
@@ -80,7 +80,7 @@ class _CustomSortingDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'name',
-          width: isWebOrDesktop ? 170 : 150,
+          width: _isWebOrDesktop ? 170 : 150,
           label: Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(8),

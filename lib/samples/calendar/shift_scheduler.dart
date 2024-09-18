@@ -140,7 +140,7 @@ class _ShiftSchedulerState extends SampleViewState {
               }
 
               return PopScope(
-                onPopInvoked: (bool value) {
+                onPopInvokedWithResult: (bool value, Object? result) async {
                   if (newAppointment != null) {
                     /// To remove the created appointment when the pop-up closed
                     /// without saving the appointment.

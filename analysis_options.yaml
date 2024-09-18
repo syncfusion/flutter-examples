@@ -11,4 +11,6 @@ analyzer:
     library_private_types_in_public_api: ignore
     prefer_interpolation_to_compose_strings: ignore
     always_specify_types: ignore
+    use_late_for_private_fields_and_variables: ignore
+    use_key_in_widget_constructors: ignore
 

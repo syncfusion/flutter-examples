@@ -614,6 +614,7 @@
                 ]
               },
               {
+                "status": "Updated",
                 "type": "child",
                 "title": "Financial Charts",
                 "displayType": "card",
@@ -631,6 +632,7 @@
                     "needsPropertyPanel": true
                   },
                   {
+                    "status": "Updated",
                     "title": "Candle chart",
                     "key": "candle_chart",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart/cartesian_charts/chart_types/financial_charts/candle_chart.dart",
@@ -981,6 +983,20 @@
                 "title": "Axis animation",
                 "key": "axis_animation",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/axis_animation.dart",
+                "needsPropertyPanel": true
+              },
+              {
+                "status": "New",
+                "title": "Plot Offset",
+                "key": "plot_offset",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/plot_offset.dart",
+                "needsPropertyPanel": true
+              },
+              {
+                "status": "New",
+                "title": "Range Padding",
+                "key": "range_padding",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/range_padding.dart",
                 "needsPropertyPanel": true
               }
             ]
@@ -1452,14 +1468,12 @@
                 "needsPropertyPanel": true
               },
               {
-                "status": "New",
                 "title": "ROC Indicator",
                 "key": "roc_indicator",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/technical_indicators/roc_indicator.dart",
                 "needsPropertyPanel": true
               },
               {
-                "status": "New",
                 "title": "WMA Indicator",
                 "key": "wma_indicator",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/technical_indicators/wma_indicator.dart",
@@ -3205,6 +3219,7 @@
             "type": "sample",
             "title": "Annotations",
             "key": "pdf_viewer_annotations",
+            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_annotations.dart"
           },
           {
@@ -3389,9 +3404,65 @@
     ]
   },
   {
-    "categoryName": "Sliders",
+    "categoryName": "Signature Pad",
     "mobileCategoryId": 6,
     "webCategoryId": 6,
+    "controlList": [
+      {
+        "title": "Signature Pad",
+        "description": "Captures the signature and save it as an image to sync across devices and documents",
+        "image": "images/SignaturePad.png",
+        "displayType": "tab",
+        "controlId": 1,
+        "subItems": [
+          {
+            "type": "sample",
+            "title": "Getting Started",
+            "key": "signature_pad_getting_started",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/signature_pad/getting_started/signature_pad_getting_started.dart",
+            "needsPropertyPanel": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categoryName": "Chat",
+    "mobileCategoryId": 7,
+    "webCategoryId": 7,
+    "controlList": [
+      {
+        "title": "Chat",
+        "description": "Displays a conversation between two or more users in a layout that is highly customizable.",
+        "image": "images/chat_icon.png",
+        "status": "New",
+        "displayType": "tab",
+        "controlId": 1,
+        "subItems": [
+          {
+            "status": "New",
+            "type": "sample",
+            "title": "Getting Started",
+            "key": "getting_started",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chat/getting_started.dart",
+            "needsPropertyPanel": false
+          },
+          {
+            "status": "New",
+            "type": "sample",
+            "title": "Customization",
+            "key": "customization",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chat/customization.dart",
+            "needsPropertyPanel": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categoryName": "Sliders",
+    "mobileCategoryId": 8,
+    "webCategoryId": 8,
     "controlList": [
       {
         "title": "Slider",
@@ -4016,29 +4087,6 @@
                 "description": ""
               }
             ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "categoryName": "Signature Pad",
-    "mobileCategoryId": 7,
-    "webCategoryId": 7,
-    "controlList": [
-      {
-        "title": "Signature Pad",
-        "description": "Captures the signature and save it as an image to sync across devices and documents",
-        "image": "images/SignaturePad.png",
-        "displayType": "tab",
-        "controlId": 1,
-        "subItems": [
-          {
-            "type": "sample",
-            "title": "Getting Started",
-            "key": "signature_pad_getting_started",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/signature_pad/getting_started/signature_pad_getting_started.dart",
-            "needsPropertyPanel": true
           }
         ]
       }
