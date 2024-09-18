@@ -20,18 +20,19 @@ class CustomgroupingDataGrid extends SampleView {
 
 class _CustomgroupingDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  final StockInfoDataGridSource customGroupingDataGridSource =
-      StockInfoDataGridSource(isGroupingSample: true);
+  late final StockInfoDataGridSource customGroupingDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
-  late List<GridColumn> columns;
+  late List<GridColumn> _columns;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    columns = getColumns();
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _columns = _obtainColumns();
+    customGroupingDataGridSource =
+        StockInfoDataGridSource(isGroupingSample: true);
     customGroupingDataGridSource
         .addColumnGroup(ColumnGroup(name: 'Total Sales', sortGroupRows: true));
   }
@@ -40,10 +41,10 @@ class _CustomgroupingDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfDataGrid(
       source: customGroupingDataGridSource,
-      columns: columns,
+      columns: _columns,
       selectionMode: SelectionMode.multiple,
       navigationMode: GridNavigationMode.cell,
-      tableSummaryRows: getTableSummaryRows(),
+      tableSummaryRows: _loadTableSummaryRows(),
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
       allowExpandCollapseGroup: true,
@@ -51,13 +52,13 @@ class _CustomgroupingDataGridState extends SampleViewState {
     );
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
         columnName: 'Name',
-        width: (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -70,9 +71,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'Qs1',
-        width: (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -85,9 +86,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'Qs2',
-        width: (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -100,9 +101,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'Qs3',
-        width: (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -115,9 +116,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'Qs4',
-        width: (isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -132,7 +133,7 @@ class _CustomgroupingDataGridState extends SampleViewState {
         columnName: 'Total Sales',
         width: 0,
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -146,7 +147,7 @@ class _CustomgroupingDataGridState extends SampleViewState {
     ];
   }
 
-  List<GridTableSummaryRow> getTableSummaryRows() {
+  List<GridTableSummaryRow> _loadTableSummaryRows() {
     return <GridTableSummaryRow>[
       GridTableSummaryRow(
           title: '{Sum}',

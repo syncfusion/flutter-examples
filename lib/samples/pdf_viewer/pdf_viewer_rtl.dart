@@ -61,8 +61,11 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
 
   @override
   void dispose() {
-    _closeOverlays();
     super.dispose();
+    _closeOverlays();
+    _textFieldController.dispose();
+    _pdfViewerController.dispose();
+    _focusNode.dispose();
   }
 
   @override
@@ -114,12 +117,43 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
 
   /// Drop down overlay for choose file and zoom percentage.
   OverlayEntry? _showDropDownOverlay(
-      RenderBox toolbarItemRenderBox,
-      OverlayEntry? overlayEntry,
-      double width,
-      BoxConstraints constraints,
-      Widget dropDownItems) {
-    OverlayState? overlayState;
+    RenderBox toolbarItemRenderBox,
+    OverlayEntry? overlayEntry,
+    double width,
+    BoxConstraints constraints,
+    Widget dropDownItems,
+  ) {
+    if (toolbarItemRenderBox != null) {
+      final Offset position = toolbarItemRenderBox.localToGlobal(Offset.zero);
+      double left = position.dx;
+      if (width != 0) {
+        if (model.textDirection == TextDirection.ltr) {
+          left = position.dx;
+        } else {
+          left = position.dx - width;
+        }
+      }
+
+      final OverlayState overlayState = Overlay.of(context, rootOverlay: true);
+      if (overlayState != null) {
+        overlayEntry = OverlayEntry(
+          builder: (BuildContext context) => Positioned(
+            top: position.dy + 40.0, // y position of zoom percentage menu
+            left: left,
+            child: _dropDownOverlayContainer(constraints, dropDownItems),
+          ),
+        );
+
+        overlayState.insert(overlayEntry);
+      }
+    }
+
+    return overlayEntry;
+  }
+
+  /// Builds overlay container for choose file and zoom percentage.
+  Widget _dropDownOverlayContainer(
+      BoxConstraints constraints, Widget dropDownItems) {
     const List<BoxShadow> boxShadows = <BoxShadow>[
       BoxShadow(
         color: Color.fromRGBO(0, 0, 0, 0.26),
@@ -127,41 +161,23 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
         offset: Offset(0, 3),
       ),
     ];
-    if (toolbarItemRenderBox != null) {
-      final Offset position = toolbarItemRenderBox.localToGlobal(Offset.zero);
-      double left = position.dx;
-      width != 0
-          ? model.textDirection == TextDirection.ltr
-              ? left = position.dx
-              : left = position.dx - width
-          : left = position.dx;
-      overlayState = Overlay.of(context, rootOverlay: true);
-      overlayEntry = OverlayEntry(
-        builder: (BuildContext context) => Positioned(
-          top: position.dy + 40.0, // y position of zoom percentage menu
-          left: left, // x position of zoom percentage menu
-          child: Container(
-            decoration: BoxDecoration(
-              color: _useMaterial3
-                  ? _isLight
-                      ? const Color.fromRGBO(238, 232, 244, 1)
-                      : const Color.fromRGBO(48, 45, 56, 1)
-                  : _isLight
-                      ? const Color(0xFFFFFFFF)
-                      : const Color(0xFF424242),
-              boxShadow: boxShadows,
-              borderRadius: _useMaterial3
-                  ? const BorderRadius.all(Radius.circular(4.0))
-                  : null,
-            ),
-            constraints: constraints,
-            child: dropDownItems,
-          ),
-        ),
-      );
-    }
-    overlayState?.insert(overlayEntry!);
-    return overlayEntry;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: _useMaterial3
+            ? _isLight
+                ? const Color.fromRGBO(238, 232, 244, 1)
+                : const Color.fromRGBO(48, 45, 56, 1)
+            : _isLight
+                ? const Color(0xFFFFFFFF)
+                : const Color(0xFF424242),
+        boxShadow: boxShadows,
+        borderRadius:
+            _useMaterial3 ? const BorderRadius.all(Radius.circular(4.0)) : null,
+      ),
+      constraints: constraints,
+      child: dropDownItems,
+    );
   }
 
   /// Show text search menu for web platform.
@@ -611,7 +627,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
             return SfPdfViewerTheme(
               data: const SfPdfViewerThemeData(),
               child: PopScope(
-                onPopInvoked: (bool value) {
+                onPopInvokedWithResult: (bool value, Object? result) async {
                   setState(() {
                     _canShowToolbar = true;
                   });
@@ -700,8 +716,10 @@ class ToolbarState extends State<Toolbar> {
 
   @override
   void dispose() {
-    widget.controller?.removeListener(_pageChanged);
     super.dispose();
+    widget.controller?.removeListener(_pageChanged);
+    _textEditingController!.dispose();
+    _focusNode.dispose();
   }
 
   /// Called when the page changes and updates the page number text field.
@@ -777,6 +795,31 @@ class ToolbarState extends State<Toolbar> {
                 child: child)));
   }
 
+  /// Constructs the web toolbar button.
+  Widget _webToolbarButton({
+    required Widget child,
+    required void Function()? onPressed,
+    ShapeBorder? shape,
+    Color? fillColor,
+  }) {
+    return RawMaterialButton(
+      onPressed: onPressed,
+      elevation: 0,
+      focusElevation: 0,
+      hoverElevation: 0,
+      highlightElevation: 0,
+      shape: shape ??
+          (_useMaterial3
+              ? const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4)))
+              : const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(2)))),
+      fillColor: fillColor,
+      child: child,
+    );
+  }
+
+  /// Constructs the web toolbar divider.
   Widget _groupDivider(bool isPaddingLeft) {
     return Padding(
       padding: isPaddingLeft
@@ -812,50 +855,42 @@ class ToolbarState extends State<Toolbar> {
                 children: <Widget>[
                   // Choose file drop down
                   _webToolbarItem(
-                      widget.model?.locale!.languageCode == 'ar'
-                          ? 'اختر ملف'
-                          : 'Choose file',
-                      RawMaterialButton(
-                        elevation: 0.0,
-                        hoverElevation: 0.0,
-                        onPressed: () {
-                          widget.onTap?.call('Choose file');
-                        },
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
-                        child: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: widget.model!.textDirection ==
-                                      TextDirection.rtl
-                                  ? const EdgeInsets.only(right: 4.0)
-                                  : const EdgeInsets.only(left: 4.0),
-                              child: Icon(
-                                Icons.folder_open,
-                                color: _color,
-                                size: _useMaterial3 ? 24 : 20,
-                              ),
+                    widget.model?.locale!.languageCode == 'ar'
+                        ? 'اختر ملف'
+                        : 'Choose file',
+                    _webToolbarButton(
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding:
+                                widget.model!.textDirection == TextDirection.rtl
+                                    ? const EdgeInsets.only(right: 4.0)
+                                    : const EdgeInsets.only(left: 4.0),
+                            child: Icon(
+                              Icons.folder_open,
+                              color: _color,
+                              size: _useMaterial3 ? 24 : 20,
                             ),
-                            Padding(
-                              padding: widget.model!.textDirection ==
-                                      TextDirection.rtl
-                                  ? const EdgeInsets.only(right: 8.0)
-                                  : const EdgeInsets.only(left: 8.0),
-                              child: Icon(
-                                Icons.keyboard_arrow_down,
-                                color: _color,
-                                size: 18,
-                              ),
+                          ),
+                          Padding(
+                            padding:
+                                widget.model!.textDirection == TextDirection.rtl
+                                    ? const EdgeInsets.only(right: 8.0)
+                                    : const EdgeInsets.only(left: 8.0),
+                            child: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: _color,
+                              size: 18,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      key: _chooseFileKey),
+                      onPressed: () {
+                        widget.onTap?.call('Choose file');
+                      },
+                    ),
+                    key: _chooseFileKey,
+                  ),
                 ],
               ),
               Row(
@@ -899,56 +934,48 @@ class ToolbarState extends State<Toolbar> {
                   Padding(
                     padding: const EdgeInsets.only(right: 3),
                     child: _webToolbarItem(
-                        widget.model?.locale!.languageCode == 'ar'
-                            ? 'الصفحة السابقة'
-                            : 'Previous page',
-                        RawMaterialButton(
-                          shape: _useMaterial3
-                              ? const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)))
-                              : const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(2))),
-                          onPressed: canJumpToPreviousPage
-                              ? () {
-                                  widget.onTap?.call('Previous Page');
-                                  widget.controller?.previousPage();
-                                }
-                              : null,
-                          child: Icon(
-                            _useMaterial3
-                                ? Icons.keyboard_arrow_up
-                                : Icons.keyboard_arrow_left,
-                            color:
-                                canJumpToPreviousPage ? _color : _disabledColor,
-                            size: _useMaterial3 ? 24 : 20,
-                          ),
-                        )),
+                      widget.model?.locale!.languageCode == 'ar'
+                          ? 'الصفحة السابقة'
+                          : 'Previous page',
+                      _webToolbarButton(
+                        child: Icon(
+                          _useMaterial3
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_left,
+                          color:
+                              canJumpToPreviousPage ? _color : _disabledColor,
+                          size: _useMaterial3 ? 24 : 20,
+                        ),
+                        onPressed: canJumpToPreviousPage
+                            ? () {
+                                widget.onTap?.call('Previous Page');
+                                widget.controller?.previousPage();
+                              }
+                            : null,
+                      ),
+                    ),
                   ),
                   // Next page button
                   _webToolbarItem(
-                      widget.model?.locale!.languageCode == 'ar'
-                          ? 'الصفحة التالية'
-                          : 'Next page',
-                      RawMaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
-                        onPressed: canJumpToNextPage
-                            ? () {
-                                widget.onTap?.call('Next Page');
-                                widget.controller?.nextPage();
-                              }
-                            : null,
-                        child: Icon(
-                          _useMaterial3
-                              ? Icons.keyboard_arrow_down
-                              : Icons.keyboard_arrow_right,
-                          color: canJumpToNextPage ? _color : _disabledColor,
-                          size: _useMaterial3 ? 24 : 21,
-                        ),
-                      )),
+                    widget.model?.locale!.languageCode == 'ar'
+                        ? 'الصفحة التالية'
+                        : 'Next page',
+                    _webToolbarButton(
+                      child: Icon(
+                        _useMaterial3
+                            ? Icons.keyboard_arrow_down
+                            : Icons.keyboard_arrow_right,
+                        color: canJumpToNextPage ? _color : _disabledColor,
+                        size: _useMaterial3 ? 24 : 21,
+                      ),
+                      onPressed: canJumpToNextPage
+                          ? () {
+                              widget.onTap?.call('Next Page');
+                              widget.controller?.nextPage();
+                            }
+                          : null,
+                    ),
+                  ),
                   // Group divider
                   _groupDivider(true),
                   // Zoom level drop down
@@ -958,16 +985,7 @@ class ToolbarState extends State<Toolbar> {
                       key: _zoomPercentageKey,
                       height: 36, // height of zoom percentage menu
                       width: 72, // width of zoom percentage menu
-                      child: RawMaterialButton(
-                        elevation: 0.0,
-                        hoverElevation: 0.0,
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
+                      child: _webToolbarButton(
                         onPressed: widget.controller!.pageNumber != 0
                             ? () {
                                 widget.onTap?.call('Zoom Percentage');
@@ -1007,199 +1025,163 @@ class ToolbarState extends State<Toolbar> {
                   ),
                   // Zoom out button
                   _webToolbarItem(
-                      widget.model?.locale!.languageCode == 'ar'
-                          ? 'تصغير'
-                          : 'Zoom out',
-                      RawMaterialButton(
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
-                        onPressed: widget.controller!.pageCount != 0 &&
-                                _zoomLevel > 1
-                            ? () {
-                                widget.onTap?.call('Zoom Out');
-                                setState(() {
-                                  if (_zoomLevel > 1.0 && _zoomLevel <= 1.25) {
-                                    _zoomLevel = 1.0;
-                                  } else if (_zoomLevel > 1.25 &&
-                                      _zoomLevel <= 1.50) {
-                                    _zoomLevel = 1.25;
-                                  } else if (_zoomLevel > 1.50 &&
-                                      _zoomLevel <= 2.0) {
-                                    _zoomLevel = 1.50;
-                                  } else {
-                                    _zoomLevel = 2.0;
-                                  }
-                                  widget.controller!.zoomLevel = _zoomLevel;
-                                });
-                              }
-                            : null,
-                        child: Icon(
-                          _useMaterial3
-                              ? Icons.zoom_out
-                              : Icons.remove_circle_outline,
-                          color: widget.controller!.pageCount != 0 &&
-                                  _zoomLevel > 1
-                              ? _color
-                              : _disabledColor,
-                          size: _useMaterial3 ? 24 : 20,
-                        ),
-                      )),
+                    widget.model?.locale!.languageCode == 'ar'
+                        ? 'تصغير'
+                        : 'Zoom out',
+                    _webToolbarButton(
+                      onPressed: widget.controller!.pageCount != 0 &&
+                              _zoomLevel > 1
+                          ? () {
+                              widget.onTap?.call('Zoom Out');
+                              setState(() {
+                                if (_zoomLevel > 1.0 && _zoomLevel <= 1.25) {
+                                  _zoomLevel = 1.0;
+                                } else if (_zoomLevel > 1.25 &&
+                                    _zoomLevel <= 1.50) {
+                                  _zoomLevel = 1.25;
+                                } else if (_zoomLevel > 1.50 &&
+                                    _zoomLevel <= 2.0) {
+                                  _zoomLevel = 1.50;
+                                } else {
+                                  _zoomLevel = 2.0;
+                                }
+                                widget.controller!.zoomLevel = _zoomLevel;
+                              });
+                            }
+                          : null,
+                      child: Icon(
+                        _useMaterial3
+                            ? Icons.zoom_out
+                            : Icons.remove_circle_outline,
+                        color:
+                            widget.controller!.pageCount != 0 && _zoomLevel > 1
+                                ? _color
+                                : _disabledColor,
+                        size: _useMaterial3 ? 24 : 20,
+                      ),
+                    ),
+                  ),
                   // Zoom in button
                   _webToolbarItem(
-                      widget.model?.locale!.languageCode == 'ar'
-                          ? 'تكبير'
-                          : 'Zoom in',
-                      RawMaterialButton(
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
-                        onPressed: widget.controller!.pageCount != 0 &&
-                                _zoomLevel < 3
-                            ? () {
-                                widget.onTap?.call('Zoom In');
-                                setState(() {
-                                  if (_zoomLevel >= 1.0 && _zoomLevel < 1.25) {
-                                    _zoomLevel = 1.25;
-                                  } else if (_zoomLevel >= 1.25 &&
-                                      _zoomLevel < 1.50) {
-                                    _zoomLevel = 1.50;
-                                  } else if (_zoomLevel >= 1.50 &&
-                                      _zoomLevel < 2.0) {
-                                    _zoomLevel = 2.0;
-                                  } else {
-                                    _zoomLevel = 3.0;
-                                  }
-                                  widget.controller!.zoomLevel = _zoomLevel;
-                                });
-                              }
-                            : null,
-                        child: Icon(
-                          _useMaterial3
-                              ? Icons.zoom_in
-                              : Icons.add_circle_outline,
-                          color: widget.controller!.pageCount != 0 &&
-                                  _zoomLevel < 3
-                              ? _color
-                              : _disabledColor,
-                          size: _useMaterial3 ? 24 : 20,
-                        ),
-                      )),
+                    widget.model?.locale!.languageCode == 'ar'
+                        ? 'تكبير'
+                        : 'Zoom in',
+                    _webToolbarButton(
+                      onPressed: widget.controller!.pageCount != 0 &&
+                              _zoomLevel < 3
+                          ? () {
+                              widget.onTap?.call('Zoom In');
+                              setState(() {
+                                if (_zoomLevel >= 1.0 && _zoomLevel < 1.25) {
+                                  _zoomLevel = 1.25;
+                                } else if (_zoomLevel >= 1.25 &&
+                                    _zoomLevel < 1.50) {
+                                  _zoomLevel = 1.50;
+                                } else if (_zoomLevel >= 1.50 &&
+                                    _zoomLevel < 2.0) {
+                                  _zoomLevel = 2.0;
+                                } else {
+                                  _zoomLevel = 3.0;
+                                }
+                                widget.controller!.zoomLevel = _zoomLevel;
+                              });
+                            }
+                          : null,
+                      child: Icon(
+                        _useMaterial3
+                            ? Icons.zoom_in
+                            : Icons.add_circle_outline,
+                        color:
+                            widget.controller!.pageCount != 0 && _zoomLevel < 3
+                                ? _color
+                                : _disabledColor,
+                        size: _useMaterial3 ? 24 : 20,
+                      ),
+                    ),
+                  ),
                   // Group divider
                   _groupDivider(true),
                   // Pan mode toggle button
                   _webToolbarItem(
-                      widget.model?.locale!.languageCode == 'ar'
-                          ? 'وضع عموم'
-                          : 'Pan mode',
-                      RawMaterialButton(
-                        fillColor: _panFillColor,
-                        elevation: 0.0,
-                        hoverElevation: 0.0,
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
-                        onPressed: widget.controller!.pageNumber != 0
-                            ? () {
-                                setState(() {
-                                  if (_panFillColor ==
-                                          const Color(0xFFD2D2D2) ||
-                                      _panFillColor ==
-                                          const Color(0xFF525252) ||
-                                      _panFillColor ==
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .onSurface
-                                              .withOpacity(0.08)) {
-                                    _panFillColor = null;
-                                  } else {
-                                    _panFillColor = _fillColor;
-                                  }
-                                });
-                                widget.onTap?.call('Pan mode');
-                              }
-                            : null,
-                        child: Icon(
-                          Icons.pan_tool_rounded,
-                          color: widget.controller!.pageCount != 0
-                              ? _color
-                              : _disabledColor,
-                          size: _useMaterial3 ? 24 : 20,
-                        ),
-                      )),
+                    widget.model?.locale!.languageCode == 'ar'
+                        ? 'وضع عموم'
+                        : 'Pan mode',
+                    _webToolbarButton(
+                      onPressed: widget.controller!.pageNumber != 0
+                          ? () {
+                              setState(() {
+                                if (_panFillColor == const Color(0xFFD2D2D2) ||
+                                    _panFillColor == const Color(0xFF525252) ||
+                                    _panFillColor ==
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .onSurface
+                                            .withOpacity(0.08)) {
+                                  _panFillColor = null;
+                                } else {
+                                  _panFillColor = _fillColor;
+                                }
+                              });
+                              widget.onTap?.call('Pan mode');
+                            }
+                          : null,
+                      fillColor: _panFillColor,
+                      child: Icon(
+                        Icons.pan_tool_rounded,
+                        color: widget.controller!.pageCount != 0
+                            ? _color
+                            : _disabledColor,
+                        size: _useMaterial3 ? 24 : 20,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Row(
                 children: <Widget>[
                   _webToolbarItem(
-                      widget.model?.locale!.languageCode == 'ar'
-                          ? 'المرجعية'
-                          : 'Bookmark',
-                      RawMaterialButton(
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
-                        onPressed: widget.controller!.pageNumber != 0
-                            ? () {
-                                widget.onTap?.call('Bookmarks');
-                              }
-                            : null,
-                        child: Icon(
-                          Icons.bookmark_border,
-                          color: widget.controller!.pageCount != 0
-                              ? _color
-                              : _disabledColor,
-                          size: _useMaterial3 ? 24 : 20,
-                        ),
-                      )),
+                    widget.model?.locale!.languageCode == 'ar'
+                        ? 'المرجعية'
+                        : 'Bookmark',
+                    _webToolbarButton(
+                      onPressed: widget.controller!.pageNumber != 0
+                          ? () {
+                              widget.onTap?.call('Bookmarks');
+                            }
+                          : null,
+                      child: Icon(
+                        Icons.bookmark_border,
+                        color: widget.controller!.pageCount != 0
+                            ? _color
+                            : _disabledColor,
+                        size: _useMaterial3 ? 24 : 20,
+                      ),
+                    ),
+                  ),
                   // Group divider
                   _groupDivider(false),
                   // Search button
                   _webToolbarItem(
-                      widget.model?.locale!.languageCode == 'ar'
-                          ? 'بحث'
-                          : 'Search',
-                      RawMaterialButton(
-                        elevation: 0.0,
-                        hoverElevation: 0.0,
-                        shape: _useMaterial3
-                            ? const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)))
-                            : const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
-                        onPressed: widget.controller!.pageNumber != 0
-                            ? () {
-                                widget.controller!.clearSelection();
-                                widget.onTap?.call('Search');
-                              }
-                            : null,
-                        child: Icon(
-                          Icons.search,
-                          color: widget.controller!.pageCount != 0
-                              ? _color
-                              : _disabledColor,
-                          size: _useMaterial3 ? 24 : 20,
-                        ),
+                    widget.model?.locale!.languageCode == 'ar'
+                        ? 'بحث'
+                        : 'Search',
+                    _webToolbarButton(
+                      onPressed: widget.controller!.pageNumber != 0
+                          ? () {
+                              widget.controller!.clearSelection();
+                              widget.onTap?.call('Search');
+                            }
+                          : null,
+                      child: Icon(
+                        Icons.search,
+                        color: widget.controller!.pageCount != 0
+                            ? _color
+                            : _disabledColor,
+                        size: _useMaterial3 ? 24 : 20,
                       ),
-                      key: _searchKey),
+                    ),
+                    key: _searchKey,
+                  ),
                 ],
               ),
             ],
@@ -1233,69 +1215,78 @@ class ToolbarState extends State<Toolbar> {
                 : _useMaterial3
                     ? EdgeInsets.zero
                     : null,
-        border: _useMaterial3
-            ? OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .outline
-                        .withOpacity(0.38)))
-            : const UnderlineInputBorder(),
-        enabledBorder: _useMaterial3
-            ? OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .outline
-                        .withOpacity(0.38)))
-            : null,
-        focusedBorder: _useMaterial3
-            ? OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .outline
-                        .withOpacity(0.38)))
-            : UnderlineInputBorder(
-                borderSide: BorderSide(
-                    color: Theme.of(context).primaryColor, width: 2.0),
-              ),
+        border: _paginationTextFieldInputBorder(context),
+        enabledBorder: _paginationTextFieldEnableBorder(context),
+        focusedBorder: _paginationTextFieldFocusedBorder(context),
       ),
-      // ignore: avoid_bool_literals_in_conditional_expressions
-      enabled: widget.controller!.pageCount == 0 ? false : true,
-      onTap: widget.controller!.pageCount == 0
-          ? null
-          : () {
-              _textEditingController!.selection = TextSelection(
-                  baseOffset: 0,
-                  extentOffset: _textEditingController!.value.text.length);
-              _focusNode.requestFocus();
-              widget.onTap?.call('Jump to the page');
-            },
-      onSubmitted: (String text) {
-        _focusNode.unfocus();
-      },
-      onEditingComplete: () {
-        final String str = _textEditingController!.text;
-        if (str != widget.controller!.pageNumber.toString()) {
-          try {
-            final int index = int.parse(str);
-            if (index > 0 && index <= widget.controller!.pageCount) {
-              widget.controller?.jumpToPage(index);
-              FocusScope.of(context).requestFocus(FocusNode());
-              widget.onTap?.call('Navigated');
-            } else {
-              _textEditingController!.text =
-                  widget.controller!.pageNumber.toString();
-              _showErrorDialog(context, widget.model);
-            }
-          } catch (exception) {
-            return _showErrorDialog(context, widget.model);
-          }
-        }
-        widget.onTap?.call('Navigated');
-      },
+      enabled: widget.controller!.pageCount > 0,
+      onTap: _onPaginationTextFieldTap,
+      onSubmitted: (String text) => _focusNode.unfocus(),
+      onEditingComplete: () => _onPaginationTextFieldEditingComplete(context),
     );
+  }
+
+  /// Pagination text field input border.
+  InputBorder _paginationTextFieldInputBorder(BuildContext context) {
+    return _useMaterial3
+        ? OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.outline.withOpacity(0.38)))
+        : const UnderlineInputBorder();
+  }
+
+  /// Pagination text field enable border.
+  InputBorder? _paginationTextFieldEnableBorder(BuildContext context) {
+    return _useMaterial3
+        ? OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.outline.withOpacity(0.38)))
+        : null;
+  }
+
+  /// Pagination text field focused border.
+  InputBorder _paginationTextFieldFocusedBorder(BuildContext context) {
+    return _useMaterial3
+        ? OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.outline.withOpacity(0.38)))
+        : UnderlineInputBorder(
+            borderSide:
+                BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
+          );
+  }
+
+  /// Pagination text field on tap function.
+  void _onPaginationTextFieldTap() {
+    if (widget.controller!.pageCount > 0) {
+      _textEditingController!.selection = TextSelection(
+          baseOffset: 0,
+          extentOffset: _textEditingController!.value.text.length);
+      _focusNode.requestFocus();
+      widget.onTap?.call('Jump to the page');
+    }
+  }
+
+  /// Pagination text field on editing complete function.
+  void _onPaginationTextFieldEditingComplete(BuildContext context) {
+    final String str = _textEditingController!.text;
+    if (str != widget.controller!.pageNumber.toString()) {
+      try {
+        final int index = int.parse(str);
+        if (index > 0 && index <= widget.controller!.pageCount) {
+          widget.controller?.jumpToPage(index);
+          FocusScope.of(context).requestFocus(FocusNode());
+          widget.onTap?.call('Navigated');
+        } else {
+          _textEditingController!.text =
+              widget.controller!.pageNumber.toString();
+          _showErrorDialog(context, widget.model);
+        }
+      } catch (exception) {
+        _showErrorDialog(context, widget.model);
+      }
+    }
+    widget.onTap?.call('Navigated');
   }
 
   @override
@@ -1552,19 +1543,13 @@ class ToolbarState extends State<Toolbar> {
 
 /// Displays the error message.
 void _showErrorDialog(BuildContext context, SampleModel? model) {
-  String error;
-  String description;
-  String okLabel;
-  if (model?.locale!.languageCode == 'ar') {
-    error = 'خطأ';
-    description = 'الرجاء إدخال رقم صفحة صحيح.';
-    okLabel = 'نعم';
-  } else {
-    error = 'Error';
-    description = 'Please enter a valid page number.';
-    okLabel = 'OK';
-  }
+  final String error = model?.locale?.languageCode == 'ar' ? 'خطأ' : 'Error';
+  final String description = model?.locale?.languageCode == 'ar'
+      ? 'الرجاء إدخال رقم صفحة صحيح.'
+      : 'Please enter a valid page number.';
+  final String okLabel = model?.locale?.languageCode == 'ar' ? 'نعم' : 'OK';
   final bool useMaterial3 = Theme.of(context).useMaterial3;
+
   showDialog<dynamic>(
     context: context,
     builder: (BuildContext context) {
@@ -1572,48 +1557,58 @@ void _showErrorDialog(BuildContext context, SampleModel? model) {
         textDirection: model!.textDirection,
         child: AlertDialog(
           insetPadding: EdgeInsets.zero,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(error),
-              SizedBox(
-                height: 36, // height of close search menu button
-                width: 36, // width of close search menu button
-                child: RawMaterialButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  shape: useMaterial3
-                      ? const CircleBorder()
-                      : const RoundedRectangleBorder(),
-                  child: const Icon(
-                    Icons.clear,
-                    size: 20,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          title: _errorDialogTitle(context, error, useMaterial3),
           content: SizedBox(width: 328.0, child: Text(description)),
           actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
-              },
-              style: useMaterial3
-                  ? TextButton.styleFrom(
-                      fixedSize: const Size(double.infinity, 40),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
-                    )
-                  : null,
-              child: Text(okLabel),
-            )
+            _errorDialogButton(context, okLabel, useMaterial3),
           ],
           actionsPadding:
               useMaterial3 ? null : const EdgeInsets.only(bottom: 10),
         ),
       );
     },
+  );
+}
+
+/// Displays the error message for the error dialog.
+Row _errorDialogTitle(BuildContext context, String error, bool useMaterial3) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: <Widget>[
+      Text(error),
+      SizedBox(
+        height: 36, // height of close search menu button
+        width: 36, // width of close search menu button
+        child: RawMaterialButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          shape: useMaterial3
+              ? const CircleBorder()
+              : const RoundedRectangleBorder(),
+          child: const Icon(
+            Icons.clear,
+            size: 20,
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+/// Actions for the error dialog.
+TextButton _errorDialogButton(
+    BuildContext context, String okLabel, bool useMaterial3) {
+  return TextButton(
+    onPressed: () {
+      Navigator.of(context, rootNavigator: true).pop();
+    },
+    style: useMaterial3
+        ? TextButton.styleFrom(
+            fixedSize: const Size(double.infinity, 40),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          )
+        : null,
+    child: Text(okLabel),
   );
 }

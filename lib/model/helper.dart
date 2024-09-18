@@ -889,7 +889,7 @@ Widget _buildCompanyLogoAndAppVersion(SampleModel model) {
         Align(
           alignment: Alignment.bottomCenter,
           child: Text(
-            'Version 25.1.35',
+            'Version 26.1.35',
             style: TextStyle(
               color: model.drawerTextIconColor,
               fontSize: 12,
@@ -1147,8 +1147,13 @@ List<Widget> _buildColorPalettes(SampleModel model, BuildContext context,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: Colors.transparent,
-            border: model.paletteBorderColors.isNotEmpty
-                ? Border.all(color: model.paletteBorderColors[i], width: 2.0)
+            border: model.paletteBorderColors.isNotEmpty &&
+                    model.paletteBorderColorsM3.isNotEmpty
+                ? Border.all(
+                    color: model.themeData.useMaterial3
+                        ? model.paletteBorderColorsM3[i]
+                        : model.paletteBorderColors[i],
+                    width: 2.0)
                 : const Border(),
             shape: BoxShape.circle,
           ),
@@ -1165,7 +1170,11 @@ List<Widget> _buildColorPalettes(SampleModel model, BuildContext context,
             child: Icon(
               Icons.brightness_1,
               size: 40.0,
-              color: model.paletteColors[i],
+              color: model.themeData.useMaterial3
+                  ? model.themeData.brightness == Brightness.light
+                      ? model.paletteColorsM3[i]
+                      : model.darkPaletteColorsM3[i]
+                  : model.paletteColors[i],
             ),
           ),
         ),
@@ -1186,6 +1195,7 @@ void changeColorPalette(
 ]) {
   for (int j = 0; j < model.paletteBorderColors.length; j++) {
     model.paletteBorderColors[j] = Colors.transparent;
+    model.paletteBorderColorsM3[j] = Colors.transparent;
   }
 
   final Brightness brightness = selectedThemeValue == -1

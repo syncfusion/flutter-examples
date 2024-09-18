@@ -24,45 +24,45 @@ class PagingDataGrid extends SampleView {
 
 class _PagingDataGridState extends SampleViewState {
   // Default pager height
-  static const double dataPagerHeight = 60;
+  static const double _dataPagerHeight = 60;
 
   /// Determine to decide whether the device in landscape or in portrait.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   int _rowsPerPage = 15;
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource orderInfoDataSource;
+  late OrderInfoDataGridSource _orderInfoDataSource;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    orderInfoDataSource =
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _orderInfoDataSource =
         OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 300);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   Widget _buildDataGrid() {
     return SfDataGrid(
-        source: orderInfoDataSource,
+        source: _orderInfoDataSource,
         rowsPerPage: _rowsPerPage,
         allowSorting: true,
-        columnWidthMode: (isWebOrDesktop && !model.isMobileResolution) ||
-                isLandscapeInMobileView
+        columnWidthMode: (_isWebOrDesktop && !model.isMobileResolution) ||
+                _isLandscapeInMobileView
             ? ColumnWidthMode.fill
             : ColumnWidthMode.none,
         columns: <GridColumn>[
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
             columnName: 'id',
@@ -76,10 +76,10 @@ class _PagingDataGridState extends SampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
-            columnWidthMode: (isWebOrDesktop && model.isMobileResolution)
+            columnWidthMode: (_isWebOrDesktop && model.isMobileResolution)
                 ? ColumnWidthMode.none
                 : ColumnWidthMode.fitByColumnName,
             autoFitPadding: const EdgeInsets.all(8),
@@ -94,7 +94,7 @@ class _PagingDataGridState extends SampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
             columnName: 'name',
@@ -108,7 +108,7 @@ class _PagingDataGridState extends SampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 110.0
                 : double.nan,
             columnName: 'freight',
@@ -122,7 +122,7 @@ class _PagingDataGridState extends SampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
             columnName: 'city',
@@ -136,7 +136,7 @@ class _PagingDataGridState extends SampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
             columnName: 'price',
@@ -158,9 +158,9 @@ class _PagingDataGridState extends SampleViewState {
         selectedItemColor: model.primaryColor,
       ),
       child: SfDataPager(
-        delegate: orderInfoDataSource,
+        delegate: _orderInfoDataSource,
         availableRowsPerPage: const <int>[15, 20, 25],
-        pageCount: orderInfoDataSource.orders.length / _rowsPerPage,
+        pageCount: _orderInfoDataSource.orders.length / _rowsPerPage,
         onRowsPerPageChanged: (int? rowsPerPage) {
           setState(() {
             _rowsPerPage = rowsPerPage!;
@@ -176,11 +176,11 @@ class _PagingDataGridState extends SampleViewState {
       return Column(
         children: <Widget>[
           SizedBox(
-              height: constraint.maxHeight - dataPagerHeight,
+              height: constraint.maxHeight - _dataPagerHeight,
               width: constraint.maxWidth,
               child: _buildDataGrid()),
           Container(
-            height: dataPagerHeight,
+            height: _dataPagerHeight,
             decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface.withOpacity(0.12),
                 border: Border(

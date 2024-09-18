@@ -21,16 +21,16 @@ class FreezePanesDataGrid extends SampleView {
 
 class _FreezePanesDataGridPageState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late ProductDataGridSource freezePanesDataGridSource;
+  late ProductDataGridSource _freezePanesDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
           columnName: 'id',
-          width: isWebOrDesktop ? 140 : 90,
+          width: _isWebOrDesktop ? 140 : 90,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -41,7 +41,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'productId',
-          width: isWebOrDesktop ? 150 : 100,
+          width: _isWebOrDesktop ? 150 : 100,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -52,7 +52,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'name',
-          width: isWebOrDesktop ? 180 : 140,
+          width: _isWebOrDesktop ? 180 : 140,
           label: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8.0),
@@ -63,7 +63,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'product',
-          width: isWebOrDesktop ? 160 : 100,
+          width: _isWebOrDesktop ? 160 : 100,
           label: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8.0),
@@ -74,7 +74,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'orderDate',
-          width: isWebOrDesktop ? 140 : 110,
+          width: _isWebOrDesktop ? 140 : 110,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -85,7 +85,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'quantity',
-          width: isWebOrDesktop ? 150 : 90,
+          width: _isWebOrDesktop ? 150 : 90,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -96,7 +96,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'city',
-          width: isWebOrDesktop ? 140 : 100,
+          width: _isWebOrDesktop ? 140 : 100,
           label: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8.0),
@@ -107,7 +107,7 @@ class _FreezePanesDataGridPageState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'unitPrice',
-          width: isWebOrDesktop ? 140 : 100,
+          width: _isWebOrDesktop ? 140 : 100,
           label: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.all(8.0),
@@ -122,18 +122,18 @@ class _FreezePanesDataGridPageState extends SampleViewState {
 
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
-      source: freezePanesDataGridSource,
+      source: _freezePanesDataGridSource,
       frozenRowsCount: 1,
       frozenColumnsCount: 1,
-      columns: getColumns(),
+      columns: _obtainColumns(),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    freezePanesDataGridSource =
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _freezePanesDataGridSource =
         ProductDataGridSource('FreezePanes', productDataCount: 20);
   }
 

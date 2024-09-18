@@ -66,8 +66,8 @@ class _EncryptedPdfViewerState extends SampleViewState {
                     Align(
                         child: TextButton(
                       style: ButtonStyle(
-                        backgroundColor:
-                            WidgetStateProperty.all<Color>(model.primaryColor),
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                            Theme.of(context).colorScheme.primary),
                         padding: model.isMobile
                             ? null
                             : WidgetStateProperty.all(
@@ -79,8 +79,9 @@ class _EncryptedPdfViewerState extends SampleViewState {
                           _showMasterPage = false;
                         });
                       },
-                      child: const Text('View PDF',
-                          style: TextStyle(color: Colors.white)),
+                      child: Text('View PDF',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary)),
                     ))
                   ]),
             )

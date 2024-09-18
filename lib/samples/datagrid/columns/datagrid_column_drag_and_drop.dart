@@ -25,41 +25,37 @@ class _DataGridColumnDragAndDropState extends SampleViewState {
   GlobalKey key = GlobalKey();
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late ProductDataGridSource source;
+  late ProductDataGridSource _source;
 
   /// Collection of GridColumn and it required for SfDataGrid
-  late List<GridColumn> columns;
-
-  /// Determine which device the sample loaded
-  late bool isWebOrDesktop;
+  late List<GridColumn> _columns;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    columns = getColumns();
-    source = ProductDataGridSource('Column Drag and Drop',
-        productDataCount: 20, columns: columns);
+    _columns = _obtainColumns();
+    _source = ProductDataGridSource('Column Drag and Drop',
+        productDataCount: 20, columns: _columns);
   }
 
   @override
   Widget build(BuildContext context) {
     return SfDataGrid(
       key: key,
-      source: source,
-      columns: columns,
+      source: _source,
+      columns: _columns,
       allowColumnsDragging: true,
       onColumnDragging: (details) {
         if (details.action == DataGridColumnDragAction.dropped) {
           if (details.to == null) {
             return true;
           }
-          final GridColumn rearrangeColumn = columns[details.from];
-          columns.removeAt(details.from);
-          columns.insert(details.to!, rearrangeColumn);
+          final GridColumn rearrangeColumn = _columns[details.from];
+          _columns.removeAt(details.from);
+          _columns.insert(details.to!, rearrangeColumn);
         }
 
-        source.updateDataSource();
+        _source.updateDataSource();
         return true;
       },
       gridLinesVisibility: GridLinesVisibility.both,
@@ -67,7 +63,7 @@ class _DataGridColumnDragAndDropState extends SampleViewState {
     );
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(

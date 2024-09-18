@@ -22,9 +22,9 @@ class RowHeightDataGrid extends SampleView {
 
 class _RowHeightDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late EmployeeDataGridSource rowHeightDataGridSource;
+  late EmployeeDataGridSource _rowHeightDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   Widget _buildDataGrid() {
     return SfDataGridTheme(
@@ -32,12 +32,12 @@ class _RowHeightDataGridState extends SampleViewState {
         gridLineStrokeWidth: 1.4,
       ),
       child: SfDataGrid(
-          source: rowHeightDataGridSource,
+          source: _rowHeightDataGridSource,
           rowHeight: 65.0,
           columns: <GridColumn>[
             GridColumn(
               columnName: 'id',
-              width: isWebOrDesktop ? 135 : 90,
+              width: _isWebOrDesktop ? 135 : 90,
               label: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -51,7 +51,7 @@ class _RowHeightDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'contactName',
-              width: isWebOrDesktop ? 135 : 140,
+              width: _isWebOrDesktop ? 135 : 140,
               label: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -65,7 +65,7 @@ class _RowHeightDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'companyName',
-              width: isWebOrDesktop ? 165 : 140,
+              width: _isWebOrDesktop ? 165 : 140,
               label: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -79,7 +79,7 @@ class _RowHeightDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'address',
-              width: isWebOrDesktop ? 180 : 140,
+              width: _isWebOrDesktop ? 180 : 140,
               label: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -93,7 +93,7 @@ class _RowHeightDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'city',
-              width: isWebOrDesktop ? 150 : 140,
+              width: _isWebOrDesktop ? 150 : 140,
               label: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -107,7 +107,7 @@ class _RowHeightDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'country',
-              width: isWebOrDesktop ? 150 : 140,
+              width: _isWebOrDesktop ? 150 : 140,
               label: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -121,7 +121,7 @@ class _RowHeightDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'designation',
-              width: isWebOrDesktop ? 150 : 140,
+              width: _isWebOrDesktop ? 150 : 140,
               label: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -135,7 +135,7 @@ class _RowHeightDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'postalCode',
-              width: isWebOrDesktop ? 150 : 140,
+              width: _isWebOrDesktop ? 150 : 140,
               label: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -149,7 +149,7 @@ class _RowHeightDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'phoneNumber',
-              width: isWebOrDesktop ? 150 : 140,
+              width: _isWebOrDesktop ? 150 : 140,
               label: Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -168,8 +168,8 @@ class _RowHeightDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    rowHeightDataGridSource = EmployeeDataGridSource('RowHeight');
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _rowHeightDataGridSource = EmployeeDataGridSource('RowHeight');
   }
 
   @override

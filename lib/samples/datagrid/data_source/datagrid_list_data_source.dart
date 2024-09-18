@@ -18,21 +18,21 @@ class ListDataSourceDataGrid extends SampleView {
 
 class _ListDataSourceDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource listDataGridSource;
+  late OrderInfoDataGridSource _listDataGridSource;
 
   /// Determine to decide whether the device in landscape or in portrait
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   Widget sampleWidget() => const ListDataSourceDataGrid();
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
-    columns = isWebOrDesktop
+    columns = _isWebOrDesktop
         ? <GridColumn>[
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'id',
@@ -46,7 +46,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 150.0
                   : double.nan,
               columnName: 'customerId',
@@ -60,7 +60,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'name',
@@ -74,7 +74,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
                   : double.nan,
               columnName: 'freight',
@@ -88,7 +88,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'city',
@@ -102,7 +102,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'price',
@@ -129,7 +129,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
                 )),
             GridColumn(
               columnName: 'customerId',
-              columnWidthMode: isLandscapeInMobileView
+              columnWidthMode: _isLandscapeInMobileView
                   ? ColumnWidthMode.fill
                   : ColumnWidthMode.none,
               label: Container(
@@ -170,15 +170,15 @@ class _ListDataSourceDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    listDataGridSource = OrderInfoDataGridSource(
-        isWebOrDesktop: isWebOrDesktop, orderDataCount: 100);
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _listDataGridSource = OrderInfoDataGridSource(
+        isWebOrDesktop: _isWebOrDesktop, orderDataCount: 100);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -186,7 +186,7 @@ class _ListDataSourceDataGridState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfDataGrid(
         columnWidthMode: ColumnWidthMode.fill,
-        source: listDataGridSource,
-        columns: getColumns());
+        source: _listDataGridSource,
+        columns: _obtainColumns());
   }
 }

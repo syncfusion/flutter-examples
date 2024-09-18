@@ -1450,6 +1450,10 @@ class _ColorPaletteState extends State<ColorPalette> {
                                 PdfAnnotationMode.squiggly) {
                               widget.pdfViewerController.annotationSettings
                                   .squiggly.color = color;
+                            } else if (annotationMode ==
+                                PdfAnnotationMode.stickyNote) {
+                              widget.pdfViewerController.annotationSettings
+                                  .stickyNote.color = color;
                             }
                           }
                         },
@@ -1595,6 +1599,10 @@ class _ColorPaletteState extends State<ColorPalette> {
                                     PdfAnnotationMode.squiggly) {
                                   widget.pdfViewerController.annotationSettings
                                       .squiggly.color = color;
+                                } else if (annotationMode ==
+                                    PdfAnnotationMode.stickyNote) {
+                                  widget.pdfViewerController.annotationSettings
+                                      .stickyNote.color = color;
                                 }
                               }
                             },
@@ -1730,6 +1738,9 @@ class _ColorPaletteState extends State<ColorPalette> {
             } else if (annotationMode == PdfAnnotationMode.squiggly) {
               widget.pdfViewerController.annotationSettings.squiggly.opacity =
                   value as double;
+            } else if (annotationMode == PdfAnnotationMode.stickyNote) {
+              widget.pdfViewerController.annotationSettings.stickyNote.opacity =
+                  value as double;
             }
           }
           widget.onOpacityChanged?.call(value as double);
@@ -1750,11 +1761,13 @@ class BottomToolbar extends StatefulWidget {
   const BottomToolbar(
       {required this.pdfViewerController,
       required this.model,
+      required this.showStickyNoteIcon,
       this.undoController,
       this.selectedAnnotation,
       this.onBackButtonPressed,
       this.showTooltip = true,
-      super.key});
+      super.key,
+      required this.showAddTextMarkupToolbar});
 
   /// An object that is used to control the [SfPdfViewer].
   final PdfViewerController pdfViewerController;
@@ -1774,6 +1787,12 @@ class BottomToolbar extends StatefulWidget {
   /// Indicates whether to show tooltip or not
   final bool showTooltip;
 
+  /// Indicates whether to show sticky note icon or not
+  final bool showStickyNoteIcon;
+
+  /// Indicates whether to show add text markup toolbar or not
+  final bool showAddTextMarkupToolbar;
+
   @override
   State<BottomToolbar> createState() => _BottomToolbarState();
 }
@@ -1787,6 +1806,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
   Color? _selectedColor;
   double _currentOpacity = 1;
   bool _isSecondaryToolbarVisible = false;
+  bool _isStickyNoteIconToolBarVisible = false;
   UndoHistoryController? _undoController;
   Color? _iconColor;
   late bool _useMaterial3;
@@ -1846,11 +1866,20 @@ class _BottomToolbarState extends State<BottomToolbar> {
           : _isLight
               ? Colors.white
               : const Color(0xFF424242),
-      child: widget.selectedAnnotation != null
-          ? _textMarkupSettingsToolbar()
-          : !_isSecondaryToolbarVisible
-              ? _textMarkupToolbar()
-              : _addTextMarkupToolbar(),
+      child: Column(
+        children: [
+          if (_isStickyNoteIconToolBarVisible) _stickyNoteIconToolBar(),
+          if (widget.selectedAnnotation != null &&
+              !widget.showAddTextMarkupToolbar) ...[
+            _textMarkupSettingsToolbar(),
+          ] else if (widget.showAddTextMarkupToolbar)
+            _addTextMarkupToolbar()
+          else
+            !_isSecondaryToolbarVisible
+                ? _textMarkupToolbar()
+                : _addTextMarkupToolbar(),
+        ],
+      ),
     );
   }
 
@@ -1866,40 +1895,70 @@ class _BottomToolbarState extends State<BottomToolbar> {
     }
   }
 
-  Widget _getIcon({PdfAnnotationMode? annotationMode, Annotation? annotation}) {
+  Widget _annotationIcon(
+      {PdfAnnotationMode? annotationMode, Annotation? annotation}) {
     if (annotationMode == PdfAnnotationMode.highlight ||
         annotation is HighlightAnnotation) {
       return ImageIcon(
-        const AssetImage(
-          'images/pdf_viewer/highlight.png',
-        ),
+        _isLight
+            ? const AssetImage(
+                'images/pdf_viewer/highlight_light.png',
+              )
+            : const AssetImage(
+                'images/pdf_viewer/highlight_dark.png',
+              ),
         size: 20,
         color: _iconColor,
       );
     } else if (annotationMode == PdfAnnotationMode.strikethrough ||
         annotation is StrikethroughAnnotation) {
       return ImageIcon(
-        const AssetImage(
-          'images/pdf_viewer/strikethrough.png',
-        ),
+        _isLight
+            ? const AssetImage(
+                'images/pdf_viewer/strikethrough_light.png',
+              )
+            : const AssetImage(
+                'images/pdf_viewer/strikethrough_dark.png',
+              ),
         size: 20,
         color: _iconColor,
       );
     } else if (annotationMode == PdfAnnotationMode.underline ||
         annotation is UnderlineAnnotation) {
       return ImageIcon(
-        const AssetImage(
-          'images/pdf_viewer/underline.png',
-        ),
+        _isLight
+            ? const AssetImage(
+                'images/pdf_viewer/underline_light.png',
+              )
+            : const AssetImage(
+                'images/pdf_viewer/underline_dark.png',
+              ),
         size: 20,
         color: _iconColor,
       );
     } else if (annotationMode == PdfAnnotationMode.squiggly ||
         annotation is SquigglyAnnotation) {
       return ImageIcon(
-        const AssetImage(
-          'images/pdf_viewer/squiggly.png',
-        ),
+        _isLight
+            ? const AssetImage(
+                'images/pdf_viewer/squiggly_light.png',
+              )
+            : const AssetImage(
+                'images/pdf_viewer/squiggly_dark.png',
+              ),
+        size: 20,
+        color: _iconColor,
+      );
+    } else if (annotationMode == PdfAnnotationMode.stickyNote ||
+        annotation is StickyNoteAnnotation) {
+      return ImageIcon(
+        _isLight
+            ? const AssetImage(
+                'images/pdf_viewer/note_light.png',
+              )
+            : const AssetImage(
+                'images/pdf_viewer/note_dark.png',
+              ),
         size: 20,
         color: _iconColor,
       );
@@ -1952,7 +2011,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                                 .annotationSettings.highlight.opacity;
                           });
                         },
-                        child: _getIcon(
+                        child: _annotationIcon(
                             annotationMode: PdfAnnotationMode.highlight),
                       ),
                     ),
@@ -1982,7 +2041,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                                 .annotationSettings.underline.opacity;
                           });
                         },
-                        child: _getIcon(
+                        child: _annotationIcon(
                             annotationMode: PdfAnnotationMode.underline),
                       ),
                     ),
@@ -2012,7 +2071,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                                 .annotationSettings.strikethrough.opacity;
                           });
                         },
-                        child: _getIcon(
+                        child: _annotationIcon(
                             annotationMode: PdfAnnotationMode.strikethrough),
                       ),
                     ),
@@ -2042,12 +2101,45 @@ class _BottomToolbarState extends State<BottomToolbar> {
                                 .annotationSettings.squiggly.opacity;
                           });
                         },
-                        child: _getIcon(
+                        child: _annotationIcon(
                             annotationMode: PdfAnnotationMode.squiggly),
                       ),
                     ),
                   ),
                 ),
+                if (widget.showStickyNoteIcon)
+                  ToolbarItem(
+                    height: 40,
+                    width: 40,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Tooltip(
+                        message: widget.showTooltip ? 'Sticky note' : null,
+                        child: RawMaterialButton(
+                          shape: _useMaterial3
+                              ? RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4.0))
+                              : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2.0)),
+                          onPressed: () {
+                            widget.pdfViewerController.annotationMode =
+                                PdfAnnotationMode.stickyNote;
+                            setState(() {
+                              widget.pdfViewerController.annotationSettings
+                                  .stickyNote.icon = PdfStickyNoteIcon.comment;
+                              _isSecondaryToolbarVisible = true;
+                              _selectedColor = widget.pdfViewerController
+                                  .annotationSettings.stickyNote.color;
+                              _currentOpacity = widget.pdfViewerController
+                                  .annotationSettings.stickyNote.opacity;
+                            });
+                          },
+                          child: _annotationIcon(
+                              annotationMode: PdfAnnotationMode.stickyNote),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -2115,41 +2207,48 @@ class _BottomToolbarState extends State<BottomToolbar> {
               children: [
                 Row(
                   children: [
-                    ToolbarItem(
-                      height: 40,
-                      width: 40,
-                      child: RawMaterialButton(
-                        shape: _useMaterial3
-                            ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4))
-                            : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2)),
-                        onPressed: () {
-                          widget.pdfViewerController.annotationMode =
-                              PdfAnnotationMode.none;
-                          setState(() {
-                            _isSecondaryToolbarVisible = false;
-                            _canShowColorPalette = false;
-                            _toolbarHeight = _toolBarSectionHeight;
-                          });
-                        },
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: _iconColor?.withOpacity(0.5),
-                          size: 24,
+                    Visibility(
+                      visible: !widget.showAddTextMarkupToolbar,
+                      child: ToolbarItem(
+                        height: 40,
+                        width: 40,
+                        child: RawMaterialButton(
+                          shape: _useMaterial3
+                              ? RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4))
+                              : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2)),
+                          onPressed: () {
+                            widget.pdfViewerController.annotationMode =
+                                PdfAnnotationMode.none;
+                            setState(() {
+                              _isSecondaryToolbarVisible = false;
+                              _canShowColorPalette = false;
+                              _isStickyNoteIconToolBarVisible = false;
+                              _toolbarHeight = _toolBarSectionHeight;
+                            });
+                          },
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: _iconColor?.withOpacity(0.5),
+                            size: 24,
+                          ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0, left: 4.0),
-                      child: Container(
-                        color: _isLight
-                            ? Colors.black.withOpacity(0.24)
-                            : Colors.white.withOpacity(0.26),
-                        child: const VerticalDivider(
-                          thickness: 1,
-                          endIndent: 24,
-                          width: 1,
+                    Visibility(
+                      visible: !widget.showAddTextMarkupToolbar,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0, left: 4.0),
+                        child: Container(
+                          color: _isLight
+                              ? Colors.black.withOpacity(0.24)
+                              : Colors.white.withOpacity(0.26),
+                          child: const VerticalDivider(
+                            thickness: 1,
+                            endIndent: 24,
+                            width: 1,
+                          ),
                         ),
                       ),
                     ),
@@ -2157,7 +2256,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                       opacity: 0.80,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: _getIcon(
+                        child: _annotationIcon(
                             annotationMode:
                                 widget.pdfViewerController.annotationMode),
                       ),
@@ -2166,6 +2265,26 @@ class _BottomToolbarState extends State<BottomToolbar> {
                 ),
                 Row(
                   children: [
+                    Visibility(
+                        visible: widget.showStickyNoteIcon ||
+                            widget.showAddTextMarkupToolbar,
+                        child: ToolbarItem(
+                          height: 40,
+                          width: 40,
+                          child: RawMaterialButton(
+                            onPressed: () {
+                              setState(() {
+                                _isStickyNoteIconToolBarVisible =
+                                    !_isStickyNoteIconToolBarVisible;
+                                _canShowColorPalette = false;
+                                _toolbarHeight = _toolBarSectionHeight;
+                              });
+                            },
+                            child: _annotationIcon(
+                                annotationMode:
+                                    widget.pdfViewerController.annotationMode),
+                          ),
+                        )),
                     ToolbarItem(
                       height: 40,
                       width: 40,
@@ -2188,6 +2307,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                                 : const Color(0xFF525252),
                         onPressed: () {
                           setState(() {
+                            _isStickyNoteIconToolBarVisible = false;
                             _canShowColorPalette = !_canShowColorPalette;
                             _toolbarHeight = _canShowColorPalette
                                 ? 2 * _toolBarSectionHeight
@@ -2198,7 +2318,12 @@ class _BottomToolbarState extends State<BottomToolbar> {
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: _selectedColor,
+                              color:
+                                  widget.pdfViewerController.annotationMode ==
+                                              PdfAnnotationMode.stickyNote &&
+                                          _selectedColor == null
+                                      ? Colors.yellow
+                                      : _selectedColor,
                               borderRadius: _useMaterial3
                                   ? null
                                   : BorderRadius.circular(2.0),
@@ -2224,6 +2349,8 @@ class _BottomToolbarState extends State<BottomToolbar> {
   Widget _textMarkupSettingsToolbar() {
     final Annotation selectedAnnotation = widget.selectedAnnotation!;
     final bool isLocked = selectedAnnotation.isLocked;
+    final bool canShowStickyNoteIconMenu =
+        selectedAnnotation is StickyNoteAnnotation;
     _selectedColor = selectedAnnotation.color;
     _currentOpacity = selectedAnnotation.opacity;
 
@@ -2289,6 +2416,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                           setState(() {
                             _isSecondaryToolbarVisible = false;
                             _canShowColorPalette = false;
+                            _isStickyNoteIconToolBarVisible = false;
                             _toolbarHeight = _toolBarSectionHeight;
                           });
                         },
@@ -2316,7 +2444,8 @@ class _BottomToolbarState extends State<BottomToolbar> {
                       opacity: 0.80,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: _getIcon(annotation: widget.selectedAnnotation),
+                        child: _annotationIcon(
+                            annotation: widget.selectedAnnotation),
                       ),
                     ),
                   ],
@@ -2324,6 +2453,33 @@ class _BottomToolbarState extends State<BottomToolbar> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Visibility(
+                          visible: canShowStickyNoteIconMenu && !isLocked,
+                          child: ToolbarItem(
+                            height: 40,
+                            width: 40,
+                            child: RawMaterialButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isStickyNoteIconToolBarVisible =
+                                        !_isStickyNoteIconToolBarVisible;
+                                    _canShowColorPalette = false;
+                                    _toolbarHeight = _toolBarSectionHeight;
+                                  });
+                                },
+                                child: _isLight
+                                    ? const ImageIcon(
+                                        AssetImage(
+                                            'images/pdf_viewer/note_light.png'),
+                                        size: 24)
+                                    : const ImageIcon(
+                                        AssetImage(
+                                            'images/pdf_viewer/note_dark.png'),
+                                        size: 24)),
+                          )),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Visibility(
@@ -2355,6 +2511,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                                   _toolbarHeight = _canShowColorPalette
                                       ? 2 * _toolBarSectionHeight
                                       : _toolBarSectionHeight;
+                                  _isStickyNoteIconToolBarVisible = false;
                                 });
                               }
                             },
@@ -2393,6 +2550,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                                 widget.selectedAnnotation!.isLocked =
                                     !widget.selectedAnnotation!.isLocked;
                                 _canShowColorPalette = false;
+                                _isStickyNoteIconToolBarVisible = false;
                               }
                             });
                           },
@@ -2457,6 +2615,102 @@ class _BottomToolbarState extends State<BottomToolbar> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+// icon change tool bar:
+  Widget _stickyNoteIconToolBar() {
+    return SizedBox(
+      height: 56,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _stickyNoteIconButton(
+            iconPathLight: 'images/pdf_viewer/note_light.png',
+            iconPathDark: 'images/pdf_viewer/note_dark.png',
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.note),
+          ),
+          _stickyNoteIconButton(
+            iconPathLight: 'images/pdf_viewer/insert_light.png',
+            iconPathDark: 'images/pdf_viewer/insert_dark.png',
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.insert),
+          ),
+          _stickyNoteIconButton(
+            iconPathLight: 'images/pdf_viewer/comment_light.png',
+            iconPathDark: 'images/pdf_viewer/comment_dark.png',
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.comment),
+          ),
+          _stickyNoteIconButton(
+            iconPathLight: 'images/pdf_viewer/key_light.png',
+            iconPathDark: 'images/pdf_viewer/key_dark.png',
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.key),
+          ),
+          _stickyNoteIconButton(
+            iconPathLight: 'images/pdf_viewer/help_light.png',
+            iconPathDark: 'images/pdf_viewer/help_dark.png',
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.help),
+          ),
+          _stickyNoteIconButton(
+            iconPathLight: 'images/pdf_viewer/paragraph_light.png',
+            iconPathDark: 'images/pdf_viewer/paragraph_dark.png',
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.paragraph),
+          ),
+          _stickyNoteIconButton(
+            iconPathLight: 'images/pdf_viewer/new_paragraph_light.png',
+            iconPathDark: 'images/pdf_viewer/new_paragraph_dark.png',
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.newParagraph),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Handles sticky note icon selection.
+  void _handleStickyNoteIconSelection(PdfStickyNoteIcon icon) {
+    if (widget.selectedAnnotation != null &&
+        widget.selectedAnnotation is StickyNoteAnnotation) {
+      final StickyNoteAnnotation stickyNote =
+          widget.selectedAnnotation! as StickyNoteAnnotation;
+      stickyNote.icon = icon;
+    } else {
+      widget.pdfViewerController.annotationSettings.stickyNote.icon = icon;
+    }
+  }
+
+  /// Returns the sticky note icon button widget.
+  Widget _stickyNoteIconButton({
+    required String iconPathLight,
+    required String iconPathDark,
+    required VoidCallback onPressed,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: ToolbarItem(
+        height: 40,
+        width: 40,
+        child: RawMaterialButton(
+          shape: _useMaterial3
+              ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))
+              : RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+          onPressed: onPressed,
+          child: _isLight
+              ? ImageIcon(
+                  AssetImage(iconPathLight),
+                  size: 22,
+                )
+              : ImageIcon(
+                  AssetImage(iconPathDark),
+                  size: 22,
+                ),
+        ),
       ),
     );
   }

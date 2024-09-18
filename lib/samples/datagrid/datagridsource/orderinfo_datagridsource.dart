@@ -23,8 +23,8 @@ class OrderInfoDataGridSource extends DataGridSource {
       bool isGrouping = false}) {
     this.isFilteringSample = isFilteringSample ?? false;
     orders = ordersCollection ??
-        getOrders(orders, orderDataCount ?? 100, culture: culture ?? '');
-    currencySymbol = getCurrencySymbol();
+        _fetchOrders(orders, orderDataCount ?? 100, culture: culture ?? '');
+    currencySymbol = _obtainCurrencySymbol();
     buildDataGridRows(isGrouping);
   }
 
@@ -64,50 +64,52 @@ class OrderInfoDataGridSource extends DataGridSource {
               {
                 return DataGridRow(cells: <DataGridCell>[
                   DataGridCell<int>(
-                      columnName: getColumnName('ID'), value: order.id),
+                      columnName: _fetchColumnName('ID'), value: order.id),
                   DataGridCell<int>(
-                      columnName: getColumnName('CustomerId'),
+                      columnName: _fetchColumnName('CustomerId'),
                       value: order.customerId),
                   DataGridCell<String>(
-                      columnName: getColumnName('Name'), value: order.name),
+                      columnName: _fetchColumnName('Name'), value: order.name),
                   DataGridCell<double>(
-                      columnName: getColumnName('Freight'),
+                      columnName: _fetchColumnName('Freight'),
                       value: order.freight),
                   DataGridCell<String>(
-                      columnName: getColumnName('City'), value: order.city),
+                      columnName: _fetchColumnName('City'), value: order.city),
                   DataGridCell<double>(
-                      columnName: getColumnName('Price'), value: order.price),
+                      columnName: _fetchColumnName('Price'),
+                      value: order.price),
                 ]);
               }
             } else {
               return DataGridRow(cells: <DataGridCell>[
                 DataGridCell<int>(
-                    columnName: getColumnName('id'), value: order.id),
+                    columnName: _fetchColumnName('id'), value: order.id),
                 DataGridCell<int>(
-                    columnName: getColumnName('customerId'),
+                    columnName: _fetchColumnName('customerId'),
                     value: order.customerId),
                 DataGridCell<String>(
-                    columnName: getColumnName('name'), value: order.name),
+                    columnName: _fetchColumnName('name'), value: order.name),
                 DataGridCell<double>(
-                    columnName: getColumnName('freight'), value: order.freight),
+                    columnName: _fetchColumnName('freight'),
+                    value: order.freight),
                 DataGridCell<String>(
-                    columnName: getColumnName('city'), value: order.city),
+                    columnName: _fetchColumnName('city'), value: order.city),
                 DataGridCell<double>(
-                    columnName: getColumnName('price'), value: order.price),
+                    columnName: _fetchColumnName('price'), value: order.price),
               ]);
             }
           }).toList()
         : orders.map<DataGridRow>((OrderInfo order) {
             return DataGridRow(cells: <DataGridCell>[
               DataGridCell<int>(
-                  columnName: getColumnName('id'), value: order.id),
+                  columnName: _fetchColumnName('id'), value: order.id),
               DataGridCell<int>(
-                  columnName: getColumnName('customerId'),
+                  columnName: _fetchColumnName('customerId'),
                   value: order.customerId),
               DataGridCell<String>(
-                  columnName: getColumnName('name'), value: order.name),
+                  columnName: _fetchColumnName('name'), value: order.name),
               DataGridCell<String>(
-                  columnName: getColumnName('city'), value: order.city),
+                  columnName: _fetchColumnName('city'), value: order.city),
             ]);
           }).toList();
   }
@@ -192,8 +194,8 @@ class OrderInfoDataGridSource extends DataGridSource {
       return DataGridRowAdapter(
           color: backgroundColor,
           cells: row.getCells().map<Widget>((DataGridCell dataCell) {
-            if (dataCell.columnName == getColumnName('id') ||
-                dataCell.columnName == getColumnName('customerId')) {
+            if (dataCell.columnName == _fetchColumnName('id') ||
+                dataCell.columnName == _fetchColumnName('customerId')) {
               return buildWidget(
                   alignment: Alignment.centerRight, value: dataCell.value!);
             } else {
@@ -204,7 +206,7 @@ class OrderInfoDataGridSource extends DataGridSource {
   }
 
   /// Currency symbol
-  String getCurrencySymbol() {
+  String _obtainCurrencySymbol() {
     if (culture != null) {
       final format =
           NumberFormat.compactSimpleCurrency(locale: model!.locale.toString());
@@ -218,7 +220,7 @@ class OrderInfoDataGridSource extends DataGridSource {
   @override
   Future<void> handleLoadMoreRows() async {
     await Future<void>.delayed(const Duration(seconds: 5));
-    orders = getOrders(orders, 15);
+    orders = _fetchOrders(orders, 15);
     buildDataGridRows(false);
     notifyListeners();
   }
@@ -226,7 +228,7 @@ class OrderInfoDataGridSource extends DataGridSource {
   @override
   Future<void> handleRefresh() async {
     await Future<void>.delayed(const Duration(seconds: 5));
-    orders = getOrders(orders, 15);
+    orders = _fetchOrders(orders, 15);
     buildDataGridRows(false);
     notifyListeners();
   }
@@ -275,7 +277,7 @@ class OrderInfoDataGridSource extends DataGridSource {
   }
 
   /// Provides the column name.
-  String getColumnName(String columnName) {
+  String _fetchColumnName(String columnName) {
     if (isFilteringSample) {
       switch (columnName) {
         case 'id':
@@ -449,7 +451,7 @@ class OrderInfoDataGridSource extends DataGridSource {
   ];
 
   /// Get orders collection
-  List<OrderInfo> getOrders(List<OrderInfo> orderData, int count,
+  List<OrderInfo> _fetchOrders(List<OrderInfo> orderData, int count,
       {String? culture}) {
     final int startIndex = orderData.isNotEmpty ? orderData.length : 0,
         endIndex = startIndex + count;

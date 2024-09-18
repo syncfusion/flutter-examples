@@ -39,7 +39,6 @@ class _GettingStartedSignaturePadState extends SampleViewState {
   bool _isDark = false;
 
   late Color _strokeColor;
-  Color? _backgroundColor;
   late Uint8List _signatureData;
   final double _fontSizeRegular = 12;
   late _ProductDataSource _productDataSource;
@@ -135,8 +134,18 @@ class _GettingStartedSignaturePadState extends SampleViewState {
   void _showPopup() {
     _isSigned = false;
 
+    Color? padBackgroundColor;
     if (_isWebOrDesktop) {
-      _backgroundColor = _isDark ? model.backgroundColor : Colors.white;
+      padBackgroundColor = _isDark ? model.backgroundColor : Colors.white;
+    }
+
+    Color popUpBackgroundColor = model.backgroundColor;
+    if (model.themeData.useMaterial3) {
+      popUpBackgroundColor = _isDark
+          ? Color.alphaBlend(Colors.black.withOpacity(0.75),
+              model.themeData.colorScheme.primary)
+          : Color.alphaBlend(Colors.white.withOpacity(0.95),
+              model.themeData.colorScheme.primary);
     }
 
     showDialog<Widget>(
@@ -145,14 +154,13 @@ class _GettingStartedSignaturePadState extends SampleViewState {
         return StatefulBuilder(
           builder:
               (BuildContext context, void Function(void Function()) setState) {
-            final Color? backgroundColor = _backgroundColor;
             final Color textColor = _isDark ? Colors.white : Colors.black87;
 
             return AlertDialog(
               insetPadding: _isWebOrDesktop
                   ? const EdgeInsets.fromLTRB(10, 10, 15, 10)
                   : const EdgeInsets.all(12),
-              backgroundColor: backgroundColor,
+              backgroundColor: popUpBackgroundColor,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -196,7 +204,7 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                             minimumStrokeWidth: _minWidth,
                             maximumStrokeWidth: _maxWidth,
                             strokeColor: _strokeColor,
-                            backgroundColor: _backgroundColor,
+                            backgroundColor: padBackgroundColor,
                             onDrawStart: _handleOnDrawStart,
                             key: _signaturePadKey),
                       ),

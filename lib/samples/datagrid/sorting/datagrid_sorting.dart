@@ -19,8 +19,7 @@ class SortingDataGrid extends SampleView {
 
 class _SortingDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  final OrderInfoDataGridSource sortingDataGridSource =
-      OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 100);
+  late final OrderInfoDataGridSource _sortingDataGridSource;
 
   /// Decide to perform sorting in SfDataGrid.
   bool allowSorting = true;
@@ -38,33 +37,35 @@ class _SortingDataGridState extends SampleViewState {
   bool showSortNumbers = false;
 
   /// Determine to decide whether the device in landscape or in portrait.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    sortingDataGridSource.sortedColumns.add(const SortColumnDetails(
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _sortingDataGridSource =
+        OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 100);
+    _sortingDataGridSource.sortedColumns.add(const SortColumnDetails(
         name: 'id', sortDirection: DataGridSortDirection.descending));
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   @override
   Widget build(BuildContext context) {
     return SfDataGrid(
-      source: sortingDataGridSource,
-      columns: getColumns(),
+      source: _sortingDataGridSource,
+      columns: _obtainColumns(),
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
-      columnWidthMode: isWebOrDesktop || isLandscapeInMobileView
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
           ? ColumnWidthMode.fill
           : ColumnWidthMode.none,
       allowSorting: allowSorting,
@@ -194,15 +195,15 @@ class _SortingDataGridState extends SampleViewState {
     });
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
           columnName: 'id',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: !isWebOrDesktop
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+          width: !_isWebOrDesktop
               ? 100
-              : (isWebOrDesktop && model.isMobileResolution)
+              : (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
           label: Container(
@@ -216,10 +217,10 @@ class _SortingDataGridState extends SampleViewState {
       GridColumn(
           columnName: 'customerId',
           columnWidthMode:
-              !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: !isWebOrDesktop
+              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+          width: !_isWebOrDesktop
               ? 120
-              : (isWebOrDesktop && model.isMobileResolution)
+              : (_isWebOrDesktop && model.isMobileResolution)
                   ? 150.0
                   : double.nan,
           label: Container(
@@ -232,9 +233,9 @@ class _SortingDataGridState extends SampleViewState {
           )),
       GridColumn(
           columnName: 'name',
-          width: !isWebOrDesktop
+          width: !_isWebOrDesktop
               ? 80
-              : (isWebOrDesktop && model.isMobileResolution)
+              : (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
           label: Container(
@@ -248,9 +249,9 @@ class _SortingDataGridState extends SampleViewState {
           allowSorting: allowColumnSorting),
       GridColumn(
         columnName: 'freight',
-        width: !isWebOrDesktop
+        width: !_isWebOrDesktop
             ? 120
-            : (isWebOrDesktop && model.isMobileResolution)
+            : (_isWebOrDesktop && model.isMobileResolution)
                 ? 110.0
                 : double.nan,
         label: Container(
@@ -264,13 +265,13 @@ class _SortingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'city',
-        width: !isWebOrDesktop
+        width: !_isWebOrDesktop
             ? 90
-            : (isWebOrDesktop && model.isMobileResolution)
+            : (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
         columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
@@ -283,7 +284,7 @@ class _SortingDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'price',
         width:
-            (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
         columnWidthMode: ColumnWidthMode.lastColumnFill,
         label: Container(
           alignment: Alignment.centerRight,

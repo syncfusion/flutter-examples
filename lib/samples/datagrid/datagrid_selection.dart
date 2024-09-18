@@ -20,7 +20,7 @@ class SelectionDataGrid extends SampleView {
 
 class _SelectionDataGridPageState extends SampleViewState {
   /// Determine to decide whether the device in landscape or in portrait.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
   /// Determine the selection mode of SfDatGrid.
   SelectionMode selectionMode = SelectionMode.multiple;
@@ -31,11 +31,11 @@ class _SelectionDataGridPageState extends SampleViewState {
   String _navigationMode = '';
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource selectionDataGridSource;
+  late OrderInfoDataGridSource _selectionDataGridSource;
 
   final DataGridController _dataGridController = DataGridController();
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   /// Selection modes for drop down widget
   final List<String> _encoding = <String>[
@@ -52,13 +52,13 @@ class _SelectionDataGridPageState extends SampleViewState {
   ];
 
   /// DataGridController to do the programmatical selection.
-  DataGridController getDataGridController() {
+  DataGridController _buildDataGridController() {
     _dataGridController.selectedRows
-        .add(selectionDataGridSource.dataGridRows[2]);
+        .add(_selectionDataGridSource.dataGridRows[2]);
     _dataGridController.selectedRows
-        .add(selectionDataGridSource.dataGridRows[4]);
+        .add(_selectionDataGridSource.dataGridRows[4]);
     _dataGridController.selectedRows
-        .add(selectionDataGridSource.dataGridRows[6]);
+        .add(_selectionDataGridSource.dataGridRows[6]);
     return _dataGridController;
   }
 
@@ -98,13 +98,13 @@ class _SelectionDataGridPageState extends SampleViewState {
     });
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
 
-    columns = isWebOrDesktop
+    columns = _isWebOrDesktop
         ? <GridColumn>[
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'id',
@@ -118,7 +118,7 @@ class _SelectionDataGridPageState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 150.0
                   : double.nan,
               columnName: 'customerId',
@@ -132,7 +132,7 @@ class _SelectionDataGridPageState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'name',
@@ -146,7 +146,7 @@ class _SelectionDataGridPageState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
                   : double.nan,
               columnName: 'freight',
@@ -160,7 +160,7 @@ class _SelectionDataGridPageState extends SampleViewState {
               ),
             ),
             GridColumn(
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               columnName: 'city',
@@ -174,7 +174,7 @@ class _SelectionDataGridPageState extends SampleViewState {
               ),
             ),
             GridColumn(
-                width: (isWebOrDesktop && model.isMobileResolution)
+                width: (_isWebOrDesktop && model.isMobileResolution)
                     ? 120.0
                     : double.nan,
                 columnName: 'price',
@@ -240,28 +240,28 @@ class _SelectionDataGridPageState extends SampleViewState {
   SfDataGrid _buildDataGrid(
       SelectionMode selectionMode, GridNavigationMode navigationMode) {
     return SfDataGrid(
-      columnWidthMode: isWebOrDesktop || isLandscapeInMobileView
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
           ? ColumnWidthMode.fill
           : ColumnWidthMode.none,
-      source: selectionDataGridSource,
+      source: _selectionDataGridSource,
       selectionMode: selectionMode,
       navigationMode: navigationMode,
-      controller: getDataGridController(),
-      columns: getColumns(),
+      controller: _buildDataGridController(),
+      columns: _obtainColumns(),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
     _selectionMode = 'multiple';
     selectionMode = SelectionMode.multiple;
-    _navigationMode = isWebOrDesktop ? 'cell' : 'row';
+    _navigationMode = _isWebOrDesktop ? 'cell' : 'row';
     navigationMode =
-        isWebOrDesktop ? GridNavigationMode.cell : GridNavigationMode.row;
-    selectionDataGridSource = OrderInfoDataGridSource(
-        isWebOrDesktop: isWebOrDesktop, orderDataCount: 100);
+        _isWebOrDesktop ? GridNavigationMode.cell : GridNavigationMode.row;
+    _selectionDataGridSource = OrderInfoDataGridSource(
+        isWebOrDesktop: _isWebOrDesktop, orderDataCount: 100);
   }
 
   @override
@@ -275,7 +275,7 @@ class _SelectionDataGridPageState extends SampleViewState {
             child: Row(
               children: <Widget>[
                 SizedBox(
-                  width: isWebOrDesktop ? 100 : 175,
+                  width: _isWebOrDesktop ? 100 : 175,
                   child: Text(
                     model.isWebFullView ? 'Selection \nmode' : 'Selection mode',
                     softWrap: false,
@@ -312,55 +312,57 @@ class _SelectionDataGridPageState extends SampleViewState {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-          child: SizedBox(
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: isWebOrDesktop ? 100 : 175,
-                  child: Text(
-                    model.isWebFullView
-                        ? 'Navigation \nmode'
-                        : 'Navigation mode',
-                    softWrap: false,
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    height: 40,
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                        dropdownColor: model.drawerBackgroundColor,
-                        focusColor: Colors.transparent,
-                        underline: Container(
-                            color: const Color(0xFFBDBDBD), height: 1),
-                        value: _navigationMode,
-                        items: _navigation.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          _onNavigationModeChanged(value);
-                          stateSetter(() {});
-                        }),
-                  ),
-                )
-              ],
-            ),
-          ),
+          child: _selectionDropDown(stateSetter),
         ),
       ]);
     });
   }
 
+  Widget _selectionDropDown(StateSetter stateSetter) {
+    return SizedBox(
+      child: Row(
+        children: <Widget>[
+          SizedBox(
+            width: _isWebOrDesktop ? 100 : 175,
+            child: Text(
+              model.isWebFullView ? 'Navigation \nmode' : 'Navigation mode',
+              softWrap: false,
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+              height: 40,
+              alignment: Alignment.bottomLeft,
+              child: DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
+                  focusColor: Colors.transparent,
+                  underline:
+                      Container(color: const Color(0xFFBDBDBD), height: 1),
+                  value: _navigationMode,
+                  items: _navigation.map((String value) {
+                    return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: model.textColor)));
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    _onNavigationModeChanged(value);
+                    stateSetter(() {});
+                  }),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 

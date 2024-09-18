@@ -20,23 +20,23 @@ class TableSummaryDataGrid extends SampleView {
 
 class _TableSummaryDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource dataSource;
+  late OrderInfoDataGridSource _dataSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    dataSource =
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _dataSource =
         OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 100);
   }
 
   @override
   void didChangeDependencies() {
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
     super.didChangeDependencies();
   }
@@ -44,17 +44,17 @@ class _TableSummaryDataGridState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return SfDataGrid(
-      source: dataSource,
-      columns: getColumns(),
-      tableSummaryRows: getTableSummaryRows(),
-      columnWidthMode: isWebOrDesktop || isLandscapeInMobileView
+      source: _dataSource,
+      columns: _obtainColumns(),
+      tableSummaryRows: _loadTableSummaryRows(),
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
           ? ColumnWidthMode.fill
           : ColumnWidthMode.auto,
       columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
     );
   }
 
-  Color tableSummaryBackgroundColor() {
+  Color _tableSummaryBackgroundColor() {
     final bool isMaterial3 = model.themeData.useMaterial3;
     final bool isLight =
         model.themeData.colorScheme.brightness == Brightness.light;
@@ -65,8 +65,8 @@ class _TableSummaryDataGridState extends SampleViewState {
     }
   }
 
-  List<GridTableSummaryRow> getTableSummaryRows() {
-    final Color color = tableSummaryBackgroundColor();
+  List<GridTableSummaryRow> _loadTableSummaryRows() {
+    final Color color = _tableSummaryBackgroundColor();
     return <GridTableSummaryRow>[
       GridTableSummaryRow(
           color: color,
@@ -95,11 +95,11 @@ class _TableSummaryDataGridState extends SampleViewState {
     ];
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
         autoFitPadding: const EdgeInsets.all(8.0),
-        width: (isWebOrDesktop && model.isMobileResolution) ? 120.0 : 100,
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : 100,
         columnName: 'id',
         label: Container(
           padding: const EdgeInsets.all(8),
@@ -112,7 +112,7 @@ class _TableSummaryDataGridState extends SampleViewState {
       ),
       GridColumn(
         autoFitPadding: const EdgeInsets.all(8.0),
-        width: (isWebOrDesktop && model.isMobileResolution) ? 150.0 : 100,
+        width: (_isWebOrDesktop && model.isMobileResolution) ? 150.0 : 100,
         columnName: 'customerId',
         label: Container(
           padding: const EdgeInsets.all(8),
@@ -126,7 +126,7 @@ class _TableSummaryDataGridState extends SampleViewState {
       GridColumn(
         autoFitPadding: const EdgeInsets.all(8.0),
         width:
-            (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
         columnName: 'name',
         label: Container(
           padding: const EdgeInsets.all(8),
@@ -138,7 +138,7 @@ class _TableSummaryDataGridState extends SampleViewState {
         ),
       ),
       GridColumn(
-        width: (isWebOrDesktop && model.isMobileResolution) || !isWebOrDesktop
+        width: (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
             ? 140.0
             : double.nan,
         columnName: 'freight',
@@ -154,7 +154,7 @@ class _TableSummaryDataGridState extends SampleViewState {
       GridColumn(
         autoFitPadding: const EdgeInsets.all(8.0),
         width:
-            (isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
         columnName: 'city',
         label: Container(
           padding: const EdgeInsets.all(8),
@@ -166,9 +166,10 @@ class _TableSummaryDataGridState extends SampleViewState {
         ),
       ),
       GridColumn(
-          width: (isWebOrDesktop && model.isMobileResolution) || !isWebOrDesktop
-              ? 120.0
-              : double.nan,
+          width:
+              (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
+                  ? 120.0
+                  : double.nan,
           columnName: 'price',
           label: Container(
             padding: const EdgeInsets.all(8),

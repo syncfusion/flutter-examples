@@ -21,12 +21,9 @@ class ColumnSizingDataGrid extends SampleView {
 
 class _ColumnSizingDataGridState extends SampleViewState {
   /// Required for SfDataGrid to obtain the row data.
-  late final CustomerDataGridSource columnSizingDataGridSource;
+  late final CustomerDataGridSource _columnSizingDataGridSource;
 
-  /// Determine to decide whether the device in landscape or in portrait
-  bool isLandscapeInMobileView = false;
-
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   String _columnWidthMode = '';
 
@@ -71,8 +68,8 @@ class _ColumnSizingDataGridState extends SampleViewState {
     });
   }
 
-  List<GridColumn> _getColumns() {
-    if (isWebOrDesktop) {
+  List<GridColumn> _obtainColumns() {
+    if (_isWebOrDesktop) {
       return <GridColumn>[
         GridColumn(
             columnName: 'Dealer',
@@ -203,21 +200,21 @@ class _ColumnSizingDataGridState extends SampleViewState {
 
   SfDataGrid _buildDataGrid(BuildContext context) {
     return SfDataGrid(
-        source: columnSizingDataGridSource,
+        source: _columnSizingDataGridSource,
         columnWidthMode: columnWidthMode,
         columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
         columnSizer: _columnSizer,
-        columns: _getColumns());
+        columns: _obtainColumns());
   }
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
     columnWidthMode = ColumnWidthMode.fill;
     _columnWidthMode = 'fill';
-    columnSizingDataGridSource =
-        CustomerDataGridSource(isWebOrDesktop: isWebOrDesktop);
+    _columnSizingDataGridSource =
+        CustomerDataGridSource(isWebOrDesktop: _isWebOrDesktop);
   }
 
   @override
@@ -231,7 +228,7 @@ class _ColumnSizingDataGridState extends SampleViewState {
             child: Row(
               children: <Widget>[
                 SizedBox(
-                  width: isWebOrDesktop ? 100 : 150,
+                  width: _isWebOrDesktop ? 100 : 150,
                   child: Text(
                     'Column width mode',
                     softWrap: true,
@@ -275,8 +272,6 @@ class _ColumnSizingDataGridState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
-        MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   @override

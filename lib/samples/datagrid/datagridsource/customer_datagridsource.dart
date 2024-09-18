@@ -15,8 +15,8 @@ import '../model/customer.dart';
 class CustomerDataGridSource extends DataGridSource {
   /// Creates the customer data source class with required details.
   CustomerDataGridSource({required this.isWebOrDesktop}) {
-    customerInfo = getCustomerInfo(100);
-    buildDataGridRows();
+    customerInfo = _obtainCustomerDetails(100);
+    _buildDataGridRows();
   }
 
   /// Determine to decide whether the platform is web or desktop.
@@ -31,7 +31,7 @@ class CustomerDataGridSource extends DataGridSource {
   List<Customer> customerInfo = <Customer>[];
 
   /// Building DataGridRows
-  void buildDataGridRows() {
+  void _buildDataGridRows() {
     dataGridRows = customerInfo.map<DataGridRow>((Customer dataGridRow) {
       return isWebOrDesktop
           ? DataGridRow(cells: <DataGridCell>[
@@ -238,7 +238,7 @@ class CustomerDataGridSource extends DataGridSource {
   ];
 
   /// Get customer info collection.
-  List<Customer> getCustomerInfo(int count) {
+  List<Customer> _obtainCustomerDetails(int count) {
     final List<Customer> employeeData = <Customer>[];
     for (int i = 0; i < count; i++) {
       employeeData.add(Customer(

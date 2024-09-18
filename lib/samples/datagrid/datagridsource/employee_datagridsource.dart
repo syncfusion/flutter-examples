@@ -19,21 +19,21 @@ class EmployeeDataGridSource extends DataGridSource {
     if (sampleType == 'JSON') {
       _populateData(sampleType);
     } else {
-      employees = getEmployees();
-      buildDataGridRow(sampleType);
+      employees = _fetchEmployees();
+      _buildDataGridRow(sampleType);
     }
   }
 
   Future<void> _populateData(String sampleType) async {
     await _generateProductList();
-    buildDataGridRow(sampleType);
+    _buildDataGridRow(sampleType);
   }
 
   /// Instance of an employee.
   List<Employee> employees = <Employee>[];
 
   /// Instance of DataGridRow.
-  List<DataGridRow> dataGridRows = <DataGridRow>[];
+  List<DataGridRow> _dataGridRows = <DataGridRow>[];
 
   // Populate Data from the json file
   Future<void> _generateProductList() async {
@@ -47,8 +47,8 @@ class EmployeeDataGridSource extends DataGridSource {
   }
 
   /// Building DataGridRows
-  void buildDataGridRow(String sampleType) {
-    dataGridRows = employees.map<DataGridRow>((Employee employee) {
+  void _buildDataGridRow(String sampleType) {
+    _dataGridRows = employees.map<DataGridRow>((Employee employee) {
       if (sampleType == 'JSON') {
         return DataGridRow(cells: <DataGridCell<String>>[
           DataGridCell<String>(columnName: 'id', value: employee.id),
@@ -88,7 +88,7 @@ class EmployeeDataGridSource extends DataGridSource {
 
   // Overrides
   @override
-  List<DataGridRow> get rows => dataGridRows;
+  List<DataGridRow> get rows => _dataGridRows;
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
@@ -103,7 +103,7 @@ class EmployeeDataGridSource extends DataGridSource {
   }
 
   /// Employee Data collection set.
-  List<Employee> getEmployees() {
+  List<Employee> _fetchEmployees() {
     return <Employee>[
       Employee(
           id: 'ALFKI',

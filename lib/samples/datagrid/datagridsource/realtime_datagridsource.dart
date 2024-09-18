@@ -15,8 +15,8 @@ import '../model/realtime.dart';
 class RealTimeUpdateDataGridSource extends DataGridSource {
   /// Creates the stock data source class with required details.
   RealTimeUpdateDataGridSource({required this.isWebOrDesktop}) {
-    _stocks = _getStocks(100);
-    buildDataGridRows();
+    _stocks = _fetchStocks(100);
+    _buildDataGridRows();
   }
 
   /// Check whether the device is desktop or mobile platform.
@@ -75,7 +75,7 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
   }
 
   /// Building datagrid rows
-  void buildDataGridRows() {
+  void _buildDataGridRows() {
     _dataGridRows = _stocks.map<DataGridRow>((Stock stock) {
       return DataGridRow(cells: <DataGridCell>[
         DataGridCell<String>(columnName: 'symbol', value: stock.symbol),
@@ -92,8 +92,8 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
 
   Widget _buildStocks(double value) {
     return value >= 0.5
-        ? _getWidget(_images[1]!, value)
-        : _getWidget(_images[0]!, value);
+        ? _buildWidget(_images[1]!, value)
+        : _buildWidget(_images[0]!, value);
   }
 
   final Map<double, Image> _images = <double, Image>{
@@ -109,7 +109,7 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
     ),
   };
 
-  Widget _getWidget(Image image, double stack) {
+  Widget _buildWidget(Image image, double stack) {
     return Container(
       padding: const EdgeInsets.all(4),
       color: Colors.transparent,
@@ -243,7 +243,7 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
     'HFTB',
   ];
 
-  List<Stock> _getStocks(int count) {
+  List<Stock> _fetchStocks(int count) {
     final List<Stock> stockData = <Stock>[];
     for (int i = 1; i < _symbols.length; i++) {
       stockData.add(Stock(

@@ -21,16 +21,16 @@ class GettingStartedDataGrid extends SampleView {
 
 class _GettingStartedDataGridState extends SampleViewState {
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  TeamDataGridSource teamDataGridSource = TeamDataGridSource();
+  final TeamDataGridSource _teamDataGridSource = TeamDataGridSource();
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late EmployeeDataGridSource employeeDataGridSource;
+  late EmployeeDataGridSource _employeeDataGridSource;
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   SfDataGrid _buildDataGridForMobile() {
     return SfDataGrid(
-      source: teamDataGridSource,
+      source: _teamDataGridSource,
       columnWidthMode: ColumnWidthMode.fill,
       rowHeight: 50,
       columns: <GridColumn>[
@@ -41,7 +41,7 @@ class _GettingStartedDataGridState extends SampleViewState {
         ),
         GridColumn(
           columnName: 'team',
-          width: !isWebOrDesktop ? 90 : double.nan,
+          width: !_isWebOrDesktop ? 90 : double.nan,
           label: Container(
             alignment: Alignment.centerLeft,
             child: const Text('Team'),
@@ -67,7 +67,7 @@ class _GettingStartedDataGridState extends SampleViewState {
     );
   }
 
-  Widget getLocationWidget(String location) {
+  Widget buildLocationWidget(String location) {
     return Row(
       children: <Widget>[
         Image.asset('images/location.png'),
@@ -78,7 +78,7 @@ class _GettingStartedDataGridState extends SampleViewState {
     );
   }
 
-  Widget getTrustWidget(String trust) {
+  Widget buildTrustWidget(String trust) {
     return Row(children: <Widget>[
       Row(
         children: <Widget>[Image.asset('images/Perfect.png'), Text(trust)],
@@ -88,7 +88,7 @@ class _GettingStartedDataGridState extends SampleViewState {
 
   SfDataGrid _buildDataGridForWeb() {
     return SfDataGrid(
-      source: employeeDataGridSource,
+      source: _employeeDataGridSource,
       columns: <GridColumn>[
         GridColumn(
             width: 130,
@@ -196,12 +196,12 @@ class _GettingStartedDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    employeeDataGridSource = EmployeeDataGridSource();
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _employeeDataGridSource = EmployeeDataGridSource();
   }
 
   @override
   Widget build(BuildContext context) {
-    return isWebOrDesktop ? _buildDataGridForWeb() : _buildDataGridForMobile();
+    return _isWebOrDesktop ? _buildDataGridForWeb() : _buildDataGridForMobile();
   }
 }

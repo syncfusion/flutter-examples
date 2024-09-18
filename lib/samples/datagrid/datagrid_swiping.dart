@@ -25,39 +25,39 @@ class SwipingDataGrid extends SampleView {
 
 class _SwipingDataGridState extends SampleViewState {
   /// Determine to decide whether the device in landscape or in portrait.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource dataSource;
+  late OrderInfoDataGridSource _dataSource;
 
   /// Editing controller for forms to perform update the values.
-  TextEditingController? orderIdController,
-      customerIdController,
-      cityController,
-      nameController,
-      freightController,
-      priceController;
+  TextEditingController? _orderIdController,
+      _customerIdController,
+      _cityController,
+      _nameController,
+      _freightController,
+      _priceController;
 
   /// Used to validate the forms
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    dataSource = OrderInfoDataGridSource(
-        isWebOrDesktop: isWebOrDesktop, orderDataCount: 100);
-    orderIdController = TextEditingController();
-    customerIdController = TextEditingController();
-    cityController = TextEditingController();
-    nameController = TextEditingController();
-    freightController = TextEditingController();
-    priceController = TextEditingController();
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _dataSource = OrderInfoDataGridSource(
+        isWebOrDesktop: _isWebOrDesktop, orderDataCount: 100);
+    _orderIdController = TextEditingController();
+    _customerIdController = TextEditingController();
+    _cityController = TextEditingController();
+    _nameController = TextEditingController();
+    _freightController = TextEditingController();
+    _priceController = TextEditingController();
   }
 
-  RegExp _getRegExp(TextInputType keyboardType, String columnName) {
+  RegExp _makeRegExp(TextInputType keyboardType, String columnName) {
     return keyboardType == TextInputType.number
         ? columnName == 'Freight' || columnName == 'Price'
             ? RegExp('[0-9.]')
@@ -74,16 +74,16 @@ class _SwipingDataGridState extends SampleViewState {
             : TextInputType.number;
 
     // Holds the regular expression pattern based on the column type.
-    final RegExp regExp = _getRegExp(keyboardType, columnName);
+    final RegExp regExp = _makeRegExp(keyboardType, columnName);
 
     return Row(
       children: <Widget>[
         Container(
-            width: isWebOrDesktop ? 150 : 130,
+            width: _isWebOrDesktop ? 150 : 130,
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Text(columnName)),
         SizedBox(
-          width: isWebOrDesktop ? 150 : 130,
+          width: _isWebOrDesktop ? 150 : 130,
           child: TextFormField(
             validator: (String? value) {
               if (value!.isEmpty) {
@@ -104,25 +104,29 @@ class _SwipingDataGridState extends SampleViewState {
 
   /// Building the forms to edit the data
   Widget _buildAlertDialogContent() {
-    return isWebOrDesktop
+    return _isWebOrDesktop
         ? Column(
             children: <Widget>[
-              _buildRow(controller: orderIdController!, columnName: 'Order ID'),
               _buildRow(
-                  controller: customerIdController!, columnName: 'Customer ID'),
-              _buildRow(controller: nameController!, columnName: 'Name'),
-              _buildRow(controller: freightController!, columnName: 'Freight'),
-              _buildRow(controller: cityController!, columnName: 'City'),
-              _buildRow(controller: priceController!, columnName: 'Price'),
+                  controller: _orderIdController!, columnName: 'Order ID'),
+              _buildRow(
+                  controller: _customerIdController!,
+                  columnName: 'Customer ID'),
+              _buildRow(controller: _nameController!, columnName: 'Name'),
+              _buildRow(controller: _freightController!, columnName: 'Freight'),
+              _buildRow(controller: _cityController!, columnName: 'City'),
+              _buildRow(controller: _priceController!, columnName: 'Price'),
             ],
           )
         : Column(
             children: <Widget>[
-              _buildRow(controller: orderIdController!, columnName: 'Order ID'),
               _buildRow(
-                  controller: customerIdController!, columnName: 'Customer ID'),
-              _buildRow(controller: nameController!, columnName: 'Name'),
-              _buildRow(controller: cityController!, columnName: 'City'),
+                  controller: _orderIdController!, columnName: 'Order ID'),
+              _buildRow(
+                  controller: _customerIdController!,
+                  columnName: 'Customer ID'),
+              _buildRow(controller: _nameController!, columnName: 'Name'),
+              _buildRow(controller: _cityController!, columnName: 'City'),
             ],
           );
   }
@@ -130,23 +134,23 @@ class _SwipingDataGridState extends SampleViewState {
   /// Updating the DataGridRows after changing the value and notify the DataGrid
   /// to refresh the view
   void _processCellUpdate(DataGridRow row, BuildContext buildContext) {
-    final int rowIndex = dataSource.dataGridRows.indexOf(row);
+    final int rowIndex = _dataSource.dataGridRows.indexOf(row);
 
     if (_formKey.currentState!.validate()) {
-      dataSource.orders[rowIndex] = OrderInfo(
-        int.tryParse(orderIdController!.text)!,
-        int.tryParse(customerIdController!.text)!,
-        nameController!.text,
-        freightController!.text == ''
+      _dataSource.orders[rowIndex] = OrderInfo(
+        int.tryParse(_orderIdController!.text)!,
+        int.tryParse(_customerIdController!.text)!,
+        _nameController!.text,
+        _freightController!.text == ''
             ? 0.0
-            : double.tryParse(freightController!.text)!,
-        cityController!.text,
-        priceController!.text == ''
+            : double.tryParse(_freightController!.text)!,
+        _cityController!.text,
+        _priceController!.text == ''
             ? 0.0
-            : double.tryParse(priceController!.text)!,
+            : double.tryParse(_priceController!.text)!,
       );
-      dataSource.buildDataGridRows(false);
-      dataSource.updateDataSource();
+      _dataSource.buildDataGridRows(false);
+      _dataSource.updateDataSource();
       Navigator.pop(buildContext);
     }
   }
@@ -158,7 +162,7 @@ class _SwipingDataGridState extends SampleViewState {
         .firstWhereOrNull((DataGridCell element) => element.columnName == 'id')
         ?.value
         .toString();
-    orderIdController!.text = orderId ?? '';
+    _orderIdController!.text = orderId ?? '';
 
     final String? customerId = row
         .getCells()
@@ -167,7 +171,7 @@ class _SwipingDataGridState extends SampleViewState {
         ?.value
         .toString();
 
-    customerIdController!.text = customerId ?? '';
+    _customerIdController!.text = customerId ?? '';
 
     final String? name = row
         .getCells()
@@ -176,7 +180,7 @@ class _SwipingDataGridState extends SampleViewState {
         ?.value
         .toString();
 
-    nameController!.text = name ?? '';
+    _nameController!.text = name ?? '';
 
     final dynamic freight = row
         .getCells()
@@ -184,7 +188,7 @@ class _SwipingDataGridState extends SampleViewState {
             (DataGridCell element) => element.columnName == 'freight')
         ?.value;
 
-    freightController!.text =
+    _freightController!.text =
         freight == null ? '' : freight.roundToDouble().toString();
 
     final String? city = row
@@ -195,7 +199,7 @@ class _SwipingDataGridState extends SampleViewState {
         ?.value
         .toString();
 
-    cityController!.text = city ?? '';
+    _cityController!.text = city ?? '';
 
     final String? price = row
         .getCells()
@@ -205,7 +209,7 @@ class _SwipingDataGridState extends SampleViewState {
         ?.value
         .toString();
 
-    priceController!.text = price ?? '';
+    _priceController!.text = price ?? '';
   }
 
   /// Building the option button on the bottom of the alert popup
@@ -254,10 +258,10 @@ class _SwipingDataGridState extends SampleViewState {
 
   /// Deleting the DataGridRow
   void _handleDeleteWidgetTap(DataGridRow row) {
-    final int index = dataSource.dataGridRows.indexOf(row);
-    dataSource.dataGridRows.remove(row);
-    dataSource.orders.remove(dataSource.orders[index]);
-    dataSource.updateDataSource();
+    final int index = _dataSource.dataGridRows.indexOf(row);
+    _dataSource.dataGridRows.remove(row);
+    _dataSource.orders.remove(_dataSource.orders[index]);
+    _dataSource.updateDataSource();
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -347,8 +351,8 @@ class _SwipingDataGridState extends SampleViewState {
     return SfDataGrid(
       allowSwiping: true,
       swipeMaxOffset: 121.0,
-      columns: getColumns(),
-      source: dataSource,
+      columns: _obtainColumns(),
+      source: _dataSource,
       columnWidthMode: ColumnWidthMode.fill,
       endSwipeActionsBuilder: _buildEndSwipeWidget,
       startSwipeActionsBuilder: _buildStartSwipeWidget,
@@ -358,17 +362,17 @@ class _SwipingDataGridState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
-    columns = isWebOrDesktop
+    columns = _isWebOrDesktop
         ? <GridColumn>[
             GridColumn(
                 columnName: 'id',
-                width: (isWebOrDesktop && model.isMobileResolution)
+                width: (_isWebOrDesktop && model.isMobileResolution)
                     ? 120.0
                     : double.nan,
                 label: Container(
@@ -381,7 +385,7 @@ class _SwipingDataGridState extends SampleViewState {
                 )),
             GridColumn(
                 columnName: 'customerId',
-                width: (isWebOrDesktop && model.isMobileResolution)
+                width: (_isWebOrDesktop && model.isMobileResolution)
                     ? 150.0
                     : double.nan,
                 label: Container(
@@ -394,7 +398,7 @@ class _SwipingDataGridState extends SampleViewState {
                 )),
             GridColumn(
               columnName: 'name',
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               label: Container(
@@ -408,7 +412,7 @@ class _SwipingDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'freight',
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 110.0
                   : double.nan,
               label: Container(
@@ -422,7 +426,7 @@ class _SwipingDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'city',
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               label: Container(
@@ -436,7 +440,7 @@ class _SwipingDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'price',
-              width: (isWebOrDesktop && model.isMobileResolution)
+              width: (_isWebOrDesktop && model.isMobileResolution)
                   ? 120.0
                   : double.nan,
               label: Container(
@@ -463,7 +467,7 @@ class _SwipingDataGridState extends SampleViewState {
             ),
             GridColumn(
               columnName: 'customerId',
-              columnWidthMode: isLandscapeInMobileView
+              columnWidthMode: _isLandscapeInMobileView
                   ? ColumnWidthMode.fill
                   : ColumnWidthMode.none,
               label: Container(

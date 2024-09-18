@@ -27,13 +27,13 @@ class LocalizationDataGrid extends LocalizationSampleView {
 
 class _LocalizationDataGridState extends LocalizationSampleViewState {
   /// Default pager height
-  static const double dataPagerHeight = 60;
+  static const double _dataPagerHeight = 60;
 
   /// Determine to decide whether the device in landscape or in portrait.
-  bool isLandscapeInMobileView = false;
+  bool _isLandscapeInMobileView = false;
 
   /// Either desktop  or windows platforms
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   /// Number of rows per page
   int _rowsPerPage = 15;
@@ -42,16 +42,16 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
   late String _customerName, _price, _orderID, _customerID, _freight, _city;
 
   /// Selected locale
-  late String selectedLocale;
+  late String _selectedLocale;
 
   /// DataGridSource required for SfDataGrid to obtain the row data.
-  late OrderInfoDataGridSource orderInfoDataSource;
+  late OrderInfoDataGridSource _orderInfoDataSource;
 
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    orderInfoDataSource = OrderInfoDataGridSource(
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _orderInfoDataSource = OrderInfoDataGridSource(
         isWebOrDesktop: true,
         orderDataCount: 300,
         model: model,
@@ -63,28 +63,28 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
     _price = 'Price';
     _city = 'City';
     _freight = 'Freight';
-    selectedLocale = model.locale.toString();
+    _selectedLocale = model.locale.toString();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   Widget _buildDataGrid() {
     return SfDataGrid(
-        source: orderInfoDataSource,
+        source: _orderInfoDataSource,
         rowsPerPage: _rowsPerPage,
         allowSorting: true,
-        columnWidthMode: (isWebOrDesktop && !model.isMobileResolution) ||
-                isLandscapeInMobileView
+        columnWidthMode: (_isWebOrDesktop && !model.isMobileResolution) ||
+                _isLandscapeInMobileView
             ? ColumnWidthMode.fill
             : ColumnWidthMode.none,
         columns: <GridColumn>[
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
             columnName: 'id',
@@ -98,10 +98,10 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
-            columnWidthMode: (isWebOrDesktop && model.isMobileResolution)
+            columnWidthMode: (_isWebOrDesktop && model.isMobileResolution)
                 ? ColumnWidthMode.none
                 : ColumnWidthMode.fitByColumnName,
             autoFitPadding: const EdgeInsets.all(8),
@@ -116,7 +116,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
             columnName: 'name',
@@ -130,7 +130,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 110.0
                 : double.nan,
             columnName: 'freight',
@@ -144,7 +144,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
             columnName: 'city',
@@ -158,7 +158,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
             ),
           ),
           GridColumn(
-            width: (isWebOrDesktop && model.isMobileResolution)
+            width: (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
             columnName: 'price',
@@ -186,9 +186,9 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
             PointerDeviceKind.mouse,
           }),
           child: SfDataPager(
-            delegate: orderInfoDataSource,
+            delegate: _orderInfoDataSource,
             availableRowsPerPage: const <int>[15, 20, 25],
-            pageCount: orderInfoDataSource.orders.length / _rowsPerPage,
+            pageCount: _orderInfoDataSource.orders.length / _rowsPerPage,
             onRowsPerPageChanged: (int? rowsPerPage) {
               setState(() {
                 _rowsPerPage = rowsPerPage!;
@@ -204,11 +204,11 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
       return Column(
         children: <Widget>[
           SizedBox(
-              height: constraint.maxHeight - dataPagerHeight,
+              height: constraint.maxHeight - _dataPagerHeight,
               width: constraint.maxWidth,
               child: _buildDataGrid()),
           Container(
-            height: dataPagerHeight,
+            height: _dataPagerHeight,
             decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface.withOpacity(0.12),
                 border: Border(
@@ -227,7 +227,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
 
   @override
   Widget buildSample(BuildContext context) {
-    if (selectedLocale != model.locale.toString()) {
+    if (_selectedLocale != model.locale.toString()) {
       _loadDataGridSource();
     }
 
@@ -235,10 +235,10 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
   }
 
   void _loadDataGridSource() {
-    selectedLocale = model.locale.toString();
-    switch (selectedLocale) {
+    _selectedLocale = model.locale.toString();
+    switch (_selectedLocale) {
       case 'en_US':
-        orderInfoDataSource = OrderInfoDataGridSource(
+        _orderInfoDataSource = OrderInfoDataGridSource(
             isWebOrDesktop: true,
             orderDataCount: 300,
             model: model,
@@ -251,7 +251,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
         _freight = 'Freight';
         break;
       case 'ar_AE':
-        orderInfoDataSource = OrderInfoDataGridSource(
+        _orderInfoDataSource = OrderInfoDataGridSource(
             isWebOrDesktop: true,
             orderDataCount: 300,
             culture: 'Arabic',
@@ -264,7 +264,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
         _freight = 'شحن';
         break;
       case 'es_ES':
-        orderInfoDataSource = OrderInfoDataGridSource(
+        _orderInfoDataSource = OrderInfoDataGridSource(
             isWebOrDesktop: true,
             orderDataCount: 300,
             culture: 'Spanish',
@@ -277,7 +277,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
         _freight = 'Transporte';
         break;
       case 'fr_FR':
-        orderInfoDataSource = OrderInfoDataGridSource(
+        _orderInfoDataSource = OrderInfoDataGridSource(
             isWebOrDesktop: true,
             orderDataCount: 300,
             culture: 'French',
@@ -290,7 +290,7 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
         _freight = 'Cargaison';
         break;
       case 'zh_CN':
-        orderInfoDataSource = OrderInfoDataGridSource(
+        _orderInfoDataSource = OrderInfoDataGridSource(
             isWebOrDesktop: true,
             orderDataCount: 300,
             culture: 'Chinese',

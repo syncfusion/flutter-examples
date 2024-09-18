@@ -24,46 +24,46 @@ class _EditingDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    isWebOrDesktop = model.isWeb || model.isDesktop;
-    editingDataGridSource = DealerDataGridSource(model);
-    panelOpen = frontPanelVisible.value;
-    frontPanelVisible.addListener(_subscribeToValueNotifier);
+    _isWebOrDesktop = model.isWeb || model.isDesktop;
+    _editingDataGridSource = DealerDataGridSource(model);
+    panelOpen = _frontPanelVisible.value;
+    _frontPanelVisible.addListener(_subscribeToValueNotifier);
   }
 
-  final ValueNotifier<bool> frontPanelVisible = ValueNotifier<bool>(true);
-  void _subscribeToValueNotifier() => panelOpen = frontPanelVisible.value;
+  final ValueNotifier<bool> _frontPanelVisible = ValueNotifier<bool>(true);
+  void _subscribeToValueNotifier() => panelOpen = _frontPanelVisible.value;
   bool panelOpen = false;
 
   /// DataGridSource of [SfDataGrid]
-  late DealerDataGridSource editingDataGridSource;
+  late DealerDataGridSource _editingDataGridSource;
 
   /// Determine to decide whether the device in landscape or in portrait.
-  late bool isLandscapeInMobileView;
+  late bool _isLandscapeInMobileView;
 
   /// Help to identify the desktop or mobile.
-  late bool isWebOrDesktop;
+  late bool _isWebOrDesktop;
 
   /// Determine the editing action on [SfDataGrid]
-  EditingGestureType editingGestureType = EditingGestureType.doubleTap;
+  EditingGestureType _editingGestureType = EditingGestureType.doubleTap;
 
   SfDataGrid _buildDataGrid(BuildContext context) {
     return SfDataGrid(
-      source: editingDataGridSource,
+      source: _editingDataGridSource,
       allowEditing: true,
       navigationMode: GridNavigationMode.cell,
       selectionMode: SelectionMode.single,
-      editingGestureType: editingGestureType,
-      columnWidthMode: isWebOrDesktop
-          ? (isWebOrDesktop && model.isMobileResolution)
+      editingGestureType: _editingGestureType,
+      columnWidthMode: _isWebOrDesktop
+          ? (_isWebOrDesktop && model.isMobileResolution)
               ? ColumnWidthMode.none
               : ColumnWidthMode.fill
-          : isLandscapeInMobileView
+          : _isLandscapeInMobileView
               ? ColumnWidthMode.fill
               : ColumnWidthMode.none,
       columns: <GridColumn>[
         GridColumn(
             columnName: 'Product No',
-            width: isWebOrDesktop ? double.nan : 110,
+            width: _isWebOrDesktop ? double.nan : 110,
             label: Container(
               padding: const EdgeInsets.all(8.0),
               alignment: Alignment.centerRight,
@@ -74,7 +74,7 @@ class _EditingDataGridState extends SampleViewState {
             )),
         GridColumn(
             columnName: 'Dealer Name',
-            width: isWebOrDesktop ? double.nan : 110,
+            width: _isWebOrDesktop ? double.nan : 110,
             label: Container(
               padding: const EdgeInsets.all(8.0),
               alignment: Alignment.centerLeft,
@@ -85,7 +85,7 @@ class _EditingDataGridState extends SampleViewState {
             )),
         GridColumn(
             columnName: 'Shipped Date',
-            width: isWebOrDesktop ? double.nan : 110,
+            width: _isWebOrDesktop ? double.nan : 110,
             label: Container(
               padding: const EdgeInsets.all(8.0),
               alignment: Alignment.centerRight,
@@ -96,7 +96,7 @@ class _EditingDataGridState extends SampleViewState {
             )),
         GridColumn(
             columnName: 'Ship Country',
-            width: isWebOrDesktop ? double.nan : 110,
+            width: _isWebOrDesktop ? double.nan : 110,
             label: Container(
               padding: const EdgeInsets.all(8.0),
               alignment: Alignment.centerLeft,
@@ -107,7 +107,7 @@ class _EditingDataGridState extends SampleViewState {
             )),
         GridColumn(
             columnName: 'Ship City',
-            width: isWebOrDesktop ? double.nan : 110,
+            width: _isWebOrDesktop ? double.nan : 110,
             label: Container(
               padding: const EdgeInsets.all(8.0),
               alignment: Alignment.centerLeft,
@@ -149,7 +149,7 @@ class _EditingDataGridState extends SampleViewState {
               child: DropdownButton<String>(
                   dropdownColor: model.drawerBackgroundColor,
                   focusColor: Colors.transparent,
-                  value: editingGestureType.toString().split('.')[1],
+                  value: _editingGestureType.toString().split('.')[1],
                   items: <String>['tap', 'doubleTap'].map((String value) {
                     return DropdownMenuItem<String>(
                         value: value,
@@ -160,9 +160,9 @@ class _EditingDataGridState extends SampleViewState {
                   }).toList(),
                   onChanged: (dynamic value) {
                     if (value == 'tap') {
-                      editingGestureType = EditingGestureType.tap;
+                      _editingGestureType = EditingGestureType.tap;
                     } else {
-                      editingGestureType = EditingGestureType.doubleTap;
+                      _editingGestureType = EditingGestureType.doubleTap;
                     }
                     stateSetter(() {});
                     setState(() {});
@@ -175,8 +175,8 @@ class _EditingDataGridState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    editingDataGridSource.sampleModel = model;
-    isLandscapeInMobileView = !isWebOrDesktop &&
+    _editingDataGridSource.sampleModel = model;
+    _isLandscapeInMobileView = !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
