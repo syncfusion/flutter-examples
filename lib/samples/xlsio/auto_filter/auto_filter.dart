@@ -64,6 +64,7 @@ class _AutoFilterXlsIOState extends SampleViewState {
                       fontSize: 16.0, color: model.textColor)),
               material.Container(
                 padding: const material.EdgeInsets.fromLTRB(0, 0, 20, 0),
+                color: model.cardThemeColor,
                 child: material.DropdownButton<String>(
                     dropdownColor: model.drawerBackgroundColor,
                     focusColor: material.Colors.transparent,
