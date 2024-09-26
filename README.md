@@ -23,7 +23,7 @@ This repository contains awesome demos of [Syncfusion Flutter UI widgets](https:
 * Dart and Flutter add-ons for Visual Studio Code (available via the Visual studio code extension) in Android Studio it available in plugin preference.
 
 ## <a name="repository-structure"></a> Repository Structure ##
-The <b>lib/samples</b> directory contains the Flutter widget examples for each widget such as Charts, DataGrid, etc. All the examples can be deployed in Android, Window, Linux, Ios, Mac and web platforms.
+The <b>lib/samples</b> directory contains the Flutter widget examples for each widget such as Charts, DataGrid, etc. All the examples can be deployed in Android, Windows, Linux, iOS, Mac and web platforms.
 
 ## <a name="widgets-catalog"></a>Widgets Catalog ##
 
