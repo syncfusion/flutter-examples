@@ -18,7 +18,7 @@ This repository contains awesome demos of [Syncfusion Flutter UI widgets](https:
 * Flutter SDK
   | Channel| Version|
   |--------|--------|
-  | Stable | [3.24.0](https://code.visualstudio.com/download)|
+  | Stable | [3.24.0]([https://code.visualstudio.com/download](https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.0-stable.zip))|
 
 * Dart and Flutter add-ons for Visual Studio Code (available via the Visual studio code extension) in Android Studio it available in plugin preference.
 
