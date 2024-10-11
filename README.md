@@ -18,12 +18,12 @@ This repository contains awesome demos of [Syncfusion Flutter UI widgets](https:
 * Flutter SDK
   | Channel| Version|
   |--------|--------|
-  | Stable | [2.0.2](https://code.visualstudio.com/download)|
-  | Beta   | [2.0.2](https://storage.googleapis.com/flutter_infra/releases/beta/windows/flutter_windows_2.0.2-beta.zip)|
+  | Stable | [3.24.0]([https://code.visualstudio.com/download](https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.0-stable.zip))|
+
 * Dart and Flutter add-ons for Visual Studio Code (available via the Visual studio code extension) in Android Studio it available in plugin preference.
 
 ## <a name="repository-structure"></a> Repository Structure ##
-The <b>lib/samples</b> directory contains the Flutter widget examples for each widget such as Charts, DataGrid, etc. All the examples can be deployed in Android, iOS, and web platforms.
+The <b>lib/samples</b> directory contains the Flutter widget examples for each widget such as Charts, DataGrid, etc. All the examples can be deployed in Android, Web, Windows, Linux, iOS, and Mac platforms.
 
 ## <a name="widgets-catalog"></a>Widgets Catalog ##
 
@@ -31,6 +31,7 @@ The <b>lib/samples</b> directory contains the Flutter widget examples for each w
 | ------------- | --------------- |
 | Barcode Generator | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/barcodes) | 
 | Calendar | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/calendar) |
+| Chat | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chat) |
 | Charts | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart) |
 | DataGrid | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/datagrid) |
 | Date Range Picker | [Link](https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/date_picker) | 
