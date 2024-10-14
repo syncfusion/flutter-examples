@@ -54,60 +54,71 @@ class _MarkerPointerExampleState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(shrinkWrap: true, children: <Widget>[
-        Row(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
           children: <Widget>[
-            Text('Marker type ',
-                style: TextStyle(
-                  color: model.textColor,
-                  fontSize: 16,
-                )),
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: _selectedMarkerType,
-                  items: _markerTypes.map((String value) {
-                    return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'invertedTriangle',
-                        child: Text(value,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (String? value) {
-                    _onMarkerTypeChange(value.toString());
-                    stateSetter(() {});
-                  }),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  Text('Marker type ',
+                      style: TextStyle(
+                        color: model.textColor,
+                        fontSize: 16,
+                      )),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                    child: DropdownButton<String>(
+                        dropdownColor: model.drawerBackgroundColor,
+                        underline: Container(
+                            color: const Color(0xFFBDBDBD), height: 1),
+                        value: _selectedMarkerType,
+                        items: _markerTypes.map((String value) {
+                          return DropdownMenuItem<String>(
+                              value:
+                                  (value != null) ? value : 'invertedTriangle',
+                              child: Text(value,
+                                  style: TextStyle(color: model.textColor)));
+                        }).toList(),
+                        onChanged: (String? value) {
+                          _onMarkerTypeChange(value.toString());
+                          stateSetter(() {});
+                        }),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Text('Elevation',
-                style: TextStyle(fontSize: 16.0, color: model.textColor)),
-            Container(
-              padding: !model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
-                  : const EdgeInsets.fromLTRB(50, 0, 0, 0),
-              child: CustomDirectionalButtons(
-                maxValue: 15,
-                initialValue: _elevation,
-                onChanged: (double val) {
-                  setState(() {
-                    _elevation = val;
-                  });
-                },
-                loop: true,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 16.0, color: model.textColor),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  Text('Elevation',
+                      style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                  Container(
+                    padding: !model.isWebFullView
+                        ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
+                        : const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                    child: CustomDirectionalButtons(
+                      maxValue: 15,
+                      initialValue: _elevation,
+                      onChanged: (double val) {
+                        setState(() {
+                          _elevation = val;
+                        });
+                      },
+                      loop: true,
+                      iconColor: model.textColor,
+                      style: TextStyle(fontSize: 16.0, color: model.textColor),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
-        ),
-      ]);
-    });
+        );
+      },
+    );
   }
 
   /// Method for updating the marker type

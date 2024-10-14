@@ -2257,36 +2257,40 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
                   child: ListView(
                     shrinkWrap: true,
                     children: <Widget>[
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            const Text(
-                              'Properties',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            if (widget.openState ?? false)
-                              Container()
-                            else
-                              Material(
-                                color:
-                                    widget.sampleModel!.sampleOutputCardColor,
-                                shape: const CircleBorder(),
-                                clipBehavior: Clip.hardEdge,
-                                child: IconButton(
-                                  hoverColor: Colors.grey.withOpacity(0.3),
-                                  icon: Icon(
-                                    Icons.close,
-                                    color: widget.sampleModel!.drawerIconColor,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              const Text(
+                                'Properties',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
                                 ),
-                              )
-                          ]),
+                              ),
+                              if (widget.openState ?? false)
+                                Container()
+                              else
+                                Material(
+                                  color:
+                                      widget.sampleModel!.sampleOutputCardColor,
+                                  shape: const CircleBorder(),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: IconButton(
+                                    hoverColor: Colors.grey.withOpacity(0.3),
+                                    icon: Icon(
+                                      Icons.close,
+                                      color:
+                                          widget.sampleModel!.drawerIconColor,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                )
+                            ]),
+                      ),
                       Container(
                         padding: const EdgeInsets.only(right: 5, top: 5),
                         width: 238,
