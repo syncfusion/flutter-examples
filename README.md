@@ -80,21 +80,28 @@ Run your application using the following commands:
 **Windows & Linux**
 
 Run code: Ctrl + F5
-Run with debugging: F5 or Run > Start Debugging.
+
+Run with debugging: F5 or Run > Start Debugging
+
 Stop debugging: Shift + F5
+
 Restart debugging: Ctrl + Shift + F5
 
 **MacOS**
 
 Run code: Cmd + F5
-Run with debugging: F5 or Run > Start Debugging.
+
+Run with debugging: F5 or Run > Start Debugging
+
 Stop debugging: Shift + Cmd + F5
+
 Restart debugging: Cmd + Shift + F5
 
 **Web (VS Code in the Browser)**
 
 Run code: Ctrl + F5 
-Run with debugging: F5 or Run > Start Debugging.
+
+Run with debugging: F5 or Run > Start Debugging
 
 ## Get the demo application
 
