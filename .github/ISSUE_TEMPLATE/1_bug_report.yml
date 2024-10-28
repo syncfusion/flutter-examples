@@ -8,11 +8,12 @@ body:
       value: |
         Thank you for using Syncfusion widgets!
 
-        If you are looking for support, please check out our documentation, knowledge base, 
+        If you are looking for support, please check out our documentation, knowledge base, help bot,
         and feedbacks. If you are unable to find a solution, please report the bug here.
 
           - [User Guide Documentation](https://help.syncfusion.com/flutter/introduction/overview)
           - [Knowledge Base](https://support.syncfusion.com/kb/cross-platforms/category/79)
+          - [HelpBot](https://helpbot.syncfusion.com)
           - [Feedbacks](https://stackoverflow.com/questions/tagged/flutter?sort=frequent)
           
         You can also contact us through the following methods.
