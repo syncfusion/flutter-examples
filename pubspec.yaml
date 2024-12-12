@@ -1,6 +1,6 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 27.1.48
+version: 28.1.33
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
@@ -20,20 +20,21 @@ dependencies:
   intl: '>=0.18.1 <0.20.0'
   cupertino_icons: ^1.0.8
   
-  syncfusion_localizations: ^27.1.48
-  syncfusion_flutter_datagrid_export: ^27.1.48
-  syncfusion_flutter_calendar: ^27.1.48
-  syncfusion_flutter_datepicker: ^27.1.48
-  syncfusion_flutter_charts: ^27.1.48
-  syncfusion_flutter_gauges: ^27.1.48
-  syncfusion_flutter_sliders: ^27.1.48
-  syncfusion_flutter_pdf: ^27.1.48
-  syncfusion_flutter_barcodes: ^27.1.48
-  syncfusion_officechart: ^27.1.48
-  syncfusion_flutter_maps: ^27.1.48
-  syncfusion_flutter_signaturepad: ^27.1.48
-  syncfusion_flutter_pdfviewer: ^27.1.48
-  syncfusion_flutter_treemap: ^27.1.48
+  syncfusion_localizations: ^28.1.33
+  syncfusion_flutter_datagrid_export: ^28.1.33
+  syncfusion_flutter_calendar: ^28.1.33
+  syncfusion_flutter_datepicker: ^28.1.33
+  syncfusion_flutter_charts: ^28.1.33
+  syncfusion_flutter_gauges: ^28.1.33
+  syncfusion_flutter_sliders: ^28.1.33
+  syncfusion_flutter_pdf: ^28.1.33
+  syncfusion_flutter_barcodes: ^28.1.33
+  syncfusion_officechart: ^28.1.33
+  syncfusion_flutter_maps: ^28.1.33
+  syncfusion_flutter_signaturepad: ^28.1.33
+  syncfusion_flutter_pdfviewer: ^28.1.33
+  syncfusion_flutter_treemap: ^28.1.33
+  syncfusion_flutter_chat: ^28.1.33
 
 flutter:
   uses-material-design: true

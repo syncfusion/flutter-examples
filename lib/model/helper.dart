@@ -889,7 +889,7 @@ Widget _buildCompanyLogoAndAppVersion(SampleModel model) {
         Align(
           alignment: Alignment.bottomCenter,
           child: Text(
-            'Version 26.1.35',
+            'Version 28.1.33',
             style: TextStyle(
               color: model.drawerTextIconColor,
               fontSize: 12,
