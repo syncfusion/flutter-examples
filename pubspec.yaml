@@ -4,7 +4,7 @@ version: 28.1.33
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter_test:
