@@ -1,18 +1,18 @@
-///Dart imports
+/// Dart import.
 import 'dart:math';
 
-///Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Widget of special region schedule
+/// Widget of special region schedule.
 class SpecialRegionsCalendar extends SampleView {
-  /// Creates calendar for special regions
+  /// Creates Calendar for special regions.
   const SpecialRegionsCalendar(Key key) : super(key: key);
 
   @override
@@ -31,7 +31,6 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     CalendarView.timelineWeek,
     CalendarView.timelineWorkWeek
   ];
-
   List<TimeRegion> regions = <TimeRegion>[];
   late _DataSource events;
 
@@ -43,70 +42,76 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     super.initState();
   }
 
-  /// Adds the special time region for the calendar with the required information
+  /// Adds the special time region for the Calendar.
   void _updateRegions() {
     final DateTime date =
         DateTime.now().add(Duration(days: -DateTime.now().weekday));
-    regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day),
-      endTime: DateTime(date.year, date.month, date.day, 9),
-      enablePointerInteraction: false,
-      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-      color: Colors.grey.withOpacity(0.2),
-      recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
-    ));
-
-    regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day, 18),
-      endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
-      enablePointerInteraction: false,
-      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-      color: Colors.grey.withOpacity(0.2),
-      recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
-    ));
-
-    regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day, 10),
-      endTime: DateTime(date.year, date.month, date.day, 11),
-      enablePointerInteraction: false,
-      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-      color: Colors.grey.withOpacity(0.2),
-      text: 'Not Available',
-      recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=TU',
-    ));
-
-    regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day, 15),
-      endTime: DateTime(date.year, date.month, date.day, 16),
-      enablePointerInteraction: false,
-      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-      color: Colors.grey.withOpacity(0.2),
-      text: 'Not Available',
-      recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=WE',
-    ));
-
-    regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day, 13),
-      endTime: DateTime(date.year, date.month, date.day, 14),
-      enablePointerInteraction: false,
-      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-      color: Colors.grey.withOpacity(0.2),
-      text: 'Lunch',
-      recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
-    ));
-
-    regions.add(TimeRegion(
-      startTime: DateTime(date.year, date.month, date.day),
-      endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
-      enablePointerInteraction: false,
-      textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-      color: Colors.grey.withOpacity(0.2),
-      recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=SA,SU',
-    ));
+    regions.add(
+      TimeRegion(
+        startTime: DateTime(date.year, date.month, date.day),
+        endTime: DateTime(date.year, date.month, date.day, 9),
+        enablePointerInteraction: false,
+        textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
+        color: Colors.grey.withOpacity(0.2),
+        recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
+      ),
+    );
+    regions.add(
+      TimeRegion(
+        startTime: DateTime(date.year, date.month, date.day, 18),
+        endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
+        enablePointerInteraction: false,
+        textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
+        color: Colors.grey.withOpacity(0.2),
+        recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
+      ),
+    );
+    regions.add(
+      TimeRegion(
+        startTime: DateTime(date.year, date.month, date.day, 10),
+        endTime: DateTime(date.year, date.month, date.day, 11),
+        enablePointerInteraction: false,
+        textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
+        color: Colors.grey.withOpacity(0.2),
+        text: 'Not Available',
+        recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=TU',
+      ),
+    );
+    regions.add(
+      TimeRegion(
+        startTime: DateTime(date.year, date.month, date.day, 15),
+        endTime: DateTime(date.year, date.month, date.day, 16),
+        enablePointerInteraction: false,
+        textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
+        color: Colors.grey.withOpacity(0.2),
+        text: 'Not Available',
+        recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=WE',
+      ),
+    );
+    regions.add(
+      TimeRegion(
+        startTime: DateTime(date.year, date.month, date.day, 13),
+        endTime: DateTime(date.year, date.month, date.day, 14),
+        enablePointerInteraction: false,
+        textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
+        color: Colors.grey.withOpacity(0.2),
+        text: 'Lunch',
+        recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
+      ),
+    );
+    regions.add(
+      TimeRegion(
+        startTime: DateTime(date.year, date.month, date.day),
+        endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
+        enablePointerInteraction: false,
+        textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
+        color: Colors.grey.withOpacity(0.2),
+        recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=SA,SU',
+      ),
+    );
   }
 
-  /// Method that creates the collection the data source for calendar, with
-  /// required information.
+  /// Method that creates the collection the data source for Calendar.
   List<Appointment> _getAppointments() {
     final List<String> subjectCollection = <String>[];
     subjectCollection.add('General Meeting');
@@ -144,34 +149,47 @@ class _SpecialRegionsCalendarState extends SampleViewState {
       if (date.weekday == 6 || date.weekday == 7) {
         continue;
       }
-
-      final DateTime startDate = DateTime(date.year, date.month, date.day,
-          (date.weekday.isEven ? 14 : 9) + random.nextInt(3));
-      appointments.add(Appointment(
+      final DateTime startDate = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        (date.weekday.isEven ? 14 : 9) + random.nextInt(3),
+      );
+      appointments.add(
+        Appointment(
           subject: subjectCollection[random.nextInt(7)],
           startTime: startDate,
           endTime: startDate.add(const Duration(hours: 1)),
-          color: colorCollection[random.nextInt(9)]));
+          color: colorCollection[random.nextInt(9)],
+        ),
+      );
     }
-
     return appointments;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Row(children: <Widget>[
-      Expanded(
-          child: Container(
-        color: model.sampleOutputCardColor,
-        child: Theme(
-            data: model.themeData.copyWith(
-                colorScheme: model.themeData.colorScheme
-                    .copyWith(secondary: model.primaryColor)),
-            child: _getSpecialRegionCalendar(
-                regions: regions, dataSource: events)),
-      ))
-    ]));
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              color: model.sampleOutputCardColor,
+              child: Theme(
+                data: model.themeData.copyWith(
+                  colorScheme: model.themeData.colorScheme
+                      .copyWith(secondary: model.primaryColor),
+                ),
+                child: _getSpecialRegionCalendar(
+                  regions: regions,
+                  dataSource: events,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _getSpecialRegionWidget(
@@ -195,11 +213,10 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         ),
       );
     }
-
     return Container(color: details.region.color);
   }
 
-  /// Return the calendar widget based on the properties passed
+  /// Return the Calendar widget based on the properties passed.
   SfCalendar _getSpecialRegionCalendar(
       {List<TimeRegion>? regions, _DataSource? dataSource}) {
     return SfCalendar(
@@ -210,7 +227,8 @@ class _SpecialRegionsCalendarState extends SampleViewState {
       specialRegions: regions,
       timeRegionBuilder: _getSpecialRegionWidget,
       timeSlotViewSettings: const TimeSlotViewSettings(
-          minimumAppointmentDuration: Duration(minutes: 30)),
+        minimumAppointmentDuration: Duration(minutes: 30),
+      ),
       dataSource: dataSource,
     );
   }

@@ -1,16 +1,16 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-///Sample depicts the localization in cartesian chart
+/// Renders the column series chart with localization support.
 class LocalizationChart extends LocalizationSampleView {
-  ///Constructor for localization chart
+  /// Creates the column series chart with localization support.
   const LocalizationChart(Key key) : super(key: key);
 
   @override
@@ -19,15 +19,16 @@ class LocalizationChart extends LocalizationSampleView {
 
 class _LocalizationChartState extends LocalizationSampleViewState {
   _LocalizationChartState() : super();
+  late TooltipBehavior _tooltip;
 
   List<ChartSampleData>? chartData;
   String? _title;
-  String? firstSeriesName, secondSeriesName;
-  late TooltipBehavior tooltip;
+  String? _firstSeriesName;
+  String? _secondSeriesName;
 
   @override
   void initState() {
-    tooltip = TooltipBehavior(enable: true);
+    _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }
 
@@ -37,65 +38,65 @@ class _LocalizationChartState extends LocalizationSampleViewState {
   }
 
   Widget _buildLocalizationChart() {
-    _getDataSource();
+    _buildDataSource();
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: (model.isWeb || model.isDesktop) ? 0 : 70.0),
+      padding: EdgeInsets.only(
+        bottom: (model.isWeb || model.isDesktop) ? 0 : 70.0,
+      ),
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(text: _title!),
         legend: const Legend(isVisible: true),
         primaryXAxis: const CategoryAxis(
-            labelIntersectAction: AxisLabelIntersectAction.multipleRows,
-            majorGridLines: MajorGridLines(width: 0)),
+          labelIntersectAction: AxisLabelIntersectAction.multipleRows,
+          majorGridLines: MajorGridLines(width: 0),
+        ),
         primaryYAxis: NumericAxis(
-            axisLine: const AxisLine(width: 0),
+          axisLine: const AxisLine(width: 0),
 
-            // Formatted the axis labels based on the selected culture
-            numberFormat: NumberFormat.compactSimpleCurrency(
-                locale: model.locale == const Locale('ar', 'AE')
-                    ? const Locale('ar', 'AE').toString()
-                    : model.locale == const Locale('en', 'US')
-                        ? const Locale('en', 'US').toString()
-                        : model.locale == const Locale('es', 'ES')
-                            ? const Locale('es', 'ES').toString()
-                            : model.locale == const Locale('fr', 'FR')
-                                ? const Locale('fr', 'FR').toString()
-                                : const Locale('zh', 'CN').toString()),
-            maximum: 2500,
-            minimum: 500,
-            interval: 500,
-            majorTickLines: const MajorTickLines(size: 0)),
-        series: _getColumnSeries(),
-        tooltipBehavior: tooltip,
+          // Formatted the axis labels based on the selected culture
+          numberFormat: NumberFormat.compactSimpleCurrency(
+              locale: model.locale == const Locale('ar', 'AE')
+                  ? const Locale('ar', 'AE').toString()
+                  : model.locale == const Locale('en', 'US')
+                      ? const Locale('en', 'US').toString()
+                      : model.locale == const Locale('es', 'ES')
+                          ? const Locale('es', 'ES').toString()
+                          : model.locale == const Locale('fr', 'FR')
+                              ? const Locale('fr', 'FR').toString()
+                              : const Locale('zh', 'CN').toString()),
+          maximum: 2500,
+          minimum: 500,
+          interval: 500,
+          majorTickLines: const MajorTickLines(size: 0),
+        ),
+        series: _buildColumnSeries(),
+        tooltipBehavior: _tooltip,
       ),
     );
   }
 
-  /// The method returns column series
-  List<ColumnSeries<ChartSampleData, String>> _getColumnSeries() {
+  /// Returns the list of cartesian column series.
+  List<ColumnSeries<ChartSampleData, String>> _buildColumnSeries() {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          name: firstSeriesName),
+        dataSource: chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        name: _firstSeriesName,
+      ),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          name: secondSeriesName)
+        dataSource: chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.yValue,
+        name: _secondSeriesName,
+      )
     ];
   }
 
-  @override
-  void dispose() {
-    chartData!.clear();
-    super.dispose();
-  }
-
-  // Method to update data source, title and name of the series based on the culture
-  void _getDataSource() {
+  /// Method to update data source, title and name of the
+  /// series based on the culture.
+  void _buildDataSource() {
     if (model.locale == const Locale('en', 'US')) {
       chartData = <ChartSampleData>[
         ChartSampleData(x: 'Monday', y: 1000, yValue: 890),
@@ -105,8 +106,8 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: 'Friday', y: 1794, yValue: 1694)
       ];
       _title = 'Sales price comparison of products in a week';
-      firstSeriesName = 'Product A';
-      secondSeriesName = 'Product B';
+      _firstSeriesName = 'Product A';
+      _secondSeriesName = 'Product B';
     } else if (model.locale == const Locale('ar', 'AE')) {
       chartData = <ChartSampleData>[
         ChartSampleData(x: 'الإثنين', y: 1000, yValue: 890),
@@ -116,8 +117,8 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: 'يوم الجمعة', y: 1794, yValue: 1694)
       ];
       _title = 'مقارنة أسعار مبيعات المنتجات في الأسبوع';
-      firstSeriesName = 'المنتج أ';
-      secondSeriesName = 'المنتج ب';
+      _firstSeriesName = 'المنتج أ';
+      _secondSeriesName = 'المنتج ب';
     } else if (model.locale == const Locale('fr', 'FR')) {
       chartData = <ChartSampleData>[
         ChartSampleData(x: 'Lundi', y: 1000, yValue: 890),
@@ -127,8 +128,8 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: 'vendredi', y: 1794, yValue: 1694)
       ];
       _title = 'Comparaison des prix de vente des produits en une semaine';
-      firstSeriesName = 'Produit A';
-      secondSeriesName = 'Produit B';
+      _firstSeriesName = 'Produit A';
+      _secondSeriesName = 'Produit B';
     } else if (model.locale == const Locale('zh', 'CN')) {
       chartData = <ChartSampleData>[
         ChartSampleData(x: '周一', y: 1000, yValue: 890),
@@ -138,8 +139,8 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: '星期五', y: 1794, yValue: 1694)
       ];
       _title = '一周内产品销售价格比较';
-      firstSeriesName = '产品A';
-      secondSeriesName = '产品B';
+      _firstSeriesName = '产品A';
+      _secondSeriesName = '产品B';
     } else {
       chartData = <ChartSampleData>[
         ChartSampleData(x: 'lunes', y: 1000, yValue: 890),
@@ -149,8 +150,14 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: 'viernes', y: 1794, yValue: 1694)
       ];
       _title = 'Comparación de precios de venta de productos en una semana';
-      firstSeriesName = 'Producto A';
-      secondSeriesName = 'Producto B';
+      _firstSeriesName = 'Producto A';
+      _secondSeriesName = 'Producto B';
     }
+  }
+
+  @override
+  void dispose() {
+    chartData!.clear();
+    super.dispose();
   }
 }

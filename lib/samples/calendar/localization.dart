@@ -1,12 +1,16 @@
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Widget of calendar localization
+/// Widget of Calendar localization.
 class CalendarLocalization extends LocalizationSampleView {
-  /// Creates default calendar localization
+  /// Creates default Calendar localization.
   const CalendarLocalization(Key key) : super(key: key);
 
   @override
@@ -19,8 +23,8 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
   /// Update the current view as month view.
   late CalendarView _currentView;
 
-  /// Global key used to maintain the state, when we change the parent of the
-  /// widget
+  /// Global key used to maintain the state,
+  /// when we change the parent of the widget.
   final GlobalKey _globalKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
   final CalendarController _calendarController = CalendarController();
@@ -47,37 +51,48 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
     }
 
     final Widget calendar = Theme(
-
-        /// The key set here to maintain the state,
-        ///  when we change the parent of the widget
-        key: _globalKey,
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child: _getCalendar(_calendarController, _events, _onViewChanged));
+      /// The key set here to maintain the state,
+      ///  when we change the parent of the widget.
+      key: _globalKey,
+      data: model.themeData.copyWith(
+        colorScheme:
+            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+      ),
+      child: _getCalendar(
+        _calendarController,
+        _events,
+        _onViewChanged,
+      ),
+    );
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Row(children: <Widget>[
-        Expanded(
-          child: _calendarController.view == CalendarView.month &&
-                  model.isWebFullView &&
-                  screenHeight < 800
-              ? Scrollbar(
-                  thumbVisibility: true,
-                  controller: _scrollController,
-                  child: ListView(
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child: _calendarController.view == CalendarView.month &&
+                    model.isWebFullView &&
+                    screenHeight < 800
+                ? Scrollbar(
+                    thumbVisibility: true,
                     controller: _scrollController,
-                    children: <Widget>[
-                      Container(
-                        color: model.sampleOutputCardColor,
-                        height: 600,
-                        child: calendar,
-                      )
-                    ],
-                  ))
-              : Container(color: model.sampleOutputCardColor, child: calendar),
-        )
-      ]),
+                    child: ListView(
+                      controller: _scrollController,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -90,7 +105,6 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
       _currentView = _calendarController.view!;
       return;
     }
-
     _currentView = _calendarController.view!;
     SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
@@ -101,7 +115,6 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
 
   List<String> getSubjectTexts() {
     final List<String> subjectCollection = <String>[];
-
     subjectCollection.add('General Meeting');
     subjectCollection.add('Planning');
     subjectCollection.add('Automation');
@@ -112,7 +125,6 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
     subjectCollection.add('Project Completion');
     subjectCollection.add('Release updates');
     subjectCollection.add('Testing');
-
     return subjectCollection;
   }
 
@@ -128,7 +140,6 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
     subjectCollection.add('اكتمال المشروع');
     subjectCollection.add('إصدار التحديثات');
     subjectCollection.add('اختبارات');
-
     return subjectCollection;
   }
 
@@ -144,7 +155,6 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
     subjectCollection.add('Finalización del proyecto');
     subjectCollection.add('Actualizaciones de versiones');
     subjectCollection.add('probando');
-
     return subjectCollection;
   }
 
@@ -160,7 +170,6 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
     subjectCollection.add('Achèvement du projet');
     subjectCollection.add('Mises à jour des versions');
     subjectCollection.add('Essai');
-
     return subjectCollection;
   }
 
@@ -176,13 +185,11 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
     subjectCollection.add('项目完成');
     subjectCollection.add('发布更新');
     subjectCollection.add('测试');
-
     return subjectCollection;
   }
 
   List<Appointment> getAppointmentList(List<String> subjectCollection) {
     final List<Appointment> appointmentCollection = <Appointment>[];
-
     final List<Color> colorCollection = <Color>[];
     colorCollection.add(const Color(0xFF0F8644));
     colorCollection.add(const Color(0xFF8B1FA9));
@@ -194,7 +201,6 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
     colorCollection.add(const Color(0xFFE47C73));
     colorCollection.add(const Color(0xFF636363));
     colorCollection.add(const Color(0xFF0A8043));
-
     final DateTime rangeStartDate =
         DateTime.now().add(const Duration(days: -10));
     final DateTime rangeEndDate = DateTime.now().add(const Duration(days: 10));
@@ -204,21 +210,24 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
       final DateTime date = i;
       for (int j = 0; j < 2; j++) {
         final DateTime startDate = DateTime(date.year, date.month, date.day);
-        appointmentCollection.add(Appointment(
+        appointmentCollection.add(
+          Appointment(
             startTime: startDate.add(Duration(hours: j == 0 ? 9 : 14)),
             endTime: startDate.add(const Duration(hours: 2)),
             subject: subjectCollection[j],
-            color: colorCollection[j]));
+            color: colorCollection[j],
+          ),
+        );
       }
     }
-
     return appointmentCollection;
   }
 
-  Widget _getCalendar(
-      [CalendarController? calendarController,
-      CalendarDataSource? calendarDataSource,
-      ViewChangedCallback? viewChangedCallback]) {
+  Widget _getCalendar([
+    CalendarController? calendarController,
+    CalendarDataSource? calendarDataSource,
+    ViewChangedCallback? viewChangedCallback,
+  ]) {
     return SfCalendar(
       allowedViews: const <CalendarView>[
         CalendarView.day,
@@ -228,7 +237,7 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
         CalendarView.timelineDay,
         CalendarView.timelineWeek,
         CalendarView.timelineWorkWeek,
-        CalendarView.schedule
+        CalendarView.schedule,
       ],
       showDatePickerButton: true,
       controller: calendarController,
@@ -236,9 +245,11 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
       showNavigationArrow: model.isWebFullView,
       onViewChanged: viewChangedCallback,
       monthViewSettings: const MonthViewSettings(
-          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+        appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+      ),
       timeSlotViewSettings: const TimeSlotViewSettings(
-          minimumAppointmentDuration: Duration(minutes: 60)),
+        minimumAppointmentDuration: Duration(minutes: 60),
+      ),
     );
   }
 }

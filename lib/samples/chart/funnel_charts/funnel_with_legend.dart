@@ -1,15 +1,15 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../model/sample_view.dart';
 
-/// Renders the funnel chart with legend
+/// Renders the funnel series chart with legend.
 class FunnelLegend extends SampleView {
-  /// Renders the funnel chart with legend
+  /// Renders the funnel series chart with legend.
   const FunnelLegend(Key key) : super(key: key);
 
   @override
@@ -18,12 +18,13 @@ class FunnelLegend extends SampleView {
 
 class _FunnelLegendState extends SampleViewState {
   _FunnelLegendState();
-  late List<ChartSampleData> datasource;
+  late List<ChartSampleData> _chartData;
+
   TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
-    datasource = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 'Others', y: 10, text: '10%'),
       ChartSampleData(x: 'Medical ', y: 11, text: '11%'),
       ChartSampleData(x: 'Saving ', y: 14, text: '14%'),
@@ -31,8 +32,10 @@ class _FunnelLegendState extends SampleViewState {
       ChartSampleData(x: 'Travel', y: 21, text: '21%'),
       ChartSampleData(x: 'Food', y: 27, text: '27%'),
     ];
-    _tooltipBehavior =
-        TooltipBehavior(enable: true, format: 'point.x : point.y%');
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+      format: 'point.x : point.y%',
+    );
     super.initState();
   }
 
@@ -41,31 +44,38 @@ class _FunnelLegendState extends SampleViewState {
     return _buildLegendFunnelChart();
   }
 
-  ///Get the funnel chart which contains the legend
+  /// Returns the funnel chart which contains the legend.
   SfFunnelChart _buildLegendFunnelChart() {
     return SfFunnelChart(
-      //   smartLabelMode: SmartLabelMode.none,
       title: ChartTitle(
-          text: isCardView ? '' : 'Monthly expenditure of an individual'),
+        text: isCardView ? '' : 'Monthly expenditure of an individual',
+      ),
 
       /// To enable the legend for funnel chart.
       legend: const Legend(
-          isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+        isVisible: true,
+        overflowMode: LegendItemOverflowMode.wrap,
+      ),
       tooltipBehavior: _tooltipBehavior,
-      series: _getFunnelSeries(),
+      series: _buildFunnelSeries(),
     );
   }
 
-  /// Get the funnel series
-  FunnelSeries<ChartSampleData, String> _getFunnelSeries() {
+  /// Returns the funnel series.
+  FunnelSeries<ChartSampleData, String> _buildFunnelSeries() {
     return FunnelSeries<ChartSampleData, String>(
-        dataSource: datasource,
-        //   textFieldMapper: (ChartSampleData data, _) => data.text,
-        xValueMapper: (ChartSampleData data, _) => data.x as String,
-        yValueMapper: (ChartSampleData data, _) => data.y,
-        dataLabelSettings: DataLabelSettings(
-          isVisible: !isCardView,
-          //labelPosition: ChartDataLabelPosition.inside
-        ));
+      dataSource: _chartData,
+      xValueMapper: (ChartSampleData data, int index) => data.x,
+      yValueMapper: (ChartSampleData data, int index) => data.y,
+      dataLabelSettings: DataLabelSettings(
+        isVisible: !isCardView,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _chartData.clear();
+    super.dispose();
   }
 }

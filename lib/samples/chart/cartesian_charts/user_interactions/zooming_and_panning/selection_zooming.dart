@@ -1,33 +1,41 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the chart with delection zooming sample.
+/// Renders the scatter series chart with selection zooming.
 class DefaultZooming extends SampleView {
-  /// Creates the chart with delection zooming sample.
+  /// Creates the scatter series chart with selection zooming.
   const DefaultZooming(Key key) : super(key: key);
 
   @override
   _DefaultZoomingState createState() => _DefaultZoomingState();
 }
 
-/// State class of the chart with delection zooming.
+/// State class for the scatter series chart with selection zooming.
 class _DefaultZoomingState extends SampleViewState {
   _DefaultZoomingState();
   late ZoomPanBehavior _zoomingPanBehavior;
+  late List<ChartSampleData> _zoomData;
+  late List<ChartSampleData> _zoomData1;
+
   @override
   void initState() {
     _zoomingPanBehavior = ZoomPanBehavior(
-        enablePanning: true,
+      enablePanning: true,
+      enableSelectionZooming: true,
+    );
+    _zoomData = _buildChartData1();
+    _zoomData1 = _buildChartData2();
+    super.initState();
+  }
 
-        /// To enable the selection zooming here.
-        enableSelectionZooming: true);
-    _zoomData = <ChartSampleData>[
+  List<ChartSampleData> _buildChartData1() {
+    return [
       ChartSampleData(x: 161, y: 65),
       ChartSampleData(x: 150, y: 65),
       ChartSampleData(x: 155, y: 65),
@@ -185,7 +193,10 @@ class _DefaultZoomingState extends SampleViewState {
       ChartSampleData(x: 153, y: 74),
       ChartSampleData(x: 171, y: 74),
     ];
-    _zoomData1 = <ChartSampleData>[
+  }
+
+  List<ChartSampleData> _buildChartData2() {
+    return [
       ChartSampleData(x: 115, y: 57),
       ChartSampleData(x: 138, y: 57),
       ChartSampleData(x: 166, y: 57),
@@ -331,7 +342,69 @@ class _DefaultZoomingState extends SampleViewState {
       ChartSampleData(x: 170, y: 68),
       ChartSampleData(x: 180, y: 68)
     ];
-    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double bottomPadding = isCardView || model.isWebFullView ? 0 : 60;
+    return Scaffold(
+      backgroundColor: model.sampleOutputCardColor,
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
+        child: Container(child: _buildDefaultZoomingChart()),
+      ),
+      floatingActionButton: isCardView
+          ? null
+          : FloatingActionButton(
+              onPressed: () => _zoomingPanBehavior.reset(),
+              backgroundColor: model.primaryColor,
+              child: const Icon(Icons.refresh, color: Colors.white),
+            ),
+    );
+  }
+
+  /// Returns a cartesian area chart with selection zooming.
+  SfCartesianChart _buildDefaultZoomingChart() {
+    return SfCartesianChart(
+      plotAreaBorderWidth: 0,
+      legend: Legend(isVisible: !isCardView, opacity: 0.8),
+      title: ChartTitle(text: isCardView ? '' : 'Height vs Weight'),
+      zoomPanBehavior: _zoomingPanBehavior,
+      primaryXAxis: NumericAxis(
+        minimum: 100,
+        maximum: 220,
+        title: AxisTitle(text: isCardView ? '' : 'Height in inches'),
+        majorGridLines: const MajorGridLines(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+      ),
+      primaryYAxis: NumericAxis(
+        minimum: 50,
+        maximum: 80,
+        title: AxisTitle(text: isCardView ? '' : 'Weight in pounds'),
+      ),
+      series: _buildScatterSeries(),
+    );
+  }
+
+  /// Returns the list of cartesian scatter series.
+  List<ScatterSeries<ChartSampleData, num>> _buildScatterSeries() {
+    return <ScatterSeries<ChartSampleData, num>>[
+      ScatterSeries<ChartSampleData, num>(
+        dataSource: _zoomData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        opacity: 0.8,
+        name: 'Male',
+      ),
+      ScatterSeries<ChartSampleData, num>(
+        dataSource: _zoomData1,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        markerSettings: const MarkerSettings(shape: DataMarkerType.diamond),
+        opacity: 0.8,
+        name: 'Female',
+      ),
+    ];
   }
 
   @override
@@ -340,70 +413,4 @@ class _DefaultZoomingState extends SampleViewState {
     _zoomData1.clear();
     super.dispose();
   }
-
-  @override
-  Widget build(BuildContext context) {
-    final double bottomPadding = isCardView || model.isWebFullView ? 0 : 60;
-    return Scaffold(
-        backgroundColor: model.sampleOutputCardColor,
-        body: Padding(
-          padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
-          child: Container(child: _buildDefaultZoomingChart()),
-        ),
-        floatingActionButton: isCardView
-            ? null
-            : FloatingActionButton(
-                onPressed: () => _zoomingPanBehavior.reset(),
-                backgroundColor: model.primaryColor,
-                child: const Icon(Icons.refresh, color: Colors.white),
-              ));
-  }
-
-  /// Returns the cartesian chart with delection zooming.
-  SfCartesianChart _buildDefaultZoomingChart() {
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      legend: Legend(isVisible: !isCardView, opacity: 0.8),
-      title: ChartTitle(text: isCardView ? '' : 'Heigth vs Weight'),
-      zoomPanBehavior: _zoomingPanBehavior,
-      primaryXAxis: NumericAxis(
-          minimum: 100,
-          maximum: 220,
-          title: AxisTitle(text: isCardView ? '' : 'Height in inches'),
-          majorGridLines: const MajorGridLines(width: 0),
-          edgeLabelPlacement: EdgeLabelPlacement.shift),
-      primaryYAxis: NumericAxis(
-          minimum: 50,
-          maximum: 80,
-          title: AxisTitle(text: isCardView ? '' : 'Weight in Pounds')),
-      series: _getZoomScatterSeries(),
-    );
-  }
-
-  /// Returns the list of cahrt series which need to render
-  ///  on the chart with delection zooming.
-  List<ScatterSeries<ChartSampleData, num>> _getZoomScatterSeries() {
-    return <ScatterSeries<ChartSampleData, num>>[
-      ScatterSeries<ChartSampleData, num>(
-        dataSource: _zoomData,
-        opacity: 0.8,
-        name: 'Male',
-        xValueMapper: (ChartSampleData data, _) => data.x as num,
-        yValueMapper: (ChartSampleData data, _) => data.y,
-      ),
-      ScatterSeries<ChartSampleData, num>(
-          dataSource: _zoomData1,
-          opacity: 0.8,
-          name: 'Female',
-          xValueMapper: (ChartSampleData data, _) => data.x as num,
-          yValueMapper: (ChartSampleData data, _) => data.y,
-          markerSettings: const MarkerSettings(shape: DataMarkerType.diamond))
-    ];
-  }
-
-  /// list to store the collection of chart series data points.
-  late List<ChartSampleData> _zoomData;
-
-  ///  List to store the collection of chart series data points.
-  late List<ChartSampleData> _zoomData1;
 }

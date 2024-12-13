@@ -1,43 +1,51 @@
+/// Flutter imports.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+
+/// Dart import.
 import 'package:flutter/material.dart';
+
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+/// Local import.
 import '../../../../model/sample_view.dart';
 
-/// Renders the pagination sample
+/// Renders the spline area series chart with pagination.
 class Pagination extends SampleView {
-  /// Creates the pagination chart
+  /// Creates the spline area series chart with pagination.
   const Pagination(Key key) : super(key: key);
 
   @override
   _PaginationState createState() => _PaginationState();
 }
 
+/// State class for the spline area series chart with pagination.
 class _PaginationState extends SampleViewState {
-  late double height, width, _segmentedControlWidth;
-  late double _containerWidth, _containerHeight;
-  double? diff;
-  late int segmentedControlGroupValue;
-  late int degree;
-  late String day;
+  late double _height;
+  late double _width;
+  late double _segmentedControlWidth;
+  late double _containerWidth;
+  late double _containerHeight;
+  late int _segmentedControlGroupValue;
+  late int _degree;
+  late String _day;
   late String _imageName;
   late List<String> _daysWithTime;
-  late List<String> _temperatue;
+  late List<String> _temperature;
   late List<String> _images;
   late List<String> _days;
   late List<double> _minValues;
   late List<double> _maxValues;
   late List<int> _degrees;
-
-  late List<ChartSampleData> chartData;
+  late List<ChartSampleData> _chartData;
   late CategoryAxisController _axisController;
 
   @override
   void initState() {
-    segmentedControlGroupValue = 0;
-    degree = 25;
-    day = 'Friday, 01:00 am';
+    _segmentedControlGroupValue = 0;
+    _degree = 25;
+    _day = 'Friday, 01:00 am';
     _imageName = 'images/sunny_image.png';
     _daysWithTime = const <String>[
       'Friday, 01:00 am',
@@ -46,7 +54,7 @@ class _PaginationState extends SampleViewState {
       'Monday, 01:00 am',
       'Tuesday, 01:00 am'
     ];
-    _temperatue = const <String>[
+    _temperature = const <String>[
       '25°19°',
       '25°20°',
       '24°18°',
@@ -64,7 +72,12 @@ class _PaginationState extends SampleViewState {
     _minValues = const <double>[0, 6, 12, 18, 24];
     _maxValues = const <double>[5, 11, 17, 23, 29];
     _degrees = const <int>[25, 25, 24, 19, 18];
-    chartData = <ChartSampleData>[
+    _chartData = _buildChartData();
+    super.initState();
+  }
+
+  List<ChartSampleData> _buildChartData() {
+    return [
       ChartSampleData(xValue: '0', x: '1 am', y: 20),
       ChartSampleData(xValue: '1', x: '4 am', y: 20),
       ChartSampleData(xValue: '2', x: '7 am', y: 20),
@@ -96,129 +109,171 @@ class _PaginationState extends SampleViewState {
       ChartSampleData(xValue: '28', x: '1 pm', y: 16),
       ChartSampleData(xValue: '29', x: '4 pm', y: 18),
     ];
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    chartData.clear();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
+    _width = MediaQuery.of(context).size.width;
     final Orientation orientation = MediaQuery.of(context).orientation;
-    _segmentedControlWidth = width > 500
+    _segmentedControlWidth = _width > 500
         ? model.isWebFullView
-            ? width * 0.5
-            : width * 0.7
+            ? _width * 0.5
+            : _width * 0.7
         : double.infinity;
-    height = MediaQuery.of(context).size.height;
-    height = !model.isWebFullView ? height - 46 : height;
-    height = model.isWebFullView && !kIsWeb ? height * 0.6 : height * 0.65;
+    _height = MediaQuery.of(context).size.height;
+    _height = !model.isWebFullView ? _height - 46 : _height;
+    _height = model.isWebFullView && !kIsWeb ? _height * 0.6 : _height * 0.65;
     _containerHeight = 30;
+
     return Center(
-        child: Column(children: <Widget>[
-      SizedBox(
-        width: _segmentedControlWidth,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(children: <Widget>[
-              Container(
-                  margin: const EdgeInsets.only(left: 5),
-                  height: height * 0.085,
-                  width: model.isWebFullView ? 50 : width * 0.08,
-                  decoration: BoxDecoration(
-                      image:
-                          DecorationImage(image: ExactAssetImage(_imageName)))),
-              SizedBox(
-                  height: height * 0.1,
-                  child: Row(children: <Widget>[
-                    SizedBox(
-                        child: Text('$degree',
-                            style: TextStyle(
-                                fontSize: orientation == Orientation.landscape
-                                    ? height * 0.08
-                                    : height * 0.06))),
-                    Container(
-                        padding: const EdgeInsets.only(right: 30),
-                        child: const Text('°C | °F',
-                            style: TextStyle(fontSize: 16))),
-                  ]))
-            ]),
-            Container(
-                margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text('USA, Texas',
-                          style: TextStyle(fontSize: height * 0.045)),
-                      Text(day, style: TextStyle(fontSize: height * 0.025)),
-                    ]))
-          ],
-        ),
+      child: Column(
+        children: <Widget>[
+          _buildHeader(orientation),
+          _buildChartAndSegmentedControl(orientation),
+        ],
       ),
-      Expanded(
-          child: Container(
-              alignment: Alignment.center,
-              width: _segmentedControlWidth,
-              child: ClipRect(child: _buildCartesianChart()))),
-      Visibility(
-          visible: height < 350 ? false : true,
-          child: Container(
+    );
+  }
+
+  /// Builds the header section of the UI.
+  Widget _buildHeader(Orientation orientation) {
+    return SizedBox(
+      width: _segmentedControlWidth,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(left: 5),
+                height: _height * 0.085,
+                width: model.isWebFullView ? 50 : _height * 0.08,
+                decoration: BoxDecoration(
+                  image: DecorationImage(image: ExactAssetImage(_imageName)),
+                ),
+              ),
+              SizedBox(
+                height: _height * 0.1,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      child: Text(
+                        '$_degree',
+                        style: TextStyle(
+                          fontSize: orientation == Orientation.landscape
+                              ? _height * 0.08
+                              : _height * 0.06,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(right: 30),
+                      child: const Text(
+                        '°C | °F',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Text(
+                  'USA, Texas',
+                  style: TextStyle(fontSize: _height * 0.045),
+                ),
+                Text(
+                  _day,
+                  style: TextStyle(fontSize: _height * 0.025),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Builds the Cartesian chart and segmented control button section.
+  Widget _buildChartAndSegmentedControl(Orientation orientation) {
+    return Expanded(
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: _segmentedControlWidth,
+            child: ClipRect(child: _buildCartesianChart()),
+          ),
+          Visibility(
+            visible: _height >= 350,
+            child: Container(
               padding: model.isWebFullView
                   ? const EdgeInsets.fromLTRB(0, 16, 0, 16)
                   : const EdgeInsets.fromLTRB(0, 8, 0, 8),
               width: _segmentedControlWidth,
               child: CupertinoSlidingSegmentedControl<int>(
-                  groupValue: segmentedControlGroupValue,
-                  children: _getButtons(orientation),
-                  onValueChanged: (int? i) => _loadGroupValue(i!))))
-    ]));
+                groupValue: _segmentedControlGroupValue,
+                children: _buildSegmentedControlButtons(orientation),
+                onValueChanged: (int? i) => _loadGroupValue(i!),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
-  /// Returns the item of segmented control
-  Map<int, Widget> _getButtons(Orientation orientation) {
+  /// Returns the item of segmented control.
+  Map<int, Widget> _buildSegmentedControlButtons(Orientation orientation) {
     _containerWidth = _segmentedControlWidth == double.infinity
-        ? width / 5
+        ? _width / 5
         : _segmentedControlWidth / 5;
     final Color color = model.themeData.brightness == Brightness.light
         ? const Color.fromRGBO(104, 104, 104, 1)
         : const Color.fromRGBO(242, 242, 242, 1);
     final ButtonStyle style = ButtonStyle(
       shape: WidgetStateProperty.all(const RoundedRectangleBorder()),
-      backgroundColor: WidgetStateProperty.resolveWith(getColor),
+      backgroundColor: WidgetStateProperty.resolveWith(_fetchColor),
     );
     final Map<int, Widget> buttons = <int, Widget>{};
     for (int i = 0; i <= 4; i++) {
       buttons.putIfAbsent(
         i,
         () => SizedBox(
-            width: _containerWidth,
-            child: TextButton(
-                onPressed: () => _loadGroupValue(i),
-                style: style,
-                child: Column(
-                  children: <Widget>[
-                    Text(_days[i],
-                        style: TextStyle(fontSize: 12, color: color)),
-                    _getContainer('images/' + _images[i]),
-                    Text(_temperatue[i],
-                        style: TextStyle(fontSize: 12, color: color)),
-                  ],
-                ))),
+          width: _containerWidth,
+          child: TextButton(
+            onPressed: () => _loadGroupValue(i),
+            style: style,
+            child: Column(
+              children: <Widget>[
+                Text(
+                  _days[i],
+                  style: TextStyle(fontSize: 12, color: color),
+                ),
+                _buildImageContainer('images/' + _images[i]),
+                Text(
+                  _temperature[i],
+                  style: TextStyle(fontSize: 12, color: color),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     }
 
     return buttons;
   }
 
-  /// Return the image container
-  Container _getContainer(String imageName) {
+  /// Returns the image container.
+  Container _buildImageContainer(String imageName) {
     return Container(
       height: _containerHeight,
       margin: const EdgeInsets.fromLTRB(0, 4, 0, 4),
@@ -230,8 +285,8 @@ class _PaginationState extends SampleViewState {
     );
   }
 
-  /// Returns color for the button based on interaction performed
-  Color? getColor(Set<WidgetState> states) {
+  /// Returns color for the button based on interaction performed.
+  Color? _fetchColor(Set<WidgetState> states) {
     if (states.contains(WidgetState.hovered)) {
       return model.themeData.brightness == Brightness.light
           ? const Color.fromRGBO(235, 235, 235, 1)
@@ -244,8 +299,8 @@ class _PaginationState extends SampleViewState {
     }
   }
 
-  /// Calls while performing the swipe operation
-  void performSwipe(ChartSwipeDirection direction) {
+  /// Calls while performing the swipe operation.
+  void _performSwipe(ChartSwipeDirection direction) {
     int? index;
     if (_axisController.visibleMinimum == 0 &&
         _axisController.visibleMaximum == 5) {
@@ -269,19 +324,19 @@ class _PaginationState extends SampleViewState {
     }
   }
 
-  /// load the values based on the provided index
+  /// Load the values based on the provided index.
   void _loadGroupValue(int index) {
     _axisController.visibleMinimum = _minValues[index];
     _axisController.visibleMaximum = _maxValues[index];
     setState(() {
-      segmentedControlGroupValue = index;
-      degree = _degrees[index];
-      day = _daysWithTime[index];
+      _segmentedControlGroupValue = index;
+      _degree = _degrees[index];
+      _day = _daysWithTime[index];
       _imageName = 'images/' + _images[index];
     });
   }
 
-  /// Returns the cartesian chart
+  /// Returns the cartesian spline area chart with pagination.
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       primaryXAxis: CategoryAxis(
@@ -295,7 +350,7 @@ class _PaginationState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         axisLabelFormatter: (AxisLabelRenderDetails details) {
           if (details.axis.name == 'primaryXAxis') {
-            for (final ChartSampleData sampleData in chartData) {
+            for (final ChartSampleData sampleData in _chartData) {
               if (sampleData.xValue == details.text) {
                 return ChartAxisLabel(sampleData.x, details.textStyle);
               }
@@ -316,24 +371,32 @@ class _PaginationState extends SampleViewState {
         majorTickLines: MajorTickLines(color: Colors.transparent),
       ),
       plotAreaBorderWidth: 0,
-      series: getSeries(),
+      series: _buildSplineAreaSeries(),
       onPlotAreaSwipe: (ChartSwipeDirection direction) =>
-          performSwipe(direction),
+          _performSwipe(direction),
     );
   }
 
-  /// Returns the chart series
-  List<CartesianSeries<ChartSampleData, String>> getSeries() {
+  /// Returns the list of cartesian spline area series.
+  List<CartesianSeries<ChartSampleData, String>> _buildSplineAreaSeries() {
     return <CartesianSeries<ChartSampleData, String>>[
       SplineAreaSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.xValue,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
         borderColor: const Color.fromRGBO(255, 204, 5, 1),
         color: const Color.fromRGBO(255, 245, 211, 1),
         dataLabelSettings: const DataLabelSettings(
-            isVisible: true, labelAlignment: ChartDataLabelAlignment.outer),
-        xValueMapper: (ChartSampleData sales, _) => sales.xValue as String,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
+          isVisible: true,
+          labelAlignment: ChartDataLabelAlignment.outer,
+        ),
       ),
     ];
+  }
+
+  @override
+  void dispose() {
+    _chartData.clear();
+    super.dispose();
   }
 }

@@ -1,28 +1,29 @@
-/// Package import
+/// Dart import.
 import 'dart:async';
 import 'dart:ui' as ui;
 
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// WIdget to be rendered.
+/// Widget to be rendered.
 Widget? renderWidget;
 
-/// Render the default pie series.
+/// Renders the default pie series chart with image.
 class PieImageShader extends SampleView {
-  /// Creates the default pie series.
+  /// Creates the default pie series chart with image.
   const PieImageShader(Key key) : super(key: key);
 
   @override
   _PieImageShaderState createState() => _PieImageShaderState();
 }
 
-/// State class of pie series.
+/// State class for the pie series chart with image.
 class _PieImageShaderState extends SampleViewState {
   _PieImageShaderState();
 
@@ -31,8 +32,14 @@ class _PieImageShaderState extends SampleViewState {
   ui.Image? image3;
   ui.Image? image4;
 
+  @override
+  void initState() {
+    super.initState();
+    _fetchImage();
+  }
+
   // ignore: avoid_void_async
-  void getImage() async {
+  void _fetchImage() async {
     final Completer<ImageInfo> completer = Completer<ImageInfo>();
     const ImageProvider imageProvider = AssetImage('images/apple.png');
     imageProvider
@@ -84,7 +91,8 @@ class _PieImageShaderState extends SampleViewState {
     if (image1 != null && image2 != null && image3 != null && image4 != null) {
       renderWidget = SfCircularChart(
         title: ChartTitle(
-            text: isCardView ? '' : 'Sales comparison of fruits in a shop'),
+          text: isCardView ? '' : 'Sales comparison of fruits in a shop',
+        ),
         legend: Legend(isVisible: isCardView ? false : true),
         series: <PieSeries<_ChartShaderData, String>>[
           PieSeries<_ChartShaderData, String>(
@@ -134,38 +142,52 @@ class _PieImageShaderState extends SampleViewState {
                 ),
               ),
             ],
-            xValueMapper: (_ChartShaderData data, _) => data.x,
+            xValueMapper: (_ChartShaderData data, int index) => data.x,
+            yValueMapper: (_ChartShaderData data, int index) => data.y,
             strokeColor: model.themeData.brightness == Brightness.light
                 ? Colors.black.withOpacity(0.5)
                 : Colors.transparent,
             strokeWidth: 1.5,
+            explode: true,
             explodeAll: true,
             explodeOffset: '3%',
-            explode: true,
-            yValueMapper: (_ChartShaderData data, _) => data.y,
-            dataLabelMapper: (_ChartShaderData data, _) => data.text,
-            pointShaderMapper: (dynamic data, _, Color color, Rect rect) =>
-                data.shader,
-            dataLabelSettings: DataLabelSettings(
-                isVisible: true,
-                labelPosition: ChartDataLabelPosition.outside,
-                connectorLineSettings: ConnectorLineSettings(
-                  color: model.themeData.brightness == Brightness.light
-                      ? Colors.black.withOpacity(0.5)
-                      : Colors.white,
-                  width: 1.5,
-                  length: isCardView ? '10%' : '15%',
-                  type: ConnectorType.curve,
-                )),
             radius: isCardView ? '85%' : '63%',
+            dataLabelMapper: (_ChartShaderData data, int index) => data.text,
+            pointShaderMapper:
+                (dynamic data, int index, Color color, Rect rect) =>
+                    data.shader,
+            dataLabelSettings: DataLabelSettings(
+              isVisible: true,
+              labelPosition: ChartDataLabelPosition.outside,
+              connectorLineSettings: ConnectorLineSettings(
+                color: model.themeData.brightness == Brightness.light
+                    ? Colors.black.withOpacity(0.5)
+                    : Colors.white,
+                width: 1.5,
+                length: isCardView ? '10%' : '15%',
+                type: ConnectorType.curve,
+              ),
+            ),
           ),
         ],
       );
     } else {
-      getImage();
-      renderWidget = const Center(child: CircularProgressIndicator());
+      _fetchImage();
+      renderWidget = const Center(
+        child: CircularProgressIndicator(),
+      );
     }
     return renderWidget!;
+  }
+
+  @override
+  void dispose() {
+    image1 = null;
+    image2 = null;
+    image3 = null;
+    image4 = null;
+
+    super.dispose();
   }
 }
 

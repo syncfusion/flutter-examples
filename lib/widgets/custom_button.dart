@@ -109,27 +109,22 @@ class _CustomButton extends State<CustomDirectionalButtons> {
             (_counter + widget.step! == 0)) {
           setState(() => _counter = double.nan);
         } else {
-          setState(() => _counter += widget.step!);
+          setState(() {
+            _counter =
+                double.parse((_counter + widget.step!).toStringAsFixed(2));
+          });
         }
       }
     } else {
-      if (_counter - widget.step! < widget.minValue!) {
-        if (widget.loop!) {
-          setState(() {
-            final num diff = widget.minValue! - (_counter - widget.step!);
-            _counter =
-                (diff >= 1 ? widget.maxValue! - diff + 1 : widget.maxValue)!;
-          });
-        }
+      if ((widget.initialValue!.isNaN || widget.needNull!) &&
+          _counter - widget.step! == 0) {
+        setState(() => _counter = double.nan);
+      } else if (_counter.isNaN) {
+        setState(() => _counter = 0 - widget.step!);
       } else {
-        if ((widget.initialValue!.isNaN || widget.needNull!) &&
-            _counter - widget.step! == 0) {
-          setState(() => _counter = double.nan);
-        } else if (_counter.isNaN) {
-          setState(() => _counter = 0 - widget.step!);
-        } else {
-          setState(() => _counter -= widget.step!);
-        }
+        setState(() {
+          _counter = double.parse((_counter - widget.step!).toStringAsFixed(2));
+        });
       }
     }
 
@@ -137,19 +132,30 @@ class _CustomButton extends State<CustomDirectionalButtons> {
   }
 
   Widget _getCount() {
-    return Text(
+    return SizedBox(
+      width: 35,
+      child: Text(
         widget.initialValue! % 1 == 0 && widget.step! % 1 == 0
             ? ((_counter.isNaN)
                 ? 'null'
                 : ((widget.needNull!)
                     ? _counter.toInt().toString()
-                    : _counter.toStringAsFixed(0)))
+                    : _counter.toString().split('.').last.length <= 1 ||
+                            int.parse(_counter.toString().split('.').last) < 0
+                        ? _counter.toStringAsFixed(0)
+                        : _counter.toStringAsFixed(2)))
             : (_counter.isNaN)
                 ? 'null'
                 : (widget.needNull!)
                     ? _counter.toInt().toString()
-                    : _counter.toStringAsFixed(1),
-        style: widget.style ?? Theme.of(context).textTheme.headlineSmall);
+                    : _counter.toString().split('.').last.length <= 1 ||
+                            int.parse(_counter.toString().split('.').last) < 0
+                        ? _counter.toStringAsFixed(1)
+                        : _counter.toStringAsFixed(2),
+        style: widget.style ?? Theme.of(context).textTheme.headlineSmall,
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 
   /// Return different widgets for a horizontal and vertical BuildPicker
@@ -165,9 +171,11 @@ class _CustomButton extends State<CustomDirectionalButtons> {
                 color: widget.iconColor,
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onPressed: () {
-                  _count(_CountDirection.Up);
-                },
+                onPressed: _counter >= widget.maxValue!
+                    ? null
+                    : () {
+                        _count(_CountDirection.Up);
+                      },
               ),
               _getCount(),
               IconButton(
@@ -177,9 +185,11 @@ class _CustomButton extends State<CustomDirectionalButtons> {
                   color: widget.iconColor,
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
-                  onPressed: () {
-                    _count(_CountDirection.Down);
-                  }),
+                  onPressed: _counter <= widget.minValue!
+                      ? null
+                      : () {
+                          _count(_CountDirection.Down);
+                        }),
             ],
           )
         : Row(
@@ -190,9 +200,11 @@ class _CustomButton extends State<CustomDirectionalButtons> {
                   color: widget.iconColor,
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
-                  onPressed: () {
-                    _count(_CountDirection.Down);
-                  }),
+                  onPressed: _counter <= widget.minValue!
+                      ? null
+                      : () {
+                          _count(_CountDirection.Down);
+                        }),
               _getCount(),
               IconButton(
                 icon: const Icon(Icons.arrow_right),
@@ -200,9 +212,11 @@ class _CustomButton extends State<CustomDirectionalButtons> {
                 color: widget.iconColor,
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onPressed: () {
-                  _count(_CountDirection.Up);
-                },
+                onPressed: _counter >= widget.maxValue!
+                    ? null
+                    : () {
+                        _count(_CountDirection.Up);
+                      },
               ),
             ],
           );

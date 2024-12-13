@@ -1,59 +1,41 @@
-/// Dart import
+/// Dart import.
 import 'dart:math';
 
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local imports.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the chart with add and remove points sample.
+/// Renders the line series chart with add and remove
+/// data points options sample.
 class AddDataPoints extends SampleView {
-  /// Renders the chart with add and remove points sample.
+  /// Renders the line series chart with add and
+  /// remove data points options.
   const AddDataPoints(Key key) : super(key: key);
 
   @override
   _LiveVerticalState createState() => _LiveVerticalState();
 }
 
-/// State class of the chart with add and remove points options.
+/// State class for the line series chart with add and
+/// remove data points options.
 class _LiveVerticalState extends SampleViewState {
   _LiveVerticalState();
+  late int _count;
+
   ChartSeriesController<ChartSampleData, num>? _chartSeriesController;
 
   /// List for storing the chart series data points.
-  List<ChartSampleData>? chartData;
-  late int count;
-
-  /// Get the random value
-  int _getRandomInt(int min, int max) {
-    final Random random = Random();
-    return min + random.nextInt(max - min);
-  }
-
-  /// Add the data point into the line series
-  List<ChartSampleData> _addDataPoint() {
-    chartData!.add(ChartSampleData(x: count, y: _getRandomInt(10, 100)));
-    count = count + 1;
-    return chartData!;
-  }
-
-  /// Remove the data point from the line series
-  List<ChartSampleData> _removeDataPoint() {
-    if (chartData != null && chartData!.isNotEmpty) {
-      chartData!.removeAt(chartData!.length - 1);
-    }
-    count = count - 1;
-    return chartData!;
-  }
+  List<ChartSampleData>? _chartData;
 
   @override
   void initState() {
-    count = 11;
-    chartData = <ChartSampleData>[
+    _count = 11;
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 0, y: 10),
       ChartSampleData(x: 1, y: 13),
       ChartSampleData(x: 2, y: 80),
@@ -67,8 +49,8 @@ class _LiveVerticalState extends SampleViewState {
       ChartSampleData(x: 10, y: 51),
     ];
 
-    if (chartData!.length > 11) {
-      chartData!.removeRange(10, chartData!.length - 1);
+    if (_chartData!.length > 11) {
+      _chartData!.removeRange(10, _chartData!.length - 1);
     }
     super.initState();
   }
@@ -77,108 +59,154 @@ class _LiveVerticalState extends SampleViewState {
   Widget build(BuildContext context) {
     const double bottomPadding = 40;
     return Scaffold(
-        backgroundColor: model.sampleOutputCardColor,
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
-          child: Container(child: _buildAddRemovePointsChart()),
+      backgroundColor: model.sampleOutputCardColor,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
+        child: Container(
+          child: _buildAddRemovePointsChart(),
         ),
-        floatingActionButton: Stack(
-          children: <Widget>[
-            Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
-                    child: SizedBox(
-                        height: isCardView ? 40 : 45,
-                        width: model.isWebFullView
-                            ? 140
-                            : isCardView
-                                ? 100
-                                : 110,
-                        child: InkWell(
-                            splashColor: Colors.transparent,
-                            child: Row(children: <Widget>[
-                              SizedBox(
-                                width: model.isWebFullView ? 65 : 45,
-                                height: 50,
-                                child: IconButton(
-                                  onPressed: () {
-                                    chartData = _addDataPoint();
-                                    _chartSeriesController?.updateDataSource(
-                                      addedDataIndexes: <int>[
-                                        chartData!.length - 1
-                                      ],
-                                    );
-                                  },
-                                  icon: Icon(Icons.add_circle,
-                                      size: isCardView ? 40 : 50,
-                                      color: model.primaryColor),
-                                ),
-                              ),
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                  child: SizedBox(
-                                      width: model.isWebFullView ? 65 : 45,
-                                      height: 50,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            if (chartData!.length > 1) {
-                                              chartData = _removeDataPoint();
-                                              _chartSeriesController
-                                                  ?.updateDataSource(
-                                                updatedDataIndexes: <int>[
-                                                  chartData!.length - 1
-                                                ],
-                                                removedDataIndexes: <int>[
-                                                  chartData!.length - 1
-                                                ],
-                                              );
-                                            }
-                                          },
-                                          icon: Icon(
-                                            Icons.remove_circle,
-                                            size: isCardView ? 40 : 50,
-                                            color: model.primaryColor,
-                                          ))))
-                            ])))))
-          ],
-        ));
+      ),
+      floatingActionButton: _buildFloatingActionButton(),
+    );
   }
 
-  /// Returns the chart with add and remove points options.
+  /// Builds the floating action button with both the add and remove buttons.
+  Widget _buildFloatingActionButton() {
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+            child: SizedBox(
+              height: isCardView ? 40 : 45,
+              width: model.isWebFullView
+                  ? 140
+                  : isCardView
+                      ? 100
+                      : 110,
+              child: InkWell(
+                splashColor: Colors.transparent,
+                child: Row(
+                  children: <Widget>[
+                    _buildAddButton(),
+                    _buildRemoveButton(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Builds the add button to add a data point to the chart.
+  Widget _buildAddButton() {
+    return SizedBox(
+      width: model.isWebFullView ? 65 : 45,
+      height: 50,
+      child: IconButton(
+        onPressed: () {
+          _chartData = _addDataPoint();
+          _chartSeriesController?.updateDataSource(
+            addedDataIndexes: <int>[_chartData!.length - 1],
+          );
+        },
+        icon: Icon(
+          Icons.add_circle,
+          size: isCardView ? 40 : 50,
+          color: model.primaryColor,
+        ),
+      ),
+    );
+  }
+
+  /// Builds the remove button to remove a data point from the chart.
+  Widget _buildRemoveButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+      child: SizedBox(
+        width: model.isWebFullView ? 65 : 45,
+        height: 50,
+        child: IconButton(
+          onPressed: () {
+            if (_chartData!.length > 1) {
+              _chartData = _removeDataPoint();
+              _chartSeriesController?.updateDataSource(
+                updatedDataIndexes: <int>[_chartData!.length - 1],
+                removedDataIndexes: <int>[_chartData!.length - 1],
+              );
+            }
+          },
+          icon: Icon(
+            Icons.remove_circle,
+            size: isCardView ? 40 : 50,
+            color: model.primaryColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Returns a cartesian line chart with add and
+  /// remove data points options.
   SfCartesianChart _buildAddRemovePointsChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: const NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          edgeLabelPlacement: EdgeLabelPlacement.shift),
+        majorGridLines: MajorGridLines(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+      ),
       primaryYAxis: const NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getAddRemovePointSeries(),
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildLineSeries(),
     );
   }
 
-  /// Returns the list of chart series which need to render
-  /// on the chart with add and remove points.
-  List<LineSeries<ChartSampleData, num>> _getAddRemovePointSeries() {
+  /// Returns the list of cartesian line series.
+  List<LineSeries<ChartSampleData, num>> _buildLineSeries() {
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
-          onRendererCreated:
-              (ChartSeriesController<ChartSampleData, num> controller) {
-            _chartSeriesController = controller;
-          },
-          animationDuration: 0,
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-          yValueMapper: (ChartSampleData sales, _) => sales.y),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        animationDuration: 0,
+        onRendererCreated:
+            (ChartSeriesController<ChartSampleData, num> controller) {
+          _chartSeriesController = controller;
+        },
+      ),
     ];
+  }
+
+  /// Generates a random integer within the specified range.
+  int _generateRandomInt(int min, int max) {
+    final Random random = Random();
+    return min + random.nextInt(max - min);
+  }
+
+  /// Adds a data point to the line series.
+  List<ChartSampleData> _addDataPoint() {
+    _chartData!.add(ChartSampleData(x: _count, y: _generateRandomInt(10, 100)));
+    _count = _count + 1;
+    return _chartData!;
+  }
+
+  /// Removes the last data point from the line series.
+  List<ChartSampleData> _removeDataPoint() {
+    if (_chartData != null && _chartData!.isNotEmpty) {
+      _chartData!.removeAt(_chartData!.length - 1);
+    }
+    _count = _count - 1;
+    return _chartData!;
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     _chartSeriesController = null;
     super.dispose();
   }

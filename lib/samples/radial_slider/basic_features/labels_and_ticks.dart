@@ -101,7 +101,6 @@ class _RadialSliderLabelsTicksState extends SampleViewState {
                       )
                     ],
                   ),
-                  // positionFactor: 0.7,
                   angle: 90)
             ]),
       ]),

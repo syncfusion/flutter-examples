@@ -1,15 +1,15 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../model/sample_view.dart';
 
-/// Renders the pyramid chart with legend
+/// Renders the pyramid series chart with legend.
 class PyramidLegend extends SampleView {
-  /// Creates the pyramid chart with legend
+  /// Creates the pyramid series chart with legend.
   const PyramidLegend(Key key) : super(key: key);
 
   @override
@@ -18,11 +18,12 @@ class PyramidLegend extends SampleView {
 
 class _PyramidLegendState extends SampleViewState {
   _PyramidLegendState();
-  late List<ChartSampleData> dataSource;
+  late List<ChartSampleData> _chartData;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
-    dataSource = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 'Ray', y: 7.3),
       ChartSampleData(
         x: 'Michael',
@@ -45,6 +46,7 @@ class _PyramidLegendState extends SampleViewState {
         y: 5.2,
       ),
     ];
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
@@ -53,7 +55,7 @@ class _PyramidLegendState extends SampleViewState {
     return _buildLegendPyramidChart();
   }
 
-  ///Get the pyramid chart
+  /// Returns the pyramid series chart with legend.
   SfPyramidChart _buildLegendPyramidChart() {
     return SfPyramidChart(
       onTooltipRender: (TooltipArgs args) {
@@ -68,28 +70,33 @@ class _PyramidLegendState extends SampleViewState {
           args.text = text + ' years';
         }
       },
-      //  smartLabelMode: SmartLabelMode.none,
       title: ChartTitle(
-          text: isCardView ? '' : 'Experience of employees in a team'),
+        text: isCardView ? '' : 'Experience of employees in a team',
+      ),
       legend: const Legend(
-          isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
-
-      /// To enable the legend for pyramid.
-      /// And to cusmize the legend options here.
-      tooltipBehavior: TooltipBehavior(enable: true),
-      series: _getPyramidSeries(),
+        isVisible: true,
+        overflowMode: LegendItemOverflowMode.wrap,
+      ),
+      tooltipBehavior: _tooltipBehavior,
+      series: _buildPyramidSeries(),
     );
   }
 
-  ///Get the pyramid series
-  PyramidSeries<ChartSampleData, String> _getPyramidSeries() {
+  /// Returns the pyramid series.
+  PyramidSeries<ChartSampleData, String> _buildPyramidSeries() {
     return PyramidSeries<ChartSampleData, String>(
-        dataSource: dataSource,
-        xValueMapper: (ChartSampleData data, _) => data.x as String,
-        yValueMapper: (ChartSampleData data, _) => data.y,
-        dataLabelSettings: DataLabelSettings(
-          isVisible: !isCardView,
-          //    labelPosition: ChartDataLabelPosition.inside
-        ));
+      dataSource: _chartData,
+      xValueMapper: (ChartSampleData data, int index) => data.x,
+      yValueMapper: (ChartSampleData data, int index) => data.y,
+      dataLabelSettings: DataLabelSettings(
+        isVisible: !isCardView,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _chartData.clear();
+    super.dispose();
   }
 }

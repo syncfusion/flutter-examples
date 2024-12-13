@@ -1,16 +1,15 @@
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Render the back to back column chart sample
+/// Render the back to back Column Chart sample.
 class ColumnBack extends SampleView {
-  /// Creates the back to back column chart sample
   const ColumnBack(Key key) : super(key: key);
 
   @override
@@ -20,78 +19,90 @@ class ColumnBack extends SampleView {
 class _ColumnBackState extends SampleViewState {
   _ColumnBackState();
 
-  List<ChartSampleData>? chartData;
+  List<ChartSampleData>? _chartData;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'France',
-          y: 63621381,
-          yValue: 65027507,
-          secondSeriesYValue: 66316092),
+        x: 'France',
+        y: 63621381,
+        yValue: 65027507,
+        secondSeriesYValue: 66316092,
+      ),
       ChartSampleData(
-          x: 'United Kingdom',
-          y: 60846820,
-          yValue: 62766365,
-          secondSeriesYValue: 64613160),
+        x: 'United Kingdom',
+        y: 60846820,
+        yValue: 62766365,
+        secondSeriesYValue: 64613160,
+      ),
       ChartSampleData(
-          x: 'Italy',
-          y: 58143979,
-          yValue: 59277417,
-          secondSeriesYValue: 60789140),
+        x: 'Italy',
+        y: 58143979,
+        yValue: 59277417,
+        secondSeriesYValue: 60789140,
+      ),
     ];
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildBackColumnChart();
+    return _buildCartesianChart();
   }
 
-  SfCartesianChart _buildBackColumnChart() {
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        enableSideBySideSeriesPlacement: false,
-        title: ChartTitle(
-            text: isCardView ? '' : 'Population of various countries'),
-        primaryXAxis: const CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
-        ),
-        primaryYAxis: NumericAxis(
-            majorTickLines: const MajorTickLines(size: 0),
-            numberFormat: NumberFormat.compact(),
-            majorGridLines: const MajorGridLines(width: 0),
-            rangePadding: ChartRangePadding.additional),
-        series: _getBackToBackColumn(),
-        tooltipBehavior: TooltipBehavior(enable: true));
+      plotAreaBorderWidth: 0,
+      enableSideBySideSeriesPlacement: false,
+      title: ChartTitle(
+        text: isCardView ? '' : 'Population of various countries',
+      ),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      primaryYAxis: NumericAxis(
+        majorTickLines: const MajorTickLines(size: 0),
+        numberFormat: NumberFormat.compact(),
+        majorGridLines: const MajorGridLines(width: 0),
+        rangePadding: ChartRangePadding.additional,
+      ),
+      series: _buildColumnSeries(),
+      tooltipBehavior: _tooltipBehavior,
+    );
   }
 
-  List<ColumnSeries<ChartSampleData, String>> _getBackToBackColumn() {
+  List<ColumnSeries<ChartSampleData, String>> _buildColumnSeries() {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          name: '2014'),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
+        name: '2014',
+      ),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          width: 0.5,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          name: '2010'),
+        dataSource: _chartData,
+        width: 0.5,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) => sales.yValue,
+        name: '2010',
+      ),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          width: 0.3,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          name: '2006')
+        dataSource: _chartData,
+        width: 0.3,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) => sales.y,
+        name: '2006',
+      ),
     ];
   }
 
   @override
   void dispose() {
     super.dispose();
-    chartData!.clear();
+    _chartData!.clear();
   }
 }

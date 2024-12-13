@@ -1,14 +1,14 @@
-/// Dart imports
+/// Dart imports.
 import 'dart:async';
 import 'dart:math';
 
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
 /// Renders the vertical live update chart sample.
@@ -20,10 +20,10 @@ class VerticalLineLiveUpdate extends SampleView {
   _LiveUpdateState createState() => _LiveUpdateState();
 }
 
-/// State class of the vertical live update chart.
+/// State class for the vertical live update chart.
 class _LiveUpdateState extends SampleViewState {
   _LiveUpdateState() {
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 0, y: -4),
       ChartSampleData(x: 1, y: 3),
       ChartSampleData(x: 2, y: -3),
@@ -37,28 +37,20 @@ class _LiveUpdateState extends SampleViewState {
       ChartSampleData(x: 10, y: 0)
     ];
   }
-  Timer? timer;
-  late int count;
+  late int _count;
+
+  Timer? _timer;
   ChartSeriesController<ChartSampleData, num>? _chartSeriesController;
-  List<ChartSampleData>? chartData;
+  List<ChartSampleData>? _chartData;
+
   @override
   void initState() {
-    count = 0;
-    chartData = <ChartSampleData>[
+    _count = 0;
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 0, y: 0),
     ];
     super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: 10), _updateData);
-  }
-
-  @override
-  void dispose() {
-    count = 0;
-    chartData = <ChartSampleData>[];
-    timer?.cancel();
-    _chartSeriesController = null;
-    chartData!.clear();
-    super.dispose();
+    _timer = Timer.periodic(const Duration(milliseconds: 10), _updateData);
   }
 
   @override
@@ -66,7 +58,8 @@ class _LiveUpdateState extends SampleViewState {
     return _buildVerticalLineUpdateChart();
   }
 
-  /// Returns the vertical live update cartesian chart.
+  /// Returns the vertical live update cartesian
+  /// line series chart.
   SfCartesianChart _buildVerticalLineUpdateChart() {
     return SfCartesianChart(
       isTransposed: true,
@@ -76,70 +69,80 @@ class _LiveUpdateState extends SampleViewState {
         majorGridLines: const MajorGridLines(color: Colors.transparent),
       ),
       primaryYAxis: NumericAxis(
-          title: AxisTitle(text: isCardView ? '' : 'Velocity(m/s)'),
-          minimum: -15,
-          maximum: 15),
-      series: _getVerticalLineSeries(),
+        title: AxisTitle(text: isCardView ? '' : 'Velocity(m/s)'),
+        minimum: -15,
+        maximum: 15,
+      ),
+      series: _buildLineSeries(),
     );
   }
 
-  /// Returns the list of chart series which need to render
-  /// on the vertical live update chart.
-  List<LineSeries<ChartSampleData, num>> _getVerticalLineSeries() {
+  /// Returns the list of cartesian line series.
+  List<LineSeries<ChartSampleData, num>> _buildLineSeries() {
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
+        dataSource: _chartData,
+        animationDuration: 0,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
         onRendererCreated:
             (ChartSeriesController<ChartSampleData, num> controller) {
           _chartSeriesController = controller;
         },
-        dataSource: chartData,
-        animationDuration: 0,
-        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
       ),
     ];
   }
 
-  ///Update the data points
+  /// Updates the data points at regular intervals.
   void _updateData(Timer timer) {
     if (isCardView != null) {
-      chartData = _getChartData();
+      _chartData = _generateChartData();
       _chartSeriesController?.updateDataSource(
-        addedDataIndexes: <int>[chartData!.length - 1],
+        addedDataIndexes: <int>[_chartData!.length - 1],
       );
     }
   }
 
-  ///Get random value
-  int _getRandomInt(int min, int max) {
+  /// Generates a random integer between the specified range.
+  int _generateRandomInteger(int min, int max) {
     final Random random = Random();
     return min + random.nextInt(max - min);
   }
 
-  ///Get the chart data points
-  List<ChartSampleData> _getChartData() {
-    count = count + 1;
-    if (count > 350 || chartData!.length > 350) {
-      timer?.cancel();
-    } else if (count > 300) {
-      chartData!
-          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(0, 1)));
-    } else if (count > 250) {
-      chartData!
-          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-2, 1)));
-    } else if (count > 180) {
-      chartData!
-          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-3, 2)));
-    } else if (count > 100) {
-      chartData!
-          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-7, 6)));
-    } else if (count < 50) {
-      chartData!
-          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-3, 3)));
+  // Generates the chart data points based on the current count.
+  List<ChartSampleData> _generateChartData() {
+    _count = _count + 1;
+
+    if (_count > 350 || _chartData!.length > 350) {
+      _timer?.cancel();
+    } else if (_count > 300) {
+      _chartData!.add(ChartSampleData(
+          x: _chartData!.length, y: _generateRandomInteger(0, 1)));
+    } else if (_count > 250) {
+      _chartData!.add(ChartSampleData(
+          x: _chartData!.length, y: _generateRandomInteger(-2, 1)));
+    } else if (_count > 180) {
+      _chartData!.add(ChartSampleData(
+          x: _chartData!.length, y: _generateRandomInteger(-3, 2)));
+    } else if (_count > 100) {
+      _chartData!.add(ChartSampleData(
+          x: _chartData!.length, y: _generateRandomInteger(-7, 6)));
+    } else if (_count < 50) {
+      _chartData!.add(ChartSampleData(
+          x: _chartData!.length, y: _generateRandomInteger(-3, 3)));
     } else {
-      chartData!
-          .add(ChartSampleData(x: chartData!.length, y: _getRandomInt(-9, 9)));
+      _chartData!.add(ChartSampleData(
+          x: _chartData!.length, y: _generateRandomInteger(-9, 9)));
     }
-    return chartData!;
+    return _chartData!;
+  }
+
+  @override
+  void dispose() {
+    _count = 0;
+    _timer?.cancel();
+    _chartSeriesController = null;
+    _chartData!.clear();
+    super.dispose();
   }
 }

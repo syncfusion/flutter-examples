@@ -1,28 +1,61 @@
-/// Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Render the pie series with smart labels.
+/// Renders the pie series chart with smart data labels.
 class PieSmartDataLabels extends SampleView {
-  /// Creates the pie series with smart labels.
+  /// Creates the pie series chart with smart data labels.
   const PieSmartDataLabels(Key key) : super(key: key);
 
   @override
   _PieSmartDataLabelsState createState() => _PieSmartDataLabelsState();
 }
 
-/// State class of pie series with smart labels.
+/// State class for the pie series chart with smart data labels.
 class _PieSmartDataLabelsState extends SampleViewState {
   _PieSmartDataLabelsState();
-  List<String>? _labelIntersectActionList;
   late String _selectedLabelIntersectAction;
-  TooltipBehavior? _tooltipBehavior;
   late LabelIntersectAction _labelIntersectAction;
+  late List<ChartSampleData> _chartData;
+
+  List<String>? _labelIntersectActionList;
+
+  TooltipBehavior? _tooltipBehavior;
+
+  @override
+  void initState() {
+    _selectedLabelIntersectAction = 'shift';
+    _labelIntersectActionList = <String>['shift', 'hide', 'none'].toList();
+    _labelIntersectAction = LabelIntersectAction.shift;
+    _tooltipBehavior = TooltipBehavior(enable: true, header: '');
+    _chartData = <ChartSampleData>[
+      ChartSampleData(x: 'USA', y: 46),
+      ChartSampleData(x: 'Great Britain', y: 27),
+      ChartSampleData(x: 'China', y: 26),
+      ChartSampleData(x: 'Russia', y: 19),
+      ChartSampleData(x: 'Germany', y: 17),
+      ChartSampleData(x: 'Japan', y: 12),
+      ChartSampleData(x: 'France', y: 10),
+      ChartSampleData(x: 'Korea', y: 9),
+      ChartSampleData(x: 'Italy', y: 8),
+      ChartSampleData(x: 'Australia', y: 8),
+      ChartSampleData(x: 'Netherlands', y: 8),
+      ChartSampleData(x: 'Hungary', y: 8),
+      ChartSampleData(x: 'Brazil', y: 7),
+      ChartSampleData(x: 'Spain', y: 7),
+      ChartSampleData(x: 'Kenya', y: 6),
+      ChartSampleData(x: 'Jamaica', y: 6),
+      ChartSampleData(x: 'Croatia', y: 5),
+      ChartSampleData(x: 'Cuba', y: 5),
+      ChartSampleData(x: 'New Zealand', y: 4)
+    ];
+    super.initState();
+  }
 
   @override
   Widget buildSettings(BuildContext context) {
@@ -33,11 +66,13 @@ class _PieSmartDataLabelsState extends SampleViewState {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text('Label intersect \naction',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 16,
-                  )),
+              Text(
+                'Label intersect \naction',
+                style: TextStyle(
+                  color: model.textColor,
+                  fontSize: 16,
+                ),
+              ),
               const Padding(padding: EdgeInsets.fromLTRB(55, 0, 0, 0)),
               Container(
                   height: 50,
@@ -51,8 +86,12 @@ class _PieSmartDataLabelsState extends SampleViewState {
                       items: _labelIntersectActionList!.map((String value) {
                         return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                color: model.textColor,
+                              ),
+                            ));
                       }).toList(),
                       onChanged: (String? value) {
                         _onLabelIntersectActionChange(value);
@@ -70,70 +109,40 @@ class _PieSmartDataLabelsState extends SampleViewState {
     return _buildSmartLabelPieChart();
   }
 
-  /// Returns the circular charts with pie series.
+  /// Returns a circular pie chart with smart data labels.
   SfCircularChart _buildSmartLabelPieChart() {
     return SfCircularChart(
       title: ChartTitle(
-          text: isCardView ? '' : 'Gold medals count in Rio Olympics'),
-      series: _gettSmartLabelPieSeries(),
+        text: isCardView ? '' : 'Gold medals count in Rio Olympics',
+      ),
+      series: _buildPieSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the pie series with smart data labels.
-  List<PieSeries<ChartSampleData, String>> _gettSmartLabelPieSeries() {
+  /// Returns the circular pie series.
+  List<PieSeries<ChartSampleData, String>> _buildPieSeries() {
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
-          name: 'RIO',
-          dataSource: <ChartSampleData>[
-            ChartSampleData(x: 'USA', y: 46),
-            ChartSampleData(x: 'Great Britain', y: 27),
-            ChartSampleData(x: 'China', y: 26),
-            ChartSampleData(x: 'Russia', y: 19),
-            ChartSampleData(x: 'Germany', y: 17),
-            ChartSampleData(x: 'Japan', y: 12),
-            ChartSampleData(x: 'France', y: 10),
-            ChartSampleData(x: 'Korea', y: 9),
-            ChartSampleData(x: 'Italy', y: 8),
-            ChartSampleData(x: 'Australia', y: 8),
-            ChartSampleData(x: 'Netherlands', y: 8),
-            ChartSampleData(x: 'Hungary', y: 8),
-            ChartSampleData(x: 'Brazil', y: 7),
-            ChartSampleData(x: 'Spain', y: 7),
-            ChartSampleData(x: 'Kenya', y: 6),
-            ChartSampleData(x: 'Jamaica', y: 6),
-            ChartSampleData(x: 'Croatia', y: 5),
-            ChartSampleData(x: 'Cuba', y: 5),
-            ChartSampleData(x: 'New Zealand', y: 4)
-          ],
-          xValueMapper: (ChartSampleData data, _) => data.x as String,
-          yValueMapper: (ChartSampleData data, _) => data.y,
-          dataLabelMapper: (ChartSampleData data, _) =>
-              data.x + ': ' + data.y.toString() as String,
-          radius: '60%',
-          dataLabelSettings: DataLabelSettings(
-              margin: EdgeInsets.zero,
-              isVisible: true,
-              labelPosition: ChartDataLabelPosition.outside,
-              connectorLineSettings: const ConnectorLineSettings(
-                  type: ConnectorType.curve, length: '20%'),
-              labelIntersectAction: _labelIntersectAction))
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        dataLabelMapper: (ChartSampleData data, int index) =>
+            data.x + ': ' + data.y.toString(),
+        name: 'RIO',
+        radius: '60%',
+        dataLabelSettings: DataLabelSettings(
+          margin: EdgeInsets.zero,
+          isVisible: true,
+          labelPosition: ChartDataLabelPosition.outside,
+          connectorLineSettings: const ConnectorLineSettings(
+            type: ConnectorType.curve,
+            length: '20%',
+          ),
+          labelIntersectAction: _labelIntersectAction,
+        ),
+      )
     ];
-  }
-
-  @override
-  void initState() {
-    _selectedLabelIntersectAction = 'shift';
-    _labelIntersectActionList = <String>['shift', 'hide', 'none'].toList();
-    _labelIntersectAction = LabelIntersectAction.shift;
-    _tooltipBehavior = TooltipBehavior(enable: true, header: '');
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _labelIntersectActionList!.clear();
-    super.dispose();
   }
 
   /// Method for changing the data label intersect action.
@@ -152,5 +161,12 @@ class _PieSmartDataLabelsState extends SampleViewState {
         }
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _chartData.clear();
+    _labelIntersectActionList!.clear();
+    super.dispose();
   }
 }

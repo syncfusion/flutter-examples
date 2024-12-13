@@ -1,33 +1,37 @@
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the stacked area 100 chart sample.
+/// Renders the stacked area 100 series chart sample.
 class StackedArea100Chart extends SampleView {
-  /// Creates the stacked area 100 chart sample.
+  /// Creates the stacked area 100 series chart sample.
   const StackedArea100Chart(Key key) : super(key: key);
 
   @override
   _StackedAreaChartState createState() => _StackedAreaChartState();
 }
 
-/// State class of the stacked area 1oo chart.
+/// State class for the stacked area 100 series chart.
 class _StackedAreaChartState extends SampleViewState {
   _StackedAreaChartState();
 
-  List<_ChartData>? chartData;
+  List<_ChartData>? _chartData;
   TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
-    _tooltipBehavior =
-        TooltipBehavior(enable: true, header: '', canShowMarker: false);
-    chartData = <_ChartData>[
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+      header: '',
+      canShowMarker: false,
+    );
+    _chartData = <_ChartData>[
       _ChartData(DateTime(2000), 0.61, 0.03, 0.48, 0.23),
       _ChartData(DateTime(2001), 0.81, 0.05, 0.53, 0.17),
       _ChartData(DateTime(2002), 0.91, 0.06, 0.57, 0.17),
@@ -58,57 +62,61 @@ class _StackedAreaChartState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-          text: isCardView ? '' : 'Sales comparision of fruits in a shop'),
+        text: isCardView ? '' : 'Sales comparison of fruits in a shop',
+      ),
       legend: Legend(
-          isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),
+        isVisible: !isCardView,
+        overflowMode: LegendItemOverflowMode.wrap,
+      ),
       primaryXAxis: DateTimeAxis(
-          majorGridLines: const MajorGridLines(width: 0),
-          intervalType: DateTimeIntervalType.years,
-          dateFormat: DateFormat.y()),
+        majorGridLines: const MajorGridLines(width: 0),
+        intervalType: DateTimeIntervalType.years,
+        dateFormat: DateFormat.y(),
+      ),
       primaryYAxis: const NumericAxis(
-          rangePadding: ChartRangePadding.none,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getStackedAreaSeries(),
+        rangePadding: ChartRangePadding.none,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildStackedArea100Series(),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series
-  /// which need to render on the stacked area 100 chart.
-  List<CartesianSeries<_ChartData, DateTime>> _getStackedAreaSeries() {
+  /// Returns the list of cartesian stacked area 100 series.
+  List<CartesianSeries<_ChartData, DateTime>> _buildStackedArea100Series() {
     return <CartesianSeries<_ChartData, DateTime>>[
       StackedArea100Series<_ChartData, DateTime>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.organic,
+          dataSource: _chartData,
+          xValueMapper: (_ChartData data, int index) => data.x,
+          yValueMapper: (_ChartData data, int index) => data.organic,
           name: 'Apple'),
       StackedArea100Series<_ChartData, DateTime>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.fairTrade,
+          dataSource: _chartData,
+          xValueMapper: (_ChartData data, int index) => data.x,
+          yValueMapper: (_ChartData data, int index) => data.fairTrade,
           name: 'Orange'),
       StackedArea100Series<_ChartData, DateTime>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.veg,
+          dataSource: _chartData,
+          xValueMapper: (_ChartData data, int index) => data.x,
+          yValueMapper: (_ChartData data, int index) => data.veg,
           name: 'Pears'),
       StackedArea100Series<_ChartData, DateTime>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.others,
+          dataSource: _chartData,
+          xValueMapper: (_ChartData data, int index) => data.x,
+          yValueMapper: (_ChartData data, int index) => data.others,
           name: 'Others')
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }
 
-/// Private calss for storing the stacked area 100 series data points.
+/// Private class for storing the stacked area 100 series data points.
 class _ChartData {
   _ChartData(this.x, this.organic, this.fairTrade, this.veg, this.others);
   final DateTime x;

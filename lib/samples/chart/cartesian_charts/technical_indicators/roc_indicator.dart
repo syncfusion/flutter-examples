@@ -1,29 +1,31 @@
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local imports.
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/custom_button.dart';
 import 'indicator_data_source.dart';
 
-/// Renders the OHLC chart with Roc indicator sample.
+/// Renders the OHLC series chart with Roc indicator sample.
 class ROCIndicator extends SampleView {
-  /// creates the OHLC chart with Roc indicator.
+  /// creates the OHLC series chart with Roc indicator.
   const ROCIndicator(Key key) : super(key: key);
 
   @override
   _RocIndicatorState createState() => _RocIndicatorState();
 }
 
-/// State class of the OHLC chart with Roc indicator.
+/// State class for the OHLC series chart with Roc indicator.
 class _RocIndicatorState extends SampleViewState {
   _RocIndicatorState();
   late double _period;
+
   TrackballBehavior? _trackballBehavior;
+  List<ChartSampleData>? _chartData;
 
   @override
   void initState() {
@@ -34,11 +36,12 @@ class _RocIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
+    _chartData = getChartData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildDefaulRocIndicator();
+    return _buildDefaultRocIndicator();
   }
 
   @override
@@ -66,8 +69,8 @@ class _RocIndicatorState extends SampleViewState {
     );
   }
 
-  /// Returns the OHLC chart with Roc indicator.
-  SfCartesianChart _buildDefaulRocIndicator() {
+  /// Returns a cartesian OHLC chart with Roc indicator.
+  SfCartesianChart _buildDefaultRocIndicator() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       legend: Legend(isVisible: !isCardView),
@@ -98,7 +101,7 @@ class _RocIndicatorState extends SampleViewState {
       ],
       trackballBehavior: _trackballBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
-        /// Roc indicator mentioned here.
+        /// Roc indicator for the 'AAPL' series.
         RocIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
           yAxisName: 'yAxis',
@@ -106,18 +109,29 @@ class _RocIndicatorState extends SampleViewState {
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <CartesianSeries<ChartSampleData, DateTime>>[
-        HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          dataSource: getChartData(),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          lowValueMapper: (ChartSampleData sales, _) => sales.low,
-          highValueMapper: (ChartSampleData sales, _) => sales.high,
-          openValueMapper: (ChartSampleData sales, _) => sales.open,
-          closeValueMapper: (ChartSampleData sales, _) => sales.close,
-          name: 'AAPL',
-          opacity: 0.7,
-        ),
-      ],
+      series: _buildHiloOpenCloseSeries(),
     );
+  }
+
+  /// Returns the cartesian hilo open close series.
+  List<CartesianSeries<ChartSampleData, DateTime>> _buildHiloOpenCloseSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
+      HiloOpenCloseSeries<ChartSampleData, DateTime>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        lowValueMapper: (ChartSampleData data, int index) => data.low,
+        highValueMapper: (ChartSampleData data, int index) => data.high,
+        openValueMapper: (ChartSampleData data, int index) => data.open,
+        closeValueMapper: (ChartSampleData data, int index) => data.close,
+        name: 'AAPL',
+        opacity: 0.7,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }

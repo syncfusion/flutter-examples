@@ -1,29 +1,33 @@
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local imports.
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/custom_button.dart';
 import 'indicator_data_source.dart';
 
-/// Renders the OHLC chart with Exponential moving average indicator.
+/// Renders the cartesian OHLC series chart with
+/// Exponential moving average indicator.
 class EMAIndicator extends SampleView {
-  /// creates the OHLC chart with Exponential moving average indicator.
+  /// creates the cartesian OHLC series chart with
+  /// Exponential moving average indicator.
   const EMAIndicator(Key key) : super(key: key);
 
   @override
   _EMAIndicatorState createState() => _EMAIndicatorState();
 }
 
-/// State class of the OHLC chart with Exponential moving average indicator.
+/// State class for the OHLC series chart with
+/// Exponential moving average indicator.
 class _EMAIndicatorState extends SampleViewState {
   _EMAIndicatorState();
   late double _period;
   TrackballBehavior? _trackballBehavior;
+  List<ChartSampleData>? _chartData;
 
   @override
   void initState() {
@@ -34,11 +38,12 @@ class _EMAIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
+    _chartData = getChartData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildDefaulEMAIndicator();
+    return _buildDefaultEMAIndicator();
   }
 
   @override
@@ -66,8 +71,9 @@ class _EMAIndicatorState extends SampleViewState {
     );
   }
 
-  /// Returns the the OHLC chart with Exponential moving average indicator.
-  SfCartesianChart _buildDefaulEMAIndicator() {
+  /// Returns a cartesian OHLC series chart with
+  /// Exponential moving average indicator.
+  SfCartesianChart _buildDefaultEMAIndicator() {
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
       plotAreaBorderWidth: 0,
@@ -87,25 +93,36 @@ class _EMAIndicatorState extends SampleViewState {
       ),
       trackballBehavior: _trackballBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
-        /// EMA indicator mentioned here.
+        /// Exponential moving average indicator for the 'AAPL' series.
         EmaIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
           period: _period.toInt(),
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <CartesianSeries<ChartSampleData, DateTime>>[
-        HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          dataSource: getChartData(),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          lowValueMapper: (ChartSampleData sales, _) => sales.low,
-          highValueMapper: (ChartSampleData sales, _) => sales.high,
-          openValueMapper: (ChartSampleData sales, _) => sales.open,
-          closeValueMapper: (ChartSampleData sales, _) => sales.close,
-          name: 'AAPL',
-          opacity: 0.7,
-        ),
-      ],
+      series: _buildHiloOpenCloseSeries(),
     );
+  }
+
+  /// Returns the cartesian hilo open close series.
+  List<CartesianSeries<ChartSampleData, DateTime>> _buildHiloOpenCloseSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
+      HiloOpenCloseSeries<ChartSampleData, DateTime>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        lowValueMapper: (ChartSampleData data, int index) => data.low,
+        highValueMapper: (ChartSampleData data, int index) => data.high,
+        openValueMapper: (ChartSampleData data, int index) => data.open,
+        closeValueMapper: (ChartSampleData data, int index) => data.close,
+        name: 'AAPL',
+        opacity: 0.7,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }

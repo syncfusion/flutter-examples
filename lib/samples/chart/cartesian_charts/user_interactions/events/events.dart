@@ -1,41 +1,43 @@
-/// Package import
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-///Renders default column chart sample
+/// Renders the default column series chart that
+/// tracks interactive events.
 class Events extends SampleView {
-  ///Renders default column chart sample
+  /// Creates the default column series chart for event tracking.
   const Events(Key key) : super(key: key);
 
   @override
   _EventsState createState() => _EventsState();
 }
 
-// final GlobalKey consoleKey = GlobalKey<ConsoleState>();
 final ScrollController _scrollController = ScrollController();
 
+/// State class for the default column chart that handles events.
 class _EventsState extends SampleViewState {
   _EventsState();
-  late List<String> actionsList;
-  late GlobalKey consoleKey;
+  late List<String> _actionsList;
+  late GlobalKey _consoleKey;
   late TooltipBehavior _tooltipBehavior;
-  late List<ChartSampleData> chartData;
+  late List<ChartSampleData> _chartData;
+
   @override
   void initState() {
-    actionsList = <String>[];
-    consoleKey = GlobalKey();
+    _actionsList = <String>[];
+    _consoleKey = GlobalKey();
     _tooltipBehavior = TooltipBehavior(
       animationDuration: 0,
       canShowMarker: false,
       enable: true,
     );
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 'China', y: 0.541),
       ChartSampleData(x: 'Brazil', y: 0.818),
       ChartSampleData(x: 'Bolivia', y: 1.51),
@@ -50,194 +52,184 @@ class _EventsState extends SampleViewState {
   Widget build(BuildContext context) {
     return MediaQuery.of(context).size.height >
             MediaQuery.of(context).size.width
-        ? Column(children: <Widget>[
-            Expanded(
-              flex: 6,
-              child: _buildDefaultEventChart(),
-            ),
-            if (isCardView)
-              Container()
-            else
-              Expanded(
-                flex: 4,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-                        child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.grey.withOpacity(0.4))),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                    child: Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10, 0, 0, 0),
-                                        child: const Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              'Event Trace',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            )))),
-                                Expanded(
-                                    child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: IconButton(
-                                          splashRadius: 25,
-                                          icon: const Icon(Icons.close),
-                                          onPressed: () {
-                                            actionsList.clear();
-                                            consoleKey.currentState
-                                                ?.setState(() {});
-                                          },
-                                        ))),
-                              ],
-                            ))),
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-                      child: Console(actionsList, consoleKey),
-                    ))
-                  ],
-                ),
-              ),
-          ])
-        : Row(children: <Widget>[
-            Expanded(
-              flex: 6,
-              child: _buildDefaultEventChart(),
-            ),
-            if (isCardView)
-              Container()
-            else
-              Expanded(
-                flex: 4,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-                        child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.grey.withOpacity(0.4))),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                    child: Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10, 0, 0, 0),
-                                        child: const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            'Event Trace',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ))),
-                                Expanded(
-                                    child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: IconButton(
-                                          splashRadius: 25,
-                                          icon: const Icon(Icons.close),
-                                          onPressed: () {
-                                            actionsList.clear();
-                                            consoleKey.currentState
-                                                ?.setState(() {});
-                                          },
-                                        ))),
-                              ],
-                            ))),
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-                      child: Console(actionsList, consoleKey),
-                    ))
-                  ],
-                ),
-              ),
-          ]);
+        ? _buildVerticalLayout()
+        : _buildHorizontalLayout();
   }
 
-  /// Get default column chart
-  SfCartesianChart _buildDefaultEventChart() {
+  /// Builds the vertical layout of the widget.
+  Widget _buildVerticalLayout() {
+    return Column(
+      children: <Widget>[
+        Expanded(
+          flex: 6,
+          child: _buildDefaultColumnChart(),
+        ),
+        if (isCardView)
+          Container()
+        else
+          Expanded(
+            flex: 4,
+            child: _buildEventTrace(),
+          ),
+      ],
+    );
+  }
+
+  /// Builds the horizontal layout of the widget.
+  Widget _buildHorizontalLayout() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 6,
+          child: _buildDefaultColumnChart(),
+        ),
+        if (isCardView)
+          Container()
+        else
+          Expanded(
+            flex: 4,
+            child: _buildEventTrace(),
+          ),
+      ],
+    );
+  }
+
+  /// Builds the event trace section.
+  Widget _buildEventTrace() {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+          child: Container(
+            height: 50,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey.withOpacity(0.4),
+              ),
+            ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Event Trace',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      splashRadius: 25,
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        _actionsList.clear();
+                        _consoleKey.currentState?.setState(() {});
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+            child: Console(_actionsList, _consoleKey),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Returns a cartesian chart with default column series.
+  SfCartesianChart _buildDefaultColumnChart() {
     return SfCartesianChart(
       onAxisLabelTapped: (AxisLabelTapArgs args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Axis label (${args.text}) was tapped');
-          consoleKey.currentState?.setState(() {});
+          _actionsList.insert(0, 'Axis label (${args.text}) was tapped');
+          _consoleKey.currentState?.setState(() {});
         }
       },
       onDataLabelTapped: (DataLabelTapDetails args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Data label (${args.text}) was tapped');
-          consoleKey.currentState?.setState(() {});
+          _actionsList.insert(0, 'Data label (${args.text}) was tapped');
+          _consoleKey.currentState?.setState(() {});
         }
       },
       onChartTouchInteractionDown: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Chart was tapped down');
-          consoleKey.currentState?.setState(() {});
+          _actionsList.insert(0, 'Chart was tapped down');
+          _consoleKey.currentState?.setState(() {});
         }
       },
       onChartTouchInteractionMove: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Moved on chart area');
-          consoleKey.currentState?.setState(() {});
+          _actionsList.insert(0, 'Moved on chart area');
+          _consoleKey.currentState?.setState(() {});
         }
       },
       onLegendTapped: (LegendTapArgs args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Legend was tapped');
-          consoleKey.currentState?.setState(() {});
+          _actionsList.insert(0, 'Legend was tapped');
+          _consoleKey.currentState?.setState(() {});
         }
       },
       onMarkerRender: (MarkerRenderArgs args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Marker (${args.pointIndex}) was rendered');
+          _actionsList.insert(0, 'Marker (${args.pointIndex}) was rendered');
           if (args.pointIndex == 5) {
-            SchedulerBinding.instance.addPostFrameCallback((_) {
-              consoleKey.currentState?.setState(() {});
-            });
+            SchedulerBinding.instance.addPostFrameCallback(
+              (_) {
+                _consoleKey.currentState?.setState(() {});
+              },
+            );
           }
         }
       },
       onTooltipRender: (TooltipArgs args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Tooltip (${args.text}) is showing');
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            consoleKey.currentState?.setState(() {});
-          });
+          _actionsList.insert(0, 'Tooltip (${args.text}) is showing');
+          SchedulerBinding.instance.addPostFrameCallback(
+            (_) {
+              _consoleKey.currentState?.setState(() {});
+            },
+          );
         }
       },
       onChartTouchInteractionUp: (ChartTouchInteractionArgs args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Chart was tapped up');
-          consoleKey.currentState?.setState(() {});
+          _actionsList.insert(0, 'Chart was tapped up');
+          _consoleKey.currentState?.setState(() {});
         }
       },
       onLegendItemRender: (LegendRenderArgs args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Legend (${args.text}) was rendered');
+          _actionsList.insert(0, 'Legend (${args.text}) was rendered');
         }
       },
       onDataLabelRender: (DataLabelRenderArgs args) {
         if (!isCardView) {
-          actionsList.insert(0, 'Data label (${args.text}) was rendered');
+          _actionsList.insert(0, 'Data label (${args.text}) was rendered');
         }
       },
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-          text: isCardView ? '' : 'Population growth of various countries'),
+        text: isCardView ? '' : 'Population growth of various countries',
+      ),
       primaryXAxis: CategoryAxis(
         majorGridLines: const MajorGridLines(width: 0),
         axisLabelFormatter: (AxisLabelRenderDetails details) {
           if (!isCardView) {
-            actionsList.insert(0, 'Axis label (${details.text}) was rendered');
+            _actionsList.insert(0, 'Axis label (${details.text}) was rendered');
           }
           return ChartAxisLabel(details.text, null);
         },
@@ -248,93 +240,88 @@ class _EventsState extends SampleViewState {
         majorTickLines: const MajorTickLines(size: 0),
         axisLabelFormatter: (AxisLabelRenderDetails details) {
           if (!isCardView) {
-            actionsList.insert(0, 'Axis label (${details.text}) was rendered');
+            _actionsList.insert(0, 'Axis label (${details.text}) was rendered');
           }
           return ChartAxisLabel(details.text, null);
         },
       ),
-      series: _getDefaultColumnSeries(),
+      series: _buildColumnSeries(),
       legend: Legend(
-          isVisible: isCardView ? false : true,
-          position: LegendPosition.bottom),
+        isVisible: isCardView ? false : true,
+        position: LegendPosition.bottom,
+      ),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Get default column series
-  List<ColumnSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
+  /// Returns the list of cartesian column series.
+  List<ColumnSeries<ChartSampleData, String>> _buildColumnSeries() {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-        onPointTap: (ChartPointDetails args) {
-          if (!isCardView) {
-            actionsList.insert(0, 'Point (${args.pointIndex}) was tapped');
-            consoleKey.currentState?.setState(() {});
-          }
-        },
-        dataSource: chartData,
-        animationDuration: 0,
-        name: 'Population',
-        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
         markerSettings: const MarkerSettings(isVisible: true),
         dataLabelSettings: const DataLabelSettings(isVisible: true),
+        animationDuration: 0,
+        name: 'Population',
+        onPointTap: (ChartPointDetails args) {
+          if (!isCardView) {
+            _actionsList.insert(
+              0,
+              'Point (${args.pointIndex}) was tapped',
+            );
+            _consoleKey.currentState?.setState(() {});
+          }
+        },
       )
     ];
   }
 
   @override
   void dispose() {
-    chartData.clear();
+    _chartData.clear();
     super.dispose();
   }
 }
 
-/// Renders the console for evets
+/// Renders a console to display tracked events.
 class Console extends StatefulWidget {
-  /// Creates the console for events
+  /// Creates a console to display tracked events.
   const Console(this.actionsList, Key consoleKey) : super(key: consoleKey);
 
-  /// collections of actions performed
+  /// List of actions that have been performed.
   final List<String> actionsList;
   @override
   _ConsoleState createState() => _ConsoleState();
 }
 
 class _ConsoleState extends State<Console> {
-  void scrollToTop() {
-    _scrollController.animateTo(_scrollController.position.minScrollExtent,
-        duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
-    setState(() {});
-  }
-
-  void scrollToBottom() {
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withOpacity(0.4))),
+        border: Border.all(
+          color: Colors.grey.withOpacity(0.4),
+        ),
+      ),
       child: Padding(
-          padding: const EdgeInsets.all(5),
-          child: ListView.separated(
-            controller: _scrollController,
-            separatorBuilder: (BuildContext context, int build) =>
-                const Divider(
-              color: Colors.grey,
-              height: 4,
-            ),
-            itemCount: widget.actionsList.length,
-            itemBuilder: (BuildContext ctxt, int index) {
-              return Padding(
-                padding: const EdgeInsets.all(5),
-                child: Text(widget.actionsList[index]),
-              );
-            },
-          )),
+        padding: const EdgeInsets.all(5),
+        child: ListView.separated(
+          controller: _scrollController,
+          separatorBuilder: (BuildContext context, int build) => const Divider(
+            color: Colors.grey,
+            height: 4,
+          ),
+          itemCount: widget.actionsList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.all(5),
+              child: Text(widget.actionsList[index]),
+            );
+          },
+        ),
+      ),
     );
   }
 }

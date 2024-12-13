@@ -1,19 +1,19 @@
-///Dart imports
+/// Dart import.
 import 'dart:math';
 
-///Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
 /// Widget of the AgendaView Calendar.
 class AgendaViewCalendar extends SampleView {
-  /// Create  default agenda view calendar
+  /// Create default agenda view Calendar.
   const AgendaViewCalendar(Key key) : super(key: key);
 
   @override
@@ -23,14 +23,14 @@ class AgendaViewCalendar extends SampleView {
 class _AgendaViewCalendarState extends SampleViewState {
   _AgendaViewCalendarState();
 
+  late Orientation _deviceOrientation;
   late _MeetingDataSource _events;
   final CalendarController _calendarController = CalendarController();
-  late Orientation _deviceOrientation;
 
   @override
   void initState() {
     _calendarController.selectedDate = DateTime.now();
-    _events = _MeetingDataSource(_getAppointments());
+    _events = _MeetingDataSource(_createAppointments());
     super.initState();
   }
 
@@ -43,32 +43,37 @@ class _AgendaViewCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final Widget calendar = Theme(
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child: _getAgendaViewCalendar(
-            _events, _onViewChanged, _calendarController));
+      data: model.themeData.copyWith(
+        colorScheme:
+            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+      ),
+      child: _createAgendaViewCalendar(
+        _events,
+        _onViewChanged,
+        _calendarController,
+      ),
+    );
     return model.isMobileResolution &&
             _deviceOrientation == Orientation.landscape
         ? Scrollbar(
             child: ListView(
-            children: <Widget>[
-              Container(
-                color: model.sampleOutputCardColor,
-                height: 600,
-                child: calendar,
-              )
-            ],
-          ))
+              children: <Widget>[
+                Container(
+                  color: model.sampleOutputCardColor,
+                  height: 600,
+                  child: calendar,
+                ),
+              ],
+            ),
+          )
         : Container(
             color: model.sampleOutputCardColor,
             child: calendar,
           );
   }
 
-  /// Method that creates the collection the data source for calendar, with
-  /// required information.
-  List<_Meeting> _getAppointments() {
+  /// Method that creates the collection the data source for the Calendar.
+  List<_Meeting> _createAppointments() {
     /// Creates the required appointment subject details as a list.
     final List<String> subjectCollection = <String>[];
     subjectCollection.add('General Meeting');
@@ -108,7 +113,8 @@ class _AgendaViewCalendarState extends SampleViewState {
       for (int j = 0; j < count; j++) {
         final DateTime startDate =
             DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
-        meetings.add(_Meeting(
+        meetings.add(
+          _Meeting(
             subjectCollection[random.nextInt(7)],
             '',
             '',
@@ -119,12 +125,15 @@ class _AgendaViewCalendarState extends SampleViewState {
             false,
             '',
             '',
-            ''));
+            '',
+          ),
+        );
       }
     }
 
-    // added recurrence appointment
-    meetings.add(_Meeting(
+    // Added recurrence appointment
+    meetings.add(
+      _Meeting(
         'Development status',
         '',
         '',
@@ -135,41 +144,47 @@ class _AgendaViewCalendarState extends SampleViewState {
         false,
         '',
         '',
-        'FREQ=WEEKLY;BYDAY=FR;INTERVAL=1'));
+        'FREQ=WEEKLY;BYDAY=FR;INTERVAL=1',
+      ),
+    );
     return meetings;
   }
 
-  /// Updated the selected date of calendar, when the months swiped, selects the
-  /// current date when the calendar displays the current month, and selects the
+  /// Updated the selected date of Calendar, when the months swiped, selects the
+  /// current date when the Calendar displays the current month, and selects the
   /// first date of the month for rest of the months.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      final DateTime currentViewDate = visibleDatesChangedDetails
-          .visibleDates[visibleDatesChangedDetails.visibleDates.length ~/ 2];
-      if (model.isWebFullView) {
-        if (DateTime.now()
-                .isAfter(visibleDatesChangedDetails.visibleDates[0]) &&
-            DateTime.now().isBefore(visibleDatesChangedDetails.visibleDates[
-                visibleDatesChangedDetails.visibleDates.length - 1])) {
-          _calendarController.selectedDate = DateTime.now();
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) {
+        final DateTime currentViewDate = visibleDatesChangedDetails
+            .visibleDates[visibleDatesChangedDetails.visibleDates.length ~/ 2];
+        if (model.isWebFullView) {
+          if (DateTime.now()
+                  .isAfter(visibleDatesChangedDetails.visibleDates[0]) &&
+              DateTime.now().isBefore(
+                visibleDatesChangedDetails.visibleDates[
+                    visibleDatesChangedDetails.visibleDates.length - 1],
+              )) {
+            _calendarController.selectedDate = DateTime.now();
+          } else {
+            _calendarController.selectedDate =
+                visibleDatesChangedDetails.visibleDates[0];
+          }
         } else {
-          _calendarController.selectedDate =
-              visibleDatesChangedDetails.visibleDates[0];
+          if (currentViewDate.month == DateTime.now().month &&
+              currentViewDate.year == DateTime.now().year) {
+            _calendarController.selectedDate = DateTime.now();
+          } else {
+            _calendarController.selectedDate =
+                DateTime(currentViewDate.year, currentViewDate.month);
+          }
         }
-      } else {
-        if (currentViewDate.month == DateTime.now().month &&
-            currentViewDate.year == DateTime.now().year) {
-          _calendarController.selectedDate = DateTime.now();
-        } else {
-          _calendarController.selectedDate =
-              DateTime(currentViewDate.year, currentViewDate.month);
-        }
-      }
-    });
+      },
+    );
   }
 
-  /// Returns the calendar widget based on the properties passed.
-  SfCalendar _getAgendaViewCalendar(
+  /// Returns the Calendar widget based on the properties passed.
+  SfCalendar _createAgendaViewCalendar(
       [CalendarDataSource? calendarDataSource,
       ViewChangedCallback? onViewChanged,
       CalendarController? controller]) {
@@ -181,15 +196,18 @@ class _AgendaViewCalendarState extends SampleViewState {
       onViewChanged: onViewChanged,
       dataSource: calendarDataSource,
       monthViewSettings: MonthViewSettings(
-          showAgenda: true, numberOfWeeksInView: model.isWebFullView ? 2 : 6),
+        showAgenda: true,
+        numberOfWeeksInView: model.isWebFullView ? 2 : 6,
+      ),
       timeSlotViewSettings: const TimeSlotViewSettings(
-          minimumAppointmentDuration: Duration(minutes: 60)),
+        minimumAppointmentDuration: Duration(minutes: 60),
+      ),
     );
   }
 }
 
 /// An object to set the appointment collection data source to collection, which
-/// used to map the custom appointment data to the calendar appointment, and
+/// used to map the custom appointment data to the Calendar appointment, and
 /// allows to add, remove or reset the appointment collection.
 class _MeetingDataSource extends CalendarDataSource {
   _MeetingDataSource(this.source);
@@ -241,20 +259,21 @@ class _MeetingDataSource extends CalendarDataSource {
 }
 
 /// Custom business object class which contains properties to hold the detailed
-/// information about the event data which will be rendered in calendar.
+/// information about the event data which will be rendered in Calendar.
 class _Meeting {
   _Meeting(
-      this.eventName,
-      this.organizer,
-      this.contactID,
-      this.capacity,
-      this.from,
-      this.to,
-      this.background,
-      this.isAllDay,
-      this.startTimeZone,
-      this.endTimeZone,
-      this.recurrenceRule);
+    this.eventName,
+    this.organizer,
+    this.contactID,
+    this.capacity,
+    this.from,
+    this.to,
+    this.background,
+    this.isAllDay,
+    this.startTimeZone,
+    this.endTimeZone,
+    this.recurrenceRule,
+  );
 
   String eventName;
   String? organizer;

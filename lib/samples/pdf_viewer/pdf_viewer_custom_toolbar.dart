@@ -11,7 +11,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../model/model.dart';
 import '../../model/sample_view.dart';
 import './shared/mobile_helper.dart'
-    if (dart.library.html) './shared/web_helper.dart' as helper;
+    if (dart.library.js_interop) './shared/web_helper.dart' as helper;
 import 'shared/helper.dart';
 import 'shared/toolbar_widgets.dart';
 
@@ -2095,10 +2095,14 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                             'Sticky note icons', false);
                         _toolbarKey.currentState?._changeToolbarItemFillColor(
                             'Sticky notes', false);
+                        _toolbarKey.currentState
+                            ?._changeToolbarItemFillColor('Text markup', false);
                       } else {
                         setState(() {
                           _canShowBottomToolbar = false;
                         });
+                        _toolbarKey.currentState
+                            ?._changeToolbarItemFillColor('Text markup', false);
                       }
                     },
                   ),

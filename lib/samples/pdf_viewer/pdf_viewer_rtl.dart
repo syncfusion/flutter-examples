@@ -9,7 +9,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../model/model.dart';
 import '../../model/sample_view.dart';
 import './shared/mobile_helper.dart'
-    if (dart.library.html) './shared/web_helper.dart' as helper;
+    if (dart.library.js_interop) './shared/web_helper.dart' as helper;
 import 'shared/helper.dart';
 import 'shared/toolbar_widgets.dart';
 
@@ -789,7 +789,7 @@ class ToolbarState extends State<Toolbar> {
             child: SizedBox(
                 key: key,
                 height: 36,
-                width: toolTip == 'Choose file' || toolTip == 'اختر ملف'
+                width: toolTip == 'Choose file' || toolTip == 'اختر ملفًا'
                     ? (_useMaterial3 ? 56 : 50)
                     : 40,
                 child: child)));
@@ -801,6 +801,7 @@ class ToolbarState extends State<Toolbar> {
     required void Function()? onPressed,
     ShapeBorder? shape,
     Color? fillColor,
+    Color? hoverColor,
   }) {
     return RawMaterialButton(
       onPressed: onPressed,
@@ -808,6 +809,10 @@ class ToolbarState extends State<Toolbar> {
       focusElevation: 0,
       hoverElevation: 0,
       highlightElevation: 0,
+      hoverColor: hoverColor ??
+          (_useMaterial3
+              ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+              : null),
       shape: shape ??
           (_useMaterial3
               ? const RoundedRectangleBorder(
@@ -856,7 +861,7 @@ class ToolbarState extends State<Toolbar> {
                   // Choose file drop down
                   _webToolbarItem(
                     widget.model?.locale!.languageCode == 'ar'
-                        ? 'اختر ملف'
+                        ? 'اختر ملفًا'
                         : 'Choose file',
                     _webToolbarButton(
                       child: Row(
@@ -966,7 +971,7 @@ class ToolbarState extends State<Toolbar> {
                             ? Icons.keyboard_arrow_down
                             : Icons.keyboard_arrow_right,
                         color: canJumpToNextPage ? _color : _disabledColor,
-                        size: _useMaterial3 ? 24 : 21,
+                        size: _useMaterial3 ? 24 : 20,
                       ),
                       onPressed: canJumpToNextPage
                           ? () {
@@ -1141,7 +1146,7 @@ class ToolbarState extends State<Toolbar> {
                 children: <Widget>[
                   _webToolbarItem(
                     widget.model?.locale!.languageCode == 'ar'
-                        ? 'المرجعية'
+                        ? 'إشارة مرجعية'
                         : 'Bookmark',
                     _webToolbarButton(
                       onPressed: widget.controller!.pageNumber != 0
@@ -1318,7 +1323,7 @@ class ToolbarState extends State<Toolbar> {
                       child: Tooltip(
                         message: widget.showTooltip
                             ? widget.model?.locale!.languageCode == 'ar'
-                                ? 'اختر ملف'
+                                ? 'اختر ملفًا'
                                 : 'Choose file'
                             : null,
                         child: RawMaterialButton(
@@ -1467,7 +1472,7 @@ class ToolbarState extends State<Toolbar> {
                       child: Tooltip(
                         message: widget.showTooltip
                             ? widget.model?.locale!.languageCode == 'ar'
-                                ? 'المرجعية'
+                                ? 'إشارة مرجعية'
                                 : 'Bookmarks'
                             : null,
                         child: RawMaterialButton(
@@ -1547,7 +1552,7 @@ void _showErrorDialog(BuildContext context, SampleModel? model) {
   final String description = model?.locale?.languageCode == 'ar'
       ? 'الرجاء إدخال رقم صفحة صحيح.'
       : 'Please enter a valid page number.';
-  final String okLabel = model?.locale?.languageCode == 'ar' ? 'نعم' : 'OK';
+  final String okLabel = model?.locale?.languageCode == 'ar' ? 'حسنًا' : 'OK';
   final bool useMaterial3 = Theme.of(context).useMaterial3;
 
   showDialog<dynamic>(

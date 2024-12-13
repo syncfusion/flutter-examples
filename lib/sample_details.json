@@ -1,8 +1,165 @@
 [
   {
-    "categoryName": "Data Visualization",
+    "categoryName": "SMART AI SOLUTIONS",
+    "mobileCategoryId": 1,
     "webCategoryId": 1,
-    "mobileCategoryId": 2,
+    "controlList": [
+      {
+        "status": "New",
+        "title": "Smart AI Widgets",
+        "description": "Highlights smart widgets to enhance the functionality and user experience.",
+        "image": "images/smart_ai_components.png",
+        "displayType": "tab",
+        "controlId": 1,
+        "subItems": [
+          {
+            "status": "New",
+            "type": "child",
+            "title": "Charts",
+            "subItems": [
+              {
+                "status": "New",
+                "type": "sample",
+                "title": "Stock Forecasting",
+                "key": "stock_forecasting_sample",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_charts/stock_forecasting.dart",
+                "description": "An AI-driven chart that predicts the future stock trends based on historical data. If the key is not specified, the chart will generate random data."
+              },
+              {
+                "status": "New",
+                "type": "sample",
+                "title": "Data Preprocessing",
+                "key": "data_pre_processing_sample",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_charts/data_pre_processing.dart",
+                "description": "AI-powered data cleaning and preprocessing work with the smart chart widget."
+              }
+            ]
+          },
+          {
+            "status": "New",
+            "type": "child",
+            "title": "DataGrid",
+            "subItems": [
+              {
+                "status": "New",
+                "type": "sample",
+                "title": "Anamoly Detection",
+                "key": "anamoly_detection",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_datagrid/anamoly_detection.dart"
+              },
+              {
+                "status": "New",
+                "type": "sample",
+                "title": "Predictive Data Entry",
+                "key": "predictive_data_entry",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_datagrid/predictive_data_entry.dart"
+              }
+            ]
+          },
+          {
+            "status": "New",
+            "type": "child",
+            "title": "Calendar",
+            "subItems": [
+              {
+                "status": "New",
+                "type": "sample",
+                "title": "Calendar",
+                "key": "calendar_sample",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_calender/calendar_appointment.dart",
+                "description": "This smart appointment generator lets users check the doctor availability and book appointments."
+              }
+            ]
+          },
+          {
+            "status": "New",
+            "type": "child",
+            "title": "PDF Viewer",
+            "platformsToHide": [
+              "linux"
+            ],
+            "subItems": [
+              {
+                "status": "New",
+                "type": "sample",
+                "title": "PDF Viewer",
+                "key": "pdf_viewer_smart_fill",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_pdf_viewer/ai_form_filling.dart",
+                "description": "This sample illustrates how the Syncfusion Flutter PDF Viewer, with the help of AI, can automatically fill form fields using the content copied by the user."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "status": "New",
+        "isBeta": true,
+        "title": "AI Assist View",
+        "description": "AIAssistView is a versatile widget design to enhance interaction between users and AI services.",
+        "image": "images/ai_assist_view.png",
+        "displayType": "tab",
+        "controlId": 1,
+        "subItems": [
+          {
+            "status": "New",
+            "type": "sample",
+            "title": "Getting Started",
+            "key": "assist_view_getting_started",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assistview/getting_started.dart",
+            "needsPropertyPanel": true,
+            "platformsToHide": [
+              "android",
+              "ios"
+            ]
+          },
+          {
+            "status": "New",
+            "type": "sample",
+            "title": "Customization",
+            "key": "assist_view_customization",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assistview/customization.dart",
+            "needsPropertyPanel": true,
+            "platformsToHide": [
+              "android",
+              "ios"
+            ]
+          },
+          {
+            "status": "New",
+            "type": "sample",
+            "title": "Getting Started",
+            "key": "ai_assist_view_getting_started",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assistview/getting_started.dart",
+            "needsPropertyPanel": false,
+            "platformsToHide": [
+              "web",
+              "windows",
+              "macos",
+              "linux"
+            ]
+          },
+          {
+            "status": "New",
+            "type": "sample",
+            "title": "Customization",
+            "key": "ai_assist_view_customization",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assistview/customization.dart",
+            "needsPropertyPanel": false,
+            "platformsToHide": [
+              "web",
+              "windows",
+              "macos",
+              "linux"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categoryName": "Data Visualization",
+    "webCategoryId": 2,
+    "mobileCategoryId": 3,
     "controlList": [
       {
         "title": "Barcodes",
@@ -614,7 +771,6 @@
                 ]
               },
               {
-                "status": "Updated",
                 "type": "child",
                 "title": "Financial Charts",
                 "displayType": "card",
@@ -632,7 +788,6 @@
                     "needsPropertyPanel": true
                   },
                   {
-                    "status": "Updated",
                     "title": "Candle chart",
                     "key": "candle_chart",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/chart/cartesian_charts/chart_types/financial_charts/candle_chart.dart",
@@ -986,14 +1141,12 @@
                 "needsPropertyPanel": true
               },
               {
-                "status": "New",
                 "title": "Plot Offset",
                 "key": "plot_offset",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/plot_offset.dart",
                 "needsPropertyPanel": true
               },
               {
-                "status": "New",
                 "title": "Range Padding",
                 "key": "range_padding",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/range_padding.dart",
@@ -1199,6 +1352,7 @@
             ]
           },
           {
+            "status": "Updated",
             "type": "parent",
             "title": "User Interactions",
             "subItems": [
@@ -1285,8 +1439,9 @@
                     "needsPropertyPanel": true
                   },
                   {
+                    "status": "Updated",
                     "title": "Customized trackball",
-                    "key": "chart_with_trackball_template",
+                    "key": "chart_with_trackball_builder",
                     "description": "This example displays a custom widget as the trackball. To see the customized trackball, tap the chart area in mobile and hover the chart area on the web.",
                     "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/user_interactions/trackball/customized_trackball.dart",
                     "needsPropertyPanel": true
@@ -2642,8 +2797,8 @@
   },
   {
     "categoryName": "Grids",
-    "mobileCategoryId": 1,
-    "webCategoryId": 2,
+    "mobileCategoryId": 2,
+    "webCategoryId": 3,
     "controlList": [
       {
         "title": "DataGrid",
@@ -3007,8 +3162,8 @@
   },
   {
     "categoryName": "Calendar",
-    "mobileCategoryId": 3,
-    "webCategoryId": 3,
+    "mobileCategoryId": 4,
+    "webCategoryId": 4,
     "controlList": [
       {
         "title": "Event Calendar",
@@ -3188,8 +3343,8 @@
   },
   {
     "categoryName": "Viewer",
-    "mobileCategoryId": 4,
-    "webCategoryId": 4,
+    "mobileCategoryId": 5,
+    "webCategoryId": 5,
     "platformsToHide": [
       "linux"
     ],
@@ -3198,7 +3353,6 @@
         "title": "PDF Viewer",
         "description": "View the PDF document seamlessly and efficiently",
         "image": "images/pdf_viewer.png",
-        "status": "Updated",
         "displayType": "tab",
         "controlId": 1,
         "subItems": [
@@ -3212,14 +3366,12 @@
             "type": "sample",
             "title": "Custom Toolbar",
             "key": "pdf_viewer_custom_toolbar",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_custom_toolbar.dart"
           },
           {
             "type": "sample",
             "title": "Annotations",
             "key": "pdf_viewer_annotations",
-            "status": "Updated",
             "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_annotations.dart"
           },
           {
@@ -3254,8 +3406,8 @@
   },
   {
     "categoryName": "File Formats",
-    "mobileCategoryId": 5,
-    "webCategoryId": 5,
+    "mobileCategoryId": 6,
+    "webCategoryId": 6,
     "controlList": [
       {
         "title": "PDF",
@@ -3405,8 +3557,8 @@
   },
   {
     "categoryName": "Signature Pad",
-    "mobileCategoryId": 6,
-    "webCategoryId": 6,
+    "mobileCategoryId": 7,
+    "webCategoryId": 7,
     "controlList": [
       {
         "title": "Signature Pad",
@@ -3428,19 +3580,18 @@
   },
   {
     "categoryName": "Chat",
-    "mobileCategoryId": 7,
-    "webCategoryId": 7,
+    "mobileCategoryId": 8,
+    "webCategoryId": 8,
     "controlList": [
       {
+        "isBeta": true,
         "title": "Chat",
         "description": "Displays a conversation between two or more users in a layout that is highly customizable.",
         "image": "images/chat_icon.png",
-        "status": "New",
         "displayType": "tab",
         "controlId": 1,
         "subItems": [
           {
-            "status": "New",
             "type": "sample",
             "title": "Getting Started",
             "key": "getting_started",
@@ -3448,7 +3599,6 @@
             "needsPropertyPanel": false
           },
           {
-            "status": "New",
             "type": "sample",
             "title": "Customization",
             "key": "customization",
@@ -3461,8 +3611,8 @@
   },
   {
     "categoryName": "Sliders",
-    "mobileCategoryId": 8,
-    "webCategoryId": 8,
+    "mobileCategoryId": 9,
+    "webCategoryId": 9,
     "controlList": [
       {
         "title": "Slider",

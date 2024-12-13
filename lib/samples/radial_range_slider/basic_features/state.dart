@@ -107,7 +107,6 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
                       ),
                     ],
                   ),
-                  positionFactor: 0.05,
                 )
               ])
         ],

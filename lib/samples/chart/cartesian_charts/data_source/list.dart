@@ -1,43 +1,51 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../model/sample_view.dart';
 
-///Renders default line series chart
+/// Renders default line series chart using List data.
 class LocalData extends SampleView {
-  ///Creates default line series chart
+  /// Creates default line series chart using List data.
   const LocalData(Key key) : super(key: key);
 
   @override
   _LocalDataState createState() => _LocalDataState();
 }
 
+/// State class for the default line series chart using Json data.
 class _LocalDataState extends SampleViewState {
   _LocalDataState();
-
-  List<_ChartData>? chartData;
+  List<_ChartData>? _chartData;
   TrackballBehavior? _trackballBehavior;
+
   @override
   void initState() {
     super.initState();
     _trackballBehavior = TrackballBehavior(
-        enable: true,
-        lineColor: model.themeData.colorScheme.brightness == Brightness.dark
-            ? const Color.fromRGBO(255, 255, 255, 0.03)
-            : const Color.fromRGBO(0, 0, 0, 0.03),
-        lineWidth: 15,
-        activationMode: ActivationMode.singleTap,
-        markerSettings: const TrackballMarkerSettings(
-            borderWidth: 4,
-            height: 10,
-            width: 10,
-            markerVisibility: TrackballVisibilityMode.visible));
-    chartData = <_ChartData>[
+      enable: true,
+      lineColor: model.themeData.colorScheme.brightness == Brightness.dark
+          ? const Color.fromRGBO(255, 255, 255, 0.03)
+          : const Color.fromRGBO(0, 0, 0, 0.03),
+      lineWidth: 15,
+      activationMode: ActivationMode.singleTap,
+      markerSettings: const TrackballMarkerSettings(
+        borderWidth: 4,
+        height: 10,
+        width: 10,
+        markerVisibility: TrackballVisibilityMode.visible,
+      ),
+    );
+    _chartData = _buildChartData();
+  }
+
+  /// Method to get chart data points.
+  List<_ChartData> _buildChartData() {
+    return [
       _ChartData(x: DateTime(1980, 1, 23), y1: 83, y2: 94),
       _ChartData(x: DateTime(1980, 2, 24), y1: 83, y2: 93),
       _ChartData(x: DateTime(1980, 3, 25), y1: 82, y2: 93),
@@ -313,52 +321,57 @@ class _LocalDataState extends SampleViewState {
     return _buildDefaultLineChart();
   }
 
-  /// Get the cartesian chart with default line series
+  /// Returns the cartesian chart with default line series.
   SfCartesianChart _buildDefaultLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Sales comparison'),
       legend: Legend(
-          isVisible: isCardView ? false : true,
-          overflowMode: LegendItemOverflowMode.wrap),
+        isVisible: isCardView ? false : true,
+        overflowMode: LegendItemOverflowMode.wrap,
+      ),
       primaryXAxis: DateTimeAxis(
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          intervalType: DateTimeIntervalType.years,
-          dateFormat: DateFormat.y(),
-          name: 'Years',
-          majorGridLines: const MajorGridLines(width: 0)),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        intervalType: DateTimeIntervalType.years,
+        dateFormat: DateFormat.y(),
+        name: 'Years',
+        majorGridLines: const MajorGridLines(width: 0),
+      ),
       primaryYAxis: const NumericAxis(
-          minimum: 70,
-          maximum: 110,
-          interval: 10,
-          rangePadding: ChartRangePadding.none,
-          name: 'Price',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(color: Colors.transparent)),
-      series: _getDefaultLineSeries(),
+        minimum: 70,
+        maximum: 110,
+        interval: 10,
+        rangePadding: ChartRangePadding.none,
+        name: 'Price',
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(color: Colors.transparent),
+      ),
+      series: _buildDefaultLineSeries(),
       trackballBehavior: _trackballBehavior,
     );
   }
 
-  /// The method returns line series to chart.
-  List<LineSeries<_ChartData, DateTime>> _getDefaultLineSeries() {
+  /// Returns the list of cartesian line series.
+  List<LineSeries<_ChartData, DateTime>> _buildDefaultLineSeries() {
     return <LineSeries<_ChartData, DateTime>>[
       LineSeries<_ChartData, DateTime>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.y1,
-          name: 'Product A'),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.y1,
+        name: 'Product A',
+      ),
       LineSeries<_ChartData, DateTime>(
-          dataSource: chartData,
-          name: 'Product B',
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.y2)
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.y2,
+        name: 'Product B',
+      ),
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

@@ -1,23 +1,23 @@
-///Package import
+/// Package import.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Core import
+/// Core import.
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/localizations.dart';
 
-///Date picker imports
+/// Date picker import.
 import 'package:syncfusion_flutter_datepicker/datepicker.dart' as picker;
 
-///Local import
+/// Local imports.
 import '../../model/model.dart';
 import '../../model/sample_view.dart';
 
-/// Renders datepicker with popup menu
+/// Renders date picker with popup menu.
 class PopUpDatePicker extends SampleView {
-  /// Creates datepicker with popup menu
+  /// Creates date picker with popup menu.
   const PopUpDatePicker(Key key) : super(key: key);
 
   @override
@@ -62,7 +62,7 @@ class _PopUpDatePickerState extends SampleViewState
     });
   }
 
-  Widget _getBooking() {
+  Widget _fetchBooking() {
     return Card(
         elevation: 10,
         margin: model.isWebFullView
@@ -80,10 +80,11 @@ class _PopUpDatePickerState extends SampleViewState
                     child: Text(
                       'Book a Flight',
                       style: TextStyle(
-                          color: model.textColor,
-                          backgroundColor: Colors.transparent,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20),
+                        color: model.textColor,
+                        backgroundColor: Colors.transparent,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                   Container(
@@ -113,10 +114,11 @@ class _PopUpDatePickerState extends SampleViewState
                                   Text(
                                     'One-way',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: _value == 0
-                                            ? FontWeight.w600
-                                            : FontWeight.w400),
+                                      fontSize: 16.0,
+                                      fontWeight: _value == 0
+                                          ? FontWeight.w600
+                                          : FontWeight.w400,
+                                    ),
                                   ),
                                 ],
                               )),
@@ -145,10 +147,11 @@ class _PopUpDatePickerState extends SampleViewState
                                   Text(
                                     'Round-Trip',
                                     style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: _value == 1
-                                            ? FontWeight.w600
-                                            : FontWeight.w400),
+                                      fontSize: 16.0,
+                                      fontWeight: _value == 1
+                                          ? FontWeight.w600
+                                          : FontWeight.w400,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -165,14 +168,19 @@ class _PopUpDatePickerState extends SampleViewState
                                 Text(
                                   'From',
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 10),
+                                    color: Colors.grey,
+                                    fontSize: 10,
+                                  ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
-                                  child: Text('Cleveland (CLE)',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
+                                  child: Text(
+                                    'Cleveland (CLE)',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ))),
@@ -186,14 +194,19 @@ class _PopUpDatePickerState extends SampleViewState
                                 Text(
                                   'Destination',
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 10),
+                                    color: Colors.grey,
+                                    fontSize: 10,
+                                  ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
-                                  child: Text('Chicago (CHI)',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
+                                  child: Text(
+                                    'Chicago (CHI)',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
                                 ),
                               ],
                             )))
@@ -217,10 +230,12 @@ class _PopUpDatePickerState extends SampleViewState
                                         context: context,
                                         builder: (BuildContext context) {
                                           return DateRangePicker(
-                                              _startDate, null,
-                                              displayDate: _startDate,
-                                              minDate: DateTime.now(),
-                                              model: model);
+                                            _startDate,
+                                            null,
+                                            displayDate: _startDate,
+                                            minDate: DateTime.now(),
+                                            model: model,
+                                          );
                                         });
                                 if (date != null) {
                                   _onSelectedDateChanged(date);
@@ -254,7 +269,9 @@ class _PopUpDatePickerState extends SampleViewState
                                   children: <Widget>[
                                     const Text('Departure Date',
                                         style: TextStyle(
-                                            color: Colors.grey, fontSize: 10)),
+                                          color: Colors.grey,
+                                          fontSize: 10,
+                                        )),
                                     Padding(
                                       padding:
                                           const EdgeInsets.fromLTRB(0, 5, 5, 0),
@@ -262,8 +279,9 @@ class _PopUpDatePickerState extends SampleViewState
                                           DateFormat('dd MMM yyyy')
                                               .format(_startDate),
                                           style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500)),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          )),
                                     ),
                                   ],
                                 )))),
@@ -300,27 +318,34 @@ class _PopUpDatePickerState extends SampleViewState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: _value == 0
                                       ? <Widget>[
-                                          const Text('Return Date',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.grey,
-                                                  fontWeight: FontWeight.w500))
+                                          const Text(
+                                            'Return Date',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
                                         ]
                                       : <Widget>[
-                                          const Text('Return Date',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 10)),
+                                          const Text(
+                                            'Return Date',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 10,
+                                            ),
+                                          ),
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
                                                 0, 5, 5, 0),
                                             child: Text(
-                                                DateFormat('dd MMM yyyy')
-                                                    .format(_endDate),
-                                                style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500)),
+                                              DateFormat('dd MMM yyyy')
+                                                  .format(_endDate),
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
                                           ),
                                         ],
                                 ))))
@@ -343,14 +368,19 @@ class _PopUpDatePickerState extends SampleViewState
                                 Text(
                                   'Travellers',
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 10),
+                                    color: Colors.grey,
+                                    fontSize: 10,
+                                  ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
-                                  child: Text('1 Adult',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
+                                  child: Text(
+                                    '1 Adult',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ))),
@@ -364,14 +394,19 @@ class _PopUpDatePickerState extends SampleViewState
                                 Text(
                                   'Class',
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 10),
+                                    color: Colors.grey,
+                                    fontSize: 10,
+                                  ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.fromLTRB(0, 5, 5, 0),
-                                  child: Text('Economy',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
+                                  child: Text(
+                                    'Economy',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
                                 ),
                               ],
                             )))
@@ -398,10 +433,11 @@ class _PopUpDatePickerState extends SampleViewState
                             child: const Text(
                               'SEARCH',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  backgroundColor: Colors.transparent,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18),
+                                color: Colors.white,
+                                backgroundColor: Colors.transparent,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              ),
                             ),
                           ),
                         ],
@@ -418,43 +454,43 @@ class _PopUpDatePickerState extends SampleViewState
           : const Color(0x00171a21),
       body: model.isWebFullView
           ? Center(
-              child: SizedBox(width: 400, height: 380, child: _getBooking()))
+              child: SizedBox(width: 400, height: 380, child: _fetchBooking()))
           : SizedBox(
               height: 450,
-              child: _getBooking(),
+              child: _fetchBooking(),
             ),
     );
   }
 }
 
-/// Get date range picker
-picker.SfDateRangePicker getPopUpDatePicker() {
+/// Return pop up date range picker.
+picker.SfDateRangePicker buildPopUpDatePicker() {
   return picker.SfDateRangePicker();
 }
 
 /// Builds the date range picker inside a pop-up based on the properties passed,
 /// and return the selected date or range based on the tripe mode selected.
 class DateRangePicker extends StatefulWidget {
-  /// Creates Date range picker
+  /// Creates Date range picker.
   const DateRangePicker(this.date, this.range,
       {this.minDate, this.maxDate, this.displayDate, required this.model});
 
-  /// Holds date value
+  /// Holds date value.
   final dynamic date;
 
-  /// Holds date range value
+  /// Holds date range value.
   final dynamic range;
 
-  /// Holds minimum date value
+  /// Holds minimum date value.
   final dynamic minDate;
 
-  /// Holds maximum date value
+  /// Holds maximum date value.
   final dynamic maxDate;
 
-  /// Holds showable date value
+  /// Holds the date value to be displayed.
   final dynamic displayDate;
 
-  /// Holds Samplemodel instance
+  /// Holds Sample model instance.
   final SampleModel model;
 
   @override
@@ -464,11 +500,12 @@ class DateRangePicker extends StatefulWidget {
 }
 
 class _DateRangePickerState extends State<DateRangePicker> {
+  late bool _isWeb, _isHijri;
+  late SfLocalizations _localizations;
+
   dynamic _date;
   dynamic _controller;
   dynamic _range;
-  late bool _isWeb, _isHijri;
-  late SfLocalizations _localizations;
 
   @override
   void initState() {
@@ -521,20 +558,24 @@ class _DateRangePickerState extends State<DateRangePicker> {
                     _range.startDate == _range.endDate
                 ? Text(
                     _isHijri
-                        ? getFormattedHijriString(
+                        ? _buildFormattedHijriString(
                             _range == null
                                 ? _date
                                 : (_range.startDate ?? _range.endDate),
                             _localizations,
-                            'MMM')
-                        : DateFormat('dd MMM, yyyy').format(_range == null
-                            ? _date
-                            : (_range.startDate ?? _range.endDate)),
+                            'MMM',
+                          )
+                        : DateFormat('dd MMM, yyyy').format(
+                            _range == null
+                                ? _date
+                                : (_range.startDate ?? _range.endDate),
+                          ),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: widget.model.textColor),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: widget.model.textColor,
+                    ),
                   )
                 : Row(
                     children: <Widget>[
@@ -542,25 +583,28 @@ class _DateRangePickerState extends State<DateRangePicker> {
                         flex: 5,
                         child: Text(
                           _isHijri
-                              ? getFormattedHijriString(
+                              ? _buildFormattedHijriString(
                                   _range.startDate.isAfter(_range.endDate) ==
                                           true
                                       ? _range.endDate
                                       : _range.startDate,
                                   _localizations,
-                                  'MMM')
+                                  'MMM',
+                                )
                               : DateFormat('dd MMM, yyyy').format(
                                   _range.startDate.isAfter(_range.endDate) ==
                                           true
                                       ? _range.endDate
-                                      : _range.startDate),
+                                      : _range.startDate,
+                                ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: widget.model.textColor),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: widget.model.textColor,
+                          ),
                         ),
                       ),
                       const VerticalDivider(
@@ -570,25 +614,28 @@ class _DateRangePickerState extends State<DateRangePicker> {
                         flex: 5,
                         child: Text(
                           _isHijri
-                              ? getFormattedHijriString(
+                              ? _buildFormattedHijriString(
                                   _range.startDate.isAfter(_range.endDate) ==
                                           true
                                       ? _range.startDate
                                       : _range.endDate,
                                   _localizations,
-                                  'MMM')
+                                  'MMM',
+                                )
                               : DateFormat('dd MMM, yyyy').format(
                                   _range.startDate.isAfter(_range.endDate) ==
                                           true
                                       ? _range.startDate
-                                      : _range.endDate),
+                                      : _range.endDate,
+                                ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: widget.model.textColor),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: widget.model.textColor,
+                          ),
                         ),
                       ),
                     ],
@@ -613,8 +660,10 @@ class _DateRangePickerState extends State<DateRangePicker> {
         todayHighlightColor: Colors.transparent,
         headerStyle: picker.DateRangePickerHeaderStyle(
             textAlign: TextAlign.center,
-            textStyle:
-                TextStyle(color: widget.model.primaryColor, fontSize: 15)),
+            textStyle: TextStyle(
+              color: widget.model.primaryColor,
+              fontSize: 15,
+            )),
         onSubmit: (Object? value) {
           if (_range == null) {
             Navigator.pop(context, _date);
@@ -649,8 +698,10 @@ class _DateRangePickerState extends State<DateRangePicker> {
         todayHighlightColor: Colors.transparent,
         headerStyle: picker.DateRangePickerHeaderStyle(
             textAlign: TextAlign.center,
-            textStyle:
-                TextStyle(color: widget.model.primaryColor, fontSize: 15)),
+            textStyle: TextStyle(
+              color: widget.model.primaryColor,
+              fontSize: 15,
+            )),
         onSubmit: (Object? value) {
           if (_range == null) {
             Navigator.pop(context, _date);
@@ -697,16 +748,16 @@ class _DateRangePickerState extends State<DateRangePicker> {
             )));
   }
 
-  String getFormattedHijriString(
+  String _buildFormattedHijriString(
       HijriDateTime date, SfLocalizations localizations, String monthFormat) {
     return date.day.toString() +
         ' ' +
-        getHijriMonthText(date, localizations, monthFormat) +
+        _buildHijriMonthText(date, localizations, monthFormat) +
         ' ' +
         date.year.toString();
   }
 
-  String getHijriMonthText(
+  String _buildHijriMonthText(
       dynamic date, SfLocalizations localizations, String format) {
     if (date.month == 1) {
       if (format == 'M' || format == 'MM') {
@@ -795,5 +846,11 @@ class _DateRangePickerState extends State<DateRangePicker> {
       }
       return localizations.dhualhiLabel;
     }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

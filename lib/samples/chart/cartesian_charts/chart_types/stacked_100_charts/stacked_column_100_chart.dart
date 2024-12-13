@@ -1,33 +1,36 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the stacked column 100 chart sample.
+/// Renders the stacked column 100 series chart sample.
 class StackedColumn100Chart extends SampleView {
-  /// Creates the stacked column 100 chart sample.
+  /// Creates the stacked column 100 series chart sample.
   const StackedColumn100Chart(Key key) : super(key: key);
 
   @override
   _StackedColumn100ChartState createState() => _StackedColumn100ChartState();
 }
 
-/// State class of the stacked column 100 chart.
+/// State class for the stacked column 100 chart.
 class _StackedColumn100ChartState extends SampleViewState {
   _StackedColumn100ChartState();
 
-  List<_ChartData>? chartData;
-
+  List<_ChartData>? _chartData;
   TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
-    _tooltipBehavior =
-        TooltipBehavior(enable: true, header: '', canShowMarker: false);
-    chartData = <_ChartData>[
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+      header: '',
+      canShowMarker: false,
+    );
+    _chartData = <_ChartData>[
       _ChartData('Q1', 50, 55, 72, 65),
       _ChartData('Q2', 80, 75, 70, 60),
       _ChartData('Q3', 35, 45, 55, 52),
@@ -46,60 +49,67 @@ class _StackedColumn100ChartState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-          text: isCardView ? '' : 'Quarterly wise sales of products'),
+        text: isCardView ? '' : 'Quarterly wise sales of products',
+      ),
       legend: Legend(
-          isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),
+        isVisible: !isCardView,
+        overflowMode: LegendItemOverflowMode.wrap,
+      ),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: const NumericAxis(
-          rangePadding: ChartRangePadding.none,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getStackedColumnSeries(),
+        rangePadding: ChartRangePadding.none,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildStackedColumn100Series(),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series
-  /// which need to render on the stacked column 1oo chart.
-  List<CartesianSeries<_ChartData, String>> _getStackedColumnSeries() {
+  /// Returns the list of cartesian stacked column 100 series.
+  List<CartesianSeries<_ChartData, String>> _buildStackedColumn100Series() {
     return <CartesianSeries<_ChartData, String>>[
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData,
-          dataLabelSettings: const DataLabelSettings(isVisible: true),
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.y1,
-          name: 'Product A'),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.y1,
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
+        name: 'Product A',
+      ),
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData,
-          dataLabelSettings: const DataLabelSettings(isVisible: true),
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.y2,
-          name: 'Product B'),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.y2,
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
+        name: 'Product B',
+      ),
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData,
-          dataLabelSettings: const DataLabelSettings(isVisible: true),
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.y3,
-          name: 'Product C'),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.y3,
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
+        name: 'Product C',
+      ),
       StackedColumn100Series<_ChartData, String>(
-          dataSource: chartData,
-          dataLabelSettings: const DataLabelSettings(isVisible: true),
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.y4,
-          name: 'Product D')
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.y4,
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
+        name: 'Product D',
+      )
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }
 
-/// Private class for storing the stacked column series data points.
+/// Private class for storing the stacked column 100 series data points.
 class _ChartData {
   _ChartData(this.x, this.y1, this.y2, this.y3, this.y4);
   final String x;

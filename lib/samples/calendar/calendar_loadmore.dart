@@ -1,19 +1,19 @@
-///Dart imports
+/// Dart import.
 import 'dart:math';
 
-///Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Widget of getting started calendar
+/// Widget of getting started Calendar.
 class LoadMoreCalendar extends SampleView {
-  /// Creates default getting started calendar
+  /// Creates default getting started Calendar.
   const LoadMoreCalendar(Key key) : super(key: key);
 
   @override
@@ -28,7 +28,6 @@ class _LoadMoreCalendarState extends SampleViewState {
   final _MeetingDataSource _events = _MeetingDataSource(<_Meeting>[]);
   final CalendarController _calendarController = CalendarController();
   CalendarView _view = CalendarView.month;
-
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.day,
     CalendarView.week,
@@ -40,11 +39,10 @@ class _LoadMoreCalendarState extends SampleViewState {
     CalendarView.timelineWorkWeek,
     CalendarView.timelineMonth,
   ];
-
   final ScrollController _controller = ScrollController();
 
-  /// Global key used to maintain the state, when we change the parent of the
-  /// widget
+  /// Global key used to maintain the state,
+  /// when we change the parent of the widget.
   final GlobalKey _globalKey = GlobalKey();
 
   @override
@@ -57,61 +55,69 @@ class _LoadMoreCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final Widget calendar = Theme(
-
-        /// The key set here to maintain the state,
-        ///  when we change the parent of the widget
-        key: _globalKey,
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child: _getLoadMoreCalendar(_calendarController, _onViewChanged,
-            _events, _scheduleViewBuilder));
-
+      /// The key set here to maintain the state,
+      ///  when we change the parent of the widget.
+      key: _globalKey,
+      data: model.themeData.copyWith(
+        colorScheme:
+            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+      ),
+      child: _getLoadMoreCalendar(
+        _calendarController,
+        _onViewChanged,
+        _events,
+        _scheduleViewBuilder,
+      ),
+    );
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Row(children: <Widget>[
-        Expanded(
-          child: _calendarController.view == CalendarView.month &&
-                  model.isWebFullView &&
-                  screenHeight < 800
-              ? Scrollbar(
-                  thumbVisibility: true,
-                  controller: _controller,
-                  child: ListView(
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child: _calendarController.view == CalendarView.month &&
+                    model.isWebFullView &&
+                    screenHeight < 800
+                ? Scrollbar(
+                    thumbVisibility: true,
                     controller: _controller,
-                    children: <Widget>[
-                      Container(
-                        color: model.sampleOutputCardColor,
-                        height: 600,
-                        child: calendar,
-                      )
-                    ],
-                  ))
-              : Container(color: model.sampleOutputCardColor, child: calendar),
-        )
-      ]),
+                    child: ListView(
+                      controller: _controller,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
+          ),
+        ],
+      ),
     );
   }
 
   /// Handle the view changed and it used to update the UI on web platform
-  /// whether the calendar view changed from month view or to month view.
+  /// whether the Calendar view changed from month view or to month view.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     if (_view == _calendarController.view) {
       return;
     }
-
     if ((_calendarController.view == CalendarView.month ||
             _view == CalendarView.month) &&
         model.isWebFullView) {
       _view = _calendarController.view!;
       SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
         setState(() {
-          /// Update the web UI when the calendar view changed from month view
+          /// Update the web UI when the Calendar view changed from month view
           /// or to month view.
         });
       });
     }
-
     _view = _calendarController.view!;
   }
 
@@ -158,12 +164,12 @@ class _LoadMoreCalendarState extends SampleViewState {
             DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
         final int duration = random.nextInt(3);
         final _Meeting meeting = _Meeting(
-            subjectCollection[random.nextInt(7)],
-            startDate,
-            startDate.add(Duration(hours: duration == 0 ? 1 : duration)),
-            colorCollection[random.nextInt(9)],
-            false);
-
+          subjectCollection[random.nextInt(7)],
+          startDate,
+          startDate.add(Duration(hours: duration == 0 ? 1 : duration)),
+          colorCollection[random.nextInt(9)],
+          false,
+        );
         if (_dataCollection.containsKey(date)) {
           final List<_Meeting> meetings = _dataCollection[date]!;
           meetings.add(meeting);
@@ -175,43 +181,49 @@ class _LoadMoreCalendarState extends SampleViewState {
     }
   }
 
-  /// Returns the calendar widget based on the properties passed.
-  SfCalendar _getLoadMoreCalendar(
-      [CalendarController? calendarController,
-      ViewChangedCallback? viewChangedCallback,
-      CalendarDataSource? calendarDataSource,
-      dynamic scheduleViewBuilder]) {
+  /// Returns the Calendar widget based on the properties passed.
+  SfCalendar _getLoadMoreCalendar([
+    CalendarController? calendarController,
+    ViewChangedCallback? viewChangedCallback,
+    CalendarDataSource? calendarDataSource,
+    dynamic scheduleViewBuilder,
+  ]) {
     return SfCalendar(
-        controller: calendarController,
-        dataSource: calendarDataSource,
-        allowedViews: _allowedViews,
-        onViewChanged: viewChangedCallback,
-        scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
-        showNavigationArrow: model.isWebFullView,
-        blackoutDatesTextStyle: TextStyle(
-            decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
-            color: Colors.red),
-        loadMoreWidgetBuilder:
-            (BuildContext context, LoadMoreCallback loadMoreAppointments) {
-          return FutureBuilder<void>(
-            future: loadMoreAppointments(),
-            builder: (BuildContext context, AsyncSnapshot<void> snapShot) {
-              return Container(
-                  height: _calendarController.view == CalendarView.schedule
-                      ? 50
-                      : double.infinity,
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color?>(model.primaryColor)));
-            },
-          );
-        },
-        monthViewSettings: const MonthViewSettings(
-            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
-        timeSlotViewSettings: const TimeSlotViewSettings(
-            minimumAppointmentDuration: Duration(minutes: 60)));
+      controller: calendarController,
+      dataSource: calendarDataSource,
+      allowedViews: _allowedViews,
+      onViewChanged: viewChangedCallback,
+      scheduleViewMonthHeaderBuilder: scheduleViewBuilder,
+      showNavigationArrow: model.isWebFullView,
+      blackoutDatesTextStyle: TextStyle(
+        decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
+        color: Colors.red,
+      ),
+      loadMoreWidgetBuilder:
+          (BuildContext context, LoadMoreCallback loadMoreAppointments) {
+        return FutureBuilder<void>(
+          future: loadMoreAppointments(),
+          builder: (BuildContext context, AsyncSnapshot<void> snapShot) {
+            return Container(
+              height: _calendarController.view == CalendarView.schedule
+                  ? 50
+                  : double.infinity,
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color?>(model.primaryColor),
+              ),
+            );
+          },
+        );
+      },
+      monthViewSettings: const MonthViewSettings(
+        appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+      ),
+      timeSlotViewSettings: const TimeSlotViewSettings(
+        minimumAppointmentDuration: Duration(minutes: 60),
+      ),
+    );
   }
 }
 
@@ -251,10 +263,11 @@ Widget _scheduleViewBuilder(
   return Stack(
     children: <Widget>[
       Image(
-          image: ExactAssetImage('images/' + monthName + '.png'),
-          fit: BoxFit.cover,
-          width: details.bounds.width,
-          height: details.bounds.height),
+        image: ExactAssetImage('images/' + monthName + '.png'),
+        fit: BoxFit.cover,
+        width: details.bounds.width,
+        height: details.bounds.height,
+      ),
       Positioned(
         left: 55,
         right: 0,
@@ -264,13 +277,13 @@ Widget _scheduleViewBuilder(
           monthName + ' ' + details.date.year.toString(),
           style: const TextStyle(fontSize: 18),
         ),
-      )
+      ),
     ],
   );
 }
 
 /// An object to set the appointment collection data source to collection, which
-/// used to map the custom appointment data to the calendar appointment, and
+/// used to map the custom appointment data to the Calendar appointment, and
 /// allows to add, remove or reset the appointment collection.
 class _MeetingDataSource extends CalendarDataSource {
   _MeetingDataSource(this.source);
@@ -318,26 +331,32 @@ class _MeetingDataSource extends CalendarDataSource {
         date = date.add(const Duration(days: 1));
         continue;
       }
-
       for (final _Meeting meeting in data) {
         if (appointments.contains(meeting)) {
           continue;
         }
-
         meetings.add(meeting);
       }
       date = date.add(const Duration(days: 1));
     }
-
     appointments.addAll(meetings);
-    notifyListeners(CalendarDataSourceAction.add, meetings);
+    notifyListeners(
+      CalendarDataSourceAction.add,
+      meetings,
+    );
   }
 }
 
 /// Custom business object class which contains properties to hold the detailed
-/// information about the event data which will be rendered in calendar.
+/// information about the event data which will be rendered in Calendar.
 class _Meeting {
-  _Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
+  _Meeting(
+    this.eventName,
+    this.from,
+    this.to,
+    this.background,
+    this.isAllDay,
+  );
 
   String eventName;
   DateTime from;

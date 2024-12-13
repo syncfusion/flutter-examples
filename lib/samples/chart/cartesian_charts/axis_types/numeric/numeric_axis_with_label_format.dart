@@ -1,15 +1,14 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
 /// Renders the numeric with axis label format.
 class NumericLabel extends SampleView {
-  /// Creates the numeric with axis label format.
   const NumericLabel(Key key) : super(key: key);
 
   @override
@@ -19,67 +18,74 @@ class NumericLabel extends SampleView {
 /// State class of numeric axis label format.
 class _NumericLabelState extends SampleViewState {
   _NumericLabelState();
+
+  List<ChartSampleData>? _fahrenheitToCelsiusConversionData;
   TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
+    _fahrenheitToCelsiusConversionData = <ChartSampleData>[
+      ChartSampleData(xValue: 1, yValue: 240, secondSeriesYValue: 236),
+      ChartSampleData(xValue: 2, yValue: 250, secondSeriesYValue: 242),
+      ChartSampleData(xValue: 3, yValue: 281, secondSeriesYValue: 313),
+      ChartSampleData(xValue: 4, yValue: 358, secondSeriesYValue: 359),
+      ChartSampleData(xValue: 5, yValue: 237, secondSeriesYValue: 272),
+    ];
     _tooltipBehavior = TooltipBehavior(
-        enable: true,
-        header: '',
-        canShowMarker: false,
-        format: 'point.x / point.y');
+      enable: true,
+      header: '',
+      canShowMarker: false,
+      format: 'point.x / point.y',
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildChart();
+    return _buildCartesianChart();
   }
 
-  @override
-  void dispose() {
-    _tooltipBehavior = null;
-    super.dispose();
-  }
-
-  Widget _buildChart() {
+  Widget _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title:
-          ChartTitle(text: isCardView ? '' : 'Farenheit - Celsius conversion'),
+      title: ChartTitle(
+        text: isCardView ? '' : 'Fahrenheit - Celsius conversion',
+      ),
       primaryXAxis: const NumericAxis(
-          labelFormat: '{value}°C',
-          majorGridLines: MajorGridLines(width: 0),
-          edgeLabelPlacement: EdgeLabelPlacement.shift),
+        labelFormat: '{value}°C',
+        majorGridLines: MajorGridLines(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+      ),
       primaryYAxis: const NumericAxis(
-          labelFormat: '{value}°F',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: getNumericLabelSeries(),
+        labelFormat: '{value}°F',
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildLineSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Return the line series with numeric axis label.
-  List<LineSeries<ChartSampleData, num>> getNumericLabelSeries() {
+  /// Returns the list of Cartesian Line series.
+  List<LineSeries<ChartSampleData, num>> _buildLineSeries() {
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
-          dataSource: <ChartSampleData>[
-            ChartSampleData(xValue: 0, yValue: 32),
-            ChartSampleData(xValue: 5, yValue: 41),
-            ChartSampleData(xValue: 10, yValue: 50),
-            ChartSampleData(xValue: 15, yValue: 59),
-            ChartSampleData(xValue: 20, yValue: 68),
-            ChartSampleData(xValue: 25, yValue: 77),
-            ChartSampleData(xValue: 30, yValue: 86),
-            ChartSampleData(xValue: 35, yValue: 95),
-            ChartSampleData(xValue: 40, yValue: 104),
-            ChartSampleData(xValue: 45, yValue: 113),
-            ChartSampleData(xValue: 50, yValue: 122)
-          ],
-          xValueMapper: (ChartSampleData sales, _) => sales.xValue as num,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          markerSettings:
-              const MarkerSettings(height: 10, width: 10, isVisible: true)),
+        dataSource: _fahrenheitToCelsiusConversionData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.xValue,
+        yValueMapper: (ChartSampleData sales, int index) => sales.yValue,
+        markerSettings: const MarkerSettings(
+          height: 10,
+          width: 10,
+          isVisible: true,
+        ),
+      ),
     ];
+  }
+
+  @override
+  void dispose() {
+    _fahrenheitToCelsiusConversionData!.clear();
+    _tooltipBehavior = null;
+    super.dispose();
   }
 }

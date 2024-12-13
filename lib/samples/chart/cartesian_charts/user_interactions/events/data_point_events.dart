@@ -1,16 +1,17 @@
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-///URL launcher import
+/// URL launcher import.
 import 'package:url_launcher/url_launcher.dart' show launchUrl;
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-///
-List<String>? xvalue = <String>[
+/// List of social media platforms.
+List<String>? socialMediaPlatforms = <String>[
   'YouTube',
   'Twitter',
   'Instagram',
@@ -18,32 +19,46 @@ List<String>? xvalue = <String>[
   'Facebook'
 ];
 
-///
-List<int>? yvalue = <int>[51, 42, 63, 61, 74];
+/// Number of users for the social media platforms.
+List<int>? userCounts = <int>[51, 42, 63, 61, 74];
 
-///
-String sortby = '';
+/// Specifies the sorting criteria for the data.
+String sortingCriteria = '';
 
-///Renders default column chart sample
+/// Renders the default column series chart with interactive data points.
 class DataPoints extends SampleView {
-  ///Renders default column chart sample
+  /// Creates the default column series chart with interactive data points.
   const DataPoints(Key key) : super(key: key);
   @override
   _DataPointsState createState() => _DataPointsState();
 }
 
+/// State class for the default column series chart
+/// with interactive data points.
 class _DataPointsState extends SampleViewState {
   _DataPointsState();
-  late List<ChartSampleData> chartData;
-  late SortingOrder sortingOrder;
-  late String sortBy;
+  late List<ChartSampleData> _chartData;
+  late SortingOrder _sortingOrder;
+  late String _sortingCriteria;
   late GlobalKey<ScaffoldMessengerState> _scaffoldKey;
+  late LinearGradient _gradient;
+
   @override
   void initState() {
     _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
-    sortBy = '';
-    sortingOrder = SortingOrder.none;
-    chartData = <ChartSampleData>[
+    _sortingCriteria = '';
+    _sortingOrder = SortingOrder.none;
+    _gradient = const LinearGradient(
+      colors: <Color>[
+        Color.fromRGBO(93, 80, 202, 1),
+        Color.fromRGBO(183, 45, 145, 1),
+        Color.fromRGBO(250, 203, 118, 1)
+      ],
+      stops: <double>[0.0, 0.5, 1.0],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    );
+    _chartData = <ChartSampleData>[
       ChartSampleData(
         x: 'YouTube',
         y: 51,
@@ -75,29 +90,34 @@ class _DataPointsState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
-        key: _scaffoldKey,
-        child: Scaffold(
-            backgroundColor: model.sampleOutputCardColor,
-            body: _buildDefaultColumnChart()));
+      key: _scaffoldKey,
+      child: Scaffold(
+        backgroundColor: model.sampleOutputCardColor,
+        body: _buildDefaultColumnChart(),
+      ),
+    );
   }
 
-  /// Get default column chart
+  /// Returns a cartesian chart with default column series.
   SfCartesianChart _buildDefaultColumnChart() {
     return SfCartesianChart(
       title: ChartTitle(
-          text: isCardView
-              ? ''
-              : 'Percentage of people using social media on a daily basis'),
+        text: isCardView
+            ? ''
+            : 'Percentage of people using social media on a daily basis',
+      ),
       plotAreaBorderWidth: 0,
       primaryXAxis: const CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+        majorGridLines: MajorGridLines(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
       primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          interval: isCardView ? 20 : 10,
-          maximum: isCardView ? 100 : 90,
-          majorTickLines: const MajorTickLines(size: 0)),
-      series: _getDefaultColumnSeries(),
+        axisLine: const AxisLine(width: 0),
+        interval: isCardView ? 20 : 10,
+        maximum: isCardView ? 100 : 90,
+        majorTickLines: const MajorTickLines(size: 0),
+      ),
+      series: _buildColumnSeries(),
     );
   }
 
@@ -112,95 +132,8 @@ class _DataPointsState extends SampleViewState {
             child: ListView(
               shrinkWrap: true,
               children: <Widget>[
-                SizedBox(
-                    height: 40,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      title: const Text('Sort Data Points',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                      trailing: IconButton(
-                        icon: Icon(Icons.close, color: model.primaryColor),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    )),
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: const Text(
-                    'Ascending (x-value)',
-                    textAlign: TextAlign.center,
-                  ),
-                  onTap: () {
-                    xvalue!.sort();
-                    sortingOrder = SortingOrder.ascending;
-                    sortBy = 'sortByX';
-                    Navigator.of(context).pop();
-                    setState(() {});
-                  },
-                ),
-                const Divider(height: 4, thickness: 2),
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: const Text(
-                    'Descending (x-value)',
-                    textAlign: TextAlign.center,
-                  ),
-                  onTap: () {
-                    xvalue!.sort((String b, String a) => a.compareTo(b));
-                    sortingOrder = SortingOrder.descending;
-                    sortBy = 'sortByX';
-                    Navigator.of(context).pop();
-                    setState(() {});
-                  },
-                ),
-                const Divider(height: 4, thickness: 2),
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: const Text(
-                    'Ascending (y-value)',
-                    textAlign: TextAlign.center,
-                  ),
-                  onTap: () {
-                    yvalue!.sort();
-                    xvalue = <String>[
-                      'Twitter',
-                      'YouTube',
-                      'Snapchat',
-                      'Instagram',
-                      'Facebook'
-                    ];
-                    sortingOrder = SortingOrder.ascending;
-                    sortBy = 'sortByY';
-                    sortby = 'sortByY';
-                    Navigator.of(context).pop();
-                    setState(() {});
-                  },
-                ),
-                const Divider(height: 4, thickness: 2),
-                ListTile(
-                  horizontalTitleGap: 0,
-                  title: const Text(
-                    'Descending (y-value)',
-                    textAlign: TextAlign.center,
-                  ),
-                  onTap: () {
-                    yvalue!.sort((int b, int a) => a.compareTo(b));
-                    xvalue = <String>[
-                      'Facebook',
-                      'Instagram',
-                      'Snapchat',
-                      'YouTube',
-                      'Twitter'
-                    ];
-                    sortingOrder = SortingOrder.descending;
-                    sortBy = 'sortByY';
-                    sortby = 'sortByY';
-                    Navigator.of(context).pop();
-                    setState(() {});
-                  },
-                ),
+                _buildDialogHeader(context),
+                _buildSortingOptions(context),
               ],
             ),
           ),
@@ -209,15 +142,131 @@ class _DataPointsState extends SampleViewState {
     );
   }
 
-  /// Get default column series
-  List<ColumnSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
+  Widget _buildDialogHeader(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: ListTile(
+        contentPadding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+        title: const Text(
+          'Sort Data Points',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.close, color: model.primaryColor),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSortingOptions(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        ListTile(
+          horizontalTitleGap: 0,
+          title: const Text(
+            'Ascending (x-value)',
+            textAlign: TextAlign.center,
+          ),
+          onTap: () {
+            socialMediaPlatforms!.sort();
+            _sortingOrder = SortingOrder.ascending;
+            _sortingCriteria = 'sortByX';
+            Navigator.of(context).pop();
+            setState(() {});
+          },
+        ),
+        const Divider(height: 4, thickness: 2),
+        ListTile(
+          horizontalTitleGap: 0,
+          title: const Text(
+            'Descending (x-value)',
+            textAlign: TextAlign.center,
+          ),
+          onTap: () {
+            socialMediaPlatforms!.sort((String b, String a) => a.compareTo(b));
+            _sortingOrder = SortingOrder.descending;
+            _sortingCriteria = 'sortByX';
+            Navigator.of(context).pop();
+            setState(() {});
+          },
+        ),
+        const Divider(height: 4, thickness: 2),
+        ListTile(
+          horizontalTitleGap: 0,
+          title: const Text(
+            'Ascending (y-value)',
+            textAlign: TextAlign.center,
+          ),
+          onTap: () {
+            userCounts!.sort();
+            socialMediaPlatforms = <String>[
+              'Twitter',
+              'YouTube',
+              'Snapchat',
+              'Instagram',
+              'Facebook'
+            ];
+            _sortingOrder = SortingOrder.ascending;
+            _sortingCriteria = 'sortByY';
+            Navigator.of(context).pop();
+            setState(() {});
+          },
+        ),
+        const Divider(height: 4, thickness: 2),
+        ListTile(
+          horizontalTitleGap: 0,
+          title: const Text(
+            'Descending (y-value)',
+            textAlign: TextAlign.center,
+          ),
+          onTap: () {
+            userCounts!.sort((int b, int a) => a.compareTo(b));
+            socialMediaPlatforms = <String>[
+              'Facebook',
+              'Instagram',
+              'Snapchat',
+              'YouTube',
+              'Twitter'
+            ];
+            _sortingOrder = SortingOrder.descending;
+            _sortingCriteria = 'sortByY';
+            Navigator.of(context).pop();
+            setState(() {});
+          },
+        ),
+      ],
+    );
+  }
+
+  /// Returns the list of cartesian column series.
+  List<ColumnSeries<ChartSampleData, String>> _buildColumnSeries() {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        animationDuration: 0,
+        sortingOrder: _sortingOrder,
+        gradient: _gradient,
+        pointColorMapper: (ChartSampleData data, int index) => data.pointColor,
+        sortFieldValueMapper: (ChartSampleData data, int index) =>
+            _sortingCriteria == 'sortByX' ? data.x : data.y,
+        dataLabelSettings: const DataLabelSettings(
+          isVisible: true,
+          textStyle: TextStyle(fontSize: 10),
+        ),
         onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
           return _CustomColumnSeriesRenderer(isCardView);
         },
         onPointTap: (ChartPointDetails args) {
-          final String xValue = xvalue![args.viewportPointIndex! as int];
+          final String xValue =
+              socialMediaPlatforms![args.viewportPointIndex! as int];
           String? snackBarText = '';
           if (xValue == 'YouTube') {
             snackBarText = '51% of YouTube users are using it on daily basis.';
@@ -236,7 +285,8 @@ class _DataPointsState extends SampleViewState {
             width: _measureText(snackBarText).width,
             behavior: SnackBarBehavior.floating,
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5))),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
             duration: const Duration(milliseconds: 3000),
             content: Text(
               snackBarText,
@@ -257,34 +307,15 @@ class _DataPointsState extends SampleViewState {
         },
         onPointLongPress: (ChartPointDetails args) {
           _showMyDialog();
-          sortby = '';
+          sortingCriteria = '';
         },
-        dataSource: chartData,
-        animationDuration: 0,
-        sortingOrder: sortingOrder,
-        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
-        pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
-        sortFieldValueMapper: (ChartSampleData sales, _) =>
-            sortBy == 'sortByX' ? sales.x : sales.y,
-        dataLabelSettings: const DataLabelSettings(
-            isVisible: true, textStyle: TextStyle(fontSize: 10)),
-        gradient: const LinearGradient(colors: <Color>[
-          Color.fromRGBO(93, 80, 202, 1),
-          Color.fromRGBO(183, 45, 145, 1),
-          Color.fromRGBO(250, 203, 118, 1)
-        ], stops: <double>[
-          0.0,
-          0.5,
-          1.0
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
       )
     ];
   }
 
   @override
   void dispose() {
-    chartData.clear();
+    _chartData.clear();
     super.dispose();
   }
 }
@@ -306,34 +337,35 @@ class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
   void onPaint(Canvas canvas) {
     Paint? myPaint = fillPaint;
     if (_isCardView) {
-      xvalue = <String>[
+      socialMediaPlatforms = <String>[
         'YouTube',
         'Twitter',
         'Instagram',
         'Snapchat',
         'Facebook'
       ];
-      sortby = '';
+      sortingCriteria = '';
     }
-    if (sortby == 'sortByY'
-        ? yvalue![currentSegmentIndex] == 51
-        : xvalue![currentSegmentIndex] == 'YouTube') {
+    final bool isSortingByY = sortingCriteria == 'sortByY';
+    if (isSortingByY
+        ? userCounts![currentSegmentIndex] == 51
+        : socialMediaPlatforms![currentSegmentIndex] == 'YouTube') {
       myPaint = Paint()..color = const Color.fromRGBO(192, 33, 39, 1);
-    } else if (sortby == 'sortByY'
-        ? yvalue![currentSegmentIndex] == 42
-        : xvalue![currentSegmentIndex] == 'Twitter') {
+    } else if (isSortingByY
+        ? userCounts![currentSegmentIndex] == 42
+        : socialMediaPlatforms![currentSegmentIndex] == 'Twitter') {
       myPaint = Paint()..color = const Color.fromRGBO(26, 157, 235, 1);
-    } else if (sortby == 'sortByY'
-        ? yvalue![currentSegmentIndex] == 63
-        : xvalue![currentSegmentIndex] == 'Instagram') {
+    } else if (isSortingByY
+        ? userCounts![currentSegmentIndex] == 63
+        : socialMediaPlatforms![currentSegmentIndex] == 'Instagram') {
       myPaint = fillPaint;
-    } else if (sortby == 'sortByY'
-        ? yvalue![currentSegmentIndex] == 61
-        : xvalue![currentSegmentIndex] == 'Snapchat') {
+    } else if (isSortingByY
+        ? userCounts![currentSegmentIndex] == 61
+        : socialMediaPlatforms![currentSegmentIndex] == 'Snapchat') {
       myPaint = Paint()..color = const Color.fromRGBO(254, 250, 55, 1);
-    } else if (sortby == 'sortByY'
-        ? yvalue![currentSegmentIndex] == 74
-        : xvalue![currentSegmentIndex] == 'Facebook') {
+    } else if (isSortingByY
+        ? userCounts![currentSegmentIndex] == 74
+        : socialMediaPlatforms![currentSegmentIndex] == 'Facebook') {
       myPaint = Paint()..color = const Color.fromRGBO(60, 92, 156, 1);
     }
     if (segmentRect != null) {

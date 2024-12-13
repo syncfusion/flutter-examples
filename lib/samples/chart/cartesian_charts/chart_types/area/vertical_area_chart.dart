@@ -1,29 +1,30 @@
-/// Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the vertical area chart sample.
+/// Renders the vertical Area Chart sample.
 class AreaVertical extends SampleView {
-  /// Creates the transposed area chart sample.
   const AreaVertical(Key key) : super(key: key);
 
   @override
   _AreaVerticalState createState() => _AreaVerticalState();
 }
 
-/// State class of vertical area chart.
+/// State class of vertical Area Chart.
 class _AreaVerticalState extends SampleViewState {
   _AreaVerticalState();
-  List<ChartSampleData>? chartData;
+
+  List<ChartSampleData>? _chartData;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(
           x: DateTime(2000, 0),
           y: 0.61,
@@ -115,60 +116,64 @@ class _AreaVerticalState extends SampleViewState {
           secondSeriesYValue: 0.67,
           thirdSeriesYValue: 2.61),
     ];
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildVerticalAreaChart();
+    return _buildCartesianChart();
   }
 
-  /// Returns the cartesian area chart in transposed form.
-  SfCartesianChart _buildVerticalAreaChart() {
+  /// Return the Cartesian Chart with Area series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
-      legend: Legend(
-          isVisible: isCardView ? false : true,
-          overflowMode: LegendItemOverflowMode.wrap,
-          opacity: 0.7),
-
-      /// If we enable transposed mode as true
-      /// then the series turned as vertical.
+      /// Enable transposed mode as true to turn series vertically.
       isTransposed: true,
       title: ChartTitle(
-          text: isCardView ? '' : 'Trend in sales of ethical produce'),
+        text: isCardView ? '' : 'Trend in sales of ethical produce',
+      ),
       primaryXAxis: const DateTimeAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          title: AxisTitle(text: isCardView ? '' : 'Spends'),
-          majorTickLines: const MajorTickLines(size: 0)),
-      series: _getVerticalAreaSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+        title: AxisTitle(text: isCardView ? '' : 'Spends'),
+        majorTickLines: const MajorTickLines(size: 0),
+      ),
+      series: _buildAreaSeries(),
+      legend: Legend(
+        isVisible: isCardView ? false : true,
+        overflowMode: LegendItemOverflowMode.wrap,
+        opacity: 0.7,
+      ),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series
-  /// which need to render the vertical area chart.
-  List<AreaSeries<ChartSampleData, DateTime>> _getVerticalAreaSeries() {
+  /// Returns the list of Cartesian Area series.
+  List<AreaSeries<ChartSampleData, DateTime>> _buildAreaSeries() {
     return <AreaSeries<ChartSampleData, DateTime>>[
       AreaSeries<ChartSampleData, DateTime>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          opacity: 0.7,
-          name: 'Organic'),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) => sales.y,
+        opacity: 0.7,
+        name: 'Organic',
+      ),
       AreaSeries<ChartSampleData, DateTime>(
-          dataSource: chartData,
-          opacity: 0.7,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
-          name: 'Others'),
+        dataSource: _chartData,
+        opacity: 0.7,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
+        name: 'Others',
+      ),
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

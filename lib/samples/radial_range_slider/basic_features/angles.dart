@@ -162,7 +162,6 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                             ? Colors.black
                             : Colors.white),
                   ),
-                  positionFactor: 0.13,
                   angle: 0)
             ])
       ]),
@@ -247,7 +246,6 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                             ? Colors.black
                             : Colors.white),
                   ),
-                  positionFactor: 0.13,
                   angle: 0)
             ]),
       ]),
@@ -330,7 +328,6 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                             ? Colors.black
                             : Colors.white),
                   ),
-                  positionFactor: 0.13,
                   angle: 0)
             ])
       ]),
@@ -411,7 +408,6 @@ class _RadialRangeSliderAnglesState extends SampleViewState {
                           ? Colors.black
                           : Colors.white),
                 ),
-                positionFactor: 0.13,
                 angle: 0)
           ],
         ),

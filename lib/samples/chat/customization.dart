@@ -27,7 +27,7 @@ class ChatCustomizationSampleState extends SampleViewState {
     final String currentAuthor = message.author.id;
     if (previousAuthor == null || previousAuthor != currentAuthor) {
       // Space between two message group.
-      return const SizedBox(height: 10);
+      return const SizedBox(height: 5);
     } else {
       return const SizedBox(width: 0, height: 0);
     }
@@ -195,20 +195,11 @@ class ChatCustomizationSampleState extends SampleViewState {
 
   Widget _buildBubbleContent(
       BuildContext context, int index, ChatMessage message) {
-    Color bubbleColor;
-    if (model.themeData.useMaterial3) {
-      bubbleColor = _isOutgoingMessage(message)
-          ? model.themeData.colorScheme.primary
-          : model.themeData.colorScheme.secondaryContainer.withOpacity(0.5);
-    } else {
-      bubbleColor = _isOutgoingMessage(message)
-          ? model.themeData.colorScheme.primary
-          : model.themeData.colorScheme.primary.withOpacity(0.12);
-    }
-
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: bubbleColor,
+        color: _isOutgoingMessage(message)
+            ? model.themeData.colorScheme.primary
+            : model.themeData.colorScheme.secondaryContainer.withOpacity(0.5),
         borderRadius: _borderRadius(index, message),
       ),
       child: Padding(
@@ -277,8 +268,8 @@ class ChatCustomizationSampleState extends SampleViewState {
     if (chatMessage.link != null) {
       result = Theme(
         data: model.themeData.copyWith(
-          textSelectionTheme: TextSelectionThemeData(
-            selectionColor: model.themeData.colorScheme.surface,
+          textSelectionTheme: const TextSelectionThemeData(
+            selectionColor: Color.fromRGBO(33, 146, 239, 0.4),
           ),
         ),
         child: SelectableText.rich(
@@ -288,11 +279,7 @@ class ChatCustomizationSampleState extends SampleViewState {
               TextSpan(
                 text: chatMessage.link,
                 recognizer: TapGestureRecognizer()..onTap = () => launchURL(),
-                style: TextStyle(
-                  color: model.themeData.useMaterial3
-                      ? Colors.blue
-                      : Colors.purple,
-                ),
+                style: const TextStyle(color: Colors.lightBlue),
               ),
             ],
           ),
@@ -313,20 +300,13 @@ class ChatCustomizationSampleState extends SampleViewState {
   }
 
   Widget _buildComposer(BuildContext context) {
-    Color fillColor;
-    if (model.themeData.useMaterial3) {
-      fillColor = model.themeData.colorScheme.primaryContainer;
-    } else {
-      fillColor = model.themeData.colorScheme.primary;
-    }
-
     return TextField(
       maxLines: 5,
       minLines: 1,
       controller: _textController,
       decoration: InputDecoration(
         filled: true,
-        fillColor: fillColor.withOpacity(0.32),
+        fillColor: model.themeData.colorScheme.primaryContainer,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(32),
@@ -399,45 +379,32 @@ class ChatCustomizationSampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final double availableWidth = constraints.maxWidth;
-      const double maxExpectedWidth = 750;
-      final bool canCenter = availableWidth > maxExpectedWidth;
-      return Padding(
-        padding: canCenter
-            ? const EdgeInsets.symmetric(vertical: 10.0)
-            : const EdgeInsets.all(10.0),
-        child: Center(
-          child: SizedBox(
-            width: canCenter ? maxExpectedWidth : availableWidth,
-            child: SfChat(
-              messages: _messages,
-              outgoingUser: 'Felipe',
-              incomingBubbleSettings: const ChatBubbleSettings(
-                showUserName: false,
-                showTimestamp: false,
-                headerPadding: EdgeInsets.zero,
-                contentPadding: EdgeInsets.zero,
-                padding: EdgeInsets.symmetric(vertical: 0.5),
-              ),
-              outgoingBubbleSettings: const ChatBubbleSettings(
-                showUserName: false,
-                showTimestamp: false,
-                showUserAvatar: false,
-                headerPadding: EdgeInsets.zero,
-                contentPadding: EdgeInsets.zero,
-                padding: EdgeInsets.symmetric(vertical: 0.5),
-              ),
-              bubbleHeaderBuilder: _buildBubbleHeader,
-              bubbleAvatarBuilder: _buildBubbleAvatar,
-              bubbleContentBuilder: _buildBubbleContent,
-              composer: ChatComposer.builder(builder: _buildComposer),
-            ),
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: SfChat(
+        messages: _messages,
+        outgoingUser: 'Felipe',
+        incomingBubbleSettings: const ChatBubbleSettings(
+          showUserName: false,
+          showTimestamp: false,
+          headerPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          padding: EdgeInsets.symmetric(vertical: 0.5),
         ),
-      );
-    });
+        outgoingBubbleSettings: const ChatBubbleSettings(
+          showUserName: false,
+          showTimestamp: false,
+          showUserAvatar: false,
+          headerPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          padding: EdgeInsets.symmetric(vertical: 0.5),
+        ),
+        bubbleHeaderBuilder: _buildBubbleHeader,
+        bubbleAvatarBuilder: _buildBubbleAvatar,
+        bubbleContentBuilder: _buildBubbleContent,
+        composer: ChatComposer.builder(builder: _buildComposer),
+      ),
+    );
   }
 
   @override

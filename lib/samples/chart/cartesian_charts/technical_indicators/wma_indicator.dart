@@ -23,7 +23,9 @@ class WMAIndicator extends SampleView {
 class _WMAIndicatorState extends SampleViewState {
   _WMAIndicatorState();
   late double _period;
+
   TrackballBehavior? _trackballBehavior;
+  List<ChartSampleData>? _chartData;
 
   @override
   void initState() {
@@ -34,11 +36,12 @@ class _WMAIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
+    _chartData = getChartData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildDefaulWMAIndicator();
+    return _buildDefaultWMAIndicator();
   }
 
   @override
@@ -67,7 +70,7 @@ class _WMAIndicatorState extends SampleViewState {
   }
 
   /// Returns the the OHLC chart with Weighted moving average indicator.
-  SfCartesianChart _buildDefaulWMAIndicator() {
+  SfCartesianChart _buildDefaultWMAIndicator() {
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
       plotAreaBorderWidth: 0,
@@ -87,25 +90,36 @@ class _WMAIndicatorState extends SampleViewState {
       ),
       trackballBehavior: _trackballBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
-        /// WMA indicator mentioned here.
+        /// WMA indicator for the 'AAPL' series.
         WmaIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
           period: _period.toInt(),
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <CartesianSeries<ChartSampleData, DateTime>>[
-        HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          dataSource: getChartData(),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          lowValueMapper: (ChartSampleData sales, _) => sales.low,
-          highValueMapper: (ChartSampleData sales, _) => sales.high,
-          openValueMapper: (ChartSampleData sales, _) => sales.open,
-          closeValueMapper: (ChartSampleData sales, _) => sales.close,
-          name: 'AAPL',
-          opacity: 0.7,
-        ),
-      ],
+      series: _buildHiloOpenCloseSeries(),
     );
+  }
+
+  /// Returns the cartesian hilo open close series.
+  List<CartesianSeries<ChartSampleData, DateTime>> _buildHiloOpenCloseSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
+      HiloOpenCloseSeries<ChartSampleData, DateTime>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        lowValueMapper: (ChartSampleData data, int index) => data.low,
+        highValueMapper: (ChartSampleData data, int index) => data.high,
+        openValueMapper: (ChartSampleData data, int index) => data.open,
+        closeValueMapper: (ChartSampleData data, int index) => data.close,
+        name: 'AAPL',
+        opacity: 0.7,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }

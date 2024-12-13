@@ -1,38 +1,89 @@
-/// Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../model/sample_view.dart';
 
-/// Renders the line chart with customized legends sample.
+/// Renders the Line Chart with customized legends sample.
 class LegendCustomized extends SampleView {
-  /// Creates the line chart with customized legends sample.
   const LegendCustomized(Key key) : super(key: key);
 
   @override
   _LegendCustomizedState createState() => _LegendCustomizedState();
 }
 
-/// State class of the the line chart with customized legends.
+/// State class of the the Line Chart with customized legends.
 class _LegendCustomizedState extends SampleViewState {
   _LegendCustomizedState();
 
   @override
   Widget build(BuildContext context) {
-    return _buildLegendCustomizedChart();
+    return _buildCartesianChart();
   }
 
-  List<ChartSampleData>? chartData;
+  List<ChartSampleData>? automobileProductionData;
+  TooltipBehavior? _tooltipBehavior;
 
-  /// Returns the line chart with customized legends.
-  SfCartesianChart _buildLegendCustomizedChart() {
+  @override
+  void initState() {
+    automobileProductionData = <ChartSampleData>[
+      ChartSampleData(
+        x: 2005,
+        y: 38,
+        yValue: 49,
+        secondSeriesYValue: 56,
+        thirdSeriesYValue: 67,
+      ),
+      ChartSampleData(
+        x: 2006,
+        y: 20,
+        yValue: 40,
+        secondSeriesYValue: 50,
+        thirdSeriesYValue: 60,
+      ),
+      ChartSampleData(
+        x: 2007,
+        y: 60,
+        yValue: 72,
+        secondSeriesYValue: 84,
+        thirdSeriesYValue: 96,
+      ),
+      ChartSampleData(
+        x: 2008,
+        y: 50,
+        yValue: 65,
+        secondSeriesYValue: 80,
+        thirdSeriesYValue: 90,
+      ),
+    ];
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+    );
+    super.initState();
+  }
+
+  /// Return the Cartesian Chart with Line series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-          text: isCardView ? '' : 'Automobile production by category'),
+        text: isCardView ? '' : 'Automobile production by category',
+      ),
+      primaryXAxis: const NumericAxis(
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        majorGridLines: MajorGridLines(width: 0),
+        interval: 1,
+      ),
+      primaryYAxis: const NumericAxis(
+        minimum: 0,
+        maximum: 120,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(color: Colors.transparent),
+      ),
+      series: _buildLineSeries(),
       legend: Legend(
         isVisible: true,
         overflowMode: LegendItemOverflowMode.wrap,
@@ -40,108 +91,75 @@ class _LegendCustomizedState extends SampleViewState {
         legendItemBuilder:
             (String name, dynamic series, dynamic point, int index) {
           return SizedBox(
-              height: 30,
-              width: 90,
-              child: Row(children: <Widget>[
-                Container(child: _getImage(index)),
+            height: 30,
+            width: 90,
+            child: Row(
+              children: <Widget>[
+                Container(child: _createImage(index)),
                 SizedBox(child: Text(series.name)),
-              ]));
+              ],
+            ),
+          );
         },
       ),
-      primaryXAxis: const NumericAxis(
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          majorGridLines: MajorGridLines(width: 0),
-          interval: 1),
-      primaryYAxis: const NumericAxis(
-          minimum: 0,
-          maximum: 120,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(color: Colors.transparent)),
-      series: _getLegendCustomizedSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series which need to render on the line chart.
-  List<CartesianSeries<ChartSampleData, num>> _getLegendCustomizedSeries() {
+  /// Returns the list of Cartesian Line series.
+  List<CartesianSeries<ChartSampleData, num>> _buildLineSeries() {
     return <CartesianSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
-        markerSettings: const MarkerSettings(isVisible: true),
-        color: const Color.fromRGBO(75, 135, 185, 1),
-        dataSource: chartData,
-        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        dataSource: automobileProductionData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) => sales.y,
         name: 'Truck',
+        color: const Color.fromRGBO(75, 135, 185, 1),
+        markerSettings: const MarkerSettings(isVisible: true),
       ),
       LineSeries<ChartSampleData, num>(
-          markerSettings: const MarkerSettings(isVisible: true),
-          color: const Color.fromRGBO(192, 108, 132, 1),
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          name: 'Car'),
+        dataSource: automobileProductionData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) => sales.yValue,
+        name: 'Car',
+        color: const Color.fromRGBO(192, 108, 132, 1),
+        markerSettings: const MarkerSettings(isVisible: true),
+      ),
       LineSeries<ChartSampleData, num>(
-          markerSettings: const MarkerSettings(isVisible: true),
-          color: const Color.fromRGBO(246, 114, 128, 1),
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          name: 'Bike'),
+        dataSource: automobileProductionData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
+        name: 'Bike',
+        color: const Color.fromRGBO(246, 114, 128, 1),
+        markerSettings: const MarkerSettings(isVisible: true),
+      ),
       LineSeries<ChartSampleData, num>(
-          markerSettings: const MarkerSettings(isVisible: true),
-          color: const Color.fromRGBO(248, 177, 149, 1),
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
-          name: 'Bicycle')
+        dataSource: automobileProductionData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
+        name: 'Bicycle',
+        color: const Color.fromRGBO(248, 177, 149, 1),
+        markerSettings: const MarkerSettings(isVisible: true),
+      ),
     ];
   }
 
-  /// Method to get the images for customizing the legends of line chart series.
-  Image _getImage(int index) {
+  /// Method to create the images for customizing the legends of Chart.
+  Image _createImage(int index) {
     final List<Image> images = <Image>[
       Image.asset('images/truck_legend.png'),
       Image.asset('images/car_legend.png'),
       Image.asset('images/bike_legend.png'),
-      Image.asset('images/cycle_legend.png')
+      Image.asset('images/cycle_legend.png'),
     ];
     return images[index];
   }
 
   @override
-  void initState() {
-    chartData = <ChartSampleData>[
-      ChartSampleData(
-          x: 2005,
-          y: 38,
-          yValue: 49,
-          secondSeriesYValue: 56,
-          thirdSeriesYValue: 67),
-      ChartSampleData(
-          x: 2006,
-          y: 20,
-          yValue: 40,
-          secondSeriesYValue: 50,
-          thirdSeriesYValue: 60),
-      ChartSampleData(
-          x: 2007,
-          y: 60,
-          yValue: 72,
-          secondSeriesYValue: 84,
-          thirdSeriesYValue: 96),
-      ChartSampleData(
-          x: 2008,
-          y: 50,
-          yValue: 65,
-          secondSeriesYValue: 80,
-          thirdSeriesYValue: 90),
-    ];
-    super.initState();
-  }
-
-  @override
   void dispose() {
-    chartData!.clear();
+    automobileProductionData!.clear();
     super.dispose();
   }
 }

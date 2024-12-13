@@ -1,25 +1,25 @@
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local imports.
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/custom_button.dart';
 import 'indicator_data_source.dart';
 
-/// Renders the OHLC chart  with Stochastic indicator sample.
+/// Renders the OHLC series chart with Stochastic indicator sample.
 class StochasticcIndicator extends SampleView {
-  /// creates the OHLC chart  with Stochastic indicator.
+  /// creates the OHLC series chart with Stochastic indicator.
   const StochasticcIndicator(Key key) : super(key: key);
 
   @override
   _StochasticcIndicatorState createState() => _StochasticcIndicatorState();
 }
 
-/// State class of the OHLC chart  with Stochastic indicator.
+/// State class for the OHLC chart with Stochastic indicator.
 class _StochasticcIndicatorState extends SampleViewState {
   _StochasticcIndicatorState();
   late double _period;
@@ -28,7 +28,9 @@ class _StochasticcIndicatorState extends SampleViewState {
   late double _overBought;
   late double _overSold;
   late bool _showZones;
+
   TrackballBehavior? _trackballBehavior;
+  List<ChartSampleData>? _chartData;
 
   @override
   void initState() {
@@ -44,6 +46,7 @@ class _StochasticcIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
+    _chartData = getChartData();
   }
 
   @override
@@ -60,160 +63,197 @@ class _StochasticcIndicatorState extends SampleViewState {
         return ListView(
           shrinkWrap: true,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '  Period',
-                  softWrap: false,
-                  style: TextStyle(fontSize: 16, color: model.textColor),
-                ),
-                Container(
-                  width: 0.5 * screenWidth,
-                  padding: EdgeInsets.only(left: 0.03 * screenWidth),
-                  child: CustomDirectionalButtons(
-                    maxValue: 50,
-                    initialValue: _period,
-                    onChanged: (double val) => setState(() {
-                      _period = val;
-                    }),
-                    loop: true,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '  K Period',
-                  softWrap: false,
-                  style: TextStyle(fontSize: 16, color: model.textColor),
-                ),
-                Container(
-                  width: 0.5 * screenWidth,
-                  padding: EdgeInsets.only(left: 0.03 * screenWidth),
-                  child: CustomDirectionalButtons(
-                    maxValue: 100,
-                    initialValue: _kPeriod,
-                    onChanged: (double val) => setState(() {
-                      _kPeriod = val;
-                    }),
-                    loop: true,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '  D Period',
-                  softWrap: false,
-                  style: TextStyle(fontSize: 16, color: model.textColor),
-                ),
-                Container(
-                  width: 0.5 * screenWidth,
-                  padding: EdgeInsets.only(left: 0.03 * screenWidth),
-                  child: CustomDirectionalButtons(
-                    maxValue: 50,
-                    initialValue: _dPeriod,
-                    onChanged: (double val) => setState(() {
-                      _dPeriod = val;
-                    }),
-                    loop: true,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '  Overbought',
-                  softWrap: false,
-                  style: TextStyle(fontSize: 16, color: model.textColor),
-                ),
-                Container(
-                  width: 0.5 * screenWidth,
-                  padding: EdgeInsets.only(left: 0.03 * screenWidth),
-                  child: CustomDirectionalButtons(
-                    maxValue: 100,
-                    initialValue: _overBought,
-                    onChanged: (double val) => setState(() {
-                      _overBought = val;
-                    }),
-                    loop: true,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  '  Oversold',
-                  softWrap: false,
-                  style: TextStyle(fontSize: 16, color: model.textColor),
-                ),
-                Container(
-                  width: 0.5 * screenWidth,
-                  padding: EdgeInsets.only(left: 0.03 * screenWidth),
-                  child: CustomDirectionalButtons(
-                    maxValue: 50,
-                    initialValue: _overSold,
-                    onChanged: (double val) => setState(() {
-                      _overSold = val;
-                    }),
-                    loop: true,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(model.isWebFullView ? '  Show \n  zones' : '  Show zones',
-                    softWrap: false,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: model.textColor,
-                    )),
-                Container(
-                  padding: EdgeInsets.only(left: 0.05 * screenWidth),
-                  width: 0.5 * screenWidth,
-                  child: CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
-                    activeColor: model.primaryColor,
-                    value: _showZones,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _showZones = value!;
-                        stateSetter(() {});
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
+            _buildPeriodSetting(screenWidth),
+            _buildKPeriodSetting(screenWidth),
+            _buildDPeriodSetting(screenWidth),
+            _buildOverboughtSetting(screenWidth),
+            _buildOversoldSetting(screenWidth),
+            _buildShowZonesSetting(screenWidth, stateSetter),
           ],
         );
       },
     );
   }
 
-  /// Returns the OHLC chart  with Stochastic indicator.
+  /// Builds the UI for setting the 'Period'
+  /// value with directional buttons.
+  Widget _buildPeriodSetting(double screenWidth) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          '  Period',
+          softWrap: false,
+          style: TextStyle(fontSize: 16, color: model.textColor),
+        ),
+        Container(
+          width: 0.5 * screenWidth,
+          padding: EdgeInsets.only(left: 0.03 * screenWidth),
+          child: CustomDirectionalButtons(
+            maxValue: 50,
+            initialValue: _period,
+            onChanged: (double val) => setState(() {
+              _period = val;
+            }),
+            loop: true,
+            iconColor: model.textColor,
+            style: TextStyle(fontSize: 20.0, color: model.textColor),
+          ),
+        )
+      ],
+    );
+  }
+
+  /// Builds the UI for setting the 'K Period'
+  /// value with directional buttons.
+  Widget _buildKPeriodSetting(double screenWidth) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          '  K Period',
+          softWrap: false,
+          style: TextStyle(fontSize: 16, color: model.textColor),
+        ),
+        Container(
+          width: 0.5 * screenWidth,
+          padding: EdgeInsets.only(left: 0.03 * screenWidth),
+          child: CustomDirectionalButtons(
+            maxValue: 100,
+            initialValue: _kPeriod,
+            onChanged: (double val) => setState(() {
+              _kPeriod = val;
+            }),
+            loop: true,
+            iconColor: model.textColor,
+            style: TextStyle(fontSize: 20.0, color: model.textColor),
+          ),
+        )
+      ],
+    );
+  }
+
+  /// Builds the UI for setting the 'D Period'
+  /// value with directional buttons.
+  Widget _buildDPeriodSetting(double screenWidth) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          '  D Period',
+          softWrap: false,
+          style: TextStyle(fontSize: 16, color: model.textColor),
+        ),
+        Container(
+          width: 0.5 * screenWidth,
+          padding: EdgeInsets.only(left: 0.03 * screenWidth),
+          child: CustomDirectionalButtons(
+            maxValue: 50,
+            initialValue: _dPeriod,
+            onChanged: (double val) => setState(() {
+              _dPeriod = val;
+            }),
+            loop: true,
+            iconColor: model.textColor,
+            style: TextStyle(fontSize: 20.0, color: model.textColor),
+          ),
+        )
+      ],
+    );
+  }
+
+  /// Builds the UI for setting the 'Overbought'
+  /// value with directional buttons.
+  Widget _buildOverboughtSetting(double screenWidth) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          '  Overbought',
+          softWrap: false,
+          style: TextStyle(fontSize: 16, color: model.textColor),
+        ),
+        Container(
+          width: 0.5 * screenWidth,
+          padding: EdgeInsets.only(left: 0.03 * screenWidth),
+          child: CustomDirectionalButtons(
+            maxValue: 100,
+            initialValue: _overBought,
+            onChanged: (double val) => setState(() {
+              _overBought = val;
+            }),
+            loop: true,
+            iconColor: model.textColor,
+            style: TextStyle(fontSize: 20.0, color: model.textColor),
+          ),
+        )
+      ],
+    );
+  }
+
+  /// Builds the UI for setting the 'Oversold'
+  /// value with directional buttons.
+  Widget _buildOversoldSetting(double screenWidth) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          '  Oversold',
+          softWrap: false,
+          style: TextStyle(fontSize: 16, color: model.textColor),
+        ),
+        Container(
+          width: 0.5 * screenWidth,
+          padding: EdgeInsets.only(left: 0.03 * screenWidth),
+          child: CustomDirectionalButtons(
+            maxValue: 50,
+            initialValue: _overSold,
+            onChanged: (double val) => setState(() {
+              _overSold = val;
+            }),
+            loop: true,
+            iconColor: model.textColor,
+            style: TextStyle(fontSize: 20.0, color: model.textColor),
+          ),
+        )
+      ],
+    );
+  }
+
+  /// Builds the UI for showing zones with a checkbox option.
+  Widget _buildShowZonesSetting(double screenWidth, StateSetter stateSetter) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+          model.isWebFullView ? '  Show \n  zones' : '  Show zones',
+          softWrap: false,
+          style: TextStyle(
+            fontSize: 16,
+            color: model.textColor,
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 0.05 * screenWidth),
+          width: 0.5 * screenWidth,
+          child: CheckboxListTile(
+            controlAffinity: ListTileControlAffinity.leading,
+            contentPadding: EdgeInsets.zero,
+            activeColor: model.primaryColor,
+            value: _showZones,
+            onChanged: (bool? value) {
+              setState(() {
+                _showZones = value!;
+                stateSetter(() {});
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Returns a cartesian OHLC chart with Stochastic indicator.
   SfCartesianChart _buildDefaultStochasticIndicator() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
@@ -245,7 +285,7 @@ class _StochasticcIndicatorState extends SampleViewState {
       ],
       trackballBehavior: _trackballBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
-        /// Stochastic indicator mentioned here.
+        /// Stochastic indicator for the 'AAPL' series.
         StochasticIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
           yAxisName: 'yAxis',
@@ -258,18 +298,29 @@ class _StochasticcIndicatorState extends SampleViewState {
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <CartesianSeries<ChartSampleData, DateTime>>[
-        HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          dataSource: getChartData(),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          lowValueMapper: (ChartSampleData sales, _) => sales.low,
-          highValueMapper: (ChartSampleData sales, _) => sales.high,
-          openValueMapper: (ChartSampleData sales, _) => sales.open,
-          closeValueMapper: (ChartSampleData sales, _) => sales.close,
-          name: 'AAPL',
-          opacity: 0.7,
-        ),
-      ],
+      series: _buildHiloOpenCloseSeries(),
     );
+  }
+
+  /// Returns the cartesian hilo open close series.
+  List<CartesianSeries<ChartSampleData, DateTime>> _buildHiloOpenCloseSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
+      HiloOpenCloseSeries<ChartSampleData, DateTime>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        lowValueMapper: (ChartSampleData data, int index) => data.low,
+        highValueMapper: (ChartSampleData data, int index) => data.high,
+        openValueMapper: (ChartSampleData data, int index) => data.open,
+        closeValueMapper: (ChartSampleData data, int index) => data.close,
+        name: 'AAPL',
+        opacity: 0.7,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }

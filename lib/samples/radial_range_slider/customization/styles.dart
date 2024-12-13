@@ -193,7 +193,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                           fontFamily: 'Times',
                           fontWeight: FontWeight.bold),
                     ),
-                    positionFactor: 0.1,
                     angle: 90)
               ])
         ],
@@ -264,7 +263,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    positionFactor: 0.1,
                     angle: 90)
               ])
         ],
@@ -352,7 +350,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    positionFactor: 0.1,
                     angle: 90)
               ])
         ],
@@ -464,7 +461,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    positionFactor: 0.1,
                     angle: 90)
               ])
         ],
@@ -532,7 +528,6 @@ class _RadialRangeSliderStylesState extends SampleViewState {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    positionFactor: 0.1,
                     angle: 90)
               ])
         ],

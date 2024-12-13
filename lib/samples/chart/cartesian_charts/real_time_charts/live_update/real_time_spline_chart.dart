@@ -1,19 +1,19 @@
-/// Dart imports
+/// Dart imports.
 import 'dart:async';
 import 'dart:math' as math;
 
-/// Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-///Renders real time spline chart
+/// Renders the real time spline series chart sample.
 class LiveUpdate extends SampleView {
-  ///Creates real time spline chart
+  /// Creates real time spline series chart.
   const LiveUpdate(Key key) : super(key: key);
 
   @override
@@ -22,50 +22,42 @@ class LiveUpdate extends SampleView {
 
 class _LiveUpdateState extends SampleViewState {
   _LiveUpdateState() {
-    chartData1 = <ChartSampleData>[
+    _chartData1 = <ChartSampleData>[
       ChartSampleData(x: 0, y: 0),
       ChartSampleData(x: 1, y: -2),
       ChartSampleData(x: 2, y: 2),
       ChartSampleData(x: 3, y: 0)
     ];
-    chartData2 = <ChartSampleData>[
+    _chartData2 = <ChartSampleData>[
       ChartSampleData(x: 0, y: 0),
       ChartSampleData(x: 1, y: 2),
       ChartSampleData(x: 2, y: -2),
       ChartSampleData(x: 3, y: 0)
     ];
-    timer = Timer.periodic(const Duration(milliseconds: 50), _updateData);
+    _timer = Timer.periodic(const Duration(milliseconds: 50), _updateData);
   }
-  Timer? timer;
-  List<ChartSampleData>? chartData1;
-  List<ChartSampleData>? chartData2;
-  bool canStopTimer = false;
-  int? wave1, wave2;
-  late int count;
+  Timer? _timer;
+  List<ChartSampleData>? _chartData1;
+  List<ChartSampleData>? _chartData2;
+  int? _wave1;
+  int? _wave2;
 
   @override
   void initState() {
-    count = 1;
-    chartData1 = <ChartSampleData>[
-      ChartSampleData(x: 0, y: 0),
-    ];
-    chartData2 = <ChartSampleData>[
-      ChartSampleData(x: 0, y: 0),
-    ];
     super.initState();
-    wave1 = 0;
-    wave2 = 180;
-    if (chartData1!.isNotEmpty && chartData2!.isNotEmpty) {
-      chartData1!.clear();
-      chartData2!.clear();
+    _chartData1 = <ChartSampleData>[
+      ChartSampleData(x: 0, y: 0),
+    ];
+    _chartData2 = <ChartSampleData>[
+      ChartSampleData(x: 0, y: 0),
+    ];
+    _wave1 = 0;
+    _wave2 = 180;
+    if (_chartData1!.isNotEmpty && _chartData2!.isNotEmpty) {
+      _chartData1!.clear();
+      _chartData2!.clear();
     }
     _updateLiveData();
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
   }
 
   @override
@@ -73,32 +65,34 @@ class _LiveUpdateState extends SampleViewState {
     return _buildLiveUpdateChart();
   }
 
-  ///Get the cartesian chart widget
+  /// Returns the real time cartesian spline series chart.
   SfCartesianChart _buildLiveUpdateChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis: const NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
       primaryYAxis: const NumericAxis(
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0),
       ),
-      series: _getLiveUpdateSeries(),
+      series: _buildSplineSeries(),
     );
   }
 
-  ///Get the series which contains live updated data points
-  List<SplineSeries<ChartSampleData, num>> _getLiveUpdateSeries() {
+  /// Returns the list of cartesian spline series.
+  List<SplineSeries<ChartSampleData, num>> _buildSplineSeries() {
     return <SplineSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
-        dataSource: [...chartData1!],
-        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        dataSource: [..._chartData1!],
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
         animationDuration: 0,
       ),
       SplineSeries<ChartSampleData, num>(
-        dataSource: [...chartData2!],
-        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        dataSource: [..._chartData2!],
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
         animationDuration: 0,
       )
     ];
@@ -107,35 +101,43 @@ class _LiveUpdateState extends SampleViewState {
   void _updateData(Timer timer) {
     if (mounted) {
       setState(() {
-        chartData1!.removeAt(0);
-        chartData1!.add(ChartSampleData(
-          x: wave1,
-          y: math.sin(wave1! * (math.pi / 180.0)),
+        _chartData1!.removeAt(0);
+        _chartData1!.add(ChartSampleData(
+          x: _wave1,
+          y: math.sin(_wave1! * (math.pi / 180.0)),
         ));
-        chartData2!.removeAt(0);
-        chartData2!.add(ChartSampleData(
-          x: wave1,
-          y: math.sin(wave2! * (math.pi / 180.0)),
+        _chartData2!.removeAt(0);
+        _chartData2!.add(ChartSampleData(
+          x: _wave1,
+          y: math.sin(_wave2! * (math.pi / 180.0)),
         ));
-        wave1 = wave1! + 1;
-        wave2 = wave2! + 1;
+        _wave1 = _wave1! + 1;
+        _wave2 = _wave2! + 1;
       });
     }
   }
 
   void _updateLiveData() {
     for (int i = 0; i < 180; i++) {
-      chartData1!
-          .add(ChartSampleData(x: i, y: math.sin(wave1! * (math.pi / 180.0))));
-      wave1 = wave1! + 1;
+      _chartData1!
+          .add(ChartSampleData(x: i, y: math.sin(_wave1! * (math.pi / 180.0))));
+      _wave1 = _wave1! + 1;
     }
 
     for (int i = 0; i < 180; i++) {
-      chartData2!
-          .add(ChartSampleData(x: i, y: math.sin(wave2! * (math.pi / 180.0))));
-      wave2 = wave2! + 1;
+      _chartData2!
+          .add(ChartSampleData(x: i, y: math.sin(_wave2! * (math.pi / 180.0))));
+      _wave2 = _wave2! + 1;
     }
 
-    wave1 = chartData1!.length;
+    _wave1 = _chartData1!.length;
+  }
+
+  @override
+  void dispose() {
+    _chartData1!.clear();
+    _chartData2!.clear();
+    _timer?.cancel();
+    super.dispose();
   }
 }

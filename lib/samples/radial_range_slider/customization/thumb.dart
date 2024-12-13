@@ -141,7 +141,6 @@ class _RadialRangeSliderThumbState extends SampleViewState {
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    positionFactor: 0.1,
                     widget: Text('$_annotationValue1 - $_annotationValue_1'))
               ]),
         ]));
@@ -210,7 +209,6 @@ class _RadialRangeSliderThumbState extends SampleViewState {
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    positionFactor: 0.1,
                     widget: Text('$_annotationValue2 - $_annotationValue_2'))
               ]),
         ]));
@@ -275,7 +273,6 @@ class _RadialRangeSliderThumbState extends SampleViewState {
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    positionFactor: 0.1,
                     widget: Text('$_annotationValue3 - $_annotationValue_3'))
               ]),
         ]));

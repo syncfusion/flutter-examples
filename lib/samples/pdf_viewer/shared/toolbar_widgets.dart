@@ -1125,16 +1125,26 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                               : const Color.fromRGBO(255, 255, 255, 0.54),
                         ),
                         child: Checkbox(
-                          value: isMatchCaseChecked,
-                          activeColor: widget.primaryColor,
-                          checkColor: Colors.white,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              isEnterKeyPressed = false;
-                              isMatchCaseChecked = value ?? false;
-                            });
-                          },
-                        ),
+                            value: isMatchCaseChecked,
+                            activeColor: widget.primaryColor,
+                            checkColor: Colors.white,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isEnterKeyPressed = false;
+                                isMatchCaseChecked = value ?? false;
+                              });
+                            },
+                            side: BorderSide(
+                              color: _useMaterial3
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant
+                                  : Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? Colors.black
+                                      : Colors.white,
+                              width: 2,
+                            )),
                       ),
                     ),
                   ),
@@ -1171,16 +1181,26 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                               : const Color.fromRGBO(255, 255, 255, 0.54),
                         ),
                         child: Checkbox(
-                          activeColor: widget.primaryColor,
-                          checkColor: Colors.white,
-                          value: isWholeWordChecked,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              isEnterKeyPressed = false;
-                              isWholeWordChecked = value ?? false;
-                            });
-                          },
-                        ),
+                            activeColor: widget.primaryColor,
+                            checkColor: Colors.white,
+                            value: isWholeWordChecked,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isEnterKeyPressed = false;
+                                isWholeWordChecked = value ?? false;
+                              });
+                            },
+                            side: BorderSide(
+                              color: _useMaterial3
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant
+                                  : Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? Colors.black
+                                      : Colors.white,
+                              width: 2,
+                            )),
                       ),
                     ),
                   ),

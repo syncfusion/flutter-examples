@@ -1,19 +1,19 @@
-///Dart imports
+/// Dart import.
 import 'dart:math';
 
-///Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 import 'getting_started.dart';
 
-/// Widget class of Schedule view calendar
+/// Widget class of Schedule view Calendar.
 class ScheduleViewCalendar extends SampleView {
-  /// Creates Schedule view calendar
+  /// Creates Schedule view Calendar.
   const ScheduleViewCalendar(Key key) : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class _ScheduleViewCalendarState extends SampleViewState {
     super.initState();
   }
 
-  /// Method that creates the collection the data source for calendar, with
+  /// Method that creates the collection the data source for Calendar, with
   /// required information.
   List<Appointment> _getAppointments() {
     final List<String> subjectCollection = <String>[];
@@ -70,40 +70,50 @@ class _ScheduleViewCalendarState extends SampleViewState {
       for (int j = 0; j < count; j++) {
         final DateTime startDate =
             DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
-        appointments.add(Appointment(
-          subject: subjectCollection[random.nextInt(7)],
-          startTime: startDate,
-          endTime: startDate.add(Duration(hours: random.nextInt(3))),
-          color: colorCollection[random.nextInt(9)],
-        ));
+        appointments.add(
+          Appointment(
+            subject: subjectCollection[random.nextInt(7)],
+            startTime: startDate,
+            endTime: startDate.add(Duration(hours: random.nextInt(3))),
+            color: colorCollection[random.nextInt(9)],
+          ),
+        );
       }
     }
 
     DateTime date = DateTime.now();
     date = DateTime(date.year, date.month, date.day, 11);
-    // added recurrence appointment
-    appointments.add(Appointment(
+    // Added recurrence appointment.
+    appointments.add(
+      Appointment(
         subject: 'Scrum',
         startTime: date,
         endTime: date.add(const Duration(hours: 1)),
         color: colorCollection[random.nextInt(9)],
-        recurrenceRule: 'FREQ=DAILY;INTERVAL=10'));
+        recurrenceRule: 'FREQ=DAILY;INTERVAL=10',
+      ),
+    );
     return appointments;
   }
 
   @override
   Widget build(BuildContext context) {
     return Theme(
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child: Container(
-            color: model.sampleOutputCardColor,
-            child: getScheduleViewCalendar(
-                events: events, scheduleViewBuilder: scheduleViewBuilder)));
+      data: model.themeData.copyWith(
+        colorScheme:
+            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+      ),
+      child: Container(
+        color: model.sampleOutputCardColor,
+        child: getScheduleViewCalendar(
+          events: events,
+          scheduleViewBuilder: scheduleViewBuilder,
+        ),
+      ),
+    );
   }
 
-  /// returns the calendar widget based on the properties passed
+  /// Returns the Calendar widget based on the properties passed.
   SfCalendar getScheduleViewCalendar(
       {_DataSource? events, dynamic scheduleViewBuilder}) {
     return SfCalendar(

@@ -14,9 +14,9 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../model/model.dart';
 import '../../model/sample_view.dart';
 import '../pdf/helper/save_file_mobile.dart'
-    if (dart.library.html) '../pdf/helper/save_file_web.dart';
+    if (dart.library.js_interop) '../pdf/helper/save_file_web.dart';
 import './shared/mobile_helper.dart'
-    if (dart.library.html) './shared/web_helper.dart' as helper;
+    if (dart.library.js_interop) './shared/web_helper.dart' as helper;
 import 'pdf_viewer_custom_toolbar.dart';
 import 'shared/helper.dart';
 import 'shared/toolbar_widgets.dart';
@@ -355,6 +355,9 @@ class _AnnotationsPdfViewerState extends SampleViewState {
       try {
         await file.writeAsBytes(dataBytes);
         _showDialog('Document saved', message + path + r'\' + fileName);
+      } on PathAccessException catch (e) {
+        _showDialog(
+            'Error', e.osError?.message ?? 'Error in saving the document');
       } catch (e) {
         _showDialog('Error', 'Error in saving the document');
       }

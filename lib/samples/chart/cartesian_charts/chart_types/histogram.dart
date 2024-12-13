@@ -19,108 +19,15 @@ class HistogramDefault extends SampleView {
 class _HistogramDefaultState extends SampleViewState {
   _HistogramDefaultState();
   late bool _showDistributionCurve;
+
+  List<ChartSampleData>? _chartData;
   TooltipBehavior? _tooltipBehavior;
-  List<ChartSampleData>? _dataSource;
-
-  @override
-  Widget buildSettings(BuildContext context) {
-    return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(
-        children: <Widget>[
-          Text('Show distribution line ',
-              style: TextStyle(
-                color: model.textColor,
-                fontSize: 16,
-              )),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-                width: 90,
-                child: CheckboxListTile(
-                    activeColor: model.primaryColor,
-                    value: _showDistributionCurve,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _showDistributionCurve = value!;
-                        stateSetter(() {});
-                      });
-                    })),
-          )
-        ],
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(
-            bottom: model.isWebFullView || !isCardView ? 0 : 60),
-        child: _buildDefaultHistogramChart());
-  }
-
-  /// Get the cartesian chart with histogram series
-  SfCartesianChart _buildDefaultHistogramChart() {
-    final ThemeData themeData = model.themeData;
-    return SfCartesianChart(
-      plotAreaBorderWidth: 0,
-      title: const ChartTitle(text: 'Examination Result'),
-      primaryXAxis: const NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
-        minimum: 0,
-        maximum: 100,
-      ),
-      primaryYAxis: const NumericAxis(
-          name: 'Number of Students',
-          minimum: 0,
-          maximum: 50,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getHistogramSeries(
-          themeData.useMaterial3, themeData.brightness == Brightness.light),
-      tooltipBehavior: _tooltipBehavior,
-    );
-  }
-
-  ///Get the histogram series
-  List<HistogramSeries<ChartSampleData, double>> _getHistogramSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color curveColor = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(99, 85, 199, 1)
-            : const Color.fromRGBO(51, 182, 119, 1))
-        : const Color.fromRGBO(192, 108, 132, 1);
-    return <HistogramSeries<ChartSampleData, double>>[
-      HistogramSeries<ChartSampleData, double>(
-        name: 'Score',
-        dataSource: _dataSource,
-
-        /// If we enable this property distribution line is sets in histogram.
-        showNormalDistributionCurve: _showDistributionCurve,
-
-        /// It used to add the color for distribution line.
-        curveColor: curveColor,
-        binInterval: 20,
-
-        /// It used to add the dashes line for distribution line.
-        curveDashArray: const <double>[12, 3, 3, 3],
-        width: 0.99,
-        curveWidth: 2.5,
-        yValueMapper: (ChartSampleData sales, _) => sales.x as double,
-        dataLabelSettings: const DataLabelSettings(
-            isVisible: true,
-            labelAlignment: ChartDataLabelAlignment.top,
-            textStyle: TextStyle(fontWeight: FontWeight.bold)),
-      )
-    ];
-  }
 
   @override
   void initState() {
     _showDistributionCurve = true;
     _tooltipBehavior = TooltipBehavior(enable: true);
-    _dataSource = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 5.250),
       ChartSampleData(x: 7.750),
       ChartSampleData(x: 0.0),
@@ -224,5 +131,114 @@ class _HistogramDefaultState extends SampleViewState {
     ];
 
     super.initState();
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter stateSetter) {
+      return Row(
+        children: <Widget>[
+          Text(
+            'Show distribution line ',
+            style: TextStyle(
+              color: model.textColor,
+              fontSize: 16,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: 90,
+              child: CheckboxListTile(
+                  activeColor: model.primaryColor,
+                  value: _showDistributionCurve,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _showDistributionCurve = value!;
+                      stateSetter(() {});
+                    });
+                  }),
+            ),
+          )
+        ],
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.only(
+            bottom: model.isWebFullView || !isCardView ? 0 : 60),
+        child: _buildDefaultHistogramChart());
+  }
+
+  /// Returns the cartesian histogram series chart.
+  SfCartesianChart _buildDefaultHistogramChart() {
+    final ThemeData themeData = model.themeData;
+    return SfCartesianChart(
+      plotAreaBorderWidth: 0,
+      title: const ChartTitle(text: 'Examination Result'),
+      primaryXAxis: const NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
+        minimum: 0,
+        maximum: 100,
+      ),
+      primaryYAxis: const NumericAxis(
+          name: 'Number of Students',
+          minimum: 0,
+          maximum: 50,
+          axisLine: AxisLine(width: 0),
+          majorTickLines: MajorTickLines(size: 0)),
+      series: _buildHistogramSeries(
+        themeData.useMaterial3,
+        themeData.brightness == Brightness.light,
+      ),
+      tooltipBehavior: _tooltipBehavior,
+    );
+  }
+
+  /// Returns the list of cartesian histogram series.
+  List<HistogramSeries<ChartSampleData, double>> _buildHistogramSeries(
+      bool isMaterial3, bool isLightMode) {
+    final Color curveColor = isMaterial3
+        ? (isLightMode
+            ? const Color.fromRGBO(99, 85, 199, 1)
+            : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
+    return <HistogramSeries<ChartSampleData, double>>[
+      HistogramSeries<ChartSampleData, double>(
+        name: 'Score',
+        dataSource: _chartData,
+        yValueMapper: (ChartSampleData data, int index) => data.x,
+
+        /// Enables the normal distribution curve on the histogram.
+        showNormalDistributionCurve: _showDistributionCurve,
+
+        // Sets the color for the distribution curve.
+        curveColor: curveColor,
+        binInterval: 20,
+
+        /// Adds a dashed pattern to the distribution curve.
+        curveDashArray: const <double>[12, 3, 3, 3],
+        width: 0.99,
+        curveWidth: 2.5,
+
+        dataLabelSettings: const DataLabelSettings(
+          isVisible: true,
+          labelAlignment: ChartDataLabelAlignment.top,
+          textStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      )
+    ];
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }
