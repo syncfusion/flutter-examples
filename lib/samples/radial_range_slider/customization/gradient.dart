@@ -153,7 +153,6 @@ class _RadialRangeSliderGradientState extends SampleViewState {
                       )
                     ],
                   ),
-                  positionFactor: 0.05,
                   angle: 0)
             ])
       ]),

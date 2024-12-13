@@ -78,7 +78,6 @@ class _RadialSliderCustomTextState extends SampleViewState {
                     ),
                   ],
                 ),
-                positionFactor: 0.08,
               )
             ])
       ]),

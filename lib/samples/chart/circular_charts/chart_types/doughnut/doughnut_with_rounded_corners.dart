@@ -1,58 +1,73 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Render the rounded corner doughnut series.
+/// Renders the doughnut series chart with rounded corners.
 class DoughnutRounded extends SampleView {
-  /// Creates the rounded corner doughnut series.
+  /// Creates the doughnut series chart with rounded corners.
   const DoughnutRounded(Key key) : super(key: key);
 
   @override
   _DoughnutRoundedState createState() => _DoughnutRoundedState();
 }
 
-/// State class of rounded corner doughnut series.
+/// State class for the default doughnut series with rounded corners.
 class _DoughnutRoundedState extends SampleViewState {
   _DoughnutRoundedState();
+  late List<ChartSampleData> _chartData;
+
+  @override
+  void initState() {
+    _chartData = <ChartSampleData>[
+      ChartSampleData(x: 'Planning', y: 10),
+      ChartSampleData(x: 'Analysis', y: 10),
+      ChartSampleData(x: 'Design', y: 10),
+      ChartSampleData(x: 'Development', y: 10),
+      ChartSampleData(x: 'Testing & Integration', y: 10),
+      ChartSampleData(x: 'Maintenance', y: 10)
+    ];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return _buildRoundedDoughnutChart();
   }
 
-  /// Returns the circular charts with rounded corner doughnut series.
+  /// Returns a circular doughnut chart with rounded corners.
   SfCircularChart _buildRoundedDoughnutChart() {
     return SfCircularChart(
       legend: Legend(
-          isVisible: !isCardView, overflowMode: LegendItemOverflowMode.wrap),
+        isVisible: !isCardView,
+        overflowMode: LegendItemOverflowMode.wrap,
+      ),
       title: ChartTitle(text: isCardView ? '' : 'Software development cycle'),
-      series: _getRoundedDoughnutSeries(),
+      series: _buildDoughnutSeries(),
     );
   }
 
-  /// Returns rounded corner doughunut series.
-  List<DoughnutSeries<ChartSampleData, String>> _getRoundedDoughnutSeries() {
+  /// Returns the circular doughnut series.
+  List<DoughnutSeries<ChartSampleData, String>> _buildDoughnutSeries() {
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
-        dataSource: <ChartSampleData>[
-          ChartSampleData(x: 'Planning', y: 10),
-          ChartSampleData(x: 'Analysis', y: 10),
-          ChartSampleData(x: 'Design', y: 10),
-          ChartSampleData(x: 'Development', y: 10),
-          ChartSampleData(x: 'Testing & Integration', y: 10),
-          ChartSampleData(x: 'Maintainance', y: 10)
-        ],
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
         animationDuration: 0,
         cornerStyle: CornerStyle.bothCurve,
         innerRadius: '60%',
-        xValueMapper: (ChartSampleData data, _) => data.x as String,
-        yValueMapper: (ChartSampleData data, _) => data.y,
       ),
     ];
+  }
+
+  @override
+  void dispose() {
+    _chartData.clear();
+    super.dispose();
   }
 }

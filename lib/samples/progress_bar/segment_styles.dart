@@ -127,7 +127,6 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                   angle: 90,
-                  positionFactor: 0.1,
                   widget: Text(progressValue.toStringAsFixed(0) + '%',
                       style: const TextStyle(
                           fontStyle: FontStyle.italic,
@@ -162,7 +161,6 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
                 annotations: <GaugeAnnotation>[
                   GaugeAnnotation(
                       angle: 90,
-                      positionFactor: 0.25,
                       widget: Text(progressValue.toStringAsFixed(0) + '%',
                           style: const TextStyle(
                               fontStyle: FontStyle.italic,
@@ -248,7 +246,6 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
                     angle: 90,
-                    positionFactor: 0.25,
                     widget: Text(progressValue.toStringAsFixed(0) + '%',
                         style: const TextStyle(
                             fontStyle: FontStyle.italic,

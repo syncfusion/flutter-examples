@@ -1,67 +1,71 @@
-///Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Colors used as background color for various month cells in this sample
+/// Colors used as background color for various month cells in this sample.
 const Color _kLightGrey = Color.fromRGBO(238, 238, 238, 1);
 const Color _kLightGreen = Color.fromRGBO(198, 228, 139, 1);
 const Color _kMidGreen = Color.fromRGBO(123, 201, 111, 1);
 const Color _kDarkGreen = Color.fromRGBO(35, 154, 59, 1);
 const Color _kDarkerGreen = Color.fromRGBO(25, 97, 39, 1);
 
-/// Widget of heat map calendar
+/// Widget of heat map Calendar.
 class HeatMapCalendar extends SampleView {
-  /// Creates default heat map calendar
+  /// Creates default heat map Calendar.
   const HeatMapCalendar(Key key) : super(key: key);
 
   @override
   HeatMapCalendarCalendarState createState() => HeatMapCalendarCalendarState();
 }
 
-//// Represents the state class of HeatMapCalendar
+//// Represents the state class of HeatMapCalendar.
 class HeatMapCalendarCalendarState extends SampleViewState {
-  /// Creates an instance of state class of HeatMapCalendar
+  /// Creates an instance of state class of HeatMapCalendar.
   HeatMapCalendarCalendarState();
 
-  /// Represents the controller
+  /// Represents the controller.
   final ScrollController controller = ScrollController();
 
-  /// Global key used to maintain the state, when we change the parent of the
-  /// widget
+  /// Global key used to maintain the state,
+  /// when we change the parent of the widget.
   final GlobalKey _globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final Widget calendar = Theme(
-
-        /// The key set here to maintain the state,
-        ///  when we change the parent of the widget
-        key: _globalKey,
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child: _getHeatMapCalendar());
-
+      /// The key set here to maintain the state,
+      ///  when we change the parent of the widget.
+      key: _globalKey,
+      data: model.themeData.copyWith(
+        colorScheme:
+            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+      ),
+      child: _getHeatMapCalendar(),
+    );
     return Scaffold(
       backgroundColor: model.sampleOutputCardColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Expanded(
-              child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
                 Expanded(
                   child: Container(
-                      color: model.sampleOutputCardColor, child: calendar),
-                )
-              ])),
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
+                ),
+              ],
+            ),
+          ),
           Container(
             margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             height: 70,
@@ -101,24 +105,24 @@ class HeatMapCalendarCalendarState extends SampleViewState {
     );
   }
 
-  /// Returns the calendar widget based on the properties passed.
+  /// Returns the Calendar widget based on the properties passed.
   SfCalendar _getHeatMapCalendar() {
     return SfCalendar(
-        showNavigationArrow: model.isWebFullView,
-        view: CalendarView.month,
-        monthCellBuilder: _monthCellBuilder,
-        showDatePickerButton: true,
-        monthViewSettings: const MonthViewSettings(
-          showTrailingAndLeadingDates: false,
-        ));
+      showNavigationArrow: model.isWebFullView,
+      view: CalendarView.month,
+      monthCellBuilder: _monthCellBuilder,
+      showDatePickerButton: true,
+      monthViewSettings: const MonthViewSettings(
+        showTrailingAndLeadingDates: false,
+      ),
+    );
   }
 
-  /// Returns the cell  text color based on the cell background color
+  /// Returns the cell text color based on the cell background color.
   Color _getCellTextColor(Color backgroundColor) {
     if (backgroundColor == _kDarkGreen || backgroundColor == _kDarkerGreen) {
       return Colors.white;
     }
-
     return Colors.black;
   }
 
@@ -132,12 +136,18 @@ class HeatMapCalendarCalendarState extends SampleViewState {
         : Colors.white;
     return Container(
       decoration: BoxDecoration(
-          color: backgroundColor,
-          border: Border.all(color: defaultColor, width: 0.5)),
+        color: backgroundColor,
+        border: Border.all(
+          color: defaultColor,
+          width: 0.5,
+        ),
+      ),
       child: Center(
         child: Text(
           details.date.day.toString(),
-          style: TextStyle(color: _getCellTextColor(backgroundColor)),
+          style: TextStyle(
+            color: _getCellTextColor(backgroundColor),
+          ),
         ),
       ),
     );

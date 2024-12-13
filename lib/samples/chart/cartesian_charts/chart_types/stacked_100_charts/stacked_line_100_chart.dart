@@ -1,30 +1,32 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the stacked line 100 chart sample.
+/// Renders the stacked line 100 series chart sample.
 class StackedLine100Chart extends SampleView {
-  /// Creates the stacked line 100 chart sample.
+  /// Creates the stacked line 100 series chart sample.
   const StackedLine100Chart(Key key) : super(key: key);
 
   @override
   _StackedLineChartState createState() => _StackedLineChartState();
 }
 
-/// State class of the stacked line 100 chart.
+/// State class for the stacked line 100 series chart.
 class _StackedLineChartState extends SampleViewState {
   _StackedLineChartState();
 
-  List<_ChartData>? chartData;
+  List<_ChartData>? _chartData;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
-    chartData = <_ChartData>[
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    _chartData = <_ChartData>[
       _ChartData('Food', 55, 40, 45, 48),
       _ChartData('Transport', 33, 45, 54, 28),
       _ChartData('Medical', 43, 23, 20, 34),
@@ -51,48 +53,52 @@ class _StackedLineChartState extends SampleViewState {
         labelRotation: isCardView ? 0 : -45,
       ),
       primaryYAxis: const NumericAxis(
-          rangePadding: ChartRangePadding.none,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getStackedLine100Series(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+        rangePadding: ChartRangePadding.none,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildStackedLine100Series(),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of char series
-  /// which need to render on the stacked line 100 chart.
-  List<CartesianSeries<_ChartData, String>> _getStackedLine100Series() {
+  /// Returns the list of cartesian stacked line 100 series.
+  List<CartesianSeries<_ChartData, String>> _buildStackedLine100Series() {
     return <CartesianSeries<_ChartData, String>>[
       StackedLine100Series<_ChartData, String>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.father,
-          name: 'Father',
-          markerSettings: const MarkerSettings(isVisible: true)),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.father,
+        name: 'Father',
+        markerSettings: const MarkerSettings(isVisible: true),
+      ),
       StackedLine100Series<_ChartData, String>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.mother,
-          name: 'Mother',
-          markerSettings: const MarkerSettings(isVisible: true)),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.mother,
+        name: 'Mother',
+        markerSettings: const MarkerSettings(isVisible: true),
+      ),
       StackedLine100Series<_ChartData, String>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.son,
-          name: 'Son',
-          markerSettings: const MarkerSettings(isVisible: true)),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.son,
+        name: 'Son',
+        markerSettings: const MarkerSettings(isVisible: true),
+      ),
       StackedLine100Series<_ChartData, String>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.daughter,
-          name: 'Daughter',
-          markerSettings: const MarkerSettings(isVisible: true))
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.daughter,
+        name: 'Daughter',
+        markerSettings: const MarkerSettings(isVisible: true),
+      )
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

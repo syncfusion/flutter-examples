@@ -1,15 +1,14 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders customized Column chart
+/// Renders customized Column Chart.
 class ColumnVertical extends SampleView {
-  /// Creates customized Column chart
   const ColumnVertical(Key key) : super(key: key);
 
   @override
@@ -20,68 +19,85 @@ class _ColumnVerticalState extends SampleViewState {
   _ColumnVerticalState();
 
   TooltipBehavior? _tooltipBehavior;
+  List<ChartSampleData>? _chartData;
+
   @override
   void initState() {
-    _tooltipBehavior =
-        TooltipBehavior(enable: true, canShowMarker: false, header: '');
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+      canShowMarker: false,
+      header: '',
+    );
+    _chartData = <ChartSampleData>[
+      ChartSampleData(
+          x: 'HP Inc',
+          y: 12.54,
+          pointColor: const Color.fromARGB(53, 92, 125, 1)),
+      ChartSampleData(
+          x: 'Lenovo',
+          y: 13.46,
+          pointColor: const Color.fromARGB(192, 108, 132, 1)),
+      ChartSampleData(
+          x: 'Dell',
+          y: 9.18,
+          pointColor: const Color.fromARGB(246, 114, 128, 1)),
+      ChartSampleData(
+          x: 'Apple',
+          y: 4.56,
+          pointColor: const Color.fromARGB(248, 177, 149, 1)),
+      ChartSampleData(
+          x: 'Asus',
+          y: 5.29,
+          pointColor: const Color.fromARGB(116, 180, 155, 1)),
+    ];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildCustomizedColumnChart();
+    return _buildCartesianChart();
   }
 
-  /// Get customized column chart
-  SfCartesianChart _buildCustomizedColumnChart() {
+  /// Return the Cartesian Chart with Column series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
-      title:
-          ChartTitle(text: isCardView ? '' : 'PC vendor shipments - 2015 Q1'),
+      title: ChartTitle(
+        text: isCardView ? '' : 'PC vendor shipments - 2015 Q1',
+      ),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          labelFormat: '{value}M',
-          title: AxisTitle(text: isCardView ? '' : 'Shipments in million'),
-          majorGridLines: const MajorGridLines(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+        labelFormat: '{value}M',
+        title: AxisTitle(text: isCardView ? '' : 'Shipments in million'),
+        majorGridLines: const MajorGridLines(width: 0),
+        majorTickLines: const MajorTickLines(size: 0),
+      ),
       series: <CartesianSeries<ChartSampleData, String>>[
         ColumnSeries<ChartSampleData, String>(
+          dataSource: _chartData,
+          xValueMapper: (ChartSampleData sales, int index) => sales.x,
+          yValueMapper: (ChartSampleData sales, int index) => sales.y,
+          pointColorMapper: (ChartSampleData sales, int index) =>
+              sales.pointColor,
+          width: 0.8,
           onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
             return _CustomColumnSeriesRenderer(model.themeData);
           },
           dataLabelSettings: const DataLabelSettings(
-              isVisible: true, labelAlignment: ChartDataLabelAlignment.middle),
-          dataSource: <ChartSampleData>[
-            ChartSampleData(
-                x: 'HP Inc',
-                y: 12.54,
-                pointColor: const Color.fromARGB(53, 92, 125, 1)),
-            ChartSampleData(
-                x: 'Lenovo',
-                y: 13.46,
-                pointColor: const Color.fromARGB(192, 108, 132, 1)),
-            ChartSampleData(
-                x: 'Dell',
-                y: 9.18,
-                pointColor: const Color.fromARGB(246, 114, 128, 1)),
-            ChartSampleData(
-                x: 'Apple',
-                y: 4.56,
-                pointColor: const Color.fromARGB(248, 177, 149, 1)),
-            ChartSampleData(
-                x: 'Asus',
-                y: 5.29,
-                pointColor: const Color.fromARGB(116, 180, 155, 1)),
-          ],
-          width: 0.8,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
-        )
+            isVisible: true,
+            labelAlignment: ChartDataLabelAlignment.middle,
+          ),
+        ),
       ],
       tooltipBehavior: _tooltipBehavior,
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _chartData!.clear();
   }
 }
 
@@ -106,14 +122,14 @@ class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
     const Color.fromRGBO(192, 108, 132, 1),
     const Color.fromRGBO(246, 114, 128, 1),
     const Color.fromRGBO(248, 177, 149, 1),
-    const Color.fromRGBO(116, 180, 155, 1)
+    const Color.fromRGBO(116, 180, 155, 1),
   ];
   List<Color> colorListM3Light = const [
     Color.fromRGBO(6, 174, 224, 1),
     Color.fromRGBO(99, 85, 199, 1),
     Color.fromRGBO(49, 90, 116, 1),
     Color.fromRGBO(255, 180, 0, 1),
-    Color.fromRGBO(150, 60, 112, 1)
+    Color.fromRGBO(150, 60, 112, 1),
   ];
   List<Color> colorListM3Dark = const [
     Color.fromRGBO(255, 245, 0, 1),

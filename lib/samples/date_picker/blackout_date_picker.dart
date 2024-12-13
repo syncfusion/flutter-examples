@@ -1,18 +1,18 @@
-/// Dart import
+/// Dart import.
 import 'dart:math';
 
-///Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-///Date picker imports
+/// Date picker import.
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Renders datepicker for blackout
+/// Renders date picker for blackout.
 class BlackoutDatePicker extends SampleView {
-  /// Creates datepicker for blackout
+  /// Creates date picker for blackout.
   const BlackoutDatePicker(Key key) : super(key: key);
 
   @override
@@ -27,13 +27,13 @@ class _BlackoutDatePickerState extends SampleViewState {
 
   @override
   void initState() {
-    _blackoutDates = _getBlackoutDates();
+    _blackoutDates = _buildBlackoutDates();
     super.initState();
   }
 
   /// Returns the list of dates that set to the blackout dates property of
   /// date range picker.
-  List<DateTime> _getBlackoutDates() {
+  List<DateTime> _buildBlackoutDates() {
     final List<DateTime> dates = <DateTime>[];
     final DateTime startDate =
         DateTime.now().subtract(const Duration(days: 500));
@@ -79,7 +79,7 @@ class _BlackoutDatePickerState extends SampleViewState {
             data: model.themeData.copyWith(
                 colorScheme: model.themeData.colorScheme
                     .copyWith(secondary: model.primaryColor)),
-            child: _getBlackoutDatePicker()),
+            child: _buildBlackoutDatePicker()),
       ),
     );
     return Scaffold(
@@ -92,7 +92,11 @@ class _BlackoutDatePickerState extends SampleViewState {
               flex: model.isWebFullView ? 9 : 8,
               child: model.isWebFullView
                   ? Center(
-                      child: SizedBox(width: 400, height: 600, child: cardView))
+                      child: SizedBox(
+                      width: 400,
+                      height: 600,
+                      child: cardView,
+                    ))
                   : ListView(children: <Widget>[
                       SizedBox(
                         height: 450,
@@ -111,13 +115,18 @@ class _BlackoutDatePickerState extends SampleViewState {
   }
 
   /// Returns the date range picker widget based on the properties passed.
-  SfDateRangePicker _getBlackoutDatePicker() {
+  SfDateRangePicker _buildBlackoutDatePicker() {
     return SfDateRangePicker(
       monthCellStyle: const DateRangePickerMonthCellStyle(
-          blackoutDateTextStyle: TextStyle(
-              color: Colors.red, decoration: TextDecoration.lineThrough)),
+        blackoutDateTextStyle: TextStyle(
+          color: Colors.red,
+          decoration: TextDecoration.lineThrough,
+        ),
+      ),
       monthViewSettings: DateRangePickerMonthViewSettings(
-          showTrailingAndLeadingDates: true, blackoutDates: _blackoutDates),
+        showTrailingAndLeadingDates: true,
+        blackoutDates: _blackoutDates,
+      ),
       showNavigationArrow: model.isWebFullView,
       selectableDayPredicate: _selectableDayPredicateDates,
     );

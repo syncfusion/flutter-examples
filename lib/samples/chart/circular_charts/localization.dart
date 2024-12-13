@@ -1,15 +1,15 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Sample depicts the localization in circular chart
+/// Renders pie series chart with localization.
 class LocalizationCircularChart extends LocalizationSampleView {
-  ///Constructor for localization chart
+  /// Creates the pie series chart with localization.
   const LocalizationCircularChart(Key key) : super(key: key);
 
   @override
@@ -17,6 +17,7 @@ class LocalizationCircularChart extends LocalizationSampleView {
       _LocalizationCircularChartState();
 }
 
+/// State class for the pie series chart with localization.
 class _LocalizationCircularChartState extends LocalizationSampleViewState {
   _LocalizationCircularChartState();
 
@@ -32,11 +33,11 @@ class _LocalizationCircularChartState extends LocalizationSampleViewState {
 
   @override
   Widget buildSample(BuildContext context) {
-    return _buildDoughnutChart();
+    return _buildPieChart();
   }
 
-  /// Returns the circular chart
-  Widget _buildDoughnutChart() {
+  /// Returns a circular pie chart with localization.
+  Widget _buildPieChart() {
     _loadChartDataSource();
     return Padding(
       padding:
@@ -44,8 +45,10 @@ class _LocalizationCircularChartState extends LocalizationSampleViewState {
       child: SfCircularChart(
         title: ChartTitle(text: _title),
         legend: const Legend(
-            isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
-        series: _getDefaultDoughnutSeries(),
+          isVisible: true,
+          overflowMode: LegendItemOverflowMode.wrap,
+        ),
+        series: _buildDefaultPieSeries(),
         tooltipBehavior: _tooltip,
         onTooltipRender: (TooltipArgs args) {
           args.text = '${args.text}%';
@@ -54,19 +57,21 @@ class _LocalizationCircularChartState extends LocalizationSampleViewState {
     );
   }
 
-  /// Returns the pie series
-  List<PieSeries<ChartSampleData, String>> _getDefaultDoughnutSeries() {
+  /// Returns the circular pie series.
+  List<PieSeries<ChartSampleData, String>> _buildDefaultPieSeries() {
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
-          dataSource: _chartDataSource,
-          xValueMapper: (ChartSampleData data, _) => data.x as String,
-          yValueMapper: (ChartSampleData data, _) => data.y,
-          dataLabelMapper: (ChartSampleData data, _) => data.text,
-          dataLabelSettings: const DataLabelSettings(isVisible: true))
+        dataSource: _chartDataSource,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        dataLabelMapper: (ChartSampleData data, int index) => data.text,
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
+      )
     ];
   }
 
-  // Method to update data source and title of the chart based on the culture
+  /// Method to update data source and title of the
+  /// chart based on the culture.
   void _loadChartDataSource() {
     if (model.locale == const Locale('en', 'US')) {
       _chartDataSource = <ChartSampleData>[

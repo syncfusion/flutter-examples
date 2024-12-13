@@ -1,40 +1,59 @@
-/// Dart imports
+/// Dart imports.
 import 'dart:math';
 import 'dart:ui';
 
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the customized spline chart sample.
+/// Renders the customized Spline Chart sample.
 class SplineCustomization extends SampleView {
-  /// Creates the customized spline chart.
   const SplineCustomization(Key key) : super(key: key);
 
   @override
   _SplineVerticalState createState() => _SplineVerticalState();
 }
 
-/// State class of customized spline chart.
+/// State class of customized Spline Chart.
 class _SplineVerticalState extends SampleViewState {
   _SplineVerticalState();
 
+  List<ChartSampleData>? _chartData;
+
   @override
-  Widget build(BuildContext context) {
-    return _buildCustomizedSplineChart();
+  void initState() {
+    _chartData = <ChartSampleData>[
+      ChartSampleData(x: DateTime(2016), y: 2),
+      ChartSampleData(x: DateTime(2017), y: 1.5),
+      ChartSampleData(x: DateTime(2018), y: 2),
+      ChartSampleData(x: DateTime(2019), y: 1.75),
+      ChartSampleData(x: DateTime(2020), y: 1.5),
+      ChartSampleData(x: DateTime(2021), y: 2),
+      ChartSampleData(x: DateTime(2022), y: 1.5),
+      ChartSampleData(x: DateTime(2023), y: 2.2),
+      ChartSampleData(x: DateTime(2024), y: 1.9),
+    ];
+    super.initState();
   }
 
-  /// Returns the customized spline chart.
-  SfCartesianChart _buildCustomizedSplineChart() {
+  @override
+  Widget build(BuildContext context) {
+    return _buildCartesianChart();
+  }
+
+  /// Return the Cartesian Chart with Spline series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
-      title: ChartTitle(text: isCardView ? '' : 'Product sales prediction'),
       plotAreaBorderWidth: 0,
+      title: ChartTitle(
+        text: isCardView ? '' : 'Product sales prediction',
+      ),
       primaryXAxis: DateTimeAxis(
         majorGridLines: const MajorGridLines(width: 0),
         intervalType: DateTimeIntervalType.years,
@@ -43,36 +62,35 @@ class _SplineVerticalState extends SampleViewState {
         dateFormat: DateFormat.y(),
       ),
       primaryYAxis: const NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          minimum: 1.2,
-          maximum: 2.4,
-          interval: 0.2),
+        majorGridLines: MajorGridLines(width: 0),
+        minimum: 1.2,
+        maximum: 2.4,
+        interval: 0.2,
+      ),
       series: <CartesianSeries<ChartSampleData, DateTime>>[
         SplineSeries<ChartSampleData, DateTime>(
-            onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
-              return _CustomSplineSeriesRenderer(
-                  series as SplineSeries<ChartSampleData, DateTime>);
-            },
-            dataSource: <ChartSampleData>[
-              ChartSampleData(x: DateTime(2016), y: 2),
-              ChartSampleData(x: DateTime(2017), y: 1.5),
-              ChartSampleData(x: DateTime(2018), y: 2),
-              ChartSampleData(x: DateTime(2019), y: 1.75),
-              ChartSampleData(x: DateTime(2020), y: 1.5),
-              ChartSampleData(x: DateTime(2021), y: 2),
-              ChartSampleData(x: DateTime(2022), y: 1.5),
-              ChartSampleData(x: DateTime(2023), y: 2.2),
-              ChartSampleData(x: DateTime(2024), y: 1.9),
-            ],
-            xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-            yValueMapper: (ChartSampleData sales, _) => sales.y,
-            dashArray: const <double>[10, 5]),
+          dataSource: _chartData,
+          xValueMapper: (ChartSampleData sales, int index) => sales.x,
+          yValueMapper: (ChartSampleData sales, int index) => sales.y,
+          onCreateRenderer: (ChartSeries<dynamic, dynamic> series) {
+            return _CustomSplineSeriesRenderer(
+              series as SplineSeries<ChartSampleData, DateTime>,
+            );
+          },
+          dashArray: const <double>[10, 5],
+        ),
       ],
     );
   }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
+  }
 }
 
-/// custom spline series class overriding the original spline series class.
+/// Custom Spline series class overriding the original Spline series class.
 class _CustomSplineSeriesRenderer<T, D> extends SplineSeriesRenderer<T, D> {
   _CustomSplineSeriesRenderer(this.series);
 
@@ -89,7 +107,7 @@ class _CustomSplineSeriesRenderer<T, D> extends SplineSeriesRenderer<T, D> {
 late double? _textXOffset, _textYOffset;
 late double? _text1XOffset, _text1YOffset;
 
-/// custom spline painter class for customized spline series.
+/// custom Spline painter class for customized Spline series.
 class _SplineCustomPainter<T, D> extends SplineSegment<T, D> {
   _SplineCustomPainter(int value) {
     //ignore: prefer_initializing_formals
@@ -157,26 +175,38 @@ class _SplineCustomPainter<T, D> extends SplineSegment<T, D> {
     if (currentSegmentIndex == series.dataSource!.length - 2) {
       const TextSpan span = TextSpan(
         style: TextStyle(
-            color: Color.fromRGBO(0, 168, 181, 1),
-            fontSize: 12.0,
-            fontFamily: 'Roboto'),
+          color: Color.fromRGBO(0, 168, 181, 1),
+          fontSize: 12.0,
+          fontFamily: 'Roboto',
+        ),
         text: 'Original data',
       );
-      final TextPainter tp =
-          TextPainter(text: span, textDirection: TextDirection.ltr);
+      final TextPainter tp = TextPainter(
+        text: span,
+        textDirection: TextDirection.ltr,
+      );
       tp.layout();
-      tp.paint(canvas, Offset(_text1XOffset!, _text1YOffset! + tp.size.height));
+      tp.paint(
+        canvas,
+        Offset(_text1XOffset!, _text1YOffset! + tp.size.height),
+      );
       const TextSpan span1 = TextSpan(
         style: TextStyle(
-            color: Color.fromRGBO(246, 114, 128, 1),
-            fontSize: 12.0,
-            fontFamily: 'Roboto'),
+          color: Color.fromRGBO(246, 114, 128, 1),
+          fontSize: 12.0,
+          fontFamily: 'Roboto',
+        ),
         text: 'Imaginary data',
       );
-      final TextPainter tp1 =
-          TextPainter(text: span1, textDirection: TextDirection.ltr);
+      final TextPainter tp1 = TextPainter(
+        text: span1,
+        textDirection: TextDirection.ltr,
+      );
       tp1.layout();
-      tp1.paint(canvas, Offset(_textXOffset!, _textYOffset! + tp.size.height));
+      tp1.paint(
+        canvas,
+        Offset(_textXOffset!, _textYOffset! + tp.size.height),
+      );
     }
   }
 }
@@ -199,9 +229,11 @@ void _drawDashedLine(
       canvas.drawPath(
           _dashPath(
             path,
-            dashArray: _CircularIntervalList<double>(series.dashArray != null
-                ? series.dashArray!
-                : <double>[12, 3, 3, 3]),
+            dashArray: _CircularIntervalList<double>(
+              series.dashArray != null
+                  ? series.dashArray!
+                  : <double>[12, 3, 3, 3],
+            ),
           )!,
           paint);
     } else {
@@ -226,7 +258,9 @@ Path? _dashPath(
       final double length = dashArray.next;
       if (draw) {
         path.addPath(
-            measurePath.extractPath(distance, distance + length), Offset.zero);
+          measurePath.extractPath(distance, distance + length),
+          Offset.zero,
+        );
       }
       distance += length;
       draw = !draw;

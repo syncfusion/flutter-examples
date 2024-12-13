@@ -1,19 +1,18 @@
-/// Dart imports
+/// Dart imports.
 import 'dart:async';
 import 'dart:math';
 
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the column chart sample with dynamically updated data points.
+/// Renders the Column Chart sample with dynamically updated data points.
 class AnimationColumnDefault extends SampleView {
-  /// Creates the column chart sample with dynamically updated data points.
   const AnimationColumnDefault(Key key) : super(key: key);
 
   @override
@@ -28,37 +27,58 @@ class _AnimationColumnDefaultState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    _getChartData();
+    _buildChartData();
     _timer = Timer(const Duration(seconds: 2), () {
       setState(() {
-        _getChartData();
+        _buildChartData();
       });
     });
-    return _buildAnimationColumnChart();
+    return _buildCartesianChart();
   }
 
-  /// Get the cartesian chart
-  SfCartesianChart _buildAnimationColumnChart() {
+  /// Return the Cartesian Chart with Column series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis:
-            const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
-        primaryYAxis: const NumericAxis(
-            majorTickLines: MajorTickLines(color: Colors.transparent),
-            axisLine: AxisLine(width: 0),
-            minimum: 0,
-            maximum: 100),
-        series: _getDefaultColumnSeries());
+      plotAreaBorderWidth: 0,
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      primaryYAxis: const NumericAxis(
+        majorTickLines: MajorTickLines(color: Colors.transparent),
+        axisLine: AxisLine(width: 0),
+        minimum: 0,
+        maximum: 100,
+      ),
+      series: _buildColumnSeries(),
+    );
   }
 
-  /// Get the column series
-  List<ColumnSeries<_ChartData, num>> _getDefaultColumnSeries() {
+  /// Returns the list of Cartesian Column series.
+  List<ColumnSeries<_ChartData, num>> _buildColumnSeries() {
     return <ColumnSeries<_ChartData, num>>[
       ColumnSeries<_ChartData, num>(
-          dataSource: _chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.y)
+        dataSource: _chartData,
+        xValueMapper: (_ChartData sales, int index) => sales.x,
+        yValueMapper: (_ChartData sales, int index) => sales.y,
+      ),
     ];
+  }
+
+  /// Generate random value.
+  int _buildRandomInt(int min, int max) {
+    final Random random = Random();
+    return min + random.nextInt(max - min);
+  }
+
+  /// Generate random data points.
+  void _buildChartData() {
+    _chartData = <_ChartData>[];
+    for (int i = 1; i < 8; i++) {
+      _chartData!.add(
+        _ChartData(i, _buildRandomInt(0, 100)),
+      );
+    }
+    _timer?.cancel();
   }
 
   @override
@@ -66,21 +86,6 @@ class _AnimationColumnDefaultState extends SampleViewState {
     super.dispose();
     _timer!.cancel();
     _chartData!.clear();
-  }
-
-  ///Generate random value
-  int _getRandomInt(int min, int max) {
-    final Random random = Random();
-    return min + random.nextInt(max - min);
-  }
-
-  ///Generate random data points
-  void _getChartData() {
-    _chartData = <_ChartData>[];
-    for (int i = 1; i < 8; i++) {
-      _chartData!.add(_ChartData(i, _getRandomInt(0, 100)));
-    }
-    _timer?.cancel();
   }
 }
 

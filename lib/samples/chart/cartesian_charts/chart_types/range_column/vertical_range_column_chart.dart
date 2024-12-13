@@ -1,30 +1,30 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the vertical range column chart.
+/// Renders the vertical Range Column Chart.
 class RangeBarChart extends SampleView {
-  /// Creates the vertical range column chart.
   const RangeBarChart(Key key) : super(key: key);
 
   @override
   _RangeBarChartState createState() => _RangeBarChartState();
 }
 
-/// State class of the vertical range column chart.
+/// State class of the vertical Range Column Chart.
 class _RangeBarChartState extends SampleViewState {
   _RangeBarChartState();
 
-  List<ChartSampleData>? chartData;
+  List<ChartSampleData>? _chartData;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'Jul',
           y: 46,
@@ -62,69 +62,72 @@ class _RangeBarChartState extends SampleViewState {
           secondSeriesYValue: 57,
           thirdSeriesYValue: 75),
     ];
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildRangeBarChart();
+    return _buildCartesianChart();
   }
 
-  /// Returns the vertical range column chart.
-  SfCartesianChart _buildRangeBarChart() {
+  /// Return the Cartesian Chart with Range Column series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
+      /// To enable this property we can get the vertical series.
+      isTransposed: true,
       plotAreaBorderWidth: 1,
       title: ChartTitle(
-          text:
-              isCardView ? '' : 'Temperature variation – Sydney vs Melbourne'),
+        text: isCardView ? '' : 'Temperature variation – Sydney vs Melbourne',
+      ),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
-      legend: Legend(isVisible: !isCardView),
       primaryYAxis: const NumericAxis(
-          axisLine: AxisLine(width: 0),
-          labelFormat: '{value}°F',
-          minimum: 40,
-          maximum: 80),
-      series: _getVerticalRangeColumnSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
-
-      /// To enable this property we can get the vertical series.
-      isTransposed: true,
+        axisLine: AxisLine(width: 0),
+        labelFormat: '{value}°F',
+        minimum: 40,
+        maximum: 80,
+      ),
+      series: _buildRangeColumnSeries(),
+      legend: Legend(isVisible: !isCardView),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series
-  /// which need to render on the vertical range column chart.
-  List<RangeColumnSeries<ChartSampleData, String>>
-      _getVerticalRangeColumnSeries() {
+  /// Returns the list of Cartesian Range Column series.
+  List<RangeColumnSeries<ChartSampleData, String>> _buildRangeColumnSeries() {
     return <RangeColumnSeries<ChartSampleData, String>>[
       RangeColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          lowValueMapper: (ChartSampleData sales, _) => sales.y,
-          highValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          name: 'Sydney',
-          dataLabelSettings: DataLabelSettings(
-              isVisible: !isCardView,
-              labelAlignment: ChartDataLabelAlignment.top)),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        lowValueMapper: (ChartSampleData sales, int index) => sales.y,
+        highValueMapper: (ChartSampleData sales, int index) => sales.yValue,
+        name: 'Sydney',
+        dataLabelSettings: DataLabelSettings(
+          isVisible: !isCardView,
+          labelAlignment: ChartDataLabelAlignment.top,
+        ),
+      ),
       RangeColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          lowValueMapper: (ChartSampleData sales, _) =>
-              sales.secondSeriesYValue,
-          highValueMapper: (ChartSampleData sales, _) =>
-              sales.thirdSeriesYValue,
-          name: 'Melbourne',
-          dataLabelSettings: DataLabelSettings(
-              isVisible: !isCardView,
-              labelAlignment: ChartDataLabelAlignment.top))
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        lowValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
+        highValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
+        name: 'Melbourne',
+        dataLabelSettings: DataLabelSettings(
+          isVisible: !isCardView,
+          labelAlignment: ChartDataLabelAlignment.top,
+        ),
+      ),
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

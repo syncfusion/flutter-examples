@@ -1,16 +1,15 @@
-/// Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local imports.
 import '../../../../../model/sample_view.dart';
 import '../../../../../widgets/custom_button.dart';
 
-/// Render the column chart with columns width and space change option
+/// Render the Column Chart with Columns width and space change option.
 class ColumnSpacing extends SampleView {
-  /// Creates the column chart with columns width and space change option
   const ColumnSpacing(Key key) : super(key: key);
 
   @override
@@ -19,17 +18,15 @@ class ColumnSpacing extends SampleView {
 
 class _ColumnSpacingState extends SampleViewState {
   _ColumnSpacingState();
+
+  List<ChartSampleData>? _chartData;
   late double _columnWidth;
   late double _columnSpacing;
-  List<ChartSampleData>? chartData;
   TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
-    _columnWidth = 0.8;
-    _columnSpacing = 0.2;
-    _tooltipBehavior = TooltipBehavior(enable: true);
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'Norway', y: 16, secondSeriesYValue: 8, thirdSeriesYValue: 13),
       ChartSampleData(
@@ -41,12 +38,15 @@ class _ColumnSpacingState extends SampleViewState {
       ChartSampleData(
           x: 'Netherlands', y: 8, secondSeriesYValue: 5, thirdSeriesYValue: 4),
     ];
+    _columnWidth = 0.8;
+    _columnSpacing = 0.2;
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildSpacingColumnChart();
+    return _buildCartesianChart();
   }
 
   @override
@@ -56,7 +56,10 @@ class _ColumnSpacingState extends SampleViewState {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Text('Width  ', style: TextStyle(color: model.textColor)),
+            Text(
+              'Width  ',
+              style: TextStyle(color: model.textColor),
+            ),
             Container(
               padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
               child: CustomDirectionalButtons(
@@ -70,7 +73,10 @@ class _ColumnSpacingState extends SampleViewState {
                 step: 0.1,
                 loop: true,
                 iconColor: model.textColor,
-                style: TextStyle(fontSize: 16.0, color: model.textColor),
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: model.textColor,
+                ),
               ),
             ),
           ],
@@ -80,8 +86,10 @@ class _ColumnSpacingState extends SampleViewState {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-              child:
-                  Text('Spacing  ', style: TextStyle(color: model.textColor)),
+              child: Text(
+                'Spacing  ',
+                style: TextStyle(color: model.textColor),
+              ),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
@@ -97,7 +105,10 @@ class _ColumnSpacingState extends SampleViewState {
                 loop: true,
                 padding: 5.0,
                 iconColor: model.textColor,
-                style: TextStyle(fontSize: 16.0, color: model.textColor),
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: model.textColor,
+                ),
               ),
             )
           ],
@@ -106,64 +117,71 @@ class _ColumnSpacingState extends SampleViewState {
     );
   }
 
-  ///Get the cartesian chart widget
-  SfCartesianChart _buildSpacingColumnChart() {
+  /// Return the Cartesian Chart with Column series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-          text: isCardView ? '' : 'Winter olympic medals count - 2022'),
+        text: isCardView ? '' : 'Winter olympic medals count - 2022',
+      ),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: const NumericAxis(
-          maximum: 20,
-          minimum: 0,
-          interval: 4,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getDefaultColumn(),
+        maximum: 20,
+        minimum: 0,
+        interval: 4,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildColumnSeries(),
       legend: Legend(isVisible: !isCardView),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  ///Get the column series
-  List<ColumnSeries<ChartSampleData, String>> _getDefaultColumn() {
+  /// Returns the list of Cartesian Column series.
+  List<ColumnSeries<ChartSampleData, String>> _buildColumnSeries() {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) => sales.y,
 
-          /// To apply the column width here.
-          width: isCardView ? 0.8 : _columnWidth,
+        /// To apply the column width here.
+        width: isCardView ? 0.8 : _columnWidth,
 
-          /// To apply the spacing betweeen to two columns here.
-          spacing: isCardView ? 0.2 : _columnSpacing,
-          dataSource: chartData,
-          color: const Color.fromRGBO(251, 193, 55, 1),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          name: 'Gold'),
+        /// To apply the spacing between two Columns here.
+        spacing: isCardView ? 0.2 : _columnSpacing,
+        color: const Color.fromRGBO(251, 193, 55, 1),
+        name: 'Gold',
+      ),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          width: isCardView ? 0.8 : _columnWidth,
-          spacing: isCardView ? 0.2 : _columnSpacing,
-          color: const Color.fromRGBO(177, 183, 188, 1),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          name: 'Silver'),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
+        width: isCardView ? 0.8 : _columnWidth,
+        spacing: isCardView ? 0.2 : _columnSpacing,
+        color: const Color.fromRGBO(177, 183, 188, 1),
+        name: 'Silver',
+      ),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          width: isCardView ? 0.8 : _columnWidth,
-          spacing: isCardView ? 0.2 : _columnSpacing,
-          color: const Color.fromRGBO(140, 92, 69, 1),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
-          name: 'Bronze')
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
+        width: isCardView ? 0.8 : _columnWidth,
+        spacing: isCardView ? 0.2 : _columnSpacing,
+        color: const Color.fromRGBO(140, 92, 69, 1),
+        name: 'Bronze',
+      ),
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

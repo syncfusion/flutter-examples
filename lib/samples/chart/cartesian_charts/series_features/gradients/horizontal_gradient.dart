@@ -1,28 +1,45 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Render chart series with horizontal gradient.
+/// Renders the spline area series chart with horizontal gradient.
 class HorizontalGradient extends SampleView {
-  /// Creates chart series with horizontal gradient.
+  /// Creates the spline area series chart with horizontal gradient.
   const HorizontalGradient(Key key) : super(key: key);
 
   @override
   _HorizontalGradientState createState() => _HorizontalGradientState();
 }
 
-/// State class of horizontal gradient.
+/// State class for the spline area series
+/// chart with horizontal gradient.
 class _HorizontalGradientState extends SampleViewState {
   _HorizontalGradientState();
+  List<_ChartSampleData>? _chartData;
+
   TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(enable: true, canShowMarker: false);
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+      canShowMarker: false,
+    );
+    _chartData = <_ChartSampleData>[
+      _ChartSampleData(x: '1997', y: 17.70),
+      _ChartSampleData(x: '1998', y: 18.20),
+      _ChartSampleData(x: '1999', y: 18),
+      _ChartSampleData(x: '2000', y: 19),
+      _ChartSampleData(x: '2001', y: 18.5),
+      _ChartSampleData(x: '2002', y: 18),
+      _ChartSampleData(x: '2003', y: 18.80),
+      _ChartSampleData(x: '2004', y: 17.90),
+    ];
     super.initState();
   }
 
@@ -31,16 +48,17 @@ class _HorizontalGradientState extends SampleViewState {
     return _buildHorizontalGradientAreaChart();
   }
 
-  /// Return the circular chart with horizontal gradient.
+  /// Returns a circular spline area chart with horizontal gradient.
   SfCartesianChart _buildHorizontalGradientAreaChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Total investment (% of GDP)'),
       primaryXAxis: CategoryAxis(
-          labelPlacement: LabelPlacement.onTicks,
-          interval: model.isWebFullView ? 1 : null,
-          labelRotation: -45,
-          majorGridLines: const MajorGridLines(width: 0)),
+        labelPlacement: LabelPlacement.onTicks,
+        interval: model.isWebFullView ? 1 : null,
+        labelRotation: -45,
+        majorGridLines: const MajorGridLines(width: 0),
+      ),
       tooltipBehavior: _tooltipBehavior,
       primaryYAxis: const NumericAxis(
         interval: 2,
@@ -50,18 +68,17 @@ class _HorizontalGradientState extends SampleViewState {
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0),
       ),
-      series: _getGradientAreaSeries(),
+      series: _buildAreaSeries(),
     );
   }
 
-  /// Returns the list of spline area series with horizontal gradient.
-  List<CartesianSeries<_ChartData, String>> _getGradientAreaSeries() {
-    return <CartesianSeries<_ChartData, String>>[
-      SplineAreaSeries<_ChartData, String>(
-        onCreateRenderer: (ChartSeries<_ChartData, String> series) {
-          return _CustomSplineAreaSeriesRenderer(
-              series as SplineAreaSeries<_ChartData, String>);
-        },
+  /// Returns the list of spline area series.
+  List<CartesianSeries<_ChartSampleData, String>> _buildAreaSeries() {
+    return <CartesianSeries<_ChartSampleData, String>>[
+      SplineAreaSeries<_ChartSampleData, String>(
+        dataSource: _chartData,
+        xValueMapper: (_ChartSampleData data, int index) => data.x,
+        yValueMapper: (_ChartSampleData data, int index) => data.y,
 
         /// To set the gradient colors for border here.
         borderGradient: const LinearGradient(colors: <Color>[
@@ -84,26 +101,25 @@ class _HorizontalGradientState extends SampleViewState {
           isVisible: true,
           borderColor: Colors.white,
         ),
-        dataSource: <_ChartData>[
-          _ChartData(x: '1997', y: 17.70),
-          _ChartData(x: '1998', y: 18.20),
-          _ChartData(x: '1999', y: 18),
-          _ChartData(x: '2000', y: 19),
-          _ChartData(x: '2001', y: 18.5),
-          _ChartData(x: '2002', y: 18),
-          _ChartData(x: '2003', y: 18.80),
-          _ChartData(x: '2004', y: 17.90)
-        ],
-        xValueMapper: (_ChartData sales, _) => sales.x,
-        yValueMapper: (_ChartData sales, _) => sales.y,
         name: 'Investment',
+        onCreateRenderer: (ChartSeries<_ChartSampleData, String> series) {
+          return _CustomSplineAreaSeriesRenderer(
+            series as SplineAreaSeries<_ChartSampleData, String>,
+          );
+        },
       )
     ];
   }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
+  }
 }
 
-class _ChartData {
-  _ChartData({this.x, this.y});
+class _ChartSampleData {
+  _ChartSampleData({this.x, this.y});
   final String? x;
   final double? y;
 }

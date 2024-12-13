@@ -1,32 +1,33 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the chart with empty points sample.
+/// Renders the column series chart
+/// with empty points sample.
 class PointColorMapper extends SampleView {
-  /// Creates the chart with empty points sample.
+  /// Creates the column series chart with empty points sample.
   const PointColorMapper(Key key) : super(key: key);
 
   @override
   _PointColorMapperState createState() => _PointColorMapperState();
 }
 
-/// State class of the chart.
+/// State class for the column series chart with empty points.
 class _PointColorMapperState extends SampleViewState {
   _PointColorMapperState();
   TooltipBehavior? _tooltipBehavior;
-  List<ChartSampleData>? chartData;
-  List<double>? yValues;
+
+  List<ChartSampleData>? _chartData;
 
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(enable: true);
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 'Jan', y: 4.3),
       ChartSampleData(x: 'Feb', y: 5.2),
       ChartSampleData(x: 'Mar', y: 6.7),
@@ -43,7 +44,7 @@ class _PointColorMapperState extends SampleViewState {
     super.initState();
   }
 
-  Color? _getPointColor(num? value) {
+  Color? _determinePointColorByValue(num? value) {
     Color? color;
     if (value! < 4.5) {
       color = const Color.fromRGBO(252, 238, 160, 1);
@@ -72,11 +73,12 @@ class _PointColorMapperState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(bottom: model.isWebFullView ? 0 : 60),
-        child: _buildPointColorMapperChart());
+      padding: EdgeInsets.only(bottom: model.isWebFullView ? 0 : 60),
+      child: _buildPointColorMapperChart(),
+    );
   }
 
-  /// Get the cartesian chart with point color mapper
+  /// Returns the cartesian column chart with point color mapper.
   SfCartesianChart _buildPointColorMapperChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
@@ -84,28 +86,36 @@ class _PointColorMapperState extends SampleViewState {
       primaryXAxis:
           const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: NumericAxis(
-          labelFormat: '{value}°C',
-          minimum: 0,
-          maximum: 25,
-          interval: model.isWeb ? 5 : 10,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent)),
+        labelFormat: '{value}°C',
+        minimum: 0,
+        maximum: 25,
+        interval: model.isWeb ? 5 : 10,
+        axisLine: const AxisLine(width: 0),
+        majorTickLines: const MajorTickLines(color: Colors.transparent),
+      ),
       tooltipBehavior: _tooltipBehavior,
-      series: _getPointColorMapperSeries(),
+      series: _buildColumnSeries(),
     );
   }
 
-  /// The method returns column series to chart.
-  List<CartesianSeries<ChartSampleData, String>> _getPointColorMapperSeries() {
+  /// Returns the list of cartesian column series.
+  List<CartesianSeries<ChartSampleData, String>> _buildColumnSeries() {
     return <CartesianSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          dataLabelSettings: const DataLabelSettings(isVisible: true),
-          name: 'London',
-          pointColorMapper: (ChartSampleData sales, _) =>
-              _getPointColor(sales.y))
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
+        name: 'London',
+        pointColorMapper: (ChartSampleData data, int index) =>
+            _determinePointColorByValue(data.y),
+      )
     ];
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }

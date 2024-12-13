@@ -1,30 +1,31 @@
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Render the default bar chart samnple.
+/// Render the default Bar Chart sample.
 class BarDefault extends SampleView {
-  /// Creates the default bar chart samnple.
   const BarDefault(Key key) : super(key: key);
 
   @override
   _BarDefaultState createState() => _BarDefaultState();
 }
 
-/// State class of default bar chart.
+/// State class of default Bar Chart.
 class _BarDefaultState extends SampleViewState {
   _BarDefaultState();
-  List<ChartSampleData>? chartData;
+
+  List<ChartSampleData>? _chartData;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'France',
           y: 84452000,
@@ -56,55 +57,64 @@ class _BarDefaultState extends SampleViewState {
           secondSeriesYValue: 35814000,
           thirdSeriesYValue: 37651000),
     ];
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildDefaultBarChart();
+    return _buildCartesianChart();
   }
 
-  /// Returns the default cartesian bar chart.
-  SfCartesianChart _buildDefaultBarChart() {
+  /// Return the Cartesian Chart with Bar series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(text: isCardView ? '' : 'Tourism - Number of arrivals'),
-      legend: Legend(isVisible: !isCardView),
+      title: ChartTitle(
+        text: isCardView ? '' : 'Tourism - Number of arrivals',
+      ),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-          majorGridLines: const MajorGridLines(width: 0),
-          numberFormat: NumberFormat.compact()),
-      series: _getDefaultBarSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+        majorGridLines: const MajorGridLines(width: 0),
+        numberFormat: NumberFormat.compact(),
+      ),
+      series: _buildBarSeries(),
+      legend: Legend(isVisible: !isCardView),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series which need to render on the barchart.
-  List<BarSeries<ChartSampleData, String>> _getDefaultBarSeries() {
+  /// Returns the list of Cartesian Bar series.
+  List<BarSeries<ChartSampleData, String>> _buildBarSeries() {
     return <BarSeries<ChartSampleData, String>>[
       BarSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          name: '2015'),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) => sales.y,
+        name: '2015',
+      ),
       BarSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          name: '2016'),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
+        name: '2016',
+      ),
       BarSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
-          name: '2017')
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
+        name: '2017',
+      ),
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

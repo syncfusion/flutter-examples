@@ -1,37 +1,39 @@
-/// Dart imports
+/// Dart imports.
 import 'dart:async';
 import 'dart:math' as math;
 
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../model/sample_view.dart';
 
-/// Renders the auto scrolling chart
+/// Renders the column series chart with auto scrolling.
 class AutoScrollingChart extends SampleView {
-  /// Creates the auto scrolling chart
+  /// Creates the column series chart with auto scrolling.
   const AutoScrollingChart(Key key) : super(key: key);
 
   @override
   _AutoScrollingChartState createState() => _AutoScrollingChartState();
 }
 
+/// State of the column series chart with auto scrolling.
 class _AutoScrollingChartState extends SampleViewState {
   _AutoScrollingChartState();
+  Timer? _timer;
+  late List<Color> _palette1;
+  late List<Color> _palette2;
+  late List<Color> _palette3;
+  late List<_ChartData> _chartData;
+  late List<_ChartData> _chartDataTemp;
+  late bool _isPointerMoved;
 
-  Timer? timer;
-  late List<Color> palette;
-  late List<Color> palette1;
-  late List<Color> palette2;
-  late List<_ChartData> chartData, chartDataTemp;
-  bool havingPanDataSource = false;
+  bool _havingPanDataSource = false;
 
-  late bool isPointerMoved;
   @override
   void initState() {
     _initializeVariables();
@@ -39,20 +41,12 @@ class _AutoScrollingChartState extends SampleViewState {
   }
 
   @override
-  void dispose() {
-    timer?.cancel();
-    chartData.clear();
-    chartDataTemp.clear();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return _buildLiveLineChart();
+    return _buildAutoScrollingLineChart();
   }
 
   void _initializeVariables() {
-    palette = const <Color>[
+    _palette1 = const <Color>[
       Color.fromRGBO(75, 135, 185, 1),
       Color.fromRGBO(192, 108, 132, 1),
       Color.fromRGBO(246, 114, 128, 1),
@@ -64,7 +58,7 @@ class _AutoScrollingChartState extends SampleViewState {
       Color.fromRGBO(255, 240, 219, 1),
       Color.fromRGBO(238, 238, 238, 1)
     ];
-    palette1 = const <Color>[
+    _palette2 = const <Color>[
       Color.fromRGBO(6, 174, 224, 1),
       Color.fromRGBO(99, 85, 199, 1),
       Color.fromRGBO(49, 90, 116, 1),
@@ -76,7 +70,7 @@ class _AutoScrollingChartState extends SampleViewState {
       Color.fromRGBO(59, 163, 26, 1),
       Color.fromRGBO(236, 131, 23, 1)
     ];
-    palette2 = const <Color>[
+    _palette3 = const <Color>[
       Color.fromRGBO(255, 245, 0, 1),
       Color.fromRGBO(51, 182, 119, 1),
       Color.fromRGBO(218, 150, 70, 1),
@@ -88,90 +82,115 @@ class _AutoScrollingChartState extends SampleViewState {
       Color.fromRGBO(48, 167, 6, 1),
       Color.fromRGBO(207, 142, 14, 1)
     ];
-    isPointerMoved = false;
-    chartData = <_ChartData>[
+    _isPointerMoved = false;
+    _chartData = <_ChartData>[
       _ChartData(DateTime(2020), 42),
       _ChartData(DateTime(2020, 01, 1, 00, 00, 01), 47),
     ];
-    chartDataTemp = <_ChartData>[];
-    timer = Timer.periodic(const Duration(milliseconds: 1000), (Timer timer) {
-      if (!isPointerMoved) {
-        if (chartDataTemp.isNotEmpty) {
-          chartData.addAll(chartDataTemp);
-          chartDataTemp.clear();
-          havingPanDataSource = true;
+    _chartDataTemp = <_ChartData>[];
+    _timer = Timer.periodic(
+      const Duration(milliseconds: 1000),
+      (Timer timer) {
+        if (!_isPointerMoved) {
+          if (_chartDataTemp.isNotEmpty) {
+            _chartData.addAll(_chartDataTemp);
+            _chartDataTemp.clear();
+            _havingPanDataSource = true;
+          }
+          setState(() {
+            _chartData = _updateDataSource();
+            _havingPanDataSource = false;
+          });
+        } else {
+          _chartDataTemp = _updateTempDataSource();
         }
-        setState(() {
-          chartData = _updateDataSource();
-          havingPanDataSource = false;
-        });
-      } else {
-        chartDataTemp = _updateTempDataSource();
-      }
-    });
+      },
+    );
   }
 
-  SfCartesianChart _buildLiveLineChart() {
+  /// Returns the cartesian column chart with auto scrolling.
+  SfCartesianChart _buildAutoScrollingLineChart() {
     final ThemeData themeData = model.themeData;
-    palette = themeData.useMaterial3
-        ? (themeData.brightness == Brightness.light ? palette1 : palette2)
-        : palette;
+    _palette1 = themeData.useMaterial3
+        ? (themeData.brightness == Brightness.light ? _palette2 : _palette3)
+        : _palette1;
     return SfCartesianChart(
-        zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
-        onChartTouchInteractionMove: (ChartTouchInteractionArgs args) {
-          isPointerMoved = true;
-        },
-        onChartTouchInteractionUp: (ChartTouchInteractionArgs args) {
-          isPointerMoved = false;
-        },
-        plotAreaBorderWidth: 0,
-        primaryXAxis: DateTimeAxis(
-          majorGridLines: const MajorGridLines(width: 0),
-          dateFormat: DateFormat.Hms(),
-          intervalType: DateTimeIntervalType.seconds,
-          autoScrollingDelta: 10,
-          autoScrollingDeltaType: DateTimeIntervalType.seconds,
+      zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
+      onChartTouchInteractionMove: (ChartTouchInteractionArgs args) {
+        _isPointerMoved = true;
+      },
+      onChartTouchInteractionUp: (ChartTouchInteractionArgs args) {
+        _isPointerMoved = false;
+      },
+      plotAreaBorderWidth: 0,
+      primaryXAxis: DateTimeAxis(
+        majorGridLines: const MajorGridLines(width: 0),
+        dateFormat: DateFormat.Hms(),
+        intervalType: DateTimeIntervalType.seconds,
+        autoScrollingDelta: 10,
+        autoScrollingDeltaType: DateTimeIntervalType.seconds,
+      ),
+      primaryYAxis: const NumericAxis(
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: <ColumnSeries<_ChartData, DateTime>>[
+        ColumnSeries<_ChartData, DateTime>(
+          dataSource: _chartData,
+          xValueMapper: (_ChartData data, int index) => data.x,
+          yValueMapper: (_ChartData data, int index) => data.y,
+          color: const Color.fromRGBO(192, 108, 132, 1),
+          pointColorMapper: (_ChartData data, int index) =>
+              _palette1[index % 10],
+          animationDuration: 0,
         ),
-        primaryYAxis: const NumericAxis(
-            axisLine: AxisLine(width: 0),
-            majorTickLines: MajorTickLines(size: 0)),
-        series: <ColumnSeries<_ChartData, DateTime>>[
-          ColumnSeries<_ChartData, DateTime>(
-            dataSource: chartData,
-            color: const Color.fromRGBO(192, 108, 132, 1),
-            xValueMapper: (_ChartData data, _) => data.x,
-            yValueMapper: (_ChartData data, _) => data.y,
-            pointColorMapper: (_ChartData data, _) => palette[_ % 10],
-            animationDuration: 0,
-          )
-        ]);
+      ],
+    );
   }
 
   List<_ChartData> _updateDataSource() {
-    if (!havingPanDataSource) {
-      chartData.add(_ChartData(
-        chartData[chartData.length - 1].x.add(const Duration(seconds: 1)),
-        _getRandomInt(30, 60),
-      ));
+    if (!_havingPanDataSource) {
+      final lastDataPoint = _chartData.last;
+
+      _chartData.add(
+        _ChartData(
+          lastDataPoint.x.add(const Duration(seconds: 1)),
+          _generateRandomInt(30, 60),
+        ),
+      );
     }
-    return chartData;
+
+    return _chartData;
   }
 
   List<_ChartData> _updateTempDataSource() {
-    chartDataTemp.add(_ChartData(
-      chartDataTemp.isEmpty
-          ? chartData[chartData.length - 1].x.add(const Duration(seconds: 1))
-          : chartDataTemp[chartDataTemp.length - 1]
-              .x
-              .add(const Duration(seconds: 1)),
-      _getRandomInt(30, 60),
-    ));
-    return chartDataTemp;
+    // Determine the x value based on whether _chartDataTemp is empty
+    final newXValue = _chartDataTemp.isEmpty
+        ? _chartData.last.x.add(const Duration(seconds: 1))
+        : _chartDataTemp.last.x.add(const Duration(seconds: 1));
+
+    // Create and add the new data point to _chartDataTemp
+    _chartDataTemp.add(
+      _ChartData(
+        newXValue,
+        _generateRandomInt(30, 60),
+      ),
+    );
+
+    return _chartDataTemp;
   }
 
-  int _getRandomInt(int min, int max) {
+  int _generateRandomInt(int min, int max) {
     final math.Random random = math.Random();
     return min + random.nextInt(max - min);
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _chartData.clear();
+    _chartDataTemp.clear();
+    super.dispose();
   }
 }
 

@@ -137,7 +137,6 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    positionFactor: 0.1,
                     widget: Text(progressValue.toStringAsFixed(0) + '%'))
               ]),
         ]));
@@ -186,7 +185,6 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    positionFactor: 0.1,
                     widget: Text(progressValue.toStringAsFixed(0) + '%'))
               ]),
         ]));
@@ -236,7 +234,6 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    positionFactor: 0.1,
                     widget: Text(progressValue.toStringAsFixed(0) + '%'))
               ]),
         ]));

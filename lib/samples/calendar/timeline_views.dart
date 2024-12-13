@@ -1,19 +1,19 @@
-///Dart imports
+/// Dart import.
 import 'dart:math';
 
-///Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Widget of getting started calendar
+/// Widget of getting started Calendar.
 class TimelineViewsCalendar extends SampleView {
-  /// Creates default getting started calendar
+  /// Creates default getting started Calendar.
   const TimelineViewsCalendar(Key key) : super(key: key);
 
   @override
@@ -26,21 +26,19 @@ class _TimelineViewsCalendarState extends SampleViewState {
   final List<String> _subjectCollection = <String>[];
   final List<Color> _colorCollection = <Color>[];
   final CalendarController _calendarController = CalendarController();
-
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.timelineDay,
     CalendarView.timelineWeek,
     CalendarView.timelineWorkWeek,
     CalendarView.timelineMonth,
   ];
-
   List<DateTime> _blackoutDates = <DateTime>[];
   late _MeetingDataSource _events;
 
   @override
   void initState() {
-    _calendarController.view = CalendarView.timelineMonth;
     addAppointmentDetails();
+    _calendarController.view = CalendarView.timelineMonth;
     _events = _MeetingDataSource(<_Meeting>[]);
     super.initState();
   }
@@ -48,24 +46,32 @@ class _TimelineViewsCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(children: <Widget>[
-        Expanded(
-          child: Container(
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
               color: model.sampleOutputCardColor,
               child: Theme(
-                  data: model.themeData.copyWith(
-                      colorScheme: model.themeData.colorScheme
-                          .copyWith(secondary: model.primaryColor)),
-                  child: _getTimelineViewsCalendar(
-                      _calendarController, _events, _onViewChanged))),
-        )
-      ]),
+                data: model.themeData.copyWith(
+                  colorScheme: model.themeData.colorScheme
+                      .copyWith(secondary: model.primaryColor),
+                ),
+                child: _getTimelineViewsCalendar(
+                  _calendarController,
+                  _events,
+                  _onViewChanged,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  /// The method called whenever the calendar view navigated to previous/next
-  /// view or switched to different calendar view, based on the view changed
-  /// details new appointment collection added to the calendar
+  /// The method called whenever the Calendar view navigated to previous/next
+  /// view or switched to different Calendar view, based on the view changed
+  /// details new appointment collection added to the Calendar.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     final List<_Meeting> appointment = <_Meeting>[];
     _events.appointments.clear();
@@ -73,23 +79,27 @@ class _TimelineViewsCalendarState extends SampleViewState {
     final List<DateTime> blockedDates = <DateTime>[];
     if (_calendarController.view == CalendarView.timelineMonth) {
       for (int i = 0; i < 5; i++) {
-        blockedDates.add(visibleDatesChangedDetails.visibleDates[
-            random.nextInt(visibleDatesChangedDetails.visibleDates.length)]);
+        blockedDates.add(
+          visibleDatesChangedDetails.visibleDates[
+              random.nextInt(visibleDatesChangedDetails.visibleDates.length)],
+        );
       }
     }
+    SchedulerBinding.instance.addPostFrameCallback(
+      (Duration timeStamp) {
+        setState(
+          () {
+            if (_calendarController.view == CalendarView.timelineMonth) {
+              _blackoutDates = blockedDates;
+            } else {
+              _blackoutDates.clear();
+            }
+          },
+        );
+      },
+    );
 
-    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
-      setState(() {
-        if (_calendarController.view == CalendarView.timelineMonth) {
-          _blackoutDates = blockedDates;
-        } else {
-          _blackoutDates.clear();
-        }
-      });
-    });
-
-    /// Creates new appointment collection based on
-    /// the visible dates in calendar.
+    /// Creates new appointment collection based on visible dates in Calendar.
     for (int i = 0; i < visibleDatesChangedDetails.visibleDates.length; i++) {
       final DateTime date = visibleDatesChangedDetails.visibleDates[i];
       if (blockedDates != null &&
@@ -102,7 +112,8 @@ class _TimelineViewsCalendarState extends SampleViewState {
       for (int j = 0; j < count; j++) {
         final DateTime startDate =
             DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
-        appointment.add(_Meeting(
+        appointment.add(
+          _Meeting(
             _subjectCollection[random.nextInt(7)],
             '',
             '',
@@ -113,7 +124,9 @@ class _TimelineViewsCalendarState extends SampleViewState {
             false,
             '',
             '',
-            i == 0 ? 'FREQ=DAILY;INTERVAL=1' : ''));
+            i == 0 ? 'FREQ=DAILY;INTERVAL=1' : '',
+          ),
+        );
       }
     }
 
@@ -151,29 +164,32 @@ class _TimelineViewsCalendarState extends SampleViewState {
     _colorCollection.add(const Color(0xFF0A8043));
   }
 
-  /// Returns the calendar widget based on the properties passed.
+  /// Returns the Calendar widget based on the properties passed.
   SfCalendar _getTimelineViewsCalendar(
       [CalendarController? calendarController,
       CalendarDataSource? calendarDataSource,
       ViewChangedCallback? viewChangedCallback]) {
     return SfCalendar(
-        controller: calendarController,
-        dataSource: calendarDataSource,
-        allowedViews: _allowedViews,
-        showNavigationArrow: model.isWebFullView,
-        showDatePickerButton: true,
-        onViewChanged: viewChangedCallback,
-        blackoutDates: _blackoutDates,
-        blackoutDatesTextStyle: TextStyle(
-            decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
-            color: Colors.red),
-        timeSlotViewSettings: const TimeSlotViewSettings(
-            minimumAppointmentDuration: Duration(minutes: 60)));
+      controller: calendarController,
+      dataSource: calendarDataSource,
+      allowedViews: _allowedViews,
+      showNavigationArrow: model.isWebFullView,
+      showDatePickerButton: true,
+      onViewChanged: viewChangedCallback,
+      blackoutDates: _blackoutDates,
+      blackoutDatesTextStyle: TextStyle(
+        decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
+        color: Colors.red,
+      ),
+      timeSlotViewSettings: const TimeSlotViewSettings(
+        minimumAppointmentDuration: Duration(minutes: 60),
+      ),
+    );
   }
 }
 
 /// An object to set the appointment collection data source to collection, which
-/// used to map the custom appointment data to the calendar appointment, and
+/// used to map the custom appointment data to the Calendar appointment, and
 /// allows to add, remove or reset the appointment collection.
 class _MeetingDataSource extends CalendarDataSource {
   _MeetingDataSource(this.source);
@@ -225,20 +241,21 @@ class _MeetingDataSource extends CalendarDataSource {
 }
 
 /// Custom business object class which contains properties to hold the detailed
-/// information about the event data which will be rendered in calendar.
+/// information about the event data which will be rendered in Calendar.
 class _Meeting {
   _Meeting(
-      this.eventName,
-      this.organizer,
-      this.contactID,
-      this.capacity,
-      this.from,
-      this.to,
-      this.background,
-      this.isAllDay,
-      this.startTimeZone,
-      this.endTimeZone,
-      this.recurrenceRule);
+    this.eventName,
+    this.organizer,
+    this.contactID,
+    this.capacity,
+    this.from,
+    this.to,
+    this.background,
+    this.isAllDay,
+    this.startTimeZone,
+    this.endTimeZone,
+    this.recurrenceRule,
+  );
 
   String eventName;
   String? organizer;

@@ -106,7 +106,6 @@ class _RadialSliderGradientState extends SampleViewState {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  positionFactor: 0.05,
                   angle: 0)
             ]),
       ]),

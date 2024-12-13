@@ -1,14 +1,17 @@
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-///Sample to depict the RTL feature
+/// Renders the column series chart with support
+/// for right-to-left (RTL) layout.
 class RTLModeChart extends DirectionalitySampleView {
-  ///Constructor for RTL chart
+  /// Creates the column series chart with support
+  /// for right-to-left (RTL) layout.
   const RTLModeChart(Key key) : super(key: key);
 
   @override
@@ -17,18 +20,21 @@ class RTLModeChart extends DirectionalitySampleView {
 
 class _RTLModeChartState extends DirectionalitySampleViewState {
   _RTLModeChartState();
+  late bool _isInverseX;
+  late bool _isOpposedPosition;
+  late TooltipBehavior _tooltip;
 
-  List<ChartSampleData>? chartData;
+  List<ChartSampleData>? _chartData;
   String? _title;
-  late bool isInversedX, isOpposedPosition;
-  String? firstSeriesName, secondSeriesName, thirdSeriesName;
-  late TooltipBehavior tooltip;
+  String? _firstSeriesName;
+  String? _secondSeriesName;
+  String? _thirdSeriesName;
 
   @override
   void initState() {
-    tooltip = TooltipBehavior(enable: true);
-    isInversedX = true;
-    isOpposedPosition = true;
+    _tooltip = TooltipBehavior(enable: true);
+    _isInverseX = true;
+    _isOpposedPosition = true;
     super.initState();
   }
 
@@ -41,60 +47,79 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text('Inverse \nx-axis',
-                  softWrap: false,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: model.textColor,
-                  )),
-              SizedBox(
-                  width: 110,
-                  child: CheckboxListTile(
-                      activeColor: model.primaryColor,
-                      value: isInversedX,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          stateSetter(() {
-                            isInversedX = value!;
-                          });
-                        });
-                      })),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Text('Oppose \ny-axis',
-                  softWrap: false,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: model.textColor,
-                  )),
-              const SizedBox(width: 1),
-              SizedBox(
-                  width: 105,
-                  child: CheckboxListTile(
-                      activeColor: model.primaryColor,
-                      value: isOpposedPosition,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          stateSetter(() {
-                            isOpposedPosition = value!;
-                          });
-                        });
-                      }))
-            ],
-          ),
-        ],
-      );
-    });
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Column(
+          children: <Widget>[
+            _buildInverseXAxisSettings(stateSetter),
+            _buildOpposedYAxisSettings(stateSetter),
+          ],
+        );
+      },
+    );
   }
 
-  /// Get the cartesian chart with column series
+  /// Builds the settings for inverse x-axis.
+  Widget _buildInverseXAxisSettings(StateSetter stateSetter) {
+    return Row(
+      children: <Widget>[
+        Text(
+          'Inverse \nx-axis',
+          softWrap: false,
+          style: TextStyle(
+            fontSize: 16,
+            color: model.textColor,
+          ),
+        ),
+        SizedBox(
+          width: 110,
+          child: CheckboxListTile(
+            activeColor: model.primaryColor,
+            value: _isInverseX,
+            onChanged: (bool? value) {
+              setState(() {
+                stateSetter(() {
+                  _isInverseX = value!;
+                });
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Builds the settings for opposed y-axis.
+  Widget _buildOpposedYAxisSettings(StateSetter stateSetter) {
+    return Row(
+      children: <Widget>[
+        Text(
+          'Oppose \ny-axis',
+          softWrap: false,
+          style: TextStyle(
+            fontSize: 16,
+            color: model.textColor,
+          ),
+        ),
+        const SizedBox(width: 1),
+        SizedBox(
+          width: 105,
+          child: CheckboxListTile(
+            activeColor: model.primaryColor,
+            value: _isOpposedPosition,
+            onChanged: (bool? value) {
+              setState(() {
+                stateSetter(() {
+                  _isOpposedPosition = value!;
+                });
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Returns a cartesian column series chart with RTL support.
   Widget _buildDefaultLineChart() {
     return Padding(
       padding:
@@ -106,55 +131,57 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
           isVisible: true,
         ),
         primaryXAxis: CategoryAxis(
-            labelIntersectAction: AxisLabelIntersectAction.multipleRows,
-            isInversed: isInversedX,
-            majorGridLines: const MajorGridLines(width: 0)),
+          labelIntersectAction: AxisLabelIntersectAction.multipleRows,
+          isInversed: _isInverseX,
+          majorGridLines: const MajorGridLines(width: 0),
+        ),
         primaryYAxis: NumericAxis(
-            maximum: 20,
-            interval: 4,
-            axisLine: const AxisLine(width: 0),
-            opposedPosition: isOpposedPosition,
-            majorTickLines: const MajorTickLines(size: 0)),
-        series: _getDefaultColumnSeries(),
-        tooltipBehavior: tooltip,
+          maximum: 20,
+          interval: 4,
+          axisLine: const AxisLine(width: 0),
+          opposedPosition: _isOpposedPosition,
+          majorTickLines: const MajorTickLines(size: 0),
+        ),
+        series: _buildDefaultColumnSeries(),
+        tooltipBehavior: _tooltip,
       ),
     );
   }
 
-  /// The method returns column series
-  List<ColumnSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
+  /// Returns the list of cartesian column series.
+  List<ColumnSeries<ChartSampleData, String>> _buildDefaultColumnSeries() {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          name: firstSeriesName,
-          color: const Color.fromRGBO(251, 193, 55, 1)),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        name: _firstSeriesName,
+        color: const Color.fromRGBO(251, 193, 55, 1),
+      ),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          name: secondSeriesName,
-          color: const Color.fromRGBO(177, 183, 188, 1)),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
+        name: _secondSeriesName,
+        color: const Color.fromRGBO(177, 183, 188, 1),
+      ),
       ColumnSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
-          name: thirdSeriesName,
-          color: const Color.fromRGBO(140, 92, 69, 1))
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.thirdSeriesYValue,
+        name: _thirdSeriesName,
+        color: const Color.fromRGBO(140, 92, 69, 1),
+      )
     ];
   }
 
-  @override
-  void dispose() {
-    chartData!.clear();
-    super.dispose();
-  }
-
-  // Method to update data source, title and name of the series based on the culture
+  /// Method to update data source, title and name of the
+  ///series based on the culture.
   void _onLoadChartDataSource() {
     if (model.locale == const Locale('en', 'US')) {
-      chartData = <ChartSampleData>[
+      _chartData = <ChartSampleData>[
         ChartSampleData(
             x: 'Norway', y: 16, secondSeriesYValue: 8, thirdSeriesYValue: 13),
         ChartSampleData(
@@ -170,11 +197,11 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
             thirdSeriesYValue: 4),
       ];
       _title = 'Winter Olympic medals count - 2022';
-      firstSeriesName = 'Gold';
-      secondSeriesName = 'Silver';
-      thirdSeriesName = 'Bronze';
+      _firstSeriesName = 'Gold';
+      _secondSeriesName = 'Silver';
+      _thirdSeriesName = 'Bronze';
     } else if (model.locale == const Locale('ar', 'AE')) {
-      chartData = <ChartSampleData>[
+      _chartData = <ChartSampleData>[
         ChartSampleData(
             x: 'النرويج', y: 16, secondSeriesYValue: 8, thirdSeriesYValue: 13),
         ChartSampleData(
@@ -190,9 +217,15 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
             x: 'هولندا', y: 8, secondSeriesYValue: 5, thirdSeriesYValue: 4),
       ];
       _title = 'عدد الميداليات الأولمبية الشتوية - 2022';
-      firstSeriesName = 'ذهب';
-      secondSeriesName = 'فضة';
-      thirdSeriesName = 'برونزية';
+      _firstSeriesName = 'ذهب';
+      _secondSeriesName = 'فضة';
+      _thirdSeriesName = 'برونزية';
     }
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }

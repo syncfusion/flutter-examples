@@ -1,26 +1,27 @@
-/// Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the chart with various marker shapes sample.
+/// Renders the column series chart with custom tooltip.
 class TooltipTemplate extends SampleView {
-  /// Creates the chart with various marker shapes sample.
+  /// Creates the column series chart with custom tooltip.
   const TooltipTemplate(Key key) : super(key: key);
 
   @override
   _TooltipTemplateState createState() => _TooltipTemplateState();
 }
 
-/// State class of the chart with various marker shapes.
+/// State class for the cartesian chart with custom tooltip.
 class _TooltipTemplateState extends SampleViewState {
   _TooltipTemplateState();
   late TooltipBehavior _tooltipBehavior;
-  late List<ChartSampleData> chartData;
+  late List<ChartSampleData> _chartData;
+  late LinearGradient _gradient;
 
   @override
   void initState() {
@@ -30,29 +31,50 @@ class _TooltipTemplateState extends SampleViewState {
         builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
             int seriesIndex) {
           return Container(
-              alignment: Alignment.center,
-              height: 40,
-              width: 70,
-              decoration: BoxDecoration(
-                color: Colors.grey[400],
-                borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-              ),
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-                  child: Row(children: <Widget>[
-                    SizedBox(
-                      height: 30,
-                      width: 35,
-                      child: Image.asset(_getImageTemplate(pointIndex)),
-                    ),
-                    Text(
-                      data.y.toString() + '%',
-                      style: const TextStyle(fontSize: 12, color: Colors.black),
-                      textScaler: TextScaler.noScaling,
-                    ),
-                  ])));
+            alignment: Alignment.center,
+            height: 40,
+            width: 70,
+            decoration: BoxDecoration(
+              color: Colors.grey[400],
+              borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+              child: Row(children: <Widget>[
+                SizedBox(
+                  height: 30,
+                  width: 35,
+                  child: Image.asset(_buildImageTemplate(pointIndex)),
+                ),
+                Text(
+                  data.y.toString() + '%',
+                  style: const TextStyle(fontSize: 12, color: Colors.black),
+                  textScaler: TextScaler.noScaling,
+                ),
+              ]),
+            ),
+          );
         });
-    chartData = <ChartSampleData>[
+    _chartData = _buildChartData();
+    _gradient = const LinearGradient(
+      colors: <Color>[
+        Color.fromRGBO(93, 80, 202, 1),
+        Color.fromRGBO(183, 45, 145, 1),
+        Color.fromRGBO(250, 203, 118, 1),
+      ],
+      stops: <double>[
+        0.0,
+        0.5,
+        1.0,
+      ],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+    );
+    super.initState();
+  }
+
+  List<ChartSampleData> _buildChartData() {
+    return [
       ChartSampleData(
         x: 'YouTube',
         y: 51,
@@ -78,7 +100,6 @@ class _TooltipTemplateState extends SampleViewState {
         pointColor: const Color.fromRGBO(47, 107, 167, 1),
       ),
     ];
-    super.initState();
   }
 
   @override
@@ -86,13 +107,7 @@ class _TooltipTemplateState extends SampleViewState {
     return _buildTooltipTemplateChart();
   }
 
-  @override
-  void dispose() {
-    chartData.clear();
-    super.dispose();
-  }
-
-  /// Returns the chart with various marker shapes.
+  /// Returns a cartesian column chart with custom tooltip.
   SfCartesianChart _buildTooltipTemplateChart() {
     return SfCartesianChart(
       title: ChartTitle(
@@ -101,20 +116,22 @@ class _TooltipTemplateState extends SampleViewState {
               : 'Percentage of people using social media on a daily basis'),
       plotAreaBorderWidth: 0,
       primaryXAxis: const CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+        majorGridLines: MajorGridLines(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
       primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          interval: 20,
-          maximum: isCardView ? 120 : 100,
-          majorTickLines: const MajorTickLines(size: 0)),
+        axisLine: const AxisLine(width: 0),
+        interval: 20,
+        maximum: isCardView ? 120 : 100,
+        majorTickLines: const MajorTickLines(size: 0),
+      ),
       tooltipBehavior: _tooltipBehavior,
-      series: _getMarkerSeries(),
+      series: _buildColumnSeries(),
     );
   }
 
 //ignore: unused_element
-  Color? _getTooltipBorderColor(int pointIndex) {
+  Color? _buildTooltipBorderColor(int pointIndex) {
     Color? color;
     if (pointIndex == 0) {
       color = const Color.fromRGBO(192, 33, 39, 1);
@@ -127,36 +144,28 @@ class _TooltipTemplateState extends SampleViewState {
     } else if (pointIndex == 4) {
       color = const Color.fromRGBO(60, 92, 156, 1);
     }
+
     return color;
   }
 
-  /// Returns the list of chart which need to
-  /// render on the chart with Tooltip template.
-  List<ColumnSeries<ChartSampleData, String>> _getMarkerSeries() {
+  /// Returns the list of cartesian column series.
+  List<ColumnSeries<ChartSampleData, String>> _buildColumnSeries() {
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
+        dataSource: _chartData,
+        animationDuration: 0,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        pointColorMapper: (ChartSampleData data, int index) => data.pointColor,
+        gradient: _gradient,
         onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
           return _CustomColumnSeriesRenderer();
         },
-        dataSource: chartData,
-        animationDuration: 0,
-        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
-        pointColorMapper: (ChartSampleData sales, _) => sales.pointColor,
-        gradient: const LinearGradient(colors: <Color>[
-          Color.fromRGBO(93, 80, 202, 1),
-          Color.fromRGBO(183, 45, 145, 1),
-          Color.fromRGBO(250, 203, 118, 1)
-        ], stops: <double>[
-          0.0,
-          0.5,
-          1.0
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
       ),
     ];
   }
 
-  String _getImageTemplate(int pointIndex) {
+  String _buildImageTemplate(int pointIndex) {
     final String path = pointIndex == 0
         ? 'images/youtube.png'
         : (pointIndex == 1
@@ -167,6 +176,12 @@ class _TooltipTemplateState extends SampleViewState {
                     ? 'images/maps_snapchat.png'
                     : 'images/maps_facebook.png')));
     return path;
+  }
+
+  @override
+  void dispose() {
+    _chartData.clear();
+    super.dispose();
   }
 }
 
@@ -195,8 +210,12 @@ class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
       myPaint = Paint()..color = const Color.fromRGBO(60, 92, 156, 1);
     }
     if (segmentRect != null) {
-      final Rect rect = Rect.fromLTRB(segmentRect!.left, segmentRect!.top,
-          segmentRect!.right * animationFactor, segmentRect!.bottom);
+      final Rect rect = Rect.fromLTRB(
+        segmentRect!.left,
+        segmentRect!.top,
+        segmentRect!.right * animationFactor,
+        segmentRect!.bottom,
+      );
       canvas.drawRect(rect, myPaint);
     }
   }

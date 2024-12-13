@@ -1,19 +1,18 @@
-/// Dart imports
+/// Dart imports.
 import 'dart:async';
 import 'dart:math';
 
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the range column chart sample with dynamically updated data points.
+/// Renders the Range Column Chart sample with dynamically updated data points.
 class AnimationRangeColumnDefault extends SampleView {
-  /// Renders the range column chart with dynamically updated data points.
   const AnimationRangeColumnDefault(Key key) : super(key: key);
 
   @override
@@ -23,43 +22,62 @@ class AnimationRangeColumnDefault extends SampleView {
 
 class _AnimationRangeColumnDefaultState extends SampleViewState {
   _AnimationRangeColumnDefaultState();
+
   Timer? _timer;
   List<_ChartData>? _chartData;
 
   @override
   Widget build(BuildContext context) {
-    _getChartData();
+    _buildChartData();
     _timer = Timer(const Duration(seconds: 2), () {
       setState(() {
-        _getChartData();
+        _buildChartData();
       });
     });
-    return _buildAnimationRangeColumnChart();
+    return _buildCartesianChart();
   }
 
-  /// Get range column chart animation.
-  SfCartesianChart _buildAnimationRangeColumnChart() {
+  /// Return the Cartesian Chart with Range Column series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis:
-            const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
-        primaryYAxis: const NumericAxis(
-            majorTickLines: MajorTickLines(color: Colors.transparent),
-            axisLine: AxisLine(width: 0),
-            minimum: 0,
-            maximum: 100),
-        series: _getDefaultRangeColumnSeries());
+      plotAreaBorderWidth: 0,
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      primaryYAxis: const NumericAxis(
+        majorTickLines: MajorTickLines(color: Colors.transparent),
+        axisLine: AxisLine(width: 0),
+        minimum: 0,
+        maximum: 100,
+      ),
+      series: _buildRangeColumnSeries(),
+    );
   }
 
-  /// Get range column series with animation.
-  List<RangeColumnSeries<_ChartData, num>> _getDefaultRangeColumnSeries() {
+  /// Returns the list of Cartesian Range Column series.
+  List<RangeColumnSeries<_ChartData, num>> _buildRangeColumnSeries() {
     return <RangeColumnSeries<_ChartData, num>>[
       RangeColumnSeries<_ChartData, num>(
-          dataSource: _chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          lowValueMapper: (_ChartData sales, _) => sales.y,
-          highValueMapper: (_ChartData sales, _) => sales.z)
+        dataSource: _chartData,
+        xValueMapper: (_ChartData sales, int index) => sales.x,
+        lowValueMapper: (_ChartData sales, int index) => sales.y,
+        highValueMapper: (_ChartData sales, int index) => sales.z,
+      ),
     ];
+  }
+
+  int _buildRandomInt(int min, int max) {
+    final Random random = Random();
+    return min + random.nextInt(max - min);
+  }
+
+  void _buildChartData() {
+    _chartData = <_ChartData>[];
+    for (int i = 1; i <= 7; i++) {
+      _chartData!
+          .add(_ChartData(i, _buildRandomInt(5, 45), _buildRandomInt(46, 95)));
+    }
+    _timer?.cancel();
   }
 
   @override
@@ -67,20 +85,6 @@ class _AnimationRangeColumnDefaultState extends SampleViewState {
     super.dispose();
     _timer?.cancel();
     _chartData!.clear();
-  }
-
-  int _getRandomInt(int min, int max) {
-    final Random random = Random();
-    return min + random.nextInt(max - min);
-  }
-
-  void _getChartData() {
-    _chartData = <_ChartData>[];
-    for (int i = 1; i <= 7; i++) {
-      _chartData!
-          .add(_ChartData(i, _getRandomInt(5, 45), _getRandomInt(46, 95)));
-    }
-    _timer?.cancel();
   }
 }
 

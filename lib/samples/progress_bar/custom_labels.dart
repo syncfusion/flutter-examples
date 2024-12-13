@@ -159,7 +159,6 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  positionFactor: 0.1,
                   angle: 90,
                   widget: Text(
                     _value.toStringAsFixed(0) + ' / 100',
@@ -230,7 +229,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
                   animationType: AnimationType.linear)
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(positionFactor: 0.05, widget: _pauseImage)
+              GaugeAnnotation(widget: _pauseImage)
             ])
       ]),
     );
@@ -263,7 +262,7 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
                   animationType: AnimationType.linear)
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(positionFactor: 0.05, widget: _downloadImage)
+              GaugeAnnotation(widget: _downloadImage)
             ])
       ]),
     );

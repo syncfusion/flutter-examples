@@ -1,33 +1,36 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the stacked bar 100 chart sample.
+/// Renders the stacked bar 100 series chart sample.
 class StackedBar100Chart extends SampleView {
-  /// Creates the stacked bar 100 chart sample.
+  /// Creates the stacked bar 100 series chart sample.
   const StackedBar100Chart(Key key) : super(key: key);
 
   @override
   _StackedBar100ChartState createState() => _StackedBar100ChartState();
 }
 
-/// State class of the stacked bar 100 chart.
+/// State class for the stacked bar 100 series chart.
 class _StackedBar100ChartState extends SampleViewState {
   _StackedBar100ChartState();
 
-  List<_ChartData>? chartData;
-
+  List<_ChartData>? _chartData;
   TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
-    _tooltipBehavior =
-        TooltipBehavior(enable: true, header: '', canShowMarker: false);
-    chartData = <_ChartData>[
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+      header: '',
+      canShowMarker: false,
+    );
+    _chartData = <_ChartData>[
       _ChartData('Jan', 6, 6, 1),
       _ChartData('Feb', 8, 8, 1.5),
       _ChartData('Mar', 12, 11, 2),
@@ -53,39 +56,42 @@ class _StackedBar100ChartState extends SampleViewState {
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: const NumericAxis(
-          rangePadding: ChartRangePadding.none,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getStackedBarSeries(),
+        rangePadding: ChartRangePadding.none,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildStackedBar100Series(),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series
-  /// which need to render on the stacked bar 100 chart.
-  List<CartesianSeries<_ChartData, String>> _getStackedBarSeries() {
+  /// Returns the list of cartesian stacked bar 100 series.
+  List<CartesianSeries<_ChartData, String>> _buildStackedBar100Series() {
     return <CartesianSeries<_ChartData, String>>[
       StackedBar100Series<_ChartData, String>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.apple,
-          name: 'Apple'),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.apple,
+        name: 'Apple',
+      ),
       StackedBar100Series<_ChartData, String>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.orange,
-          name: 'Orange'),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.orange,
+        name: 'Orange',
+      ),
       StackedBar100Series<_ChartData, String>(
-          dataSource: chartData,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.wastage,
-          name: 'Wastage')
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.wastage,
+        name: 'Wastage',
+      )
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

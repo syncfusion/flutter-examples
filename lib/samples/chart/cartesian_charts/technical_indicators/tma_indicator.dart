@@ -1,29 +1,34 @@
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local imports.
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/custom_button.dart';
 import 'indicator_data_source.dart';
 
-/// Renders thec OHLC chart with Triangular moving average indicator sample.
+/// Renders the OHLC series chart with Triangular
+/// moving average indicator sample.
 class TMAIndicator extends SampleView {
-  /// Creates thec OHLC chart with Triangular moving average indicator sample.
+  /// Creates the OHLC series chart with Triangular
+  /// moving average indicator sample.
   const TMAIndicator(Key key) : super(key: key);
 
   @override
   _TMAIndicatorState createState() => _TMAIndicatorState();
 }
 
-/// State class of the OHLC chart with Triangular moving average indicator.
+/// State class for the OHLC series chart with Triangular
+/// moving average indicator.
 class _TMAIndicatorState extends SampleViewState {
   _TMAIndicatorState();
   late double _period;
+
   TrackballBehavior? _trackballBehavior;
+  List<ChartSampleData>? _chartData;
 
   @override
   void initState() {
@@ -34,11 +39,12 @@ class _TMAIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
+    _chartData = getChartData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildDefaulTMAIndicator();
+    return _buildDefaultTMAIndicator();
   }
 
   @override
@@ -66,8 +72,9 @@ class _TMAIndicatorState extends SampleViewState {
     );
   }
 
-  /// Returns the OHLC chart with Triangular moving average indicator.
-  SfCartesianChart _buildDefaulTMAIndicator() {
+  /// Returns a cartesian OHLC series chart with
+  /// Triangular moving average indicator.
+  SfCartesianChart _buildDefaultTMAIndicator() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       legend: Legend(isVisible: !isCardView),
@@ -87,25 +94,36 @@ class _TMAIndicatorState extends SampleViewState {
       ),
       trackballBehavior: _trackballBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
-        /// TMA indicator mentioned here.
+        /// TMA indicator for the 'AAPL' series.
         TmaIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
           period: _period.toInt(),
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <CartesianSeries<ChartSampleData, DateTime>>[
-        HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          dataSource: getChartData(),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          lowValueMapper: (ChartSampleData sales, _) => sales.low,
-          highValueMapper: (ChartSampleData sales, _) => sales.high,
-          openValueMapper: (ChartSampleData sales, _) => sales.open,
-          closeValueMapper: (ChartSampleData sales, _) => sales.close,
-          name: 'AAPL',
-          opacity: 0.7,
-        ),
-      ],
+      series: _buildHiloOpenCloseSeries(),
     );
+  }
+
+  /// Returns the cartesian hilo open close series.
+  List<CartesianSeries<ChartSampleData, DateTime>> _buildHiloOpenCloseSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
+      HiloOpenCloseSeries<ChartSampleData, DateTime>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        lowValueMapper: (ChartSampleData data, int index) => data.low,
+        highValueMapper: (ChartSampleData data, int index) => data.high,
+        openValueMapper: (ChartSampleData data, int index) => data.open,
+        closeValueMapper: (ChartSampleData data, int index) => data.close,
+        name: 'AAPL',
+        opacity: 0.7,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }

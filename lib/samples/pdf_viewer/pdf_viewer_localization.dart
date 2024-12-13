@@ -189,7 +189,7 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
 
   String getBookmarkLocaleString() {
     if (model.locale!.languageCode == 'ar') {
-      return 'المرجعية';
+      return 'إشارة مرجعية';
     } else if (model.locale!.languageCode == 'fr') {
       return 'Signet';
     } else if (model.locale!.languageCode == 'es') {

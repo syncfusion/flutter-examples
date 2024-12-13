@@ -1,29 +1,34 @@
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local imports.
 import '../../../../model/sample_view.dart';
 import '../../../../widgets/custom_button.dart';
 import 'indicator_data_source.dart';
 
-/// Renders the OHLC Ohart with Average true range indicator sample.
+/// Renders the OHLC series chart with Average true
+/// range indicator sample.
 class ATRIndicator extends SampleView {
-  /// Creates the OHLC Ohart with Average true range indicator.
+  /// Creates the OHLC series chart with Average true
+  /// range indicator.
   const ATRIndicator(Key key) : super(key: key);
 
   @override
   _ATRIndicatorState createState() => _ATRIndicatorState();
 }
 
-/// State class of the OHLC Ohart with Average true range indicator.
+/// State class for the OHLC series chart with Average true
+/// range indicator.
 class _ATRIndicatorState extends SampleViewState {
   _ATRIndicatorState();
   late double _period;
+
   TrackballBehavior? _trackballBehavior;
+  List<ChartSampleData>? _chartData;
 
   @override
   void initState() {
@@ -34,6 +39,7 @@ class _ATRIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
+    _chartData = getChartData();
   }
 
   @override
@@ -66,7 +72,7 @@ class _ATRIndicatorState extends SampleViewState {
     );
   }
 
-  /// Returns the OHLC Ohart with Average true range indicator.
+  /// Returns a cartesian OHLC chart with Average true range indicator.
   SfCartesianChart _buildDefaultATRIndicator() {
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
@@ -98,7 +104,7 @@ class _ATRIndicatorState extends SampleViewState {
       ],
       trackballBehavior: _trackballBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
-        /// ATR indicator mentioned here.
+        /// Average true range indicator for the 'AAPL' series.
         AtrIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
           yAxisName: 'yAxis',
@@ -106,18 +112,30 @@ class _ATRIndicatorState extends SampleViewState {
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <CartesianSeries<ChartSampleData, DateTime>>[
-        HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          dataSource: getChartData(),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          lowValueMapper: (ChartSampleData sales, _) => sales.low,
-          highValueMapper: (ChartSampleData sales, _) => sales.high,
-          openValueMapper: (ChartSampleData sales, _) => sales.open,
-          closeValueMapper: (ChartSampleData sales, _) => sales.close,
-          name: 'AAPL',
-          opacity: 0.7,
-        )
-      ],
+      series: _buildHiloOpenCloseSeries(),
     );
+  }
+
+  /// Returns the cartesian hilo open close series.
+  List<CartesianSeries<ChartSampleData, DateTime>> _buildHiloOpenCloseSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
+      HiloOpenCloseSeries<ChartSampleData, DateTime>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        lowValueMapper: (ChartSampleData data, int index) => data.low,
+        highValueMapper: (ChartSampleData data, int index) => data.high,
+        openValueMapper: (ChartSampleData data, int index) => data.open,
+        closeValueMapper: (ChartSampleData data, int index) => data.close,
+        volumeValueMapper: (ChartSampleData data, int index) => data.volume,
+        name: 'AAPL',
+        opacity: 0.7,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }

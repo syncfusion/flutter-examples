@@ -1,32 +1,36 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the stacked bar chart sample.
+/// Renders the stacked bar chart series sample.
 class StackedBarChart extends SampleView {
-  /// Creates the stacked bar chart sample.
+  /// Creates the stacked bar chart series sample.
   const StackedBarChart(Key key) : super(key: key);
 
   @override
   _StackedBarChartState createState() => _StackedBarChartState();
 }
 
-/// State class of the stacked bar chart.
+/// State class for the stacked bar series chart.
 class _StackedBarChartState extends SampleViewState {
   _StackedBarChartState();
-  List<ChartSampleData>? chartData;
 
+  List<ChartSampleData>? _chartData;
   TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
-    _tooltipBehavior =
-        TooltipBehavior(enable: true, header: '', canShowMarker: false);
-    chartData = <ChartSampleData>[
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+      header: '',
+      canShowMarker: false,
+    );
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 'Jan', y: 6, yValue: 6, secondSeriesYValue: -1),
       ChartSampleData(x: 'Feb', y: 8, yValue: 8, secondSeriesYValue: -1.5),
       ChartSampleData(x: 'Mar', y: 12, yValue: 11, secondSeriesYValue: -2),
@@ -42,7 +46,7 @@ class _StackedBarChartState extends SampleViewState {
     return _buildStackedBarChart();
   }
 
-  /// Reutrns the cartesian stacked bar chart.
+  /// Returns the cartesian stacked bar chart.
   SfCartesianChart _buildStackedBarChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 1,
@@ -52,39 +56,43 @@ class _StackedBarChartState extends SampleViewState {
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: const NumericAxis(
-          axisLine: AxisLine(width: 0),
-          labelFormat: '{value}%',
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getStackedBarSeries(),
+        axisLine: AxisLine(width: 0),
+        labelFormat: '{value}%',
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildStackedBarSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series which need to render
-  /// on the stacked bar chart.
-  List<StackedBarSeries<ChartSampleData, String>> _getStackedBarSeries() {
+  /// Returns the list of cartesian stacked bar series.
+  List<StackedBarSeries<ChartSampleData, String>> _buildStackedBarSeries() {
     return <StackedBarSeries<ChartSampleData, String>>[
       StackedBarSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          name: 'Apple'),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        name: 'Apple',
+      ),
       StackedBarSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          name: 'Orange'),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.yValue,
+        name: 'Orange',
+      ),
       StackedBarSeries<ChartSampleData, String>(
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-          name: 'Wastage')
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
+        name: 'Wastage',
+      )
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

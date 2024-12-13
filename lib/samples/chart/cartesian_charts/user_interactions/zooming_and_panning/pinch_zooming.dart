@@ -1,158 +1,52 @@
-// import 'dart:async';
-
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the chart with pinch zooming sample.
+/// Renders the area series chart with pinch zooming sample.
 class DefaultPanning extends SampleView {
-  /// Creates the chart with pinch zooming.
+  /// Creates the area series chart with pinch zooming.
   const DefaultPanning(Key key) : super(key: key);
 
   @override
   _DefaultPanningState createState() => _DefaultPanningState();
 }
 
-/// State class of the chart with pinch zooming.
+/// State class for the area series chart with pinch zooming.
 class _DefaultPanningState extends SampleViewState {
   _DefaultPanningState();
   late List<String> _zoomModeTypeList;
   late String _selectedModeType;
   late ZoomMode _zoomModeType;
   late bool _enableAnchor;
-  late GlobalKey<State> chartKey;
-  late num left, top;
-  late List<ChartSampleData> randomData;
+  late GlobalKey<State> _chartKey;
+  late List<ChartSampleData> _chartData;
+  late LinearGradient _gradient;
+
   @override
   void initState() {
     _zoomModeTypeList = <String>['x', 'y', 'xy'].toList();
     _selectedModeType = 'x';
     _zoomModeType = ZoomMode.x;
-    chartKey = GlobalKey<State>();
+    _chartKey = GlobalKey<State>();
     _enableAnchor = true;
-    left = 0;
-    top = 0;
-    getDateTimeData();
+    _gradient = LinearGradient(
+      colors: <Color>[Colors.teal[50]!, Colors.teal[200]!, Colors.teal],
+      stops: const <double>[0.0, 0.4, 1.0],
+      begin: Alignment.bottomCenter,
+      end: Alignment.topCenter,
+    );
+    _buildChartData();
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      _buildDefaultPanningChart(),
-    ]);
-  }
-
-  @override
-  Widget buildSettings(BuildContext context) {
-    return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text('Zoom mode ',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 16,
-                  )),
-              Container(
-                padding: const EdgeInsets.fromLTRB(70, 0, 40, 0),
-                height: 50,
-                child: DropdownButton<String>(
-                    dropdownColor: model.drawerBackgroundColor,
-                    focusColor: Colors.transparent,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _selectedModeType,
-                    items: _zoomModeTypeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'x',
-                          child: Text(value,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (String? value) {
-                      _onZoomTypeChange(value.toString());
-                      stateSetter(() {});
-                    }),
-              ),
-            ],
-          ),
-          Visibility(
-            visible: _selectedModeType == 'x' ? true : false,
-            child: Row(
-              children: <Widget>[
-                Text('Anchor range to \nvisible points',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
-                SizedBox(
-                    width: 90,
-                    child: CheckboxListTile(
-                        activeColor: model.primaryColor,
-                        value: _enableAnchor,
-                        onChanged: (bool? value) {
-                          stateSetter(() {
-                            _enableRangeCalculation(value!);
-                            _enableAnchor = value;
-                            stateSetter(() {});
-                          });
-                        })),
-              ],
-            ),
-          ),
-        ],
-      );
-    });
-  }
-
-  /// Returns the cartesian chart with pinch zoomings.
-  SfCartesianChart _buildDefaultPanningChart() {
-    return SfCartesianChart(
-        key: chartKey,
-        plotAreaBorderWidth: 0,
-        primaryXAxis: const DateTimeAxis(
-            name: 'X-Axis', majorGridLines: MajorGridLines(width: 0)),
-        primaryYAxis: NumericAxis(
-            axisLine: const AxisLine(width: 0),
-            anchorRangeToVisiblePoints: _enableAnchor,
-            majorTickLines: const MajorTickLines(size: 0)),
-        series: getDefaultPanningSeries(),
-        zoomPanBehavior: ZoomPanBehavior(
-
-            /// To enable the pinch zooming as true.
-            enablePinching: true,
-            zoomMode: _zoomModeType,
-            enablePanning: true,
-            enableMouseWheelZooming: model.isWebFullView ? true : false));
-  }
-
-  /// Returns the list of chart series
-  /// which need to render on the chart with pinch zooming.
-  List<AreaSeries<ChartSampleData, DateTime>> getDefaultPanningSeries() {
-    return <AreaSeries<ChartSampleData, DateTime>>[
-      AreaSeries<ChartSampleData, DateTime>(
-          dataSource: randomData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          gradient: LinearGradient(
-              colors: <Color>[Colors.teal[50]!, Colors.teal[200]!, Colors.teal],
-              stops: const <double>[0.0, 0.4, 1.0],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter))
-    ];
-  }
-
   /// Method to get chart data points.
-  void getDateTimeData() {
-    randomData = <ChartSampleData>[
+  void _buildChartData() {
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: DateTime(1950, 3, 31), y: 80.7),
       ChartSampleData(x: DateTime(1950, 5), y: 80.2),
       ChartSampleData(x: DateTime(1950, 6, 2), y: 79.3),
@@ -482,8 +376,141 @@ class _DefaultPanningState extends SampleViewState {
     ];
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        _buildDefaultPanningChart(),
+      ],
+    );
+  }
+
+  @override
+  Widget buildSettings(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            _buildZoomModeDropdown(stateSetter),
+            _buildAnchorRangeCheckbox(stateSetter),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildZoomModeDropdown(StateSetter stateSetter) {
+    return Row(
+      children: <Widget>[
+        Text(
+          'Zoom mode ',
+          style: TextStyle(
+            color: model.textColor,
+            fontSize: 16,
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.fromLTRB(70, 0, 40, 0),
+          height: 50,
+          child: DropdownButton<String>(
+            dropdownColor: model.drawerBackgroundColor,
+            focusColor: Colors.transparent,
+            underline: Container(
+              color: const Color(0xFFBDBDBD),
+              height: 1,
+            ),
+            value: _selectedModeType,
+            items: _zoomModeTypeList.map(
+              (String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : 'x',
+                  child: Text(
+                    value,
+                    style: TextStyle(color: model.textColor),
+                  ),
+                );
+              },
+            ).toList(),
+            onChanged: (String? value) {
+              _updateZoomMode(value.toString());
+              stateSetter(() {});
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAnchorRangeCheckbox(StateSetter stateSetter) {
+    return Visibility(
+      visible: _selectedModeType == 'x' ? true : false,
+      child: Row(
+        children: <Widget>[
+          Text(
+            'Anchor range to \nvisible points',
+            style: TextStyle(
+              color: model.textColor,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(
+            width: 90,
+            child: CheckboxListTile(
+              activeColor: model.primaryColor,
+              value: _enableAnchor,
+              onChanged: (bool? value) {
+                stateSetter(() {
+                  _enableRangeCalculation(value!);
+                  _enableAnchor = value;
+                  stateSetter(() {});
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Returns a cartesian area chart with pinch zooming.
+  SfCartesianChart _buildDefaultPanningChart() {
+    return SfCartesianChart(
+      key: _chartKey,
+      plotAreaBorderWidth: 0,
+      primaryXAxis: const DateTimeAxis(
+        name: 'X-Axis',
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      primaryYAxis: NumericAxis(
+        axisLine: const AxisLine(width: 0),
+        anchorRangeToVisiblePoints: _enableAnchor,
+        majorTickLines: const MajorTickLines(size: 0),
+      ),
+      series: _buildAreaSeries(),
+      zoomPanBehavior: ZoomPanBehavior(
+        enablePinching: true,
+        zoomMode: _zoomModeType,
+        enablePanning: true,
+        enableMouseWheelZooming: model.isWebFullView ? true : false,
+      ),
+    );
+  }
+
+  /// Returns the list of cartesian area series.
+  List<AreaSeries<ChartSampleData, DateTime>> _buildAreaSeries() {
+    return <AreaSeries<ChartSampleData, DateTime>>[
+      AreaSeries<ChartSampleData, DateTime>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        gradient: _gradient,
+      )
+    ];
+  }
+
   /// Method to update the selected zoom type in the chart on change.
-  void _onZoomTypeChange(String item) {
+  void _updateZoomMode(String item) {
     _selectedModeType = item;
     if (_selectedModeType == 'x') {
       _zoomModeType = ZoomMode.x;
@@ -495,12 +522,18 @@ class _DefaultPanningState extends SampleViewState {
       _zoomModeType = ZoomMode.xy;
     }
     setState(() {
-      /// update the zoom mode changes
+      /// Update the zoom mode changes.
     });
   }
 
   void _enableRangeCalculation(bool enableZoom) {
     _enableAnchor = enableZoom;
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _chartData.clear();
+    super.dispose();
   }
 }

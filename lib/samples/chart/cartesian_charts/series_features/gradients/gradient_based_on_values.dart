@@ -1,94 +1,118 @@
-/// Package import
+/// Package import.
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-///Renders default line series chart
+/// Renders the default column series chart
+/// filled with a gradient.
 class GradientComparison extends SampleView {
-  ///Creates default line series chart
+  /// Creates the default column series chart
+  /// filled with a gradient.
   const GradientComparison(Key key) : super(key: key);
 
   @override
   _GradientComparisonState createState() => _GradientComparisonState();
 }
 
+/// State class for the default column series chart
+/// filled with a gradient.
 class _GradientComparisonState extends SampleViewState {
   _GradientComparisonState();
 
+  List<_ChartSampleData>? _chartData;
+
   TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(enable: true, canShowMarker: false);
+    _tooltipBehavior = TooltipBehavior(
+      enable: true,
+      canShowMarker: false,
+    );
+    _chartData = <_ChartSampleData>[
+      _ChartSampleData('Jan', 4.3),
+      _ChartSampleData('Feb', 5.2),
+      _ChartSampleData('Mar', 6.7),
+      _ChartSampleData('Apr', 9.4),
+      _ChartSampleData('May', 12.7),
+      _ChartSampleData('Jun', 15.7),
+      _ChartSampleData('Jul', 17.8),
+      _ChartSampleData('Aug', 17),
+      _ChartSampleData('Sep', 15),
+      _ChartSampleData('Oct', 11.8),
+      _ChartSampleData('Nov', 7.8),
+      _ChartSampleData('Dec', 5.3),
+    ];
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildGradientComparisonChart();
+    return _buildGradientChart();
   }
 
-  /// Get the cartesian chart with default line series
-  SfCartesianChart _buildGradientComparisonChart() {
+  /// Returns a cartesian column chart filled with a gradient.
+  SfCartesianChart _buildGradientChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-          text: isCardView ? '' : 'Average monthly temperature of London'),
-      primaryXAxis:
-          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          labelFormat: '{value}°C',
-          minimum: 0,
-          maximum: 25,
-          interval: model.isWeb ? 5 : 10,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent)),
+        text: isCardView ? '' : 'Average monthly temperature of London',
+      ),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      primaryYAxis: const NumericAxis(
+        labelFormat: '{value}°C',
+        minimum: 0,
+        maximum: 25,
+        interval: 5,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(color: Colors.transparent),
+      ),
       tooltipBehavior: _tooltipBehavior,
-      series: _getGradientComparisonSeries(),
+      series: _buildColumnSeries(),
     );
   }
 
-  /// The method returns line series to chart.
-  List<CartesianSeries<_ChartData, String>> _getGradientComparisonSeries() {
-    return <CartesianSeries<_ChartData, String>>[
-      ColumnSeries<_ChartData, String>(
-        dataSource: <_ChartData>[
-          _ChartData('Jan', 4.3),
-          _ChartData('Feb', 5.2),
-          _ChartData('Mar', 6.7),
-          _ChartData('Apr', 9.4),
-          _ChartData('May', 12.7),
-          _ChartData('Jun', 15.7),
-          _ChartData('Jul', 17.8),
-          _ChartData('Aug', 17),
-          _ChartData('Sep', 15),
-          _ChartData('Oct', 11.8),
-          _ChartData('Nov', 7.8),
-          _ChartData('Dec', 5.3),
-        ],
+  /// Returns the cartesian column series.
+  List<CartesianSeries<_ChartSampleData, String>> _buildColumnSeries() {
+    return <CartesianSeries<_ChartSampleData, String>>[
+      ColumnSeries<_ChartSampleData, String>(
+        dataSource: _chartData,
+        xValueMapper: (_ChartSampleData data, int index) => data.x,
+        yValueMapper: (_ChartSampleData data, int index) => data.y,
+        name: 'London',
         onCreateShader: (ShaderDetails details) {
           return ui.Gradient.linear(
-              details.rect.topCenter,
-              details.rect.bottomCenter,
-              const <Color>[Colors.red, Colors.orange, Colors.yellow],
-              <double>[0.3, 0.6, 0.9]);
+            details.rect.topCenter,
+            details.rect.bottomCenter,
+            const <Color>[Colors.red, Colors.orange, Colors.yellow],
+            <double>[0.3, 0.6, 0.9],
+          );
         },
-        name: 'London',
-        xValueMapper: (_ChartData sales, _) => sales.x,
-        yValueMapper: (_ChartData sales, _) => sales.y,
         dataLabelSettings: DataLabelSettings(
-            isVisible: !isCardView, offset: const Offset(0, -5)),
+          isVisible: !isCardView,
+          offset: const Offset(0, -5),
+        ),
       ),
     ];
   }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
+  }
 }
 
-class _ChartData {
-  _ChartData(this.x, this.y);
+class _ChartSampleData {
+  _ChartSampleData(this.x, this.y);
   final String x;
   final double y;
 }

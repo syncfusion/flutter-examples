@@ -655,15 +655,13 @@ List<ChatMessageExt> chatCustomizationData({bool customTime = false}) {
   ];
 }
 
-Future<void> launchURL() async {
+Future<void> launchURL() {
   final Uri uri = Uri(
     scheme: 'https',
     host: 'docs.flutter.dev',
     path: 'get-started/install/windows',
   );
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri);
-  }
+  return launchUrl(uri);
 }
 
 class ChatMessageExt extends ChatMessage {

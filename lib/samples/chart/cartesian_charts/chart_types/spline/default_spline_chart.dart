@@ -1,28 +1,30 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the defaul spline chart sample.
+/// Renders the default Spline Chart sample.
 class SplineDefault extends SampleView {
-  /// Creates the defaul spline chart Series.
   const SplineDefault(Key key) : super(key: key);
 
   @override
   _SplineDefaultState createState() => _SplineDefaultState();
 }
 
-/// State class of the default spline chart.
+/// State class of the default Spline Chart.
 class _SplineDefaultState extends SampleViewState {
   _SplineDefaultState();
 
+  List<ChartSampleData>? _chartData;
+  TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(
           x: 'Jan', y: 43, secondSeriesYValue: 37, thirdSeriesYValue: 41),
       ChartSampleData(
@@ -46,63 +48,66 @@ class _SplineDefaultState extends SampleViewState {
       ChartSampleData(
           x: 'Nov', y: 50, secondSeriesYValue: 43, thirdSeriesYValue: 50),
       ChartSampleData(
-          x: 'Dec', y: 45, secondSeriesYValue: 37, thirdSeriesYValue: 45)
+          x: 'Dec', y: 45, secondSeriesYValue: 37, thirdSeriesYValue: 45),
     ];
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildDefaultSplineChart();
+    return _buildCartesianChart();
   }
 
-  List<ChartSampleData>? chartData;
-
-  /// Returns the defaul spline chart.
-  SfCartesianChart _buildDefaultSplineChart() {
+  /// Return the Cartesian Chart with Spline series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-          text: isCardView ? '' : 'Average high/low temperature of London'),
-      legend: Legend(isVisible: !isCardView),
+        text: isCardView ? '' : 'Average high/low temperature of London',
+      ),
       primaryXAxis: const CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          labelPlacement: LabelPlacement.onTicks),
+        majorGridLines: MajorGridLines(width: 0),
+        labelPlacement: LabelPlacement.onTicks,
+      ),
       primaryYAxis: const NumericAxis(
-          minimum: 30,
-          maximum: 80,
-          axisLine: AxisLine(width: 0),
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          labelFormat: '{value}°F',
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getDefaultSplineSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+        minimum: 30,
+        maximum: 80,
+        axisLine: AxisLine(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        labelFormat: '{value}°F',
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildSplineSeries(),
+      legend: Legend(isVisible: !isCardView),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series which need to render on the spline chart.
-  List<SplineSeries<ChartSampleData, String>> _getDefaultSplineSeries() {
+  /// Returns the list of Cartesian Spline series.
+  List<SplineSeries<ChartSampleData, String>> _buildSplineSeries() {
     return <SplineSeries<ChartSampleData, String>>[
       SplineSeries<ChartSampleData, String>(
-        dataSource: chartData,
-        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) => sales.y,
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'High',
       ),
       SplineSeries<ChartSampleData, String>(
-        dataSource: chartData,
-        name: 'Low',
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData sales, int index) => sales.x,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         markerSettings: const MarkerSettings(isVisible: true),
-        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-        yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-      )
+        name: 'Low',
+      ),
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

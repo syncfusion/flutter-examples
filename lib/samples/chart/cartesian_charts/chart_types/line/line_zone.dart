@@ -1,18 +1,17 @@
-/// Package import
+/// Package imports.
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-///Renders default line series chart
+/// Renders default Line series Chart.
 class LineZone extends SampleView {
-  ///Creates default line series chart
   const LineZone(Key key) : super(key: key);
 
   @override
@@ -22,10 +21,12 @@ class LineZone extends SampleView {
 class _LineZoneState extends SampleViewState {
   _LineZoneState();
 
+  List<double>? _yValues;
   TrackballBehavior? _trackballBehavior;
+
   @override
   void initState() {
-    yValues = <double>[
+    _yValues = <double>[
       30.87,
       31.25,
       28.31,
@@ -97,15 +98,13 @@ class _LineZoneState extends SampleViewState {
     super.initState();
   }
 
-  List<double>? yValues;
-
   @override
   Widget build(BuildContext context) {
-    return _buildLineZoneChart(context);
+    return _buildCartesianChart(context);
   }
 
-  /// Get the cartesian chart with default line series
-  SfCartesianChart _buildLineZoneChart(BuildContext context) {
+  /// Return the Cartesian Chart with Line series.
+  SfCartesianChart _buildCartesianChart(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
     final double containerWidth = kIsWeb
         ? 80
@@ -122,109 +121,141 @@ class _LineZoneState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-          text: isCardView ? '' : 'Average annual rainfall of United Kingdom'),
+        text: isCardView ? '' : 'Average annual rainfall of United Kingdom',
+      ),
       primaryXAxis: DateTimeAxis(
-          edgeLabelPlacement: model.isWebFullView
-              ? EdgeLabelPlacement.shift
-              : EdgeLabelPlacement.none,
-          intervalType: DateTimeIntervalType.years,
-          dateFormat: DateFormat.y(),
-          interval: kIsWeb ? 5 : 10,
-          majorGridLines: const MajorGridLines(width: 0)),
+        edgeLabelPlacement: model.isWebFullView
+            ? EdgeLabelPlacement.shift
+            : EdgeLabelPlacement.none,
+        intervalType: DateTimeIntervalType.years,
+        dateFormat: DateFormat.y(),
+        interval: kIsWeb ? 5 : 10,
+        majorGridLines: const MajorGridLines(width: 0),
+      ),
       primaryYAxis: const NumericAxis(
-          labelFormat: '{value}mm',
-          minimum: 24,
-          maximum: 36,
-          interval: 2,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(color: Colors.transparent)),
-      series: _getLineZoneSeries(),
+        labelFormat: '{value}mm',
+        minimum: 24,
+        maximum: 36,
+        interval: 2,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(color: Colors.transparent),
+      ),
+      series: _buildLineSeries(),
       trackballBehavior: _trackballBehavior,
       onTrackballPositionChanging: (TrackballArgs args) {
         args.chartPointInfo.label =
             args.chartPointInfo.header! + ' : ' + args.chartPointInfo.label!;
       },
 
-      /// To set the annotation content for chart.
+      /// To set the annotation content for Chart.
       annotations: <CartesianChartAnnotation>[
         CartesianChartAnnotation(
-            widget: SizedBox(
-                height: containerHeight,
-                width: containerWidth,
-                child: Column(
-                  // ignore: prefer_const_literals_to_create_immutables
+          widget: SizedBox(
+            height: containerHeight,
+            width: containerWidth,
+            child: Column(
+              // ignore: prefer_const_literals_to_create_immutables
+              children: <Widget>[
+                Row(
                   children: <Widget>[
-                    Row(children: <Widget>[
-                      Icon(Icons.circle,
-                          color: const Color.fromRGBO(4, 8, 195, 1),
-                          size: size),
-                      Text(' High', style: TextStyle(fontSize: fontSize)),
-                    ]),
-                    Row(children: <Widget>[
-                      Icon(Icons.circle,
-                          color: const Color.fromRGBO(26, 112, 23, 1),
-                          size: size),
-                      Text(' Medium', style: TextStyle(fontSize: fontSize))
-                    ]),
-                    Row(children: <Widget>[
-                      Icon(Icons.circle,
-                          color: const Color.fromRGBO(229, 11, 10, 1),
-                          size: size),
-                      Text(' Low', style: TextStyle(fontSize: fontSize))
-                    ]),
+                    Icon(Icons.circle,
+                        color: const Color.fromRGBO(4, 8, 195, 1), size: size),
+                    Text(
+                      ' High',
+                      style: TextStyle(fontSize: fontSize),
+                    ),
                   ],
-                )),
-            coordinateUnit: CoordinateUnit.percentage,
-            x: kIsWeb ? '95%' : '85%',
-            y: kIsWeb
-                ? '19%'
-                : orientation == Orientation.portrait
-                    ? '14%'
-                    : '17%')
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.circle,
+                      color: const Color.fromRGBO(26, 112, 23, 1),
+                      size: size,
+                    ),
+                    Text(
+                      ' Medium',
+                      style: TextStyle(fontSize: fontSize),
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.circle,
+                      color: const Color.fromRGBO(229, 11, 10, 1),
+                      size: size,
+                    ),
+                    Text(
+                      ' Low',
+                      style: TextStyle(fontSize: fontSize),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          coordinateUnit: CoordinateUnit.percentage,
+          x: kIsWeb ? '95%' : '85%',
+          y: kIsWeb
+              ? '19%'
+              : orientation == Orientation.portrait
+                  ? '14%'
+                  : '17%',
+        ),
       ],
     );
   }
 
-  /// The method returns line series to chart.
-  List<CartesianSeries<_ChartData, DateTime>> _getLineZoneSeries() {
+  /// Returns the list of Cartesian Line series.
+  List<CartesianSeries<_ChartData, DateTime>> _buildLineSeries() {
     return <CartesianSeries<_ChartData, DateTime>>[
       LineSeries<_ChartData, DateTime>(
-        dataSource: getData(),
+        dataSource: _createChartData(),
+        xValueMapper: (_ChartData sales, int index) => sales.x,
+        yValueMapper: (_ChartData sales, int index) => sales.y,
         onCreateShader: (ShaderDetails details) {
           return ui.Gradient.linear(
-              details.rect.topCenter, details.rect.bottomCenter, <Color>[
-            const Color.fromRGBO(4, 8, 195, 1),
-            const Color.fromRGBO(4, 8, 195, 1),
-            const Color.fromRGBO(26, 112, 23, 1),
-            const Color.fromRGBO(26, 112, 23, 1),
-            const Color.fromRGBO(229, 11, 10, 1),
-            const Color.fromRGBO(229, 11, 10, 1),
-          ], <double>[
-            0,
-            0.333333,
-            0.333333,
-            0.666666,
-            0.666666,
-            0.999999,
-          ]);
+            details.rect.topCenter,
+            details.rect.bottomCenter,
+            <Color>[
+              const Color.fromRGBO(4, 8, 195, 1),
+              const Color.fromRGBO(4, 8, 195, 1),
+              const Color.fromRGBO(26, 112, 23, 1),
+              const Color.fromRGBO(26, 112, 23, 1),
+              const Color.fromRGBO(229, 11, 10, 1),
+              const Color.fromRGBO(229, 11, 10, 1),
+            ],
+            <double>[
+              0,
+              0.333333,
+              0.333333,
+              0.666666,
+              0.666666,
+              0.999999,
+            ],
+          );
         },
-        xValueMapper: (_ChartData sales, _) => sales.x,
-        yValueMapper: (_ChartData sales, _) => sales.y,
       ),
     ];
   }
 
-  List<_ChartData> getData() {
+  List<_ChartData> _createChartData() {
     final List<_ChartData> data = <_ChartData>[];
-    for (int i = 0; i < yValues!.length; i++) {
-      data.add(_ChartData(DateTime(i + 1950), yValues![i]));
+    for (int i = 0; i < _yValues!.length; i++) {
+      data.add(
+        _ChartData(
+          DateTime(i + 1950),
+          _yValues![i],
+        ),
+      );
     }
     return data;
   }
 
   @override
   void dispose() {
-    yValues!.clear();
+    _yValues!.clear();
     super.dispose();
   }
 }

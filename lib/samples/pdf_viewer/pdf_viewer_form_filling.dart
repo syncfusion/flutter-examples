@@ -10,7 +10,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../model/sample_view.dart';
 
 import '../pdf/helper/save_file_mobile.dart'
-    if (dart.library.html) '../pdf/helper/save_file_web.dart';
+    if (dart.library.js_interop) '../pdf/helper/save_file_web.dart';
 
 /// Form filling.
 class FormFillingPdfViewer extends SampleView {
@@ -103,6 +103,7 @@ class _FormFillingPdfViewerState extends SampleViewState {
                           builder: (BuildContext context,
                               UndoHistoryValue value, Widget? child) {
                             return MaterialButton(
+                              padding: EdgeInsets.zero,
                               elevation: 0,
                               focusElevation: 0,
                               hoverElevation: 0,
@@ -160,6 +161,7 @@ class _FormFillingPdfViewerState extends SampleViewState {
                           builder: (BuildContext context,
                               UndoHistoryValue value, Widget? child) {
                             return MaterialButton(
+                              padding: EdgeInsets.zero,
                               onPressed: value.canRedo
                                   ? _undoHistoryController.redo
                                   : null,
@@ -217,6 +219,7 @@ class _FormFillingPdfViewerState extends SampleViewState {
                         height: _useMaterial3 ? 48 : null,
                         message: 'Save Document',
                         child: MaterialButton(
+                            padding: EdgeInsets.zero,
                             elevation: 0,
                             focusElevation: 0,
                             hoverElevation: 0,
@@ -385,6 +388,9 @@ class _FormFillingPdfViewerState extends SampleViewState {
       try {
         await file.writeAsBytes(dataBytes);
         _showDialog('Document saved', message + path + r'\' + fileName);
+      } on PathAccessException catch (e) {
+        _showDialog(
+            'Error', e.osError?.message ?? 'Error in saving the document');
       } catch (e) {
         _showDialog('Error', 'Error in saving the document');
       }

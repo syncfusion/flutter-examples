@@ -1,19 +1,19 @@
-///Dart imports
+/// Dart import.
 import 'dart:math';
 
-///Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Widget of getting started calendar
+/// Widget of getting started Calendar.
 class ResizingCalendar extends SampleView {
-  /// Creates default getting started calendar
+  /// Creates default getting started Calendar.
   const ResizingCalendar(Key key) : super(key: key);
 
   @override
@@ -25,7 +25,6 @@ class _ResizingCalendarState extends SampleViewState {
 
   _DataSource _events = _DataSource(<Appointment>[]);
   late CalendarView _currentView;
-
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.day,
     CalendarView.week,
@@ -37,8 +36,8 @@ class _ResizingCalendarState extends SampleViewState {
     CalendarView.timelineMonth,
   ];
 
-  /// Global key used to maintain the state, when we change the parent of the
-  /// widget
+  /// Global key used to maintain the state,
+  /// when we change the parent of the widget.
   final GlobalKey _globalKey = GlobalKey();
   final ScrollController _controller = ScrollController();
   final CalendarController _calendarController = CalendarController();
@@ -54,39 +53,49 @@ class _ResizingCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final Widget calendar = Theme(
-
-        /// The key set here to maintain the state,
-        ///  when we change the parent of the widget
-        key: _globalKey,
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child:
-            _getResizingCalendar(_calendarController, _events, _onViewChanged));
+      /// The key set here to maintain the state,
+      ///  when we change the parent of the widget.
+      key: _globalKey,
+      data: model.themeData.copyWith(
+        colorScheme:
+            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+      ),
+      child: _getResizingCalendar(
+        _calendarController,
+        _events,
+        _onViewChanged,
+      ),
+    );
 
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Row(children: <Widget>[
-        Expanded(
-          child: _calendarController.view == CalendarView.month &&
-                  model.isWebFullView &&
-                  screenHeight < 800
-              ? Scrollbar(
-                  thumbVisibility: true,
-                  controller: _controller,
-                  child: ListView(
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child: _calendarController.view == CalendarView.month &&
+                    model.isWebFullView &&
+                    screenHeight < 800
+                ? Scrollbar(
+                    thumbVisibility: true,
                     controller: _controller,
-                    children: <Widget>[
-                      Container(
-                        color: model.sampleOutputCardColor,
-                        height: 600,
-                        child: calendar,
-                      )
-                    ],
-                  ))
-              : Container(color: model.sampleOutputCardColor, child: calendar),
-        )
-      ]),
+                    child: ListView(
+                      controller: _controller,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -99,7 +108,6 @@ class _ResizingCalendarState extends SampleViewState {
       _currentView = _calendarController.view!;
       return;
     }
-
     _currentView = _calendarController.view!;
     SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
@@ -148,31 +156,37 @@ class _ResizingCalendarState extends SampleViewState {
       for (int j = 0; j < count; j++) {
         final DateTime startDate =
             DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
-        appointments.add(Appointment(
-          subject: subjectCollection[random.nextInt(7)],
-          startTime: startDate,
-          endTime: startDate.add(Duration(hours: 1 + random.nextInt(3))),
-          color: colorCollection[random.nextInt(9)],
-        ));
+        appointments.add(
+          Appointment(
+            subject: subjectCollection[random.nextInt(7)],
+            startTime: startDate,
+            endTime: startDate.add(Duration(hours: 1 + random.nextInt(3))),
+            color: colorCollection[random.nextInt(9)],
+          ),
+        );
       }
     }
 
     today = DateTime(today.year, today.month, today.day, 9);
-    // added recurrence appointment
-    appointments.add(Appointment(
+    // Added recurrence appointment.
+    appointments.add(
+      Appointment(
         subject: 'Development status',
         startTime: today,
         endTime: today.add(const Duration(hours: 2)),
         color: colorCollection[random.nextInt(9)],
-        recurrenceRule: 'FREQ=WEEKLY;BYDAY=FR;INTERVAL=1'));
+        recurrenceRule: 'FREQ=WEEKLY;BYDAY=FR;INTERVAL=1',
+      ),
+    );
     return appointments;
   }
 
-  /// Returns the calendar widget based on the properties passed.
-  SfCalendar _getResizingCalendar(
-      [CalendarController? calendarController,
-      CalendarDataSource? calendarDataSource,
-      ViewChangedCallback? viewChangedCallback]) {
+  /// Returns the Calendar widget based on the properties passed.
+  SfCalendar _getResizingCalendar([
+    CalendarController? calendarController,
+    CalendarDataSource? calendarDataSource,
+    ViewChangedCallback? viewChangedCallback,
+  ]) {
     return SfCalendar(
       controller: calendarController,
       dataSource: calendarDataSource,
@@ -182,7 +196,8 @@ class _ResizingCalendarState extends SampleViewState {
       allowAppointmentResize: true,
       showDatePickerButton: true,
       monthViewSettings: const MonthViewSettings(
-          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+        appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+      ),
     );
   }
 }

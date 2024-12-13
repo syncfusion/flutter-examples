@@ -1,5 +1,14 @@
 import 'package:flutter/foundation.dart';
 
+import 'samples/ai_assist_view/customization.dart';
+import 'samples/ai_assist_view/getting_started.dart';
+
+import 'samples/ai_samples/ai_calender/calendar_appointment.dart';
+import 'samples/ai_samples/ai_charts/data_pre_processing.dart';
+import 'samples/ai_samples/ai_charts/stock_forecasting.dart';
+import 'samples/ai_samples/ai_datagrid/anamoly_detection.dart';
+import 'samples/ai_samples/ai_datagrid/predictive_data_entry.dart';
+import 'samples/ai_samples/ai_pdf_viewer/ai_form_filling.dart';
 import 'samples/barcodes/data_matrix.dart';
 import 'samples/barcodes/one_dimensional.dart';
 import 'samples/barcodes/qr_code.dart';
@@ -436,6 +445,11 @@ import 'samples/xlsio/yearly_sales/yearly_sales.dart';
 /// appropriate key and output widget mapped
 Map<String, Function> getSampleWidget() {
   return <String, Function>{
+    // ai samples
+    'data_pre_processing_sample': (Key key) => DataPreProcessingSample(key),
+    'stock_forecasting_sample': (Key key) => StockForecastingSample(key),
+    'calendar_sample': (Key key) => AICalendar(key),
+    'pdf_viewer_smart_fill': (Key key) => SmartFillSample(key),
     // cartesian charts
     'default_line_chart': (Key key) => LineDefault(key),
     'line_with_dashes': (Key key) => LineDashed(key),
@@ -578,7 +592,7 @@ Map<String, Function> getSampleWidget() {
     'selection_index': (Key key) => SelectionIndex(key),
     'default_tooltip': (Key key) => DefaultTooltip(key),
     'chart_with_trackball': (Key key) => DefaultTrackball(key),
-    'chart_with_trackball_template': (Key key) => TrackballTemplate(key),
+    'chart_with_trackball_builder': (Key key) => TrackballBuilder(key),
     'pinch_zooming': (Key key) => DefaultPanning(key),
     'selection_zooming': (Key key) => DefaultZooming(key),
     'zooming_with_custom_buttons': (Key key) => ButtonZooming(key),
@@ -686,7 +700,7 @@ Map<String, Function> getSampleWidget() {
     'popup_picker': (Key key) => PopUpDatePicker(key),
     'vertical_calendar': (Key key) => VerticalCalendar(key),
     'rtl_date_picker': (Key key) => RtlDatePicker(key),
-    'localization_picker': (Key key) => PickerLocalization(key),
+    'localization_picker': (Key key) => DatePickerLocalization(key),
 
     //Gauge
     'radial_bounce': (Key key) => RadialBounceOutExample(key),
@@ -928,6 +942,10 @@ Map<String, Function> getSampleWidget() {
     //dataGridSample
     'getting_started_datagrid': (Key key) => GettingStartedDataGrid(key: key),
 
+    'anamoly_detection': (Key key) => AnamolyDetectionSample(key: key),
+
+    'predictive_data_entry': (Key key) => PredictiveDataSample(key: key),
+
     'column_types_datagrid': (Key key) => ColumnTypeDataGrid(key: key),
 
     'editing_datagrid': (Key key) => EditingDataGrid(key: key),
@@ -1088,5 +1106,15 @@ Map<String, Function> getSampleWidget() {
     // Chat
     'getting_started': (Key key) => ChatGettingStartedSample(key),
     'customization': (Key key) => ChatCustomizationSample(key),
+
+    // AssistView
+    'assist_view_getting_started': (Key key) =>
+        AssistViewGettingStartedSample(key),
+    'assist_view_customization': (Key key) =>
+        AssistViewCustomizationSample(key),
+    'ai_assist_view_getting_started': (Key key) =>
+        AssistViewGettingStartedSample(key),
+    'ai_assist_view_customization': (Key key) =>
+        AssistViewCustomizationSample(key),
   };
 }

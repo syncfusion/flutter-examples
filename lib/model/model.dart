@@ -248,7 +248,9 @@ class SampleModel extends Listenable {
   /// Contains the category, control, theme information.
   SampleModel() {
     isInitialRender = true;
-
+    isFirstTime = true;
+    // ignore: unnecessary_statements
+    assistApiKey;
     searchControlItems = <Control>[];
     sampleList = <SubItem>[];
     searchResults = <SubItem>[];
@@ -509,6 +511,10 @@ class SampleModel extends Listenable {
   late bool isPropertyPanelTapped;
 
   final Set<VoidCallback> _listeners = <VoidCallback>{};
+
+  late bool isFirstTime;
+
+  String assistApiKey = '';
 
   /// Switching between light, dark, system themes.
   void changeTheme(ThemeData currentThemeData, bool isMaterial3) {

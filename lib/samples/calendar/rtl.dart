@@ -1,12 +1,16 @@
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Widget of calendar rtl
+/// Widget of Calendar rtl.
 class CalendarRtl extends DirectionalitySampleView {
-  /// Creates default calendar rtl
+  /// Creates default Calendar rtl.
   const CalendarRtl(Key key) : super(key: key);
 
   @override
@@ -14,13 +18,12 @@ class CalendarRtl extends DirectionalitySampleView {
 }
 
 class _CalendarRtlState extends DirectionalitySampleViewState {
-  late _DataSource _events;
-
   /// Update the current view as month view.
   late CalendarView _currentView;
+  late _DataSource _events;
 
-  /// Global key used to maintain the state, when we change the parent of the
-  /// widget
+  /// Global key used to maintain the state,
+  /// when we change the parent of the widget.
   final GlobalKey _globalKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
   final CalendarController _calendarController = CalendarController();
@@ -41,37 +44,44 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
       _events = _DataSource(getAppointmentList(getArabicTexts()));
     }
     final Widget calendar = Theme(
-
-        /// The key set here to maintain the state,
-        ///  when we change the parent of the widget
-        key: _globalKey,
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child: _getCalendar(_calendarController, _events, _onViewChanged));
+      /// The key set here to maintain the state,
+      /// when we change the parent of the widget.
+      key: _globalKey,
+      data: model.themeData.copyWith(
+        colorScheme:
+            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+      ),
+      child: _getCalendar(_calendarController, _events, _onViewChanged),
+    );
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Row(children: <Widget>[
-        Expanded(
-          child: _calendarController.view == CalendarView.month &&
-                  model.isWebFullView &&
-                  screenHeight < 800
-              ? Scrollbar(
-                  thumbVisibility: true,
-                  controller: _scrollController,
-                  child: ListView(
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child: _calendarController.view == CalendarView.month &&
+                    model.isWebFullView &&
+                    screenHeight < 800
+                ? Scrollbar(
+                    thumbVisibility: true,
                     controller: _scrollController,
-                    children: <Widget>[
-                      Container(
-                        color: model.sampleOutputCardColor,
-                        height: 600,
-                        child: calendar,
-                      )
-                    ],
-                  ))
-              : Container(color: model.sampleOutputCardColor, child: calendar),
-        )
-      ]),
+                    child: ListView(
+                      controller: _scrollController,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -87,7 +97,6 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
     subjectCollection.add('Project Completion');
     subjectCollection.add('Release updates');
     subjectCollection.add('Testing');
-
     return subjectCollection;
   }
 
@@ -103,7 +112,6 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
     subjectCollection.add('اكتمال المشروع');
     subjectCollection.add('إصدار التحديثات');
     subjectCollection.add('اختبارات');
-
     return subjectCollection;
   }
 
@@ -120,7 +128,6 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
     colorCollection.add(const Color(0xFFE47C73));
     colorCollection.add(const Color(0xFF636363));
     colorCollection.add(const Color(0xFF0A8043));
-
     final List<Appointment> appointmentCollection = <Appointment>[];
     final DateTime rangeStartDate =
         DateTime.now().add(const Duration(days: -10));
@@ -131,14 +138,16 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
       final DateTime date = i;
       for (int j = 0; j < 2; j++) {
         final DateTime startDate = DateTime(date.year, date.month, date.day);
-        appointmentCollection.add(Appointment(
+        appointmentCollection.add(
+          Appointment(
             startTime: startDate.add(Duration(hours: j == 0 ? 9 : 14)),
             endTime: startDate.add(const Duration(hours: 2)),
             subject: subjectCollection[j],
-            color: colorCollection[j]));
+            color: colorCollection[j],
+          ),
+        );
       }
     }
-
     return appointmentCollection;
   }
 
@@ -151,7 +160,6 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
       _currentView = _calendarController.view!;
       return;
     }
-
     _currentView = _calendarController.view!;
     SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
@@ -160,10 +168,11 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
     });
   }
 
-  Widget _getCalendar(
-      [CalendarController? calendarController,
-      CalendarDataSource? calendarDataSource,
-      ViewChangedCallback? viewChangedCallback]) {
+  Widget _getCalendar([
+    CalendarController? calendarController,
+    CalendarDataSource? calendarDataSource,
+    ViewChangedCallback? viewChangedCallback,
+  ]) {
     return SfCalendar(
       allowedViews: const <CalendarView>[
         CalendarView.day,
@@ -173,7 +182,7 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
         CalendarView.timelineDay,
         CalendarView.timelineWeek,
         CalendarView.timelineWorkWeek,
-        CalendarView.schedule
+        CalendarView.schedule,
       ],
       showDatePickerButton: true,
       controller: calendarController,
@@ -181,9 +190,11 @@ class _CalendarRtlState extends DirectionalitySampleViewState {
       showNavigationArrow: model.isWebFullView,
       onViewChanged: viewChangedCallback,
       monthViewSettings: const MonthViewSettings(
-          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+        appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+      ),
       timeSlotViewSettings: const TimeSlotViewSettings(
-          minimumAppointmentDuration: Duration(minutes: 60)),
+        minimumAppointmentDuration: Duration(minutes: 60),
+      ),
     );
   }
 }

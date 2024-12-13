@@ -1,30 +1,30 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the cartesian chart with default tootlip sample.
+/// Renders a line series chart with default tooltip.
 class DefaultTooltip extends SampleView {
-  /// Creates the cartesian chart with default tootlip sample.
+  /// Creates a line series chart with default tooltip.
   const DefaultTooltip(Key key) : super(key: key);
 
   @override
   _DefaultTooltipState createState() => _DefaultTooltipState();
 }
 
-/// State class of the cartesian chart with default tootlip.
+/// State class for the line series chart with default tooltip.
 class _DefaultTooltipState extends SampleViewState {
   _DefaultTooltipState();
-
-  late List<ChartSampleData> chartData;
+  late List<ChartSampleData> _chartData;
+  late TooltipBehavior _tooltipBehavior;
 
   @override
   void initState() {
-    chartData = <ChartSampleData>[
+    _chartData = <ChartSampleData>[
       ChartSampleData(x: 2004, y: 42.630000, secondSeriesYValue: 34.730000),
       ChartSampleData(x: 2005, y: 43.320000, secondSeriesYValue: 43.400000),
       ChartSampleData(x: 2006, y: 43.660000, secondSeriesYValue: 38.090000),
@@ -36,13 +36,8 @@ class _DefaultTooltipState extends SampleViewState {
       ChartSampleData(x: 2012, y: 43.930000, secondSeriesYValue: 50.640000),
       ChartSampleData(x: 2013, y: 44.200000, secondSeriesYValue: 51.480000),
     ];
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    chartData.clear();
-    super.dispose();
   }
 
   @override
@@ -50,47 +45,54 @@ class _DefaultTooltipState extends SampleViewState {
     return _buildDefaultTooltipChart();
   }
 
-  /// Returns the cartesian chart with default tootlip.
+  /// Returns a cartesian line chart with default tooltip.
   SfCartesianChart _buildDefaultTooltipChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Labour force'),
       legend: Legend(isVisible: !isCardView),
       primaryXAxis: NumericAxis(
-          minimum: 2004,
-          maximum: 2013,
-          title: AxisTitle(text: isCardView ? '' : 'Year'),
-          majorGridLines: const MajorGridLines(width: 0),
-          interval: 1),
+        minimum: 2004,
+        maximum: 2013,
+        title: AxisTitle(text: isCardView ? '' : 'Year'),
+        majorGridLines: const MajorGridLines(width: 0),
+        interval: 1,
+      ),
       primaryYAxis: const NumericAxis(
-          labelFormat: '{value}M',
-          minimum: 30,
-          maximum: 60,
-          axisLine: AxisLine(width: 0)),
-      series: _getDefaultTooltipSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+        labelFormat: '{value}M',
+        minimum: 30,
+        maximum: 60,
+        axisLine: AxisLine(width: 0),
+      ),
+      series: _buildLineSeries(),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series
-  /// which need to render on the cartesian chart.
-  List<LineSeries<ChartSampleData, num>> _getDefaultTooltipSeries() {
+  /// Returns the list cartesian line series.
+  List<LineSeries<ChartSampleData, num>> _buildLineSeries() {
     return <LineSeries<ChartSampleData, num>>[
       LineSeries<ChartSampleData, num>(
-
-          /// To enable the tooltip for line series.
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          name: 'Germany',
-          markerSettings: const MarkerSettings(isVisible: true)),
-      LineSeries<ChartSampleData, num>(
-        dataSource: chartData,
-        name: 'Mexico',
-        xValueMapper: (ChartSampleData sales, _) => sales.x as num,
-        yValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        name: 'Germany',
         markerSettings: const MarkerSettings(isVisible: true),
-      )
+      ),
+      LineSeries<ChartSampleData, num>(
+        dataSource: _chartData,
+        name: 'Mexico',
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
+        markerSettings: const MarkerSettings(isVisible: true),
+      ),
     ];
+  }
+
+  @override
+  void dispose() {
+    _chartData.clear();
+    super.dispose();
   }
 }

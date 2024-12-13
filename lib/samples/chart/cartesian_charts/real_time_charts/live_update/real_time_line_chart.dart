@@ -1,68 +1,63 @@
-/// Dart imports
+/// Dart imports.
 import 'dart:async';
 import 'dart:math' as math;
 
-/// Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Renders the realtime line chart sample.
+/// Renders the realtime line series chart sample.
 class LiveLineChart extends SampleView {
-  /// Creates the realtime line chart sample.
+  /// Creates the realtime line series chart.
   const LiveLineChart(Key key) : super(key: key);
 
   @override
   _LiveLineChartState createState() => _LiveLineChartState();
 }
 
-/// State class of the realtime line chart.
+/// State class for the realtime line series chart.
 class _LiveLineChartState extends SampleViewState {
   _LiveLineChartState() {
-    timer =
-        Timer.periodic(const Duration(milliseconds: 200), _updateDataSource);
+    _timer = Timer.periodic(
+      const Duration(milliseconds: 200),
+      _updateDataSource,
+    );
   }
 
-  Timer? timer;
-  List<_ChartData>? chartData;
-  late int count;
-  ChartSeriesController<_ChartData, int>? _chartSeriesController;
+  late int _count;
 
-  @override
-  void dispose() {
-    timer?.cancel();
-    chartData!.clear();
-    _chartSeriesController = null;
-    super.dispose();
-  }
+  List<_ChartSampleData>? _chartData;
+  ChartSeriesController<_ChartSampleData, int>? _chartSeriesController;
+  Timer? _timer;
 
   @override
   void initState() {
-    count = 19;
-    chartData = <_ChartData>[
-      _ChartData(0, 42),
-      _ChartData(1, 47),
-      _ChartData(2, 33),
-      _ChartData(3, 49),
-      _ChartData(4, 54),
-      _ChartData(5, 41),
-      _ChartData(6, 58),
-      _ChartData(7, 51),
-      _ChartData(8, 98),
-      _ChartData(9, 41),
-      _ChartData(10, 53),
-      _ChartData(11, 72),
-      _ChartData(12, 86),
-      _ChartData(13, 52),
-      _ChartData(14, 94),
-      _ChartData(15, 92),
-      _ChartData(16, 86),
-      _ChartData(17, 72),
-      _ChartData(18, 94),
+    _count = 19;
+    _chartData = <_ChartSampleData>[
+      _ChartSampleData(0, 42),
+      _ChartSampleData(1, 47),
+      _ChartSampleData(2, 33),
+      _ChartSampleData(3, 49),
+      _ChartSampleData(4, 54),
+      _ChartSampleData(5, 41),
+      _ChartSampleData(6, 58),
+      _ChartSampleData(7, 51),
+      _ChartSampleData(8, 98),
+      _ChartSampleData(9, 41),
+      _ChartSampleData(10, 53),
+      _ChartSampleData(11, 72),
+      _ChartSampleData(12, 86),
+      _ChartSampleData(13, 52),
+      _ChartSampleData(14, 94),
+      _ChartSampleData(15, 92),
+      _ChartSampleData(16, 86),
+      _ChartSampleData(17, 72),
+      _ChartSampleData(18, 94),
     ];
     super.initState();
   }
@@ -75,56 +70,69 @@ class _LiveLineChartState extends SampleViewState {
   /// Returns the realtime Cartesian line chart.
   SfCartesianChart _buildLiveLineChart() {
     return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis:
-            const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
-        primaryYAxis: const NumericAxis(
-            axisLine: AxisLine(width: 0),
-            majorTickLines: MajorTickLines(size: 0)),
-        series: <LineSeries<_ChartData, int>>[
-          LineSeries<_ChartData, int>(
-            onRendererCreated:
-                (ChartSeriesController<_ChartData, int> controller) {
-              _chartSeriesController = controller;
-            },
-            dataSource: chartData,
-            color: const Color.fromRGBO(192, 108, 132, 1),
-            xValueMapper: (_ChartData sales, _) => sales.country,
-            yValueMapper: (_ChartData sales, _) => sales.sales,
-            animationDuration: 0,
-          )
-        ]);
+      plotAreaBorderWidth: 0,
+      primaryXAxis: const NumericAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      primaryYAxis: const NumericAxis(
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: <LineSeries<_ChartSampleData, int>>[
+        LineSeries<_ChartSampleData, int>(
+          dataSource: _chartData,
+          xValueMapper: (_ChartSampleData data, int index) => data.country,
+          yValueMapper: (_ChartSampleData data, int index) => data.sales,
+          color: const Color.fromRGBO(192, 108, 132, 1),
+          animationDuration: 0,
+          onRendererCreated:
+              (ChartSeriesController<_ChartSampleData, int> controller) {
+            _chartSeriesController = controller;
+          },
+        )
+      ],
+    );
   }
 
-  ///Continuously updating the data source based on timer
+  /// Updates the data source periodically based on the timer.
   void _updateDataSource(Timer timer) {
     if (isCardView != null) {
-      chartData!.add(_ChartData(count, _getRandomInt(10, 100)));
-      if (chartData!.length == 20) {
-        chartData!.removeAt(0);
+      _chartData!.add(
+        _ChartSampleData(_count, _generateRandomInteger(10, 100)),
+      );
+      if (_chartData!.length == 20) {
+        _chartData!.removeAt(0);
         _chartSeriesController?.updateDataSource(
-          addedDataIndexes: <int>[chartData!.length - 1],
+          addedDataIndexes: <int>[_chartData!.length - 1],
           removedDataIndexes: <int>[0],
         );
       } else {
         _chartSeriesController?.updateDataSource(
-          addedDataIndexes: <int>[chartData!.length - 1],
+          addedDataIndexes: <int>[_chartData!.length - 1],
         );
       }
-      count = count + 1;
+      _count = _count + 1;
     }
   }
 
-  ///Get the random data
-  int _getRandomInt(int min, int max) {
+  /// Generates a random integer within the specified range.
+  int _generateRandomInteger(int min, int max) {
     final math.Random random = math.Random();
     return min + random.nextInt(max - min);
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _chartData!.clear();
+    _chartSeriesController = null;
+    super.dispose();
   }
 }
 
 /// Private class for storing the chart series data points.
-class _ChartData {
-  _ChartData(this.country, this.sales);
+class _ChartSampleData {
+  _ChartSampleData(this.country, this.sales);
   final int country;
   final num sales;
 }
