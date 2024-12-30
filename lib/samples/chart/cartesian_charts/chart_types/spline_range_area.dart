@@ -121,7 +121,7 @@ class _SplineRangeAreaState extends SampleViewState {
         xValueMapper: (ChartSampleData data, int index) => data.x,
         highValueMapper: (ChartSampleData data, int index) => data.y,
         lowValueMapper: (ChartSampleData data, int index) => data.yValue,
-        color: seriesColor1.withOpacity(0.5),
+        color: seriesColor1.withValues(alpha: 0.5),
         borderColor: seriesColor1,
         borderDrawMode: RangeAreaBorderMode.excludeSides,
         name: 'Product A',
@@ -133,7 +133,7 @@ class _SplineRangeAreaState extends SampleViewState {
             data.secondSeriesYValue,
         lowValueMapper: (ChartSampleData data, int index) =>
             data.thirdSeriesYValue,
-        color: seriesColor2.withOpacity(0.5),
+        color: seriesColor2.withValues(alpha: 0.5),
         borderColor: seriesColor2,
         borderDrawMode: RangeAreaBorderMode.excludeSides,
         name: 'Product B',

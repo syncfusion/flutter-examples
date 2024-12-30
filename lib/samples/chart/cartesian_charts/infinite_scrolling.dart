@@ -122,7 +122,7 @@ class _InfiniteScrollingState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.xValue,
         yValueMapper: (ChartSampleData data, int index) => data.y,
-        color: color.withOpacity(0.6),
+        color: color.withValues(alpha: 0.6),
         borderColor: color,
         onRendererCreated:
             (ChartSeriesController<ChartSampleData, num> controller) {
@@ -169,8 +169,8 @@ class _InfiniteScrollingState extends SampleViewState {
                 colors:
                     model.themeData.colorScheme.brightness == Brightness.light
                         ? <Color>[
-                            Colors.white.withOpacity(0.0),
-                            Colors.white.withOpacity(0.74)
+                            Colors.white.withValues(alpha: 0.0),
+                            Colors.white.withValues(alpha: 0.74)
                           ]
                         : const <Color>[
                             Color.fromRGBO(33, 33, 33, 0.0),

@@ -72,7 +72,7 @@ class _AnimationAreaDefaultState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (_ChartData sales, int index) => sales.x,
         yValueMapper: (_ChartData sales, int index) => sales.y,
-        color: color.withOpacity(0.6),
+        color: color.withValues(alpha: 0.6),
         borderColor: color,
       ),
     ];

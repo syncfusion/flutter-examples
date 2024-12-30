@@ -30,14 +30,14 @@ class _VerticalThumbCustomizedSliderState extends SampleViewState {
   SfSliderTheme _thumbCustomizedSlider() {
     return SfSliderTheme(
       data: SfSliderThemeData(
-          inactiveTrackColor: _activeColor.withOpacity(0.40),
+          inactiveTrackColor: _activeColor.withValues(alpha: 0.40),
           activeTrackColor: _activeColor,
           thumbColor: Colors.transparent,
           tickOffset: const Offset(0, 13),
           overlayColor: Colors.transparent,
           tooltipBackgroundColor: _activeColor,
           activeDividerColor: _activeColor,
-          inactiveDividerColor: _activeColor.withOpacity(0.80),
+          inactiveDividerColor: _activeColor.withValues(alpha: 0.80),
           activeDividerRadius: 2.0,
           inactiveDividerRadius: 2.0),
       child: SfSlider.vertical(

@@ -45,48 +45,19 @@ class _AiCalendarState extends SampleViewState
   String _appointmentTime = '';
   String _subject = '';
   bool _showButtons = true;
-  List<DateTime> _sophiaStartTimes = [];
+  bool isFirstTime = true;
+  final DateTime _todayDate = DateTime.now();
+  DateTime _selectedDateTime = DateTime.now();
+  final String _appointmentBooked =
+      'Your appointment has been successfully booked';
+  bool _aiGeneratedResponse = false;
+  List<Content> conversationHistory = [];
+
   List<DateTime> sophiaEndTimes = [];
   List<String> sophiaSubjects = [];
   List<DateTime> johnStartTimes = [];
   List<DateTime> johnEndTimes = [];
   List<String> johnSubjects = [];
-  final List<String> _times = [
-    '9 AM',
-    '10 AM',
-    '11 AM',
-    '12 PM',
-    '1 PM',
-    '2 PM',
-    '3 PM',
-    '4 PM',
-    '5 PM',
-    '9:00 AM',
-    '10:00 AM',
-    '11:00 AM',
-    '12:00 PM',
-    '1:00 PM',
-    '2:00 PM',
-    '3:00 PM',
-    '4:00 PM',
-    '5:00 PM',
-    '9:30 AM',
-    '10:30 AM',
-    '11:30 AM',
-    '12:30 PM',
-    '1:30 PM',
-    '2:30 PM',
-    '3:30 PM',
-    '4:30 PM',
-    '9.30 AM',
-    '10.30 AM',
-    '11.30 AM',
-    '12.30 PM',
-    '1.30 PM',
-    '2.30 PM',
-    '3.30 PM',
-    '4.30 PM',
-  ];
 
   @override
   void initState() {
@@ -175,151 +146,157 @@ class _AiCalendarState extends SampleViewState
                         border: Border.all(color: Colors.grey, width: 0.5),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(
-                                0.16), // Shadow color, with opacity
+                            color: Colors.black.withValues(
+                                alpha: 0.16), // Shadow color, with opacity
                             blurRadius: 6.0, // Blur effect
                             offset: const Offset(0, 3), // Vertical shadow
                           ),
                         ],
                       ),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 50,
-                            padding: const EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              color: model.primaryColor,
-                              border: Border.all(
-                                  color: model.primaryColor, width: 0.5),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'AI Assistant',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: model.themeData.brightness ==
-                                            Brightness.light
-                                        ? Colors.white
-                                        : Colors.black,
+                      child: SelectionArea(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 50,
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: model.primaryColor,
+                                border: Border.all(
+                                    color: model.primaryColor, width: 0.5),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'AI Assistant',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: model.themeData.brightness ==
+                                              Brightness.light
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.autorenew,
-                                        color: model.themeData.brightness ==
-                                                Brightness.light
-                                            ? Colors.white
-                                            : Colors.black,
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.autorenew,
+                                          color: model.themeData.brightness ==
+                                                  Brightness.light
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                        onPressed: _refreshView,
                                       ),
-                                      onPressed: _refreshView,
-                                    ),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: model.themeData.brightness ==
-                                                Brightness.light
-                                            ? Colors.white
-                                            : Colors.black,
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: model.themeData.brightness ==
+                                                  Brightness.light
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                        onPressed: _toggleSidebar,
                                       ),
-                                      onPressed: _toggleSidebar,
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: StatefulBuilder(
-                              builder:
-                                  (BuildContext context, StateSetter setState) {
-                                return Stack(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: SfAIAssistView(
-                                        key: _assistViewKey,
-                                        messages: _messages,
-                                        onSuggestionItemSelected: (bool
-                                                selected,
-                                            int messageIndex,
-                                            AssistMessageSuggestion suggestion,
-                                            int suggestionIndex) {
-                                          _handleSuggestionSelected(
-                                              suggestion.data!, setState);
-                                          if (suggestion.data!.contains('AM') ||
-                                              suggestion.data!.contains('PM')) {
-                                            _handleAppointmentTimeSelection(
+                            Expanded(
+                              child: StatefulBuilder(
+                                builder: (BuildContext context,
+                                    StateSetter setState) {
+                                  return Stack(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: SfAIAssistView(
+                                          key: _assistViewKey,
+                                          messages: _messages,
+                                          onSuggestionItemSelected:
+                                              (bool selected,
+                                                  int messageIndex,
+                                                  AssistMessageSuggestion
+                                                      suggestion,
+                                                  int suggestionIndex) {
+                                            _handleSuggestionSelected(
                                                 suggestion.data!, setState);
-                                          } else
-                                            _scheduleAppointmentWithDetails(
-                                                suggestion.data!, setState);
-                                        },
-                                        placeholderBuilder:
-                                            (BuildContext context) =>
-                                                placeholder(context, setState,
-                                                    constraints),
-                                        responseBubbleSettings:
-                                            const AssistBubbleSettings(
-                                          showUserAvatar: false,
-                                          widthFactor: 0.95,
-                                          textStyle: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w500,
-                                            height: 20.0 / 14.0,
-                                            letterSpacing: 0.1,
-                                            textBaseline:
-                                                TextBaseline.alphabetic,
-                                            decoration: TextDecoration.none,
-                                          ),
-                                        ),
-                                        requestBubbleSettings:
-                                            AssistBubbleSettings(
-                                          showUserAvatar: false,
-                                          widthFactor: 0.95,
-                                          contentBackgroundColor:
-                                              model.themeData.brightness ==
-                                                      Brightness.light
-                                                  ? Theme.of(context)
-                                                      .colorScheme
-                                                      .surfaceContainer
-                                                  : Theme.of(context)
-                                                      .colorScheme
-                                                      .surfaceContainer,
-                                          textStyle: const TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w500,
-                                            height: 20.0 / 14.0,
-                                            letterSpacing: 0.1,
-                                            textBaseline:
-                                                TextBaseline.alphabetic,
-                                            decoration: TextDecoration.none,
-                                          ),
-                                        ),
-                                        composer: AssistComposer.builder(
-                                          builder: (BuildContext context) {
-                                            return _buildComposer(
-                                                context, setState);
+                                            if (suggestion.data!
+                                                    .contains('AM') ||
+                                                suggestion.data!
+                                                    .contains('PM')) {
+                                              _handleAppointmentTimeSelection(
+                                                  suggestion.data!, setState);
+                                            } else
+                                              _scheduleAppointmentWithDetails(
+                                                  suggestion.data!, setState);
                                           },
+                                          placeholderBuilder:
+                                              (BuildContext context) =>
+                                                  placeholder(context, setState,
+                                                      constraints),
+                                          responseBubbleSettings:
+                                              const AssistBubbleSettings(
+                                            showUserAvatar: false,
+                                            widthFactor: 0.95,
+                                            textStyle: TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w500,
+                                              height: 20.0 / 14.0,
+                                              letterSpacing: 0.1,
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                          ),
+                                          requestBubbleSettings:
+                                              AssistBubbleSettings(
+                                            showUserAvatar: false,
+                                            widthFactor: 0.95,
+                                            contentBackgroundColor:
+                                                model.themeData.brightness ==
+                                                        Brightness.light
+                                                    ? Theme.of(context)
+                                                        .colorScheme
+                                                        .surfaceContainer
+                                                    : Theme.of(context)
+                                                        .colorScheme
+                                                        .surfaceContainer,
+                                            textStyle: const TextStyle(
+                                              fontFamily: 'Roboto',
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w500,
+                                              height: 20.0 / 14.0,
+                                              letterSpacing: 0.1,
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                          ),
+                                          composer: AssistComposer.builder(
+                                            builder: (BuildContext context) {
+                                              return _buildComposer(
+                                                  context, setState);
+                                            },
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    if (_isLoading)
-                                      const Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                  ],
-                                );
-                              },
+                                      if (_isLoading)
+                                        const Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -526,12 +503,15 @@ class _AiCalendarState extends SampleViewState
       _messages.clear();
       _showButtons = false;
       _isLoading = true;
+      conversationHistory.clear();
+      _aiGeneratedResponse = false;
     });
     await Future.delayed(const Duration(seconds: 1));
     setState(() {
       _showButtons = true;
       _isLoading = false;
       _assistViewKey = UniqueKey();
+      isFirstTime = true;
     });
   }
 
@@ -574,7 +554,7 @@ class _AiCalendarState extends SampleViewState
     switch (_appointmentTime) {
       case '9 AM':
       case '9:00 AM':
-        dateTime = DateTime(now.year, now.month, now.day, 9);
+        dateTime = DateTime(2022, now.month, now.day, 9);
         break;
       case '9:30 AM':
         dateTime = DateTime(now.year, now.month, now.day, 9, 30);
@@ -649,7 +629,7 @@ class _AiCalendarState extends SampleViewState
         if (_selectedAppointment == null) {
           _subject = _subject.isEmpty ? '(No title)' : _subject;
           final newAppointment = Appointment(
-            startTime: dateTime,
+            startTime: _aiGeneratedResponse ? _selectedDateTime : dateTime,
             endTime: dateTime.add(const Duration(minutes: 30)),
             resourceIds: [selectedResource.id],
             color: selectedResource.color,
@@ -710,11 +690,11 @@ class _AiCalendarState extends SampleViewState
 
         if (state.contains(WidgetState.hovered) ||
             state.contains(WidgetState.focused)) {
-          return surfaceContainer.withOpacity(0.8);
+          return surfaceContainer.withValues(alpha: 0.8);
         }
         if (state.contains(WidgetState.pressed) ||
             state.contains(WidgetState.disabled)) {
-          return surfaceContainer.withOpacity(0.12);
+          return surfaceContainer.withValues(alpha: 0.12);
         }
         return surfaceContainer;
       },
@@ -751,89 +731,84 @@ class _AiCalendarState extends SampleViewState
     );
   }
 
-  bool _isValidTime(String time) {
-    for (int i = 0; i < _times.length; i++) {
-      if (_times[i] == time) {
-        return true;
+  void convertAIResponse(String response, StateSetter setState) {
+    {
+      // Split the details from the response
+      final List<String> lines = response.split('\n');
+
+      // Create a map to store the information
+      final Map<String, String> appointmentDetails = {};
+
+      // Iterate over the lines to store them in the map
+      for (final String line in lines) {
+        if (line.contains('=')) {
+          final List<String> parts = line.split(' = ');
+          appointmentDetails[parts[0].trim()] = parts[1].trim();
+        }
       }
+      String startTime;
+      String date;
+      setState(
+        () {
+          _aiGeneratedResponse = true;
+          _doctorName = appointmentDetails['DoctorName']!;
+          _doctorName = _doctorName.replaceAll(RegExp(r'Dr\.?\s*'), '');
+          _appointmentTime = appointmentDetails['Time']!;
+          startTime = _appointmentTime.split(' - ')[0].toUpperCase();
+          _appointmentTime = startTime;
+          date = appointmentDetails['Date']!;
+          final DateFormat dateFormat = DateFormat('dd-MM-yyyy h:mm a');
+          _selectedDateTime = dateFormat.parse('$date $startTime');
+          _subject = appointmentDetails['Subject']!;
+
+          if (_doctorName.isNotEmpty &&
+              _appointmentTime.isNotEmpty &&
+              _subject.isNotEmpty) {
+            _confirmAppointmentWithEmployee(setState);
+          }
+        },
+      );
     }
-    return false;
   }
 
   Future<void> _generateAIResponse(String prompt, StateSetter setState) async {
     String? responseText;
-    if (model.assistApiKey.isNotEmpty) {
-      final aiModel = GenerativeModel(
-        model: 'gemini-1.5-flash-latest',
-        apiKey: model.assistApiKey,
-      );
-      try {
-        if (_isValidTime(prompt)) {
-          _handleAppointmentTimeSelection(prompt, setState);
-        } else if (_subjects.contains(prompt)) {
-          _scheduleAppointmentWithDetails(prompt, setState);
-        } else {
-          _doctorName =
-              prompt.toLowerCase().contains('sophia') ? 'Sophia' : 'John';
-          final DateTime todayDate = DateTime.now();
 
-          if (prompt.toLowerCase() == 'sophia' ||
-              prompt.toLowerCase() == 'john') {
-            prompt += 'Book an appointment with Dr. $prompt';
-          }
+    try {
+      if (model.assistApiKey.isNotEmpty) {
+        final aiModel = GenerativeModel(
+          model: 'gemini-1.5-flash-latest',
+          apiKey: model.assistApiKey,
+        );
 
-          final String aiPrompt =
-              "Given data: $prompt. Based on the given data, provide 5 appointment time details for Doctor1 and Doctor2 on $todayDate.Availability time is 9AM to 6PM.In 10 appointments, split the time details as 5 for Doctor1 and 5 for Doctor2.Provide complete appointment time details for both Doctor1 and Doctor2 without missing any fields.It should be 30 minutes appointment duration.Doctor1 time details should not collide with Doctor2.Provide ResourceID for Doctor1 as 1000 and for Doctor2 as 1001.Subjects should be ${_subjects}Do not repeat the same time. Generate the following fields: StartDate, EndDate, Subject, Location, and ResourceID.The return format should be the following list format: Doctor1[StartDate, EndDate, Subject, Location, ResourceID], Doctor2[StartDate, EndDate, Subject, Location, ResourceID].Condition: provide details without any explanation. Don't include any special characters like ```";
-
-          final List<Content> content = [Content.text(aiPrompt)];
-          final GenerateContentResponse response =
-              await aiModel.generateContent(content);
-          responseText = (response.text ?? '').trim();
-
-          // ignore: strict_raw_type
-          final Map<String, Map<String, List>> doctorAppointments =
-              // ignore: strict_raw_type
-              <String, Map<String, List>>{
-            'Doctor1': _initializeAppointmentLists(),
-            'Doctor2': _initializeAppointmentLists()
-          };
-
-          final RegExp regex = RegExp(r'(Doctor\d)\[([^\]]+)\]');
-          final Iterable<RegExpMatch> matches = regex.allMatches(responseText);
-
-          for (final RegExpMatch match in matches) {
-            final String doctorKey = match.group(1)!;
-            final String data = match.group(2)!;
-            final List<String> details =
-                data.split(',').map((e) => e.trim()).toList();
-
-            if (details.length == 5) {
-              if (doctorAppointments.containsKey(doctorKey)) {
-                doctorAppointments[doctorKey]!['startTimes']
-                    ?.add(DateTime.parse(details[0]));
-                doctorAppointments[doctorKey]!['endTimes']
-                    ?.add(DateTime.parse(details[1]));
-                doctorAppointments[doctorKey]!['subjects']?.add(details[2]);
-              }
-            }
-          }
-          _assignDataToLists(doctorAppointments);
-          _filterAppointments(_sophiaStartTimes, 'Sophia');
-          _filterAppointments(johnStartTimes, 'John');
-
-          responseText = _generateFinalTimeSlots(
-              prompt,
-              _generateTimeSlots(_sophiaStartTimes),
-              _generateTimeSlots(johnStartTimes));
+        if (isFirstTime) {
+          prompt = _generatePrompt();
         }
-      } catch (err) {
-        responseText = 'The given $err';
+
+        conversationHistory.add(Content.text('User Input$prompt'));
+
+        final GenerateContentResponse response =
+            await aiModel.generateContent(conversationHistory);
+        responseText = (response.text ?? '').trim();
+
+        conversationHistory.add(Content.text(responseText));
+      } else {
+        responseText =
+            'API key is missing. Please provide a valid API key to generate a response.';
       }
-    } else {
-      await Future.delayed(const Duration(milliseconds: 300));
+
+      if (responseText.contains(_appointmentBooked)) {
+        convertAIResponse(responseText, setState);
+      }
+    } catch (e) {
       responseText =
-          'You are offline, Please connect to the internet and give API key.';
+          'API key is invalid. Please provide a valid API key to generate a response.';
+    } finally {
+      // Handle finally
     }
+
+    isFirstTime = false;
+
     if (responseText != null)
       setState(
         () {
@@ -848,51 +823,73 @@ class _AiCalendarState extends SampleViewState
       );
   }
 
-  Map<String, List<dynamic>> _initializeAppointmentLists() {
-    return {
-      'startTimes': [],
-      'endTimes': [],
-      'subjects': [],
-    };
-  }
+  String _generatePrompt() {
+    // ignore: prefer_final_locals
+    String aiPrompt = """
+You are an intelligent appointment booking assistant designed to book doctor appointments step-by-step.  
+Focus on the user's inputs, confirm details at each step, and proceed only after validation. Always remember the current step and user preferences until the appointment is finalized.
 
-  void _assignDataToLists(
-      Map<String, Map<String, List<dynamic>>> appointments) {
-    _sophiaStartTimes =
-        List<DateTime>.from(appointments['Doctor1']!['startTimes']!);
-    sophiaEndTimes = List<DateTime>.from(appointments['Doctor1']!['endTimes']!);
-    sophiaSubjects = List<String>.from(appointments['Doctor1']!['subjects']!);
+When responding to the user:
+- Do not include any extra information, such as the phrase 'step 1', 'step 2', 'AI response', or any symbols.
+- Respond only with the relevant questions or confirmations needed to complete the booking process.
+- Ensure that the conversation flows smoothly and logically based on the user's input.
 
-    johnStartTimes =
-        List<DateTime>.from(appointments['Doctor2']!['startTimes']!);
-    johnEndTimes = List<DateTime>.from(appointments['Doctor2']!['endTimes']!);
-    johnSubjects = List<String>.from(appointments['Doctor2']!['subjects']!);
-  }
+### Steps:
+1. **Date Confirmation**: 
+    Greet the user with a welcome message: "Welcome to the Appointment Booking Assistant! I’m here to help you book an appointment step-by-step."
+   
+   - Ask the user for a valid date (dd-mm-yyyy).
+   - Compare the user selected date with today's date ($_todayDate).
+     - If the selected date is in the past, politely ask the user to select today or a future date.
+     - If the selected date is today ($_todayDate) or future date, proceed to the next step.
+     - Ensure the date format is correct (dd-mm-yyyy). If the input is invalid or the wrong format is used, ask the user to correct it.
 
-  void _filterAppointments(List<DateTime> times, String doctorName) {
-    final List<DateTime> appointments = [];
-    times.removeWhere((time) => appointments.contains(time));
-  }
+2. **Doctor Selection**:
+   Ask for the doctor's name (Dr. Sophia or Dr. John). Validate the input using the following logic:
+     - Convert the input to lowercase for comparison.
+     - Strip any prefixes (like "Dr."), so "Dr. John" or "john" should all map to "john".
+     - If the input does not match either "sophia" or "john" (after converting and stripping), kindly ask the user to select a valid doctor.
 
-  List<String> _generateTimeSlots(List<DateTime> timeCollection) {
-    return timeCollection
-        .map((time) => DateFormat('hh:mm a').format(time))
-        .toList();
-  }
+3. **Time Slot Generation**:
+   Generate 5 evenly spaced 30-minute slots between 9 AM and 6 PM for the selected doctor and list them below. After the user selects a time slot, validate that the selection is one of the generated options. If the input is invalid, kindly prompt the user to choose a valid time slot.
 
-  String _generateFinalTimeSlots(
-      String userInput, List<String> sophiaSlots, List<String> johnSlots) {
-    final String sophiaAvailedTimeSlots = sophiaSlots.join(', ');
-    final String johnAvailedTimeSlots = johnSlots.join(', ');
+4. **Time Slot Confirmation**:
+   After the user selects a time slot, confirm that the selected slot matches one of the generated options. If correct, proceed; if not, ask the user to select a valid time slot.
 
-    if (userInput.toLowerCase().contains('sophia')) {
-      return "Doctor Sophia's available slots:\n $sophiaAvailedTimeSlots \n \n Please select a time.";
-    } else if (userInput.toLowerCase().contains('john')) {
-      return "Doctor John's available slots:\n $johnAvailedTimeSlots \n \n Please select a time.";
-    } else {
-      return "Doctor Sophia's available slots:\n $sophiaAvailedTimeSlots \n"
-          "Doctor John's available slots:\n $johnAvailedTimeSlots\n \n Please select a time.";
-    }
+5. **Subject Selection**:
+  Ask the user to choose from predefined subjects:
+
+   - And List these subjects below: 
+     • General Check-Up  
+     • Vaccinations  
+     • Diagnostic Report
+
+   Validate the input using the following logic:
+     - Convert the input to lowercase for comparison.
+     - Ensure the input matches one of the available subjects, regardless of case.
+     - If the input is invalid or unrecognized, kindly ask the user to choose from the listed subjects.
+
+6. **Booking Confirmation**:
+   Once all steps have been successfully completed, respond with the booking confirmation:
+   - If the inputs are valid:
+     Respond with:
+     "Your appointment with _doctorName has been booked."
+     Provide the details in this format:  
+     DoctorName = _doctorName  
+     Time = _appointmentTime  
+     Date = _date  
+     Subject = _subject  
+
+     "Your appointment has been successfully booked! Refresh to book a new appointment."
+
+### General Rules:
+- Validate inputs step-by-step before proceeding.
+- Do not jump back to previous steps once completed.
+- For invalid inputs, respond with polite clarification and ask for the correct input.
+- Always ensure that the assistant remembers the current step and doesn't make assumptions.
+- After the booking is completed, if the user tries to request anything unrelated, respond with: "Your previous appointment has already been booked successfully. To book a new appointment, please refresh and start the process again."
+""";
+    return aiPrompt;
   }
 
   void _hideButtons(String message, String doctor, StateSetter setState) {
@@ -996,6 +993,7 @@ class _AiCalendarState extends SampleViewState
     _subjects.clear();
     _colors.clear();
     _selectedAppointment = null;
+    conversationHistory.clear();
     super.dispose();
   }
 }

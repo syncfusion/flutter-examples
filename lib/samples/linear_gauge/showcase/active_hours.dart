@@ -143,9 +143,9 @@ class _ActiveHoursState extends SampleViewState {
     return color == Colors.transparent
         ? color
         : Color.fromRGBO(
-            ((1 - factor) * color.red + factor * mix.red).toInt(),
-            ((1 - factor) * color.green + factor * mix.green).toInt(),
-            ((1 - factor) * color.blue + factor * mix.blue).toInt(),
+            ((1 - factor) * (color.r * 255) + factor * (mix.r * 255)).toInt(),
+            ((1 - factor) * (color.g * 255) + factor * (mix.g * 255)).toInt(),
+            ((1 - factor) * (color.b * 255) + factor * (mix.b * 255)).toInt(),
             1);
   }
 

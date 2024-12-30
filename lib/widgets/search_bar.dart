@@ -97,7 +97,7 @@ class SearchBarState extends State<CustomSearchBar>
   void initState() {
     searchIcon = Icon(Icons.search,
         color: widget.sampleListModel.isWebFullView
-            ? Colors.white.withOpacity(0.5)
+            ? Colors.white.withValues(alpha: 0.5)
             : Colors.grey);
     overlayEntries = <OverlayEntry>[];
     over = Overlay.of(context);
@@ -147,7 +147,7 @@ class SearchBarState extends State<CustomSearchBar>
               : Icon(Icons.search,
                   color: _searchBarColorM3 ??
                       (widget.sampleListModel.isWebFullView
-                          ? Colors.white.withOpacity(0.5)
+                          ? Colors.white.withValues(alpha: 0.5)
                           : Colors.grey));
         });
       }
@@ -396,7 +396,7 @@ class SearchBarState extends State<CustomSearchBar>
                                     height: _itemHeight.toDouble(),
                                     child: Material(
                                       color: index == _selectionIndex
-                                          ? Colors.grey.withOpacity(0.4)
+                                          ? Colors.grey.withValues(alpha: 0.4)
                                           : widget
                                               .sampleListModel.homeCardColor,
                                       child: InkWell(
@@ -466,7 +466,7 @@ class SearchBarState extends State<CustomSearchBar>
   @override
   Widget build(BuildContext context) {
     _searchBarBackgroundColorM3 = widget.sampleListModel.themeData.useMaterial3
-        ? widget.sampleListModel.baseAppBarItemColor.withOpacity(0.2)
+        ? widget.sampleListModel.baseAppBarItemColor.withValues(alpha: 0.2)
         : null;
     _searchBarColorM3 = widget.sampleListModel.themeData.useMaterial3
         ? widget.sampleListModel.baseAppBarItemColor
@@ -475,7 +475,7 @@ class SearchBarState extends State<CustomSearchBar>
       searchIcon = Icon(Icons.search,
           color: _searchBarColorM3 ??
               (widget.sampleListModel.isWebFullView
-                  ? Colors.white.withOpacity(0.5)
+                  ? Colors.white.withValues(alpha: 0.5)
                   : Colors.grey));
     }
     return KeyboardListener(
@@ -492,7 +492,7 @@ class SearchBarState extends State<CustomSearchBar>
             decoration: BoxDecoration(
               color: _searchBarBackgroundColorM3 ??
                   (widget.sampleListModel.isWebFullView
-                      ? Colors.grey[100]!.withOpacity(0.2)
+                      ? Colors.grey[100]!.withValues(alpha: 0.2)
                       : Colors.white),
               borderRadius: const BorderRadius.all(Radius.circular(5.0)),
             ),
@@ -576,7 +576,7 @@ class SearchBarState extends State<CustomSearchBar>
                       fontFamily: 'Roboto-Regular',
                       color: _searchBarColorM3 ??
                           (widget.sampleListModel.isWebFullView
-                              ? Colors.white.withOpacity(0.5)
+                              ? Colors.white.withValues(alpha: 0.5)
                               : Colors.grey),
                     ),
                     contentPadding: EdgeInsets.zero,

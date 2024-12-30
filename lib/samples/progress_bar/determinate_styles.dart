@@ -182,7 +182,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
   Widget getGradientProgressStyle() {
     final ThemeData themeData = model.themeData;
     final Color gradientColor1 = themeData.useMaterial3
-        ? model.primaryColor.withOpacity(0.4)
+        ? model.primaryColor.withValues(alpha: 0.4)
         : const Color(0xFFa4edeb);
     final Color gradientColor2 =
         themeData.useMaterial3 ? model.primaryColor : const Color(0xFF00a9b5);

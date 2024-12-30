@@ -157,7 +157,7 @@ class _SparklineLiveUpdateState extends SampleViewState {
           Container(
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.withOpacity(0.5))),
+                border: Border.all(color: Colors.grey.withValues(alpha: 0.5))),
             height: _isVertical ? _size : _size * 0.7,
             width: _isVertical ? _size * 2 : _size,
             child: Column(
@@ -205,7 +205,7 @@ class _SparklineLiveUpdateState extends SampleViewState {
           Container(
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.withOpacity(0.5))),
+                border: Border.all(color: Colors.grey.withValues(alpha: 0.5))),
             height: _isVertical ? _size : _size * 0.7,
             width: _isVertical ? _size * 2 : _size,
             child: Column(
@@ -249,7 +249,8 @@ class _SparklineLiveUpdateState extends SampleViewState {
           Container(
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
+                  border:
+                      Border.all(color: Colors.grey.withValues(alpha: 0.5))),
               height: _isVertical ? _size : _size * 0.7,
               width: _isVertical ? _size * 2 : _size,
               child: Column(
@@ -298,7 +299,8 @@ class _SparklineLiveUpdateState extends SampleViewState {
           Container(
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
+                  border:
+                      Border.all(color: Colors.grey.withValues(alpha: 0.5))),
               height: _isVertical ? _size : _size * 0.7,
               width: _isVertical ? _size * 2 : _size,
               child: Column(

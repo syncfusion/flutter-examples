@@ -228,7 +228,7 @@ class _PolylinesSampleState extends SampleViewState
         selected: _currentSelectedCityIndex == index,
         selectedColor:
             model.themeData.colorScheme.brightness == Brightness.light
-                ? model.primaryColor.withOpacity(0.25)
+                ? model.primaryColor.withValues(alpha: 0.25)
                 : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {

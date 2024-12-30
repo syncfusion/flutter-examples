@@ -231,7 +231,7 @@ class _MapEqualColorMappingPageState extends SampleViewState {
                       source: _mapSource,
                       strokeColor: isLightTheme
                           ? Colors.white
-                          : Colors.white.withOpacity(0.12),
+                          : Colors.white.withValues(alpha: 0.12),
                       // Returns the custom tooltip for each shape.
                       shapeTooltipBuilder: (BuildContext context, int index) {
                         return Padding(

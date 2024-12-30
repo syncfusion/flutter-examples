@@ -1536,7 +1536,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: defaultColor.withOpacity(0.4),
+                              color: defaultColor.withValues(alpha: 0.4),
                             ),
                           ),
                         ),
@@ -3197,7 +3197,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                             decoration: BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: defaultColor.withOpacity(0.4),
+                                  color: defaultColor.withValues(alpha: 0.4),
                                 ),
                               ),
                             ),
@@ -3295,7 +3295,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: defaultColor.withOpacity(0.4),
+                            color: defaultColor.withValues(alpha: 0.4),
                           ),
                         ),
                       ),

@@ -32,12 +32,12 @@ class _VerticalDividerCustomizedRangeSliderState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-          inactiveTrackColor: _inactiveColor.withOpacity(0.5),
+          inactiveTrackColor: _inactiveColor.withValues(alpha: 0.5),
           activeTrackColor: _activeColor,
           thumbColor: _activeColor,
           inactiveDividerColor: const Color.fromARGB(255, 194, 194, 194),
           activeDividerColor: Colors.blue,
-          overlayColor: _activeColor.withOpacity(0.12),
+          overlayColor: _activeColor.withValues(alpha: 0.12),
           tooltipBackgroundColor: _activeColor),
       child: SfRangeSlider.vertical(
         max: 100.0,

@@ -88,7 +88,8 @@ class _SparklineSeriesTypesState extends SampleViewState {
                   width: _isVertical ? _size * 2 : _size,
                   padding: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.withOpacity(0.4))),
+                      border: Border.all(
+                          color: Colors.grey.withValues(alpha: 0.4))),
                   child: Column(children: <Widget>[
                     Expanded(
                         child: SfSparkLineChart(
@@ -142,7 +143,8 @@ class _SparklineSeriesTypesState extends SampleViewState {
                   width: _isVertical ? _size * 2 : _size,
                   padding: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.withOpacity(0.4))),
+                      border: Border.all(
+                          color: Colors.grey.withValues(alpha: 0.4))),
                   child: Column(children: <Widget>[
                     Expanded(
                         child: SfSparkAreaChart(
@@ -184,7 +186,8 @@ class _SparklineSeriesTypesState extends SampleViewState {
                   width: _isVertical ? _size * 2 : _size,
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.withOpacity(0.4))),
+                      border: Border.all(
+                          color: Colors.grey.withValues(alpha: 0.4))),
                   child: Column(children: <Widget>[
                     Expanded(
                         child: SfSparkBarChart(
@@ -224,7 +227,8 @@ class _SparklineSeriesTypesState extends SampleViewState {
                   width: _isVertical ? _size * 2 : _size,
                   padding: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.withOpacity(0.4))),
+                      border: Border.all(
+                          color: Colors.grey.withValues(alpha: 0.4))),
                   child: Column(children: <Widget>[
                     Expanded(
                         child: SfSparkWinLossChart(data: const <double>[

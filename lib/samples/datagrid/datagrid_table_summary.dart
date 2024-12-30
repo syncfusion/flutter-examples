@@ -59,7 +59,7 @@ class _TableSummaryDataGridState extends SampleViewState {
     final bool isLight =
         model.themeData.colorScheme.brightness == Brightness.light;
     if (isMaterial3) {
-      return model.themeData.colorScheme.primary.withOpacity(0.08);
+      return model.themeData.colorScheme.primary.withValues(alpha: 0.08);
     } else {
       return isLight ? const Color(0xFFEBEBEB) : const Color(0xFF3B3B3B);
     }

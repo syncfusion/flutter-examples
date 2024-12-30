@@ -33,13 +33,14 @@ class _VerticalSliderSizeCustomizationPageState extends SampleViewState {
         data: SfSliderThemeData(
             activeDividerRadius: 6.0,
             inactiveDividerRadius: 3.0,
-            inactiveDividerColor: Colors.deepOrangeAccent.withOpacity(0.24),
+            inactiveDividerColor:
+                Colors.deepOrangeAccent.withValues(alpha: 0.24),
             activeDividerColor: Colors.deepOrangeAccent,
             activeTrackColor: Colors.deepOrangeAccent,
             thumbColor: Colors.deepOrangeAccent,
             tooltipBackgroundColor: Colors.deepOrangeAccent,
-            inactiveTrackColor: Colors.deepOrangeAccent.withOpacity(0.24),
-            overlayColor: Colors.deepOrangeAccent.withOpacity(0.12)),
+            inactiveTrackColor: Colors.deepOrangeAccent.withValues(alpha: 0.24),
+            overlayColor: Colors.deepOrangeAccent.withValues(alpha: 0.12)),
         child: SfSlider.vertical(
           min: DateTime(2000),
           max: DateTime(2020),

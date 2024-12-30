@@ -146,7 +146,7 @@ class _AxisCrossingBaseValueState extends SampleViewState {
         ],
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
         yValueMapper: (ChartSampleData sales, int index) => sales.y,
-        color: color.withOpacity(0.6),
+        color: color.withValues(alpha: 0.6),
         borderColor: color,
         markerSettings: const MarkerSettings(isVisible: true),
       ),

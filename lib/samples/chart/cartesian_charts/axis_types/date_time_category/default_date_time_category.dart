@@ -74,7 +74,7 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
               color: labelColor,
               fontSize: 13,
             ),
-            color: const Color.fromRGBO(50, 198, 255, 1).withOpacity(0.3),
+            color: const Color.fromRGBO(50, 198, 255, 1).withValues(alpha: 0.3),
           ),
           PlotBand(
             textAngle: 0,
@@ -87,7 +87,7 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
               color: labelColor,
               fontSize: 13,
             ),
-            color: Colors.pink.withOpacity(0.2),
+            color: Colors.pink.withValues(alpha: 0.2),
           ),
         ],
       ),

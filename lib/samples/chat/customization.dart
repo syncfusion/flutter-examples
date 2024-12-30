@@ -199,7 +199,8 @@ class ChatCustomizationSampleState extends SampleViewState {
       decoration: BoxDecoration(
         color: _isOutgoingMessage(message)
             ? model.themeData.colorScheme.primary
-            : model.themeData.colorScheme.secondaryContainer.withOpacity(0.5),
+            : model.themeData.colorScheme.secondaryContainer
+                .withValues(alpha: 0.5),
         borderRadius: _borderRadius(index, message),
       ),
       child: Padding(
@@ -245,8 +246,9 @@ class ChatCustomizationSampleState extends SampleViewState {
             formattedTime,
             style: TextStyle(
               color: isOutgoingMessage
-                  ? model.themeData.colorScheme.surface.withOpacity(0.5)
-                  : model.themeData.colorScheme.onSurface.withOpacity(0.5),
+                  ? model.themeData.colorScheme.surface.withValues(alpha: 0.5)
+                  : model.themeData.colorScheme.onSurface
+                      .withValues(alpha: 0.5),
               fontSize: 10,
               fontWeight: FontWeight.w400,
             ),
@@ -379,30 +381,37 @@ class ChatCustomizationSampleState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    final double availableWidth = MediaQuery.of(context).size.width;
+    const double maxExpectedWidth = 750;
+    final bool canCenter = availableWidth > maxExpectedWidth;
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: SfChat(
-        messages: _messages,
-        outgoingUser: 'Felipe',
-        incomingBubbleSettings: const ChatBubbleSettings(
-          showUserName: false,
-          showTimestamp: false,
-          headerPadding: EdgeInsets.zero,
-          contentPadding: EdgeInsets.zero,
-          padding: EdgeInsets.symmetric(vertical: 0.5),
+      child: SizedBox(
+        width: canCenter ? maxExpectedWidth : availableWidth,
+        child: SfChat(
+          messages: _messages,
+          outgoingUser: 'Felipe',
+          incomingBubbleSettings: const ChatBubbleSettings(
+            showUserName: false,
+            showTimestamp: false,
+            headerPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsets.zero,
+            padding: EdgeInsets.symmetric(vertical: 0.5),
+          ),
+          outgoingBubbleSettings: const ChatBubbleSettings(
+            showUserName: false,
+            showTimestamp: false,
+            showUserAvatar: false,
+            headerPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsets.zero,
+            padding: EdgeInsets.symmetric(vertical: 0.5),
+          ),
+          bubbleHeaderBuilder: _buildBubbleHeader,
+          bubbleAvatarBuilder: _buildBubbleAvatar,
+          bubbleContentBuilder: _buildBubbleContent,
+          composer: ChatComposer.builder(builder: _buildComposer),
         ),
-        outgoingBubbleSettings: const ChatBubbleSettings(
-          showUserName: false,
-          showTimestamp: false,
-          showUserAvatar: false,
-          headerPadding: EdgeInsets.zero,
-          contentPadding: EdgeInsets.zero,
-          padding: EdgeInsets.symmetric(vertical: 0.5),
-        ),
-        bubbleHeaderBuilder: _buildBubbleHeader,
-        bubbleAvatarBuilder: _buildBubbleAvatar,
-        bubbleContentBuilder: _buildBubbleContent,
-        composer: ChatComposer.builder(builder: _buildComposer),
       ),
     );
   }

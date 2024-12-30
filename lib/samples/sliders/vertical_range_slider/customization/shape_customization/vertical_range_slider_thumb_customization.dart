@@ -34,7 +34,7 @@ class _VerticalThumbCustomizedRangeSliderState extends SampleViewState {
         inactiveTrackColor: _inactiveColor,
         activeTrackColor: _activeColor,
         thumbColor: Colors.white,
-        overlayColor: _activeColor.withOpacity(0.12),
+        overlayColor: _activeColor.withValues(alpha: 0.12),
         tickOffset: const Offset(13, 0),
         inactiveTickColor: _inactiveColor,
         activeTickColor: _activeColor,
@@ -64,7 +64,7 @@ class _VerticalThumbCustomizedRangeSliderState extends SampleViewState {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
         inactiveTrackColor:
-            const Color.fromARGB(255, 200, 200, 200).withOpacity(0.5),
+            const Color.fromARGB(255, 200, 200, 200).withValues(alpha: 0.5),
         tooltipBackgroundColor: const Color.fromARGB(255, 0, 178, 206),
       ),
       child: SfRangeSlider.vertical(

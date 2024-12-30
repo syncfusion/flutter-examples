@@ -348,7 +348,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                       : const Color.fromRGBO(0, 204, 153, 1.0),
                   overlayColor: const Color.fromRGBO(0, 179, 134, 0.12),
                   inactiveRegionColor:
-                      model.sampleOutputCardColor.withOpacity(0.75),
+                      model.sampleOutputCardColor.withValues(alpha: 0.75),
                   activeTrackColor: const Color.fromRGBO(0, 179, 134, 1.0),
                   inactiveTrackColor: const Color.fromRGBO(0, 179, 134, 0.5),
                 ),

@@ -7,7 +7,7 @@ import 'package:syncfusion_flutter_chat/assist_view.dart';
 
 import '../../model/sample_view.dart';
 import '../../widgets/custom_button.dart';
-import '../common/ai_sample_mixin.dart';
+import '../helper/ai_pop_up_api_key.dart';
 import 'common.dart';
 
 class AssistViewGettingStartedSample extends SampleView {
@@ -17,7 +17,7 @@ class AssistViewGettingStartedSample extends SampleView {
   SampleViewState createState() => _AssistViewState();
 }
 
-class _AssistViewState extends SampleViewState with AISampleMixin {
+class _AssistViewState extends SampleViewState {
   final AssistMessageAuthor _userAuthor =
       const AssistMessageAuthor(id: 'Emile Kraven', name: 'Emile Kraven');
   final AssistMessageAuthor _aiAuthor =
@@ -41,16 +41,6 @@ class _AssistViewState extends SampleViewState with AISampleMixin {
   bool _showResponseUserName = false;
   bool _showResponseTimestamp = false;
   bool _lightTheme = true;
-
-  void _obscuredText() {
-    if (assistApiKeyController.text.isNotEmpty) {
-      showSuffixIcon.value++;
-      suffixIconVisibility = true;
-    } else {
-      showSuffixIcon.value++;
-      suffixIconVisibility = false;
-    }
-  }
 
   SelectionArea _buildAIAssistView() {
     return SelectionArea(
@@ -234,7 +224,7 @@ class _AssistViewState extends SampleViewState with AISampleMixin {
           _addMessageAndRebuild(
             AssistMessage.response(
               data:
-                  'Please connect to your preferred AI server for the real-time queries',
+                  'Please connect to your preferred AI server for real-time queries.',
               author: _aiAuthor,
               time: DateTime.now(),
             ),
@@ -262,7 +252,20 @@ class _AssistViewState extends SampleViewState with AISampleMixin {
             ),
             tooltip: 'Configure AI',
             icon: const Icon(Icons.settings),
-            onPressed: showPopupDialog,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => WelcomeDialog(
+                  primaryColor: model.primaryColor,
+                  apiKey: model.assistApiKey,
+                  onApiKeySaved: (newApiKey) {
+                    setState(() {
+                      model.assistApiKey = newApiKey;
+                    });
+                  },
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -572,14 +575,23 @@ class _AssistViewState extends SampleViewState with AISampleMixin {
     _messages = <AssistMessage>[];
     _bubbleAlignmentItem = ['Auto', 'Start', 'End'];
     _placeholderBehaviorItem = ['Scroll', 'Hide'];
-    assistApiKeyController = TextEditingController();
-    assistApiKeyController.addListener(_obscuredText);
     super.initState();
 
     // Show the dialog when the app starts.
-    WidgetsBinding.instance.addPostFrameCallback((Duration duration) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (model.isFirstTime) {
-        showPopupDialog();
+        showDialog(
+          context: context,
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+            },
+          ),
+        );
         model.isFirstTime = false;
       }
     });
@@ -669,9 +681,6 @@ class _AssistViewState extends SampleViewState with AISampleMixin {
     _messages.clear();
     _bubbleAlignmentItem.clear();
     _placeholderBehaviorItem.clear();
-    assistApiKeyController.removeListener(_obscuredText);
-    showSuffixIcon.dispose();
-    assistApiKeyController.dispose();
     super.dispose();
   }
 }

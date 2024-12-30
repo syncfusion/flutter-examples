@@ -37,7 +37,7 @@ class _ColumnResizingDataGridState extends SampleViewState {
   Color _headerCellBackgroundColor() {
     final bool isMaterial3 = model.themeData.useMaterial3;
     return isMaterial3
-        ? model.themeData.colorScheme.surface.withOpacity(0.0001)
+        ? model.themeData.colorScheme.surface.withValues(alpha: 0.0001)
         : model.themeData.colorScheme.brightness == Brightness.light
             ? const Color(0xFFF1F1F1)
             : const Color(0xFF3A3A3A);

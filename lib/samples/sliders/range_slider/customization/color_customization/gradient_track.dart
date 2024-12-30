@@ -40,7 +40,8 @@ class _GradientTrackRangeSliderState extends SampleViewState {
       data: SfRangeSliderThemeData(
         inactiveTrackColor: _inactiveColor,
         thumbColor: Colors.white,
-        overlayColor: const Color.fromARGB(255, 0, 238, 217).withOpacity(0.12),
+        overlayColor:
+            const Color.fromARGB(255, 0, 238, 217).withValues(alpha: 0.12),
         activeTrackHeight: 8.0,
         inactiveTrackHeight: 8.0,
         trackCornerRadius: 4.0,
@@ -75,7 +76,7 @@ class _GradientTrackRangeSliderState extends SampleViewState {
           inactiveDividerRadius: 5.0,
           activeTrackColor: Colors.tealAccent,
           inactiveTrackColor: _inactiveColor,
-          overlayColor: Colors.tealAccent.withOpacity(0.12),
+          overlayColor: Colors.tealAccent.withValues(alpha: 0.12),
           thumbColor: Colors.white,
           thumbStrokeWidth: 2.0,
           thumbStrokeColor: Colors.tealAccent),
@@ -176,7 +177,7 @@ class _OverlayShape extends SfOverlayShape {
           ..isAntiAlias = true
           ..strokeWidth = 0
           ..color = (thumb == SfThumb.start ? leftThumbColor : rightThumbColor)
-              .withOpacity(0.12));
+              .withValues(alpha: 0.12));
   }
 }
 

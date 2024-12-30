@@ -274,12 +274,12 @@ class _LegendOptionsState extends SampleViewState {
                 _xOffset = _enableFloatingLegend ? val : 0;
               }),
               step: _enableFloatingLegend ? 10 : 0,
-              iconColor:
-                  model.textColor.withOpacity(_enableFloatingLegend ? 1 : 0.5),
+              iconColor: model.textColor
+                  .withValues(alpha: _enableFloatingLegend ? 1 : 0.5),
               style: TextStyle(
                 fontSize: 16.0,
                 color: model.textColor
-                    .withOpacity(_enableFloatingLegend ? 1 : 0.5),
+                    .withValues(alpha: _enableFloatingLegend ? 1 : 0.5),
               ),
             ),
           ),
@@ -315,12 +315,12 @@ class _LegendOptionsState extends SampleViewState {
                 _yOffset = _enableFloatingLegend ? val : 0;
               }),
               step: _enableFloatingLegend ? 10 : 0,
-              iconColor:
-                  model.textColor.withOpacity(_enableFloatingLegend ? 1 : 0.5),
+              iconColor: model.textColor
+                  .withValues(alpha: _enableFloatingLegend ? 1 : 0.5),
               style: TextStyle(
                 fontSize: 16.0,
                 color: model.textColor
-                    .withOpacity(_enableFloatingLegend ? 1 : 0.5),
+                    .withValues(alpha: _enableFloatingLegend ? 1 : 0.5),
               ),
             ),
           ),

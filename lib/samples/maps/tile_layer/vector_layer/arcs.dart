@@ -469,7 +469,7 @@ class _ArcsSampleState extends SampleViewState
         selected: _currentSelectedCityIndex == index,
         selectedColor:
             model.themeData.colorScheme.brightness == Brightness.light
-                ? model.primaryColor.withOpacity(0.25)
+                ? model.primaryColor.withValues(alpha: 0.25)
                 : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {
@@ -594,7 +594,7 @@ class _BlowingCircleCustomPaint extends CustomPainter {
       ..color = iconColor;
     canvas.drawCircle(center, halfWidth, paint);
     canvas.drawCircle(center, halfWidth + halfWidth * 2 * animationValue,
-        paint..color = iconColor.withOpacity(1 - animationValue));
+        paint..color = iconColor.withValues(alpha: 1 - animationValue));
   }
 
   @override

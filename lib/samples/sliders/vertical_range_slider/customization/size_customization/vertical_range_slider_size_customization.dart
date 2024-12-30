@@ -33,13 +33,13 @@ class _VerticalSfRangeSliderSizeCustomizationPageState extends SampleViewState {
         data: SfRangeSliderThemeData(
             activeDividerRadius: 6.0,
             inactiveDividerRadius: 3.0,
-            inactiveDividerColor: Colors.teal.withOpacity(0.24),
+            inactiveDividerColor: Colors.teal.withValues(alpha: 0.24),
             activeDividerColor: Colors.teal,
             activeTrackColor: Colors.teal,
             thumbColor: Colors.teal,
             tooltipBackgroundColor: Colors.teal,
-            overlayColor: Colors.teal.withOpacity(0.12),
-            inactiveTrackColor: Colors.teal.withOpacity(0.24)),
+            overlayColor: Colors.teal.withValues(alpha: 0.12),
+            inactiveTrackColor: Colors.teal.withValues(alpha: 0.24)),
         child: SfRangeSlider.vertical(
           min: DateTime(2000),
           max: DateTime(2020),
@@ -70,8 +70,8 @@ class _VerticalSfRangeSliderSizeCustomizationPageState extends SampleViewState {
             activeTrackColor: Colors.orange,
             thumbColor: Colors.orange,
             tooltipBackgroundColor: Colors.orange,
-            overlayColor: Colors.orange.withOpacity(0.12),
-            inactiveTrackColor: Colors.orange.withOpacity(0.24)),
+            overlayColor: Colors.orange.withValues(alpha: 0.12),
+            inactiveTrackColor: Colors.orange.withValues(alpha: 0.24)),
         child: SfRangeSlider.vertical(
             showLabels: true,
             interval: 25,

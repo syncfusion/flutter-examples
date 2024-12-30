@@ -20,8 +20,8 @@ class WelcomeDialog extends StatefulWidget {
 
 class _WelcomeDialogState extends State<WelcomeDialog> {
   final ValueNotifier<int> _show = ValueNotifier<int>(0);
-  bool _isVisible = false;
   late TextEditingController _apiKeyController;
+  bool _isVisible = false;
   bool _isObscured = true;
 
   @override
@@ -71,7 +71,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                   _buildTitle('Disclaimer', widget.primaryColor),
                   const SizedBox(height: 10),
                   const Text(
-                    'Please be aware that Syncfusion does not retain your API key, requests, or AI responses. All data will be cleared when you exit this application.',
+                    'The API key you provide is not stored in Syncfusion; instead, it is sent to Google to obtain a response for your request. Both the API key and the request and response messages are deleted once your session ends.',
                     style: TextStyle(fontSize: 14),
                   ),
                 ],
@@ -215,7 +215,9 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
 
   @override
   void dispose() {
+    _apiKeyController.removeListener(_obscuredText);
     _apiKeyController.dispose();
+    _show.dispose();
     super.dispose();
   }
 }

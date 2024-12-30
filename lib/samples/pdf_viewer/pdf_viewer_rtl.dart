@@ -280,7 +280,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
             : const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(2))),
         hoverColor: _useMaterial3
-            ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
             : null,
         child: Align(
           alignment: Alignment.topLeft,
@@ -293,8 +293,8 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
                       color: Theme.of(context).colorScheme.onSurfaceVariant)
                   : TextStyle(
                       color: _isLight
-                          ? const Color(0x00000000).withOpacity(0.87)
-                          : const Color(0x00ffffff).withOpacity(0.87),
+                          ? const Color(0x00000000).withValues(alpha: 0.87)
+                          : const Color(0x00ffffff).withValues(alpha: 0.87),
                       fontSize: 14,
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.w400),
@@ -359,7 +359,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
             : const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(2))),
         hoverColor: _useMaterial3
-            ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
             : null,
         child: Align(
           alignment: Alignment.topLeft,
@@ -649,7 +649,7 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
           } else {
             return Container(
               color: SfPdfViewerTheme.of(context)!.backgroundColor ??
-                  Theme.of(context).colorScheme.surface.withOpacity(0.08),
+                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.08),
             );
           }
         },
@@ -753,20 +753,20 @@ class ToolbarState extends State<Toolbar> {
             ? const Color.fromRGBO(73, 69, 79, 1)
             : const Color.fromRGBO(202, 196, 208, 1)
         : Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.54)
-            : Colors.white.withOpacity(0.65);
+            ? Colors.black.withValues(alpha: 0.54)
+            : Colors.white.withValues(alpha: 0.65);
     _disabledColor = _useMaterial3
         ? Theme.of(context).brightness == Brightness.light
-            ? const Color.fromRGBO(28, 27, 31, 1).withOpacity(0.38)
-            : const Color.fromRGBO(230, 225, 229, 1).withOpacity(0.38)
+            ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+            : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
         : Theme.of(context).brightness == Brightness.light
             ? Colors.black12
             : Colors.white12;
     _textColor = _isLight
-        ? const Color(0x00000000).withOpacity(0.87)
-        : const Color(0x00ffffff).withOpacity(0.87);
+        ? const Color(0x00000000).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.87);
     _fillColor = _useMaterial3
-        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
         : _isLight
             ? const Color(0xFFD2D2D2)
             : const Color(0xFF525252);
@@ -811,7 +811,7 @@ class ToolbarState extends State<Toolbar> {
       highlightElevation: 0,
       hoverColor: hoverColor ??
           (_useMaterial3
-              ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+              ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
               : null),
       shape: shape ??
           (_useMaterial3
@@ -840,7 +840,7 @@ class ToolbarState extends State<Toolbar> {
         endIndent: 12.0,
         // bottom indent of vertical divider
         color: _isLight
-            ? Colors.black.withOpacity(0.24)
+            ? Colors.black.withValues(alpha: 0.24)
             : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
@@ -1121,7 +1121,7 @@ class ToolbarState extends State<Toolbar> {
                                         Theme.of(context)
                                             .colorScheme
                                             .onSurface
-                                            .withOpacity(0.08)) {
+                                            .withValues(alpha: 0.08)) {
                                   _panFillColor = null;
                                 } else {
                                   _panFillColor = _fillColor;
@@ -1236,7 +1236,10 @@ class ToolbarState extends State<Toolbar> {
     return _useMaterial3
         ? OutlineInputBorder(
             borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.outline.withOpacity(0.38)))
+                color: Theme.of(context)
+                    .colorScheme
+                    .outline
+                    .withValues(alpha: 0.38)))
         : const UnderlineInputBorder();
   }
 
@@ -1245,7 +1248,10 @@ class ToolbarState extends State<Toolbar> {
     return _useMaterial3
         ? OutlineInputBorder(
             borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.outline.withOpacity(0.38)))
+                color: Theme.of(context)
+                    .colorScheme
+                    .outline
+                    .withValues(alpha: 0.38)))
         : null;
   }
 
@@ -1254,7 +1260,10 @@ class ToolbarState extends State<Toolbar> {
     return _useMaterial3
         ? OutlineInputBorder(
             borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.outline.withOpacity(0.38)))
+                color: Theme.of(context)
+                    .colorScheme
+                    .outline
+                    .withValues(alpha: 0.38)))
         : UnderlineInputBorder(
             borderSide:
                 BorderSide(color: Theme.of(context).primaryColor, width: 2.0),

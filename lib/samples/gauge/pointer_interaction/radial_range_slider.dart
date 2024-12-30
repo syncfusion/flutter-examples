@@ -71,7 +71,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                   borderWidth: isCardView ? 3 : _borderWidth,
                   color: model.themeData.brightness == Brightness.light
                       ? Colors.white
-                      : Colors.black.withOpacity(0.8),
+                      : Colors.black.withValues(alpha: 0.8),
                   markerHeight: isCardView ? 15 : _markerSize,
                   markerWidth: isCardView ? 15 : _markerSize,
                   markerType: MarkerType.circle,
@@ -84,7 +84,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                   onValueChanging: _handleSecondPointerValueChanging,
                   color: model.themeData.brightness == Brightness.light
                       ? Colors.white
-                      : Colors.black.withOpacity(0.8),
+                      : Colors.black.withValues(alpha: 0.8),
                   enableDragging: _enableDragging,
                   borderColor: const Color(0xFFFFCD60),
                   markerHeight: isCardView ? 15 : _markerSize,

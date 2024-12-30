@@ -391,13 +391,13 @@ class _CartesianLegendOptionsState extends SampleViewState {
                                 _xOffset = _enableFloatingLegend ? val : 0;
                               }),
                               step: _enableFloatingLegend ? 10 : 0,
-                              iconColor: model.textColor.withOpacity(
-                                _enableFloatingLegend ? 1 : 0.5,
+                              iconColor: model.textColor.withValues(
+                                alpha: _enableFloatingLegend ? 1 : 0.5,
                               ),
                               style: TextStyle(
                                 fontSize: 16.0,
-                                color: model.textColor.withOpacity(
-                                  _enableFloatingLegend ? 1 : 0.5,
+                                color: model.textColor.withValues(
+                                  alpha: _enableFloatingLegend ? 1 : 0.5,
                                 ),
                               ),
                             ),
@@ -428,13 +428,13 @@ class _CartesianLegendOptionsState extends SampleViewState {
                                 _yOffset = _enableFloatingLegend ? val : 0;
                               }),
                               step: _enableFloatingLegend ? 10 : 0,
-                              iconColor: model.textColor.withOpacity(
-                                _enableFloatingLegend ? 1 : 0.5,
+                              iconColor: model.textColor.withValues(
+                                alpha: _enableFloatingLegend ? 1 : 0.5,
                               ),
                               style: TextStyle(
                                 fontSize: 16.0,
-                                color: model.textColor.withOpacity(
-                                  _enableFloatingLegend ? 1 : 0.5,
+                                color: model.textColor.withValues(
+                                  alpha: _enableFloatingLegend ? 1 : 0.5,
                                 ),
                               ),
                             ),
@@ -484,11 +484,11 @@ class _CartesianLegendOptionsState extends SampleViewState {
         overflowMode: _overflowMode!,
         toggleSeriesVisibility: _toggleVisibility,
         backgroundColor: model.themeData.brightness == Brightness.light
-            ? Colors.white.withOpacity(0.5)
+            ? Colors.white.withValues(alpha: 0.5)
             : const Color.fromRGBO(33, 33, 33, 0.5),
         borderColor: model.themeData.brightness == Brightness.light
-            ? Colors.black.withOpacity(0.5)
-            : Colors.white.withOpacity(0.5),
+            ? Colors.black.withValues(alpha: 0.5)
+            : Colors.white.withValues(alpha: 0.5),
       ),
       tooltipBehavior: _tooltipBehavior,
     );

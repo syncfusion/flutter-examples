@@ -102,7 +102,7 @@ class _StepAreaState extends SampleViewState {
         dataSource: chartData,
         xValueMapper: (_StepAreaData data, int index) => data.x,
         yValueMapper: (_StepAreaData data, int index) => data.high,
-        color: seriesColor1.withOpacity(0.6),
+        color: seriesColor1.withValues(alpha: 0.6),
         borderColor: seriesColor1,
         name: 'High',
       ),
@@ -110,7 +110,7 @@ class _StepAreaState extends SampleViewState {
         dataSource: chartData,
         xValueMapper: (_StepAreaData data, int index) => data.x,
         yValueMapper: (_StepAreaData data, int index) => data.low,
-        color: seriesColor2.withOpacity(0.6),
+        color: seriesColor2.withValues(alpha: 0.6),
         borderColor: seriesColor2,
         name: 'Low',
       )

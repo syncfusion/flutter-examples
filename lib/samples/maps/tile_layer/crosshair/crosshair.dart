@@ -138,7 +138,8 @@ class _MapCrosshairPageState extends SampleViewState {
                   size: 16,
                   color: _zoomPanBehavior.maxZoomLevel ==
                           _zoomPanBehavior.zoomLevel
-                      ? model.themeData.colorScheme.primary.withOpacity(0.2)
+                      ? model.themeData.colorScheme.primary
+                          .withValues(alpha: 0.2)
                       : model.themeData.colorScheme.primary),
             ),
           ),
@@ -156,7 +157,8 @@ class _MapCrosshairPageState extends SampleViewState {
                   size: 16,
                   color: _zoomPanBehavior.minZoomLevel ==
                           _zoomPanBehavior.zoomLevel
-                      ? model.themeData.colorScheme.primary.withOpacity(0.2)
+                      ? model.themeData.colorScheme.primary
+                          .withValues(alpha: 0.2)
                       : model.themeData.colorScheme.primary),
             ),
           ),

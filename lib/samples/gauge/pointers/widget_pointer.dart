@@ -91,15 +91,15 @@ class _WidgetPointerExampleState extends SampleViewState {
                           color: model.themeData.colorScheme.brightness ==
                                   Brightness.light
                               ? Colors.grey
-                              : Colors.white.withOpacity(0.2),
+                              : Colors.white.withValues(alpha: 0.2),
                           blurRadius: 4.0,
                         ),
                       ],
                       border: Border.all(
                         color: model.themeData.colorScheme.brightness ==
                                 Brightness.light
-                            ? Colors.black.withOpacity(0.1)
-                            : Colors.white.withOpacity(0.1),
+                            ? Colors.black.withValues(alpha: 0.1)
+                            : Colors.white.withValues(alpha: 0.1),
                       )),
                   height: isCardView
                       ? 37

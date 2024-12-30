@@ -65,28 +65,37 @@ class _ChatWidgetPageState extends State<ChatWidgetPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SfChat(
-        messages: _messages,
-        outgoingUser: 'Cristina',
-        outgoingBubbleSettings: const ChatBubbleSettings(
-          showUserAvatar: false,
-          showUserName: false,
-        ),
-        composer: const ChatComposer(
-          decoration: InputDecoration(hintText: 'Type a message'),
-        ),
-        actionButton: ChatActionButton(
-          onPressed: (String newMessage) {
-            setState(() {
-              _messages.add(ChatMessage(
-                text: newMessage,
-                time: DateTime.now(),
-                author: const ChatAuthor(id: 'Cristina', name: 'Cristina'),
-              ));
-            });
-          },
+    final double availableWidth = MediaQuery.of(context).size.width;
+    const double maxExpectedWidth = 750;
+    final bool canCenter = availableWidth > maxExpectedWidth;
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SizedBox(
+          width: canCenter ? maxExpectedWidth : availableWidth,
+          child: SfChat(
+            messages: _messages,
+            outgoingUser: 'Cristina',
+            outgoingBubbleSettings: const ChatBubbleSettings(
+              showUserAvatar: false,
+              showUserName: false,
+            ),
+            composer: const ChatComposer(
+              decoration: InputDecoration(hintText: 'Type a message'),
+            ),
+            actionButton: ChatActionButton(
+              onPressed: (String newMessage) {
+                setState(() {
+                  _messages.add(ChatMessage(
+                    text: newMessage,
+                    time: DateTime.now(),
+                    author: const ChatAuthor(id: 'Cristina', name: 'Cristina'),
+                  ));
+                });
+              },
+            ),
+          ),
         ),
       ),
     );

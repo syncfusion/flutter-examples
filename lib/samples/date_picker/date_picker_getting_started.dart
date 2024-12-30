@@ -476,7 +476,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -512,7 +512,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -549,7 +549,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -583,7 +583,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                                 _onBoolValueChange('EnablePastDates', value);
                                 stateSetter(() {});
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -620,7 +620,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -656,7 +656,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -691,7 +691,7 @@ class _GettingStartedDatePickerState extends SampleViewState {
                                     'ShowLeadingTrailingDates', value);
                                 stateSetter(() {});
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
