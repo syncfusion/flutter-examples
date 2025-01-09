@@ -439,11 +439,11 @@ class _StockForecastingSampleState extends SampleViewState
             TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: _autoscrollingDelta == item['value']
-                    ? model.primaryColor.withOpacity(0.2)
+                    ? model.primaryColor.withValues(alpha: 0.2)
                     : null, // Default to white
                 foregroundColor: _autoscrollingDelta == item['value']
-                    ? model.primaryColor.withOpacity(0.8)
-                    : model.textColor.withOpacity(0.7),
+                    ? model.primaryColor.withValues(alpha: 0.8)
+                    : model.textColor.withValues(alpha: 0.7),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
                 ),

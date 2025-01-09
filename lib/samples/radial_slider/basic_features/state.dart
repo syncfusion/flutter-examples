@@ -116,7 +116,7 @@ class _RadialSliderStateTypesState extends SampleViewState {
           child: Transform.scale(
               scale: 0.8,
               child: CupertinoSwitch(
-                activeColor: model.primaryColor,
+                activeTrackColor: model.primaryColor,
                 value: _enableDragging,
                 onChanged: (bool value) {
                   setState(() {

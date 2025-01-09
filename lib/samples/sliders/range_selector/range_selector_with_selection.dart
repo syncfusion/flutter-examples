@@ -141,11 +141,11 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                     activeLabelStyle: TextStyle(
                         fontSize: 12,
                         color: themeData.textTheme.bodyLarge!.color!
-                            .withOpacity(0.87)),
+                            .withValues(alpha: 0.87)),
                     inactiveLabelStyle: TextStyle(
                         fontSize: 12,
                         color: themeData.textTheme.bodyLarge!.color!
-                            .withOpacity(0.87)),
+                            .withValues(alpha: 0.87)),
                     inactiveRegionColor: Colors.transparent),
                 child: SfRangeSelector(
                   min: min,

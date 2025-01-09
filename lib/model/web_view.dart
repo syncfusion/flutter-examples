@@ -552,7 +552,7 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
             },
             child: Container(
               color: isNeedSelect
-                  ? Colors.grey.withOpacity(0.2)
+                  ? Colors.grey.withValues(alpha: 0.2)
                   : Colors.transparent,
               child: Row(
                 children: <Widget>[
@@ -719,7 +719,7 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                   },
                   child: Container(
                     color: isNeedSelect
-                        ? Colors.grey.withOpacity(0.2)
+                        ? Colors.grey.withValues(alpha: 0.2)
                         : Colors.transparent,
                     child: Row(
                       children: <Widget>[
@@ -1142,7 +1142,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
             ? orginText + ' > ' + sampleSubItem.title!
             : orginText,
         style: TextStyle(
-          color: model.textColor.withOpacity(0.65),
+          color: model.textColor.withValues(alpha: 0.65),
           letterSpacing: 0.3,
           fontFamily: 'Roboto-Regular',
         ),
@@ -1445,11 +1445,11 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
           clipBehavior: Clip.hardEdge,
           child: ToggleButtons(
             constraints: const BoxConstraints(minHeight: 30, minWidth: 30),
-            fillColor: Colors.grey.withOpacity(0.3),
-            splashColor: Colors.grey.withOpacity(0.3),
+            fillColor: Colors.grey.withValues(alpha: 0.3),
+            splashColor: Colors.grey.withValues(alpha: 0.3),
             borderColor: Colors.transparent,
             isSelected: isSelected,
-            hoverColor: Colors.grey.withOpacity(0.3),
+            hoverColor: Colors.grey.withValues(alpha: 0.3),
             onPressed: (int index) {
               isSelected[index] = !isSelected[index];
               if (MediaQuery.of(context).size.width > 720) {
@@ -1570,8 +1570,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: <Color>[
-                          model.subSamplesTabBarColor.withOpacity(0.21),
-                          model.subSamplesTabBarColor.withOpacity(1.0)
+                          model.subSamplesTabBarColor.withValues(alpha: 0.21),
+                          model.subSamplesTabBarColor.withValues(alpha: 1.0)
                         ],
                         stops: const <double>[0.0, 0.7],
                       ),
@@ -1593,9 +1593,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: <Color>[
-                          model.subSamplesTabBarColor.withOpacity(1.0),
-                          model.subSamplesTabBarColor.withOpacity(1.0),
-                          model.subSamplesTabBarColor.withOpacity(0.21),
+                          model.subSamplesTabBarColor.withValues(alpha: 1.0),
+                          model.subSamplesTabBarColor.withValues(alpha: 1.0),
+                          model.subSamplesTabBarColor.withValues(alpha: 0.21),
                         ],
                         stops: const <double>[0.0, 0.5, 0.9],
                       ),
@@ -1651,7 +1651,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                 'images/scroll-arrow-left.png',
                 color: _isLeftScrolled
                     ? model.textColor
-                    : model.textColor.withOpacity(0.5),
+                    : model.textColor.withValues(alpha: 0.5),
                 fit: BoxFit.contain,
               ),
             ),
@@ -1699,7 +1699,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                   'images/scroll_arrow.png',
                   color: _isRightScrolled
                       ? model.textColor
-                      : model.textColor.withOpacity(0.5),
+                      : model.textColor.withValues(alpha: 0.5),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -1988,7 +1988,7 @@ class _OutputContainerState extends State<_OutputContainer> {
             Text(
               'Source: ',
               style: TextStyle(
-                color: widget.sampleModel!.textColor.withOpacity(0.65),
+                color: widget.sampleModel!.textColor.withValues(alpha: 0.65),
                 fontSize: 12,
               ),
             ),
@@ -2243,7 +2243,8 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
                   color: widget.sampleModel!.drawerBackgroundColor,
                   border: (widget.openState ?? false)
                       ? Border.all(
-                          color: widget.sampleModel!.textColor.withOpacity(0.3),
+                          color: widget.sampleModel!.textColor
+                              .withValues(alpha: 0.3),
                           width: 0.5,
                         )
                       : Border.all(
@@ -2276,7 +2277,8 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
                                 shape: const CircleBorder(),
                                 clipBehavior: Clip.hardEdge,
                                 child: IconButton(
-                                  hoverColor: Colors.grey.withOpacity(0.3),
+                                  hoverColor:
+                                      Colors.grey.withValues(alpha: 0.3),
                                   icon: Icon(
                                     Icons.close,
                                     color: widget.sampleModel!.drawerIconColor,
@@ -2375,7 +2377,7 @@ class _TileContainerState extends State<_TileContainer> {
     final SubItem currentSample = widget.webLayoutPageState!.sample;
     final Color selectedColor = model.themeData.useMaterial3
         ? model.themeData.colorScheme.secondaryContainer
-        : Colors.grey.withOpacity(0.2);
+        : Colors.grey.withValues(alpha: 0.2);
     if (list != null && list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {
         final String status = statusTag(list[i]);
@@ -2736,7 +2738,8 @@ class _PopupState extends State<_Popup> {
                               child: Tooltip(
                                 message: 'Options',
                                 child: IconButton(
-                                  hoverColor: Colors.grey.withOpacity(0.3),
+                                  hoverColor:
+                                      Colors.grey.withValues(alpha: 0.3),
                                   icon: Icon(
                                     Icons.menu,
                                     color: model!.drawerIconColor,
@@ -2760,7 +2763,7 @@ class _PopupState extends State<_Popup> {
                             shape: const CircleBorder(),
                             clipBehavior: Clip.hardEdge,
                             child: IconButton(
-                              hoverColor: Colors.grey.withOpacity(0.3),
+                              hoverColor: Colors.grey.withValues(alpha: 0.3),
                               icon: Icon(
                                 Icons.close,
                                 color: model!.drawerIconColor,

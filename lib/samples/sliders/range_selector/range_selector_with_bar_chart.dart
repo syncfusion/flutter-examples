@@ -130,13 +130,13 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                               isLightTheme ? Colors.black : Colors.white,
                           inactiveTrackColor:
                               isLightTheme ? Colors.black : Colors.white,
-                          inactiveRegionColor:
-                              model.sampleOutputCardColor.withOpacity(0.75),
+                          inactiveRegionColor: model.sampleOutputCardColor
+                              .withValues(alpha: 0.75),
                           tooltipBackgroundColor:
                               isLightTheme ? Colors.black : Colors.white,
                           overlayColor: isLightTheme
-                              ? Colors.black.withOpacity(0.12)
-                              : Colors.white.withOpacity(0.12),
+                              ? Colors.black.withValues(alpha: 0.12)
+                              : Colors.white.withValues(alpha: 0.12),
                           tooltipTextStyle: TextStyle(
                               color:
                                   isLightTheme ? Colors.white : Colors.black),

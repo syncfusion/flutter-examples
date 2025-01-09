@@ -151,7 +151,8 @@ class _SparklineAxesTypesState extends SampleViewState {
               width: _isVertical ? _size * 1.7 : _size,
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
+                  border:
+                      Border.all(color: Colors.grey.withValues(alpha: 0.5))),
               child: Column(children: <Widget>[
                 const Text('Average working hours for a month',
                     textAlign: TextAlign.center),
@@ -184,7 +185,8 @@ class _SparklineAxesTypesState extends SampleViewState {
               width: _isVertical ? _size * 1.7 : _size,
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
+                  border:
+                      Border.all(color: Colors.grey.withValues(alpha: 0.5))),
               child: Column(children: <Widget>[
                 const Text('Percentage of the students in a class',
                     textAlign: TextAlign.center),
@@ -220,7 +222,8 @@ class _SparklineAxesTypesState extends SampleViewState {
               width: _isVertical ? _size * 1.7 : _size,
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
+                  border:
+                      Border.all(color: Colors.grey.withValues(alpha: 0.5))),
               child: Column(children: <Widget>[
                 const Text('Expenditure details of various trips',
                     textAlign: TextAlign.center),

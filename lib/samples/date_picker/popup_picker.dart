@@ -419,8 +419,8 @@ class _PopUpDatePickerState extends SampleViewState
                         children: <Widget>[
                           RawMaterialButton(
                             fillColor: model.primaryColor,
-                            splashColor: Colors.grey.withOpacity(0.12),
-                            hoverColor: Colors.grey.withOpacity(0.04),
+                            splashColor: Colors.grey.withValues(alpha: 0.12),
+                            hoverColor: Colors.grey.withValues(alpha: 0.04),
                             onPressed: () {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(

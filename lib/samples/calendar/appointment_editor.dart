@@ -3328,7 +3328,7 @@ class _CustomRuleState extends State<_CustomRule> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(3),
                   ),
                   child: TextField(
@@ -3380,7 +3380,7 @@ class _CustomRuleState extends State<_CustomRule> {
                     horizontal: 10,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(3),
                   ),
                   child: DropdownButton<String>(
@@ -3602,7 +3602,7 @@ class _CustomRuleState extends State<_CustomRule> {
                   height: 40,
                   width: _width,
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(3),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -3732,7 +3732,7 @@ class _CustomRuleState extends State<_CustomRule> {
                       width: 110,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.1),
+                        color: Colors.grey.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(3),
                       ),
                       child: ButtonTheme(
@@ -3823,7 +3823,7 @@ class _CustomRuleState extends State<_CustomRule> {
                         margin: const EdgeInsets.only(left: 5),
                         alignment: Alignment.topCenter,
                         decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.1),
+                          color: Colors.grey.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(3),
                         ),
                         child: TextField(

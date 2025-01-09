@@ -651,7 +651,7 @@ class _MapLegendPageState extends SampleViewState {
                   softWrap: false,
                   style: TextStyle(
                     color: _showBarLegend
-                        ? model.textColor.withOpacity(0.5)
+                        ? model.textColor.withValues(alpha: 0.5)
                         : model.textColor,
                     fontSize: 16,
                   ),
@@ -682,7 +682,7 @@ class _MapLegendPageState extends SampleViewState {
                   style: TextStyle(
                     color: _showBarLegend
                         ? model.textColor
-                        : model.textColor.withOpacity(0.5),
+                        : model.textColor.withValues(alpha: 0.5),
                     fontSize: 16,
                   ),
                 ),

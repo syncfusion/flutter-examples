@@ -201,9 +201,9 @@ class _AirFareCalendarCalendarState extends SampleViewState {
           left: BorderSide(width: 0.1, color: defaultColor),
         ),
         color: isDisabledDate
-            ? Colors.grey.withOpacity(0.1)
+            ? Colors.grey.withValues(alpha: 0.1)
             : isBestPrice
-                ? Colors.yellow.withOpacity(0.2)
+                ? Colors.yellow.withValues(alpha: 0.2)
                 : null,
       ),
       child: Column(

@@ -145,7 +145,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         model.isMobileResolution != null &&
         !model.isMobileResolution;
     _fillColor = _useMaterial3
-        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
         : _isLight
             ? const Color(0xFFE5E5E5)
             : const Color(0xFF525252);
@@ -210,7 +210,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             fontFamily: 'Roboto',
             fontSize: 20,
             fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.87),
+            color:
+                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.87),
           ),
         ),
         SizedBox(
@@ -227,7 +228,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             },
             child: Icon(
               Icons.clear,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.6),
               size: 24,
             ),
           ),
@@ -259,7 +263,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 fontFamily: 'Roboto',
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.6),
               ),
             ),
           ),
@@ -310,14 +317,14 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         fontFamily: 'Roboto',
         fontSize: 16,
         fontWeight: FontWeight.w400,
-        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
       ),
       labelText: 'Enter password',
       labelStyle: TextStyle(
         fontFamily: 'Roboto',
         fontSize: 18,
         fontWeight: FontWeight.w500,
-        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.87),
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.87),
       ),
       errorStyle: TextStyle(
         fontFamily: 'Roboto',
@@ -327,7 +334,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       ),
       suffixIcon: IconButton(
           icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6)),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.6)),
           onPressed: () {
             setState(() {
               _passwordVisible = !_passwordVisible;
@@ -444,7 +454,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               fontFamily: 'Roboto',
               fontSize: 20,
               fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.87),
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.87),
             ),
           ),
           SizedBox(
@@ -457,7 +470,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               ),
               child: Icon(
                 Icons.clear,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.6),
                 size: 24,
               ),
             ),
@@ -477,7 +493,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           fontFamily: 'Roboto',
           fontSize: 16,
           fontWeight: FontWeight.w400,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
         ),
       ),
     );
@@ -493,7 +509,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           fontFamily: 'Roboto',
           fontSize: 17,
           fontWeight: FontWeight.w400,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.87),
+          color:
+              Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.87),
         ),
         obscureText: _passwordVisible,
         obscuringCharacter: '*',
@@ -534,7 +551,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       fontFamily: 'Roboto',
       fontSize: 16,
       fontWeight: FontWeight.w400,
-      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
     );
   }
 
@@ -553,7 +570,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     return IconButton(
       icon: Icon(
         _passwordVisible ? Icons.visibility : Icons.visibility_off,
-        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
         size: 24,
       ),
       onPressed: () {
@@ -1068,7 +1085,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             : const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(2))),
         hoverColor: _useMaterial3
-            ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
             : null,
         child: Align(
           alignment: Alignment.topLeft,
@@ -1081,8 +1098,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       color: Theme.of(context).colorScheme.onSurfaceVariant)
                   : TextStyle(
                       color: _isLight
-                          ? const Color(0x00000000).withOpacity(0.87)
-                          : const Color(0x00ffffff).withOpacity(0.87),
+                          ? const Color(0x00000000).withValues(alpha: 0.87)
+                          : const Color(0x00ffffff).withValues(alpha: 0.87),
                       fontSize: 14,
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.w400),
@@ -1148,7 +1165,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             : const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(2))),
         hoverColor: _useMaterial3
-            ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
             : null,
         child: Align(
           alignment: Alignment.topLeft,
@@ -1238,7 +1255,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               color: _useMaterial3
                   ? model.themeData.colorScheme.outlineVariant
                   : _isLight
-                      ? Colors.black.withOpacity(0.24)
+                      ? Colors.black.withValues(alpha: 0.24)
                       : const Color.fromRGBO(255, 255, 255, 0.26),
             ),
             _buildSettingsMenuScrollingOptions(),
@@ -1315,7 +1332,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           highlightElevation: 0.0,
           onPressed: onPressed,
           hoverColor: _useMaterial3
-              ? model.themeData.colorScheme.onSurface.withOpacity(0.08)
+              ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
               : null,
           fillColor: canShowFillColor ? _fillColor : null,
           child: _buildSettingsDropDownItem(imagePath, mode)),
@@ -1346,8 +1363,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               color: _useMaterial3
                   ? Theme.of(context).colorScheme.onSurfaceVariant
                   : _isLight
-                      ? const Color(0x00000000).withOpacity(0.87)
-                      : const Color(0x00ffffff).withOpacity(0.87),
+                      ? const Color(0x00000000).withValues(alpha: 0.87)
+                      : const Color(0x00ffffff).withValues(alpha: 0.87),
               fontSize: _useMaterial3 ? 16 : 14,
               letterSpacing: _useMaterial3 ? 0.15 : null,
               fontFamily: 'Roboto',
@@ -2193,7 +2210,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           } else {
             return Container(
               color: SfPdfViewerTheme.of(context)!.backgroundColor ??
-                  Theme.of(context).colorScheme.surface.withOpacity(0.08),
+                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.08),
             );
           }
         },
@@ -2324,20 +2341,20 @@ class ToolbarState extends State<Toolbar> {
             ? const Color.fromRGBO(73, 69, 79, 1)
             : const Color.fromRGBO(202, 196, 208, 1)
         : Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.54)
-            : Colors.white.withOpacity(0.65);
+            ? Colors.black.withValues(alpha: 0.54)
+            : Colors.white.withValues(alpha: 0.65);
     _disabledColor = _useMaterial3
         ? Theme.of(context).brightness == Brightness.light
-            ? const Color.fromRGBO(28, 27, 31, 1).withOpacity(0.38)
-            : const Color.fromRGBO(230, 225, 229, 1).withOpacity(0.38)
+            ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+            : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
         : Theme.of(context).brightness == Brightness.light
             ? Colors.black12
             : Colors.white12;
     _textColor = _isLight
-        ? const Color(0x00000000).withOpacity(0.87)
-        : const Color(0x00ffffff).withOpacity(0.87);
+        ? const Color(0x00000000).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.87);
     _fillColor = _useMaterial3
-        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
         : _isLight
             ? const Color(0xFFD2D2D2)
             : const Color(0xFF525252);
@@ -2452,7 +2469,7 @@ class ToolbarState extends State<Toolbar> {
       onPressed: onPressed,
       hoverColor: hoverColor ??
           (useMaterial3
-              ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+              ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
               : null),
       shape: useMaterial3
           ? const RoundedRectangleBorder(
@@ -2481,7 +2498,7 @@ class ToolbarState extends State<Toolbar> {
         color: _useMaterial3
             ? Theme.of(context).colorScheme.outlineVariant
             : _isLight
-                ? Colors.black.withOpacity(0.24)
+                ? Colors.black.withValues(alpha: 0.24)
                 : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
@@ -2820,7 +2837,7 @@ class ToolbarState extends State<Toolbar> {
                                       Theme.of(context)
                                           .colorScheme
                                           .onSurface
-                                          .withOpacity(0.08)) {
+                                          .withValues(alpha: 0.08)) {
                                 _panFillColor = null;
                               } else {
                                 _panFillColor = _fillColor;
@@ -3117,20 +3134,26 @@ class ToolbarState extends State<Toolbar> {
       border: _useMaterial3
           ? OutlineInputBorder(
               borderSide: BorderSide(
-                  color:
-                      Theme.of(context).colorScheme.outline.withOpacity(0.38)))
+                  color: Theme.of(context)
+                      .colorScheme
+                      .outline
+                      .withValues(alpha: 0.38)))
           : const UnderlineInputBorder(),
       enabledBorder: _useMaterial3
           ? OutlineInputBorder(
               borderSide: BorderSide(
-                  color:
-                      Theme.of(context).colorScheme.outline.withOpacity(0.38)))
+                  color: Theme.of(context)
+                      .colorScheme
+                      .outline
+                      .withValues(alpha: 0.38)))
           : null,
       focusedBorder: _useMaterial3
           ? OutlineInputBorder(
               borderSide: BorderSide(
-                  color:
-                      Theme.of(context).colorScheme.outline.withOpacity(0.38)))
+                  color: Theme.of(context)
+                      .colorScheme
+                      .outline
+                      .withValues(alpha: 0.38)))
           : UnderlineInputBorder(
               borderSide:
                   BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
@@ -3489,7 +3512,7 @@ class _TextMarkupMenuItemState extends State<TextMarkupMenuItem> {
     _textColor = _useMaterial3
         ? widget.model?.themeData.colorScheme.onSurfaceVariant
         : (widget.model?.themeData.brightness == Brightness.light)
-            ? Colors.black.withOpacity(0.87)
+            ? Colors.black.withValues(alpha: 0.87)
             : Colors.white;
     super.didChangeDependencies();
   }
@@ -3503,11 +3526,12 @@ class _TextMarkupMenuItemState extends State<TextMarkupMenuItem> {
         onPressed: widget.onPressed,
         padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0),
         hoverColor: _useMaterial3
-            ? widget.model?.themeData.colorScheme.onSurface.withOpacity(0.08)
+            ? widget.model?.themeData.colorScheme.onSurface
+                .withValues(alpha: 0.08)
             : (widget.model?.themeData.colorScheme.brightness ==
                     Brightness.light)
-                ? Colors.grey.withOpacity(0.2)
-                : Colors.grey.withOpacity(0.5),
+                ? Colors.grey.withValues(alpha: 0.2)
+                : Colors.grey.withValues(alpha: 0.5),
         child: Row(
           children: <Widget>[
             Image(
@@ -3529,7 +3553,7 @@ class _TextMarkupMenuItemState extends State<TextMarkupMenuItem> {
               style: TextStyle(
                 color: (widget.model?.themeData.colorScheme.brightness ==
                         Brightness.light)
-                    ? Colors.black.withOpacity(0.87)
+                    ? Colors.black.withValues(alpha: 0.87)
                     : Colors.white,
                 fontSize: 14,
                 fontFamily: 'Roboto',
@@ -3590,7 +3614,7 @@ class _StickyNoteIconMenuItemState extends State<StickyNoteIconMenuItem> {
     _textColor = _useMaterial3
         ? widget.model?.themeData.colorScheme.onSurfaceVariant
         : (widget.model?.themeData.brightness == Brightness.light)
-            ? Colors.black.withOpacity(0.87)
+            ? Colors.black.withValues(alpha: 0.87)
             : Colors.white;
     super.didChangeDependencies();
   }
@@ -3604,11 +3628,12 @@ class _StickyNoteIconMenuItemState extends State<StickyNoteIconMenuItem> {
         onPressed: widget.onPressed,
         padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0),
         hoverColor: _useMaterial3
-            ? widget.model?.themeData.colorScheme.onSurface.withOpacity(0.08)
+            ? widget.model?.themeData.colorScheme.onSurface
+                .withValues(alpha: 0.08)
             : (widget.model?.themeData.colorScheme.brightness ==
                     Brightness.light)
-                ? Colors.grey.withOpacity(0.2)
-                : Colors.grey.withOpacity(0.5),
+                ? Colors.grey.withValues(alpha: 0.2)
+                : Colors.grey.withValues(alpha: 0.5),
         child: Row(
           children: <Widget>[
             Image(
@@ -3630,7 +3655,7 @@ class _StickyNoteIconMenuItemState extends State<StickyNoteIconMenuItem> {
               style: TextStyle(
                 color: (widget.model?.themeData.colorScheme.brightness ==
                         Brightness.light)
-                    ? Colors.black.withOpacity(0.87)
+                    ? Colors.black.withValues(alpha: 0.87)
                     : Colors.white,
                 fontSize: 15.5,
                 fontFamily: 'Roboto',

@@ -271,7 +271,8 @@ class _MapBubblePageState extends SampleViewState
     _shapeColor = _isLightTheme
         ? const Color.fromRGBO(57, 110, 218, 0.35)
         : const Color.fromRGBO(72, 132, 255, 0.35);
-    _shapeStrokeColor = const Color.fromARGB(255, 52, 85, 176).withOpacity(0);
+    _shapeStrokeColor =
+        const Color.fromARGB(255, 52, 85, 176).withValues(alpha: 0);
     _bubbleColor = _isLightTheme
         ? const Color.fromRGBO(15, 59, 177, 0.5)
         : const Color.fromRGBO(135, 167, 255, 0.6);
@@ -283,7 +284,7 @@ class _MapBubblePageState extends SampleViewState
     _tooltipTextColor = Colors.white;
     _facebookBoxDecoration = _getBoxDecoration(
         const Color.fromARGB(255, 52, 85, 176)
-            .withOpacity(_isLightTheme ? 0.1 : 0.3));
+            .withValues(alpha: _isLightTheme ? 0.1 : 0.3));
   }
 
   @override
@@ -420,7 +421,7 @@ class _MapBubblePageState extends SampleViewState
                               : const Color.fromRGBO(72, 132, 255, 0.35);
                           _shapeStrokeColor =
                               const Color.fromARGB(255, 52, 85, 176)
-                                  .withOpacity(0);
+                                  .withValues(alpha: 0);
                           _bubbleColor = _isLightTheme
                               ? const Color.fromRGBO(15, 59, 177, 0.5)
                               : const Color.fromRGBO(135, 167, 255, 0.6);
@@ -444,8 +445,8 @@ class _MapBubblePageState extends SampleViewState
                           _tiktokBoxDecoration = null;
 
                           _facebookBoxDecoration = _getBoxDecoration(
-                              const Color.fromARGB(255, 52, 85, 176)
-                                  .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                              const Color.fromARGB(255, 52, 85, 176).withValues(
+                                  alpha: _isLightTheme ? 0.1 : 0.3));
                         });
                       },
                     ),
@@ -469,7 +470,7 @@ class _MapBubblePageState extends SampleViewState
                               : const Color.fromRGBO(32, 154, 255, 0.35);
                           _shapeStrokeColor =
                               const Color.fromARGB(255, 0, 122, 202)
-                                  .withOpacity(0);
+                                  .withValues(alpha: 0);
                           _bubbleColor = _isLightTheme
                               ? const Color.fromRGBO(17, 124, 179, 0.5)
                               : const Color.fromRGBO(56, 184, 251, 0.5);
@@ -493,8 +494,8 @@ class _MapBubblePageState extends SampleViewState
                           _tiktokBoxDecoration = null;
 
                           _twitterBoxDecoration = _getBoxDecoration(
-                              const Color.fromARGB(255, 0, 122, 202)
-                                  .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                              const Color.fromARGB(255, 0, 122, 202).withValues(
+                                  alpha: _isLightTheme ? 0.1 : 0.3));
                         });
                       },
                     ),
@@ -518,7 +519,7 @@ class _MapBubblePageState extends SampleViewState
                               : const Color.fromRGBO(166, 104, 246, 0.35);
                           _shapeStrokeColor =
                               const Color.fromARGB(255, 238, 46, 73)
-                                  .withOpacity(0);
+                                  .withValues(alpha: 0);
                           _bubbleColor = _isLightTheme
                               ? const Color.fromRGBO(249, 99, 20, 0.5)
                               : const Color.fromRGBO(253, 173, 38, 0.5);
@@ -542,8 +543,8 @@ class _MapBubblePageState extends SampleViewState
                           _tiktokBoxDecoration = null;
 
                           _instagramBoxDecoration = _getBoxDecoration(
-                              const Color.fromARGB(255, 238, 46, 73)
-                                  .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                              const Color.fromARGB(255, 238, 46, 73).withValues(
+                                  alpha: _isLightTheme ? 0.1 : 0.3));
                         });
                       },
                     ),
@@ -567,7 +568,7 @@ class _MapBubblePageState extends SampleViewState
                               : const Color.fromRGBO(227, 226, 73, 0.35);
                           _shapeStrokeColor =
                               const Color.fromARGB(255, 255, 126, 0)
-                                  .withOpacity(0);
+                                  .withValues(alpha: 0);
                           _bubbleColor = _isLightTheme
                               ? const Color.fromRGBO(182, 150, 2, 0.5)
                               : const Color.fromRGBO(254, 253, 2, 0.458);
@@ -594,8 +595,8 @@ class _MapBubblePageState extends SampleViewState
                           _tiktokBoxDecoration = null;
 
                           _snapchatBoxDecoration = _getBoxDecoration(
-                              const Color.fromARGB(255, 255, 221, 0)
-                                  .withOpacity(_isLightTheme ? 0.2 : 0.3));
+                              const Color.fromARGB(255, 255, 221, 0).withValues(
+                                  alpha: _isLightTheme ? 0.2 : 0.3));
                         });
                       },
                     ),
@@ -617,7 +618,8 @@ class _MapBubblePageState extends SampleViewState
                           _shapeColor = _isLightTheme
                               ? const Color.fromRGBO(72, 193, 188, 0.35)
                               : const Color.fromRGBO(50, 216, 210, 0.35);
-                          _shapeStrokeColor = Colors.black54.withOpacity(0);
+                          _shapeStrokeColor =
+                              Colors.black54.withValues(alpha: 0);
                           _bubbleColor = _isLightTheme
                               ? const Color.fromRGBO(250, 60, 114, 0.5)
                               : const Color.fromRGBO(218, 11, 69, 0.5);
@@ -641,7 +643,7 @@ class _MapBubblePageState extends SampleViewState
                           _snapchatBoxDecoration = null;
 
                           _tiktokBoxDecoration = _getBoxDecoration(Colors.black
-                              .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                              .withValues(alpha: _isLightTheme ? 0.1 : 0.3));
                         });
                       },
                     ),

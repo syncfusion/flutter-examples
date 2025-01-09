@@ -351,7 +351,7 @@ class _MapTooltipPageState extends SampleViewState {
                 shapeHoverColor: Colors.transparent,
                 shapeHoverStrokeWidth: 0,
                 shapeHoverStrokeColor: Colors.transparent,
-                bubbleHoverColor: _bubbleColor.withOpacity(0.4),
+                bubbleHoverColor: _bubbleColor.withValues(alpha: 0.4),
                 bubbleHoverStrokeColor: Colors.black,
                 bubbleHoverStrokeWidth: 1.0,
               ),

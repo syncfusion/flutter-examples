@@ -525,9 +525,11 @@ class SampleModel extends Listenable {
       _updateMaterial2Colors(currentThemeData);
     }
 
-    hoverColor = currentThemeData.colorScheme.onSurface.withOpacity(0.08);
-    focusedColor = currentThemeData.colorScheme.onSurface.withOpacity(0.12);
-    splashColor = currentThemeData.colorScheme.onSurface.withOpacity(0.15);
+    hoverColor = currentThemeData.colorScheme.onSurface.withValues(alpha: 0.08);
+    focusedColor =
+        currentThemeData.colorScheme.onSurface.withValues(alpha: 0.12);
+    splashColor =
+        currentThemeData.colorScheme.onSurface.withValues(alpha: 0.15);
   }
 
   void _updateMaterial2Colors(ThemeData currentThemeData) {
@@ -577,9 +579,9 @@ class SampleModel extends Listenable {
     switch (currentThemeData.brightness) {
       case Brightness.light:
         final Color primaryColor = Color.alphaBlend(
-            Colors.white.withOpacity(0.9),
+            Colors.white.withValues(alpha: 0.9),
             currentThemeData.colorScheme.primary);
-        backgroundColor = Color.alphaBlend(Colors.white.withOpacity(0.95),
+        backgroundColor = Color.alphaBlend(Colors.white.withValues(alpha: 0.95),
             currentThemeData.colorScheme.primary);
         homeCardColor = primaryColor;
         sampleOutputCardColor = const Color(0xFFFFFBFE);
@@ -589,7 +591,7 @@ class SampleModel extends Listenable {
         subSamplesTabBarColor = primaryColor;
         drawerTextIconColor = currentThemeData.colorScheme.onSurface;
         drawerBackgroundColor = const Color(0xFFFFFBFE);
-        footerColor = Color.alphaBlend(Colors.white.withOpacity(0.85),
+        footerColor = Color.alphaBlend(Colors.white.withValues(alpha: 0.85),
             currentThemeData.colorScheme.primary);
 
         // baseNavigationBarTextColor = currentThemeData.colorScheme.surface;
@@ -600,9 +602,9 @@ class SampleModel extends Listenable {
 
       case Brightness.dark:
         final Color primaryColor = Color.alphaBlend(
-            Colors.black.withOpacity(0.85),
+            Colors.black.withValues(alpha: 0.85),
             currentThemeData.colorScheme.primary);
-        backgroundColor = Color.alphaBlend(Colors.black.withOpacity(0.9),
+        backgroundColor = Color.alphaBlend(Colors.black.withValues(alpha: 0.9),
             currentThemeData.colorScheme.primary);
         homeCardColor = primaryColor;
         sampleOutputCardColor = const Color(0xFF1C1B1F);
@@ -612,7 +614,7 @@ class SampleModel extends Listenable {
         subSamplesTabBarColor = primaryColor;
         drawerTextIconColor = currentThemeData.colorScheme.onSurface;
         drawerBackgroundColor = const Color(0xFF1C1B1F);
-        footerColor = Color.alphaBlend(Colors.black.withOpacity(0.8),
+        footerColor = Color.alphaBlend(Colors.black.withValues(alpha: 0.8),
             currentThemeData.colorScheme.primary);
 
         // baseNavigationBarTextColor =

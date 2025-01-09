@@ -319,16 +319,16 @@ class _ErrorBarDefaultState extends SampleViewState {
                                         _errorBarMode == 'both')
                                     ? 1
                                     : 0,
-                                iconColor: model.textColor.withOpacity(
-                                  (_errorBarMode == 'vertical' ||
+                                iconColor: model.textColor.withValues(
+                                  alpha: (_errorBarMode == 'vertical' ||
                                           _errorBarMode == 'both')
                                       ? 1
                                       : 0.5,
                                 ),
                                 style: TextStyle(
                                   fontSize: 20.0,
-                                  color: model.textColor.withOpacity(
-                                    (_errorBarMode == 'vertical' ||
+                                  color: model.textColor.withValues(
+                                    alpha: (_errorBarMode == 'vertical' ||
                                             _errorBarMode == 'both')
                                         ? 1
                                         : 0.5,
@@ -373,8 +373,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                         _errorBarMode == 'both')
                                     ? 1
                                     : 0,
-                                iconColor: model.textColor.withOpacity(
-                                  (_errorBarMode == 'horizontal' ||
+                                iconColor: model.textColor.withValues(
+                                  alpha: (_errorBarMode == 'horizontal' ||
                                           _errorBarMode == 'both')
                                       ? 1
                                       : 0.5,
@@ -382,8 +382,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.normal,
-                                  color: model.textColor.withOpacity(
-                                    (_errorBarMode == 'horizontal' ||
+                                  color: model.textColor.withValues(
+                                    alpha: (_errorBarMode == 'horizontal' ||
                                             _errorBarMode == 'both')
                                         ? 1
                                         : 0.5,
@@ -432,8 +432,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                             _errorBarDirection == 'both'))
                                     ? 1
                                     : 0,
-                                iconColor: model.textColor.withOpacity(
-                                  ((_errorBarMode == 'horizontal' ||
+                                iconColor: model.textColor.withValues(
+                                  alpha: ((_errorBarMode == 'horizontal' ||
                                               _errorBarMode == 'both') &&
                                           (_errorBarDirection == 'plus' ||
                                               _errorBarDirection == 'both'))
@@ -442,8 +442,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 ),
                                 style: TextStyle(
                                   fontSize: 20.0,
-                                  color: model.textColor.withOpacity(
-                                    ((_errorBarMode == 'horizontal' ||
+                                  color: model.textColor.withValues(
+                                    alpha: ((_errorBarMode == 'horizontal' ||
                                                 _errorBarMode == 'both') &&
                                             (_errorBarDirection == 'plus' ||
                                                 _errorBarDirection == 'both'))
@@ -494,8 +494,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                             _errorBarDirection == 'both'))
                                     ? 1
                                     : 0,
-                                iconColor: model.textColor.withOpacity(
-                                  ((_errorBarMode == 'horizontal' ||
+                                iconColor: model.textColor.withValues(
+                                  alpha: ((_errorBarMode == 'horizontal' ||
                                               _errorBarMode == 'both') &&
                                           (_errorBarDirection == 'minus' ||
                                               _errorBarDirection == 'both'))
@@ -504,8 +504,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 ),
                                 style: TextStyle(
                                   fontSize: 20.0,
-                                  color: model.textColor.withOpacity(
-                                    ((_errorBarMode == 'horizontal' ||
+                                  color: model.textColor.withValues(
+                                    alpha: ((_errorBarMode == 'horizontal' ||
                                                 _errorBarMode == 'both') &&
                                             (_errorBarDirection == 'minus' ||
                                                 _errorBarDirection == 'both'))
@@ -556,8 +556,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                             _errorBarDirection == 'both'))
                                     ? 1
                                     : 0,
-                                iconColor: model.textColor.withOpacity(
-                                  ((_errorBarMode == 'vertical' ||
+                                iconColor: model.textColor.withValues(
+                                  alpha: ((_errorBarMode == 'vertical' ||
                                               _errorBarMode == 'both') &&
                                           (_errorBarDirection == 'minus' ||
                                               _errorBarDirection == 'both'))
@@ -566,8 +566,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 ),
                                 style: TextStyle(
                                   fontSize: 20.0,
-                                  color: model.textColor.withOpacity(
-                                    ((_errorBarMode == 'vertical' ||
+                                  color: model.textColor.withValues(
+                                    alpha: ((_errorBarMode == 'vertical' ||
                                                 _errorBarMode == 'both') &&
                                             (_errorBarDirection == 'minus' ||
                                                 _errorBarDirection == 'both'))
@@ -618,8 +618,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                             _errorBarDirection == 'both'))
                                     ? 1
                                     : 0,
-                                iconColor: model.textColor.withOpacity(
-                                  ((_errorBarMode == 'vertical' ||
+                                iconColor: model.textColor.withValues(
+                                  alpha: ((_errorBarMode == 'vertical' ||
                                               _errorBarMode == 'both') &&
                                           (_errorBarDirection == 'plus' ||
                                               _errorBarDirection == 'both'))
@@ -628,8 +628,8 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 ),
                                 style: TextStyle(
                                   fontSize: 20.0,
-                                  color: model.textColor.withOpacity(
-                                    ((_errorBarMode == 'vertical' ||
+                                  color: model.textColor.withValues(
+                                    alpha: ((_errorBarMode == 'vertical' ||
                                                 _errorBarMode == 'both') &&
                                             (_errorBarDirection == 'plus' ||
                                                 _errorBarDirection == 'both'))

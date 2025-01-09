@@ -335,7 +335,7 @@ class _AnnotationsPdfViewerState extends SampleViewState {
           } else {
             return Container(
               color: SfPdfViewerTheme.of(context)!.backgroundColor ??
-                  Theme.of(context).colorScheme.surface.withOpacity(0.08),
+                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.08),
             );
           }
         },
@@ -642,24 +642,24 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
     _annotationIconColor = _useMaterial3
         ? widget.model?.themeData.colorScheme.onSurfaceVariant
         : (widget.model?.themeData.brightness == Brightness.light)
-            ? Colors.black.withOpacity(0.87)
+            ? Colors.black.withValues(alpha: 0.87)
             : Colors.white;
     _color = _useMaterial3
         ? _isLight
             ? const Color.fromRGBO(73, 69, 79, 1)
             : const Color.fromRGBO(202, 196, 208, 1)
         : _isLight
-            ? Colors.black.withOpacity(0.54)
-            : Colors.white.withOpacity(0.65);
+            ? Colors.black.withValues(alpha: 0.54)
+            : Colors.white.withValues(alpha: 0.65);
     _disabledColor = _useMaterial3
         ? _isLight
-            ? const Color.fromRGBO(28, 27, 31, 1).withOpacity(0.38)
-            : const Color.fromRGBO(230, 225, 229, 1).withOpacity(0.38)
+            ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+            : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
         : _isLight
             ? Colors.black12
             : Colors.white12;
     _fillColor = _useMaterial3
-        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
+        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
         : _isLight
             ? const Color(0xFFD2D2D2)
             : const Color(0xFF525252);
@@ -833,7 +833,7 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
         color: _useMaterial3
             ? Theme.of(context).colorScheme.outlineVariant
             : _isLight
-                ? Colors.black.withOpacity(0.24)
+                ? Colors.black.withValues(alpha: 0.24)
                 : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );

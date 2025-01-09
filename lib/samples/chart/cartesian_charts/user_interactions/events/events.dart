@@ -104,7 +104,7 @@ class _EventsState extends SampleViewState {
             height: 50,
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey.withOpacity(0.4),
+                color: Colors.grey.withValues(alpha: 0.4),
               ),
             ),
             child: Row(
@@ -302,7 +302,7 @@ class _ConsoleState extends State<Console> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.grey.withOpacity(0.4),
+          color: Colors.grey.withValues(alpha: 0.4),
         ),
       ),
       child: Padding(

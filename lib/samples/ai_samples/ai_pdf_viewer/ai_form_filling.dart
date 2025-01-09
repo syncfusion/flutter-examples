@@ -491,8 +491,8 @@ class _SmartFillSampleState extends SampleViewState
                       ? Theme.of(context).colorScheme.onSurfaceVariant
                       : Theme.of(context).colorScheme.brightness ==
                               Brightness.light
-                          ? Colors.black.withOpacity(0.54)
-                          : Colors.white.withOpacity(0.65),
+                          ? Colors.black.withValues(alpha: 0.54)
+                          : Colors.white.withValues(alpha: 0.65),
                 ),
               ),
             ),

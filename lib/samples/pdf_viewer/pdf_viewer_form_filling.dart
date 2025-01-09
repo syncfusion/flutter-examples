@@ -39,12 +39,12 @@ class _FormFillingPdfViewerState extends SampleViewState {
             ? const Color.fromRGBO(73, 69, 79, 1)
             : const Color.fromRGBO(202, 196, 208, 1)
         : Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withOpacity(0.54)
-            : Colors.white.withOpacity(0.65);
+            ? Colors.black.withValues(alpha: 0.54)
+            : Colors.white.withValues(alpha: 0.65);
     _iconDisabledColor = _useMaterial3
         ? Theme.of(context).brightness == Brightness.light
-            ? const Color.fromRGBO(28, 27, 31, 1).withOpacity(0.38)
-            : const Color.fromRGBO(230, 225, 229, 1).withOpacity(0.38)
+            ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+            : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
         : Theme.of(context).brightness == Brightness.light
             ? Colors.black12
             : Colors.white12;
@@ -446,7 +446,7 @@ class _FormFillingPdfViewerState extends SampleViewState {
         endIndent: 12.0,
         // bottom indent of vertical divider
         color: model.themeData.colorScheme.brightness == Brightness.light
-            ? Colors.black.withOpacity(0.24)
+            ? Colors.black.withValues(alpha: 0.24)
             : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );

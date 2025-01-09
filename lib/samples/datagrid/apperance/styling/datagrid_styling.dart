@@ -222,7 +222,7 @@ class _StylingDataGridState extends SampleViewState {
   SfDataGridTheme _buildDataGrid(GridLinesVisibility gridLineVisibility) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-          headerHoverColor: Colors.white.withOpacity(0.3),
+          headerHoverColor: Colors.white.withValues(alpha: 0.3),
           headerColor: model.primaryColor),
       child: SfDataGrid(
         source: _stylingDataGridSource,

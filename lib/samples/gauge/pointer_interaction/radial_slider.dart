@@ -110,7 +110,8 @@ class _RadialSliderExampleState extends SampleViewState {
                       width: width,
                       child: SfSlider(
                         activeColor: model.primaryColor,
-                        inactiveColor: model.primaryColor.withOpacity(0.4),
+                        inactiveColor:
+                            model.primaryColor.withValues(alpha: 0.4),
                         min: 5,
                         max: 100,
                         onChanged: handlePointerValueChanged,

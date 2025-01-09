@@ -303,7 +303,7 @@ class _CustomizationCalendarState extends SampleViewState {
           Expanded(
             child: Container(
               alignment: Alignment.center,
-              color: meeting.background.withOpacity(0.8),
+              color: meeting.background.withValues(alpha: 0.8),
               padding: const EdgeInsets.only(left: 2),
               child: Text(
                 meeting.eventName,
@@ -379,7 +379,7 @@ class _CustomizationCalendarState extends SampleViewState {
           Container(
             height: details.bounds.height - 70,
             padding: const EdgeInsets.fromLTRB(3, 5, 3, 2),
-            color: meeting.background.withOpacity(0.8),
+            color: meeting.background.withValues(alpha: 0.8),
             alignment: Alignment.topLeft,
             child: SingleChildScrollView(
               child: Column(
@@ -557,7 +557,7 @@ class _CustomizationCalendarState extends SampleViewState {
                         Text(
                           meeting.location,
                           style: TextStyle(
-                            color: textColor.withOpacity(0.6),
+                            color: textColor.withValues(alpha: 0.6),
                             fontFamily: 'Roboto',
                             fontSize: 14,
                           ),
@@ -574,7 +574,7 @@ class _CustomizationCalendarState extends SampleViewState {
                         ' - ' +
                         DateFormat(format).format(meeting.to),
                     style: TextStyle(
-                      color: textColor.withOpacity(0.6),
+                      color: textColor.withValues(alpha: 0.6),
                       fontFamily: 'Roboto',
                       fontSize: 14,
                     ),

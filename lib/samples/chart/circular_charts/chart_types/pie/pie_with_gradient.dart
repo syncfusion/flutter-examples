@@ -172,8 +172,8 @@ class _PieGradientState extends SampleViewState {
         explodeOffset: '3%',
         explode: true,
         strokeColor: model.themeData.brightness == Brightness.light
-            ? Colors.black.withOpacity(0.3)
-            : Colors.white.withOpacity(0.3),
+            ? Colors.black.withValues(alpha: 0.3)
+            : Colors.white.withValues(alpha: 0.3),
         strokeWidth: 1.5,
         dataLabelMapper: (ChartSampleData data, int index) => data.text,
         dataLabelSettings: const DataLabelSettings(

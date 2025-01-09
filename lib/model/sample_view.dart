@@ -344,8 +344,9 @@ class ProgressBarColor {
   final SampleModel model;
 
   /// Get the pointer color based on the theme.
-  Color? get pointerColor =>
-      model.themeData.useMaterial3 ? model.primaryColor.withOpacity(0.8) : null;
+  Color? get pointerColor => model.themeData.useMaterial3
+      ? model.primaryColor.withValues(alpha: 0.8)
+      : null;
 
   /// Get the axis line color based on the theme.
   Color get axisLineColor => model.themeData.useMaterial3

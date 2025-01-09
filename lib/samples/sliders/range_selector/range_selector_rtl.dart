@@ -133,13 +133,13 @@ class _RangeSelectorRTLState extends SampleViewState {
                   activeLabelStyle: TextStyle(
                       fontSize: 10,
                       color: themeData.textTheme.bodyLarge!.color!
-                          .withOpacity(0.87)),
+                          .withValues(alpha: 0.87)),
                   inactiveLabelStyle: TextStyle(
                       fontSize: 10,
                       color: themeData.textTheme.bodyLarge!.color!
-                          .withOpacity(0.87)),
+                          .withValues(alpha: 0.87)),
                   inactiveRegionColor:
-                      model.sampleOutputCardColor.withOpacity(0.75),
+                      model.sampleOutputCardColor.withValues(alpha: 0.75),
                 ),
                 child: Directionality(
                   textDirection: TextDirection.rtl,

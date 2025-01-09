@@ -8,7 +8,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:syncfusion_flutter_chat/assist_view.dart';
 
 import '../../model/sample_view.dart';
-import '../common/ai_sample_mixin.dart';
+import '../helper/ai_pop_up_api_key.dart';
 import 'common.dart';
 
 class AssistViewCustomizationSample extends SampleView {
@@ -18,7 +18,7 @@ class AssistViewCustomizationSample extends SampleView {
   AssistViewState createState() => AssistViewState();
 }
 
-class AssistViewState extends SampleViewState with AISampleMixin {
+class AssistViewState extends SampleViewState {
   final AssistMessageAuthor _userAuthor =
       const AssistMessageAuthor(id: 'Emile Kraven', name: 'Emile Kraven');
   final AssistMessageAuthor _aiAuthor =
@@ -45,16 +45,6 @@ class AssistViewState extends SampleViewState with AISampleMixin {
   Timer? _copyTimer;
   String _selectedAlignment = 'Start';
   AssistBubbleAlignment _bubbleAlignment = AssistBubbleAlignment.start;
-
-  void _obscuredText() {
-    if (assistApiKeyController.text.isNotEmpty) {
-      showSuffixIcon.value++;
-      suffixIconVisibility = true;
-    } else {
-      showSuffixIcon.value++;
-      suffixIconVisibility = false;
-    }
-  }
 
   void _handleActionButtonVisibility() {
     setState(() {
@@ -132,7 +122,7 @@ class AssistViewState extends SampleViewState with AISampleMixin {
         setState(() {
           _addMessageAndRebuild(AssistMessage.response(
             data:
-                'Please connect to your preferred AI server for the real-time queries',
+                'Please connect to your preferred AI server for real-time queries.',
             author: _aiAuthor,
             toolbarItems: _buildToolbarItems(),
           ));
@@ -435,8 +425,8 @@ class AssistViewState extends SampleViewState with AISampleMixin {
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: _lightTheme
-                ? Colors.black.withOpacity(0.2)
-                : Colors.white.withOpacity(0.2),
+                ? Colors.black.withValues(alpha: 0.2)
+                : Colors.white.withValues(alpha: 0.2),
             offset: const Offset(2.0, 2.0),
             blurRadius: 5,
           ),
@@ -470,7 +460,9 @@ class AssistViewState extends SampleViewState with AISampleMixin {
 
   Widget _buildResponseLoader(
       BuildContext context, int index, AssistMessage message) {
-    return TypingIndicator(dotColor: model.textColor);
+    return TypingIndicator(
+      dotColor: model.themeData.colorScheme.onSurfaceVariant,
+    );
   }
 
   Widget _buildFeedbackContainer(
@@ -482,8 +474,8 @@ class AssistViewState extends SampleViewState with AISampleMixin {
       return ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: ColoredBox(
-          color:
-              model.themeData.colorScheme.secondaryContainer.withOpacity(0.54),
+          color: model.themeData.colorScheme.surfaceContainerLow
+              .withValues(alpha: 0.54),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
@@ -548,8 +540,8 @@ class AssistViewState extends SampleViewState with AISampleMixin {
                 TextSpan(
                   text: ' (Optional)',
                   style: textThemeData.titleSmall!.copyWith(
-                    color:
-                        model.themeData.colorScheme.onSurface.withOpacity(0.54),
+                    color: model.themeData.colorScheme.onSurface
+                        .withValues(alpha: 0.54),
                   ),
                 ),
               ],
@@ -741,7 +733,20 @@ class AssistViewState extends SampleViewState with AISampleMixin {
             ),
             tooltip: 'Configure AI',
             icon: const Icon(Icons.settings),
-            onPressed: showPopupDialog,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => WelcomeDialog(
+                  primaryColor: model.primaryColor,
+                  apiKey: model.assistApiKey,
+                  onApiKeySaved: (newApiKey) {
+                    setState(() {
+                      model.assistApiKey = newApiKey;
+                    });
+                  },
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -874,21 +879,31 @@ class AssistViewState extends SampleViewState with AISampleMixin {
     _negativeFeedbacks = ['Incorrect', 'Irrelevant', 'Too Formal', 'Other'];
     _selectedChipFeedbackIndices = <int>[];
 
-    assistApiKeyController = TextEditingController();
     _placeholderTextController = TextEditingController();
     _composerTextController = TextEditingController();
     _feedbackTextController = TextEditingController();
 
-    assistApiKeyController.addListener(_obscuredText);
     _composerTextController.addListener(_handleActionButtonVisibility);
     _feedbackTextController.addListener(_handleSubmitButtonVisibility);
     _placeholderTextController
         .addListener(_handlePlaceholderSendButtonVisibility);
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((Duration duration) {
+    // Show the dialog when the app starts.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (model.isFirstTime) {
-        showPopupDialog();
+        showDialog(
+          context: context,
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+            },
+          ),
+        );
         model.isFirstTime = false;
       }
     });
@@ -971,15 +986,12 @@ class AssistViewState extends SampleViewState with AISampleMixin {
     _positiveFeedbacks.clear();
     _negativeFeedbacks.clear();
 
-    assistApiKeyController.removeListener(_obscuredText);
     _composerTextController.removeListener(_handleActionButtonVisibility);
     _feedbackTextController.removeListener(_handleSubmitButtonVisibility);
 
-    assistApiKeyController.dispose();
     _placeholderTextController.dispose();
     _composerTextController.dispose();
     _feedbackTextController.dispose();
-    showSuffixIcon.dispose();
     super.dispose();
   }
 }

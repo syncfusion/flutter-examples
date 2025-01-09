@@ -466,7 +466,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -502,7 +502,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -539,7 +539,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -573,7 +573,7 @@ class _HijriDatePickerState extends SampleViewState {
                                 _onBoolValueChange('EnablePastDates', value);
                                 stateSetter(() {});
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -612,7 +612,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))
@@ -648,7 +648,7 @@ class _HijriDatePickerState extends SampleViewState {
                                   stateSetter(() {});
                                 });
                               },
-                              activeColor: model.primaryColor,
+                              activeTrackColor: model.primaryColor,
                             ))),
                   ),
                 ))

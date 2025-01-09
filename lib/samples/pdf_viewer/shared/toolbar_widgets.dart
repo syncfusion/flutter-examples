@@ -187,11 +187,11 @@ class SearchToolbarState extends State<SearchToolbar> {
   void didChangeDependencies() {
     _isLight = widget.brightness == Brightness.light;
     _color = _isLight
-        ? const Color(0x00000000).withOpacity(0.87)
-        : const Color(0x00ffffff).withOpacity(0.87);
+        ? const Color(0x00000000).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.87);
     _textColor = _isLight
-        ? const Color.fromRGBO(0, 0, 0, 0.54).withOpacity(0.87)
-        : const Color(0x00ffffff).withOpacity(0.54);
+        ? const Color.fromRGBO(0, 0, 0, 0.54).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.54);
     super.didChangeDependencies();
   }
 
@@ -311,8 +311,8 @@ class SearchToolbarState extends State<SearchToolbar> {
               icon: Icon(
                 Icons.arrow_back,
                 color: _isLight
-                    ? const Color(0x00000000).withOpacity(0.54)
-                    : const Color(0x00ffffff).withOpacity(0.54),
+                    ? const Color(0x00000000).withValues(alpha: 0.54)
+                    : const Color(0x00ffffff).withValues(alpha: 0.54),
                 size: 24,
               ),
               onPressed: () {
@@ -342,8 +342,8 @@ class SearchToolbarState extends State<SearchToolbar> {
                 hintText: widget.languageCode == 'ar' ? 'يجد' : 'Find...',
                 hintStyle: TextStyle(
                     color: _isLight
-                        ? const Color(0x00000000).withOpacity(0.34)
-                        : const Color(0x00ffffff).withOpacity(0.54),
+                        ? const Color(0x00000000).withValues(alpha: 0.34)
+                        : const Color(0x00ffffff).withValues(alpha: 0.54),
                     fontWeight: FontWeight.normal,
                     fontFamily: 'Roboto',
                     fontStyle: FontStyle.normal,
@@ -678,8 +678,8 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
     _isLight = widget.brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
     _color = _isLight
-        ? const Color(0x00000000).withOpacity(0.87)
-        : const Color(0x00ffffff).withOpacity(0.87);
+        ? const Color(0x00000000).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.87);
     super.didChangeDependencies();
   }
 
@@ -860,7 +860,8 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                                 : 'Find in document',
                             hintStyle: TextStyle(
                                 color: _isLight
-                                    ? const Color(0x00000000).withOpacity(0.34)
+                                    ? const Color(0x00000000)
+                                        .withValues(alpha: 0.34)
                                     : const Color(0xFF949494),
                                 fontSize: 15,
                                 fontFamily: 'Roboto',
@@ -892,8 +893,10 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                                         child: Icon(
                                           Icons.search,
                                           color: _isLight
-                                              ? Colors.black.withOpacity(0.54)
-                                              : Colors.white.withOpacity(0.65),
+                                              ? Colors.black
+                                                  .withValues(alpha: 0.54)
+                                              : Colors.white
+                                                  .withValues(alpha: 0.65),
                                           size: 18,
                                         ),
                                       ),
@@ -927,8 +930,10 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                                         child: Icon(
                                           Icons.clear,
                                           color: _isLight
-                                              ? Colors.black.withOpacity(0.54)
-                                              : Colors.white.withOpacity(0.65),
+                                              ? Colors.black
+                                                  .withValues(alpha: 0.54)
+                                              : Colors.white
+                                                  .withValues(alpha: 0.65),
                                           size: 18,
                                         ),
                                       ),
@@ -960,7 +965,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                         child: CircularProgressIndicator(
                           valueColor: AlwaysStoppedAnimation<Color>(
                               widget.primaryColor!),
-                          backgroundColor: Colors.grey.withOpacity(0.4),
+                          backgroundColor: Colors.grey.withValues(alpha: 0.4),
                           strokeWidth: 3,
                         ),
                       ),
@@ -1020,8 +1025,8 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                             width: 24.0, // width of vertical divider
                             thickness: 1.0, // thickness of vertical divider
                             color: _isLight
-                                ? Colors.black.withOpacity(0.24)
-                                : Colors.white.withOpacity(0.26),
+                                ? Colors.black.withValues(alpha: 0.24)
+                                : Colors.white.withValues(alpha: 0.26),
                           ),
                         )),
                   // Previous search instance button
@@ -1054,7 +1059,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                           color: _isLight
                               ? _pdfTextSearchResult.hasResult
                                   ? const Color.fromRGBO(0, 0, 0, 0.54)
-                                  : Colors.black.withOpacity(0.28)
+                                  : Colors.black.withValues(alpha: 0.28)
                               : _pdfTextSearchResult.hasResult
                                   ? const Color.fromRGBO(255, 255, 255, 0.65)
                                   : Colors.white12,
@@ -1096,7 +1101,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                           color: _isLight
                               ? _pdfTextSearchResult.hasResult
                                   ? const Color.fromRGBO(0, 0, 0, 0.54)
-                                  : Colors.black.withOpacity(0.28)
+                                  : Colors.black.withValues(alpha: 0.28)
                               : _pdfTextSearchResult.hasResult
                                   ? const Color.fromRGBO(255, 255, 255, 0.65)
                                   : Colors.white12,
@@ -1372,8 +1377,8 @@ class _ColorPaletteState extends State<ColorPalette> {
     _textColor = _useMaterial3
         ? Theme.of(context).colorScheme.onSurface
         : _isLight
-            ? const Color(0x00000000).withOpacity(0.87)
-            : const Color(0x00ffffff).withOpacity(0.87);
+            ? const Color(0x00000000).withValues(alpha: 0.87)
+            : const Color(0x00ffffff).withValues(alpha: 0.87);
     _selectionColor = _isLight ? Colors.black : const Color(0xFFFAFAFA);
     super.didChangeDependencies();
   }
@@ -1561,8 +1566,8 @@ class _ColorPaletteState extends State<ColorPalette> {
               height: 1,
               thickness: 1,
               color: _isLight
-                  ? Colors.black.withOpacity(0.24)
-                  : Colors.white.withOpacity(0.26),
+                  ? Colors.black.withValues(alpha: 0.24)
+                  : Colors.white.withValues(alpha: 0.26),
             ),
           ),
           Padding(
@@ -1637,7 +1642,7 @@ class _ColorPaletteState extends State<ColorPalette> {
                                     : BoxShape.rectangle,
                                 border: Border.all(
                                   color: _selectedColor == color
-                                      ? _selectionColor.withOpacity(0.87)
+                                      ? _selectionColor.withValues(alpha: 0.87)
                                       : Colors.transparent,
                                   width: 2,
                                 ),
@@ -1669,8 +1674,8 @@ class _ColorPaletteState extends State<ColorPalette> {
                   padding: const EdgeInsets.only(right: 8.0, left: 4.0),
                   child: Container(
                     color: _isLight
-                        ? Colors.black.withOpacity(0.24)
-                        : Colors.white.withOpacity(0.26),
+                        ? Colors.black.withValues(alpha: 0.24)
+                        : Colors.white.withValues(alpha: 0.26),
                     child: const VerticalDivider(
                       thickness: 1,
                       endIndent: 32,
@@ -1728,7 +1733,7 @@ class _ColorPaletteState extends State<ColorPalette> {
             fontSize: _useMaterial3 ? 12 : null,
             color: _useMaterial3
                 ? Theme.of(context).colorScheme.onPrimary
-                : Colors.white.withOpacity(0.87),
+                : Colors.white.withValues(alpha: 0.87),
           ),
           overlayRadius: _useMaterial3 ? 20 : 24),
       child: SfSlider(
@@ -1871,8 +1876,8 @@ class _BottomToolbarState extends State<BottomToolbar> {
             ? const Color.fromRGBO(73, 69, 79, 1)
             : const Color.fromRGBO(202, 196, 208, 1)
         : _isLight
-            ? Colors.black.withOpacity(0.54)
-            : Colors.white.withOpacity(0.65);
+            ? Colors.black.withValues(alpha: 0.54)
+            : Colors.white.withValues(alpha: 0.65);
     super.didChangeDependencies();
   }
 
@@ -1996,8 +2001,8 @@ class _BottomToolbarState extends State<BottomToolbar> {
         children: [
           Divider(
             color: _isLight
-                ? Colors.black.withOpacity(0.26)
-                : Colors.white.withOpacity(0.26),
+                ? Colors.black.withValues(alpha: 0.26)
+                : Colors.white.withValues(alpha: 0.26),
             thickness: 1,
             height: 1,
           ),
@@ -2212,8 +2217,8 @@ class _BottomToolbarState extends State<BottomToolbar> {
           ),
           Divider(
             color: _isLight
-                ? Colors.black.withOpacity(0.26)
-                : Colors.white.withOpacity(0.26),
+                ? Colors.black.withValues(alpha: 0.26)
+                : Colors.white.withValues(alpha: 0.26),
             thickness: 1,
             indent: 0,
             endIndent: 0,
@@ -2250,7 +2255,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                           },
                           child: Icon(
                             Icons.arrow_back,
-                            color: _iconColor?.withOpacity(0.5),
+                            color: _iconColor?.withValues(alpha: 0.5),
                             size: 24,
                           ),
                         ),
@@ -2262,8 +2267,8 @@ class _BottomToolbarState extends State<BottomToolbar> {
                         padding: const EdgeInsets.only(right: 8.0, left: 4.0),
                         child: Container(
                           color: _isLight
-                              ? Colors.black.withOpacity(0.24)
-                              : Colors.white.withOpacity(0.26),
+                              ? Colors.black.withValues(alpha: 0.24)
+                              : Colors.white.withValues(alpha: 0.26),
                           child: const VerticalDivider(
                             thickness: 1,
                             endIndent: 24,
@@ -2412,8 +2417,8 @@ class _BottomToolbarState extends State<BottomToolbar> {
           ),
           Divider(
             color: _isLight
-                ? Colors.black.withOpacity(0.26)
-                : Colors.white.withOpacity(0.26),
+                ? Colors.black.withValues(alpha: 0.26)
+                : Colors.white.withValues(alpha: 0.26),
             thickness: 1,
             indent: 0,
             endIndent: 0,
@@ -2442,7 +2447,7 @@ class _BottomToolbarState extends State<BottomToolbar> {
                         },
                         child: Icon(
                           Icons.arrow_back,
-                          color: _iconColor?.withOpacity(0.5),
+                          color: _iconColor?.withValues(alpha: 0.5),
                           size: 24,
                         ),
                       ),
@@ -2451,8 +2456,8 @@ class _BottomToolbarState extends State<BottomToolbar> {
                       padding: const EdgeInsets.only(right: 8.0, left: 4.0),
                       child: Container(
                         color: _isLight
-                            ? Colors.black.withOpacity(0.24)
-                            : Colors.white.withOpacity(0.26),
+                            ? Colors.black.withValues(alpha: 0.24)
+                            : Colors.white.withValues(alpha: 0.26),
                         child: const VerticalDivider(
                           thickness: 1,
                           endIndent: 24,
@@ -2591,8 +2596,8 @@ class _BottomToolbarState extends State<BottomToolbar> {
                         padding: const EdgeInsets.only(right: 4.0, left: 4.0),
                         child: Container(
                           color: _isLight
-                              ? Colors.black.withOpacity(0.24)
-                              : Colors.white.withOpacity(0.26),
+                              ? Colors.black.withValues(alpha: 0.24)
+                              : Colors.white.withValues(alpha: 0.26),
                           child: const VerticalDivider(
                             thickness: 1,
                             endIndent: 24,

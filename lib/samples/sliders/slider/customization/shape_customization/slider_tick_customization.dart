@@ -33,14 +33,14 @@ class _TickCustomizedSliderState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfSliderTheme(
       data: SfSliderThemeData(
-          inactiveTrackColor: _inactiveColor.withOpacity(0.5),
+          inactiveTrackColor: _inactiveColor.withValues(alpha: 0.5),
           activeTrackColor: _activeColor,
-          inactiveTickColor: _inactiveColor.withOpacity(0.8),
+          inactiveTickColor: _inactiveColor.withValues(alpha: 0.8),
           activeTickColor: _activeColor,
           inactiveMinorTickColor: _inactiveColor,
           activeMinorTickColor: _activeColor,
           thumbColor: _activeColor,
-          overlayColor: _activeColor.withOpacity(0.24),
+          overlayColor: _activeColor.withValues(alpha: 0.24),
           tickOffset: const Offset(0, 4),
           tooltipBackgroundColor: _activeColor),
       child: SfSlider(

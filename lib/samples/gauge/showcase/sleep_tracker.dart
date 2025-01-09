@@ -101,14 +101,14 @@ class _SleepTrackerSampleState extends SampleViewState {
                                                 .brightness ==
                                             Brightness.light
                                         ? Colors.grey
-                                        : Colors.white.withOpacity(0.2),
+                                        : Colors.white.withValues(alpha: 0.2),
                                     blurRadius: 4.0,
                                   ),
                                 ],
                                 border: Border.all(
                                   color: isDarkTheme
-                                      ? Colors.white.withOpacity(0.1)
-                                      : Colors.black.withOpacity(0.1),
+                                      ? Colors.white.withValues(alpha: 0.1)
+                                      : Colors.black.withValues(alpha: 0.1),
                                   width: 0.0,
                                 )),
                             height: _wakeupTimePointerHeight,
@@ -134,15 +134,15 @@ class _SleepTrackerSampleState extends SampleViewState {
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
                                   color: isDarkTheme
-                                      ? Colors.white.withOpacity(0.2)
+                                      ? Colors.white.withValues(alpha: 0.2)
                                       : Colors.grey,
                                   blurRadius: 4.0,
                                 ),
                               ],
                               border: Border.all(
                                 color: isDarkTheme
-                                    ? Colors.white.withOpacity(0.1)
-                                    : Colors.black.withOpacity(0.1),
+                                    ? Colors.white.withValues(alpha: 0.1)
+                                    : Colors.black.withValues(alpha: 0.1),
                                 width: 0.0,
                               )),
                           height: _bedTimePointerHeight,

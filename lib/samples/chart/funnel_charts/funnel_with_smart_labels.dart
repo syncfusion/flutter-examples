@@ -143,7 +143,7 @@ class _FunnelSmartLabelState extends SampleViewState {
             style: TextStyle(
               fontSize: 16,
               color: _selectedPosition != 'inside'
-                  ? model.textColor.withOpacity(0.3)
+                  ? model.textColor.withValues(alpha: 0.3)
                   : model.textColor,
             ),
           ),
@@ -194,7 +194,7 @@ class _FunnelSmartLabelState extends SampleViewState {
               fontSize: 16,
               color: (_selectedOverflowMode != 'none' &&
                       _selectedPosition != 'outside')
-                  ? model.textColor.withOpacity(0.3)
+                  ? model.textColor.withValues(alpha: 0.3)
                   : model.textColor,
             ),
           ),

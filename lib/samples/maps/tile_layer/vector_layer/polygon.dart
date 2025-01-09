@@ -225,13 +225,13 @@ class _MapPolygonPageState extends SampleViewState {
     if (_isInvertedPolygon) {
       return MapPolygonLayer.inverted(
         polygons: polygons,
-        color: Colors.black.withOpacity(0.3),
+        color: Colors.black.withValues(alpha: 0.3),
         strokeColor: Colors.red,
       );
     } else {
       return MapPolygonLayer(
         polygons: polygons,
-        color: Colors.grey.withOpacity(0.5),
+        color: Colors.grey.withValues(alpha: 0.5),
         strokeColor: Colors.red,
       );
     }

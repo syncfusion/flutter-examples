@@ -105,7 +105,7 @@
             "type": "sample",
             "title": "Getting Started",
             "key": "assist_view_getting_started",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assistview/getting_started.dart",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assist_view/getting_started.dart",
             "needsPropertyPanel": true,
             "platformsToHide": [
               "android",
@@ -117,7 +117,7 @@
             "type": "sample",
             "title": "Customization",
             "key": "assist_view_customization",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assistview/customization.dart",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assist_view/customization.dart",
             "needsPropertyPanel": true,
             "platformsToHide": [
               "android",
@@ -129,7 +129,7 @@
             "type": "sample",
             "title": "Getting Started",
             "key": "ai_assist_view_getting_started",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assistview/getting_started.dart",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assist_view/getting_started.dart",
             "needsPropertyPanel": false,
             "platformsToHide": [
               "web",
@@ -143,7 +143,7 @@
             "type": "sample",
             "title": "Customization",
             "key": "ai_assist_view_customization",
-            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assistview/customization.dart",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_assist_view/customization.dart",
             "needsPropertyPanel": false,
             "platformsToHide": [
               "web",

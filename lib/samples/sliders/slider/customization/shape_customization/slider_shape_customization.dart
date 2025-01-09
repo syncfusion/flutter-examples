@@ -143,13 +143,13 @@ class _SfTrackShape extends SfTrackShape {
     context.canvas.drawRect(lowVolumeRect, trackPaint);
 
     if (actualValueInPercent <= 80.0) {
-      trackPaint.color = Colors.green.withOpacity(0.40);
+      trackPaint.color = Colors.green.withValues(alpha: 0.40);
       final Rect lowVolumeRectWithLessOpacity = Rect.fromLTRB(thumbCenter.dx,
           trackRect.top, trackIntermediatePos!, trackRect.bottom);
       context.canvas.drawRect(lowVolumeRectWithLessOpacity, trackPaint);
     }
 
-    trackPaint.color = Colors.red.withOpacity(0.40);
+    trackPaint.color = Colors.red.withValues(alpha: 0.40);
     final double highTrackLeft =
         actualValueInPercent >= 80.0 ? thumbCenter.dx : trackIntermediatePos!;
     final Rect highVolumeRectWithLessOpacity = Rect.fromLTRB(highTrackLeft,

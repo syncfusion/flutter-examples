@@ -979,7 +979,7 @@ Widget buildFooter(BuildContext context, SampleModel model) {
             Container(
               padding: const EdgeInsets.only(top: 10),
               child: Text(
-                'Copyright © 2001 - 2024 Syncfusion Inc.',
+                'Copyright © 2001 - 2024 Syncfusion<sup>&reg;</sup> Inc.',
                 style: TextStyle(
                   color: model.themeData.colorScheme.onSurfaceVariant,
                   fontSize: 12,

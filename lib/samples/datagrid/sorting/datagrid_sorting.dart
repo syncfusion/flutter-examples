@@ -91,7 +91,7 @@ class _SortingDataGridState extends SampleViewState {
               Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
-                    activeColor: model.primaryColor,
+                    activeTrackColor: model.primaryColor,
                     value: allowSorting,
                     onChanged: (bool value) {
                       setState(() {
@@ -114,7 +114,7 @@ class _SortingDataGridState extends SampleViewState {
                 Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      activeColor: model.primaryColor,
+                      activeTrackColor: model.primaryColor,
                       value: allowMultiSorting,
                       onChanged: (bool value) {
                         setState(() {
@@ -136,7 +136,7 @@ class _SortingDataGridState extends SampleViewState {
                 Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      activeColor: model.primaryColor,
+                      activeTrackColor: model.primaryColor,
                       value: allowTriStateSorting,
                       onChanged: (bool value) {
                         setState(() {
@@ -158,7 +158,7 @@ class _SortingDataGridState extends SampleViewState {
                 Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      activeColor: model.primaryColor,
+                      activeTrackColor: model.primaryColor,
                       value: allowColumnSorting,
                       onChanged: (bool value) {
                         setState(() {
@@ -180,7 +180,7 @@ class _SortingDataGridState extends SampleViewState {
                 Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
-                      activeColor: model.primaryColor,
+                      activeTrackColor: model.primaryColor,
                       value: showSortNumbers,
                       onChanged: (bool value) {
                         setState(() {

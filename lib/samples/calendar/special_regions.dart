@@ -52,7 +52,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         endTime: DateTime(date.year, date.month, date.day, 9),
         enablePointerInteraction: false,
         textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-        color: Colors.grey.withOpacity(0.2),
+        color: Colors.grey.withValues(alpha: 0.2),
         recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
       ),
     );
@@ -62,7 +62,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
         enablePointerInteraction: false,
         textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-        color: Colors.grey.withOpacity(0.2),
+        color: Colors.grey.withValues(alpha: 0.2),
         recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
       ),
     );
@@ -72,7 +72,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         endTime: DateTime(date.year, date.month, date.day, 11),
         enablePointerInteraction: false,
         textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-        color: Colors.grey.withOpacity(0.2),
+        color: Colors.grey.withValues(alpha: 0.2),
         text: 'Not Available',
         recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=TU',
       ),
@@ -83,7 +83,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         endTime: DateTime(date.year, date.month, date.day, 16),
         enablePointerInteraction: false,
         textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-        color: Colors.grey.withOpacity(0.2),
+        color: Colors.grey.withValues(alpha: 0.2),
         text: 'Not Available',
         recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=WE',
       ),
@@ -94,7 +94,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         endTime: DateTime(date.year, date.month, date.day, 14),
         enablePointerInteraction: false,
         textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-        color: Colors.grey.withOpacity(0.2),
+        color: Colors.grey.withValues(alpha: 0.2),
         text: 'Lunch',
         recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR',
       ),
@@ -105,7 +105,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         endTime: DateTime(date.year, date.month, date.day, 23, 59, 59),
         enablePointerInteraction: false,
         textStyle: const TextStyle(color: Colors.black45, fontSize: 15),
-        color: Colors.grey.withOpacity(0.2),
+        color: Colors.grey.withValues(alpha: 0.2),
         recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=SA,SU',
       ),
     );
@@ -200,7 +200,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         alignment: Alignment.center,
         child: Icon(
           Icons.restaurant,
-          color: Colors.grey.withOpacity(0.5),
+          color: Colors.grey.withValues(alpha: 0.5),
         ),
       );
     } else if (details.region.text == 'Not Available') {
@@ -209,7 +209,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
         alignment: Alignment.center,
         child: Icon(
           Icons.block,
-          color: Colors.grey.withOpacity(0.5),
+          color: Colors.grey.withValues(alpha: 0.5),
         ),
       );
     }

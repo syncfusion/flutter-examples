@@ -145,7 +145,7 @@ class _PieImageShaderState extends SampleViewState {
             xValueMapper: (_ChartShaderData data, int index) => data.x,
             yValueMapper: (_ChartShaderData data, int index) => data.y,
             strokeColor: model.themeData.brightness == Brightness.light
-                ? Colors.black.withOpacity(0.5)
+                ? Colors.black.withValues(alpha: 0.5)
                 : Colors.transparent,
             strokeWidth: 1.5,
             explode: true,
@@ -161,7 +161,7 @@ class _PieImageShaderState extends SampleViewState {
               labelPosition: ChartDataLabelPosition.outside,
               connectorLineSettings: ConnectorLineSettings(
                 color: model.themeData.brightness == Brightness.light
-                    ? Colors.black.withOpacity(0.5)
+                    ? Colors.black.withValues(alpha: 0.5)
                     : Colors.white,
                 width: 1.5,
                 length: isCardView ? '10%' : '15%',

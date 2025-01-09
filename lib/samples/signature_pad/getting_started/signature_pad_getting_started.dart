@@ -142,9 +142,9 @@ class _GettingStartedSignaturePadState extends SampleViewState {
     Color popUpBackgroundColor = model.backgroundColor;
     if (model.themeData.useMaterial3) {
       popUpBackgroundColor = _isDark
-          ? Color.alphaBlend(Colors.black.withOpacity(0.75),
+          ? Color.alphaBlend(Colors.black.withValues(alpha: 0.75),
               model.themeData.colorScheme.primary)
-          : Color.alphaBlend(Colors.white.withOpacity(0.95),
+          : Color.alphaBlend(Colors.white.withValues(alpha: 0.95),
               model.themeData.colorScheme.primary);
     }
 
@@ -586,8 +586,8 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                       color: _isDark
-                          ? Colors.black.withOpacity(0.3)
-                          : Colors.grey.withOpacity(0.3),
+                          ? Colors.black.withValues(alpha: 0.3)
+                          : Colors.grey.withValues(alpha: 0.3),
                       spreadRadius: 5,
                       blurRadius: 7,
                       offset: const Offset(0, 3), // changes position of shadow
@@ -629,8 +629,8 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                     TextStyle(color: model.textColor, fontSize: 14),
                 inactiveLabelStyle:
                     TextStyle(color: model.textColor, fontSize: 14),
-                overlayColor: model.primaryColor.withOpacity(0.2),
-                inactiveTrackColor: model.primaryColor.withOpacity(0.3)),
+                overlayColor: model.primaryColor.withValues(alpha: 0.2),
+                inactiveTrackColor: model.primaryColor.withValues(alpha: 0.3)),
             child: SfSlider(
               min: 1.0,
               max: 10.0,
@@ -668,8 +668,8 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                     TextStyle(color: model.textColor, fontSize: 14),
                 inactiveLabelStyle:
                     TextStyle(color: model.textColor, fontSize: 14),
-                overlayColor: model.primaryColor.withOpacity(0.2),
-                inactiveTrackColor: model.primaryColor.withOpacity(0.3)),
+                overlayColor: model.primaryColor.withValues(alpha: 0.2),
+                inactiveTrackColor: model.primaryColor.withValues(alpha: 0.3)),
             child: SfSlider(
               min: 1.0,
               max: 10.0,

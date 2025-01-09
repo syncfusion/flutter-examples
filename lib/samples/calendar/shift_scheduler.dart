@@ -447,7 +447,7 @@ class _ShiftSchedulerState extends SampleViewState {
           startTime: DateTime(date.year, date.month, date.day, 13),
           endTime: DateTime(date.year, date.month, date.day, 14),
           text: 'Lunch',
-          color: Colors.grey.withOpacity(0.2),
+          color: Colors.grey.withValues(alpha: 0.2),
           resourceIds: <Object>[_employeeCollection[i].id],
           recurrenceRule: 'FREQ=DAILY;INTERVAL=1',
         ),
@@ -466,7 +466,7 @@ class _ShiftSchedulerState extends SampleViewState {
           startTime: startDate,
           endTime: startDate.add(const Duration(hours: 1)),
           text: 'Not Available',
-          color: Colors.grey.withOpacity(0.2),
+          color: Colors.grey.withValues(alpha: 0.2),
           enablePointerInteraction: false,
           resourceIds: <Object>[_employeeCollection[i].id],
         ),
@@ -523,7 +523,7 @@ class _ShiftSchedulerState extends SampleViewState {
         alignment: Alignment.center,
         child: Icon(
           Icons.restaurant_menu,
-          color: Colors.grey.withOpacity(0.5),
+          color: Colors.grey.withValues(alpha: 0.5),
         ),
       );
     } else if (details.region.text == 'Not Available') {
@@ -532,7 +532,7 @@ class _ShiftSchedulerState extends SampleViewState {
         alignment: Alignment.center,
         child: Icon(
           Icons.block,
-          color: Colors.grey.withOpacity(0.5),
+          color: Colors.grey.withValues(alpha: 0.5),
         ),
       );
     }

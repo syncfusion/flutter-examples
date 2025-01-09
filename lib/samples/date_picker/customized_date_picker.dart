@@ -176,8 +176,8 @@ class _CustomizedDatePickerState extends SampleViewState {
         disabledDatesTextStyle: TextStyle(
           color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe),
         ),
-        leadingDatesTextStyle:
-            TextStyle(color: cellTextColor.withOpacity(0.5), fontSize: 14),
+        leadingDatesTextStyle: TextStyle(
+            color: cellTextColor.withValues(alpha: 0.5), fontSize: 14),
       ),
       showNavigationArrow: true,
       todayHighlightColor: highlightColor,

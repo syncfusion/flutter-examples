@@ -87,7 +87,7 @@ class _SplineAreaState extends SampleViewState {
         dataSource: chartData,
         xValueMapper: (_SplineAreaData data, int index) => data.year,
         yValueMapper: (_SplineAreaData data, int index) => data.y1,
-        color: seriesColor1.withOpacity(0.6),
+        color: seriesColor1.withValues(alpha: 0.6),
         borderColor: seriesColor1,
         name: 'India',
       ),
@@ -96,7 +96,7 @@ class _SplineAreaState extends SampleViewState {
         xValueMapper: (_SplineAreaData data, int index) => data.year,
         yValueMapper: (_SplineAreaData data, int index) => data.y2,
         borderColor: seriesColor2,
-        color: seriesColor2.withOpacity(0.6),
+        color: seriesColor2.withValues(alpha: 0.6),
         name: 'China',
       )
     ];

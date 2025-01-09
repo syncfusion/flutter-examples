@@ -133,7 +133,7 @@ class _ExportState extends SampleViewState {
       plotAreaBackgroundColor: model.sampleOutputCardColor,
       backgroundColor: model.sampleOutputCardColor,
       plotAreaBorderWidth: 0,
-      plotAreaBorderColor: Colors.grey.withOpacity(0.7),
+      plotAreaBorderColor: Colors.grey.withValues(alpha: 0.7),
       title:
           const ChartTitle(text: 'Average rainfall amount (mm) and rainy days'),
       primaryXAxis: const CategoryAxis(

@@ -32,10 +32,10 @@ class _VerticalSliderColorCustomizationPageState extends SampleViewState {
     return SfSliderTheme(
         data: SfSliderThemeData(
             activeTrackColor: Colors.teal,
-            inactiveTrackColor: Colors.teal.withOpacity(0.24),
+            inactiveTrackColor: Colors.teal.withValues(alpha: 0.24),
             thumbColor: Colors.teal,
             tooltipBackgroundColor: Colors.teal,
-            overlayColor: Colors.teal.withOpacity(0.24)),
+            overlayColor: Colors.teal.withValues(alpha: 0.24)),
         child: SfSlider.vertical(
             showLabels: true,
             showTicks: true,
@@ -62,14 +62,14 @@ class _VerticalSliderColorCustomizationPageState extends SampleViewState {
                 ? model.backgroundColor
                 : model.sampleOutputCardColor,
             activeDividerStrokeWidth: 2,
-            activeDividerStrokeColor: Colors.deepOrange.withOpacity(0.24),
+            activeDividerStrokeColor: Colors.deepOrange.withValues(alpha: 0.24),
             inactiveDividerStrokeWidth: 2,
             inactiveDividerStrokeColor: Colors.deepOrange,
             activeDividerRadius: 5.0,
             inactiveDividerRadius: 5.0,
             activeTrackColor: Colors.deepOrange,
-            inactiveTrackColor: Colors.deepOrange.withOpacity(0.24),
-            overlayColor: Colors.deepOrange.withOpacity(0.12),
+            inactiveTrackColor: Colors.deepOrange.withValues(alpha: 0.24),
+            overlayColor: Colors.deepOrange.withValues(alpha: 0.12),
             thumbColor: model.isWebFullView
                 ? model.backgroundColor
                 : model.sampleOutputCardColor,

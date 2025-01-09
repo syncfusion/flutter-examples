@@ -334,7 +334,7 @@ class GettingStartedCalendarState extends SampleViewState {
                     child: Transform.scale(
                       scale: 0.8,
                       child: CupertinoSwitch(
-                        activeColor: model.primaryColor,
+                        activeTrackColor: model.primaryColor,
                         value: _allowViewNavigation,
                         onChanged: (bool value) {
                           setState(() {
@@ -369,7 +369,7 @@ class GettingStartedCalendarState extends SampleViewState {
                       child: Transform.scale(
                         scale: 0.8,
                         child: CupertinoSwitch(
-                          activeColor: model.primaryColor,
+                          activeTrackColor: model.primaryColor,
                           value: _showDatePickerButton,
                           onChanged: (bool value) {
                             setState(() {
@@ -407,7 +407,7 @@ class GettingStartedCalendarState extends SampleViewState {
                     child: Transform.scale(
                       scale: 0.8,
                       child: CupertinoSwitch(
-                        activeColor: model.primaryColor,
+                        activeTrackColor: model.primaryColor,
                         value: _showLeadingAndTrailingDates,
                         onChanged: (bool value) {
                           setState(() {
@@ -444,7 +444,7 @@ class GettingStartedCalendarState extends SampleViewState {
                     child: Transform.scale(
                       scale: 0.8,
                       child: CupertinoSwitch(
-                        activeColor: model.primaryColor,
+                        activeTrackColor: model.primaryColor,
                         value: _showCurrentTimeIndicator,
                         onChanged: (bool value) {
                           setState(() {
@@ -479,7 +479,7 @@ class GettingStartedCalendarState extends SampleViewState {
                     child: Transform.scale(
                       scale: 0.8,
                       child: CupertinoSwitch(
-                        activeColor: model.primaryColor,
+                        activeTrackColor: model.primaryColor,
                         value: _showWeekNumber,
                         onChanged: (bool value) {
                           setState(() {

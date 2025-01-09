@@ -691,7 +691,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                               : const Color.fromRGBO(170, 170, 170, 1)),
                       activeTrackColor: const Color.fromRGBO(255, 125, 30, 1),
                       inactiveRegionColor:
-                          model.sampleOutputCardColor.withOpacity(0.75),
+                          model.sampleOutputCardColor.withValues(alpha: 0.75),
                       thumbColor: Colors.white,
                       thumbStrokeColor: const Color.fromRGBO(255, 125, 30, 1),
                       thumbStrokeWidth: 2.0,

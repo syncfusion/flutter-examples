@@ -225,7 +225,7 @@ class _DefaultTrackballState extends SampleViewState {
             style: TextStyle(
               fontSize: 16,
               color: _selectedMode != 'groupAllPoints'
-                  ? model.textColor.withOpacity(0.3)
+                  ? model.textColor.withValues(alpha: 0.3)
                   : model.textColor,
             ),
           ),
