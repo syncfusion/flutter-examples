@@ -19,6 +19,8 @@ dependencies:
   desktop_window: 0.4.0
   intl: '>=0.18.1 <0.20.0'
   cupertino_icons: ^1.0.8
+  google_generative_ai: ^0.4.6
+  flutter_markdown: ^0.7.4+1
   
   syncfusion_localizations: ^28.1.33
   syncfusion_flutter_datagrid_export: ^28.1.33
