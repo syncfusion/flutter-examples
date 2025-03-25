@@ -128,7 +128,7 @@ class _DoughnutDefaultState extends SampleViewState {
         x: 'T',
         y: 10,
         pointColor: const Color.fromRGBO(230, 230, 230, 1),
-      )
+      ),
     ];
   }
 
@@ -144,12 +144,9 @@ class _DoughnutDefaultState extends SampleViewState {
         CircularChartAnnotation(
           widget: Text(
             '90%',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 25,
-            ),
+            style: TextStyle(color: Colors.grey, fontSize: 25),
           ),
-        )
+        ),
       ],
       title: ChartTitle(
         text: isCardView ? '' : 'Work progress',
@@ -161,16 +158,17 @@ class _DoughnutDefaultState extends SampleViewState {
 
   /// Returns the circular doughnut series.
   List<DoughnutSeries<ChartSampleData, String>>
-      _buildDoughnutCustomizationSeries() {
+  _buildDoughnutCustomizationSeries() {
     return <DoughnutSeries<ChartSampleData, String>>[
       DoughnutSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
         radius: '100%',
-        strokeColor: model.themeData.colorScheme.brightness == Brightness.light
-            ? Colors.white
-            : Colors.black,
+        strokeColor:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? Colors.white
+                : Colors.black,
 
         /// Applies the color for each doughnut segment.
         pointColorMapper: (ChartSampleData data, int index) => data.pointColor,

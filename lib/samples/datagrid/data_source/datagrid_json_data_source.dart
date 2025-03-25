@@ -35,11 +35,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
-          child: const Text(
-            'ID',
-            overflow: TextOverflow.clip,
-            softWrap: true,
-          ),
+          child: const Text('ID', overflow: TextOverflow.clip, softWrap: true),
         ),
       ),
       GridColumn(
@@ -124,7 +120,7 @@ class _JsonDataSourceDataGridState extends SampleViewState {
           alignment: Alignment.centerRight,
           child: const Text('Phone Number'),
         ),
-      )
+      ),
     ];
     return columns;
   }
@@ -139,17 +135,18 @@ class _JsonDataSourceDataGridState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-        future: Future<String>.delayed(
-            const Duration(milliseconds: 500), () => 'Loaded'),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          return _jsonDataGridSource.employees.isEmpty
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                  ),
-                )
-              : SfDataGrid(
-                  source: _jsonDataGridSource, columns: _obtainColumns());
-        });
+      future: Future<String>.delayed(
+        const Duration(milliseconds: 500),
+        () => 'Loaded',
+      ),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        return _jsonDataGridSource.employees.isEmpty
+            ? const Center(child: CircularProgressIndicator(strokeWidth: 3))
+            : SfDataGrid(
+              source: _jsonDataGridSource,
+              columns: _obtainColumns(),
+            );
+      },
+    );
   }
 }

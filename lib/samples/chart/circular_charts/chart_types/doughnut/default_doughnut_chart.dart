@@ -21,9 +21,11 @@ class _DoughnutDefaultState extends SampleViewState {
   _DoughnutDefaultState();
   late TooltipBehavior _tooltip;
   late List<ChartSampleData> _chartData;
+  late int _explodeIndex;
 
   @override
   void initState() {
+    _explodeIndex = 0;
     _tooltip = TooltipBehavior(enable: true, format: 'point.x : point.y%');
     _chartData = <ChartSampleData>[
       ChartSampleData(x: 'Chlorine', y: 55, text: '55%'),
@@ -64,7 +66,13 @@ class _DoughnutDefaultState extends SampleViewState {
         dataLabelMapper: (ChartSampleData data, int index) => data.text,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
         explode: true,
-      )
+        explodeIndex: _explodeIndex,
+        onPointTap: (ChartPointDetails details) {
+          setState(() {
+            _explodeIndex = details.pointIndex!;
+          });
+        },
+      ),
     ];
   }
 

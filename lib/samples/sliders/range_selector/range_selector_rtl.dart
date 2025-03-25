@@ -55,13 +55,13 @@ class _RangeSelectorRTLState extends SampleViewState {
       start: DateTime(2005),
       end: DateTime(2008),
     );
-    gradientColors = const LinearGradient(colors: <Color>[
-      Color.fromRGBO(255, 125, 30, 0.4),
-      Color.fromRGBO(255, 125, 30, 1)
-    ], stops: <double>[
-      0.0,
-      0.5
-    ]);
+    gradientColors = const LinearGradient(
+      colors: <Color>[
+        Color.fromRGBO(255, 125, 30, 0.4),
+        Color.fromRGBO(255, 125, 30, 1),
+      ],
+      stops: <double>[0.0, 0.5],
+    );
   }
 
   @override
@@ -81,12 +81,14 @@ class _RangeSelectorRTLState extends SampleViewState {
         startRate = chartData[i].y!.toDouble();
       }
       if (chartData[i].x.isAfter(
-              //ignore: avoid_as
-              (values.start as DateTime)
-                  .subtract(const Duration(hours: 12))) as bool &&
+                //ignore: avoid_as
+                (values.start as DateTime).subtract(const Duration(hours: 12)),
+              )
+              as bool &&
           chartData[i].x.isBefore(
-                  //ignore: avoid_as
-                  (values.end as DateTime).add(const Duration(hours: 12)))
+                //ignore: avoid_as
+                (values.end as DateTime).add(const Duration(hours: 12)),
+              )
               as bool) {
         dataCount++;
         totalData += chartData[i].y!;
@@ -106,14 +108,15 @@ class _RangeSelectorRTLState extends SampleViewState {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.fromLTRB(
-                0,
-                mediaQueryData.orientation == Orientation.portrait
-                    ? 50
-                    : model.isWebFullView
-                        ? 15
-                        : 2,
-                0,
-                5),
+              0,
+              mediaQueryData.orientation == Orientation.portrait
+                  ? 50
+                  : model.isWebFullView
+                  ? 15
+                  : 2,
+              0,
+              5,
+            ),
             child: const SizedBox(
               height: 30,
               child: Center(
@@ -131,33 +134,41 @@ class _RangeSelectorRTLState extends SampleViewState {
                 data: SfRangeSelectorThemeData(
                   labelOffset: Offset.zero,
                   activeLabelStyle: TextStyle(
-                      fontSize: 10,
-                      color: themeData.textTheme.bodyLarge!.color!
-                          .withValues(alpha: 0.87)),
+                    fontSize: 10,
+                    color: themeData.textTheme.bodyLarge!.color!.withValues(
+                      alpha: 0.87,
+                    ),
+                  ),
                   inactiveLabelStyle: TextStyle(
-                      fontSize: 10,
-                      color: themeData.textTheme.bodyLarge!.color!
-                          .withValues(alpha: 0.87)),
-                  inactiveRegionColor:
-                      model.sampleOutputCardColor.withValues(alpha: 0.75),
+                    fontSize: 10,
+                    color: themeData.textTheme.bodyLarge!.color!.withValues(
+                      alpha: 0.87,
+                    ),
+                  ),
+                  inactiveRegionColor: model.sampleOutputCardColor.withValues(
+                    alpha: 0.75,
+                  ),
                 ),
                 child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: SfRangeSelector(
                     min: min,
                     max: max,
-                    interval: (model.isWebFullView &&
-                            mediaQueryData.size.width <= 1000)
-                        ? 2
-                        : 1,
+                    interval:
+                        (model.isWebFullView &&
+                                mediaQueryData.size.width <= 1000)
+                            ? 2
+                            : 1,
                     controller: rangeController,
                     dateFormat: DateFormat.y(),
                     dateIntervalType: DateIntervalType.years,
                     showTicks: true,
                     showLabels: true,
                     enableTooltip: true,
-                    tooltipTextFormatterCallback:
-                        (dynamic actualLabel, String formattedText) {
+                    tooltipTextFormatterCallback: (
+                      dynamic actualLabel,
+                      String formattedText,
+                    ) {
                       return DateFormat.yMMMd().format(actualLabel);
                     },
                     onChanged: (SfRangeValues values) {
@@ -166,14 +177,16 @@ class _RangeSelectorRTLState extends SampleViewState {
                       });
                     },
                     child: SizedBox(
-                      width: mediaQueryData.orientation == Orientation.landscape
-                          ? model.isWebFullView
-                              ? mediaQueryData.size.width * 0.6
-                              : mediaQueryData.size.width
-                          : mediaQueryData.size.width,
-                      height: mediaQueryData.orientation == Orientation.portrait
-                          ? mediaQueryData.size.height * 0.45
-                          : model.isWebFullView
+                      width:
+                          mediaQueryData.orientation == Orientation.landscape
+                              ? model.isWebFullView
+                                  ? mediaQueryData.size.width * 0.6
+                                  : mediaQueryData.size.width
+                              : mediaQueryData.size.width,
+                      height:
+                          mediaQueryData.orientation == Orientation.portrait
+                              ? mediaQueryData.size.height * 0.45
+                              : model.isWebFullView
                               ? mediaQueryData.size.height * 0.38
                               : mediaQueryData.size.height * 0.4,
                       child: SfCartesianChart(
@@ -183,18 +196,21 @@ class _RangeSelectorRTLState extends SampleViewState {
                           maximum: max,
                           isVisible: false,
                         ),
-                        primaryYAxis:
-                            const NumericAxis(isVisible: false, maximum: 4),
+                        primaryYAxis: const NumericAxis(
+                          isVisible: false,
+                          maximum: 4,
+                        ),
                         plotAreaBorderWidth: 0,
                         series: <SplineAreaSeries<ChartSampleData, DateTime>>[
                           SplineAreaSeries<ChartSampleData, DateTime>(
-                              dataSource: chartData,
-                              xValueMapper: (ChartSampleData sales, _) =>
-                                  sales.x as DateTime,
-                              yValueMapper: (ChartSampleData sales, _) =>
-                                  sales.y,
-                              gradient: gradientColors,
-                              animationDuration: 0)
+                            dataSource: chartData,
+                            xValueMapper:
+                                (ChartSampleData sales, _) =>
+                                    sales.x as DateTime,
+                            yValueMapper: (ChartSampleData sales, _) => sales.y,
+                            gradient: gradientColors,
+                            animationDuration: 0,
+                          ),
                         ],
                       ),
                     ),
@@ -204,24 +220,28 @@ class _RangeSelectorRTLState extends SampleViewState {
             ),
           ),
           Padding(
-            padding: mediaQueryData.orientation == Orientation.landscape ||
-                    model.isWebFullView
-                ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.025)
-                : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
+            padding:
+                mediaQueryData.orientation == Orientation.landscape ||
+                        model.isWebFullView
+                    ? EdgeInsets.only(
+                      bottom: mediaQueryData.size.height * 0.025,
+                    )
+                    : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 height: 25,
                 child: Text(
                   'Average rate   :   ' +
-                      _getAverageInflationRate(rangeController)
-                          .toStringAsFixed(2) +
+                      _getAverageInflationRate(
+                        rangeController,
+                      ).toStringAsFixed(2) +
                       '%',
                   style: const TextStyle(fontSize: 18),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

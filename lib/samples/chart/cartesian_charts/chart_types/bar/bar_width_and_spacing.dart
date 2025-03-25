@@ -51,25 +51,20 @@ class _BarSpacingState extends SampleViewState {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Text(
-              'Width  ',
-              style: TextStyle(color: model.textColor),
-            ),
+            Text('Width  ', style: TextStyle(color: model.textColor)),
             Container(
               padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
               child: CustomDirectionalButtons(
                 maxValue: 1,
                 initialValue: _columnWidth,
-                onChanged: (double val) => setState(() {
-                  _columnWidth = val;
-                }),
+                onChanged:
+                    (double val) => setState(() {
+                      _columnWidth = val;
+                    }),
                 step: 0.1,
                 loop: true,
                 iconColor: model.textColor,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: model.textColor,
-                ),
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
             ),
           ],
@@ -89,19 +84,17 @@ class _BarSpacingState extends SampleViewState {
               child: CustomDirectionalButtons(
                 maxValue: 1,
                 initialValue: _columnSpacing,
-                onChanged: (double val) => setState(() {
-                  _columnSpacing = val;
-                }),
+                onChanged:
+                    (double val) => setState(() {
+                      _columnSpacing = val;
+                    }),
                 step: 0.1,
                 loop: true,
                 padding: 5.0,
                 iconColor: model.textColor,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: model.textColor,
-                ),
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
-            )
+            ),
           ],
         ),
       ],
@@ -112,9 +105,7 @@ class _BarSpacingState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Exports & Imports of US',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Exports & Imports of US'),
       primaryXAxis: const NumericAxis(
         minimum: 2005,
         maximum: 2011,
@@ -151,8 +142,8 @@ class _BarSpacingState extends SampleViewState {
       BarSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         name: 'Export',
         width: isCardView ? 0.8 : _columnWidth,
         spacing: isCardView ? 0.2 : _columnSpacing,

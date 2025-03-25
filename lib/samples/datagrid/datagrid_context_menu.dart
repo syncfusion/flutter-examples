@@ -34,7 +34,7 @@ class _ContextMenuDataGridState extends SampleViewState {
   final List<String> _menuItems = <String>[
     'Sort Ascending',
     'Sort Descending',
-    'Clear Sorting'
+    'Clear Sorting',
   ];
 
   late bool _isDesktop;
@@ -50,8 +50,10 @@ class _ContextMenuDataGridState extends SampleViewState {
   List<PopupMenuItem<String>> _buildMenuItems(GridColumn column) {
     List<PopupMenuItem<String>> popupmenuItems;
     final SortColumnDetails? sortColumn = _source.sortedColumns
-        .firstWhereOrNull((SortColumnDetails sortColumn) =>
-            sortColumn.name == column.columnName);
+        .firstWhereOrNull(
+          (SortColumnDetails sortColumn) =>
+              sortColumn.name == column.columnName,
+        );
 
     bool isEnabled(DataGridSortDirection direction) {
       if (sortColumn == null) {
@@ -61,26 +63,24 @@ class _ContextMenuDataGridState extends SampleViewState {
     }
 
     PopupMenuItem<String> buildMenuItem(
-        String itemName, IconData icon, GridColumn column,
-        {DataGridSortDirection? sortDirection}) {
+      String itemName,
+      IconData icon,
+      GridColumn column, {
+      DataGridSortDirection? sortDirection,
+    }) {
       return PopupMenuItem<String>(
         padding: EdgeInsets.zero,
         value: itemName,
-        enabled: sortDirection != null
-            ? isEnabled(sortDirection)
-            : _source.sortedColumns.isNotEmpty,
+        enabled:
+            sortDirection != null
+                ? isEnabled(sortDirection)
+                : _source.sortedColumns.isNotEmpty,
         child: GestureDetector(
           onTap: () {
             _handleMenuItemTap(itemName, column);
             Navigator.pop(context);
           },
-          child: _buildItem(
-              column,
-              itemName,
-              Icon(
-                icon,
-                size: 16,
-              )),
+          child: _buildItem(column, itemName, Icon(icon, size: 16)),
         ),
       );
     }
@@ -113,19 +113,10 @@ class _ContextMenuDataGridState extends SampleViewState {
       width: 150,
       child: Row(
         children: <Widget>[
-          const SizedBox(
-            width: 7,
-          ),
+          const SizedBox(width: 7),
           Center(child: icon),
-          const SizedBox(
-            width: 7,
-          ),
-          Center(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 15),
-            ),
-          ),
+          const SizedBox(width: 7),
+          Center(child: Text(value, style: const TextStyle(fontSize: 15))),
         ],
       ),
     );
@@ -138,11 +129,15 @@ class _ContextMenuDataGridState extends SampleViewState {
         if (_source.sortedColumns.isNotEmpty) {
           _source.sortedColumns.clear();
         }
-        _source.sortedColumns.add(SortColumnDetails(
+        _source.sortedColumns.add(
+          SortColumnDetails(
             name: gridColumn.columnName,
-            sortDirection: value == 'Sort Ascending'
-                ? DataGridSortDirection.ascending
-                : DataGridSortDirection.descending));
+            sortDirection:
+                value == 'Sort Ascending'
+                    ? DataGridSortDirection.ascending
+                    : DataGridSortDirection.descending,
+          ),
+        );
         _source.sort();
         break;
       case 'Clear Sorting':
@@ -160,10 +155,11 @@ class _ContextMenuDataGridState extends SampleViewState {
       key: key,
       source: _source,
       columns: _obtainColumns(),
-      columnWidthMode: ((_isDesktop || _isLandscapeInMobileView) &&
-              !model.isMobileResolution)
-          ? ColumnWidthMode.fill
-          : ColumnWidthMode.none,
+      columnWidthMode:
+          ((_isDesktop || _isLandscapeInMobileView) &&
+                  !model.isMobileResolution)
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
       onCellLongPress: (DataGridCellLongPressDetails details) {
@@ -172,11 +168,13 @@ class _ContextMenuDataGridState extends SampleViewState {
           final RenderBox renderObject =
               context.findRenderObject()! as RenderBox;
           showMenu(
-              context: context,
-              position: RelativeRect.fromRect(
-                  details.globalPosition & Size.zero,
-                  Offset.zero & renderObject.size),
-              items: _buildMenuItems(details.column));
+            context: context,
+            position: RelativeRect.fromRect(
+              details.globalPosition & Size.zero,
+              Offset.zero & renderObject.size,
+            ),
+            items: _buildMenuItems(details.column),
+          );
         }
       },
       onCellSecondaryTap: (DataGridCellTapDetails details) {
@@ -184,13 +182,17 @@ class _ContextMenuDataGridState extends SampleViewState {
           ///Get the global position from renderObject while secondaryTap in desktop platform
           final RenderBox renderObject =
               context.findRenderObject()! as RenderBox;
-          final Offset localPosition =
-              renderObject.globalToLocal(details.globalPosition);
+          final Offset localPosition = renderObject.globalToLocal(
+            details.globalPosition,
+          );
           showMenu(
-              context: context,
-              position: RelativeRect.fromSize(
-                  localPosition & Size.zero, renderObject.size),
-              items: _buildMenuItems(details.column));
+            context: context,
+            position: RelativeRect.fromSize(
+              localPosition & Size.zero,
+              renderObject.size,
+            ),
+            items: _buildMenuItems(details.column),
+          );
         }
       },
     );
@@ -199,7 +201,8 @@ class _ContextMenuDataGridState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isDesktop &&
+    _isLandscapeInMobileView =
+        !_isDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -213,84 +216,77 @@ class _ContextMenuDataGridState extends SampleViewState {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
-          columnName: 'id',
-          width: (_isDesktop && model.isMobileResolution) ? 140 : double.nan,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Order ID',
-            ),
-          )),
+        columnName: 'id',
+        width: (_isDesktop && model.isMobileResolution) ? 140 : double.nan,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8),
+          child: const Text('Order ID'),
+        ),
+      ),
       GridColumn(
-          columnName: 'productId',
-          width: (_isDesktop && model.isMobileResolution) ? 150 : double.nan,
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Product ID',
-            ),
-          )),
+        columnName: 'productId',
+        width: (_isDesktop && model.isMobileResolution) ? 150 : double.nan,
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Product ID'),
+        ),
+      ),
       GridColumn(
-          columnName: 'name',
-          width: (_isDesktop && model.isMobileResolution) ? 170 : 140,
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerLeft,
-            child: const Text(
-              'Customer Name',
-            ),
-          )),
+        columnName: 'name',
+        width: (_isDesktop && model.isMobileResolution) ? 170 : 140,
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: const Text('Customer Name'),
+        ),
+      ),
       GridColumn(
-          columnName: 'product',
-          width: (_isDesktop && model.isMobileResolution) ? 135 : double.nan,
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerLeft,
-            child: const Text(
-              'Product',
-            ),
-          )),
+        columnName: 'product',
+        width: (_isDesktop && model.isMobileResolution) ? 135 : double.nan,
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: const Text('Product'),
+        ),
+      ),
       GridColumn(
-          columnName: 'orderDate',
-          width: (_isDesktop && model.isMobileResolution) ? 185 : 140,
-          label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Order Date',
-              ))),
+        columnName: 'orderDate',
+        width: (_isDesktop && model.isMobileResolution) ? 185 : 140,
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Order Date'),
+        ),
+      ),
       GridColumn(
-          columnName: 'quantity',
-          width: (_isDesktop && model.isMobileResolution) ? 135 : double.nan,
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Quantity',
-            ),
-          )),
+        columnName: 'quantity',
+        width: (_isDesktop && model.isMobileResolution) ? 135 : double.nan,
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Quantity'),
+        ),
+      ),
       GridColumn(
-          columnName: 'city',
-          width: (_isDesktop && model.isMobileResolution) ? 130 : double.nan,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'City',
-            ),
-          )),
+        columnName: 'city',
+        width: (_isDesktop && model.isMobileResolution) ? 130 : double.nan,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8),
+          child: const Text('City'),
+        ),
+      ),
       GridColumn(
-          columnName: 'unitPrice',
-          width: (_isDesktop && model.isMobileResolution) ? 140 : double.nan,
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Unit Price',
-            ),
-          )),
+        columnName: 'unitPrice',
+        width: (_isDesktop && model.isMobileResolution) ? 140 : double.nan,
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Unit Price'),
+        ),
+      ),
     ];
     return columns;
   }

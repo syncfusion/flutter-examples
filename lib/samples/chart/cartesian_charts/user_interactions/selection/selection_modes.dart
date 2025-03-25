@@ -71,8 +71,10 @@ class _DefaultSelectionState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    _selectionBehavior =
-        SelectionBehavior(enable: true, toggleSelection: _toggleSelection);
+    _selectionBehavior = SelectionBehavior(
+      enable: true,
+      toggleSelection: _toggleSelection,
+    );
     return _buildDefaultSelectionChart();
   }
 
@@ -105,10 +107,7 @@ class _DefaultSelectionState extends SampleViewState {
         Text(
           'Mode',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
         SizedBox(height: model.isMobile ? 30.0 : 16.0),
         Text(
@@ -116,19 +115,13 @@ class _DefaultSelectionState extends SampleViewState {
               ? 'Enable multi-\nselection'
               : 'Enable multi-selection',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
         SizedBox(height: model.isMobile ? 30.0 : 16.0),
         Text(
           model.isWebFullView ? 'Toggle \nselection' : 'Toggle selection',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
       ],
     );
@@ -136,7 +129,9 @@ class _DefaultSelectionState extends SampleViewState {
 
   /// Builds the right column of settings, containing controls for selection options.
   Widget _buildSettingsRightColumn(
-      BuildContext context, StateSetter stateSetter) {
+    BuildContext context,
+    StateSetter stateSetter,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -172,20 +167,15 @@ class _DefaultSelectionState extends SampleViewState {
     return DropdownButton<String>(
       dropdownColor: model.drawerBackgroundColor,
       focusColor: Colors.transparent,
-      underline: Container(
-        color: const Color(0xFFBDBDBD),
-        height: 1,
-      ),
+      underline: Container(color: const Color(0xFFBDBDBD), height: 1),
       value: _selectedMode,
-      items: _modeList.map((String value) {
-        return DropdownMenuItem<String>(
-          value: (value != null) ? value : 'point',
-          child: Text(
-            value,
-            style: TextStyle(color: model.textColor),
-          ),
-        );
-      }).toList(),
+      items:
+          _modeList.map((String value) {
+            return DropdownMenuItem<String>(
+              value: (value != null) ? value : 'point',
+              child: Text(value, style: TextStyle(color: model.textColor)),
+            );
+          }).toList(),
       onChanged: (dynamic value) {
         _updateSelectionMode(value);
         stateSetter(() {});
@@ -239,19 +229,19 @@ class _DefaultSelectionState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index_) =>
-            data.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index_) => data.secondSeriesYValue,
         selectionBehavior: _selectionBehavior,
         name: 'Age 15-64',
       ),
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.thirdSeriesYValue,
         selectionBehavior: _selectionBehavior,
         name: 'Age 65 & Above',
-      )
+      ),
     ];
   }
 
@@ -267,11 +257,9 @@ class _DefaultSelectionState extends SampleViewState {
     if (_selectedMode == 'cluster') {
       _selectionType = SelectionType.cluster;
     }
-    setState(
-      () {
-        /// Update the selection type changes.
-      },
-    );
+    setState(() {
+      /// Update the selection type changes.
+    });
   }
 
   @override

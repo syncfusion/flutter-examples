@@ -10,8 +10,9 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../../model/sample_view.dart';
-import '../../common/export/save_file_mobile.dart';
 import '../../helper/ai_pop_up_api_key.dart';
+import '../../pdf/helper/save_file_mobile.dart'
+    if (dart.library.js_interop) '../../pdf/helper/save_file_web.dart';
 
 class SmartFillSample extends SampleView {
   const SmartFillSample(Key key) : super(key: key);
@@ -55,9 +56,10 @@ class _SmartFillSampleState extends SampleViewState
     )..repeat(reverse: true); // Repeats the animation back and forth
 
     // Define the animation
-    _animation = Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.8,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     if (model.assistApiKey.isNotEmpty) {
       _initAiServices(model.assistApiKey);
@@ -68,16 +70,17 @@ class _SmartFillSampleState extends SampleViewState
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder: (context) => WelcomeDialog(
-            primaryColor: model.primaryColor,
-            apiKey: model.assistApiKey,
-            onApiKeySaved: (newApiKey) {
-              setState(() {
-                model.assistApiKey = newApiKey;
-              });
-              _initAiServices(newApiKey);
-            },
-          ),
+          builder:
+              (context) => WelcomeDialog(
+                primaryColor: model.primaryColor,
+                apiKey: model.assistApiKey,
+                onApiKeySaved: (newApiKey) {
+                  setState(() {
+                    model.assistApiKey = newApiKey;
+                  });
+                  _initAiServices(newApiKey);
+                },
+              ),
         );
         model.isFirstTime = false;
       }
@@ -101,10 +104,7 @@ class _SmartFillSampleState extends SampleViewState
 
   /// Initialize the AI services with the provided API key
   void _initAiServices(String apiKey) {
-    _model = GenerativeModel(
-      model: 'gemini-1.5-flash-latest',
-      apiKey: apiKey,
-    );
+    _model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: apiKey);
 
     _chat = _model.startChat();
   }
@@ -113,8 +113,9 @@ class _SmartFillSampleState extends SampleViewState
   Future<void> _checkClipboard() async {
     try {
       final bool hasData = await Clipboard.hasStrings();
-      final ClipboardData? clipboardData =
-          await Clipboard.getData('text/plain');
+      final ClipboardData? clipboardData = await Clipboard.getData(
+        'text/plain',
+      );
 
       final String? clipboardContent = clipboardData?.text;
 
@@ -136,17 +137,21 @@ class _SmartFillSampleState extends SampleViewState
 
   void _initUserDetail() {
     _userDetails.add(
-        'Hi, this is John. You can contact me at john123@emailid.com. I am male, born on February 20, 2005. I want to subscribe to a newspaper and learn courses, specifically a Machine Learning course. I am from Alaska.');
+      'Hi, this is John. You can contact me at john123@emailid.com. I am male, born on February 20, 2005. I want to subscribe to a newspaper and learn courses, specifically a Machine Learning course. I am from Alaska.',
+    );
     _userDetails.add(
-        'S David here. You can reach me at David123@emailid.com. I am male, born on March 15, 2003. I would like to subscribe to a newspaper and am interested in taking a Digital Marketing course. I am from New York.');
+      'S David here. You can reach me at David123@emailid.com. I am male, born on March 15, 2003. I would like to subscribe to a newspaper and am interested in taking a Digital Marketing course. I am from New York.',
+    );
     _userDetails.add(
-        'Hi, this is Alice. You can contact me at alice456@emailid.com. I am female, born on July 15, 1998. I want to unsubscribe from a newspaper and learn courses, specifically a Cloud Computing course. I am from Texas.');
+      'Hi, this is Alice. You can contact me at alice456@emailid.com. I am female, born on July 15, 1998. I want to unsubscribe from a newspaper and learn courses, specifically a Cloud Computing course. I am from Texas.',
+    );
   }
 
   Future<String?> _sendMessage(String message) async {
     try {
-      final GenerateContentResponse response =
-          await _chat.sendMessage(Content.text(message));
+      final GenerateContentResponse response = await _chat.sendMessage(
+        Content.text(message),
+      );
       return response.text;
     } catch (e) {
       return null;
@@ -256,8 +261,9 @@ class _SmartFillSampleState extends SampleViewState
 
   Future<void> _smartFill() async {
     try {
-      final ClipboardData? clipboardData =
-          await Clipboard.getData('text/plain');
+      final ClipboardData? clipboardData = await Clipboard.getData(
+        'text/plain',
+      );
 
       if (clipboardData == null || clipboardData.text == null) {
         return;
@@ -321,8 +327,9 @@ class _SmartFillSampleState extends SampleViewState
   }
 
   String _getXFDFString() {
-    final List<int> xfdfBytes =
-        _pdfViewerController.exportFormData(dataFormat: DataFormat.xfdf);
+    final List<int> xfdfBytes = _pdfViewerController.exportFormData(
+      dataFormat: DataFormat.xfdf,
+    );
     const utf8 = Utf8Codec();
     final String xfdfString = utf8.decode(xfdfBytes);
     return xfdfString;
@@ -374,7 +381,10 @@ class _SmartFillSampleState extends SampleViewState
 
   /// Save document
   Future<void> _saveDocument(
-      List<int> dataBytes, String message, String fileName) async {
+    List<int> dataBytes,
+    String message,
+    String fileName,
+  ) async {
     if (kIsWeb) {
       await FileSaveHelper.saveAndLaunchFile(dataBytes, fileName);
     } else {
@@ -383,11 +393,15 @@ class _SmartFillSampleState extends SampleViewState
       final File file = File('$path/$fileName');
       try {
         await file.writeAsBytes(dataBytes);
-        _showDialog('Document saved',
-            message + path + Platform.pathSeparator + fileName);
+        _showDialog(
+          'Document saved',
+          message + path + Platform.pathSeparator + fileName,
+        );
       } on PathAccessException catch (e) {
         _showDialog(
-            'Error', e.osError?.message ?? 'Error in saving the document');
+          'Error',
+          e.osError?.message ?? 'Error in saving the document',
+        );
       } catch (e) {
         _showDialog('Error', 'Error in saving the document');
       }
@@ -397,50 +411,61 @@ class _SmartFillSampleState extends SampleViewState
   /// Alert dialog for save and export
   void _showDialog(String title, String message) {
     showDialog<Widget>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(title),
-            content: SizedBox(
-              width: 328.0,
-              child: Scrollbar(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  child: Text(message),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SizedBox(
+            width: 328.0,
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
                 ),
+                child: Text(message),
               ),
             ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: _useMaterial3
-                    ? TextButton.styleFrom(
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style:
+                  _useMaterial3
+                      ? TextButton.styleFrom(
                         fixedSize: const Size(double.infinity, 40),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
+                          vertical: 10,
+                          horizontal: 20,
+                        ),
                       )
-                    : null,
-                child: const Text('Close'),
-              )
-            ],
-            contentPadding: EdgeInsets.only(
-              left: 24.0,
-              top: _useMaterial3 ? 16.0 : 20.0,
-              right: 24.0,
+                      : null,
+              child: const Text('Close'),
             ),
-            actionsPadding:
-                const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-          );
-        });
+          ],
+          contentPadding: EdgeInsets.only(
+            left: 24.0,
+            top: _useMaterial3 ? 16.0 : 20.0,
+            right: 24.0,
+          ),
+          actionsPadding: const EdgeInsets.only(
+            left: 16.0,
+            right: 16.0,
+            bottom: 16.0,
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _saveDocumentHandler() async {
     final List<int> savedBytes = await _pdfViewerController.saveDocument();
     _saveDocument(
-        savedBytes, 'The document was saved at the location ', 'form.pdf');
+      savedBytes,
+      'The document was saved at the location ',
+      'form.pdf',
+    );
   }
 
   @override
@@ -450,10 +475,11 @@ class _SmartFillSampleState extends SampleViewState
         !_isWeb && MediaQuery.of(context).orientation != Orientation.landscape;
 
     // Determine the width of the list panel based on device type and orientation.
-    final listWidth = model.isMobile &&
-            MediaQuery.of(context).orientation == Orientation.landscape
-        ? MediaQuery.of(context).size.width / 3
-        : MediaQuery.of(context).size.width / 4;
+    final listWidth =
+        model.isMobile &&
+                MediaQuery.of(context).orientation == Orientation.landscape
+            ? MediaQuery.of(context).size.width / 3
+            : MediaQuery.of(context).size.width / 4;
 
     // Function to build the PDF viewer widget.
     Widget pdfViewer() {
@@ -487,9 +513,10 @@ class _SmartFillSampleState extends SampleViewState
                 onPressed: _saveDocumentHandler,
                 child: Icon(
                   Icons.save,
-                  color: _useMaterial3
-                      ? Theme.of(context).colorScheme.onSurfaceVariant
-                      : Theme.of(context).colorScheme.brightness ==
+                  color:
+                      _useMaterial3
+                          ? Theme.of(context).colorScheme.onSurfaceVariant
+                          : Theme.of(context).colorScheme.brightness ==
                               Brightness.light
                           ? Colors.black.withValues(alpha: 0.54)
                           : Colors.white.withValues(alpha: 0.65),
@@ -505,29 +532,35 @@ class _SmartFillSampleState extends SampleViewState
     Widget listItem(int index) {
       return Card(
         shape: RoundedRectangleBorder(
-            side: BorderSide(color: Colors.grey.shade300),
-            borderRadius: const BorderRadius.all(Radius.circular(16.0))),
+          side: BorderSide(color: Colors.grey.shade300),
+          borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+        ),
         margin: const EdgeInsets.symmetric(horizontal: 16).copyWith(
           top: index == 0 ? 16 : 8,
           bottom: index == _userDetails.length - 1 ? 16 : 8,
         ),
         elevation: 4,
         child: Padding(
-          padding: isMobile
-              ? const EdgeInsets.all(16.0)
-              : const EdgeInsets.all(12.0),
+          padding:
+              isMobile
+                  ? const EdgeInsets.all(16.0)
+                  : const EdgeInsets.all(12.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(
-                child: Text(_userDetails[index],
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                child: Text(
+                  _userDetails[index],
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
               ),
               Padding(
-                padding: isMobile
-                    ? const EdgeInsets.only(left: 16.0)
-                    : const EdgeInsets.only(left: 12.0),
+                padding:
+                    isMobile
+                        ? const EdgeInsets.only(left: 16.0)
+                        : const EdgeInsets.only(left: 12.0),
                 child: Tooltip(
                   message: 'Copy',
                   child: GestureDetector(
@@ -545,9 +578,11 @@ class _SmartFillSampleState extends SampleViewState
                     child: Icon(
                       // Show check or copy icon based on whether data is copied.
                       _isCopied[index] ?? false ? Icons.check : Icons.copy,
-                      key: ValueKey(_isCopied[index] ?? false
-                          ? 'check_$index'
-                          : 'copy_$index'),
+                      key: ValueKey(
+                        _isCopied[index] ?? false
+                            ? 'check_$index'
+                            : 'copy_$index',
+                      ),
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                       size: 24,
                     ),
@@ -572,82 +607,178 @@ class _SmartFillSampleState extends SampleViewState
     }
 
     return Scaffold(
-      appBar: isMobile
-          ? AppBar(
-              automaticallyImplyLeading: false,
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: _addTooltip(
-                      _buildAIButton(), 'Click to smart fill the form'),
-                )
-              ],
-              elevation: 2.0,
-              bottom: PreferredSize(
+      appBar:
+          isMobile
+              ? AppBar(
+                automaticallyImplyLeading: false,
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: _addTooltip(
+                      _buildAIButton(),
+                      'Click to smart fill the form',
+                    ),
+                  ),
+                ],
+                elevation: 2.0,
+                bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(0),
-                  child: Container(
-                    height: 0.75,
-                    color: model.dividerColor,
-                  )))
-          : null,
-      body: isMobile
-          ? Column(
-              children: [
-                Expanded(flex: 4, child: pdfViewer()),
-                Visibility(
-                  visible: _isDocumentLoaded,
-                  child: Flexible(
-                    flex: _isExpanded ? 8 : 3,
-                    child: Column(
-                      children: [
-                        InkWell(
-                          splashColor: Colors.transparent,
-                          onTap: () =>
-                              setState(() => _isExpanded = !_isExpanded),
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border(
-                                top: BorderSide(color: model.dividerColor),
-                                bottom: BorderSide(color: model.dividerColor),
+                  child: Container(height: 0.75, color: model.dividerColor),
+                ),
+              )
+              : null,
+      body:
+          isMobile
+              ? Column(
+                children: [
+                  Expanded(flex: 4, child: pdfViewer()),
+                  Visibility(
+                    visible: _isDocumentLoaded,
+                    child: Flexible(
+                      flex: _isExpanded ? 8 : 3,
+                      child: Column(
+                        children: [
+                          InkWell(
+                            splashColor: Colors.transparent,
+                            onTap:
+                                () =>
+                                    setState(() => _isExpanded = !_isExpanded),
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(color: model.dividerColor),
+                                  bottom: BorderSide(color: model.dividerColor),
+                                ),
+                                color:
+                                    _useMaterial3
+                                        ? Theme.of(
+                                                  context,
+                                                ).colorScheme.brightness ==
+                                                Brightness.light
+                                            ? const Color.fromRGBO(
+                                              247,
+                                              242,
+                                              251,
+                                              1,
+                                            )
+                                            : const Color.fromRGBO(
+                                              37,
+                                              35,
+                                              42,
+                                              1,
+                                            )
+                                        : Theme.of(
+                                              context,
+                                            ).colorScheme.brightness ==
+                                            Brightness.light
+                                        ? const Color(0xFFFAFAFA)
+                                        : const Color(0xFF424242),
                               ),
-                              color: _useMaterial3
-                                  ? Theme.of(context).colorScheme.brightness ==
-                                          Brightness.light
-                                      ? const Color.fromRGBO(247, 242, 251, 1)
-                                      : const Color.fromRGBO(37, 35, 42, 1)
-                                  : Theme.of(context).colorScheme.brightness ==
-                                          Brightness.light
-                                      ? const Color(0xFFFAFAFA)
-                                      : const Color(0xFF424242),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 8.0,
+                                      bottom: 4.0,
+                                    ),
+                                    child: Icon(
+                                      _isExpanded
+                                          ? Icons.keyboard_arrow_down
+                                          : Icons.keyboard_arrow_up,
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 4.0,
+                                      bottom: 8.0,
+                                    ),
+                                    child: Text(
+                                      'Sample Content to copy',
+                                      style: TextStyle(
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.onSurfaceVariant,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            child: Column(
+                          ),
+                          Expanded(child: listView()),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+              : Row(
+                children: [
+                  Expanded(child: pdfViewer()),
+                  Container(
+                    // Display the list panel next to PDF viewer on larger screens.
+                    width: listWidth,
+                    height: MediaQuery.of(context).size.height,
+                    color:
+                        _useMaterial3
+                            ? Theme.of(context).colorScheme.brightness ==
+                                    Brightness.light
+                                ? const Color.fromRGBO(247, 242, 251, 1)
+                                : const Color.fromRGBO(37, 35, 42, 1)
+                            : Theme.of(context).colorScheme.brightness ==
+                                Brightness.light
+                            ? const Color(0xFFFAFAFA)
+                            : const Color(0xFF424242),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: model.dividerColor,
+                                width: 0.75,
+                              ),
+                            ),
+                          ),
+                          height: 64.0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 12.0,
+                            ),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8.0, bottom: 4.0),
-                                  child: Icon(
-                                    _isExpanded
-                                        ? Icons.keyboard_arrow_down
-                                        : Icons.keyboard_arrow_up,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 4.0, bottom: 8.0),
+                                Flexible(
                                   child: Text(
                                     'Sample Content to copy',
                                     style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onSurfaceVariant,
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16.0),
+                                  child: _addTooltip(
+                                    _buildAIButton(),
+                                    'Click to smart fill the form',
                                   ),
                                 ),
                               ],
@@ -658,90 +789,31 @@ class _SmartFillSampleState extends SampleViewState
                       ],
                     ),
                   ),
-                ),
-              ],
-            )
-          : Row(
-              children: [
-                Expanded(child: pdfViewer()),
-                Container(
-                  // Display the list panel next to PDF viewer on larger screens.
-                  width: listWidth,
-                  height: MediaQuery.of(context).size.height,
-                  color: _useMaterial3
-                      ? Theme.of(context).colorScheme.brightness ==
-                              Brightness.light
-                          ? const Color.fromRGBO(247, 242, 251, 1)
-                          : const Color.fromRGBO(37, 35, 42, 1)
-                      : Theme.of(context).colorScheme.brightness ==
-                              Brightness.light
-                          ? const Color(0xFFFAFAFA)
-                          : const Color(0xFF424242),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                                color: model.dividerColor, width: 0.75),
-                          ),
-                        ),
-                        height: 64.0,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  'Sample Content to copy',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 16.0),
-                                child: _addTooltip(_buildAIButton(),
-                                    'Click to smart fill the form'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(child: listView()),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                ],
+              ),
     );
   }
 
   Widget _addTooltip(Widget child, String message) {
     return Tooltip(
-      decoration: _useMaterial3
-          ? BoxDecoration(
-              color: Theme.of(context).colorScheme.inverseSurface,
-              borderRadius: BorderRadius.circular(4),
-            )
-          : null,
-      textStyle: _useMaterial3
-          ? TextStyle(
-              color: Theme.of(context).colorScheme.onInverseSurface,
-              fontSize: 14,
-            )
-          : null,
-      padding: _useMaterial3
-          ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
-          : null,
+      decoration:
+          _useMaterial3
+              ? BoxDecoration(
+                color: Theme.of(context).colorScheme.inverseSurface,
+                borderRadius: BorderRadius.circular(4),
+              )
+              : null,
+      textStyle:
+          _useMaterial3
+              ? TextStyle(
+                color: Theme.of(context).colorScheme.onInverseSurface,
+                fontSize: 14,
+              )
+              : null,
+      padding:
+          _useMaterial3
+              ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+              : null,
       height: _useMaterial3 ? 48 : null,
       message: _isButtonEnabled ? message : '',
       child: child,

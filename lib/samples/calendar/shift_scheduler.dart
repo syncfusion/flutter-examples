@@ -52,10 +52,7 @@ class _ShiftSchedulerState extends SampleViewState {
   void initState() {
     _calendarController.view = CalendarView.timelineWeek;
     _selectedAppointment = null;
-    _events = _ShiftDataSource(
-      _shiftCollection,
-      _employeeCollection,
-    );
+    _events = _ShiftDataSource(_shiftCollection, _employeeCollection);
     _addResourceDetails();
     _addResources();
     _addSpecialRegions();
@@ -110,7 +107,8 @@ class _ShiftSchedulerState extends SampleViewState {
             /// Creates a new appointment, which is displayed on the tapped
             /// Calendar element, when the editor is opened.
             if (_selectedAppointment == null) {
-              _isAllDay = calendarTapDetails.targetElement ==
+              _isAllDay =
+                  calendarTapDetails.targetElement ==
                   CalendarElement.allDayPanel;
               _selectedColorIndex = 0;
               _subject = '';
@@ -125,10 +123,13 @@ class _ShiftSchedulerState extends SampleViewState {
               );
               appointment.add(newAppointment);
               _events.appointments!.add(appointment[0]);
-              SchedulerBinding.instance
-                  .addPostFrameCallback((Duration duration) {
+              SchedulerBinding.instance.addPostFrameCallback((
+                Duration duration,
+              ) {
                 _events.notifyListeners(
-                    CalendarDataSourceAction.add, appointment);
+                  CalendarDataSourceAction.add,
+                  appointment,
+                );
               });
               _selectedAppointment = newAppointment;
             }
@@ -137,12 +138,14 @@ class _ShiftSchedulerState extends SampleViewState {
                 if (newAppointment != null) {
                   /// To remove the created appointment when the pop-up closed
                   /// without saving the appointment.
-                  final int appointmentIndex =
-                      _events.appointments!.indexOf(newAppointment);
+                  final int appointmentIndex = _events.appointments!.indexOf(
+                    newAppointment,
+                  );
                   if (appointmentIndex <= _events.appointments!.length - 1 &&
                       appointmentIndex >= 0) {
                     _events.appointments!.removeAt(
-                        _events.appointments!.indexOf(newAppointment));
+                      _events.appointments!.indexOf(newAppointment),
+                    );
                     _events.notifyListeners(
                       CalendarDataSourceAction.remove,
                       <Appointment>[newAppointment],
@@ -153,12 +156,13 @@ class _ShiftSchedulerState extends SampleViewState {
               child: Center(
                 child: SizedBox(
                   width: isAppointmentTapped ? 400 : 500,
-                  height: isAppointmentTapped
-                      ? (_selectedAppointment!.location == null ||
-                              _selectedAppointment!.location!.isEmpty
-                          ? 200
-                          : 250)
-                      : 450,
+                  height:
+                      isAppointmentTapped
+                          ? (_selectedAppointment!.location == null ||
+                                  _selectedAppointment!.location!.isEmpty
+                              ? 200
+                              : 250)
+                          : 450,
                   child: Theme(
                     data: model.themeData,
                     child: Card(
@@ -167,30 +171,31 @@ class _ShiftSchedulerState extends SampleViewState {
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      child: isAppointmentTapped
-                          ? displayAppointmentDetails(
-                              context,
-                              targetElement,
-                              selectedDate,
-                              model,
-                              _selectedAppointment!,
-                              _colorCollection,
-                              _colorNames,
-                              _events,
-                              _timeZoneCollection,
-                              _visibleDates,
-                            )
-                          : PopUpAppointmentEditor(
-                              model,
-                              newAppointment,
-                              appointment,
-                              _events,
-                              _colorCollection,
-                              _colorNames,
-                              _selectedAppointment!,
-                              _timeZoneCollection,
-                              _visibleDates,
-                            ),
+                      child:
+                          isAppointmentTapped
+                              ? displayAppointmentDetails(
+                                context,
+                                targetElement,
+                                selectedDate,
+                                model,
+                                _selectedAppointment!,
+                                _colorCollection,
+                                _colorNames,
+                                _events,
+                                _timeZoneCollection,
+                                _visibleDates,
+                              )
+                              : PopUpAppointmentEditor(
+                                model,
+                                newAppointment,
+                                appointment,
+                                _events,
+                                _colorCollection,
+                                _colorNames,
+                                _selectedAppointment!,
+                                _timeZoneCollection,
+                                _visibleDates,
+                              ),
                     ),
                   ),
                 ),
@@ -203,17 +208,18 @@ class _ShiftSchedulerState extends SampleViewState {
         Navigator.push<Widget>(
           context,
           MaterialPageRoute<Widget>(
-            builder: (BuildContext context) => AppointmentEditor(
-              model,
-              _selectedAppointment,
-              targetElement,
-              selectedDate,
-              _colorCollection,
-              _colorNames,
-              _events,
-              _timeZoneCollection,
-              calendarTapDetails.resource,
-            ),
+            builder:
+                (BuildContext context) => AppointmentEditor(
+                  model,
+                  _selectedAppointment,
+                  targetElement,
+                  selectedDate,
+                  _colorCollection,
+                  _colorNames,
+                  _events,
+                  _timeZoneCollection,
+                  calendarTapDetails.resource,
+                ),
           ),
         );
       }
@@ -226,14 +232,11 @@ class _ShiftSchedulerState extends SampleViewState {
       color: model.sampleOutputCardColor,
       child: Theme(
         data: model.themeData.copyWith(
-          colorScheme: model.themeData.colorScheme
-              .copyWith(secondary: model.primaryColor),
+          colorScheme: model.themeData.colorScheme.copyWith(
+            secondary: model.primaryColor,
+          ),
         ),
-        child: _getShiftScheduler(
-          _events,
-          _onCalendarTapped,
-          _onViewChanged,
-        ),
+        child: _getShiftScheduler(_events, _onCalendarTapped, _onViewChanged),
       ),
     );
   }
@@ -497,8 +500,12 @@ class _ShiftSchedulerState extends SampleViewState {
           int startHour = 9 + random.nextInt(6);
           startHour =
               startHour >= 13 && startHour <= 14 ? startHour + 1 : startHour;
-          final DateTime shiftStartTime =
-              DateTime(date.year, date.month, date.day, startHour);
+          final DateTime shiftStartTime = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            startHour,
+          );
           _shiftCollection.add(
             Appointment(
               startTime: shiftStartTime,
@@ -516,7 +523,9 @@ class _ShiftSchedulerState extends SampleViewState {
   }
 
   Widget _getSpecialRegionWidget(
-      BuildContext context, TimeRegionDetails details) {
+    BuildContext context,
+    TimeRegionDetails details,
+  ) {
     if (details.region.text == 'Lunch') {
       return Container(
         color: details.region.color,
@@ -530,10 +539,7 @@ class _ShiftSchedulerState extends SampleViewState {
       return Container(
         color: details.region.color,
         alignment: Alignment.center,
-        child: Icon(
-          Icons.block,
-          color: Colors.grey.withValues(alpha: 0.5),
-        ),
+        child: Icon(Icons.block, color: Colors.grey.withValues(alpha: 0.5)),
       );
     }
     return Container(color: details.region.color);
@@ -564,7 +570,9 @@ class _ShiftSchedulerState extends SampleViewState {
 /// allows to add, remove or reset the appointment collection.
 class _ShiftDataSource extends CalendarDataSource {
   _ShiftDataSource(
-      List<Appointment> source, List<CalendarResource> resourceColl) {
+    List<Appointment> source,
+    List<CalendarResource> resourceColl,
+  ) {
     appointments = source;
     resources = resourceColl;
   }

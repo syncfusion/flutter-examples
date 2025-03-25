@@ -29,15 +29,16 @@ class _LabelActionState extends SampleViewState {
 
   @override
   void initState() {
-    _labelList = <String>[
-      'hide',
-      'none',
-      'multipleRows',
-      'rotate45',
-      'rotate90',
-      'wrap',
-      'trim',
-    ].toList();
+    _labelList =
+        <String>[
+          'hide',
+          'none',
+          'multipleRows',
+          'rotate45',
+          'rotate90',
+          'wrap',
+          'trim',
+        ].toList();
     _labelIntersectAction = AxisLabelIntersectAction.hide;
     _selectedType = 'hide';
     _tooltipBehavior = TooltipBehavior(
@@ -87,34 +88,30 @@ class _LabelActionState extends SampleViewState {
           children: <Widget>[
             Text(
               model.isWebFullView ? 'Intersect \naction' : 'Intersect action ',
-              style: TextStyle(
-                color: model.textColor,
-                fontSize: 16,
-              ),
+              style: TextStyle(color: model.textColor, fontSize: 16),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
               child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  focusColor: Colors.transparent,
-                  underline: Container(
-                    color: const Color(0xFFBDBDBD),
-                    height: 1,
-                  ),
-                  value: _selectedType,
-                  items: _labelList!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'hide',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (String? value) {
-                    _onPositionTypeChange(value.toString());
-                    stateSetter(() {});
-                  }),
+                dropdownColor: model.drawerBackgroundColor,
+                focusColor: Colors.transparent,
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+                value: _selectedType,
+                items:
+                    _labelList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'hide',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                onChanged: (String? value) {
+                  _onPositionTypeChange(value.toString());
+                  stateSetter(() {});
+                },
+              ),
             ),
           ],
         );
@@ -135,11 +132,12 @@ class _LabelActionState extends SampleViewState {
       ),
       primaryYAxis: NumericAxis(
         axisLine: const AxisLine(width: 0),
-        interval: model.isMobile
-            ? model.isCardView
-                ? 20
-                : 10
-            : 100,
+        interval:
+            model.isMobile
+                ? model.isCardView
+                    ? 20
+                    : 10
+                : 100,
         majorTickLines: const MajorTickLines(size: 0),
       ),
       series: _buildColumnSeries(),
@@ -149,9 +147,10 @@ class _LabelActionState extends SampleViewState {
 
   /// Returns the list of Cartesian Column series.
   List<ColumnSeries<ChartSampleData, String>> _buildColumnSeries() {
-    _footballPlayersGoalsData = model.isWebFullView
-        ? _footballPlayersGoalsData1
-        : _footballPlayersGoalsData2;
+    _footballPlayersGoalsData =
+        model.isWebFullView
+            ? _footballPlayersGoalsData1
+            : _footballPlayersGoalsData2;
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         dataSource: _footballPlayersGoalsData,

@@ -29,46 +29,50 @@ class _RangeThicknessExampleState extends SampleViewState {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-            showAxisLine: false,
-            ticksPosition: ElementsPosition.outside,
-            labelsPosition: ElementsPosition.outside,
-            radiusFactor: 0.9,
-            canRotateLabels: true,
-            showLastLabel: true,
-            majorTickStyle: const MajorTickStyle(
-              length: 0.1,
-              lengthUnit: GaugeSizeUnit.factor,
+          showAxisLine: false,
+          ticksPosition: ElementsPosition.outside,
+          labelsPosition: ElementsPosition.outside,
+          radiusFactor: 0.9,
+          canRotateLabels: true,
+          showLastLabel: true,
+          majorTickStyle: const MajorTickStyle(
+            length: 0.1,
+            lengthUnit: GaugeSizeUnit.factor,
+          ),
+          minorTickStyle: const MinorTickStyle(
+            length: 0.04,
+            lengthUnit: GaugeSizeUnit.factor,
+          ),
+          minorTicksPerInterval: 5,
+          interval: 10,
+          axisLabelStyle: const GaugeTextStyle(),
+          useRangeColorForAxis: true,
+          pointers: const <GaugePointer>[
+            NeedlePointer(
+              enableAnimation: true,
+              value: 70,
+              tailStyle: TailStyle(length: 0.2, width: 5),
+              needleEndWidth: 5,
+              needleLength: 0.7,
+              knobStyle: KnobStyle(),
             ),
-            minorTickStyle: const MinorTickStyle(
-              length: 0.04,
-              lengthUnit: GaugeSizeUnit.factor,
+          ],
+          ranges: <GaugeRange>[
+            GaugeRange(
+              startValue: 30,
+              endValue: 100,
+              startWidth: model.isWebFullView ? 0.2 : 0.05,
+              gradient: const SweepGradient(
+                colors: <Color>[Color(0xFF289AB1), Color(0xFF43E695)],
+                stops: <double>[0.25, 0.75],
+              ),
+              color: const Color(0xFF289AB1),
+              rangeOffset: 0.08,
+              endWidth: 0.2,
+              sizeUnit: GaugeSizeUnit.factor,
             ),
-            minorTicksPerInterval: 5,
-            interval: 10,
-            axisLabelStyle: const GaugeTextStyle(),
-            useRangeColorForAxis: true,
-            pointers: const <GaugePointer>[
-              NeedlePointer(
-                  enableAnimation: true,
-                  value: 70,
-                  tailStyle: TailStyle(length: 0.2, width: 5),
-                  needleEndWidth: 5,
-                  needleLength: 0.7,
-                  knobStyle: KnobStyle())
-            ],
-            ranges: <GaugeRange>[
-              GaugeRange(
-                  startValue: 30,
-                  endValue: 100,
-                  startWidth: model.isWebFullView ? 0.2 : 0.05,
-                  gradient: const SweepGradient(
-                      colors: <Color>[Color(0xFF289AB1), Color(0xFF43E695)],
-                      stops: <double>[0.25, 0.75]),
-                  color: const Color(0xFF289AB1),
-                  rangeOffset: 0.08,
-                  endWidth: 0.2,
-                  sizeUnit: GaugeSizeUnit.factor)
-            ]),
+          ],
+        ),
       ],
     );
   }

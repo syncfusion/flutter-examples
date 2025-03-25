@@ -44,8 +44,9 @@ class _AgendaViewCalendarState extends SampleViewState {
   Widget build(BuildContext context) {
     final Widget calendar = Theme(
       data: model.themeData.copyWith(
-        colorScheme:
-            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
       ),
       child: _createAgendaViewCalendar(
         _events,
@@ -56,20 +57,17 @@ class _AgendaViewCalendarState extends SampleViewState {
     return model.isMobileResolution &&
             _deviceOrientation == Orientation.landscape
         ? Scrollbar(
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  color: model.sampleOutputCardColor,
-                  height: 600,
-                  child: calendar,
-                ),
-              ],
-            ),
-          )
-        : Container(
-            color: model.sampleOutputCardColor,
-            child: calendar,
-          );
+          child: ListView(
+            children: <Widget>[
+              Container(
+                color: model.sampleOutputCardColor,
+                height: 600,
+                child: calendar,
+              ),
+            ],
+          ),
+        )
+        : Container(color: model.sampleOutputCardColor, child: calendar);
   }
 
   /// Method that creates the collection the data source for the Calendar.
@@ -102,17 +100,24 @@ class _AgendaViewCalendarState extends SampleViewState {
 
     final List<_Meeting> meetings = <_Meeting>[];
     final Random random = Random();
-    final DateTime rangeStartDate =
-        DateTime.now().add(const Duration(days: -(365 ~/ 2)));
+    final DateTime rangeStartDate = DateTime.now().add(
+      const Duration(days: -(365 ~/ 2)),
+    );
     final DateTime rangeEndDate = DateTime.now().add(const Duration(days: 365));
-    for (DateTime i = rangeStartDate;
-        i.isBefore(rangeEndDate);
-        i = i.add(const Duration(days: 1))) {
+    for (
+      DateTime i = rangeStartDate;
+      i.isBefore(rangeEndDate);
+      i = i.add(const Duration(days: 1))
+    ) {
       final DateTime date = i;
       final int count = 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate =
-            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
+        final DateTime startDate = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          8 + random.nextInt(8),
+        );
         meetings.add(
           _Meeting(
             subjectCollection[random.nextInt(7)],
@@ -154,40 +159,47 @@ class _AgendaViewCalendarState extends SampleViewState {
   /// current date when the Calendar displays the current month, and selects the
   /// first date of the month for rest of the months.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
-    SchedulerBinding.instance.addPostFrameCallback(
-      (_) {
-        final DateTime currentViewDate = visibleDatesChangedDetails
-            .visibleDates[visibleDatesChangedDetails.visibleDates.length ~/ 2];
-        if (model.isWebFullView) {
-          if (DateTime.now()
-                  .isAfter(visibleDatesChangedDetails.visibleDates[0]) &&
-              DateTime.now().isBefore(
-                visibleDatesChangedDetails.visibleDates[
-                    visibleDatesChangedDetails.visibleDates.length - 1],
-              )) {
-            _calendarController.selectedDate = DateTime.now();
-          } else {
-            _calendarController.selectedDate =
-                visibleDatesChangedDetails.visibleDates[0];
-          }
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      final DateTime currentViewDate =
+          visibleDatesChangedDetails.visibleDates[visibleDatesChangedDetails
+                  .visibleDates
+                  .length ~/
+              2];
+      if (model.isWebFullView) {
+        if (DateTime.now().isAfter(
+              visibleDatesChangedDetails.visibleDates[0],
+            ) &&
+            DateTime.now().isBefore(
+              visibleDatesChangedDetails.visibleDates[visibleDatesChangedDetails
+                      .visibleDates
+                      .length -
+                  1],
+            )) {
+          _calendarController.selectedDate = DateTime.now();
         } else {
-          if (currentViewDate.month == DateTime.now().month &&
-              currentViewDate.year == DateTime.now().year) {
-            _calendarController.selectedDate = DateTime.now();
-          } else {
-            _calendarController.selectedDate =
-                DateTime(currentViewDate.year, currentViewDate.month);
-          }
+          _calendarController.selectedDate =
+              visibleDatesChangedDetails.visibleDates[0];
         }
-      },
-    );
+      } else {
+        if (currentViewDate.month == DateTime.now().month &&
+            currentViewDate.year == DateTime.now().year) {
+          _calendarController.selectedDate = DateTime.now();
+        } else {
+          _calendarController.selectedDate = DateTime(
+            currentViewDate.year,
+            currentViewDate.month,
+          );
+        }
+      }
+    });
   }
 
   /// Returns the Calendar widget based on the properties passed.
-  SfCalendar _createAgendaViewCalendar(
-      [CalendarDataSource? calendarDataSource,
-      ViewChangedCallback? onViewChanged,
-      CalendarController? controller]) {
+  SfCalendar _createAgendaViewCalendar([
+    CalendarDataSource? calendarDataSource,
+    ViewChangedCallback? onViewChanged,
+    CalendarController? controller,
+  ]) {
     return SfCalendar(
       view: CalendarView.month,
       controller: controller,

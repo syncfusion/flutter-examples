@@ -25,8 +25,10 @@ class VerticalDefaultRangeSliderPage extends SampleView {
 
 class _VerticalDefaultRangeSliderPageState extends SampleViewState {
   _VerticalDefaultRangeSliderPageState();
-  final SfRangeValues _inactiveRangeSliderValue =
-      const SfRangeValues(20.0, 80.0);
+  final SfRangeValues _inactiveRangeSliderValue = const SfRangeValues(
+    20.0,
+    80.0,
+  );
   SfRangeValues _activeRangeSliderValue = const SfRangeValues(20.0, 80.0);
   bool _isInversed = false;
 
@@ -42,20 +44,20 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _activeRangeSliderSlider() {
     return SfRangeSliderTheme(
-        data:
-            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfRangeSlider.vertical(
-          max: 100.0,
-          onChanged: (dynamic values) {
-            setState(() {
-              _activeRangeSliderValue = values as SfRangeValues;
-            });
-          },
-          values: _activeRangeSliderValue,
-          isInversed: _isInversed,
-          enableTooltip: true,
-          numberFormat: NumberFormat('#'),
-        ));
+      data: SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfRangeSlider.vertical(
+        max: 100.0,
+        onChanged: (dynamic values) {
+          setState(() {
+            _activeRangeSliderValue = values as SfRangeValues;
+          });
+        },
+        values: _activeRangeSliderValue,
+        isInversed: _isInversed,
+        enableTooltip: true,
+        numberFormat: NumberFormat('#'),
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -71,33 +73,40 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.all(padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.all(padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _activeRangeSliderSlider()),
-              const Text('Enabled')
-            ]),
-            Column(children: <Widget>[
+              const Text('Enabled'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _inactiveRangeSlider()),
-              const Text('Disabled')
-            ]),
-          ],
-        ));
+              const Text('Disabled'),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget rangeSlider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget rangeSlider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? rangeSlider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+      },
+    );
   }
 
   @override
@@ -106,10 +115,7 @@ class _VerticalDefaultRangeSliderPageState extends SampleViewState {
       builder: (BuildContext context, StateSetter stateSetter) {
         return CheckboxListTile(
           value: _isInversed,
-          title: const Text(
-            'Inversed',
-            softWrap: false,
-          ),
+          title: const Text('Inversed', softWrap: false),
           contentPadding: EdgeInsets.zero,
           activeColor: model.primaryColor,
           onChanged: (bool? value) {

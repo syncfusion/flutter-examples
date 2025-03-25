@@ -48,68 +48,76 @@ class _ShapeCustomizedSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
-        padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              title('Track'),
-              SfSliderTheme(
-                  data: const SfSliderThemeData(
-                    overlayColor: Colors.transparent,
-                  ),
-                  child: SfSlider(
-                    min: _min,
-                    max: _max,
-                    value: _value,
-                    interval: 20.0,
-                    showLabels: true,
-                    showTicks: true,
-                    trackShape: _SfTrackShape(_min, _max),
-                    thumbShape: _SfThumbShape(_min, _max),
-                    onChanged: (dynamic value) {
-                      setState(() {
-                        _value = value as double;
-                      });
-                    },
-                  )),
-              columnSpacing40,
-              title('Divider'),
-              DividerCustomizedSlider(dividerKey),
-              columnSpacing40,
-              ThumbCustomizedSlider(thumbKey),
-              title('Tick'),
-              columnSpacing10,
-              TickCustomizedSlider(tickKey),
-            ]));
+      padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          title('Track'),
+          SfSliderTheme(
+            data: const SfSliderThemeData(overlayColor: Colors.transparent),
+            child: SfSlider(
+              min: _min,
+              max: _max,
+              value: _value,
+              interval: 20.0,
+              showLabels: true,
+              showTicks: true,
+              trackShape: _SfTrackShape(_min, _max),
+              thumbShape: _SfThumbShape(_min, _max),
+              onChanged: (dynamic value) {
+                setState(() {
+                  _value = value as double;
+                });
+              },
+            ),
+          ),
+          columnSpacing40,
+          title('Divider'),
+          DividerCustomizedSlider(dividerKey),
+          columnSpacing40,
+          ThumbCustomizedSlider(thumbKey),
+          title('Tick'),
+          columnSpacing10,
+          TickCustomizedSlider(tickKey),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget slider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 400
-          ? slider
-          : SingleChildScrollView(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget slider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 400
+            ? slider
+            : SingleChildScrollView(
               child: SizedBox(
-              height: 500,
-              child: Padding(
+                height: 500,
+                child: Padding(
                   padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                  child: slider),
-            ));
-    });
+                  child: slider,
+                ),
+              ),
+            );
+      },
+    );
   }
 }
 
 class _SfTrackShape extends SfTrackShape {
   _SfTrackShape(dynamic min, dynamic max) {
-    this.min = (min.runtimeType == DateTime
-        ? min.millisecondsSinceEpoch.toDouble()
-        : min) as double;
-    this.max = (max.runtimeType == DateTime
-        ? max.millisecondsSinceEpoch.toDouble()
-        : max) as double;
+    this.min =
+        (min.runtimeType == DateTime
+                ? min.millisecondsSinceEpoch.toDouble()
+                : min)
+            as double;
+    this.max =
+        (max.runtimeType == DateTime
+                ? max.millisecondsSinceEpoch.toDouble()
+                : max)
+            as double;
   }
 
   late double min;
@@ -117,20 +125,27 @@ class _SfTrackShape extends SfTrackShape {
   double? trackIntermediatePos;
 
   @override
-  void paint(PaintingContext context, Offset offset, Offset? thumbCenter,
-      Offset? startThumbCenter, Offset? endThumbCenter,
-      {required RenderBox parentBox,
-      required SfSliderThemeData themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      required Animation<double> enableAnimation,
-      required Paint? inactivePaint,
-      required Paint? activePaint,
-      required TextDirection textDirection}) {
+  void paint(
+    PaintingContext context,
+    Offset offset,
+    Offset? thumbCenter,
+    Offset? startThumbCenter,
+    Offset? endThumbCenter, {
+    required RenderBox parentBox,
+    required SfSliderThemeData themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    required Animation<double> enableAnimation,
+    required Paint? inactivePaint,
+    required Paint? activePaint,
+    required TextDirection textDirection,
+  }) {
     final Rect trackRect = getPreferredRect(parentBox, themeData, offset);
-    final double actualValue = (currentValue.runtimeType == DateTime
-        ? currentValue.millisecondsSinceEpoch.toDouble()
-        : currentValue) as double;
+    final double actualValue =
+        (currentValue.runtimeType == DateTime
+                ? currentValue.millisecondsSinceEpoch.toDouble()
+                : currentValue)
+            as double;
     final double actualValueInPercent =
         ((actualValue - min) * 100) / (max - min);
     trackIntermediatePos = _getTrackIntermediatePosition(trackRect);
@@ -139,21 +154,33 @@ class _SfTrackShape extends SfTrackShape {
     final Paint trackPaint = Paint();
     trackPaint.color = actualValueInPercent <= 80.0 ? Colors.green : Colors.red;
     final Rect lowVolumeRect = Rect.fromLTRB(
-        trackRect.left, trackRect.top, thumbCenter!.dx, trackRect.bottom);
+      trackRect.left,
+      trackRect.top,
+      thumbCenter!.dx,
+      trackRect.bottom,
+    );
     context.canvas.drawRect(lowVolumeRect, trackPaint);
 
     if (actualValueInPercent <= 80.0) {
       trackPaint.color = Colors.green.withValues(alpha: 0.40);
-      final Rect lowVolumeRectWithLessOpacity = Rect.fromLTRB(thumbCenter.dx,
-          trackRect.top, trackIntermediatePos!, trackRect.bottom);
+      final Rect lowVolumeRectWithLessOpacity = Rect.fromLTRB(
+        thumbCenter.dx,
+        trackRect.top,
+        trackIntermediatePos!,
+        trackRect.bottom,
+      );
       context.canvas.drawRect(lowVolumeRectWithLessOpacity, trackPaint);
     }
 
     trackPaint.color = Colors.red.withValues(alpha: 0.40);
     final double highTrackLeft =
         actualValueInPercent >= 80.0 ? thumbCenter.dx : trackIntermediatePos!;
-    final Rect highVolumeRectWithLessOpacity = Rect.fromLTRB(highTrackLeft,
-        trackRect.top, trackRect.width + trackRect.left, trackRect.bottom);
+    final Rect highVolumeRectWithLessOpacity = Rect.fromLTRB(
+      highTrackLeft,
+      trackRect.top,
+      trackRect.width + trackRect.left,
+      trackRect.bottom,
+    );
     context.canvas.drawRect(highVolumeRectWithLessOpacity, trackPaint);
   }
 
@@ -166,31 +193,40 @@ class _SfTrackShape extends SfTrackShape {
 
 class _SfThumbShape extends SfThumbShape {
   _SfThumbShape(dynamic min, dynamic max) {
-    this.min = (min.runtimeType == DateTime
-        ? min.millisecondsSinceEpoch.toDouble()
-        : min) as double;
-    this.max = (max.runtimeType == DateTime
-        ? max.millisecondsSinceEpoch.toDouble()
-        : max) as double;
+    this.min =
+        (min.runtimeType == DateTime
+                ? min.millisecondsSinceEpoch.toDouble()
+                : min)
+            as double;
+    this.max =
+        (max.runtimeType == DateTime
+                ? max.millisecondsSinceEpoch.toDouble()
+                : max)
+            as double;
   }
 
   late double min;
   late double max;
 
   @override
-  void paint(PaintingContext context, Offset center,
-      {required RenderBox parentBox,
-      required RenderBox? child,
-      required SfSliderThemeData themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      required Paint? paint,
-      required Animation<double> enableAnimation,
-      required TextDirection textDirection,
-      required SfThumb? thumb}) {
-    final double actualValue = (currentValue.runtimeType == DateTime
-        ? currentValue.millisecondsSinceEpoch.toDouble()
-        : currentValue) as double;
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required RenderBox parentBox,
+    required RenderBox? child,
+    required SfSliderThemeData themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    required Paint? paint,
+    required Animation<double> enableAnimation,
+    required TextDirection textDirection,
+    required SfThumb? thumb,
+  }) {
+    final double actualValue =
+        (currentValue.runtimeType == DateTime
+                ? currentValue.millisecondsSinceEpoch.toDouble()
+                : currentValue)
+            as double;
 
     final double actualValueInPercent =
         ((actualValue - min) * 100) / (max - min);
@@ -198,14 +234,17 @@ class _SfThumbShape extends SfThumbShape {
     paint = Paint();
     paint.color = actualValueInPercent <= 80 ? Colors.green : Colors.red;
 
-    super.paint(context, center,
-        parentBox: parentBox,
-        themeData: themeData,
-        currentValue: currentValue,
-        paint: paint,
-        enableAnimation: enableAnimation,
-        textDirection: textDirection,
-        thumb: thumb,
-        child: child);
+    super.paint(
+      context,
+      center,
+      parentBox: parentBox,
+      themeData: themeData,
+      currentValue: currentValue,
+      paint: paint,
+      enableAnimation: enableAnimation,
+      textDirection: textDirection,
+      thumb: thumb,
+      child: child,
+    );
   }
 }

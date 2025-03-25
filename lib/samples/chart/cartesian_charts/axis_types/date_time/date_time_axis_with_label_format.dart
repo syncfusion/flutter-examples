@@ -60,9 +60,7 @@ class _DateTimeLabelState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Earthquakes in Indonesia',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Earthquakes in Indonesia'),
       primaryXAxis: DateTimeAxis(
         intervalType: DateTimeIntervalType.months,
         majorGridLines: const MajorGridLines(width: 0),
@@ -75,9 +73,7 @@ class _DateTimeLabelState extends SampleViewState {
         majorTickLines: const MajorTickLines(size: 0),
         minimum: 4,
         maximum: 8,
-        title: AxisTitle(
-          text: isCardView ? '' : 'Magnitude (Mw)',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Magnitude (Mw)'),
       ),
       series: _buildScatterSeries(),
       tooltipBehavior: _tooltipBehavior,
@@ -93,10 +89,7 @@ class _DateTimeLabelState extends SampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.yValue,
         color: const Color.fromRGBO(232, 84, 84, 1),
         opacity: 0.8,
-        markerSettings: const MarkerSettings(
-          height: 15,
-          width: 15,
-        ),
+        markerSettings: const MarkerSettings(height: 15, width: 15),
       ),
     ];
   }

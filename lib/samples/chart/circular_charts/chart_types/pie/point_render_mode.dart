@@ -39,7 +39,7 @@ class _PiePointRenderModeState extends SampleViewState {
         y: 25,
         text: 'Others\n25%',
         pointColor: const Color.fromRGBO(198, 201, 207, 1),
-      )
+      ),
     ];
     super.initState();
   }
@@ -68,7 +68,9 @@ class _PiePointRenderModeState extends SampleViewState {
 
   /// Builds the point rendering settings UI.
   Widget _buildPointRenderingSettingsUI(
-      double screenWidth, StateSetter stateSetter) {
+    double screenWidth,
+    StateSetter stateSetter,
+  ) {
     return SizedBox(
       height: 60,
       child: ListView(
@@ -83,10 +85,7 @@ class _PiePointRenderModeState extends SampleViewState {
                     ? 'Point \nrendering \nmode'
                     : 'Point rendering mode',
                 softWrap: false,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: model.textColor,
-                ),
+                style: TextStyle(fontSize: 16, color: model.textColor),
               ),
               _buildPointRenderModeDropdown(screenWidth, stateSetter),
             ],
@@ -98,34 +97,32 @@ class _PiePointRenderModeState extends SampleViewState {
 
   /// Builds the dropdown menu for point rendering mode selection.
   Widget _buildPointRenderModeDropdown(
-      double screenWidth, StateSetter stateSetter) {
+    double screenWidth,
+    StateSetter stateSetter,
+  ) {
     return Container(
       padding: EdgeInsets.only(left: 0.07 * screenWidth),
       width: 0.5 * screenWidth,
       alignment: Alignment.bottomLeft,
       child: DropdownButton<String>(
-          dropdownColor: model.drawerBackgroundColor,
-          focusColor: Colors.transparent,
-          underline: Container(
-            color: const Color(0xFFBDBDBD),
-            height: 1,
-          ),
-          value: _selectedMode,
-          items: _modeList!.map((String value) {
-            return DropdownMenuItem<String>(
-              value: (value != null) ? value : 'Render mode',
-              child: Text(value,
-                  style: TextStyle(
-                    color: model.textColor,
-                  )),
-            );
-          }).toList(),
-          onChanged: (dynamic value) {
-            setState(() {
-              _onPointRenderModeChange(value);
-              stateSetter(() {});
-            });
-          }),
+        dropdownColor: model.drawerBackgroundColor,
+        focusColor: Colors.transparent,
+        underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+        value: _selectedMode,
+        items:
+            _modeList!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'Render mode',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
+        onChanged: (dynamic value) {
+          setState(() {
+            _onPointRenderModeChange(value);
+            stateSetter(() {});
+          });
+        },
+      ),
     );
   }
 
@@ -157,7 +154,7 @@ class _PiePointRenderModeState extends SampleViewState {
         /// Enables and specifies the group mode for the pie chart.
         groupMode: CircularChartGroupMode.value,
         groupTo: 7,
-      )
+      ),
     ];
   }
 

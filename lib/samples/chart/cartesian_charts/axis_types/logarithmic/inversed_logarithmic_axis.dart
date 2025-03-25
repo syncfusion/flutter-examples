@@ -60,9 +60,10 @@ class _LogarithmicAxisInversedState extends SampleViewState {
         text: isCardView ? '' : 'Population of various countries',
       ),
       primaryXAxis: CategoryAxis(
-        labelIntersectAction: isCardView
-            ? AxisLabelIntersectAction.hide
-            : AxisLabelIntersectAction.none,
+        labelIntersectAction:
+            isCardView
+                ? AxisLabelIntersectAction.hide
+                : AxisLabelIntersectAction.none,
         labelRotation: isCardView ? 0 : -45,
       ),
       primaryYAxis: LogarithmicAxis(
@@ -74,11 +75,7 @@ class _LogarithmicAxisInversedState extends SampleViewState {
         axisLabelFormatter: (AxisLabelRenderDetails details) {
           final NumberFormat format = NumberFormat.decimalPattern();
           return ChartAxisLabel(
-            format.format(
-              double.parse(
-                details.text,
-              ),
-            ),
+            format.format(double.parse(details.text)),
             null,
           );
         },
@@ -87,9 +84,7 @@ class _LogarithmicAxisInversedState extends SampleViewState {
       tooltipBehavior: _tooltipBehavior,
       onTooltipRender: (TooltipArgs args) {
         final NumberFormat format = NumberFormat.decimalPattern();
-        text = format.format(
-          args.dataPoints![args.pointIndex!.toInt()].y,
-        );
+        text = format.format(args.dataPoints![args.pointIndex!.toInt()].y);
         args.text = text;
       },
     );

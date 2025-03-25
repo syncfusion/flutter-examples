@@ -61,12 +61,15 @@ class _AnimationAreaDefaultState extends SampleViewState {
 
   /// Returns the list of Cartesian Area series.
   List<AreaSeries<_ChartData, num>> _buildAreaSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color color = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(6, 174, 224, 1)
-            : const Color.fromRGBO(255, 245, 0, 1))
-        : const Color.fromRGBO(75, 135, 185, 1);
+    bool isMaterial3,
+    bool isLightMode,
+  ) {
+    final Color color =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(6, 174, 224, 1)
+                : const Color.fromRGBO(255, 245, 0, 1))
+            : const Color.fromRGBO(75, 135, 185, 1);
     return <AreaSeries<_ChartData, num>>[
       AreaSeries<_ChartData, num>(
         dataSource: _chartData,
@@ -87,9 +90,7 @@ class _AnimationAreaDefaultState extends SampleViewState {
   void _buildChartData() {
     _chartData = <_ChartData>[];
     for (int i = 1; i <= 8; i++) {
-      _chartData!.add(
-        _ChartData(i, _buildRandomInt(10, 95)),
-      );
+      _chartData!.add(_ChartData(i, _buildRandomInt(10, 95)));
     }
     _timer?.cancel();
   }

@@ -33,15 +33,16 @@ class _ActiveHoursState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
+          alignment: Alignment.center,
+          child: Container(
             alignment: Alignment.center,
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width >= 450
-                  ? 450
-                  : MediaQuery.of(context).size.width * 0.45,
-              child: _buildActiveHours(context),
-            ),
-          )
+            width:
+                MediaQuery.of(context).size.width >= 450
+                    ? 450
+                    : MediaQuery.of(context).size.width * 0.45,
+            child: _buildActiveHours(context),
+          ),
+        )
         : _buildActiveHours(context);
   }
 
@@ -80,7 +81,9 @@ class _ActiveHoursState extends SampleViewState {
               interval: 30,
               labelOffset: 0,
               axisTrackStyle: const LinearAxisTrackStyle(
-                  thickness: 75, color: Colors.transparent),
+                thickness: 75,
+                color: Colors.transparent,
+              ),
               labelFormatterCallback: (String label) {
                 switch (label) {
                   case '0':
@@ -99,15 +102,17 @@ class _ActiveHoursState extends SampleViewState {
               markerPointers: List<LinearWidgetPointer>.generate(
                 24,
                 (int index) => _buildLinearWidgetPointer(
-                    index * 4,
-                    _inActiveHours.contains(index)
-                        ? _getInActivePointerColor(
-                            const Color(0xFF05C3DD),
-                            0.7,
-                            brightness == Brightness.dark
-                                ? Colors.black
-                                : Colors.white)
-                        : const Color(0xFF05C3DD)),
+                  index * 4,
+                  _inActiveHours.contains(index)
+                      ? _getInActivePointerColor(
+                        const Color(0xFF05C3DD),
+                        0.7,
+                        brightness == Brightness.dark
+                            ? Colors.black
+                            : Colors.white,
+                      )
+                      : const Color(0xFF05C3DD),
+                ),
               ),
             ),
           ),
@@ -125,8 +130,10 @@ class _ActiveHoursState extends SampleViewState {
                   ),
                   Text(
                     (24 - _inActiveHours.length).toString(),
-                    style:
-                        const TextStyle(fontSize: 30, color: Color(0xFF05C3DD)),
+                    style: const TextStyle(
+                      fontSize: 30,
+                      color: Color(0xFF05C3DD),
+                    ),
                   ),
                 ],
               ),
@@ -138,15 +145,19 @@ class _ActiveHoursState extends SampleViewState {
   }
 
   ///Get the color for inactive hour widget pointer
-  Color _getInActivePointerColor(Color color, double factor,
-      [Color mix = Colors.black]) {
+  Color _getInActivePointerColor(
+    Color color,
+    double factor, [
+    Color mix = Colors.black,
+  ]) {
     return color == Colors.transparent
         ? color
         : Color.fromRGBO(
-            ((1 - factor) * (color.r * 255) + factor * (mix.r * 255)).toInt(),
-            ((1 - factor) * (color.g * 255) + factor * (mix.g * 255)).toInt(),
-            ((1 - factor) * (color.b * 255) + factor * (mix.b * 255)).toInt(),
-            1);
+          ((1 - factor) * (color.r * 255) + factor * (mix.r * 255)).toInt(),
+          ((1 - factor) * (color.g * 255) + factor * (mix.g * 255)).toInt(),
+          ((1 - factor) * (color.b * 255) + factor * (mix.b * 255)).toInt(),
+          1,
+        );
   }
 
   ///Create Linear widget pointer

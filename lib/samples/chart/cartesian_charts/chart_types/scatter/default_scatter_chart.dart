@@ -27,36 +27,74 @@ class _ScatterDefaultState extends SampleViewState {
   void initState() {
     _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2006), y: 0.01, yValue: -0.03, secondSeriesYValue: 0.10),
+        x: DateTime(2006),
+        y: 0.01,
+        yValue: -0.03,
+        secondSeriesYValue: 0.10,
+      ),
       ChartSampleData(
-          x: DateTime(2007), y: 0.03, yValue: -0.02, secondSeriesYValue: 0.08),
+        x: DateTime(2007),
+        y: 0.03,
+        yValue: -0.02,
+        secondSeriesYValue: 0.08,
+      ),
       ChartSampleData(
-          x: DateTime(2008),
-          y: -0.06,
-          yValue: -0.13,
-          secondSeriesYValue: -0.03),
+        x: DateTime(2008),
+        y: -0.06,
+        yValue: -0.13,
+        secondSeriesYValue: -0.03,
+      ),
       ChartSampleData(
-          x: DateTime(2009), y: -0.03, yValue: -0.04, secondSeriesYValue: 0.04),
+        x: DateTime(2009),
+        y: -0.03,
+        yValue: -0.04,
+        secondSeriesYValue: 0.04,
+      ),
       ChartSampleData(
-          x: DateTime(2010), y: 0.09, yValue: 0.07, secondSeriesYValue: 0.19),
+        x: DateTime(2010),
+        y: 0.09,
+        yValue: 0.07,
+        secondSeriesYValue: 0.19,
+      ),
       ChartSampleData(
-          x: DateTime(2011), y: 0, yValue: 0.04, secondSeriesYValue: 0),
+        x: DateTime(2011),
+        y: 0,
+        yValue: 0.04,
+        secondSeriesYValue: 0,
+      ),
       ChartSampleData(
-          x: DateTime(2012), y: 0.01, yValue: -0.01, secondSeriesYValue: -0.09),
+        x: DateTime(2012),
+        y: 0.01,
+        yValue: -0.01,
+        secondSeriesYValue: -0.09,
+      ),
       ChartSampleData(
-          x: DateTime(2013), y: 0.05, yValue: 0.05, secondSeriesYValue: 0.10),
+        x: DateTime(2013),
+        y: 0.05,
+        yValue: 0.05,
+        secondSeriesYValue: 0.10,
+      ),
       ChartSampleData(
-          x: DateTime(2014), y: 0, yValue: 0.08, secondSeriesYValue: 0.05),
+        x: DateTime(2014),
+        y: 0,
+        yValue: 0.08,
+        secondSeriesYValue: 0.05,
+      ),
       ChartSampleData(
-          x: DateTime(2015), y: 0.1, yValue: 0.01, secondSeriesYValue: -0.04),
+        x: DateTime(2015),
+        y: 0.1,
+        yValue: 0.01,
+        secondSeriesYValue: -0.04,
+      ),
       ChartSampleData(
-          x: DateTime(2016), y: 0.08, yValue: 0, secondSeriesYValue: 0.02),
+        x: DateTime(2016),
+        y: 0.08,
+        yValue: 0,
+        secondSeriesYValue: 0.02,
+      ),
     ];
     _tooltipBehavior = TooltipBehavior(enable: true);
-    _markerSettings = const MarkerSettings(
-      height: 15,
-      width: 15,
-    );
+    _markerSettings = const MarkerSettings(height: 15, width: 15);
     super.initState();
   }
 
@@ -69,9 +107,7 @@ class _ScatterDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Export growth rate',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Export growth rate'),
       primaryXAxis: const DateTimeAxis(
         labelIntersectAction: AxisLabelIntersectAction.multipleRows,
         majorGridLines: MajorGridLines(width: 0),
@@ -109,8 +145,8 @@ class _ScatterDefaultState extends SampleViewState {
       ScatterSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         color: const Color.fromRGBO(0, 168, 181, 1),
         name: 'India',
         markerSettings: _markerSettings,

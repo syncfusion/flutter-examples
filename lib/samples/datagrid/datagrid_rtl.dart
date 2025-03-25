@@ -39,147 +39,127 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
   List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
 
-    columns = _isWebOrDesktop
-        ? <GridColumn>[
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              columnName: 'id',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: Text(
-                  _orderID,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : double.nan,
-              columnName: 'customerId',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: Text(
-                  _customerID,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              columnName: 'name',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  _customerName,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 110.0
-                  : double.nan,
-              columnName: 'freight',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: Text(
-                  _freight,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              columnName: 'city',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  _city,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-                width: (_isWebOrDesktop && model.isMobileResolution)
-                    ? 120.0
-                    : double.nan,
-                columnName: 'price',
+    columns =
+        _isWebOrDesktop
+            ? <GridColumn>[
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                columnName: 'id',
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    _price,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ))
-          ]
-        : <GridColumn>[
-            GridColumn(
-              columnName: 'id',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: Text(
-                  _orderID,
-                  overflow: TextOverflow.ellipsis,
+                  child: Text(_orderID, overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'customerId',
-              width: 110,
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: Text(
-                  _customerID,
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 150.0
+                        : double.nan,
+                columnName: 'customerId',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: Text(_customerID, overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'name',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  _customerName,
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                columnName: 'name',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: Text(_customerName, overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-            GridColumn(
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 110.0
+                        : double.nan,
+                columnName: 'freight',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: Text(_freight, overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
                 columnName: 'city',
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    _city,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  child: Text(_city, overflow: TextOverflow.ellipsis),
                 ),
-                columnWidthMode: ColumnWidthMode.lastColumnFill),
-          ];
+              ),
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                columnName: 'price',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: Text(_price, overflow: TextOverflow.ellipsis),
+                ),
+              ),
+            ]
+            : <GridColumn>[
+              GridColumn(
+                columnName: 'id',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: Text(_orderID, overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                columnName: 'customerId',
+                width: 110,
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: Text(_customerID, overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                columnName: 'name',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: Text(_customerName, overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                columnName: 'city',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: Text(_city, overflow: TextOverflow.ellipsis),
+                ),
+                columnWidthMode: ColumnWidthMode.lastColumnFill,
+              ),
+            ];
     return columns;
   }
 
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
-      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
-          ? ColumnWidthMode.fill
-          : ColumnWidthMode.none,
+      columnWidthMode:
+          _isWebOrDesktop || _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
       source: _rtlDataGridSource,
       isScrollbarAlwaysShown: true,
       columns: _obtainColumns(),
@@ -189,7 +169,8 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -210,8 +191,9 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
         _city = 'City';
         _freight = 'Freight';
         _rtlDataGridSource = OrderInfoDataGridSource(
-            isWebOrDesktop: _isWebOrDesktop,
-            ordersCollection: _fetchOrdersInEnglish());
+          isWebOrDesktop: _isWebOrDesktop,
+          ordersCollection: _fetchOrdersInEnglish(),
+        );
         break;
       case 'ar_AE':
         _customerName = 'اسم';
@@ -221,8 +203,9 @@ class _SelectionDataGridPageState extends DirectionalitySampleViewState {
         _city = 'مدينة';
         _freight = 'شحن';
         _rtlDataGridSource = OrderInfoDataGridSource(
-            isWebOrDesktop: _isWebOrDesktop,
-            ordersCollection: _fetchOrdersInArabic());
+          isWebOrDesktop: _isWebOrDesktop,
+          ordersCollection: _fetchOrdersInArabic(),
+        );
     }
   }
 

@@ -87,25 +87,29 @@ class _StackedAreaChartState extends SampleViewState {
   List<CartesianSeries<_ChartData, DateTime>> _buildStackedArea100Series() {
     return <CartesianSeries<_ChartData, DateTime>>[
       StackedArea100Series<_ChartData, DateTime>(
-          dataSource: _chartData,
-          xValueMapper: (_ChartData data, int index) => data.x,
-          yValueMapper: (_ChartData data, int index) => data.organic,
-          name: 'Apple'),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.organic,
+        name: 'Apple',
+      ),
       StackedArea100Series<_ChartData, DateTime>(
-          dataSource: _chartData,
-          xValueMapper: (_ChartData data, int index) => data.x,
-          yValueMapper: (_ChartData data, int index) => data.fairTrade,
-          name: 'Orange'),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.fairTrade,
+        name: 'Orange',
+      ),
       StackedArea100Series<_ChartData, DateTime>(
-          dataSource: _chartData,
-          xValueMapper: (_ChartData data, int index) => data.x,
-          yValueMapper: (_ChartData data, int index) => data.veg,
-          name: 'Pears'),
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.veg,
+        name: 'Pears',
+      ),
       StackedArea100Series<_ChartData, DateTime>(
-          dataSource: _chartData,
-          xValueMapper: (_ChartData data, int index) => data.x,
-          yValueMapper: (_ChartData data, int index) => data.others,
-          name: 'Others')
+        dataSource: _chartData,
+        xValueMapper: (_ChartData data, int index) => data.x,
+        yValueMapper: (_ChartData data, int index) => data.others,
+        name: 'Others',
+      ),
     ];
   }
 

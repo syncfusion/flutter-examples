@@ -31,35 +31,41 @@ class _BubbleGradientState extends SampleViewState {
     );
     _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'England',
-          y: 3,
-          yValue: 0,
-          pointColor: const Color.fromRGBO(233, 132, 30, 1)),
+        x: 'England',
+        y: 3,
+        yValue: 0,
+        pointColor: const Color.fromRGBO(233, 132, 30, 1),
+      ),
       ChartSampleData(
-          x: 'India',
-          y: 3,
-          yValue: 2,
-          pointColor: const Color.fromRGBO(0, 255, 255, 1)),
+        x: 'India',
+        y: 3,
+        yValue: 2,
+        pointColor: const Color.fromRGBO(0, 255, 255, 1),
+      ),
       ChartSampleData(
-          x: 'Pakistan',
-          y: 2,
-          yValue: 1,
-          pointColor: const Color.fromRGBO(255, 200, 102, 1)),
+        x: 'Pakistan',
+        y: 2,
+        yValue: 1,
+        pointColor: const Color.fromRGBO(255, 200, 102, 1),
+      ),
       ChartSampleData(
-          x: 'West\nIndies',
-          y: 3,
-          yValue: 2,
-          pointColor: const Color.fromRGBO(0, 0, 0, 1)),
+        x: 'West\nIndies',
+        y: 3,
+        yValue: 2,
+        pointColor: const Color.fromRGBO(0, 0, 0, 1),
+      ),
       ChartSampleData(
-          x: 'Sri\nLanka',
-          y: 3,
-          yValue: 1,
-          pointColor: const Color.fromRGBO(255, 340, 102, 1)),
+        x: 'Sri\nLanka',
+        y: 3,
+        yValue: 1,
+        pointColor: const Color.fromRGBO(255, 340, 102, 1),
+      ),
       ChartSampleData(
-          x: 'New\nZealand',
-          y: 1,
-          yValue: 0,
-          pointColor: const Color.fromRGBO(200, 0, 102, 1)),
+        x: 'New\nZealand',
+        y: 1,
+        yValue: 0,
+        pointColor: const Color.fromRGBO(200, 0, 102, 1),
+      ),
     ];
     super.initState();
   }
@@ -106,16 +112,8 @@ class _BubbleGradientState extends SampleViewState {
 
         /// To apply the gradient colors for Bubble Chart here.
         gradient: LinearGradient(
-          colors: <Color>[
-            Colors.blue[50]!,
-            Colors.blue[200]!,
-            Colors.blue,
-          ],
-          stops: const <double>[
-            0.0,
-            0.5,
-            1.0,
-          ],
+          colors: <Color>[Colors.blue[50]!, Colors.blue[200]!, Colors.blue],
+          stops: const <double>[0.0, 0.5, 1.0],
         ),
       ),
     ];

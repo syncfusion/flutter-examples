@@ -92,7 +92,7 @@ class _StackedLineChartState extends SampleViewState {
         yValueMapper: (_ChartData data, int index) => data.daughter,
         name: 'Daughter',
         markerSettings: const MarkerSettings(isVisible: true),
-      )
+      ),
     ];
   }
 

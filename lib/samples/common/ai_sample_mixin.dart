@@ -48,9 +48,7 @@ mixin AISampleMixin on SampleViewState {
                   ),
                 ),
               ),
-              actions: [
-                _buildCloseButton(context),
-              ],
+              actions: [_buildCloseButton(context)],
             );
           },
         );
@@ -124,9 +122,7 @@ mixin AISampleMixin on SampleViewState {
       obscureText: isObscured,
       controller: assistApiKeyController,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
         suffixIcon: _buildSuffixIcons(stateSetter),
         hintText: 'Enter API key',
       ),
@@ -148,27 +144,30 @@ mixin AISampleMixin on SampleViewState {
                   isObscured = !isObscured;
                   stateSetter(() {});
                 },
-                icon:
-                    Icon(isObscured ? Icons.visibility : Icons.visibility_off),
+                icon: Icon(
+                  isObscured ? Icons.visibility : Icons.visibility_off,
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(right: 5.0),
               child: IconButton(
-                onPressed: assistApiKeyController.text.isEmpty
-                    ? null
-                    : () {
-                        setState(() {
-                          model.assistApiKey = assistApiKeyController.text;
-                          assistApiKeyController.clear();
-                          Navigator.of(context).pop();
-                        });
-                      },
+                onPressed:
+                    assistApiKeyController.text.isEmpty
+                        ? null
+                        : () {
+                          setState(() {
+                            model.assistApiKey = assistApiKeyController.text;
+                            assistApiKeyController.clear();
+                            Navigator.of(context).pop();
+                          });
+                        },
                 icon: Icon(
                   Icons.send,
-                  color: assistApiKeyController.text.isEmpty
-                      ? Colors.grey[500]
-                      : model.primaryColor,
+                  color:
+                      assistApiKeyController.text.isEmpty
+                          ? Colors.grey[500]
+                          : model.primaryColor,
                 ),
               ),
             ),

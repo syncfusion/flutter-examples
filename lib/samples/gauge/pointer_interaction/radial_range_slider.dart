@@ -35,13 +35,15 @@ class _RadialRangeSliderExampleState extends SampleViewState {
       _borderWidth = 4;
     }
     return Scaffold(
-      backgroundColor: model.isWebFullView
-          ? Colors.transparent
-          : model.sampleOutputCardColor,
+      backgroundColor:
+          model.isWebFullView
+              ? Colors.transparent
+              : model.sampleOutputCardColor,
       body: Padding(
-        padding: model.isWebFullView
-            ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
-            : const EdgeInsets.fromLTRB(5, 0, 5, 50),
+        padding:
+            model.isWebFullView
+                ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
+                : const EdgeInsets.fromLTRB(5, 0, 5, 50),
         child: SfRadialGauge(
           axes: <RadialAxis>[
             RadialAxis(
@@ -49,9 +51,10 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                 thickness: model.isWebFullView ? 0.06 : _thickness,
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
-              radiusFactor: isCardView
-                  ? 0.95
-                  : model.isWebFullView
+              radiusFactor:
+                  isCardView
+                      ? 0.95
+                      : model.isWebFullView
                       ? 0.8
                       : 0.85,
               minorTicksPerInterval: 4,
@@ -69,9 +72,10 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                   enableDragging: _enableDragging,
                   borderColor: const Color(0xFFFFCD60),
                   borderWidth: isCardView ? 3 : _borderWidth,
-                  color: model.themeData.brightness == Brightness.light
-                      ? Colors.white
-                      : Colors.black.withValues(alpha: 0.8),
+                  color:
+                      model.themeData.brightness == Brightness.light
+                          ? Colors.white
+                          : Colors.black.withValues(alpha: 0.8),
                   markerHeight: isCardView ? 15 : _markerSize,
                   markerWidth: isCardView ? 15 : _markerSize,
                   markerType: MarkerType.circle,
@@ -82,9 +86,10 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                   value: _secondMarkerValue,
                   onValueChanged: _handleSecondPointerValueChanged,
                   onValueChanging: _handleSecondPointerValueChanging,
-                  color: model.themeData.brightness == Brightness.light
-                      ? Colors.white
-                      : Colors.black.withValues(alpha: 0.8),
+                  color:
+                      model.themeData.brightness == Brightness.light
+                          ? Colors.white
+                          : Colors.black.withValues(alpha: 0.8),
                   enableDragging: _enableDragging,
                   borderColor: const Color(0xFFFFCD60),
                   markerHeight: isCardView ? 15 : _markerSize,
@@ -135,52 +140,58 @@ class _RadialRangeSliderExampleState extends SampleViewState {
           shrinkWrap: true,
           children: <Widget>[
             SizedBox(
-                child: Row(
-              children: <Widget>[
-                Text('Enable dragging',
-                    style: TextStyle(color: model.textColor)),
-                SizedBox(
-                  width: 75,
-                  child: CheckboxListTile(
-                    activeColor: model.primaryColor,
-                    value: _enableDragging,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _enableDragging = value!;
-                        stateSetter(() {});
-                      });
-                    },
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Enable dragging',
+                    style: TextStyle(color: model.textColor),
                   ),
-                ),
-              ],
-            )),
-            Visibility(
-                visible: _enableDragging,
-                child: Row(
-                  children: <Widget>[
-                    Text('Overlay radius',
-                        style: TextStyle(color: model.textColor)),
-                    Container(
-                      padding: !model.isWebFullView
-                          ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
-                          : const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                      child: CustomDirectionalButtons(
-                        maxValue: 35,
-                        minValue: 15,
-                        initialValue: _overlayRadius,
-                        onChanged: (double val) {
-                          setState(() {
-                            _overlayRadius = val;
-                          });
-                        },
-                        step: 5,
-                        iconColor: model.textColor,
-                        style:
-                            TextStyle(fontSize: 16.0, color: model.textColor),
-                      ),
+                  SizedBox(
+                    width: 75,
+                    child: CheckboxListTile(
+                      activeColor: model.primaryColor,
+                      value: _enableDragging,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _enableDragging = value!;
+                          stateSetter(() {});
+                        });
+                      },
                     ),
-                  ],
-                )),
+                  ),
+                ],
+              ),
+            ),
+            Visibility(
+              visible: _enableDragging,
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Overlay radius',
+                    style: TextStyle(color: model.textColor),
+                  ),
+                  Container(
+                    padding:
+                        !model.isWebFullView
+                            ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
+                            : const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                    child: CustomDirectionalButtons(
+                      maxValue: 35,
+                      minValue: 15,
+                      initialValue: _overlayRadius,
+                      onChanged: (double val) {
+                        setState(() {
+                          _overlayRadius = val;
+                        });
+                      },
+                      step: 5,
+                      iconColor: model.textColor,
+                      style: TextStyle(fontSize: 16.0, color: model.textColor),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         );
       },

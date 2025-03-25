@@ -33,95 +33,95 @@ class StockInfoDataGridSource extends DataGridSource {
   /// Rows are generated once and for CRUD operation we have to refresh
   /// the data row.
   void _buildDataGridRows() {
-    _dataGridRows = _stocks
-        .map<DataGridRow>((StockInfo dataGridRow) =>
-            DataGridRow(cells: <DataGridCell<dynamic>>[
-              DataGridCell<String>(
-                columnName: 'Name',
-                value: dataGridRow.name,
+    _dataGridRows =
+        _stocks
+            .map<DataGridRow>(
+              (StockInfo dataGridRow) => DataGridRow(
+                cells: <DataGridCell<dynamic>>[
+                  DataGridCell<String>(
+                    columnName: 'Name',
+                    value: dataGridRow.name,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'Qs1',
+                    value: dataGridRow.qs1,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'Qs2',
+                    value: dataGridRow.qs2,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'Qs3',
+                    value: dataGridRow.qs3,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'Qs4',
+                    value: dataGridRow.qs4,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'Total Sales',
+                    value: dataGridRow.totalSales,
+                  ),
+                ],
               ),
-              DataGridCell<double>(
-                columnName: 'Qs1',
-                value: dataGridRow.qs1,
-              ),
-              DataGridCell<double>(
-                columnName: 'Qs2',
-                value: dataGridRow.qs2,
-              ),
-              DataGridCell<double>(
-                columnName: 'Qs3',
-                value: dataGridRow.qs3,
-              ),
-              DataGridCell<double>(
-                columnName: 'Qs4',
-                value: dataGridRow.qs4,
-              ),
-              DataGridCell<double>(
-                columnName: 'Total Sales',
-                value: dataGridRow.totalSales,
-              ),
-            ]))
-        .toList();
+            )
+            .toList();
   }
 
   // Building the Widget for each data cells
   Widget _buildQ1(double value) {
     if (value > 2000 && value < 2500) {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          child: Align(
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: !isGroupingSample
-                  ? const TextStyle(color: Colors.black)
-                  : null,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        child: Align(
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style:
+                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     } else if (value > 2500) {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          child: Align(
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: !isGroupingSample
-                  ? const TextStyle(color: Colors.black)
-                  : null,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        child: Align(
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style:
+                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     } else {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          child: Align(
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: !isGroupingSample
-                  ? const TextStyle(color: Colors.black)
-                  : null,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        child: Align(
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style:
+                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     }
   }
 
   Widget _buildQ2(double value) {
     if (value > 2000 && value < 2500) {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          child: Align(
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: !isGroupingSample
-                  ? const TextStyle(color: Colors.black)
-                  : null,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        child: Align(
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style:
+                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     } else if (value > 2500) {
       return Container(
         padding: const EdgeInsets.all(4.0),
@@ -216,29 +216,30 @@ class StockInfoDataGridSource extends DataGridSource {
       );
     } else {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          child: Align(
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: !isGroupingSample
-                  ? const TextStyle(color: Colors.black)
-                  : null,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        child: Align(
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style:
+                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     }
   }
 
   Widget _buildTotal(double value) {
     return Container(
-        padding: const EdgeInsets.all(4.0),
-        child: Align(
-            child: Text(
+      padding: const EdgeInsets.all(4.0),
+      child: Align(
+        child: Text(
           NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
           style: const TextStyle(color: Colors.black),
           overflow: TextOverflow.ellipsis,
-        )));
+        ),
+      ),
+    );
   }
 
   // Override method
@@ -248,17 +249,19 @@ class StockInfoDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: <Widget>[
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        child: Align(child: Text(row.getCells()[0].value.toString())),
-      ),
-      _buildQ1(row.getCells()[1].value),
-      _buildQ2(row.getCells()[2].value),
-      _buildQ3(row.getCells()[3].value),
-      _buildQ4(row.getCells()[4].value),
-      _buildTotal(row.getCells()[5].value),
-    ]);
+    return DataGridRowAdapter(
+      cells: <Widget>[
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(child: Text(row.getCells()[0].value.toString())),
+        ),
+        _buildQ1(row.getCells()[1].value),
+        _buildQ2(row.getCells()[2].value),
+        _buildQ3(row.getCells()[3].value),
+        _buildQ4(row.getCells()[4].value),
+        _buildTotal(row.getCells()[5].value),
+      ],
+    );
   }
 
   // Generating the stock data collection
@@ -276,37 +279,43 @@ class StockInfoDataGridSource extends DataGridSource {
     'Gary',
     'Carol',
     'James',
-    'Martha'
+    'Martha',
   ];
 
   List<StockInfo> _fetchStocks(int count) {
     final List<StockInfo> stockData = <StockInfo>[];
     for (int i = 1; i < count; i++) {
-      stockData.add(StockInfo(
-        _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
-        1800.0 + _random.nextInt(2000),
-        1500.0 + _random.nextInt(1000),
-        2000.0 + _random.nextInt(3000),
-        1400.0 + _random.nextInt(4000),
-      ));
+      stockData.add(
+        StockInfo(
+          _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
+          1800.0 + _random.nextInt(2000),
+          1500.0 + _random.nextInt(1000),
+          2000.0 + _random.nextInt(3000),
+          1400.0 + _random.nextInt(4000),
+        ),
+      );
     }
     return stockData;
   }
 
   @override
   Widget? buildGroupCaptionCellWidget(
-      RowColumnIndex rowColumnIndex, String summaryValue) {
+    RowColumnIndex rowColumnIndex,
+    String summaryValue,
+  ) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-        child: Text(summaryValue));
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+      child: Text(summaryValue),
+    );
   }
 
   @override
   Widget? buildTableSummaryCellWidget(
-      GridTableSummaryRow summaryRow,
-      GridSummaryColumn? summaryColumn,
-      RowColumnIndex rowColumnIndex,
-      String summaryValue) {
+    GridTableSummaryRow summaryRow,
+    GridSummaryColumn? summaryColumn,
+    RowColumnIndex rowColumnIndex,
+    String summaryValue,
+  ) {
     final String formattedValue = NumberFormat.currency(
       locale: 'en_US',
       symbol: r'Total Sales : $',
@@ -320,11 +329,13 @@ class StockInfoDataGridSource extends DataGridSource {
   @override
   String performGrouping(String columnName, DataGridRow row) {
     if (columnName == 'Total Sales') {
-      final double total = row
-          .getCells()
-          .firstWhereOrNull(
-              (DataGridCell cell) => cell.columnName == columnName)!
-          .value;
+      final double total =
+          row
+              .getCells()
+              .firstWhereOrNull(
+                (DataGridCell cell) => cell.columnName == columnName,
+              )!
+              .value;
       if (total <= 10000) {
         return '<= 10 K';
       } else if (total > 10000 && total <= 12000) {

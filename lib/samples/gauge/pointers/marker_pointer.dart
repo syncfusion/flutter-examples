@@ -54,60 +54,73 @@ class _MarkerPointerExampleState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(shrinkWrap: true, children: <Widget>[
-        Row(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
           children: <Widget>[
-            Text('Marker type ',
-                style: TextStyle(
-                  color: model.textColor,
-                  fontSize: 16,
-                )),
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: _selectedMarkerType,
-                  items: _markerTypes.map((String value) {
-                    return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'invertedTriangle',
-                        child: Text(value,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (String? value) {
-                    _onMarkerTypeChange(value.toString());
-                    stateSetter(() {});
-                  }),
+            Row(
+              children: <Widget>[
+                Text(
+                  'Marker type ',
+                  style: TextStyle(color: model.textColor, fontSize: 16),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
+                    ),
+                    value: _selectedMarkerType,
+                    items:
+                        _markerTypes.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'invertedTriangle',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
+                    onChanged: (String? value) {
+                      _onMarkerTypeChange(value.toString());
+                      stateSetter(() {});
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  'Elevation',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+                Container(
+                  padding:
+                      !model.isWebFullView
+                          ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
+                          : const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                  child: CustomDirectionalButtons(
+                    maxValue: 15,
+                    initialValue: _elevation,
+                    onChanged: (double val) {
+                      setState(() {
+                        _elevation = val;
+                      });
+                    },
+                    loop: true,
+                    iconColor: model.textColor,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+              ],
             ),
           ],
-        ),
-        Row(
-          children: <Widget>[
-            Text('Elevation',
-                style: TextStyle(fontSize: 16.0, color: model.textColor)),
-            Container(
-              padding: !model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
-                  : const EdgeInsets.fromLTRB(50, 0, 0, 0),
-              child: CustomDirectionalButtons(
-                maxValue: 15,
-                initialValue: _elevation,
-                onChanged: (double val) {
-                  setState(() {
-                    _elevation = val;
-                  });
-                },
-                loop: true,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 16.0, color: model.textColor),
-              ),
-            ),
-          ],
-        ),
-      ]);
-    });
+        );
+      },
+    );
   }
 
   /// Method for updating the marker type
@@ -133,60 +146,75 @@ class _MarkerPointerExampleState extends SampleViewState {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-            startAngle: 180,
-            endAngle: 360,
-            radiusFactor: 0.9,
-            canScaleToFit: true,
-            interval: 10,
-            showLabels: false,
-            showAxisLine: false,
-            pointers: <GaugePointer>[
-              MarkerPointer(
-                  value: 70,
-                  elevation: _elevation,
-                  markerWidth: 25,
-                  markerHeight: 25,
-                  color: const Color(0xFFF67280),
-                  markerType: _markerType,
-                  markerOffset: -7)
-            ],
-            annotations: <GaugeAnnotation>[
-              GaugeAnnotation(
-                  angle: 175,
-                  positionFactor: 0.8,
-                  widget: Text('Min',
-                      style: TextStyle(
-                          fontSize: isCardView ? 12 : 16,
-                          fontWeight: FontWeight.bold))),
-              GaugeAnnotation(
-                  angle: 270,
-                  positionFactor: 0.1,
-                  widget: Text('70%',
-                      style: TextStyle(
-                          fontSize: isCardView ? 12 : 16,
-                          fontWeight: FontWeight.bold))),
-              GaugeAnnotation(
-                  angle: 5,
-                  positionFactor: 0.8,
-                  widget: Text('Max',
-                      style: TextStyle(
-                          fontSize: isCardView ? 12 : 16,
-                          fontWeight: FontWeight.bold)))
-            ],
-            ranges: <GaugeRange>[
-              GaugeRange(
-                startValue: 0,
-                endValue: 100,
-                sizeUnit: GaugeSizeUnit.factor,
-                gradient: const SweepGradient(
-                    colors: <Color>[Color(0xFFAB64F5), Color(0xFF62DBF6)],
-                    stops: <double>[0.25, 0.75]),
-                startWidth: 0.4,
-                endWidth: 0.4,
-                color: const Color(0xFF00A8B5),
-              )
-            ],
-            showTicks: false),
+          startAngle: 180,
+          endAngle: 360,
+          radiusFactor: 0.9,
+          canScaleToFit: true,
+          interval: 10,
+          showLabels: false,
+          showAxisLine: false,
+          pointers: <GaugePointer>[
+            MarkerPointer(
+              value: 70,
+              elevation: _elevation,
+              markerWidth: 25,
+              markerHeight: 25,
+              color: const Color(0xFFF67280),
+              markerType: _markerType,
+              markerOffset: -7,
+            ),
+          ],
+          annotations: <GaugeAnnotation>[
+            GaugeAnnotation(
+              angle: 175,
+              positionFactor: 0.8,
+              widget: Text(
+                'Min',
+                style: TextStyle(
+                  fontSize: isCardView ? 12 : 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            GaugeAnnotation(
+              angle: 270,
+              positionFactor: 0.1,
+              widget: Text(
+                '70%',
+                style: TextStyle(
+                  fontSize: isCardView ? 12 : 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            GaugeAnnotation(
+              angle: 5,
+              positionFactor: 0.8,
+              widget: Text(
+                'Max',
+                style: TextStyle(
+                  fontSize: isCardView ? 12 : 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+          ranges: <GaugeRange>[
+            GaugeRange(
+              startValue: 0,
+              endValue: 100,
+              sizeUnit: GaugeSizeUnit.factor,
+              gradient: const SweepGradient(
+                colors: <Color>[Color(0xFFAB64F5), Color(0xFF62DBF6)],
+                stops: <double>[0.25, 0.75],
+              ),
+              startWidth: 0.4,
+              endWidth: 0.4,
+              color: const Color(0xFF00A8B5),
+            ),
+          ],
+          showTicks: false,
+        ),
       ],
     );
   }

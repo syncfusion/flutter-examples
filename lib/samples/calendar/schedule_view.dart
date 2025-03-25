@@ -58,18 +58,25 @@ class _ScheduleViewCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFF0A8043));
 
     final Random random = Random();
-    final DateTime rangeStartDate =
-        DateTime.now().add(const Duration(days: -(365 ~/ 2)));
+    final DateTime rangeStartDate = DateTime.now().add(
+      const Duration(days: -(365 ~/ 2)),
+    );
     final DateTime rangeEndDate = DateTime.now().add(const Duration(days: 365));
     final List<Appointment> appointments = <Appointment>[];
-    for (DateTime i = rangeStartDate;
-        i.isBefore(rangeEndDate);
-        i = i.add(Duration(days: random.nextInt(10)))) {
+    for (
+      DateTime i = rangeStartDate;
+      i.isBefore(rangeEndDate);
+      i = i.add(Duration(days: random.nextInt(10)))
+    ) {
       final DateTime date = i;
       final int count = 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate =
-            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
+        final DateTime startDate = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          8 + random.nextInt(8),
+        );
         appointments.add(
           Appointment(
             subject: subjectCollection[random.nextInt(7)],
@@ -100,8 +107,9 @@ class _ScheduleViewCalendarState extends SampleViewState {
   Widget build(BuildContext context) {
     return Theme(
       data: model.themeData.copyWith(
-        colorScheme:
-            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
       ),
       child: Container(
         color: model.sampleOutputCardColor,
@@ -114,8 +122,10 @@ class _ScheduleViewCalendarState extends SampleViewState {
   }
 
   /// Returns the Calendar widget based on the properties passed.
-  SfCalendar getScheduleViewCalendar(
-      {_DataSource? events, dynamic scheduleViewBuilder}) {
+  SfCalendar getScheduleViewCalendar({
+    _DataSource? events,
+    dynamic scheduleViewBuilder,
+  }) {
     return SfCalendar(
       showDatePickerButton: true,
       scheduleViewMonthHeaderBuilder: scheduleViewBuilder,

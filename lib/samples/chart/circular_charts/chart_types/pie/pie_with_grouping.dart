@@ -34,11 +34,7 @@ class _PieGroupingState extends SampleViewState {
 
   List<ChartSampleData> _buildChartData() {
     return [
-      ChartSampleData(
-        x: 'Coal',
-        y: 56.2,
-        text: 'Coal: 200,704.5 MW (56.2%)',
-      ),
+      ChartSampleData(x: 'Coal', y: 56.2, text: 'Coal: 200,704.5 MW (56.2%)'),
       ChartSampleData(
         x: 'Large\nHydro',
         y: 12.7,
@@ -82,7 +78,7 @@ class _PieGroupingState extends SampleViewState {
         y: 0.3,
         text: 'Diesel: 637.63 MW (0.2%)',
         pointColor: const Color.fromRGBO(198, 201, 207, 1),
-      )
+      ),
     ];
   }
 
@@ -117,7 +113,7 @@ class _PieGroupingState extends SampleViewState {
         groupMode: CircularChartGroupMode.value,
         groupTo: 7,
         pointColorMapper: (ChartSampleData data, int index) => data.pointColor,
-      )
+      ),
     ];
   }
 

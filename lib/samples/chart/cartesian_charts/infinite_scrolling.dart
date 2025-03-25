@@ -61,9 +61,7 @@ class _InfiniteScrollingState extends SampleViewState {
     _isNeedToUpdateView = false;
     _isDataUpdated = true;
     _globalKey = GlobalKey<State>();
-    _zoomPanBehavior = ZoomPanBehavior(
-      enablePanning: true,
-    );
+    _zoomPanBehavior = ZoomPanBehavior(enablePanning: true);
   }
 
   /// Returns the cartesian spline area chart with infinite scrolling.
@@ -85,20 +83,22 @@ class _InfiniteScrollingState extends SampleViewState {
       zoomPanBehavior: _zoomPanBehavior,
       plotAreaBorderWidth: 0,
       primaryXAxis: NumericAxis(
-          name: 'XAxis',
-          interval: 2,
-          enableAutoIntervalOnZooming: false,
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          majorGridLines: const MajorGridLines(width: 0),
-          axisLabelFormatter: (AxisLabelRenderDetails details) {
-            return ChartAxisLabel(details.text.split('.')[0], null);
-          }),
+        name: 'XAxis',
+        interval: 2,
+        enableAutoIntervalOnZooming: false,
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        majorGridLines: const MajorGridLines(width: 0),
+        axisLabelFormatter: (AxisLabelRenderDetails details) {
+          return ChartAxisLabel(details.text.split('.')[0], null);
+        },
+      ),
       primaryYAxis: NumericAxis(
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(color: Colors.transparent),
-          axisLabelFormatter: (AxisLabelRenderDetails details) {
-            return ChartAxisLabel(details.text, null);
-          }),
+        axisLine: const AxisLine(width: 0),
+        majorTickLines: const MajorTickLines(color: Colors.transparent),
+        axisLabelFormatter: (AxisLabelRenderDetails details) {
+          return ChartAxisLabel(details.text, null);
+        },
+      ),
       series: _buildSplineAreaSeries(
         themeData.useMaterial3,
         themeData.brightness == Brightness.light,
@@ -111,12 +111,15 @@ class _InfiniteScrollingState extends SampleViewState {
 
   /// Returns the list of cartesian spline area series.
   List<CartesianSeries<ChartSampleData, num>> _buildSplineAreaSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color color = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(6, 174, 224, 1)
-            : const Color.fromRGBO(255, 245, 0, 1))
-        : const Color.fromRGBO(75, 135, 185, 1);
+    bool isMaterial3,
+    bool isLightMode,
+  ) {
+    final Color color =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(6, 174, 224, 1)
+                : const Color.fromRGBO(255, 245, 0, 1))
+            : const Color.fromRGBO(75, 135, 185, 1);
     return <CartesianSeries<ChartSampleData, num>>[
       SplineAreaSeries<ChartSampleData, num>(
         dataSource: _chartData,
@@ -124,8 +127,9 @@ class _InfiniteScrollingState extends SampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.y,
         color: color.withValues(alpha: 0.6),
         borderColor: color,
-        onRendererCreated:
-            (ChartSeriesController<ChartSampleData, num> controller) {
+        onRendererCreated: (
+          ChartSeriesController<ChartSampleData, num> controller,
+        ) {
           _seriesController = controller;
         },
       ),
@@ -133,23 +137,26 @@ class _InfiniteScrollingState extends SampleViewState {
   }
 
   Widget _buildLoadMoreIndicator(
-      BuildContext context, ChartSwipeDirection direction) {
+    BuildContext context,
+    ChartSwipeDirection direction,
+  ) {
     if (direction == ChartSwipeDirection.end) {
       _isNeedToUpdateView = true;
       _globalKey = GlobalKey<State>();
       return StatefulBuilder(
-          key: _globalKey,
-          builder: (BuildContext context, StateSetter stateSetter) {
-            Widget widget;
-            if (_isNeedToUpdateView) {
-              widget = _buildProgressIndicator();
-              _updateView();
-              _isDataUpdated = true;
-            } else {
-              widget = Container();
-            }
-            return widget;
-          });
+        key: _globalKey,
+        builder: (BuildContext context, StateSetter stateSetter) {
+          Widget widget;
+          if (_isNeedToUpdateView) {
+            widget = _buildProgressIndicator();
+            _updateView();
+            _isDataUpdated = true;
+          } else {
+            widget = Container();
+          }
+          return widget;
+        },
+      );
     } else {
       return SizedBox.fromSize(size: Size.zero);
     }
@@ -166,17 +173,18 @@ class _InfiniteScrollingState extends SampleViewState {
           alignment: Alignment.centerRight,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors:
-                    model.themeData.colorScheme.brightness == Brightness.light
-                        ? <Color>[
-                            Colors.white.withValues(alpha: 0.0),
-                            Colors.white.withValues(alpha: 0.74)
-                          ]
-                        : const <Color>[
-                            Color.fromRGBO(33, 33, 33, 0.0),
-                            Color.fromRGBO(33, 33, 33, 0.74)
-                          ],
-                stops: const <double>[0.0, 1]),
+              colors:
+                  model.themeData.colorScheme.brightness == Brightness.light
+                      ? <Color>[
+                        Colors.white.withValues(alpha: 0.0),
+                        Colors.white.withValues(alpha: 0.74),
+                      ]
+                      : const <Color>[
+                        Color.fromRGBO(33, 33, 33, 0.0),
+                        Color.fromRGBO(33, 33, 33, 0.74),
+                      ],
+              stops: const <double>[0.0, 1],
+            ),
           ),
           child: SizedBox(
             height: 35,
@@ -194,10 +202,12 @@ class _InfiniteScrollingState extends SampleViewState {
 
   void _updateData() {
     for (int i = 0; i < 4; i++) {
-      _chartData.add(ChartSampleData(
-        xValue: _chartData[_chartData.length - 1].xValue + 1,
-        y: _generateRandomInteger(0, 600),
-      ));
+      _chartData.add(
+        ChartSampleData(
+          xValue: _chartData[_chartData.length - 1].xValue + 1,
+          y: _generateRandomInteger(0, 600),
+        ),
+      );
     }
     _isLoadMoreView = true;
     _seriesController?.updateDataSource(addedDataIndexes: _generateIndexes(4));

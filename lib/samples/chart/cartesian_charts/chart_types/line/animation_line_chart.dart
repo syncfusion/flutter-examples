@@ -39,9 +39,7 @@ class _AnimationLineDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: const NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
-      ),
+      primaryXAxis: const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: const NumericAxis(
         majorTickLines: MajorTickLines(color: Colors.transparent),
         axisLine: AxisLine(width: 0),
@@ -59,9 +57,7 @@ class _AnimationLineDefaultState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (_ChartData sales, int index) => sales.x,
         yValueMapper: (_ChartData sales, int index) => sales.y,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-        ),
+        markerSettings: const MarkerSettings(isVisible: true),
       ),
     ];
   }

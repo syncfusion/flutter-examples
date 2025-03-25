@@ -33,7 +33,7 @@ class _CustomHeaderDataGridState extends SampleViewState {
   final List<String> _showMenuItems = <String>[
     'Ascending',
     'Descending',
-    'Clear Sorting'
+    'Clear Sorting',
   ];
 
   @override
@@ -45,20 +45,23 @@ class _CustomHeaderDataGridState extends SampleViewState {
 
   Widget _buildMenuItem(GridColumn column, String value) {
     return GestureDetector(
-        onTap: () {
-          setState(() {
-            _processShowMenuFunctions(value, column);
-          });
-          Navigator.pop(context);
-        },
-        child: SizedBox(width: 130, height: 30, child: Text(value)));
+      onTap: () {
+        setState(() {
+          _processShowMenuFunctions(value, column);
+        });
+        Navigator.pop(context);
+      },
+      child: SizedBox(width: 130, height: 30, child: Text(value)),
+    );
   }
 
   List<PopupMenuItem<String>> _buildMenuItems(GridColumn column) {
     List<PopupMenuItem<String>> menuItems;
     final SortColumnDetails? sortColumn = _source.sortedColumns
-        .firstWhereOrNull((SortColumnDetails sortColumn) =>
-            sortColumn.name == column.columnName);
+        .firstWhereOrNull(
+          (SortColumnDetails sortColumn) =>
+              sortColumn.name == column.columnName,
+        );
 
     bool isEnabled(DataGridSortDirection direction) {
       if (sortColumn == null) {
@@ -81,11 +84,13 @@ class _CustomHeaderDataGridState extends SampleViewState {
     ];
 
     if (sortColumn != null) {
-      menuItems.add(PopupMenuItem<String>(
-        value: _showMenuItems[2],
-        enabled: _source.sortedColumns.isNotEmpty,
-        child: _buildMenuItem(column, _showMenuItems[2]),
-      ));
+      menuItems.add(
+        PopupMenuItem<String>(
+          value: _showMenuItems[2],
+          enabled: _source.sortedColumns.isNotEmpty,
+          child: _buildMenuItem(column, _showMenuItems[2]),
+        ),
+      );
     }
 
     return menuItems;
@@ -98,11 +103,15 @@ class _CustomHeaderDataGridState extends SampleViewState {
         if (_source.sortedColumns.isNotEmpty) {
           _source.sortedColumns.clear();
         }
-        _source.sortedColumns.add(SortColumnDetails(
+        _source.sortedColumns.add(
+          SortColumnDetails(
             name: gridColumn.columnName,
-            sortDirection: value == 'Ascending'
-                ? DataGridSortDirection.ascending
-                : DataGridSortDirection.descending));
+            sortDirection:
+                value == 'Ascending'
+                    ? DataGridSortDirection.ascending
+                    : DataGridSortDirection.descending,
+          ),
+        );
         _source.sort();
         break;
       case 'Clear Sorting':
@@ -122,10 +131,11 @@ class _CustomHeaderDataGridState extends SampleViewState {
         Icon(
           Icons.keyboard_arrow_down,
           size: 25,
-          color: isMaterial3
-              ? model.themeData.colorScheme.onSurfaceVariant
-              : Colors.grey,
-        )
+          color:
+              isMaterial3
+                  ? model.themeData.colorScheme.onSurfaceVariant
+                  : Colors.grey,
+        ),
       ],
     );
   }
@@ -139,9 +149,10 @@ class _CustomHeaderDataGridState extends SampleViewState {
     final double dy = newPosition.dy - details.localPosition.dy + rowHeight;
 
     showMenu(
-        context: context,
-        position: RelativeRect.fromLTRB(dx, dy, dx + 200, dy + 200),
-        items: _buildMenuItems(details.column));
+      context: context,
+      position: RelativeRect.fromLTRB(dx, dy, dx + 200, dy + 200),
+      items: _buildMenuItems(details.column),
+    );
   }
 
   @override
@@ -164,85 +175,85 @@ class _CustomHeaderDataGridState extends SampleViewState {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
-          columnName: 'id',
-          width: 140,
-          label: _buildHeaderCell(Container(
+        columnName: 'id',
+        width: 140,
+        label: _buildHeaderCell(
+          Container(
             padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Order ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))),
+            child: const Text('Order ID', overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ),
       GridColumn(
-          columnName: 'productId',
-          width: 150,
-          label: _buildHeaderCell(Container(
+        columnName: 'productId',
+        width: 150,
+        label: _buildHeaderCell(
+          Container(
             padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Product ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))),
+            child: const Text('Product ID', overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ),
       GridColumn(
-          columnName: 'name',
-          width: 185,
-          label: _buildHeaderCell(Container(
+        columnName: 'name',
+        width: 185,
+        label: _buildHeaderCell(
+          Container(
             padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Customer Name',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))),
+            child: const Text('Customer Name', overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ),
       GridColumn(
-          columnName: 'product',
-          width: 135,
-          label: _buildHeaderCell(Container(
+        columnName: 'product',
+        width: 135,
+        label: _buildHeaderCell(
+          Container(
             padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Product',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))),
+            child: const Text('Product', overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ),
       GridColumn(
-          columnName: 'orderDate',
-          width: 150,
-          label: _buildHeaderCell(Container(
+        columnName: 'orderDate',
+        width: 150,
+        label: _buildHeaderCell(
+          Container(
             padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Order Date',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))),
+            child: const Text('Order Date', overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ),
       GridColumn(
-          columnName: 'quantity',
-          width: 135,
-          label: _buildHeaderCell(Container(
+        columnName: 'quantity',
+        width: 135,
+        label: _buildHeaderCell(
+          Container(
             padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Quantity',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))),
+            child: const Text('Quantity', overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ),
       GridColumn(
-          columnName: 'city',
-          width: 130,
-          label: _buildHeaderCell(Container(
+        columnName: 'city',
+        width: 130,
+        label: _buildHeaderCell(
+          Container(
             padding: const EdgeInsets.all(8),
-            child: const Text(
-              'City',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))),
+            child: const Text('City', overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ),
       GridColumn(
-          columnName: 'unitPrice',
-          width: 140,
-          label: _buildHeaderCell(Container(
+        columnName: 'unitPrice',
+        width: 140,
+        label: _buildHeaderCell(
+          Container(
             padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Unit Price',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))),
+            child: const Text('Unit Price', overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ),
     ];
     return columns;
   }

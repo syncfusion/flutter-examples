@@ -28,9 +28,10 @@ class _LocalDataState extends SampleViewState {
     super.initState();
     _trackballBehavior = TrackballBehavior(
       enable: true,
-      lineColor: model.themeData.colorScheme.brightness == Brightness.dark
-          ? const Color.fromRGBO(255, 255, 255, 0.03)
-          : const Color.fromRGBO(0, 0, 0, 0.03),
+      lineColor:
+          model.themeData.colorScheme.brightness == Brightness.dark
+              ? const Color.fromRGBO(255, 255, 255, 0.03)
+              : const Color.fromRGBO(0, 0, 0, 0.03),
       lineWidth: 15,
       activationMode: ActivationMode.singleTap,
       markerSettings: const TrackballMarkerSettings(

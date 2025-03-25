@@ -91,9 +91,10 @@ class _LineDefaultState extends SampleViewState {
           yValueMapper: (_ChartData sales, int index) => sales.y,
           animationDuration: 0,
           enableTooltip: false,
-          color: model.themeData.colorScheme.brightness == Brightness.dark
-              ? Colors.grey
-              : Colors.black,
+          color:
+              model.themeData.colorScheme.brightness == Brightness.dark
+                  ? Colors.grey
+                  : Colors.black,
         ),
         LineSeries<_ChartData, DateTime>(
           dataSource: _chartData2,
@@ -156,7 +157,7 @@ class _LineCustomPainter<T, D> extends LineSegment<T, D> {
     Colors.yellow,
     Colors.orange,
     Colors.purple,
-    Colors.cyan
+    Colors.cyan,
   ];
 
   @override
@@ -192,22 +193,21 @@ class _LineCustomPainter<T, D> extends LineSegment<T, D> {
     final Path path = Path();
     path.moveTo(x1, y1);
     path.lineTo(x2, y2);
-    canvas.drawPath(
-      path,
-      getStrokePaint(),
-    );
+    canvas.drawPath(path, getStrokePaint());
 
     if (currentSegmentIndex == series.dataSource!.length - 2) {
       const double labelPadding = 10;
-      final Paint topLinePaint = Paint()
-        ..color = Colors.green
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2;
+      final Paint topLinePaint =
+          Paint()
+            ..color = Colors.green
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2;
 
-      final Paint bottomLinePaint = Paint()
-        ..color = Colors.red
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2;
+      final Paint bottomLinePaint =
+          Paint()
+            ..color = Colors.red
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2;
       maximum = _yPointValues.reduce(max);
       minimum = _yPointValues.reduce(min);
       final Path bottomLinePath = Path();
@@ -265,8 +265,10 @@ class _LineCustomPainter<T, D> extends LineSegment<T, D> {
       tp1.layout();
       tp1.paint(
         canvas,
-        Offset(_xPointValues[0] + labelPadding / 2,
-            minimum - labelPadding - tp1.size.height),
+        Offset(
+          _xPointValues[0] + labelPadding / 2,
+          minimum - labelPadding - tp1.size.height,
+        ),
       );
       _yValues.clear();
       _yPointValues.clear();

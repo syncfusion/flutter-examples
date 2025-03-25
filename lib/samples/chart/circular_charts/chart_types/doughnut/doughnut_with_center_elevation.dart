@@ -33,7 +33,7 @@ class _DoughnutDefaultState extends SampleViewState {
         x: 'B',
         y: 38,
         pointColor: const Color.fromRGBO(230, 230, 230, 1),
-      )
+      ),
     ];
     super.initState();
   }
@@ -59,18 +59,16 @@ class _DoughnutDefaultState extends SampleViewState {
           ),
         ),
         const CircularChartAnnotation(
-          widget: Text('62%',
-              style: TextStyle(
-                color: Color.fromRGBO(0, 0, 0, 0.5),
-                fontSize: 25,
-              )),
+          widget: Text(
+            '62%',
+            style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25),
+          ),
         ),
       ],
       title: ChartTitle(
-          text: isCardView ? '' : 'Progress of a task',
-          textStyle: const TextStyle(
-            fontSize: 20,
-          )),
+        text: isCardView ? '' : 'Progress of a task',
+        textStyle: const TextStyle(fontSize: 20),
+      ),
       series: _buildDoughnutSeries(),
     );
   }
@@ -84,7 +82,7 @@ class _DoughnutDefaultState extends SampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.y,
         pointColorMapper: (ChartSampleData data, int index) => data.pointColor,
         animationDuration: 0,
-      )
+      ),
     ];
   }
 

@@ -55,7 +55,7 @@ class _DataLabelDefaultState extends SampleViewState {
       ChartSampleData(x: 2008, y: 28.5, yValue: 22.1),
       ChartSampleData(x: 2009, y: 27.2, yValue: 21.5),
       ChartSampleData(x: 2010, y: 23.4, yValue: 18.9),
-      ChartSampleData(x: 2011, y: 23.4, yValue: 21.3)
+      ChartSampleData(x: 2011, y: 23.4, yValue: 21.3),
     ];
     super.initState();
   }
@@ -84,10 +84,7 @@ class _DataLabelDefaultState extends SampleViewState {
       children: <Widget>[
         Text(
           'Use series color',
-          style: TextStyle(
-            color: model.textColor,
-            fontSize: 16,
-          ),
+          style: TextStyle(color: model.textColor, fontSize: 16),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
@@ -126,11 +123,16 @@ class _DataLabelDefaultState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _labelAlignment,
-            items: _chartAlign!.map((String value) {
-              return DropdownMenuItem<String>(
-                  value: (value != null) ? value : 'center',
-                  child: Text(value, style: TextStyle(color: model.textColor)));
-            }).toList(),
+            items:
+                _chartAlign!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'center',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               _onAlignmentChange(value.toString());
               stateSetter(() {});
@@ -158,11 +160,16 @@ class _DataLabelDefaultState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _labelPosition,
-            items: _positionType!.map((String value) {
-              return DropdownMenuItem<String>(
-                  value: (value != null) ? value : 'top',
-                  child: Text(value, style: TextStyle(color: model.textColor)));
-            }).toList(),
+            items:
+                _positionType!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'top',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               _onPositionChange(value.toString());
               stateSetter(() {});
@@ -187,14 +194,15 @@ class _DataLabelDefaultState extends SampleViewState {
             minValue: -50,
             maxValue: 50,
             initialValue: _horizontalPadding,
-            onChanged: (double value) => setState(() {
-              _horizontalPadding = value;
-            }),
+            onChanged:
+                (double value) => setState(() {
+                  _horizontalPadding = value;
+                }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -213,14 +221,15 @@ class _DataLabelDefaultState extends SampleViewState {
             minValue: -50,
             maxValue: 50,
             initialValue: _verticalPadding,
-            onChanged: (double val) => setState(() {
-              _verticalPadding = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _verticalPadding = val;
+                }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -292,7 +301,7 @@ class _DataLabelDefaultState extends SampleViewState {
           labelAlignment: _chartDataLabelAlignment!,
           offset: Offset(_horizontalPadding, _verticalPadding),
         ),
-      )
+      ),
     ];
   }
 

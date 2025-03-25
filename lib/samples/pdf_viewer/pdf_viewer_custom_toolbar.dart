@@ -10,8 +10,6 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../model/model.dart';
 import '../../model/sample_view.dart';
-import './shared/mobile_helper.dart'
-    if (dart.library.js_interop) './shared/web_helper.dart' as helper;
 import 'shared/helper.dart';
 import 'shared/toolbar_widgets.dart';
 
@@ -100,16 +98,17 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   Color? _selectedColor;
   double _opacity = 1;
 
+  /// Flag to indicate whether the secondary toolbar is shown or not.
+  bool _canShowDesktopSecondaryToolbar = false;
+
   @override
   void initState() {
     super.initState();
     _documentPath = 'assets/pdf/gis_succinctly.pdf';
-    _isDesktopWeb = isDesktop &&
+    _isDesktopWeb =
+        isDesktop &&
         model.isMobileResolution != null &&
         !model.isMobileResolution;
-    if (_isDesktopWeb) {
-      helper.preventDefaultContextMenu();
-    }
   }
 
   @override
@@ -130,23 +129,26 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
     _contextMenuTextColor =
         _isLight ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
-    _contextMenuColor = _useMaterial3
-        ? _isLight
-            ? const Color(0xFFEEE8F4)
-            : const Color(0xFF302D38)
-        : _isLight
+    _contextMenuColor =
+        _useMaterial3
+            ? _isLight
+                ? const Color(0xFFEEE8F4)
+                : const Color(0xFF302D38)
+            : _isLight
             ? const Color(0xFFFFFFFF)
             : const Color(0xFF424242);
     if (_needToMaximize != model.needToMaximize) {
       _closeOverlays();
       _needToMaximize = model.needToMaximize;
     }
-    _isDesktopWeb = isDesktop &&
+    _isDesktopWeb =
+        isDesktop &&
         model.isMobileResolution != null &&
         !model.isMobileResolution;
-    _fillColor = _useMaterial3
-        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
-        : _isLight
+    _fillColor =
+        _useMaterial3
+            ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
+            : _isLight
             ? const Color(0xFFE5E5E5)
             : const Color(0xFF525252);
   }
@@ -156,9 +158,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        final Orientation orientation = model.isMobile
-            ? MediaQuery.of(context).orientation
-            : Orientation.portrait;
+        final Orientation orientation =
+            model.isMobile
+                ? MediaQuery.of(context).orientation
+                : Orientation.portrait;
         return _buildPasswordDialog(context, orientation);
       },
     );
@@ -166,25 +169,31 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
 
   /// Builds the alert dialog for password dialog.
   AlertDialog _buildPasswordDialog(
-      BuildContext context, Orientation orientation) {
+    BuildContext context,
+    Orientation orientation,
+  ) {
     return AlertDialog(
       scrollable: true,
       insetPadding: EdgeInsets.zero,
-      contentPadding: orientation == Orientation.portrait
-          ? const EdgeInsets.all(24)
-          : const EdgeInsets.only(right: 24, left: 24),
-      buttonPadding: orientation == Orientation.portrait
-          ? const EdgeInsets.all(8)
-          : const EdgeInsets.all(4),
+      contentPadding:
+          orientation == Orientation.portrait
+              ? const EdgeInsets.all(24)
+              : const EdgeInsets.only(right: 24, left: 24),
+      buttonPadding:
+          orientation == Orientation.portrait
+              ? const EdgeInsets.all(8)
+              : const EdgeInsets.all(4),
       backgroundColor:
           Theme.of(context).colorScheme.brightness == Brightness.light
               ? Colors.white
               : const Color(0xFF424242),
       title: _passwordDialogTitle(context),
-      shape: _useMaterial3
-          ? null
-          : const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4.0))),
+      shape:
+          _useMaterial3
+              ? null
+              : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ),
       content: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return SingleChildScrollView(
@@ -210,28 +219,31 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             fontFamily: 'Roboto',
             fontSize: 20,
             fontWeight: FontWeight.w500,
-            color:
-                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.87),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.87),
           ),
         ),
         SizedBox(
           height: 36,
           width: 36,
           child: RawMaterialButton(
-            shape: _useMaterial3
-                ? const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)))
-                : const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(2))),
+            shape:
+                _useMaterial3
+                    ? const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                    )
+                    : const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(2)),
+                    ),
             onPressed: () {
               _closePasswordDialog(context);
             },
             child: Icon(
               Icons.clear,
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.6),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.6),
               size: 24,
             ),
           ),
@@ -250,7 +262,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
 
   /// Dialog description for password dialog.
   Widget _passwordDialogDescription(
-      BuildContext context, StateSetter setState) {
+    BuildContext context,
+    StateSetter setState,
+  ) {
     return Column(
       children: [
         Align(
@@ -263,10 +277,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 fontFamily: 'Roboto',
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.6),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ),
@@ -295,23 +308,23 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               _errorText = '';
             },
           ),
-        )
+        ),
       ],
     );
   }
 
   /// Builds the input decoration for the password dialog.
   InputDecoration _passwordInputDecoration(
-      BuildContext context, StateSetter setState) {
+    BuildContext context,
+    StateSetter setState,
+  ) {
     return InputDecoration(
       border: OutlineInputBorder(
-          borderSide: BorderSide(
-        color: model.primaryColor,
-      )),
+        borderSide: BorderSide(color: model.primaryColor),
+      ),
       focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-        color: model.primaryColor,
-      )),
+        borderSide: BorderSide(color: model.primaryColor),
+      ),
       hintText: 'Password: syncfusion',
       hintStyle: TextStyle(
         fontFamily: 'Roboto',
@@ -333,16 +346,16 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         color: Theme.of(context).colorScheme.error,
       ),
       suffixIcon: IconButton(
-          icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off,
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.6)),
-          onPressed: () {
-            setState(() {
-              _passwordVisible = !_passwordVisible;
-            });
-          }),
+        icon: Icon(
+          _passwordVisible ? Icons.visibility : Icons.visibility_off,
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+        ),
+        onPressed: () {
+          setState(() {
+            _passwordVisible = !_passwordVisible;
+          });
+        },
+      ),
     );
   }
 
@@ -353,13 +366,16 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         onPressed: () {
           _closePasswordDialog(context);
         },
-        style: _useMaterial3
-            ? TextButton.styleFrom(
-                fixedSize: const Size(double.infinity, 40),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              )
-            : null,
+        style:
+            _useMaterial3
+                ? TextButton.styleFrom(
+                  fixedSize: const Size(double.infinity, 40),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
+                  ),
+                )
+                : null,
         child: Text(
           'CANCEL',
           style: TextStyle(
@@ -376,13 +392,16 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           onPressed: () {
             _handlePasswordValidation(_textFieldController.text);
           },
-          style: _useMaterial3
-              ? TextButton.styleFrom(
-                  fixedSize: const Size(double.infinity, 40),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                )
-              : null,
+          style:
+              _useMaterial3
+                  ? TextButton.styleFrom(
+                    fixedSize: const Size(double.infinity, 40),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
+                    ),
+                  )
+                  : null,
           child: Text(
             'OPEN',
             style: TextStyle(
@@ -393,7 +412,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             ),
           ),
         ),
-      )
+      ),
     ];
   }
 
@@ -418,11 +437,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             width: 500,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(_useMaterial3 ? 16 : 4),
-              color: _useMaterial3
-                  ? _isLight
-                      ? const Color.fromRGBO(238, 232, 244, 1)
-                      : const Color.fromRGBO(48, 45, 56, 1)
-                  : Theme.of(context).colorScheme.brightness == Brightness.light
+              color:
+                  _useMaterial3
+                      ? _isLight
+                          ? const Color.fromRGBO(238, 232, 244, 1)
+                          : const Color.fromRGBO(48, 45, 56, 1)
+                      : Theme.of(context).colorScheme.brightness ==
+                          Brightness.light
                       ? Colors.white
                       : const Color(0xFF424242),
             ),
@@ -454,10 +475,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               fontFamily: 'Roboto',
               fontSize: 20,
               fontWeight: FontWeight.w500,
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.87),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.87),
             ),
           ),
           SizedBox(
@@ -470,10 +490,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               ),
               child: Icon(
                 Icons.clear,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.6),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.6),
                 size: 24,
               ),
             ),
@@ -509,26 +528,34 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           fontFamily: 'Roboto',
           fontSize: 17,
           fontWeight: FontWeight.w400,
-          color:
-              Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.87),
+          color: Theme.of(
+            context,
+          ).colorScheme.onSurface.withValues(alpha: 0.87),
         ),
         obscureText: _passwordVisible,
         obscuringCharacter: '*',
         decoration: InputDecoration(
           isDense: true,
-          border: _useMaterial3
-              ? OutlineInputBorder(
-                  borderSide: BorderSide(color: model.primaryColor))
-              : UnderlineInputBorder(
-                  borderSide: BorderSide(color: model.primaryColor)),
-          focusedBorder: _useMaterial3
-              ? OutlineInputBorder(
-                  borderSide: BorderSide(color: model.primaryColor))
-              : UnderlineInputBorder(
-                  borderSide: BorderSide(color: model.primaryColor)),
-          contentPadding: _useMaterial3
-              ? const EdgeInsets.only(left: 8, top: 18)
-              : const EdgeInsets.fromLTRB(0, 18, 0, 0),
+          border:
+              _useMaterial3
+                  ? OutlineInputBorder(
+                    borderSide: BorderSide(color: model.primaryColor),
+                  )
+                  : UnderlineInputBorder(
+                    borderSide: BorderSide(color: model.primaryColor),
+                  ),
+          focusedBorder:
+              _useMaterial3
+                  ? OutlineInputBorder(
+                    borderSide: BorderSide(color: model.primaryColor),
+                  )
+                  : UnderlineInputBorder(
+                    borderSide: BorderSide(color: model.primaryColor),
+                  ),
+          contentPadding:
+              _useMaterial3
+                  ? const EdgeInsets.only(left: 8, top: 18)
+                  : const EdgeInsets.fromLTRB(0, 18, 0, 0),
           hintText: 'Password: syncfusion',
           errorText: _errorText.isNotEmpty ? _errorText : null,
           hintStyle: _webPasswordDialogintStyle(),
@@ -591,13 +618,16 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         children: <Widget>[
           TextButton(
             onPressed: _closeWebPasswordDialog,
-            style: _useMaterial3
-                ? TextButton.styleFrom(
-                    fixedSize: const Size(double.infinity, 40),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                  )
-                : null,
+            style:
+                _useMaterial3
+                    ? TextButton.styleFrom(
+                      fixedSize: const Size(double.infinity, 40),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                    )
+                    : null,
             child: Text(
               'CANCEL',
               style: TextStyle(
@@ -609,15 +639,18 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             ),
           ),
           TextButton(
-            onPressed: () =>
-                _handlePasswordValidation(_textFieldController.text),
-            style: _useMaterial3
-                ? TextButton.styleFrom(
-                    fixedSize: const Size(double.infinity, 40),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                  )
-                : null,
+            onPressed:
+                () => _handlePasswordValidation(_textFieldController.text),
+            style:
+                _useMaterial3
+                    ? TextButton.styleFrom(
+                      fixedSize: const Size(double.infinity, 40),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                    )
+                    : null,
             child: Text(
               'OPEN',
               style: TextStyle(
@@ -650,13 +683,15 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       const List<BoxShadow> boxShadows = <BoxShadow>[
         BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.14), blurRadius: 2),
         BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.12),
-            blurRadius: 2,
-            offset: Offset(0, 2)),
+          color: Color.fromRGBO(0, 0, 0, 0.12),
+          blurRadius: 2,
+          offset: Offset(0, 2),
+        ),
         BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.2),
-            blurRadius: 3,
-            offset: Offset(0, 1)),
+          color: Color.fromRGBO(0, 0, 0, 0.2),
+          blurRadius: 3,
+          offset: Offset(0, 1),
+        ),
       ];
       final double contextMenuHeight =
           _isDesktopWeb ? _kWebContextMenuHeight : _kMobileContextMenuHeight;
@@ -713,17 +748,20 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       top = offset.dy;
       left = offset.dx;
     } else if ((globalSelectedRect.top) <= screenSize.height / 2) {
-      top = globalSelectedRect.bottomLeft.dy +
+      top =
+          globalSelectedRect.bottomLeft.dy +
           _kContextMenuBottom -
           _kContextMenuBottom / 2;
       left = globalSelectedRect.bottomLeft.dx;
     } else {
-      top = globalSelectedRect.height > contextMenuWidth
-          ? globalSelectedRect.center.dy - (contextMenuHeight / 2)
-          : globalSelectedRect.topLeft.dy - _kContextMenuBottom;
-      left = globalSelectedRect.height > contextMenuWidth
-          ? globalSelectedRect.center.dx - (contextMenuWidth / 2)
-          : globalSelectedRect.bottomLeft.dx;
+      top =
+          globalSelectedRect.height > contextMenuWidth
+              ? globalSelectedRect.center.dy - (contextMenuHeight / 2)
+              : globalSelectedRect.topLeft.dy - _kContextMenuBottom;
+      left =
+          globalSelectedRect.height > contextMenuWidth
+              ? globalSelectedRect.center.dx - (contextMenuWidth / 2)
+              : globalSelectedRect.bottomLeft.dx;
     }
     if (left + contextMenuWidth > screenSize.width - _kContextMenuMargin) {
       left = screenSize.width - contextMenuWidth - _kContextMenuMargin;
@@ -744,44 +782,51 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   ) {
     final OverlayState overlayState = Overlay.of(context, rootOverlay: true);
     _selectionOverlayEntry = OverlayEntry(
-      builder: (BuildContext context) => Positioned(
-        top: menuPosition.dy,
-        left: menuPosition.dx,
-        child: Container(
-          decoration: BoxDecoration(
-            color: _contextMenuColor,
-            boxShadow: boxShadows,
+      builder:
+          (BuildContext context) => Positioned(
+            top: menuPosition.dy,
+            left: menuPosition.dx,
+            child: Container(
+              decoration: BoxDecoration(
+                color: _contextMenuColor,
+                boxShadow: boxShadows,
+              ),
+              constraints: BoxConstraints.tightFor(
+                width: contextMenuWidth,
+                height: contextMenuHeight,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildCopyAction(),
+                  _buildTextMarkUpAction(
+                    'Highlight',
+                    _isLight
+                        ? 'images/pdf_viewer/highlight_light.png'
+                        : 'images/pdf_viewer/highlight_dark.png',
+                  ),
+                  _buildTextMarkUpAction(
+                    'Underline',
+                    _isLight
+                        ? 'images/pdf_viewer/underline_light.png'
+                        : 'images/pdf_viewer/underline_dark.png',
+                  ),
+                  _buildTextMarkUpAction(
+                    'Strikethrough',
+                    _isLight
+                        ? 'images/pdf_viewer/strikethrough_light.png'
+                        : 'images/pdf_viewer/strikethrough_dark.png',
+                  ),
+                  _buildTextMarkUpAction(
+                    'Squiggly',
+                    _isLight
+                        ? 'images/pdf_viewer/squiggly_light.png'
+                        : 'images/pdf_viewer/squiggly_dark.png',
+                  ),
+                ],
+              ),
+            ),
           ),
-          constraints: BoxConstraints.tightFor(
-              width: contextMenuWidth, height: contextMenuHeight),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildCopyAction(),
-              _buildTextMarkUpAction(
-                  'Highlight',
-                  _isLight
-                      ? 'images/pdf_viewer/highlight_light.png'
-                      : 'images/pdf_viewer/highlight_dark.png'),
-              _buildTextMarkUpAction(
-                  'Underline',
-                  _isLight
-                      ? 'images/pdf_viewer/underline_light.png'
-                      : 'images/pdf_viewer/underline_dark.png'),
-              _buildTextMarkUpAction(
-                  'Strikethrough',
-                  _isLight
-                      ? 'images/pdf_viewer/strikethrough_light.png'
-                      : 'images/pdf_viewer/strikethrough_dark.png'),
-              _buildTextMarkUpAction(
-                  'Squiggly',
-                  _isLight
-                      ? 'images/pdf_viewer/squiggly_light.png'
-                      : 'images/pdf_viewer/squiggly_dark.png'),
-            ],
-          ),
-        ),
-      ),
     );
     overlayState.insert(_selectionOverlayEntry!);
   }
@@ -818,7 +863,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               });
             }
             await Clipboard.setData(
-                ClipboardData(text: _textSelectionDetails!.selectedText!));
+              ClipboardData(text: _textSelectionDetails!.selectedText!),
+            );
             setState(() {
               _canShowToast = true;
             });
@@ -845,13 +891,15 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     if (selectedTextLines != null && selectedTextLines.isNotEmpty) {
       switch (actionType) {
         case 'Highlight':
-          final HighlightAnnotation highlightAnnotation =
-              HighlightAnnotation(textBoundsCollection: selectedTextLines);
+          final HighlightAnnotation highlightAnnotation = HighlightAnnotation(
+            textBoundsCollection: selectedTextLines,
+          );
           _pdfViewerController.addAnnotation(highlightAnnotation);
           break;
         case 'Underline':
-          final UnderlineAnnotation underlineAnnotation =
-              UnderlineAnnotation(textBoundsCollection: selectedTextLines);
+          final UnderlineAnnotation underlineAnnotation = UnderlineAnnotation(
+            textBoundsCollection: selectedTextLines,
+          );
           _pdfViewerController.addAnnotation(underlineAnnotation);
           break;
         case 'Strikethrough':
@@ -860,8 +908,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           _pdfViewerController.addAnnotation(strikethroughAnnotation);
           break;
         case 'Squiggly':
-          final SquigglyAnnotation squigglyAnnotation =
-              SquigglyAnnotation(textBoundsCollection: selectedTextLines);
+          final SquigglyAnnotation squigglyAnnotation = SquigglyAnnotation(
+            textBoundsCollection: selectedTextLines,
+          );
           _pdfViewerController.addAnnotation(squigglyAnnotation);
           break;
       }
@@ -911,64 +960,75 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
 
   /// Drop down overlay for choose file and zoom percentage.
   OverlayEntry? _showDropDownOverlay(
-      RenderBox toolbarItemRenderBox,
-      OverlayEntry? overlayEntry,
-      BoxConstraints constraints,
-      Widget dropDownItems,
-      [Offset? positionOverride,
-      double? borderRadius]) {
+    RenderBox toolbarItemRenderBox,
+    OverlayEntry? overlayEntry,
+    BoxConstraints constraints,
+    Widget dropDownItems, [
+    Offset? positionOverride,
+    double? borderRadius,
+  ]) {
     final Offset position =
         positionOverride ?? toolbarItemRenderBox.localToGlobal(Offset.zero);
     final OverlayState overlayState = Overlay.of(context, rootOverlay: true);
     overlayEntry = OverlayEntry(
-      builder: (BuildContext context) => _buildDropDownOverlay(
-        position,
-        dropDownItems,
-        constraints,
-        borderRadius,
-      ),
+      builder:
+          (BuildContext context) => _buildDropDownOverlay(
+            position,
+            dropDownItems,
+            constraints,
+            borderRadius,
+          ),
     );
     overlayState.insert(overlayEntry);
     return overlayEntry;
   }
 
   /// Builds the positioned widget for the drop down overlay.
-  Positioned _buildDropDownOverlay(Offset position, Widget dropDownItems,
-      BoxConstraints constraints, double? borderRadius) {
+  Positioned _buildDropDownOverlay(
+    Offset position,
+    Widget dropDownItems,
+    BoxConstraints constraints,
+    double? borderRadius,
+  ) {
     return Positioned(
       top: position.dy + 40.0,
       left: _settingsOverlayEntry != null ? position.dx - 151.0 : position.dx,
       child: Container(
         decoration: BoxDecoration(
-          color: _useMaterial3
-              ? (_isLight
-                  ? const Color.fromRGBO(238, 232, 244, 1)
-                  : const Color.fromRGBO(48, 45, 56, 1))
-              : (_isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242)),
-          boxShadow: _useMaterial3
-              ? <BoxShadow>[
-                  const BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.15),
-                    blurRadius: 6,
-                    offset: Offset(0, 2),
-                    spreadRadius: 2,
-                  ),
-                  const BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.3),
-                    blurRadius: 2,
-                    offset: Offset(0, 1),
-                  ),
-                ]
-              : <BoxShadow>[
-                  const BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.26),
-                    blurRadius: 8,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-          borderRadius: _useMaterial3
-              ? BorderRadius.all(Radius.circular(borderRadius ?? 4.0))
-              : null,
+          color:
+              _useMaterial3
+                  ? (_isLight
+                      ? const Color.fromRGBO(238, 232, 244, 1)
+                      : const Color.fromRGBO(48, 45, 56, 1))
+                  : (_isLight
+                      ? const Color(0xFFFFFFFF)
+                      : const Color(0xFF424242)),
+          boxShadow:
+              _useMaterial3
+                  ? <BoxShadow>[
+                    const BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.15),
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                      spreadRadius: 2,
+                    ),
+                    const BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.3),
+                      blurRadius: 2,
+                      offset: Offset(0, 1),
+                    ),
+                  ]
+                  : <BoxShadow>[
+                    const BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.26),
+                      blurRadius: 8,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+          borderRadius:
+              _useMaterial3
+                  ? BorderRadius.all(Radius.circular(borderRadius ?? 4.0))
+                  : null,
         ),
         constraints: constraints,
         child: dropDownItems,
@@ -980,30 +1040,36 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   void _showTextSearchMenu() {
     if (_textSearchOverlayEntry == null) {
       _toolbarKey.currentState?._changeToolbarItemFillColor('Search', true);
-      final RenderBox searchRenderBox = (_toolbarKey
-          .currentState?._searchKey.currentContext
-          ?.findRenderObject())! as RenderBox;
+      final RenderBox searchRenderBox =
+          (_toolbarKey.currentState?._searchKey.currentContext
+                  ?.findRenderObject())!
+              as RenderBox;
       if (searchRenderBox != null) {
         final Offset position = searchRenderBox.localToGlobal(Offset.zero);
-        final OverlayState overlayState =
-            Overlay.of(context, rootOverlay: true);
-        overlayState.insert(_textSearchOverlayEntry = OverlayEntry(
-          builder: (BuildContext context) {
-            return Positioned(
-              top: position.dy + 40.0, // y position of search menu
-              left: (MediaQuery.of(context).size.width - 8) -
-                  _kSearchOverlayWidth, // x position of search menu
-              child: TextSearchOverlay(
-                key: _textSearchOverlayKey,
-                controller: _pdfViewerController,
-                textSearchOverlayEntry: _textSearchOverlayEntry,
-                onClose: _handleSearchMenuClose,
-                brightness: model.themeData.colorScheme.brightness,
-                primaryColor: model.primaryColor,
-              ),
-            );
-          },
-        ));
+        final OverlayState overlayState = Overlay.of(
+          context,
+          rootOverlay: true,
+        );
+        overlayState.insert(
+          _textSearchOverlayEntry = OverlayEntry(
+            builder: (BuildContext context) {
+              return Positioned(
+                top: position.dy + 40.0, // y position of search menu
+                left:
+                    (MediaQuery.of(context).size.width - 8) -
+                    _kSearchOverlayWidth, // x position of search menu
+                child: TextSearchOverlay(
+                  key: _textSearchOverlayKey,
+                  controller: _pdfViewerController,
+                  textSearchOverlayEntry: _textSearchOverlayEntry,
+                  onClose: _handleSearchMenuClose,
+                  brightness: model.themeData.colorScheme.brightness,
+                  primaryColor: model.primaryColor,
+                ),
+              );
+            },
+          ),
+        );
       }
     }
   }
@@ -1022,9 +1088,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   /// loaded in SfPdfViewer Widget. This is for web platform.
   void _showChooseFileMenu(BuildContext context) {
     _toolbarKey.currentState?._changeToolbarItemFillColor('ChooseFile', true);
-    final RenderBox chooseFileRenderBox = (_toolbarKey
-        .currentState?._chooseFileKey.currentContext
-        ?.findRenderObject())! as RenderBox;
+    final RenderBox chooseFileRenderBox =
+        (_toolbarKey.currentState?._chooseFileKey.currentContext
+                ?.findRenderObject())!
+            as RenderBox;
     if (chooseFileRenderBox != null) {
       final Column child = Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1032,34 +1099,51 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           _chooseFileEntry('GIS Succinctly', 'assets/pdf/gis_succinctly.pdf'),
           _chooseFileEntry('HTTP Succinctly', 'assets/pdf/http_succinctly.pdf'),
           _chooseFileEntry(
-              'JavaScript Succinctly', 'assets/pdf/javascript_succinctly.pdf'),
+            'JavaScript Succinctly',
+            'assets/pdf/javascript_succinctly.pdf',
+          ),
           _chooseFileEntry(
-              'Rotated Document', 'assets/pdf/rotated_document.pdf'),
+            'Rotated Document',
+            'assets/pdf/rotated_document.pdf',
+          ),
           _chooseFileEntry(
-              'Single Page Document', 'assets/pdf/single_page_document.pdf'),
+            'Single Page Document',
+            'assets/pdf/single_page_document.pdf',
+          ),
           _chooseFileEntry(
-              'Encrypted Document', 'assets/pdf/encrypted_document.pdf'),
+            'Encrypted Document',
+            'assets/pdf/encrypted_document.pdf',
+          ),
           _chooseFileEntry(
-              'Corrupted Document', 'assets/pdf/corrupted_document.pdf'),
+            'Corrupted Document',
+            'assets/pdf/corrupted_document.pdf',
+          ),
         ],
       );
       _chooseFileOverlayEntry = _showDropDownOverlay(
-          chooseFileRenderBox,
-          _chooseFileOverlayEntry,
-          _useMaterial3
-              ? BoxConstraints.tightFor(
-                  width: 205, height: child.children.length * 40.0)
-              : BoxConstraints.tightFor(
-                  width: 202, height: child.children.length * 35.0),
-          child);
+        chooseFileRenderBox,
+        _chooseFileOverlayEntry,
+        _useMaterial3
+            ? BoxConstraints.tightFor(
+              width: 205,
+              height: child.children.length * 40.0,
+            )
+            : BoxConstraints.tightFor(
+              width: 202,
+              height: child.children.length * 35.0,
+            ),
+        child,
+      );
     }
   }
 
   /// Close choose file menu for web platform.
   void _handleChooseFileClose() {
     if (_chooseFileOverlayEntry != null) {
-      _toolbarKey.currentState
-          ?._changeToolbarItemFillColor('ChooseFile', false);
+      _toolbarKey.currentState?._changeToolbarItemFillColor(
+        'ChooseFile',
+        false,
+      );
       _chooseFileOverlayEntry?.remove();
       _chooseFileOverlayEntry = null;
     }
@@ -1079,30 +1163,42 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             password = null;
           });
         },
-        shape: _useMaterial3
-            ? const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4)))
-            : const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2))),
-        hoverColor: _useMaterial3
-            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
-            : null,
+        shape:
+            _useMaterial3
+                ? const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                )
+                : const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(2)),
+                ),
+        hoverColor:
+            _useMaterial3
+                ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
+                : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 8.01),
             child: Text(
               fileName,
-              style: _useMaterial3
-                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant)
-                  : TextStyle(
-                      color: _isLight
-                          ? const Color(0x00000000).withValues(alpha: 0.87)
-                          : const Color(0x00ffffff).withValues(alpha: 0.87),
-                      fontSize: 14,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400),
+              style:
+                  _useMaterial3
+                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      )
+                      : TextStyle(
+                        color:
+                            _isLight
+                                ? const Color(
+                                  0x00000000,
+                                ).withValues(alpha: 0.87)
+                                : const Color(
+                                  0x00ffffff,
+                                ).withValues(alpha: 0.87),
+                        fontSize: 14,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w400,
+                      ),
             ),
           ),
         ),
@@ -1113,9 +1209,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   /// Shows drop down list of zoom levels for web platform.
   void _showZoomPercentageMenu(BuildContext context) {
     _toolbarKey.currentState?._changeToolbarItemFillColor('Zoom', true);
-    final RenderBox zoomPercentageRenderBox = (_toolbarKey
-        .currentState?._zoomPercentageKey.currentContext
-        ?.findRenderObject())! as RenderBox;
+    final RenderBox zoomPercentageRenderBox =
+        (_toolbarKey.currentState?._zoomPercentageKey.currentContext
+                ?.findRenderObject())!
+            as RenderBox;
     if (zoomPercentageRenderBox != null) {
       final Column child = Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1128,12 +1225,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         ],
       );
       _zoomPercentageOverlay = _showDropDownOverlay(
-          zoomPercentageRenderBox,
-          _zoomPercentageOverlay,
-          _useMaterial3
-              ? const BoxConstraints.tightFor(width: 85, height: 216)
-              : const BoxConstraints.tightFor(width: 120, height: 160),
-          child);
+        zoomPercentageRenderBox,
+        _zoomPercentageOverlay,
+        _useMaterial3
+            ? const BoxConstraints.tightFor(width: 85, height: 216)
+            : const BoxConstraints.tightFor(width: 120, height: 160),
+        child,
+      );
     }
   }
 
@@ -1159,31 +1257,42 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 _toolbarKey.currentState!._zoomLevel = zoomLevel;
           });
         },
-        shape: _useMaterial3
-            ? const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4)))
-            : const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2))),
-        hoverColor: _useMaterial3
-            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
-            : null,
+        shape:
+            _useMaterial3
+                ? const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                )
+                : const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(2)),
+                ),
+        hoverColor:
+            _useMaterial3
+                ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
+                : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: _useMaterial3
-                ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0)
-                : const EdgeInsets.only(left: 16.0, top: 8.0),
+            padding:
+                _useMaterial3
+                    ? const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 10.0,
+                    )
+                    : const EdgeInsets.only(left: 16.0, top: 8.0),
             child: Text(
               percentage,
-              style: _useMaterial3
-                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant)
-                  : TextStyle(
-                      color: _toolbarKey.currentState?._textColor,
-                      fontSize: 14,
-                      fontFamily: 'Roboto',
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w400),
+              style:
+                  _useMaterial3
+                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      )
+                      : TextStyle(
+                        color: _toolbarKey.currentState?._textColor,
+                        fontSize: 14,
+                        fontFamily: 'Roboto',
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w400,
+                      ),
             ),
           ),
         ),
@@ -1194,9 +1303,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   /// Shows the page layout mode and scroll direction options
   void _showSettingsMenu(BuildContext context) {
     _toolbarKey.currentState?._changeToolbarItemFillColor('Settings', true);
-    final RenderBox settingsRenderBox = (_toolbarKey
-        .currentState?._settingsKey.currentContext
-        ?.findRenderObject())! as RenderBox;
+    final RenderBox settingsRenderBox =
+        (_toolbarKey.currentState?._settingsKey.currentContext
+                ?.findRenderObject())!
+            as RenderBox;
     double landscapeHeight = 180.0;
     if (MediaQuery.of(context).orientation == Orientation.landscape) {
       final Offset position = settingsRenderBox.localToGlobal(Offset.zero);
@@ -1252,9 +1362,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             ),
             Divider(
               thickness: 1,
-              color: _useMaterial3
-                  ? model.themeData.colorScheme.outlineVariant
-                  : _isLight
+              color:
+                  _useMaterial3
+                      ? model.themeData.colorScheme.outlineVariant
+                      : _isLight
                       ? Colors.black.withValues(alpha: 0.24)
                       : const Color.fromRGBO(255, 255, 255, 0.26),
             ),
@@ -1303,9 +1414,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       _isContinuousModeClicked = isContinuous;
       if (_pageLayoutMode != mode) {
         _pageLayoutMode = mode;
-        _scrollDirection = isContinuous
-            ? PdfScrollDirection.vertical
-            : PdfScrollDirection.horizontal;
+        _scrollDirection =
+            isContinuous
+                ? PdfScrollDirection.vertical
+                : PdfScrollDirection.horizontal;
         _isVerticalModeSelected = isContinuous;
       }
     });
@@ -1321,21 +1433,27 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   }
 
   /// Settings drop down items for both mobile and desktop.
-  Widget _settingsDropDownItem(String imagePath, String mode,
-      bool canShowFillColor, Function() onPressed) {
+  Widget _settingsDropDownItem(
+    String imagePath,
+    String mode,
+    bool canShowFillColor,
+    Function() onPressed,
+  ) {
     return SizedBox(
       height: 40.0, // height of each Option
       width: _useMaterial3 ? 205 : 191.0, // width of each Option
       child: RawMaterialButton(
-          elevation: 0.0,
-          hoverElevation: 0.0,
-          highlightElevation: 0.0,
-          onPressed: onPressed,
-          hoverColor: _useMaterial3
-              ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
-              : null,
-          fillColor: canShowFillColor ? _fillColor : null,
-          child: _buildSettingsDropDownItem(imagePath, mode)),
+        elevation: 0.0,
+        hoverElevation: 0.0,
+        highlightElevation: 0.0,
+        onPressed: onPressed,
+        hoverColor:
+            _useMaterial3
+                ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
+                : null,
+        fillColor: canShowFillColor ? _fillColor : null,
+        child: _buildSettingsDropDownItem(imagePath, mode),
+      ),
     );
   }
 
@@ -1344,9 +1462,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     return Row(
       children: [
         Padding(
-          padding: _useMaterial3
-              ? const EdgeInsets.only(left: 16)
-              : const EdgeInsets.only(left: 19),
+          padding:
+              _useMaterial3
+                  ? const EdgeInsets.only(left: 16)
+                  : const EdgeInsets.only(left: 19),
           child: ImageIcon(
             AssetImage(imagePath),
             size: 24,
@@ -1354,15 +1473,17 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           ),
         ),
         Padding(
-          padding: _useMaterial3
-              ? const EdgeInsets.only(left: 12)
-              : const EdgeInsets.only(left: 10),
+          padding:
+              _useMaterial3
+                  ? const EdgeInsets.only(left: 12)
+                  : const EdgeInsets.only(left: 10),
           child: Text(
             mode,
             style: TextStyle(
-              color: _useMaterial3
-                  ? Theme.of(context).colorScheme.onSurfaceVariant
-                  : _isLight
+              color:
+                  _useMaterial3
+                      ? Theme.of(context).colorScheme.onSurfaceVariant
+                      : _isLight
                       ? const Color(0x00000000).withValues(alpha: 0.87)
                       : const Color(0x00ffffff).withValues(alpha: 0.87),
               fontSize: _useMaterial3 ? 16 : 14,
@@ -1371,7 +1492,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               fontWeight: _useMaterial3 ? FontWeight.w400 : FontWeight.normal,
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -1379,11 +1500,14 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   /// Shows drop down list of text markup types for desktop.
   void _showTextMarkupMenu(BuildContext context) {
     _toolbarKey.currentState?._changeToolbarItemFillColor('Text markup', true);
-    _toolbarKey.currentState
-        ?._changeToolbarItemFillColor('Sticky notes', false);
-    final RenderBox textMarkupRenderBox = (_toolbarKey
-        .currentState?._textMarkupKey.currentContext
-        ?.findRenderObject())! as RenderBox;
+    _toolbarKey.currentState?._changeToolbarItemFillColor(
+      'Sticky notes',
+      false,
+    );
+    final RenderBox textMarkupRenderBox =
+        (_toolbarKey.currentState?._textMarkupKey.currentContext
+                ?.findRenderObject())!
+            as RenderBox;
     if (textMarkupRenderBox != null) {
       final Widget child = Container(
         width: _kTextMarkupMenuWidth,
@@ -1399,28 +1523,39 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _buildTextMarkupMenuItem(
-                  'Highlight', PdfAnnotationMode.highlight),
+                'Highlight',
+                PdfAnnotationMode.highlight,
+              ),
               _buildTextMarkupMenuItem(
-                  'Underline', PdfAnnotationMode.underline),
+                'Underline',
+                PdfAnnotationMode.underline,
+              ),
               _buildTextMarkupMenuItem(
-                  'Strikethrough', PdfAnnotationMode.strikethrough),
+                'Strikethrough',
+                PdfAnnotationMode.strikethrough,
+              ),
               _buildTextMarkupMenuItem('Squiggly', PdfAnnotationMode.squiggly),
             ],
           ),
         ),
       );
       _textMarkupOverlayEntry = _showDropDownOverlay(
-          textMarkupRenderBox,
-          _textMarkupOverlayEntry,
-          BoxConstraints.tightFor(
-              width: _kTextMarkupMenuWidth, height: _kTextMarkupMenuHeight),
-          child);
+        textMarkupRenderBox,
+        _textMarkupOverlayEntry,
+        BoxConstraints.tightFor(
+          width: _kTextMarkupMenuWidth,
+          height: _kTextMarkupMenuHeight,
+        ),
+        child,
+      );
     }
   }
 
   /// Build text markup menu items.
   Widget _buildTextMarkupMenuItem(
-      String mode, PdfAnnotationMode annotationMode) {
+    String mode,
+    PdfAnnotationMode annotationMode,
+  ) {
     return TextMarkupMenuItem(
       mode: mode,
       height: _kTextMarkupMenuItemHeight,
@@ -1428,8 +1563,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       model: model,
       onPressed: () {
         _pdfViewerController.annotationMode = annotationMode;
-        _toolbarKey.currentState
-            ?._changeToolbarItemVisibility('Color Palette', true);
+        _toolbarKey.currentState?._changeToolbarItemVisibility(
+          'Color Palette',
+          true,
+        );
         _handleTextMarkupOverlayClose();
       },
     );
@@ -1442,19 +1579,22 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       _textMarkupOverlayEntry = null;
     }
     _toolbarKey.currentState?._changeToolbarItemFillColor(
-        'Text markup',
-        _pdfViewerController.annotationMode != PdfAnnotationMode.none &&
-            _pdfViewerController.annotationMode !=
-                PdfAnnotationMode.stickyNote);
+      'Text markup',
+      _pdfViewerController.annotationMode != PdfAnnotationMode.none &&
+          _pdfViewerController.annotationMode != PdfAnnotationMode.stickyNote,
+    );
   }
 
   /// Shows color palette in desktop platform.
   void _showColorPaletteMenu(BuildContext context) {
-    _toolbarKey.currentState
-        ?._changeToolbarItemFillColor('Color Palette', true);
-    final RenderBox colorPaletteRenderBox = (_toolbarKey
-        .currentState?._colorPaletteKey.currentContext
-        ?.findRenderObject())! as RenderBox;
+    _toolbarKey.currentState?._changeToolbarItemFillColor(
+      'Color Palette',
+      true,
+    );
+    final RenderBox colorPaletteRenderBox =
+        (_toolbarKey.currentState?._colorPaletteKey.currentContext
+                ?.findRenderObject())!
+            as RenderBox;
     if (colorPaletteRenderBox != null) {
       final Widget child = ColorPalette(
         pdfViewerController: _pdfViewerController,
@@ -1467,12 +1607,15 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         },
       );
       final Offset position = colorPaletteRenderBox.localToGlobal(
-          Offset(-(_kColorPaletteWidth - colorPaletteRenderBox.size.width), 0));
+        Offset(-(_kColorPaletteWidth - colorPaletteRenderBox.size.width), 0),
+      );
       _colorPaletteOverlayEntry = _showDropDownOverlay(
         colorPaletteRenderBox,
         _colorPaletteOverlayEntry,
         BoxConstraints.tightFor(
-            width: _kColorPaletteWidth, height: _kColorPaletteHeight),
+          width: _kColorPaletteWidth,
+          height: _kColorPaletteHeight,
+        ),
         child,
         position,
         12,
@@ -1486,17 +1629,22 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       _colorPaletteOverlayEntry?.remove();
       _colorPaletteOverlayEntry = null;
     }
-    _toolbarKey.currentState
-        ?._changeToolbarItemFillColor('Color Palette', false);
+    _toolbarKey.currentState?._changeToolbarItemFillColor(
+      'Color Palette',
+      false,
+    );
   }
 
   /// Shows the sticky note icon menu for desktop platform.
   void _showStickyNoteAnnotationMenu(BuildContext context) {
-    _toolbarKey.currentState
-        ?._changeToolbarItemFillColor('Sticky note icons', true);
-    final RenderBox stickyNoteMenuRenderBox = (_toolbarKey
-        .currentState?._stickyNoteKey.currentContext
-        ?.findRenderObject())! as RenderBox;
+    _toolbarKey.currentState?._changeToolbarItemFillColor(
+      'Sticky note icons',
+      true,
+    );
+    final RenderBox stickyNoteMenuRenderBox =
+        (_toolbarKey.currentState?._stickyNoteKey.currentContext
+                ?.findRenderObject())!
+            as RenderBox;
     if (stickyNoteMenuRenderBox != null) {
       final Widget child = _stickyNoteIconMenuContainer();
       _stickyNoteIconMenuOverlayEntry = _showDropDownOverlay(
@@ -1533,7 +1681,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             _stickyNoteIconMenuItem('Help', PdfStickyNoteIcon.help),
             _stickyNoteIconMenuItem('Paragraph', PdfStickyNoteIcon.paragraph),
             _stickyNoteIconMenuItem(
-                'New Paragraph', PdfStickyNoteIcon.newParagraph),
+              'New Paragraph',
+              PdfStickyNoteIcon.newParagraph,
+            ),
           ],
         ),
       ),
@@ -1567,8 +1717,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
 
   /// Close sticky note icon menu for web platform.
   void _handleStickyNoteIconOverlayClose() {
-    _toolbarKey.currentState
-        ?._changeToolbarItemFillColor('Sticky note icons', false);
+    _toolbarKey.currentState?._changeToolbarItemFillColor(
+      'Sticky note icons',
+      false,
+    );
     if (_stickyNoteIconMenuOverlayEntry != null) {
       _stickyNoteIconMenuOverlayEntry?.remove();
       _stickyNoteIconMenuOverlayEntry = null;
@@ -1578,8 +1730,14 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     if (isDesktop) {
-      final bool? isDrawerOpened = model.webOutputContainerState.widget
-          .webLayoutPageState?.scaffoldKey.currentState?.isEndDrawerOpen;
+      final bool? isDrawerOpened =
+          model
+              .webOutputContainerState
+              .widget
+              .webLayoutPageState
+              ?.scaffoldKey
+              .currentState
+              ?.isEndDrawerOpen;
       if (isDrawerOpened != null && isDrawerOpened) {
         _closeOverlays();
       }
@@ -1599,24 +1757,21 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       }
     }
     PreferredSizeWidget appBar = AppBar(
-      toolbarHeight: 56,
-      bottom: _useMaterial3
-          ? PreferredSize(
-              preferredSize: const Size.fromHeight(0),
-              child: Container(
-                color: Theme.of(context).colorScheme.outlineVariant,
-                height: 1,
-              ),
-            )
-          : null,
+      toolbarHeight:
+          (_canShowDesktopSecondaryToolbar &&
+                  _pdfViewerController.pageCount != 0 &&
+                  _isDesktopWeb)
+              ? 2 * kToolbarHeight
+              : kToolbarHeight,
       flexibleSpace: Semantics(
         label: 'Custom toolbar',
         child: KeyboardListener(
           focusNode: _focusNode,
           onKeyEvent: (KeyEvent event) {
-            final bool isPrimaryKeyPressed = kIsMacOS
-                ? HardwareKeyboard.instance.isMetaPressed
-                : HardwareKeyboard.instance.isControlPressed;
+            final bool isPrimaryKeyPressed =
+                kIsMacOS
+                    ? HardwareKeyboard.instance.isMetaPressed
+                    : HardwareKeyboard.instance.isControlPressed;
             if (isPrimaryKeyPressed &&
                 event.logicalKey == LogicalKeyboardKey.keyF) {
               _pdfViewerController.clearSelection();
@@ -1629,6 +1784,7 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             undoHistoryController: _undoHistoryController,
             model: model,
             selectedAnnotation: _selectedAnnotation,
+            showDesktopSecondaryToolbar: _canShowDesktopSecondaryToolbar,
             onTap: (Object toolbarItem) {
               if (_isDesktopWeb) {
                 if (toolbarItem == 'Pan mode') {
@@ -1660,6 +1816,29 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   } else {
                     _handleZoomPercentageClose();
                   }
+                } else if (toolbarItem == 'Annotations') {
+                  _handleSearchMenuClose();
+                  _handleColorPaletteOverlayClose();
+                  _handleStickyNoteIconOverlayClose();
+                  setState(() {
+                    _canShowDesktopSecondaryToolbar =
+                        !_canShowDesktopSecondaryToolbar &&
+                        _pdfViewerController.pageCount != 0;
+                  });
+                  if (!_canShowDesktopSecondaryToolbar &&
+                      _selectedAnnotation != null) {
+                    _pdfViewerController.deselectAnnotation(
+                      _selectedAnnotation!,
+                    );
+                  }
+                  _toolbarKey.currentState?._changeToolbarItemVisibility(
+                    'Annotations',
+                    _canShowDesktopSecondaryToolbar,
+                  );
+                  _toolbarKey.currentState?._changeToolbarItemFillColor(
+                    'Annotations',
+                    _canShowDesktopSecondaryToolbar,
+                  );
                 }
                 if (toolbarItem.toString() == 'Bookmarks') {
                   _handleSearchMenuClose();
@@ -1682,14 +1861,16 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 if (toolbarItem == 'Undo') {
                   _undoHistoryController.undo();
                   if (_selectedAnnotation != null) {
-                    _toolbarKey.currentState
-                        ?._setAnnotationLocked(_selectedAnnotation!.isLocked);
+                    _toolbarKey.currentState?._setAnnotationLocked(
+                      _selectedAnnotation!.isLocked,
+                    );
                   }
                 } else if (toolbarItem == 'Redo') {
                   _undoHistoryController.redo();
                   if (_selectedAnnotation != null) {
-                    _toolbarKey.currentState
-                        ?._setAnnotationLocked(_selectedAnnotation!.isLocked);
+                    _toolbarKey.currentState?._setAnnotationLocked(
+                      _selectedAnnotation!.isLocked,
+                    );
                   }
                 }
 
@@ -1704,32 +1885,50 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   _handleTextMarkupOverlayClose();
                 }
                 if (toolbarItem == 'Sticky notes') {
-                  _toolbarKey.currentState
-                      ?._changeToolbarItemFillColor('Text markup', false);
+                  _toolbarKey.currentState?._changeToolbarItemFillColor(
+                    'Text markup',
+                    false,
+                  );
                   _handleStickyNoteIconOverlayClose();
                   if (_pdfViewerController.annotationMode !=
                       PdfAnnotationMode.stickyNote) {
                     _pdfViewerController.annotationMode =
                         PdfAnnotationMode.stickyNote;
-                    _toolbarKey.currentState
-                        ?._changeToolbarItemFillColor('Sticky notes', true);
-                    _toolbarKey.currentState
-                        ?._changeToolbarItemVisibility('Color Palette', true);
+                    _toolbarKey.currentState?._changeToolbarItemFillColor(
+                      'Sticky notes',
+                      true,
+                    );
                     _toolbarKey.currentState?._changeToolbarItemVisibility(
-                        'Sticky note icons', true);
-                    _toolbarKey.currentState
-                        ?._changeToolbarItemVisibility('Lock', false);
-                    _toolbarKey.currentState
-                        ?._changeToolbarItemVisibility('Delete', false);
+                      'Color Palette',
+                      true,
+                    );
+                    _toolbarKey.currentState?._changeToolbarItemVisibility(
+                      'Sticky note icons',
+                      true,
+                    );
+                    _toolbarKey.currentState?._changeToolbarItemVisibility(
+                      'Lock',
+                      false,
+                    );
+                    _toolbarKey.currentState?._changeToolbarItemVisibility(
+                      'Delete',
+                      false,
+                    );
                   } else {
                     _pdfViewerController.annotationMode =
                         PdfAnnotationMode.none;
-                    _toolbarKey.currentState
-                        ?._changeToolbarItemFillColor('Sticky notes', false);
-                    _toolbarKey.currentState
-                        ?._changeToolbarItemVisibility('Color Palette', false);
+                    _toolbarKey.currentState?._changeToolbarItemFillColor(
+                      'Sticky notes',
+                      false,
+                    );
                     _toolbarKey.currentState?._changeToolbarItemVisibility(
-                        'Sticky note icons', false);
+                      'Color Palette',
+                      false,
+                    );
+                    _toolbarKey.currentState?._changeToolbarItemVisibility(
+                      'Sticky note icons',
+                      false,
+                    );
                   }
                 }
                 if (toolbarItem == 'Sticky note icons') {
@@ -1748,12 +1947,18 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 }
                 if (toolbarItem == 'None') {
                   _pdfViewerController.annotationMode = PdfAnnotationMode.none;
-                  _toolbarKey.currentState
-                      ?._changeToolbarItemVisibility('Color Palette', false);
                   _toolbarKey.currentState?._changeToolbarItemVisibility(
-                      'Sticky note icons', false);
-                  _toolbarKey.currentState
-                      ?._changeToolbarItemFillColor('Sticky notes', false);
+                    'Color Palette',
+                    false,
+                  );
+                  _toolbarKey.currentState?._changeToolbarItemVisibility(
+                    'Sticky note icons',
+                    false,
+                  );
+                  _toolbarKey.currentState?._changeToolbarItemFillColor(
+                    'Sticky notes',
+                    false,
+                  );
                   _handleTextMarkupOverlayClose();
                   _handleStickyNoteIconOverlayClose();
                 }
@@ -1783,8 +1988,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   if (_selectedAnnotation != null) {
                     _selectedAnnotation!.isLocked =
                         !_selectedAnnotation!.isLocked;
-                    _toolbarKey.currentState
-                        ?._setAnnotationLocked(_selectedAnnotation!.isLocked);
+                    _toolbarKey.currentState?._setAnnotationLocked(
+                      _selectedAnnotation!.isLocked,
+                    );
                   }
                 }
               } else {
@@ -1817,17 +2023,25 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     _canShowBottomToolbar = !_canShowBottomToolbar;
                   });
                   _toolbarKey.currentState?._changeToolbarItemFillColor(
-                      'Text markup', _canShowBottomToolbar);
-                  _toolbarKey.currentState
-                      ?._changeToolbarItemFillColor('Sticky notes', false);
+                    'Text markup',
+                    _canShowBottomToolbar,
+                  );
+                  _toolbarKey.currentState?._changeToolbarItemFillColor(
+                    'Sticky notes',
+                    false,
+                  );
                   if (_pdfViewerController.annotationMode !=
                       PdfAnnotationMode.none) {
                     _pdfViewerController.annotationMode =
                         PdfAnnotationMode.none;
-                    _toolbarKey.currentState
-                        ?._changeToolbarItemVisibility('Color Palette', false);
                     _toolbarKey.currentState?._changeToolbarItemVisibility(
-                        'Sticky note icons', false);
+                      'Color Palette',
+                      false,
+                    );
+                    _toolbarKey.currentState?._changeToolbarItemVisibility(
+                      'Sticky note icons',
+                      false,
+                    );
                     _handleTextMarkupOverlayClose();
                   }
                 }
@@ -1838,18 +2052,24 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       _canShowBottomToolbar = true;
                       _pdfViewerController.annotationMode =
                           PdfAnnotationMode.stickyNote;
-                      _toolbarKey.currentState
-                          ?._changeToolbarItemFillColor('Sticky notes', true);
+                      _toolbarKey.currentState?._changeToolbarItemFillColor(
+                        'Sticky notes',
+                        true,
+                      );
                     } else {
                       _canShowBottomToolbar = !_canShowBottomToolbar;
                       _pdfViewerController.annotationMode =
                           PdfAnnotationMode.none;
-                      _toolbarKey.currentState
-                          ?._changeToolbarItemFillColor('Sticky notes', false);
+                      _toolbarKey.currentState?._changeToolbarItemFillColor(
+                        'Sticky notes',
+                        false,
+                      );
                     }
                   });
-                  _toolbarKey.currentState
-                      ?._changeToolbarItemFillColor('Text markup', false);
+                  _toolbarKey.currentState?._changeToolbarItemFillColor(
+                    'Text markup',
+                    false,
+                  );
                 }
               }
               if (toolbarItem.toString() == 'View settings') {
@@ -1876,106 +2096,109 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         ),
       ),
       automaticallyImplyLeading: false,
-      backgroundColor: _useMaterial3
-          ? Theme.of(context).colorScheme.brightness == Brightness.light
-              ? const Color.fromRGBO(247, 242, 251, 1)
-              : const Color.fromRGBO(37, 35, 42, 1)
-          : Theme.of(context).colorScheme.brightness == Brightness.light
+      backgroundColor:
+          _useMaterial3
+              ? Theme.of(context).colorScheme.brightness == Brightness.light
+                  ? const Color.fromRGBO(247, 242, 251, 1)
+                  : const Color.fromRGBO(37, 35, 42, 1)
+              : Theme.of(context).colorScheme.brightness == Brightness.light
               ? const Color(0xFFFAFAFA)
               : const Color(0xFF424242),
     );
     if (!_isDesktopWeb) {
-      appBar = _canShowToolbar
-          ? appBar
-          : !_pdfViewerKey.currentState!.isBookmarkViewOpen
+      appBar =
+          _canShowToolbar
+              ? appBar
+              : !_pdfViewerKey.currentState!.isBookmarkViewOpen
               ? AppBar(
-                  flexibleSpace: Column(
-                    children: [
-                      Expanded(
-                        child: SearchToolbar(
-                          key: _textSearchKey,
-                          controller: _pdfViewerController,
-                          brightness: model.themeData.colorScheme.brightness,
-                          primaryColor: model.primaryColor,
-                          onTap: (Object toolbarItem) async {
-                            if (toolbarItem.toString() == 'Cancel Search') {
-                              setState(() {
-                                _canShowToolbar = true;
-                                _canShowScrollHead = true;
-                                if (Navigator.canPop(context)) {
-                                  Navigator.of(context).maybePop();
-                                }
-                              });
-                            }
-                            if (toolbarItem.toString() == 'Previous Instance') {
-                              setState(() {
-                                _canShowToolbar = false;
-                              });
-                            }
-                            if (toolbarItem.toString() == 'Next Instance') {
-                              setState(() {
-                                _canShowToolbar = false;
-                              });
-                            }
-                            if (toolbarItem.toString() == 'Clear Text') {
-                              setState(() {
-                                _canShowToolbar = false;
-                              });
-                            }
-                            if (toolbarItem.toString() == 'Search Completed') {
-                              setState(() {});
-                            }
-                            if (toolbarItem.toString() == 'noResultFound') {
-                              setState(() {
-                                _textSearchKey.currentState?.canShowToast =
-                                    true;
-                              });
-                              await Future<dynamic>.delayed(
-                                  const Duration(seconds: 1));
-                              setState(() {
-                                _textSearchKey.currentState?.canShowToast =
-                                    false;
-                              });
-                            }
-                          },
-                        ),
+                flexibleSpace: Column(
+                  children: [
+                    Expanded(
+                      child: SearchToolbar(
+                        key: _textSearchKey,
+                        controller: _pdfViewerController,
+                        brightness: model.themeData.colorScheme.brightness,
+                        primaryColor: model.primaryColor,
+                        onTap: (Object toolbarItem) async {
+                          if (toolbarItem.toString() == 'Cancel Search') {
+                            setState(() {
+                              _canShowToolbar = true;
+                              _canShowScrollHead = true;
+                              if (Navigator.canPop(context)) {
+                                Navigator.of(context).maybePop();
+                              }
+                            });
+                          }
+                          if (toolbarItem.toString() == 'Previous Instance') {
+                            setState(() {
+                              _canShowToolbar = false;
+                            });
+                          }
+                          if (toolbarItem.toString() == 'Next Instance') {
+                            setState(() {
+                              _canShowToolbar = false;
+                            });
+                          }
+                          if (toolbarItem.toString() == 'Clear Text') {
+                            setState(() {
+                              _canShowToolbar = false;
+                            });
+                          }
+                          if (toolbarItem.toString() == 'Search Completed') {
+                            setState(() {});
+                          }
+                          if (toolbarItem.toString() == 'noResultFound') {
+                            setState(() {
+                              _textSearchKey.currentState?.canShowToast = true;
+                            });
+                            await Future<dynamic>.delayed(
+                              const Duration(seconds: 1),
+                            );
+                            setState(() {
+                              _textSearchKey.currentState?.canShowToast = false;
+                            });
+                          }
+                        },
                       ),
-                      // Progress bar to indicate whether search process is completed or not.
-                      Visibility(
-                        visible: _textSearchKey.currentState != null &&
-                            !_textSearchKey.currentState!.pdfTextSearchResult
-                                .isSearchCompleted &&
-                            _textSearchKey.currentState!.isSearchInitiated,
-                        child: LinearProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                        ),
+                    ),
+                    // Progress bar to indicate whether search process is completed or not.
+                    Visibility(
+                      visible:
+                          _textSearchKey.currentState != null &&
+                          !_textSearchKey
+                              .currentState!
+                              .pdfTextSearchResult
+                              .isSearchCompleted &&
+                          _textSearchKey.currentState!.isSearchInitiated,
+                      child: LinearProgressIndicator(
+                        color: Theme.of(context).primaryColor,
                       ),
-                    ],
-                  ),
-                  automaticallyImplyLeading: false,
-                  backgroundColor: _useMaterial3
-                      ? Theme.of(context).colorScheme.brightness ==
-                              Brightness.light
-                          ? const Color.fromRGBO(247, 242, 251, 1)
-                          : const Color.fromRGBO(37, 35, 42, 1)
-                      : Theme.of(context).colorScheme.brightness ==
-                              Brightness.light
-                          ? const Color(0xFFFAFAFA)
-                          : const Color(0xFF424242),
-                )
-              : PreferredSize(
-                  preferredSize: Size.zero,
-                  child: Container(),
-                );
+                    ),
+                  ],
+                ),
+                automaticallyImplyLeading: false,
+                backgroundColor:
+                    _useMaterial3
+                        ? Theme.of(context).colorScheme.brightness ==
+                                Brightness.light
+                            ? const Color.fromRGBO(247, 242, 251, 1)
+                            : const Color.fromRGBO(37, 35, 42, 1)
+                        : Theme.of(context).colorScheme.brightness ==
+                            Brightness.light
+                        ? const Color(0xFFFAFAFA)
+                        : const Color(0xFF424242),
+              )
+              : PreferredSize(preferredSize: Size.zero, child: Container());
     }
     return Scaffold(
       appBar: appBar,
       // ignore: always_specify_types
       body: FutureBuilder(
-        future: Future<dynamic>.delayed(const Duration(milliseconds: 200))
-            .then((dynamic value) {
-          _canShowPdf = true;
-        }),
+        future: Future<dynamic>.delayed(const Duration(milliseconds: 200)).then(
+          (dynamic value) {
+            _canShowPdf = true;
+          },
+        ),
         builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
           final Widget pdfViewer = Listener(
             onPointerDown: (PointerDownEvent details) {
@@ -2020,9 +2243,11 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                         _passwordDialogFocusNode.unfocus();
                         _textFieldController.clear();
                       }
+                      _toolbarKey.currentState?.documentChanged();
                     },
-                    onTextSelectionChanged:
-                        (PdfTextSelectionChangedDetails details) async {
+                    onTextSelectionChanged: (
+                      PdfTextSelectionChangedDetails details,
+                    ) async {
                       if (details.selectedText == null &&
                           _selectionOverlayEntry != null) {
                         _textSelectionDetails = null;
@@ -2033,8 +2258,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                         _showContextMenu(context, null);
                       }
                     },
-                    onDocumentLoadFailed:
-                        (PdfDocumentLoadFailedDetails details) {
+                    onDocumentLoadFailed: (
+                      PdfDocumentLoadFailedDetails details,
+                    ) {
+                      setState(() {
+                        _canShowDesktopSecondaryToolbar = false;
+                      });
+                      _toolbarKey.currentState?.documentChanged();
                       if (details.description.contains('password')) {
                         if (details.description.contains('password') &&
                             _hasPasswordDialog) {
@@ -2059,7 +2289,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                         }
                       } else {
                         showErrorDialog(
-                            context, details.error, details.description);
+                          context,
+                          details.error,
+                          details.description,
+                        );
                       }
                     },
                     onAnnotationEdited: (Annotation annotation) {
@@ -2073,53 +2306,108 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       _pdfViewerController.annotationMode =
                           PdfAnnotationMode.none;
                       if (_isDesktopWeb) {
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemFillColor('Text Markup', false);
                         _toolbarKey.currentState?._changeToolbarItemFillColor(
-                            'Sticky notes', false);
-                        _toolbarKey.currentState
-                            ?._setAnnotationLocked(annotation.isLocked);
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemVisibility('Lock', true);
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemVisibility('Delete', true);
+                          'Text Markup',
+                          false,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemFillColor(
+                          'Sticky notes',
+                          false,
+                        );
+                        _toolbarKey.currentState?._setAnnotationLocked(
+                          annotation.isLocked,
+                        );
                         _toolbarKey.currentState?._changeToolbarItemVisibility(
-                            'Color Palette', true);
+                          'Lock',
+                          true,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Delete',
+                          true,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Annotations',
+                          true,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemFillColor(
+                          'Annotations',
+                          true,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Color Palette',
+                          true,
+                        );
                         if (_selectedAnnotation is StickyNoteAnnotation) {
                           _toolbarKey.currentState
                               ?._changeToolbarItemVisibility(
-                                  'Sticky note icons', true);
+                                'Sticky note icons',
+                                true,
+                              );
                         }
+                        setState(() {
+                          _canShowDesktopSecondaryToolbar =
+                              _pdfViewerController.pageCount != 0;
+                        });
                       } else {
                         setState(() {
                           _canShowBottomToolbar = true;
                           _toolbarKey.currentState?._changeToolbarItemFillColor(
-                              'Sticky notes', false);
+                            'Sticky notes',
+                            false,
+                          );
                         });
                       }
                     },
                     onAnnotationDeselected: (Annotation annotation) {
                       _selectedAnnotation = null;
                       _selectedColor = null;
+                      setState(() {
+                        _canShowDesktopSecondaryToolbar =
+                            _pdfViewerController.annotationMode !=
+                                PdfAnnotationMode.none &&
+                            _pdfViewerController.pageCount != 0;
+                      });
                       if (_isDesktopWeb) {
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemVisibility('Lock', false);
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemVisibility('Delete', false);
                         _toolbarKey.currentState?._changeToolbarItemVisibility(
-                            'Color Palette', false);
+                          'Lock',
+                          false,
+                        );
                         _toolbarKey.currentState?._changeToolbarItemVisibility(
-                            'Sticky note icons', false);
+                          'Delete',
+                          false,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Color Palette',
+                          false,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Sticky note icons',
+                          false,
+                        );
                         _toolbarKey.currentState?._changeToolbarItemFillColor(
-                            'Sticky notes', false);
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemFillColor('Text markup', false);
+                          'Sticky notes',
+                          false,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemFillColor(
+                          'Text markup',
+                          false,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Annotations',
+                          _canShowDesktopSecondaryToolbar,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemFillColor(
+                          'Annotations',
+                          _canShowDesktopSecondaryToolbar,
+                        );
                       } else {
                         setState(() {
                           _canShowBottomToolbar = false;
                         });
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemFillColor('Text markup', false);
+                        _toolbarKey.currentState?._changeToolbarItemFillColor(
+                          'Text markup',
+                          false,
+                        );
                       }
                     },
                   ),
@@ -2142,8 +2430,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       selectedAnnotation: _selectedAnnotation,
                       onBackButtonPressed: () {
                         if (_selectedAnnotation != null) {
-                          _pdfViewerController
-                              .deselectAnnotation(_selectedAnnotation!);
+                          _pdfViewerController.deselectAnnotation(
+                            _selectedAnnotation!,
+                          );
                         }
                       },
                     ),
@@ -2153,19 +2442,21 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           );
           if (_canShowPdf) {
             if (_isDesktopWeb) {
-              return Stack(children: <Widget>[
-                KeyboardListener(
-                  focusNode: _focusNode,
-                  onKeyEvent: (KeyEvent event) {
-                    final bool isPrimaryKeyPressed = kIsMacOS
-                        ? HardwareKeyboard.instance.isMetaPressed
-                        : HardwareKeyboard.instance.isControlPressed;
-                    if (isPrimaryKeyPressed &&
-                        event.logicalKey == LogicalKeyboardKey.keyF) {
-                      _showTextSearchMenu();
-                    }
-                  },
-                  child: GestureDetector(
+              return Stack(
+                children: <Widget>[
+                  KeyboardListener(
+                    focusNode: _focusNode,
+                    onKeyEvent: (KeyEvent event) {
+                      final bool isPrimaryKeyPressed =
+                          kIsMacOS
+                              ? HardwareKeyboard.instance.isMetaPressed
+                              : HardwareKeyboard.instance.isControlPressed;
+                      if (isPrimaryKeyPressed &&
+                          event.logicalKey == LogicalKeyboardKey.keyF) {
+                        _showTextSearchMenu();
+                      }
+                    },
+                    child: GestureDetector(
                       onSecondaryTapDown: (TapDownDetails details) {
                         if (_textSelectionDetails != null &&
                             _textSelectionDetails!.globalSelectedRegion !=
@@ -2180,12 +2471,18 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                           }
                         }
                       },
-                      child: pdfViewer),
-                ),
-                showToast(
-                    context, _canShowToast, Alignment.bottomCenter, 'Copied'),
-                _showWebPasswordDialogue(),
-              ]);
+                      child: pdfViewer,
+                    ),
+                  ),
+                  showToast(
+                    context,
+                    _canShowToast,
+                    Alignment.bottomCenter,
+                    'Copied',
+                  ),
+                  _showWebPasswordDialogue(),
+                ],
+              );
             }
             return SfPdfViewerTheme(
               data: const SfPdfViewerThemeData(),
@@ -2195,21 +2492,29 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                     _canShowToolbar = true;
                   });
                 },
-                child: Stack(children: <Widget>[
-                  pdfViewer,
-                  showToast(
+                child: Stack(
+                  children: <Widget>[
+                    pdfViewer,
+                    showToast(
                       context,
                       _textSearchKey.currentState?.canShowToast ?? false,
                       Alignment.center,
-                      'No result'),
-                  showToast(
-                      context, _canShowToast, Alignment.bottomCenter, 'Copied'),
-                ]),
+                      'No result',
+                    ),
+                    showToast(
+                      context,
+                      _canShowToast,
+                      Alignment.bottomCenter,
+                      'Copied',
+                    ),
+                  ],
+                ),
               ),
             );
           } else {
             return Container(
-              color: SfPdfViewerTheme.of(context)!.backgroundColor ??
+              color:
+                  SfPdfViewerTheme.of(context)!.backgroundColor ??
                   Theme.of(context).colorScheme.surface.withValues(alpha: 0.08),
             );
           }
@@ -2228,6 +2533,7 @@ class Toolbar extends StatefulWidget {
     this.onTap,
     this.showTooltip = true,
     this.model,
+    this.showDesktopSecondaryToolbar = false,
     Key? key,
     this.selectedAnnotation,
   }) : super(key: key);
@@ -2250,6 +2556,9 @@ class Toolbar extends StatefulWidget {
   /// The selected annotation.
   final Annotation? selectedAnnotation;
 
+  /// Indicates whether the annotation toolbar need to be shown or not
+  final bool showDesktopSecondaryToolbar;
+
   @override
   ToolbarState createState() => ToolbarState();
 }
@@ -2268,6 +2577,7 @@ class ToolbarState extends State<Toolbar> {
   Color? _stickyNoteAnnotationFillColor = Colors.transparent;
   Color? _stickyNoteIconMenuFillColor = Colors.transparent;
   Color _textMarkupFillColor = Colors.transparent;
+  Color? _annotationsIconFillColor;
   Color? _colorPaletteFillColor;
   int _pageCount = 0;
   late bool _isLight;
@@ -2295,8 +2605,9 @@ class ToolbarState extends State<Toolbar> {
   @override
   void initState() {
     widget.controller?.addListener(_pageChanged);
-    _textEditingController =
-        TextEditingController(text: widget.controller!.pageNumber.toString());
+    _textEditingController = TextEditingController(
+      text: widget.controller!.pageNumber.toString(),
+    );
     _pageCount = widget.controller!.pageCount;
     super.initState();
   }
@@ -2332,30 +2643,54 @@ class ToolbarState extends State<Toolbar> {
     }
   }
 
+  /// Resets the annotations toolbar items on document change
+  void documentChanged() {
+    setState(() {
+      _annotationsIconFillColor =
+          widget.controller != null &&
+                  widget.controller!.pageCount != 0 &&
+                  widget.showDesktopSecondaryToolbar
+              ? _fillColor
+              : null;
+      _textMarkupFillColor = Colors.transparent;
+      _colorPaletteFillColor = null;
+      _stickyNoteIconMenuFillColor = null;
+      _stickyNoteAnnotationFillColor = null;
+      _canShowColorPaletteIcon = false;
+      _canShowDeleteIcon = false;
+      _canShowLockIcon = false;
+      _canShowStickyNoteIconMenu = false;
+    });
+  }
+
   @override
   void didChangeDependencies() {
     _isLight = Theme.of(context).brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _color = _useMaterial3
-        ? Theme.of(context).brightness == Brightness.light
-            ? const Color.fromRGBO(73, 69, 79, 1)
-            : const Color.fromRGBO(202, 196, 208, 1)
-        : Theme.of(context).brightness == Brightness.light
+    _color =
+        _useMaterial3
+            ? Theme.of(context).brightness == Brightness.light
+                ? const Color.fromRGBO(73, 69, 79, 1)
+                : const Color.fromRGBO(202, 196, 208, 1)
+            : Theme.of(context).brightness == Brightness.light
             ? Colors.black.withValues(alpha: 0.54)
             : Colors.white.withValues(alpha: 0.65);
-    _disabledColor = _useMaterial3
-        ? Theme.of(context).brightness == Brightness.light
-            ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
-            : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
-        : Theme.of(context).brightness == Brightness.light
+    _disabledColor =
+        _useMaterial3
+            ? Theme.of(context).brightness == Brightness.light
+                ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+                : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
+            : Theme.of(context).brightness == Brightness.light
             ? Colors.black12
             : Colors.white12;
-    _textColor = _isLight
-        ? const Color(0x00000000).withValues(alpha: 0.87)
-        : const Color(0x00ffffff).withValues(alpha: 0.87);
-    _fillColor = _useMaterial3
-        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
-        : _isLight
+    _textColor =
+        _isLight
+            ? const Color(0x00000000).withValues(alpha: 0.87)
+            : const Color(0x00ffffff).withValues(alpha: 0.87);
+    _fillColor =
+        _useMaterial3
+            ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
+            : _isLight
             ? const Color(0xFFD2D2D2)
             : const Color(0xFF525252);
     _isWeb =
@@ -2383,6 +2718,8 @@ class ToolbarState extends State<Toolbar> {
       } else if (toolbarItem == 'Sticky notes') {
         _stickyNoteAnnotationFillColor =
             isFocused ? _fillColor : Colors.transparent;
+      } else if (toolbarItem == 'Annotations') {
+        _annotationsIconFillColor = isFocused ? _fillColor : Colors.transparent;
       }
     });
   }
@@ -2412,40 +2749,48 @@ class ToolbarState extends State<Toolbar> {
   /// Constructs web toolbar item widget
   Widget _webToolbarItem(String toolTip, Widget child, {Key? key}) {
     return Padding(
-        padding: toolTip == 'Bookmark' ||
-                toolTip == 'Search' ||
-                toolTip == 'View settings' ||
-                toolTip == 'Lock' ||
-                toolTip == 'Unlock'
-            ? const EdgeInsets.only(right: 8)
-            : const EdgeInsets.only(left: 8),
-        child: Tooltip(
-            message: toolTip,
-            decoration: _useMaterial3
+      padding:
+          toolTip == 'Bookmark' ||
+                  toolTip == 'Search' ||
+                  toolTip == 'View settings' ||
+                  toolTip == 'Lock' ||
+                  toolTip == 'Unlock'
+              ? const EdgeInsets.only(right: 8)
+              : const EdgeInsets.only(left: 8),
+      child: Tooltip(
+        message: toolTip,
+        decoration:
+            _useMaterial3
                 ? BoxDecoration(
-                    color: Theme.of(context).colorScheme.inverseSurface,
-                    borderRadius: BorderRadius.circular(4),
-                  )
+                  color: Theme.of(context).colorScheme.inverseSurface,
+                  borderRadius: BorderRadius.circular(4),
+                )
                 : null,
-            textStyle: _useMaterial3
+        textStyle:
+            _useMaterial3
                 ? TextStyle(
-                    color: Theme.of(context).colorScheme.onInverseSurface,
-                    fontSize: 14,
-                  )
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                  fontSize: 14,
+                )
                 : null,
-            padding: _useMaterial3
+        padding:
+            _useMaterial3
                 ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
                 : null,
-            height: _useMaterial3 ? 48 : null,
-            child: SizedBox(
-                key: key,
-                height: 40,
-                width: toolTip == 'Choose file' ||
-                        toolTip == 'Text markup' ||
-                        toolTip == 'Sticky note icons'
-                    ? (_useMaterial3 ? 56 : 50)
-                    : 40,
-                child: child)));
+        height: _useMaterial3 ? 48 : null,
+        child: SizedBox(
+          key: key,
+          height: 40,
+          width:
+              toolTip == 'Choose file' ||
+                      toolTip == 'Text markup' ||
+                      toolTip == 'Sticky note icons'
+                  ? (_useMaterial3 ? 56 : 50)
+                  : 40,
+          child: child,
+        ),
+      ),
+    );
   }
 
   Widget _webToolbarButton({
@@ -2467,15 +2812,19 @@ class ToolbarState extends State<Toolbar> {
       hoverElevation: hoverElevation,
       highlightElevation: highlightElevation,
       onPressed: onPressed,
-      hoverColor: hoverColor ??
+      hoverColor:
+          hoverColor ??
           (useMaterial3
               ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
               : null),
-      shape: useMaterial3
-          ? const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(4)))
-          : const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(2))),
+      shape:
+          useMaterial3
+              ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+              )
+              : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
       child: child,
     );
   }
@@ -2483,9 +2832,10 @@ class ToolbarState extends State<Toolbar> {
   /// Constructs the toolbar divider
   Widget _groupDivider(bool isPaddingLeft) {
     return Padding(
-      padding: isPaddingLeft
-          ? const EdgeInsets.only(left: 8)
-          : const EdgeInsets.only(right: 8),
+      padding:
+          isPaddingLeft
+              ? const EdgeInsets.only(left: 8)
+              : const EdgeInsets.only(right: 8),
       child: VerticalDivider(
         width: 1.0,
         // width of vertical divider
@@ -2495,542 +2845,747 @@ class ToolbarState extends State<Toolbar> {
         // top indent of vertical divider
         endIndent: _useMaterial3 ? 16 : 12.0,
         // bottom indent of vertical divider
-        color: _useMaterial3
-            ? Theme.of(context).colorScheme.outlineVariant
-            : _isLight
+        color:
+            _useMaterial3
+                ? Theme.of(context).colorScheme.outlineVariant
+                : _isLight
                 ? Colors.black.withValues(alpha: 0.24)
                 : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
   }
 
+  /// Annotations toolbar
+  Widget _webSecondaryToolbar() {
+    return Container(
+      height: kToolbarHeight,
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      decoration: _buildToolbarDecoration(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // SizedBox is added to align the toolbar items at the center
+          const SizedBox.square(dimension: 24),
+          Row(
+            children: [
+              _buildTextMarkupItem(),
+              _buildStickyNotesItem(),
+              _buildVisibilityDivider(
+                _canShowColorPaletteIcon && !_isAnnotationLocked,
+              ),
+              _buildColorPaletteItem(),
+              _buildStickyNoteIconsItem(),
+              _buildVisibilityDivider(_canShowDeleteIcon || _canShowLockIcon),
+              _buildDeleteItem(),
+              _buildLockItem(),
+            ],
+          ),
+          _buildCloseItem(),
+        ],
+      ),
+    );
+  }
+
+  BoxDecoration _buildToolbarDecoration() {
+    return BoxDecoration(
+      border: Border(
+        bottom: BorderSide(
+          color:
+              _useMaterial3
+                  ? Theme.of(context).colorScheme.outlineVariant
+                  : _isLight
+                  ? Colors.black.withAlpha(0x24)
+                  : const Color.fromRGBO(255, 255, 255, 0.26),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextMarkupItem() {
+    return _webToolbarItem(
+      'Text markup',
+      _webToolbarButton(
+        child: SplitButton(
+          height: 36,
+          width: 56,
+          onPrimaryButtonPressed: () {
+            if (widget.controller!.annotationMode != PdfAnnotationMode.none) {
+              widget.onTap?.call('None');
+            } else {
+              widget.onTap?.call('Text markup');
+            }
+          },
+          onSecondaryButtonPressed: () {
+            widget.onTap?.call('Text markup');
+          },
+          child: _textMarkupAnnotationIcon(widget.controller!.annotationMode),
+        ),
+        onPressed: () {
+          widget.onTap?.call('Text markup');
+        },
+        fillColor: _textMarkupFillColor,
+        useMaterial3: _useMaterial3,
+        context: context,
+      ),
+      key: _textMarkupKey,
+    );
+  }
+
+  Widget _buildStickyNotesItem() {
+    return _webToolbarItem(
+      'Sticky notes',
+      _webToolbarButton(
+        context: context,
+        useMaterial3: _useMaterial3,
+        fillColor: _stickyNoteAnnotationFillColor,
+        onPressed:
+            widget.controller!.pageNumber != 0
+                ? () {
+                  widget.onTap?.call('Sticky notes');
+                }
+                : null,
+        child: _stickyNoteIcon(),
+      ),
+    );
+  }
+
+  Widget _buildColorPaletteItem() {
+    return Visibility(
+      visible: _canShowColorPaletteIcon && !_isAnnotationLocked,
+      child: _webToolbarItem(
+        'Color Palette',
+        _webToolbarButton(
+          child: ImageIcon(
+            const AssetImage('images/pdf_viewer/color_palette.png'),
+            size: 17,
+            color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
+          ),
+          onPressed:
+              widget.controller!.pageNumber != 0
+                  ? () {
+                    widget.onTap?.call('Color Palette');
+                  }
+                  : null,
+          fillColor: _colorPaletteFillColor,
+          useMaterial3: _useMaterial3,
+          context: context,
+        ),
+        key: _colorPaletteKey,
+      ),
+    );
+  }
+
+  Widget _buildStickyNoteIconsItem() {
+    return Visibility(
+      visible: _canShowStickyNoteIconMenu && !_isAnnotationLocked,
+      child: _webToolbarItem(
+        'Sticky note icons',
+        _webToolbarButton(
+          child: SplitButton(
+            height: 36,
+            width: 56,
+            onPrimaryButtonPressed: () {
+              widget.onTap?.call('Sticky note icon menu');
+            },
+            onSecondaryButtonPressed: () {
+              widget.onTap?.call('Sticky note icons');
+            },
+            child: _stickyNoteIcon(),
+          ),
+          onPressed:
+              widget.controller!.pageNumber != 0
+                  ? () {
+                    widget.onTap?.call('Sticky note icons');
+                  }
+                  : null,
+          fillColor: _stickyNoteIconMenuFillColor,
+          useMaterial3: _useMaterial3,
+          context: context,
+        ),
+        key: _stickyNoteKey,
+      ),
+    );
+  }
+
+  Widget _buildDeleteItem() {
+    return Visibility(
+      visible: _canShowDeleteIcon && !_isAnnotationLocked,
+      child: _webToolbarItem(
+        'Delete',
+        _webToolbarButton(
+          child: ImageIcon(
+            const AssetImage('images/pdf_viewer/delete.png'),
+            size: 17,
+            color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
+          ),
+          onPressed: () {
+            widget.onTap?.call('Delete');
+          },
+          useMaterial3: _useMaterial3,
+          context: context,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLockItem() {
+    return Visibility(
+      visible: _canShowLockIcon,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: _webToolbarItem(
+          _isAnnotationLocked ? 'Unlock' : 'Lock',
+          _webToolbarButton(
+            child: ImageIcon(
+              AssetImage(
+                _isAnnotationLocked
+                    ? 'images/pdf_viewer/unlocked.png'
+                    : 'images/pdf_viewer/locked.png',
+              ),
+              size: 18,
+              color:
+                  widget.controller!.pageNumber != 0
+                      ? (_isLight ? Colors.black : const Color(0xFFFFFFFF))
+                      : _disabledColor,
+            ),
+            onPressed:
+                widget.controller!.pageNumber != 0
+                    ? () {
+                      widget.onTap?.call('Lock');
+                    }
+                    : null,
+            useMaterial3: _useMaterial3,
+            context: context,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCloseItem() {
+    return _webToolbarItem(
+      'Close',
+      _webToolbarButton(
+        child: Icon(
+          Icons.close,
+          color: widget.controller!.pageCount != 0 ? _color : _disabledColor,
+        ),
+        onPressed: () {
+          setState(() {
+            _annotationsIconFillColor = null;
+          });
+          widget.onTap?.call('Annotations');
+        },
+        useMaterial3: _useMaterial3,
+        context: context,
+      ),
+    );
+  }
+
+  Widget _buildVisibilityDivider(bool visible) {
+    return Visibility(visible: visible, child: _groupDivider(true));
+  }
+
   /// Get custom toolbar for web platform.
   Widget _webToolbar(bool canJumpToPreviousPage, bool canJumpToNextPage) {
-    return SizedBox(
-        height: 56, // height of toolbar for web
-        width: 1200, // width of toolbar for web
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                // Choose file drop down
-                _webToolbarItem(
-                  'Choose file',
-                  _webToolbarButton(
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4.0),
-                          child: Icon(
-                            Icons.folder_open,
-                            color: _color,
-                            size: _useMaterial3 ? 24 : 20,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: _color,
-                            size: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    fillColor: _chooseFileFillColor,
-                    onPressed: () {
-                      widget.onTap?.call('Choose file');
-                    },
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                  key: _chooseFileKey,
-                ),
-                _groupDivider(true),
-                _webToolbarItem(
-                  'Undo',
-                  ValueListenableBuilder<UndoHistoryValue>(
-                    valueListenable: widget.undoHistoryController!,
-                    builder: (BuildContext context, UndoHistoryValue value,
-                        Widget? child) {
-                      return _webToolbarButton(
-                        child: Icon(
-                          Icons.undo,
-                          color: value.canUndo ? _color : _disabledColor,
-                          size: 20,
-                        ),
-                        onPressed: value.canUndo
-                            ? () {
-                                widget.onTap?.call('Undo');
-                              }
-                            : null,
-                        useMaterial3: _useMaterial3,
-                        context: context,
-                      );
-                    },
-                  ),
-                ),
-                _webToolbarItem(
-                  'Redo',
-                  ValueListenableBuilder<UndoHistoryValue>(
-                    valueListenable: widget.undoHistoryController!,
-                    builder: (BuildContext context, UndoHistoryValue value,
-                        Widget? child) {
-                      return _webToolbarButton(
-                        child: Icon(
-                          Icons.redo,
-                          color: value.canRedo ? _color : _disabledColor,
-                          size: 20,
-                        ),
-                        onPressed: value.canRedo
-                            ? () {
-                                widget.onTap?.call('Redo');
-                              }
-                            : null,
-                        useMaterial3: _useMaterial3,
-                        context: context,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                // Text field for page number
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: SizedBox(
-                    height: _useMaterial3 ? 40 : 20, // height of text field
-                    width: _useMaterial3 ? 54 : 48, // width of text field
-                    child: paginationTextField(context),
-                  ),
-                ),
-                // Total page count
-                Padding(
-                    padding: const EdgeInsets.only(left: 6.0),
-                    child: Text(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double width = constraints.maxWidth;
+        return AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          toolbarHeight:
+              (widget.showDesktopSecondaryToolbar &&
+                      widget.controller?.pageCount != 0)
+                  ? 2 * kToolbarHeight
+                  : kToolbarHeight,
+          backgroundColor:
+              _useMaterial3
+                  ? Theme.of(context).colorScheme.brightness == Brightness.light
+                      ? const Color.fromRGBO(247, 242, 251, 1)
+                      : const Color.fromRGBO(37, 35, 42, 1)
+                  : Theme.of(context).colorScheme.brightness == Brightness.light
+                  ? const Color(0xFFFAFAFA)
+                  : const Color(0xFF424242),
+          flexibleSpace: Container(
+            height: kToolbarHeight,
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color:
                       _useMaterial3
-                          ? '/  ${widget.controller!.pageCount}'
-                          : 'of  ${widget.controller!.pageCount}',
-                      style: TextStyle(
+                          ? Theme.of(context).colorScheme.outlineVariant
+                          : _isLight
+                          ? Colors.black.withValues(alpha: 0.24)
+                          : const Color.fromRGBO(255, 255, 255, 0.26),
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    // Choose file drop down
+                    _webToolbarItem(
+                      'Choose file',
+                      _webToolbarButton(
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4.0),
+                              child: Icon(
+                                Icons.folder_open,
+                                color: _color,
+                                size: _useMaterial3 ? 24 : 20,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Icon(
+                                Icons.keyboard_arrow_down,
+                                color: _color,
+                                size: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        fillColor: _chooseFileFillColor,
+                        onPressed: () {
+                          widget.onTap?.call('Choose file');
+                        },
+                        useMaterial3: _useMaterial3,
+                        context: context,
+                      ),
+                      key: _chooseFileKey,
+                    ),
+                    _groupDivider(true),
+                    _webToolbarItem(
+                      'Undo',
+                      ValueListenableBuilder<UndoHistoryValue>(
+                        valueListenable: widget.undoHistoryController!,
+                        builder: (
+                          BuildContext context,
+                          UndoHistoryValue value,
+                          Widget? child,
+                        ) {
+                          return _webToolbarButton(
+                            child: Icon(
+                              Icons.undo,
+                              color: value.canUndo ? _color : _disabledColor,
+                              size: 20,
+                            ),
+                            onPressed:
+                                value.canUndo
+                                    ? () {
+                                      widget.onTap?.call('Undo');
+                                    }
+                                    : null,
+                            useMaterial3: _useMaterial3,
+                            context: context,
+                          );
+                        },
+                      ),
+                    ),
+                    _webToolbarItem(
+                      'Redo',
+                      ValueListenableBuilder<UndoHistoryValue>(
+                        valueListenable: widget.undoHistoryController!,
+                        builder: (
+                          BuildContext context,
+                          UndoHistoryValue value,
+                          Widget? child,
+                        ) {
+                          return _webToolbarButton(
+                            child: Icon(
+                              Icons.redo,
+                              color: value.canRedo ? _color : _disabledColor,
+                              size: 20,
+                            ),
+                            onPressed:
+                                value.canRedo
+                                    ? () {
+                                      widget.onTap?.call('Redo');
+                                    }
+                                    : null,
+                            useMaterial3: _useMaterial3,
+                            context: context,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    // Text field for page number
+                    Padding(
+                      padding:
+                          _useMaterial3
+                              ? EdgeInsets.zero
+                              : const EdgeInsets.only(top: 4.0),
+                      child: SizedBox(
+                        height: _useMaterial3 ? 40 : 20, // height of text field
+                        width: _useMaterial3 ? 54 : 48, // width of text field
+                        child: paginationTextField(context),
+                      ),
+                    ),
+                    // Total page count
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 6.0,
+                        right: width < 800 ? 6.0 : 0,
+                      ),
+                      child: Text(
+                        _useMaterial3
+                            ? '/  ${widget.controller!.pageCount}'
+                            : 'of  ${widget.controller!.pageCount}',
+                        style: TextStyle(
                           color: _textColor,
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
                           fontFamily: 'Roboto',
-                          fontSize: 14),
-                    )),
-                // Previous page button
-                _webToolbarItem(
-                  'Previous page',
-                  _webToolbarButton(
-                    child: Icon(
-                      _useMaterial3
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_left,
-                      color: canJumpToPreviousPage ? _color : _disabledColor,
-                      size: _useMaterial3 ? 24 : 20,
+                          fontSize: 14,
+                        ),
+                      ),
                     ),
-                    onPressed: canJumpToPreviousPage
-                        ? () {
-                            widget.onTap?.call('Previous Page');
-                            widget.controller?.previousPage();
-                          }
-                        : null,
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                ),
-                // Next page button
-                _webToolbarItem(
-                  'Next page',
-                  _webToolbarButton(
-                    child: Icon(
-                      _useMaterial3
-                          ? Icons.keyboard_arrow_down
-                          : Icons.keyboard_arrow_right,
-                      color: canJumpToNextPage ? _color : _disabledColor,
-                      size: _useMaterial3 ? 24 : 21,
-                    ),
-                    onPressed: canJumpToNextPage
-                        ? () {
-                            widget.onTap?.call('Next Page');
-                            widget.controller?.nextPage();
-                          }
-                        : null,
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                ),
-                // Group divider
-                _groupDivider(true),
-                // Zoom level drop down
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: SizedBox(
-                    key: _zoomPercentageKey,
-                    height: 36, // height of zoom percentage menu
-                    width: 72, // width of zoom percentage menu
-                    child: _webToolbarButton(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 7.0),
-                            child: Text(
-                              widget.controller!.pageNumber == 0
-                                  ? '0%'
-                                  : '${(_zoomLevel * 100).floor()}%',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: 'Roboto',
-                                fontStyle: FontStyle.normal,
-                                color: _textColor,
-                              ),
-                            ),
+                    if (width > 800) ...[
+                      // Previous page button
+                      _webToolbarItem(
+                        'Previous page',
+                        _webToolbarButton(
+                          child: Icon(
+                            _useMaterial3
+                                ? Icons.keyboard_arrow_up
+                                : Icons.keyboard_arrow_left,
+                            color:
+                                canJumpToPreviousPage ? _color : _disabledColor,
+                            size: _useMaterial3 ? 24 : 20,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Icon(
-                              Icons.keyboard_arrow_down,
-                              color: widget.controller!.pageNumber != 0
+                          onPressed:
+                              canJumpToPreviousPage
+                                  ? () {
+                                    widget.onTap?.call('Previous Page');
+                                    widget.controller?.previousPage();
+                                  }
+                                  : null,
+                          useMaterial3: _useMaterial3,
+                          context: context,
+                        ),
+                      ),
+                      // Next page button
+                      _webToolbarItem(
+                        'Next page',
+                        _webToolbarButton(
+                          child: Icon(
+                            _useMaterial3
+                                ? Icons.keyboard_arrow_down
+                                : Icons.keyboard_arrow_right,
+                            color: canJumpToNextPage ? _color : _disabledColor,
+                            size: _useMaterial3 ? 24 : 21,
+                          ),
+                          onPressed:
+                              canJumpToNextPage
+                                  ? () {
+                                    widget.onTap?.call('Next Page');
+                                    widget.controller?.nextPage();
+                                  }
+                                  : null,
+                          useMaterial3: _useMaterial3,
+                          context: context,
+                        ),
+                      ),
+                    ],
+                    // Group divider
+                    _groupDivider(true),
+                    if (width > 800)
+                      // Zoom level drop down
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: SizedBox(
+                          key: _zoomPercentageKey,
+                          height: 36, // height of zoom percentage menu
+                          width: 72, // width of zoom percentage menu
+                          child: _webToolbarButton(
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 7.0),
+                                  child: Text(
+                                    widget.controller!.pageNumber == 0
+                                        ? '0%'
+                                        : '${(_zoomLevel * 100).floor()}%',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'Roboto',
+                                      fontStyle: FontStyle.normal,
+                                      color: _textColor,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color:
+                                        widget.controller!.pageNumber != 0
+                                            ? _color
+                                            : _disabledColor,
+                                    size: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed:
+                                widget.controller!.pageNumber != 0
+                                    ? () {
+                                      widget.onTap?.call('Zoom Percentage');
+                                    }
+                                    : null,
+                            fillColor: _zoomFillColor,
+                            useMaterial3: _useMaterial3,
+                            context: context,
+                          ),
+                        ),
+                      ),
+                    // Zoom out button
+                    _webToolbarItem(
+                      'Zoom out',
+                      _webToolbarButton(
+                        child: Icon(
+                          _useMaterial3
+                              ? Icons.zoom_out
+                              : Icons.remove_circle_outline,
+                          color:
+                              widget.controller!.pageCount != 0 &&
+                                      _zoomLevel > 1
                                   ? _color
                                   : _disabledColor,
-                              size: 18,
-                            ),
+                          size: _useMaterial3 ? 24 : 20,
+                        ),
+                        onPressed:
+                            widget.controller!.pageCount != 0 && _zoomLevel > 1
+                                ? () {
+                                  widget.onTap?.call('Zoom Out');
+                                  setState(() {
+                                    if (_zoomLevel > 1.0 &&
+                                        _zoomLevel <= 1.25) {
+                                      _zoomLevel = 1.0;
+                                    } else if (_zoomLevel > 1.25 &&
+                                        _zoomLevel <= 1.50) {
+                                      _zoomLevel = 1.25;
+                                    } else if (_zoomLevel > 1.50 &&
+                                        _zoomLevel <= 2.0) {
+                                      _zoomLevel = 1.50;
+                                    } else {
+                                      _zoomLevel = 2.0;
+                                    }
+                                    widget.controller!.zoomLevel = _zoomLevel;
+                                  });
+                                }
+                                : null,
+                        useMaterial3: _useMaterial3,
+                        context: context,
+                      ),
+                    ),
+                    // Zoom in button
+                    _webToolbarItem(
+                      'Zoom in',
+                      _webToolbarButton(
+                        child: Icon(
+                          _useMaterial3
+                              ? Icons.zoom_in
+                              : Icons.add_circle_outline,
+                          color:
+                              widget.controller!.pageCount != 0 &&
+                                      _zoomLevel < 3
+                                  ? _color
+                                  : _disabledColor,
+                          size: _useMaterial3 ? 24 : 20,
+                        ),
+                        onPressed:
+                            widget.controller!.pageCount != 0 && _zoomLevel < 3
+                                ? () {
+                                  widget.onTap?.call('Zoom In');
+                                  setState(() {
+                                    if (_zoomLevel >= 1.0 &&
+                                        _zoomLevel < 1.25) {
+                                      _zoomLevel = 1.25;
+                                    } else if (_zoomLevel >= 1.25 &&
+                                        _zoomLevel < 1.50) {
+                                      _zoomLevel = 1.50;
+                                    } else if (_zoomLevel >= 1.50 &&
+                                        _zoomLevel < 2.0) {
+                                      _zoomLevel = 2.0;
+                                    } else {
+                                      _zoomLevel = 3.0;
+                                    }
+                                    widget.controller!.zoomLevel = _zoomLevel;
+                                  });
+                                }
+                                : null,
+                        useMaterial3: _useMaterial3,
+                        context: context,
+                      ),
+                    ),
+                    // Group divider
+                    _groupDivider(true),
+                    if (width > 800)
+                      // Pan mode toggle button
+                      _webToolbarItem(
+                        'Pan mode',
+                        _webToolbarButton(
+                          child: Icon(
+                            Icons.pan_tool_rounded,
+                            color:
+                                widget.controller!.pageCount != 0
+                                    ? _color
+                                    : _disabledColor,
+                            size: _useMaterial3 ? 24 : 20,
                           ),
-                        ],
-                      ),
-                      onPressed: widget.controller!.pageNumber != 0
-                          ? () {
-                              widget.onTap?.call('Zoom Percentage');
-                            }
-                          : null,
-                      fillColor: _zoomFillColor,
-                      useMaterial3: _useMaterial3,
-                      context: context,
-                    ),
-                  ),
-                ),
-                // Zoom out button
-                _webToolbarItem(
-                  'Zoom out',
-                  _webToolbarButton(
-                    child: Icon(
-                      _useMaterial3
-                          ? Icons.zoom_out
-                          : Icons.remove_circle_outline,
-                      color: widget.controller!.pageCount != 0 && _zoomLevel > 1
-                          ? _color
-                          : _disabledColor,
-                      size: _useMaterial3 ? 24 : 20,
-                    ),
-                    onPressed:
-                        widget.controller!.pageCount != 0 && _zoomLevel > 1
-                            ? () {
-                                widget.onTap?.call('Zoom Out');
-                                setState(() {
-                                  if (_zoomLevel > 1.0 && _zoomLevel <= 1.25) {
-                                    _zoomLevel = 1.0;
-                                  } else if (_zoomLevel > 1.25 &&
-                                      _zoomLevel <= 1.50) {
-                                    _zoomLevel = 1.25;
-                                  } else if (_zoomLevel > 1.50 &&
-                                      _zoomLevel <= 2.0) {
-                                    _zoomLevel = 1.50;
-                                  } else {
-                                    _zoomLevel = 2.0;
+                          onPressed:
+                              widget.controller!.pageNumber != 0
+                                  ? () {
+                                    setState(() {
+                                      if (_panFillColor ==
+                                              const Color(0xFFD2D2D2) ||
+                                          _panFillColor ==
+                                              const Color(0xFF525252) ||
+                                          _panFillColor ==
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface
+                                                  .withValues(alpha: 0.08)) {
+                                        _panFillColor = null;
+                                      } else {
+                                        _panFillColor = _fillColor;
+                                      }
+                                    });
+                                    widget.onTap?.call('Pan mode');
                                   }
-                                  widget.controller!.zoomLevel = _zoomLevel;
-                                });
-                              }
-                            : null,
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                ),
-                // Zoom in button
-                _webToolbarItem(
-                  'Zoom in',
-                  _webToolbarButton(
-                    child: Icon(
-                      _useMaterial3 ? Icons.zoom_in : Icons.add_circle_outline,
-                      color: widget.controller!.pageCount != 0 && _zoomLevel < 3
-                          ? _color
-                          : _disabledColor,
-                      size: _useMaterial3 ? 24 : 20,
-                    ),
-                    onPressed:
-                        widget.controller!.pageCount != 0 && _zoomLevel < 3
-                            ? () {
-                                widget.onTap?.call('Zoom In');
-                                setState(() {
-                                  if (_zoomLevel >= 1.0 && _zoomLevel < 1.25) {
-                                    _zoomLevel = 1.25;
-                                  } else if (_zoomLevel >= 1.25 &&
-                                      _zoomLevel < 1.50) {
-                                    _zoomLevel = 1.50;
-                                  } else if (_zoomLevel >= 1.50 &&
-                                      _zoomLevel < 2.0) {
-                                    _zoomLevel = 2.0;
-                                  } else {
-                                    _zoomLevel = 3.0;
-                                  }
-                                  widget.controller!.zoomLevel = _zoomLevel;
-                                });
-                              }
-                            : null,
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                ),
-                // Group divider
-                _groupDivider(true),
-                _webToolbarItem(
-                  'Text markup',
-                  _webToolbarButton(
-                    child: SplitButton(
-                      height: 36,
-                      width: 56,
-                      onPrimaryButtonPressed: () {
-                        if (widget.controller!.annotationMode !=
-                            PdfAnnotationMode.none) {
-                          widget.onTap?.call('None');
-                        } else {
-                          widget.onTap?.call('Text markup');
-                        }
-                      },
-                      onSecondaryButtonPressed: () {
-                        widget.onTap?.call('Text markup');
-                      },
-                      child: _textMarkupAnnotationIcon(
-                          widget.controller!.annotationMode),
-                    ),
-                    onPressed: () {
-                      widget.onTap?.call('Text markup');
-                    },
-                    fillColor: _textMarkupFillColor,
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                  key: _textMarkupKey,
-                ),
-                _groupDivider(true),
-                // Pan mode toggle button
-                _webToolbarItem(
-                  'Pan mode',
-                  _webToolbarButton(
-                    child: Icon(
-                      Icons.pan_tool_rounded,
-                      color: widget.controller!.pageCount != 0
-                          ? _color
-                          : _disabledColor,
-                      size: _useMaterial3 ? 24 : 20,
-                    ),
-                    onPressed: widget.controller!.pageNumber != 0
-                        ? () {
-                            setState(() {
-                              if (_panFillColor == const Color(0xFFD2D2D2) ||
-                                  _panFillColor == const Color(0xFF525252) ||
-                                  _panFillColor ==
-                                      Theme.of(context)
-                                          .colorScheme
-                                          .onSurface
-                                          .withValues(alpha: 0.08)) {
-                                _panFillColor = null;
-                              } else {
-                                _panFillColor = _fillColor;
-                              }
-                            });
-                            widget.onTap?.call('Pan mode');
-                          }
-                        : null,
-                    fillColor: _panFillColor,
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                ),
-                _groupDivider(true),
-                _webToolbarItem(
-                  'Sticky notes',
-                  _webToolbarButton(
-                    context: context,
-                    useMaterial3: _useMaterial3,
-                    fillColor: _stickyNoteAnnotationFillColor,
-                    onPressed: () {
-                      widget.onTap?.call('Sticky notes');
-                    },
-                    child: _stickyNoteIcon(),
-                  ),
-                ),
-                Visibility(
-                  visible: _canShowColorPaletteIcon && !_isAnnotationLocked,
-                  child: _groupDivider(true),
-                ),
-                Visibility(
-                  visible: _canShowColorPaletteIcon && !_isAnnotationLocked,
-                  child: _webToolbarItem(
-                    'Color Palette',
-                    _webToolbarButton(
-                      child: ImageIcon(
-                        const AssetImage('images/pdf_viewer/color_palette.png'),
-                        size: 17,
-                        color:
-                            _isLight ? Colors.black : const Color(0xFFFFFFFF),
+                                  : null,
+                          fillColor: _panFillColor,
+                          useMaterial3: _useMaterial3,
+                          context: context,
+                        ),
                       ),
-                      onPressed: () {
-                        widget.onTap?.call('Color Palette');
-                      },
-                      fillColor: _colorPaletteFillColor,
-                      useMaterial3: _useMaterial3,
-                      context: context,
-                    ),
-                    key: _colorPaletteKey,
-                  ),
-                ),
-                Visibility(
-                  visible: _canShowStickyNoteIconMenu && !_isAnnotationLocked,
-                  child: _webToolbarItem(
-                    'Sticky note icons',
-                    _webToolbarButton(
-                      child: SplitButton(
-                        height: 36,
-                        width: 56,
-                        onPrimaryButtonPressed: () {
-                          widget.onTap?.call('Sticky note icon menu');
-                        },
-                        onSecondaryButtonPressed: () {
-                          widget.onTap?.call('Sticky note icons');
-                        },
-                        child: _stickyNoteIcon(),
+                    _webToolbarItem(
+                      'Annotations',
+                      _webToolbarButton(
+                        child: Icon(
+                          Icons.draw,
+                          color:
+                              widget.controller!.pageCount != 0
+                                  ? _color
+                                  : _disabledColor,
+                          size: _useMaterial3 ? 24 : 20,
+                        ),
+                        onPressed:
+                            widget.controller!.pageNumber != 0
+                                ? () {
+                                  widget.onTap?.call('Annotations');
+                                }
+                                : null,
+                        fillColor: _annotationsIconFillColor,
+                        useMaterial3: _useMaterial3,
+                        context: context,
                       ),
-                      onPressed: () {
-                        widget.onTap?.call('Sticky note icons');
-                      },
-                      fillColor: _stickyNoteIconMenuFillColor,
-                      useMaterial3: _useMaterial3,
-                      context: context,
                     ),
-                    key: _stickyNoteKey,
-                  ),
+                  ],
                 ),
-                Visibility(
-                  visible: _canShowDeleteIcon && !_isAnnotationLocked,
-                  child: _webToolbarItem(
-                    'Delete',
-                    _webToolbarButton(
-                      child: ImageIcon(
-                        const AssetImage('images/pdf_viewer/delete.png'),
-                        size: 17,
-                        color:
-                            _isLight ? Colors.black : const Color(0xFFFFFFFF),
+                Row(
+                  children: <Widget>[
+                    // View settings button
+                    _webToolbarItem(
+                      'View settings',
+                      _webToolbarButton(
+                        child: Icon(
+                          Icons.settings,
+                          color:
+                              widget.controller!.pageCount != 0
+                                  ? _color
+                                  : _disabledColor,
+                          size: 20,
+                        ),
+                        onPressed:
+                            widget.controller!.pageNumber != 0
+                                ? () {
+                                  widget.controller!.clearSelection();
+                                  widget.onTap?.call('View settings');
+                                }
+                                : null,
+                        fillColor: _settingsFillColor,
+                        useMaterial3: _useMaterial3,
+                        context: context,
                       ),
-                      onPressed: () {
-                        widget.onTap?.call('Delete');
-                      },
-                      useMaterial3: _useMaterial3,
-                      context: context,
+                      key: _settingsKey,
                     ),
-                  ),
+                    // Bookmark button
+                    _webToolbarItem(
+                      'Bookmark',
+                      _webToolbarButton(
+                        child: Icon(
+                          Icons.bookmark_border,
+                          color:
+                              widget.controller!.pageCount != 0
+                                  ? _color
+                                  : _disabledColor,
+                          size: _useMaterial3 ? 24 : 20,
+                        ),
+                        onPressed:
+                            widget.controller!.pageNumber != 0
+                                ? () {
+                                  widget.onTap?.call('Bookmarks');
+                                }
+                                : null,
+                        useMaterial3: _useMaterial3,
+                        context: context,
+                      ),
+                    ),
+                    // Group divider
+                    _groupDivider(false),
+                    // Search button
+                    _webToolbarItem(
+                      'Search',
+                      _webToolbarButton(
+                        child: Icon(
+                          Icons.search,
+                          color:
+                              widget.controller!.pageCount != 0
+                                  ? _color
+                                  : _disabledColor,
+                          size: _useMaterial3 ? 24 : 20,
+                        ),
+                        onPressed:
+                            widget.controller!.pageNumber != 0
+                                ? () {
+                                  widget.controller!.clearSelection();
+                                  widget.onTap?.call('Search');
+                                }
+                                : null,
+                        fillColor: _searchFillColor,
+                        useMaterial3: _useMaterial3,
+                        context: context,
+                      ),
+                      key: _searchKey,
+                    ),
+                  ],
                 ),
               ],
             ),
-            Row(
-              children: <Widget>[
-                Visibility(
-                  visible: _canShowLockIcon,
-                  child: _webToolbarItem(
-                    _isAnnotationLocked ? 'Unlock' : 'Lock',
-                    _webToolbarButton(
-                      child: ImageIcon(
-                        AssetImage(_isAnnotationLocked
-                            ? 'images/pdf_viewer/unlocked.png'
-                            : 'images/pdf_viewer/locked.png'),
-                        size: 18,
-                        color:
-                            _isLight ? Colors.black : const Color(0xFFFFFFFF),
-                      ),
-                      onPressed: () {
-                        widget.onTap?.call('Lock');
-                      },
-                      useMaterial3: _useMaterial3,
-                      context: context,
-                    ),
-                  ),
-                ),
-                // View settings button
-                _webToolbarItem(
-                  'View settings',
-                  _webToolbarButton(
-                    child: Icon(
-                      Icons.settings,
-                      color: widget.controller!.pageCount != 0
-                          ? _color
-                          : _disabledColor,
-                      size: 20,
-                    ),
-                    onPressed: widget.controller!.pageNumber != 0
-                        ? () {
-                            widget.controller!.clearSelection();
-                            widget.onTap?.call('View settings');
-                          }
-                        : null,
-                    fillColor: _settingsFillColor,
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                  key: _settingsKey,
-                ),
-                // Bookmark button
-                _webToolbarItem(
-                  'Bookmark',
-                  _webToolbarButton(
-                    child: Icon(
-                      Icons.bookmark_border,
-                      color: widget.controller!.pageCount != 0
-                          ? _color
-                          : _disabledColor,
-                      size: _useMaterial3 ? 24 : 20,
-                    ),
-                    onPressed: widget.controller!.pageNumber != 0
-                        ? () {
-                            widget.onTap?.call('Bookmarks');
-                          }
-                        : null,
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                ),
-                // Group divider
-                _groupDivider(false),
-                // Search button
-                _webToolbarItem(
-                  'Search',
-                  _webToolbarButton(
-                    child: Icon(
-                      Icons.search,
-                      color: widget.controller!.pageCount != 0
-                          ? _color
-                          : _disabledColor,
-                      size: _useMaterial3 ? 24 : 20,
-                    ),
-                    onPressed: widget.controller!.pageNumber != 0
-                        ? () {
-                            widget.controller!.clearSelection();
-                            widget.onTap?.call('Search');
-                          }
-                        : null,
-                    fillColor: _searchFillColor,
-                    useMaterial3: _useMaterial3,
-                    context: context,
-                  ),
-                  key: _searchKey,
-                ),
-              ],
-            ),
-          ],
-        ));
+          ),
+          bottom:
+              widget.showDesktopSecondaryToolbar &&
+                      widget.controller?.pageCount != 0
+                  ? PreferredSize(
+                    preferredSize: const Size.fromHeight(kToolbarHeight),
+                    child: _webSecondaryToolbar(),
+                  )
+                  : null,
+        );
+      },
+    );
   }
 
   /// Get the annotation icon based on the annotation mode.
@@ -3040,74 +3595,73 @@ class ToolbarState extends State<Toolbar> {
     switch (mode) {
       case PdfAnnotationMode.none:
       case PdfAnnotationMode.stickyNote:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/textmarkup_group_light.png'
-            : 'images/pdf_viewer/textmarkup_group_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/textmarkup_group_light.png'
+                : 'images/pdf_viewer/textmarkup_group_dark.png';
         iconSize = isDesktop ? 30 : 18;
         break;
       case PdfAnnotationMode.highlight:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/highlight_light.png'
-            : 'images/pdf_viewer/highlight_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/highlight_light.png'
+                : 'images/pdf_viewer/highlight_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.strikethrough:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/strikethrough_light.png'
-            : 'images/pdf_viewer/strikethrough_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/strikethrough_light.png'
+                : 'images/pdf_viewer/strikethrough_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.underline:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/underline_light.png'
-            : 'images/pdf_viewer/underline_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/underline_light.png'
+                : 'images/pdf_viewer/underline_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.squiggly:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/squiggly_light.png'
-            : 'images/pdf_viewer/squiggly_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/squiggly_light.png'
+                : 'images/pdf_viewer/squiggly_dark.png';
         iconSize = 18;
         break;
     }
 
-    return ImageIcon(
-      AssetImage(iconPath),
-      size: iconSize,
-      color: _textColor,
-    );
+    return ImageIcon(AssetImage(iconPath), size: iconSize, color: _textColor);
   }
 
   /// Get the sticky note icon for the sticky note annotation mode.
   ImageIcon _stickyNoteIcon() {
     return _isLight
         ? ImageIcon(
-            const AssetImage(
-              'images/pdf_viewer/note_light.png',
-            ),
-            size: 18,
-            color: _textColor,
-          )
+          const AssetImage('images/pdf_viewer/note_light.png'),
+          size: 18,
+          color: _textColor,
+        )
         : ImageIcon(
-            const AssetImage(
-              'images/pdf_viewer/note_dark.png',
-            ),
-            size: 18,
-            color: _textColor,
-          );
+          const AssetImage('images/pdf_viewer/note_dark.png'),
+          size: 18,
+          color: _textColor,
+        );
   }
 
   /// Pagination text field widget.
   Widget paginationTextField(BuildContext context) {
     return TextField(
-      style: _isWeb
-          ? TextStyle(
-              color: _textColor,
-              fontWeight: FontWeight.w400,
-              fontStyle: FontStyle.normal,
-              fontFamily: 'Roboto',
-              fontSize: 14)
-          : TextStyle(color: _color),
+      style:
+          _isWeb
+              ? TextStyle(
+                color: _textColor,
+                fontWeight: FontWeight.w400,
+                fontStyle: FontStyle.normal,
+                fontFamily: 'Roboto',
+                fontSize: 14,
+              )
+              : TextStyle(color: _color),
       enableInteractiveSelection: false,
       keyboardType: TextInputType.number,
       controller: _textEditingController,
@@ -3126,38 +3680,47 @@ class ToolbarState extends State<Toolbar> {
   InputDecoration _paginationTextFieldInputDecoration(BuildContext context) {
     return InputDecoration(
       counterText: '',
-      contentPadding: _isWeb
-          ? const EdgeInsets.only(bottom: 22)
-          : isDesktop
+      contentPadding:
+          _isWeb
+              ? const EdgeInsets.only(bottom: 22)
+              : isDesktop
               ? const EdgeInsets.only(bottom: 20)
               : null,
-      border: _useMaterial3
-          ? OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .outline
-                      .withValues(alpha: 0.38)))
-          : const UnderlineInputBorder(),
-      enabledBorder: _useMaterial3
-          ? OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .outline
-                      .withValues(alpha: 0.38)))
-          : null,
-      focusedBorder: _useMaterial3
-          ? OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .outline
-                      .withValues(alpha: 0.38)))
-          : UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
-            ),
+      border:
+          _useMaterial3
+              ? OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.outline.withValues(alpha: 0.38),
+                ),
+              )
+              : const UnderlineInputBorder(),
+      enabledBorder:
+          _useMaterial3
+              ? OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.outline.withValues(alpha: 0.38),
+                ),
+              )
+              : null,
+      focusedBorder:
+          _useMaterial3
+              ? OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.outline.withValues(alpha: 0.38),
+                ),
+              )
+              : UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Theme.of(context).primaryColor,
+                  width: 2.0,
+                ),
+              ),
     );
   }
 
@@ -3165,8 +3728,9 @@ class ToolbarState extends State<Toolbar> {
   void _paginationTextFieldOnPageNumberFieldTap() {
     if (widget.controller!.pageCount > 0) {
       _textEditingController!.selection = TextSelection(
-          baseOffset: 0,
-          extentOffset: _textEditingController!.value.text.length);
+        baseOffset: 0,
+        extentOffset: _textEditingController!.value.text.length,
+      );
       _focusNode.requestFocus();
       widget.onTap?.call('Jump to the page');
     }
@@ -3186,7 +3750,10 @@ class ToolbarState extends State<Toolbar> {
           _textEditingController!.text =
               widget.controller!.pageNumber.toString();
           showErrorDialog(
-              context, 'Error', 'Please enter a valid page number.');
+            context,
+            'Error',
+            'Please enter a valid page number.',
+          );
         }
       } catch (exception) {
         showErrorDialog(context, 'Error', 'Please enter a valid page number.');
@@ -3218,44 +3785,47 @@ class ToolbarState extends State<Toolbar> {
                 height: 40, // height of file explorer button
                 width: 40, // width of file explorer button
                 child: Material(
-                    color: Colors.transparent,
-                    child: Tooltip(
-                      message: widget.showTooltip ? 'Choose file' : null,
-                      child: RawMaterialButton(
-                        shape: _useMaterial3
-                            ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4))
-                            : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2)),
-                        onPressed: () async {
-                          widget.onTap?.call('File Explorer');
-                          widget.controller!.clearSelection();
-                          await Future<dynamic>.delayed(
-                              const Duration(milliseconds: 50));
-                          if (!mounted || !context.mounted) {
-                            return;
-                          }
-                          await Navigator.of(context).push<dynamic>(
-                              MaterialPageRoute<dynamic>(
-                                  builder: (BuildContext context) =>
-                                      FileExplorer(
-                                        brightness:
-                                            Theme.of(context).brightness,
-                                        onDocumentTap: (Document document) {
-                                          widget.onTap?.call(document);
-                                          Navigator.of(context,
-                                                  rootNavigator: true)
-                                              .pop(context);
-                                        },
-                                      )));
-                        },
-                        child: Icon(
-                          Icons.folder_open,
-                          color: _color,
-                          size: 24,
-                        ),
-                      ),
-                    )),
+                  color: Colors.transparent,
+                  child: Tooltip(
+                    message: widget.showTooltip ? 'Choose file' : null,
+                    child: RawMaterialButton(
+                      shape:
+                          _useMaterial3
+                              ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                              : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                      onPressed: () async {
+                        widget.onTap?.call('File Explorer');
+                        widget.controller!.clearSelection();
+                        await Future<dynamic>.delayed(
+                          const Duration(milliseconds: 50),
+                        );
+                        if (!mounted || !context.mounted) {
+                          return;
+                        }
+                        await Navigator.of(context).push<dynamic>(
+                          MaterialPageRoute<dynamic>(
+                            builder:
+                                (BuildContext context) => FileExplorer(
+                                  brightness: Theme.of(context).brightness,
+                                  onDocumentTap: (Document document) {
+                                    widget.onTap?.call(document);
+                                    Navigator.of(
+                                      context,
+                                      rootNavigator: true,
+                                    ).pop(context);
+                                  },
+                                ),
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.folder_open, color: _color, size: 24),
+                    ),
+                  ),
+                ),
               ),
 
               ToolbarItem(
@@ -3265,19 +3835,26 @@ class ToolbarState extends State<Toolbar> {
                   message: widget.showTooltip ? 'Undo' : null,
                   child: ValueListenableBuilder<UndoHistoryValue>(
                     valueListenable: widget.undoHistoryController!,
-                    builder: (BuildContext context, UndoHistoryValue value,
-                        Widget? child) {
+                    builder: (
+                      BuildContext context,
+                      UndoHistoryValue value,
+                      Widget? child,
+                    ) {
                       return Material(
                         color: Colors.transparent,
                         child: RawMaterialButton(
-                          shape: _useMaterial3
-                              ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4))
-                              : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2)),
-                          onPressed: value.canUndo
-                              ? widget.undoHistoryController!.undo
-                              : null,
+                          shape:
+                              _useMaterial3
+                                  ? RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  )
+                                  : RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                          onPressed:
+                              value.canUndo
+                                  ? widget.undoHistoryController!.undo
+                                  : null,
                           child: Icon(
                             Icons.undo,
                             color: value.canUndo ? _color : _disabledColor,
@@ -3296,19 +3873,26 @@ class ToolbarState extends State<Toolbar> {
                   message: widget.showTooltip ? 'Redo' : null,
                   child: ValueListenableBuilder<UndoHistoryValue>(
                     valueListenable: widget.undoHistoryController!,
-                    builder: (BuildContext context, UndoHistoryValue value,
-                        Widget? child) {
+                    builder: (
+                      BuildContext context,
+                      UndoHistoryValue value,
+                      Widget? child,
+                    ) {
                       return Material(
                         color: Colors.transparent,
                         child: RawMaterialButton(
-                          shape: _useMaterial3
-                              ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4))
-                              : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2)),
-                          onPressed: value.canRedo
-                              ? widget.undoHistoryController!.redo
-                              : null,
+                          shape:
+                              _useMaterial3
+                                  ? RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  )
+                                  : RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                          onPressed:
+                              value.canRedo
+                                  ? widget.undoHistoryController!.redo
+                                  : null,
                           child: Icon(
                             Icons.redo,
                             color: value.canRedo ? _color : _disabledColor,
@@ -3333,17 +3917,22 @@ class ToolbarState extends State<Toolbar> {
                       onPressed: () {
                         widget.onTap?.call('Text markup');
                       },
-                      shape: _useMaterial3
-                          ? RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4))
-                          : RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2)),
+                      shape:
+                          _useMaterial3
+                              ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                              : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
                       child: ImageIcon(
                         _isLight
                             ? const AssetImage(
-                                'images/pdf_viewer/textmarkup_group_light.png')
+                              'images/pdf_viewer/textmarkup_group_light.png',
+                            )
                             : const AssetImage(
-                                'images/pdf_viewer/textmarkup_group_dark.png'),
+                              'images/pdf_viewer/textmarkup_group_dark.png',
+                            ),
                         color: _textColor,
                         size: 19,
                       ),
@@ -3359,79 +3948,97 @@ class ToolbarState extends State<Toolbar> {
                   child: Material(
                     color: _stickyNoteAnnotationFillColor,
                     child: RawMaterialButton(
-                        onPressed: () {
-                          widget.onTap?.call('Sticky notes');
-                        },
-                        shape: _useMaterial3
-                            ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4))
-                            : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2)),
-                        child: _stickyNoteIcon()),
+                      onPressed: () {
+                        widget.onTap?.call('Sticky notes');
+                      },
+                      shape:
+                          _useMaterial3
+                              ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                              : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                      child: _stickyNoteIcon(),
+                    ),
                   ),
                 ),
               ),
               ToolbarItem(
-                  height: 40, // height of bookmark button
-                  width: 40, // width of bookmark button
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Tooltip(
-                      message: widget.showTooltip ? 'Bookmarks' : null,
-                      child: RawMaterialButton(
-                        shape: _useMaterial3
-                            ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4))
-                            : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2)),
-                        onPressed: widget.controller!.pageNumber == 0
-                            ? null
-                            : () {
-                                _textEditingController!.selection =
-                                    const TextSelection(
-                                        baseOffset: -1, extentOffset: -1);
+                height: 40, // height of bookmark button
+                width: 40, // width of bookmark button
+                child: Material(
+                  color: Colors.transparent,
+                  child: Tooltip(
+                    message: widget.showTooltip ? 'Bookmarks' : null,
+                    child: RawMaterialButton(
+                      shape:
+                          _useMaterial3
+                              ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                              : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                      onPressed:
+                          widget.controller!.pageNumber == 0
+                              ? null
+                              : () {
+                                _textEditingController!
+                                    .selection = const TextSelection(
+                                  baseOffset: -1,
+                                  extentOffset: -1,
+                                );
                                 widget.onTap?.call('Bookmarks');
                               },
-                        child: Icon(
-                          Icons.bookmark,
-                          color: widget.controller!.pageNumber == 0
-                              ? Colors.black12
-                              : _color,
-                          size: 24,
-                        ),
+                      child: Icon(
+                        Icons.bookmark,
+                        color:
+                            widget.controller!.pageNumber == 0
+                                ? Colors.black12
+                                : _color,
+                        size: 24,
                       ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
               // Search button
               ToolbarItem(
-                  height: 40, // height of search button
-                  width: 40, // width of search button
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Tooltip(
-                      message: widget.showTooltip ? 'Search' : null,
-                      child: RawMaterialButton(
-                        shape: _useMaterial3
-                            ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4))
-                            : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2)),
-                        onPressed: widget.controller!.pageNumber == 0
-                            ? null
-                            : () {
+                height: 40, // height of search button
+                width: 40, // width of search button
+                child: Material(
+                  color: Colors.transparent,
+                  child: Tooltip(
+                    message: widget.showTooltip ? 'Search' : null,
+                    child: RawMaterialButton(
+                      shape:
+                          _useMaterial3
+                              ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                              : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                      onPressed:
+                          widget.controller!.pageNumber == 0
+                              ? null
+                              : () {
                                 widget.controller!.clearSelection();
                                 widget.onTap?.call('Search');
                               },
-                        child: Icon(
-                          Icons.search,
-                          color: widget.controller!.pageNumber == 0
-                              ? Colors.black12
-                              : _color,
-                          size: 24,
-                        ),
+                      child: Icon(
+                        Icons.search,
+                        color:
+                            widget.controller!.pageNumber == 0
+                                ? Colors.black12
+                                : _color,
+                        size: 24,
                       ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
               // View settings button
               ToolbarItem(
                 height: 40, // height of View settings button
@@ -3442,22 +4049,27 @@ class ToolbarState extends State<Toolbar> {
                   child: Tooltip(
                     message: widget.showTooltip ? 'View settings' : null,
                     child: RawMaterialButton(
-                      shape: _useMaterial3
-                          ? RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4))
-                          : RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2)),
-                      onPressed: widget.controller!.pageNumber == 0
-                          ? null
-                          : () {
-                              widget.controller!.clearSelection();
-                              widget.onTap?.call('View settings');
-                            },
+                      shape:
+                          _useMaterial3
+                              ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                              : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                      onPressed:
+                          widget.controller!.pageNumber == 0
+                              ? null
+                              : () {
+                                widget.controller!.clearSelection();
+                                widget.onTap?.call('View settings');
+                              },
                       child: Icon(
                         Icons.settings,
-                        color: widget.controller!.pageNumber == 0
-                            ? Colors.black12
-                            : _color,
+                        color:
+                            widget.controller!.pageNumber == 0
+                                ? Colors.black12
+                                : _color,
                         size: 24,
                       ),
                     ),
@@ -3475,13 +4087,14 @@ class ToolbarState extends State<Toolbar> {
 /// Text Selection menu item widget
 class TextMarkupMenuItem extends StatefulWidget {
   /// Constructor for text selection menu item widget
-  const TextMarkupMenuItem(
-      {required this.mode,
-      this.model,
-      required this.onPressed,
-      required this.height,
-      required this.width,
-      super.key});
+  const TextMarkupMenuItem({
+    required this.mode,
+    this.model,
+    required this.onPressed,
+    required this.height,
+    required this.width,
+    super.key,
+  });
 
   /// Indicates the text markup annotation mode.
   final String mode;
@@ -3509,9 +4122,10 @@ class _TextMarkupMenuItemState extends State<TextMarkupMenuItem> {
   @override
   void didChangeDependencies() {
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _textColor = _useMaterial3
-        ? widget.model?.themeData.colorScheme.onSurfaceVariant
-        : (widget.model?.themeData.brightness == Brightness.light)
+    _textColor =
+        _useMaterial3
+            ? widget.model?.themeData.colorScheme.onSurfaceVariant
+            : (widget.model?.themeData.brightness == Brightness.light)
             ? Colors.black.withValues(alpha: 0.87)
             : Colors.white;
     super.didChangeDependencies();
@@ -3525,36 +4139,40 @@ class _TextMarkupMenuItemState extends State<TextMarkupMenuItem> {
       child: RawMaterialButton(
         onPressed: widget.onPressed,
         padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0),
-        hoverColor: _useMaterial3
-            ? widget.model?.themeData.colorScheme.onSurface
-                .withValues(alpha: 0.08)
-            : (widget.model?.themeData.colorScheme.brightness ==
+        hoverColor:
+            _useMaterial3
+                ? widget.model?.themeData.colorScheme.onSurface.withValues(
+                  alpha: 0.08,
+                )
+                : (widget.model?.themeData.colorScheme.brightness ==
                     Brightness.light)
                 ? Colors.grey.withValues(alpha: 0.2)
                 : Colors.grey.withValues(alpha: 0.5),
         child: Row(
           children: <Widget>[
             Image(
-              image: widget.model?.themeData.colorScheme.brightness ==
-                      Brightness.light
-                  ? AssetImage(
-                      'images/pdf_viewer/${widget.mode.toLowerCase()}_light.png')
-                  : AssetImage(
-                      'images/pdf_viewer/${widget.mode.toLowerCase()}_dark.png'),
+              image:
+                  widget.model?.themeData.colorScheme.brightness ==
+                          Brightness.light
+                      ? AssetImage(
+                        'images/pdf_viewer/${widget.mode.toLowerCase()}_light.png',
+                      )
+                      : AssetImage(
+                        'images/pdf_viewer/${widget.mode.toLowerCase()}_dark.png',
+                      ),
               width: 16,
               height: 16,
               color: _textColor,
             ),
-            const Divider(
-              indent: 12,
-            ),
+            const Divider(indent: 12),
             Text(
               widget.mode,
               style: TextStyle(
-                color: (widget.model?.themeData.colorScheme.brightness ==
-                        Brightness.light)
-                    ? Colors.black.withValues(alpha: 0.87)
-                    : Colors.white,
+                color:
+                    (widget.model?.themeData.colorScheme.brightness ==
+                            Brightness.light)
+                        ? Colors.black.withValues(alpha: 0.87)
+                        : Colors.white,
                 fontSize: 14,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w400,
@@ -3611,9 +4229,10 @@ class _StickyNoteIconMenuItemState extends State<StickyNoteIconMenuItem> {
   @override
   void didChangeDependencies() {
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _textColor = _useMaterial3
-        ? widget.model?.themeData.colorScheme.onSurfaceVariant
-        : (widget.model?.themeData.brightness == Brightness.light)
+    _textColor =
+        _useMaterial3
+            ? widget.model?.themeData.colorScheme.onSurfaceVariant
+            : (widget.model?.themeData.brightness == Brightness.light)
             ? Colors.black.withValues(alpha: 0.87)
             : Colors.white;
     super.didChangeDependencies();
@@ -3627,36 +4246,40 @@ class _StickyNoteIconMenuItemState extends State<StickyNoteIconMenuItem> {
       child: RawMaterialButton(
         onPressed: widget.onPressed,
         padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0),
-        hoverColor: _useMaterial3
-            ? widget.model?.themeData.colorScheme.onSurface
-                .withValues(alpha: 0.08)
-            : (widget.model?.themeData.colorScheme.brightness ==
+        hoverColor:
+            _useMaterial3
+                ? widget.model?.themeData.colorScheme.onSurface.withValues(
+                  alpha: 0.08,
+                )
+                : (widget.model?.themeData.colorScheme.brightness ==
                     Brightness.light)
                 ? Colors.grey.withValues(alpha: 0.2)
                 : Colors.grey.withValues(alpha: 0.5),
         child: Row(
           children: <Widget>[
             Image(
-              image: widget.model?.themeData.colorScheme.brightness ==
-                      Brightness.light
-                  ? AssetImage(
-                      'images/pdf_viewer/${_stickyNoteIconFileName()}_light.png')
-                  : AssetImage(
-                      'images/pdf_viewer/${_stickyNoteIconFileName()}_dark.png'),
+              image:
+                  widget.model?.themeData.colorScheme.brightness ==
+                          Brightness.light
+                      ? AssetImage(
+                        'images/pdf_viewer/${_stickyNoteIconFileName()}_light.png',
+                      )
+                      : AssetImage(
+                        'images/pdf_viewer/${_stickyNoteIconFileName()}_dark.png',
+                      ),
               width: 16,
               height: 16,
               color: _textColor,
             ),
-            const Divider(
-              indent: 12,
-            ),
+            const Divider(indent: 12),
             Text(
               widget.stickyNoteIconName,
               style: TextStyle(
-                color: (widget.model?.themeData.colorScheme.brightness ==
-                        Brightness.light)
-                    ? Colors.black.withValues(alpha: 0.87)
-                    : Colors.white,
+                color:
+                    (widget.model?.themeData.colorScheme.brightness ==
+                            Brightness.light)
+                        ? Colors.black.withValues(alpha: 0.87)
+                        : Colors.white,
                 fontSize: 15.5,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w400,

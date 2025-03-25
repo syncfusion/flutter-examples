@@ -51,23 +51,27 @@ class _ProgressBarAnglesState extends SampleViewState {
     _progressBarColor = ProgressBarColor(model);
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size = model.isWebFullView
-          ? MediaQuery.of(context).size.height / 6
-          : MediaQuery.of(context).size.height / 5.5;
+      _size =
+          model.isWebFullView
+              ? MediaQuery.of(context).size.height / 6
+              : MediaQuery.of(context).size.height / 5.5;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _getFirstProgressBar(),
             Align(
-                alignment: !model.isWebFullView
-                    ? const Alignment(-0.3, 0)
-                    : Alignment.center,
-                child: _getSecondProgressBar()),
+              alignment:
+                  !model.isWebFullView
+                      ? const Alignment(-0.3, 0)
+                      : Alignment.center,
+              child: _getSecondProgressBar(),
+            ),
             Align(
-              alignment: !model.isWebFullView
-                  ? const Alignment(0.3, 0)
-                  : Alignment.center,
+              alignment:
+                  !model.isWebFullView
+                      ? const Alignment(0.3, 0)
+                      : Alignment.center,
               child: _getThirdProgressBar(),
             ),
             _getFourthProgressBar(),
@@ -84,10 +88,12 @@ class _ProgressBarAnglesState extends SampleViewState {
             _getSecondProgressBar(),
             _getThirdProgressBar(),
             Align(
-                alignment: model.isWebFullView
-                    ? const Alignment(0, -0.5)
-                    : Alignment.center,
-                child: _getFourthProgressBar()),
+              alignment:
+                  model.isWebFullView
+                      ? const Alignment(0, -0.5)
+                      : Alignment.center,
+              child: _getFourthProgressBar(),
+            ),
           ],
         ),
       );
@@ -104,8 +110,9 @@ class _ProgressBarAnglesState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             showLabels: false,
             showTicks: false,
             radiusFactor: 0.9,
@@ -116,121 +123,139 @@ class _ProgressBarAnglesState extends SampleViewState {
             ),
             pointers: <GaugePointer>[
               RangePointer(
-                  value: _value,
-                  width: 0.05,
-                  color: _progressBarColor!.pointerColor,
-                  sizeUnit: GaugeSizeUnit.factor,
-                  enableAnimation: true,
-                  animationDuration: 20,
-                  animationType: AnimationType.linear)
+                value: _value,
+                width: 0.05,
+                color: _progressBarColor!.pointerColor,
+                sizeUnit: GaugeSizeUnit.factor,
+                enableAnimation: true,
+                animationDuration: 20,
+                animationType: AnimationType.linear,
+              ),
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
-            ])
-      ]),
+              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%')),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
   Widget _getSecondProgressBar() {
     return Center(
-        child: SizedBox(
-      height: _size,
-      width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
-            showLabels: false,
-            showTicks: false,
-            startAngle: 90,
-            endAngle: 270,
-            radiusFactor: 0.9,
-            axisLineStyle: AxisLineStyle(
-              thickness: 0.05,
-              color: _progressBarColor!.axisLineColor,
-              thicknessUnit: GaugeSizeUnit.factor,
-            ),
-            pointers: <GaugePointer>[
-              RangePointer(
+      child: SizedBox(
+        height: _size,
+        width: _size,
+        child: SfRadialGauge(
+          axes: <RadialAxis>[
+            RadialAxis(
+              showLabels: false,
+              showTicks: false,
+              startAngle: 90,
+              endAngle: 270,
+              radiusFactor: 0.9,
+              axisLineStyle: AxisLineStyle(
+                thickness: 0.05,
+                color: _progressBarColor!.axisLineColor,
+                thicknessUnit: GaugeSizeUnit.factor,
+              ),
+              pointers: <GaugePointer>[
+                RangePointer(
                   value: _value,
                   width: 0.05,
                   color: _progressBarColor!.pointerColor,
                   sizeUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationDuration: 20,
-                  animationType: AnimationType.linear)
-            ],
-            annotations: <GaugeAnnotation>[
-              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
-            ])
-      ]),
-    ));
+                  animationType: AnimationType.linear,
+                ),
+              ],
+              annotations: <GaugeAnnotation>[
+                GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%')),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _getThirdProgressBar() {
     return Center(
-        child: SizedBox(
-      height: _size,
-      width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
-            showLabels: false,
-            showTicks: false,
-            startAngle: 270,
-            endAngle: 90,
-            radiusFactor: 0.9,
-            axisLineStyle: AxisLineStyle(
-              thickness: 0.05,
-              color: _progressBarColor!.axisLineColor,
-              thicknessUnit: GaugeSizeUnit.factor,
-            ),
-            pointers: <GaugePointer>[
-              RangePointer(
+      child: SizedBox(
+        height: _size,
+        width: _size,
+        child: SfRadialGauge(
+          axes: <RadialAxis>[
+            RadialAxis(
+              showLabels: false,
+              showTicks: false,
+              startAngle: 270,
+              endAngle: 90,
+              radiusFactor: 0.9,
+              axisLineStyle: AxisLineStyle(
+                thickness: 0.05,
+                color: _progressBarColor!.axisLineColor,
+                thicknessUnit: GaugeSizeUnit.factor,
+              ),
+              pointers: <GaugePointer>[
+                RangePointer(
                   value: _value,
                   width: 0.05,
                   color: _progressBarColor!.pointerColor,
                   sizeUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationDuration: 20,
-                  animationType: AnimationType.linear)
-            ],
-            annotations: <GaugeAnnotation>[
-              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
-            ])
-      ]),
-    ));
+                  animationType: AnimationType.linear,
+                ),
+              ],
+              annotations: <GaugeAnnotation>[
+                GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%')),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _getFourthProgressBar() {
     return Center(
-        child: SizedBox(
-      height: _size,
-      width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
-            showLabels: false,
-            showTicks: false,
-            startAngle: 180,
-            endAngle: 0,
-            canScaleToFit: true,
-            radiusFactor: 0.9,
-            axisLineStyle: AxisLineStyle(
-              thickness: 0.05,
-              color: _progressBarColor!.axisLineColor,
-              thicknessUnit: GaugeSizeUnit.factor,
-            ),
-            pointers: <GaugePointer>[
-              RangePointer(
+      child: SizedBox(
+        height: _size,
+        width: _size,
+        child: SfRadialGauge(
+          axes: <RadialAxis>[
+            RadialAxis(
+              showLabels: false,
+              showTicks: false,
+              startAngle: 180,
+              endAngle: 0,
+              canScaleToFit: true,
+              radiusFactor: 0.9,
+              axisLineStyle: AxisLineStyle(
+                thickness: 0.05,
+                color: _progressBarColor!.axisLineColor,
+                thicknessUnit: GaugeSizeUnit.factor,
+              ),
+              pointers: <GaugePointer>[
+                RangePointer(
                   value: _value,
                   width: 0.05,
                   color: _progressBarColor!.pointerColor,
                   sizeUnit: GaugeSizeUnit.factor,
                   enableAnimation: true,
                   animationDuration: 20,
-                  animationType: AnimationType.linear)
-            ],
-            annotations: <GaugeAnnotation>[
-              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
-            ])
-      ]),
-    ));
+                  animationType: AnimationType.linear,
+                ),
+              ],
+              annotations: <GaugeAnnotation>[
+                GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%')),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

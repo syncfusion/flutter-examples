@@ -25,12 +25,13 @@ class _IdleHoursState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
+          alignment: Alignment.center,
+          child: Container(
             alignment: Alignment.center,
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width >= 1000 ? 350 : 240,
-              child: _buildIdleHours(context),
-            ))
+            width: MediaQuery.of(context).size.width >= 1000 ? 350 : 240,
+            child: _buildIdleHours(context),
+          ),
+        )
         : _buildIdleHours(context);
   }
 
@@ -41,7 +42,9 @@ class _IdleHoursState extends SampleViewState {
         interval: 30,
         labelOffset: 0,
         axisTrackStyle: const LinearAxisTrackStyle(
-            thickness: 100, color: Colors.transparent),
+          thickness: 100,
+          color: Colors.transparent,
+        ),
         labelFormatterCallback: (String label) {
           if (label == '0') {
             return '00:00';
@@ -67,9 +70,13 @@ class _IdleHoursState extends SampleViewState {
         },
         markerPointers: List<LinearWidgetPointer>.generate(
           24,
-          (int index) => index % 3 == 0
-              ? _buildLinearWidgetPointer(index * 4, Colors.lightBlue.shade900)
-              : _buildLinearWidgetPointer(index * 4, Colors.lightBlue),
+          (int index) =>
+              index % 3 == 0
+                  ? _buildLinearWidgetPointer(
+                    index * 4,
+                    Colors.lightBlue.shade900,
+                  )
+                  : _buildLinearWidgetPointer(index * 4, Colors.lightBlue),
         ),
       ),
     );
@@ -77,14 +84,15 @@ class _IdleHoursState extends SampleViewState {
 
   LinearWidgetPointer _buildLinearWidgetPointer(double value, Color color) {
     return LinearWidgetPointer(
-        value: value,
-        child: Container(
-          height: 96,
-          width: 8,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: color,
-          ),
-        ));
+      value: value,
+      child: Container(
+        height: 96,
+        width: 8,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: color,
+        ),
+      ),
+    );
   }
 }

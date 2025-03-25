@@ -39,9 +39,10 @@ class _BollingerIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
       tooltipSettings: InteractiveTooltip(
-        color: model.themeData.colorScheme.brightness == Brightness.light
-            ? const Color.fromRGBO(79, 79, 79, 1)
-            : const Color.fromRGBO(255, 255, 255, 1),
+        color:
+            model.themeData.colorScheme.brightness == Brightness.light
+                ? const Color.fromRGBO(79, 79, 79, 1)
+                : const Color.fromRGBO(255, 255, 255, 1),
       ),
     );
     _standardDeviation = 1;
@@ -57,9 +58,7 @@ class _BollingerIndicatorState extends SampleViewState {
   Widget buildSettings(BuildContext context) {
     return ListView(
       shrinkWrap: true,
-      children: <Widget>[
-        _buildSettingsContainer(),
-      ],
+      children: <Widget>[_buildSettingsContainer()],
     );
   }
 
@@ -70,10 +69,7 @@ class _BollingerIndicatorState extends SampleViewState {
       padding: const EdgeInsets.only(top: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          _buildLabels(),
-          _buildDirectionalButtons(),
-        ],
+        children: <Widget>[_buildLabels(), _buildDirectionalButtons()],
       ),
     );
   }
@@ -109,9 +105,10 @@ class _BollingerIndicatorState extends SampleViewState {
         CustomDirectionalButtons(
           maxValue: 50,
           initialValue: _period,
-          onChanged: (double val) => setState(() {
-            _period = val;
-          }),
+          onChanged:
+              (double val) => setState(() {
+                _period = val;
+              }),
           loop: true,
           iconColor: model.textColor,
           style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -120,9 +117,10 @@ class _BollingerIndicatorState extends SampleViewState {
         CustomDirectionalButtons(
           maxValue: 5,
           initialValue: _standardDeviation,
-          onChanged: (double val) => setState(() {
-            _standardDeviation = val;
-          }),
+          onChanged:
+              (double val) => setState(() {
+                _standardDeviation = val;
+              }),
           loop: true,
           iconColor: model.textColor,
           style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -136,9 +134,7 @@ class _BollingerIndicatorState extends SampleViewState {
   SfCartesianChart _buildDefaultBollingerIndicator() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      legend: Legend(
-        isVisible: !isCardView,
-      ),
+      legend: Legend(isVisible: !isCardView),
       primaryXAxis: DateTimeAxis(
         majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat.MMM(),

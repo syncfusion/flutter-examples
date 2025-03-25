@@ -25,66 +25,74 @@ class VerticalDateRangeSliderPage extends SampleView {
 
 class _VerticalDateRangeSliderPageState extends SampleViewState {
   _VerticalDateRangeSliderPageState();
-  SfRangeValues _yearValues =
-      SfRangeValues(DateTime(2002, 4), DateTime(2003, 10));
-  SfRangeValues _hourValues =
-      SfRangeValues(DateTime(2010, 01, 01, 13), DateTime(2010, 01, 01, 17));
+  SfRangeValues _yearValues = SfRangeValues(
+    DateTime(2002, 4),
+    DateTime(2003, 10),
+  );
+  SfRangeValues _hourValues = SfRangeValues(
+    DateTime(2010, 01, 01, 13),
+    DateTime(2010, 01, 01, 17),
+  );
   bool _isInversed = false;
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
-        data:
-            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfRangeSlider.vertical(
-          min: DateTime(2001),
-          max: DateTime(2005),
-          showLabels: true,
-          interval: 1,
-          isInversed: _isInversed,
-          dateFormat: DateFormat.y(),
-          dateIntervalType: DateIntervalType.years,
-          labelPlacement: LabelPlacement.betweenTicks,
-          showTicks: true,
-          values: _yearValues,
-          onChanged: (SfRangeValues values) {
-            setState(() {
-              _yearValues = values;
-            });
-          },
-          enableTooltip: true,
-          tooltipTextFormatterCallback:
-              (dynamic actualLabel, String formattedText) {
-            return DateFormat.yMMM().format(actualLabel);
-          },
-        ));
+      data: SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfRangeSlider.vertical(
+        min: DateTime(2001),
+        max: DateTime(2005),
+        showLabels: true,
+        interval: 1,
+        isInversed: _isInversed,
+        dateFormat: DateFormat.y(),
+        dateIntervalType: DateIntervalType.years,
+        labelPlacement: LabelPlacement.betweenTicks,
+        showTicks: true,
+        values: _yearValues,
+        onChanged: (SfRangeValues values) {
+          setState(() {
+            _yearValues = values;
+          });
+        },
+        enableTooltip: true,
+        tooltipTextFormatterCallback: (
+          dynamic actualLabel,
+          String formattedText,
+        ) {
+          return DateFormat.yMMM().format(actualLabel);
+        },
+      ),
+    );
   }
 
   SfRangeSliderTheme _hourRangeSlider() {
     return SfRangeSliderTheme(
-        data:
-            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfRangeSlider.vertical(
-          min: DateTime(2010, 01, 01, 9),
-          max: DateTime(2010, 01, 01, 21),
-          showLabels: true,
-          interval: 4,
-          showTicks: true,
-          isInversed: _isInversed,
-          minorTicksPerInterval: 3,
-          dateFormat: DateFormat('h a'),
-          dateIntervalType: DateIntervalType.hours,
-          values: _hourValues,
-          onChanged: (SfRangeValues values) {
-            setState(() {
-              _hourValues = values;
-            });
-          },
-          enableTooltip: true,
-          tooltipTextFormatterCallback:
-              (dynamic actualLabel, String formattedText) {
-            return DateFormat('h:mm a').format(actualLabel);
-          },
-        ));
+      data: SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfRangeSlider.vertical(
+        min: DateTime(2010, 01, 01, 9),
+        max: DateTime(2010, 01, 01, 21),
+        showLabels: true,
+        interval: 4,
+        showTicks: true,
+        isInversed: _isInversed,
+        minorTicksPerInterval: 3,
+        dateFormat: DateFormat('h a'),
+        dateIntervalType: DateIntervalType.hours,
+        values: _hourValues,
+        onChanged: (SfRangeValues values) {
+          setState(() {
+            _hourValues = values;
+          });
+        },
+        enableTooltip: true,
+        tooltipTextFormatterCallback: (
+          dynamic actualLabel,
+          String formattedText,
+        ) {
+          return DateFormat('h:mm a').format(actualLabel);
+        },
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -100,33 +108,40 @@ class _VerticalDateRangeSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.all(padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.all(padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _yearRangeSlider()),
-              const Text('Interval as year')
-            ]),
-            Column(children: <Widget>[
+              const Text('Interval as year'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _hourRangeSlider()),
-              const Text('Interval as hour')
-            ]),
-          ],
-        ));
+              const Text('Interval as hour'),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget rangeSlider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget rangeSlider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? rangeSlider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+      },
+    );
   }
 
   @override

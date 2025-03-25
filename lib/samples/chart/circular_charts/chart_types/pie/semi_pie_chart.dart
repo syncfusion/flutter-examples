@@ -48,10 +48,7 @@ class _SemiPieChartState extends SampleViewState {
   Widget buildSettings(BuildContext context) {
     return ListView(
       shrinkWrap: true,
-      children: <Widget>[
-        _buildStartAngleSetting(),
-        _buildEndAngleSetting(),
-      ],
+      children: <Widget>[_buildStartAngleSetting(), _buildEndAngleSetting()],
     );
   }
 
@@ -69,9 +66,10 @@ class _SemiPieChartState extends SampleViewState {
             minValue: 90,
             maxValue: 270,
             initialValue: _startAngle.toDouble(),
-            onChanged: (double val) => setState(() {
-              _startAngle = val.toInt();
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _startAngle = val.toInt();
+                }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -99,9 +97,10 @@ class _SemiPieChartState extends SampleViewState {
             minValue: 90,
             maxValue: 270,
             initialValue: _endAngle.toDouble(),
-            onChanged: (double val) => setState(() {
-              _endAngle = val.toInt();
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _endAngle = val.toInt();
+                }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -146,7 +145,7 @@ class _SemiPieChartState extends SampleViewState {
         startAngle: _startAngle,
         endAngle: _endAngle,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
-      )
+      ),
     ];
   }
 

@@ -51,9 +51,7 @@ class _SplineVerticalState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Product sales prediction',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Product sales prediction'),
       primaryXAxis: DateTimeAxis(
         majorGridLines: const MajorGridLines(width: 0),
         intervalType: DateTimeIntervalType.years,
@@ -122,15 +120,16 @@ class _SplineCustomPainter<T, D> extends SplineSegment<T, D> {
     Colors.yellow,
     Colors.orange,
     Colors.purple,
-    Colors.cyan
+    Colors.cyan,
   ];
 
   @override
   Paint getStrokePaint() {
     final Paint customerStrokePaint = Paint();
-    customerStrokePaint.color = currentSegmentIndex < 4
-        ? const Color.fromRGBO(0, 168, 181, 1)
-        : const Color.fromRGBO(246, 114, 128, 1);
+    customerStrokePaint.color =
+        currentSegmentIndex < 4
+            ? const Color.fromRGBO(0, 168, 181, 1)
+            : const Color.fromRGBO(246, 114, 128, 1);
     customerStrokePaint.strokeWidth = 2;
     customerStrokePaint.style = PaintingStyle.stroke;
     return customerStrokePaint;
@@ -158,7 +157,13 @@ class _SplineCustomPainter<T, D> extends SplineSegment<T, D> {
     final Path path = Path();
     path.moveTo(x1, y1);
     path.cubicTo(
-        startControlX!, startControlY!, endControlX!, endControlY!, x2, y2);
+      startControlX!,
+      startControlY!,
+      endControlX!,
+      endControlY!,
+      x2,
+      y2,
+    );
     currentSegmentIndex < 4
         ? canvas.drawPath(path, getStrokePaint())
         : _drawDashedLine(canvas, series, getStrokePaint(), path, true);
@@ -186,10 +191,7 @@ class _SplineCustomPainter<T, D> extends SplineSegment<T, D> {
         textDirection: TextDirection.ltr,
       );
       tp.layout();
-      tp.paint(
-        canvas,
-        Offset(_text1XOffset!, _text1YOffset! + tp.size.height),
-      );
+      tp.paint(canvas, Offset(_text1XOffset!, _text1YOffset! + tp.size.height));
       const TextSpan span1 = TextSpan(
         style: TextStyle(
           color: Color.fromRGBO(246, 114, 128, 1),
@@ -203,20 +205,18 @@ class _SplineCustomPainter<T, D> extends SplineSegment<T, D> {
         textDirection: TextDirection.ltr,
       );
       tp1.layout();
-      tp1.paint(
-        canvas,
-        Offset(_textXOffset!, _textYOffset! + tp.size.height),
-      );
+      tp1.paint(canvas, Offset(_textXOffset!, _textYOffset! + tp.size.height));
     }
   }
 }
 
 void _drawDashedLine(
-    Canvas canvas,
-    SplineSeriesRenderer<dynamic, dynamic> series,
-    Paint paint,
-    Path path,
-    bool isSeries) {
+  Canvas canvas,
+  SplineSeriesRenderer<dynamic, dynamic> series,
+  Paint paint,
+  Path path,
+  bool isSeries,
+) {
   if (series.dashArray != null) {
     bool even = false;
     for (int i = 1; i < series.dashArray!.length; i = i + 2) {
@@ -227,15 +227,16 @@ void _drawDashedLine(
     if (even == false) {
       paint.isAntiAlias = true;
       canvas.drawPath(
-          _dashPath(
-            path,
-            dashArray: _CircularIntervalList<double>(
-              series.dashArray != null
-                  ? series.dashArray!
-                  : <double>[12, 3, 3, 3],
-            ),
-          )!,
-          paint);
+        _dashPath(
+          path,
+          dashArray: _CircularIntervalList<double>(
+            series.dashArray != null
+                ? series.dashArray!
+                : <double>[12, 3, 3, 3],
+          ),
+        )!,
+        paint,
+      );
     } else {
       canvas.drawPath(path, paint);
     }

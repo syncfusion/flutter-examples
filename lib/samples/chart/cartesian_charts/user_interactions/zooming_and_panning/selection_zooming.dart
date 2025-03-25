@@ -340,7 +340,7 @@ class _DefaultZoomingState extends SampleViewState {
       ChartSampleData(x: 183, y: 68),
       ChartSampleData(x: 144, y: 68),
       ChartSampleData(x: 170, y: 68),
-      ChartSampleData(x: 180, y: 68)
+      ChartSampleData(x: 180, y: 68),
     ];
   }
 
@@ -353,13 +353,14 @@ class _DefaultZoomingState extends SampleViewState {
         padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
         child: Container(child: _buildDefaultZoomingChart()),
       ),
-      floatingActionButton: isCardView
-          ? null
-          : FloatingActionButton(
-              onPressed: () => _zoomingPanBehavior.reset(),
-              backgroundColor: model.primaryColor,
-              child: const Icon(Icons.refresh, color: Colors.white),
-            ),
+      floatingActionButton:
+          isCardView
+              ? null
+              : FloatingActionButton(
+                onPressed: () => _zoomingPanBehavior.reset(),
+                backgroundColor: model.primaryColor,
+                child: const Icon(Icons.refresh, color: Colors.white),
+              ),
     );
   }
 

@@ -106,14 +106,16 @@ class _LineZoneState extends SampleViewState {
   /// Return the Cartesian Chart with Line series.
   SfCartesianChart _buildCartesianChart(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
-    final double containerWidth = kIsWeb
-        ? 80
-        : orientation == Orientation.portrait
+    final double containerWidth =
+        kIsWeb
+            ? 80
+            : orientation == Orientation.portrait
             ? 80
             : 60;
-    final double containerHeight = kIsWeb
-        ? 60
-        : orientation == Orientation.portrait
+    final double containerHeight =
+        kIsWeb
+            ? 60
+            : orientation == Orientation.portrait
             ? 60
             : 42;
     final double fontSize = 14 / MediaQuery.of(context).textScaler.scale(1);
@@ -124,9 +126,10 @@ class _LineZoneState extends SampleViewState {
         text: isCardView ? '' : 'Average annual rainfall of United Kingdom',
       ),
       primaryXAxis: DateTimeAxis(
-        edgeLabelPlacement: model.isWebFullView
-            ? EdgeLabelPlacement.shift
-            : EdgeLabelPlacement.none,
+        edgeLabelPlacement:
+            model.isWebFullView
+                ? EdgeLabelPlacement.shift
+                : EdgeLabelPlacement.none,
         intervalType: DateTimeIntervalType.years,
         dateFormat: DateFormat.y(),
         interval: kIsWeb ? 5 : 10,
@@ -158,12 +161,12 @@ class _LineZoneState extends SampleViewState {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Icon(Icons.circle,
-                        color: const Color.fromRGBO(4, 8, 195, 1), size: size),
-                    Text(
-                      ' High',
-                      style: TextStyle(fontSize: fontSize),
+                    Icon(
+                      Icons.circle,
+                      color: const Color.fromRGBO(4, 8, 195, 1),
+                      size: size,
                     ),
+                    Text(' High', style: TextStyle(fontSize: fontSize)),
                   ],
                 ),
                 Row(
@@ -173,10 +176,7 @@ class _LineZoneState extends SampleViewState {
                       color: const Color.fromRGBO(26, 112, 23, 1),
                       size: size,
                     ),
-                    Text(
-                      ' Medium',
-                      style: TextStyle(fontSize: fontSize),
-                    )
+                    Text(' Medium', style: TextStyle(fontSize: fontSize)),
                   ],
                 ),
                 Row(
@@ -186,10 +186,7 @@ class _LineZoneState extends SampleViewState {
                       color: const Color.fromRGBO(229, 11, 10, 1),
                       size: size,
                     ),
-                    Text(
-                      ' Low',
-                      style: TextStyle(fontSize: fontSize),
-                    )
+                    Text(' Low', style: TextStyle(fontSize: fontSize)),
                   ],
                 ),
               ],
@@ -197,9 +194,10 @@ class _LineZoneState extends SampleViewState {
           ),
           coordinateUnit: CoordinateUnit.percentage,
           x: kIsWeb ? '95%' : '85%',
-          y: kIsWeb
-              ? '19%'
-              : orientation == Orientation.portrait
+          y:
+              kIsWeb
+                  ? '19%'
+                  : orientation == Orientation.portrait
                   ? '14%'
                   : '17%',
         ),
@@ -226,14 +224,7 @@ class _LineZoneState extends SampleViewState {
               const Color.fromRGBO(229, 11, 10, 1),
               const Color.fromRGBO(229, 11, 10, 1),
             ],
-            <double>[
-              0,
-              0.333333,
-              0.333333,
-              0.666666,
-              0.666666,
-              0.999999,
-            ],
+            <double>[0, 0.333333, 0.333333, 0.666666, 0.666666, 0.999999],
           );
         },
       ),
@@ -243,12 +234,7 @@ class _LineZoneState extends SampleViewState {
   List<_ChartData> _createChartData() {
     final List<_ChartData> data = <_ChartData>[];
     for (int i = 0; i < _yValues!.length; i++) {
-      data.add(
-        _ChartData(
-          DateTime(i + 1950),
-          _yValues![i],
-        ),
-      );
+      data.add(_ChartData(DateTime(i + 1950), _yValues![i]));
     }
     return data;
   }

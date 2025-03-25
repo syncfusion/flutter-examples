@@ -53,8 +53,9 @@ class _TimelineViewsCalendarState extends SampleViewState {
               color: model.sampleOutputCardColor,
               child: Theme(
                 data: model.themeData.copyWith(
-                  colorScheme: model.themeData.colorScheme
-                      .copyWith(secondary: model.primaryColor),
+                  colorScheme: model.themeData.colorScheme.copyWith(
+                    secondary: model.primaryColor,
+                  ),
                 ),
                 child: _getTimelineViewsCalendar(
                   _calendarController,
@@ -80,24 +81,21 @@ class _TimelineViewsCalendarState extends SampleViewState {
     if (_calendarController.view == CalendarView.timelineMonth) {
       for (int i = 0; i < 5; i++) {
         blockedDates.add(
-          visibleDatesChangedDetails.visibleDates[
-              random.nextInt(visibleDatesChangedDetails.visibleDates.length)],
+          visibleDatesChangedDetails.visibleDates[random.nextInt(
+            visibleDatesChangedDetails.visibleDates.length,
+          )],
         );
       }
     }
-    SchedulerBinding.instance.addPostFrameCallback(
-      (Duration timeStamp) {
-        setState(
-          () {
-            if (_calendarController.view == CalendarView.timelineMonth) {
-              _blackoutDates = blockedDates;
-            } else {
-              _blackoutDates.clear();
-            }
-          },
-        );
-      },
-    );
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      setState(() {
+        if (_calendarController.view == CalendarView.timelineMonth) {
+          _blackoutDates = blockedDates;
+        } else {
+          _blackoutDates.clear();
+        }
+      });
+    });
 
     /// Creates new appointment collection based on visible dates in Calendar.
     for (int i = 0; i < visibleDatesChangedDetails.visibleDates.length; i++) {
@@ -110,8 +108,12 @@ class _TimelineViewsCalendarState extends SampleViewState {
       final int count =
           model.isWebFullView ? 1 + random.nextInt(2) : 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate =
-            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
+        final DateTime startDate = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          8 + random.nextInt(8),
+        );
         appointment.add(
           _Meeting(
             _subjectCollection[random.nextInt(7)],
@@ -165,10 +167,11 @@ class _TimelineViewsCalendarState extends SampleViewState {
   }
 
   /// Returns the Calendar widget based on the properties passed.
-  SfCalendar _getTimelineViewsCalendar(
-      [CalendarController? calendarController,
-      CalendarDataSource? calendarDataSource,
-      ViewChangedCallback? viewChangedCallback]) {
+  SfCalendar _getTimelineViewsCalendar([
+    CalendarController? calendarController,
+    CalendarDataSource? calendarDataSource,
+    ViewChangedCallback? viewChangedCallback,
+  ]) {
     return SfCalendar(
       controller: calendarController,
       dataSource: calendarDataSource,

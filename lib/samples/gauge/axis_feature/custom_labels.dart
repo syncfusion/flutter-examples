@@ -37,69 +37,76 @@ class _GaugeCustomLabelsState extends SampleViewState {
           radiusFactor: model.isWebFullView ? 0.8 : 0.9,
           maximum: 80,
           axisLineStyle: const AxisLineStyle(
-              thicknessUnit: GaugeSizeUnit.factor, thickness: 0.1),
+            thicknessUnit: GaugeSizeUnit.factor,
+            thickness: 0.1,
+          ),
           interval: 10,
           canRotateLabels: true,
           axisLabelStyle: const GaugeTextStyle(),
           minorTicksPerInterval: 0,
           majorTickStyle: const MajorTickStyle(
-              lengthUnit: GaugeSizeUnit.factor, length: 0.07),
+            lengthUnit: GaugeSizeUnit.factor,
+            length: 0.07,
+          ),
           onLabelCreated: _handleLabelCreated,
           pointers: <GaugePointer>[
             NeedlePointer(
-                value: 70,
-                needleLength: 0.55,
-                needleEndWidth: model.isWebFullView
-                    ? 18
-                    : isCardView
-                        ? 10
-                        : orientation == Orientation.portrait
-                            ? 18
-                            : 10,
-                gradient: const LinearGradient(colors: <Color>[
+              value: 70,
+              needleLength: 0.55,
+              needleEndWidth:
+                  model.isWebFullView
+                      ? 18
+                      : isCardView
+                      ? 10
+                      : orientation == Orientation.portrait
+                      ? 18
+                      : 10,
+              gradient: const LinearGradient(
+                colors: <Color>[
                   Color(0xFFFF6B78),
                   Color(0xFFFF6B78),
                   Color(0xFFE20A22),
-                  Color(0xFFE20A22)
-                ], stops: <double>[
-                  0,
-                  0.5,
-                  0.5,
-                  1
-                ]),
-                needleColor: const Color(0xFFF67280),
-                knobStyle: KnobStyle(
-                    knobRadius: model.isWebFullView ? 0.098 : 0.09,
-                    color: Colors.white)),
+                  Color(0xFFE20A22),
+                ],
+                stops: <double>[0, 0.5, 0.5, 1],
+              ),
+              needleColor: const Color(0xFFF67280),
+              knobStyle: KnobStyle(
+                knobRadius: model.isWebFullView ? 0.098 : 0.09,
+                color: Colors.white,
+              ),
+            ),
             NeedlePointer(
-                gradient: const LinearGradient(colors: <Color>[
+              gradient: const LinearGradient(
+                colors: <Color>[
                   Color(0xFFE3DFDF),
                   Color(0xFFE3DFDF),
                   Color(0xFF7A7A7A),
-                  Color(0xFF7A7A7A)
-                ], stops: <double>[
-                  0,
-                  0.5,
-                  0.5,
-                  1
-                ]),
-                value: 30,
-                needleLength: 0.55,
-                needleColor: brightness == Brightness.dark
-                    ? const Color(0xFF888888)
-                    : const Color(0x0ffcacca),
-                needleEndWidth: model.isWebFullView
-                    ? 18
-                    : isCardView
-                        ? 10
-                        : orientation == Orientation.portrait
-                            ? 18
-                            : 10,
-                knobStyle: KnobStyle(
-                    knobRadius: model.isWebFullView ? 0.098 : 0.09,
-                    color: Colors.white))
+                  Color(0xFF7A7A7A),
+                ],
+                stops: <double>[0, 0.5, 0.5, 1],
+              ),
+              value: 30,
+              needleLength: 0.55,
+              needleColor:
+                  brightness == Brightness.dark
+                      ? const Color(0xFF888888)
+                      : const Color(0x0ffcacca),
+              needleEndWidth:
+                  model.isWebFullView
+                      ? 18
+                      : isCardView
+                      ? 10
+                      : orientation == Orientation.portrait
+                      ? 18
+                      : 10,
+              knobStyle: KnobStyle(
+                knobRadius: model.isWebFullView ? 0.098 : 0.09,
+                color: Colors.white,
+              ),
+            ),
           ],
-        )
+        ),
       ],
     );
   }

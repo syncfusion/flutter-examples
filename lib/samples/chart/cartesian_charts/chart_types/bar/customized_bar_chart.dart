@@ -67,9 +67,7 @@ class _BarCustomizationState extends SampleViewState {
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-        title: AxisTitle(
-          text: isCardView ? '' : 'Downloads in Billion',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Downloads in Billion'),
         minimum: 0,
         maximum: model.isWebFullView ? 4.5 : 5,
         interval: model.isWebFullView ? 0.5 : 1,
@@ -94,17 +92,17 @@ class _BarCustomizationState extends SampleViewState {
   void _loadImage() {
     final Completer<ImageInfo> completer = Completer<ImageInfo>();
     const ImageProvider imageProvider = AssetImage('images/dashline.png');
-    imageProvider.resolve(ImageConfiguration.empty).addListener(
-      ImageStreamListener(
-        (ImageInfo info, bool _) async {
-          isImageLoaded = true;
-          completer.complete(info);
-          final ImageInfo imageInfo = await completer.future;
+    imageProvider
+        .resolve(ImageConfiguration.empty)
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) async {
+            isImageLoaded = true;
+            completer.complete(info);
+            final ImageInfo imageInfo = await completer.future;
 
-          image = imageInfo.image;
-        },
-      ),
-    );
+            image = imageInfo.image;
+          }),
+        );
   }
 
   @override
@@ -129,24 +127,27 @@ class _CustomBarSeriesRenderer<T, D> extends BarSeriesRenderer<T, D> {
 class BarCustomPainter<T, D> extends BarSegment<T, D> {
   @override
   void onPaint(Canvas canvas) {
-    final Float64List deviceTransform = Float64List(16)
-      ..[0] = 0.05
-      ..[5] = 0.05
-      ..[10] = 1.0
-      ..[15] = 2.0;
+    final Float64List deviceTransform =
+        Float64List(16)
+          ..[0] = 0.05
+          ..[5] = 0.05
+          ..[10] = 1.0
+          ..[15] = 2.0;
 
-    final Paint linePaint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 40
-      ..shader = image == null
-          ? null
-          : ImageShader(
-              image!,
-              TileMode.repeated,
-              TileMode.repeated,
-              deviceTransform,
-            );
+    final Paint linePaint =
+        Paint()
+          ..color = Colors.black
+          ..style = PaintingStyle.fill
+          ..strokeWidth = 40
+          ..shader =
+              image == null
+                  ? null
+                  : ImageShader(
+                    image!,
+                    TileMode.repeated,
+                    TileMode.repeated,
+                    deviceTransform,
+                  );
 
     final double devicePixelRatio =
         ui.PlatformDispatcher.instance.implicitView!.devicePixelRatio;

@@ -29,46 +29,55 @@ class _RadialBounceOutExampleState extends SampleViewState {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-            radiusFactor: model.isWebFullView ? 0.85 : 0.98,
-            startAngle: 90,
-            endAngle: 330,
-            minimum: -8,
-            maximum: 12,
-            showAxisLine: false,
-            showLastLabel: true,
-            majorTickStyle: const MajorTickStyle(
-                length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 2),
-            labelOffset: 8,
-            axisLabelStyle: GaugeTextStyle(
-                fontFamily: 'Times',
-                fontSize: isCardView ? 10 : 12,
-                fontWeight: FontWeight.w800,
-                fontStyle: FontStyle.italic),
-            minorTicksPerInterval: 9,
-            interval: 2,
-            pointers: const <GaugePointer>[
-              NeedlePointer(
-                  needleStartWidth: 2,
-                  needleEndWidth: 2,
-                  needleColor: Color(0xFFF67280),
-                  needleLength: 0.8,
-                  enableAnimation: true,
-                  animationType: AnimationType.bounceOut,
-                  animationDuration: 1500,
-                  knobStyle: KnobStyle(
-                      knobRadius: 8,
-                      sizeUnit: GaugeSizeUnit.logicalPixel,
-                      color: Color(0xFFF67280)))
-            ],
-            minorTickStyle: const MinorTickStyle(
-                length: 0.08,
-                thickness: 1,
-                lengthUnit: GaugeSizeUnit.factor,
-                color: Color(0xFFC4C4C4)),
-            axisLineStyle: const AxisLineStyle(
-                color: Color(0xFFDADADA),
-                thicknessUnit: GaugeSizeUnit.factor,
-                thickness: 0.1)),
+          radiusFactor: model.isWebFullView ? 0.85 : 0.98,
+          startAngle: 90,
+          endAngle: 330,
+          minimum: -8,
+          maximum: 12,
+          showAxisLine: false,
+          showLastLabel: true,
+          majorTickStyle: const MajorTickStyle(
+            length: 0.15,
+            lengthUnit: GaugeSizeUnit.factor,
+            thickness: 2,
+          ),
+          labelOffset: 8,
+          axisLabelStyle: GaugeTextStyle(
+            fontFamily: 'Times',
+            fontSize: isCardView ? 10 : 12,
+            fontWeight: FontWeight.w800,
+            fontStyle: FontStyle.italic,
+          ),
+          minorTicksPerInterval: 9,
+          interval: 2,
+          pointers: const <GaugePointer>[
+            NeedlePointer(
+              needleStartWidth: 2,
+              needleEndWidth: 2,
+              needleColor: Color(0xFFF67280),
+              needleLength: 0.8,
+              enableAnimation: true,
+              animationType: AnimationType.bounceOut,
+              animationDuration: 1500,
+              knobStyle: KnobStyle(
+                knobRadius: 8,
+                sizeUnit: GaugeSizeUnit.logicalPixel,
+                color: Color(0xFFF67280),
+              ),
+            ),
+          ],
+          minorTickStyle: const MinorTickStyle(
+            length: 0.08,
+            thickness: 1,
+            lengthUnit: GaugeSizeUnit.factor,
+            color: Color(0xFFC4C4C4),
+          ),
+          axisLineStyle: const AxisLineStyle(
+            color: Color(0xFFDADADA),
+            thicknessUnit: GaugeSizeUnit.factor,
+            thickness: 0.1,
+          ),
+        ),
       ],
     );
   }

@@ -33,7 +33,7 @@ class _PieRadiusState extends SampleViewState {
       ChartSampleData(x: 'Dominican Republic', y: 350000, text: '72.5%'),
       ChartSampleData(x: 'Egypt', y: 301000, text: '85.8%'),
       ChartSampleData(x: 'Kazakhstan', y: 300000, text: '90.5%'),
-      ChartSampleData(x: 'Somalia', y: 357022, text: '95.6%')
+      ChartSampleData(x: 'Somalia', y: 357022, text: '95.6%'),
     ];
     super.initState();
   }
@@ -56,7 +56,8 @@ class _PieRadiusState extends SampleViewState {
       series: _buildPieSeries(),
       onTooltipRender: (TooltipArgs args) {
         final NumberFormat format = NumberFormat.decimalPattern();
-        args.text = args.dataPoints![args.pointIndex!.toInt()].x.toString() +
+        args.text =
+            args.dataPoints![args.pointIndex!.toInt()].x.toString() +
             ' : ' +
             format.format(args.dataPoints![args.pointIndex!.toInt()].y);
       },
@@ -79,7 +80,7 @@ class _PieRadiusState extends SampleViewState {
           isVisible: true,
           labelPosition: ChartDataLabelPosition.outside,
         ),
-      )
+      ),
     ];
   }
 

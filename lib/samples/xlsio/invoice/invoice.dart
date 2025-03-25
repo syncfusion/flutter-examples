@@ -9,7 +9,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 ///Local imports
 import '../../../model/sample_view.dart';
 import '../../common/export/save_file_mobile.dart'
-    if (dart.library.html) '../../common/export/save_file_web.dart';
+    if (dart.library.js_interop) '../../common/export/save_file_web.dart';
 
 /// Render XlsIO of invoice
 class InvoiceXlsIO extends SampleView {
@@ -32,23 +32,33 @@ class _InvoiceXlsIOState extends SampleViewState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-                'This sample showcases on how to create a simple Excel invoice with data, image, formulas, named range and cell formatting using XlsIO.',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
+              'This sample showcases on how to create a simple Excel invoice with data, image, formulas, named range and cell formatting using XlsIO.',
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
             const SizedBox(height: 20, width: 30),
             Align(
-                child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(model.primaryColor),
-                padding: model.isMobile
-                    ? null
-                    : WidgetStateProperty.all(const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15)),
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    model.primaryColor,
+                  ),
+                  padding:
+                      model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
+                            ),
+                          ),
+                ),
+                onPressed: _generateExcel,
+                child: const Text(
+                  'Generate Excel',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              onPressed: _generateExcel,
-              child: const Text('Generate Excel',
-                  style: TextStyle(color: Colors.white)),
-            ))
+            ),
           ],
         ),
       ),
@@ -224,8 +234,11 @@ class _InvoiceXlsIOState extends SampleViewState {
     range9.cellStyle.hAlign = HAlignType.center;
     range9.cellStyle.vAlign = VAlignType.center;
 
-    final Picture picture =
-        sheet.pictures.addStream(3, 4, await _readImageData('invoice.jpeg'));
+    final Picture picture = sheet.pictures.addStream(
+      3,
+      4,
+      await _readImageData('invoice.jpeg'),
+    );
     picture.lastRow = 7;
     picture.lastColumn = 8;
 

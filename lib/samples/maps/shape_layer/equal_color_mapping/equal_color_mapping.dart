@@ -166,25 +166,26 @@ class _MapEqualColorMappingPageState extends SampleViewState {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final bool scrollEnabled = constraints.maxHeight > 400;
-      double height = scrollEnabled ? constraints.maxHeight : 400;
-      if (model.isWebFullView ||
-          (model.isMobile &&
-              MediaQuery.of(context).orientation == Orientation.landscape)) {
-        final double refHeight = height * 0.6;
-        height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
-      }
-      return Center(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            width: constraints.maxWidth,
-            height: height,
-            child: _buildMapsWidget(themeData, scrollEnabled),
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final bool scrollEnabled = constraints.maxHeight > 400;
+        double height = scrollEnabled ? constraints.maxHeight : 400;
+        if (model.isWebFullView ||
+            (model.isMobile &&
+                MediaQuery.of(context).orientation == Orientation.landscape)) {
+          final double refHeight = height * 0.6;
+          height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+        }
+        return Center(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: constraints.maxWidth,
+              height: height,
+              child: _buildMapsWidget(themeData, scrollEnabled),
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   Widget _buildMapsWidget(ThemeData themeData, bool scrollEnabled) {
@@ -192,13 +193,15 @@ class _MapEqualColorMappingPageState extends SampleViewState {
         themeData.colorScheme.brightness == Brightness.light;
     return Center(
       child: Padding(
-        padding: scrollEnabled
-            ? EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.05,
-                bottom: MediaQuery.of(context).size.height * 0.05,
-                right: 10,
-                left: 10)
-            : const EdgeInsets.only(left: 10, right: 10, bottom: 15),
+        padding:
+            scrollEnabled
+                ? EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.05,
+                  right: 10,
+                  left: 10,
+                )
+                : const EdgeInsets.only(left: 10, right: 10, bottom: 15),
         child: Column(
           children: <Widget>[
             Padding(
@@ -223,15 +226,14 @@ class _MapEqualColorMappingPageState extends SampleViewState {
                         return const SizedBox(
                           height: 25,
                           width: 25,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 3,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 3),
                         );
                       },
                       source: _mapSource,
-                      strokeColor: isLightTheme
-                          ? Colors.white
-                          : Colors.white.withValues(alpha: 0.12),
+                      strokeColor:
+                          isLightTheme
+                              ? Colors.white
+                              : Colors.white.withValues(alpha: 0.12),
                       // Returns the custom tooltip for each shape.
                       shapeTooltipBuilder: (BuildContext context, int index) {
                         return Padding(
@@ -241,9 +243,10 @@ class _MapEqualColorMappingPageState extends SampleViewState {
                                 ' : ' +
                                 _timeZones[index].game,
                             style: themeData.textTheme.bodySmall!.copyWith(
-                              color: isLightTheme
-                                  ? const Color.fromRGBO(255, 255, 255, 1)
-                                  : const Color.fromRGBO(10, 10, 10, 1),
+                              color:
+                                  isLightTheme
+                                      ? const Color.fromRGBO(255, 255, 255, 1)
+                                      : const Color.fromRGBO(10, 10, 10, 1),
                             ),
                           ),
                         );
@@ -254,9 +257,10 @@ class _MapEqualColorMappingPageState extends SampleViewState {
                         padding: EdgeInsets.only(top: 15),
                       ),
                       tooltipSettings: MapTooltipSettings(
-                        color: isLightTheme
-                            ? const Color.fromRGBO(45, 45, 45, 1)
-                            : const Color.fromRGBO(242, 242, 242, 1),
+                        color:
+                            isLightTheme
+                                ? const Color.fromRGBO(45, 45, 45, 1)
+                                : const Color.fromRGBO(242, 242, 242, 1),
                       ),
                     ),
                   ],

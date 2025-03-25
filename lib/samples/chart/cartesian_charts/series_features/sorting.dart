@@ -37,10 +37,11 @@ class _SortingDefaultState extends SampleViewState {
     _selectedSortType = 'none';
     _sortingOrder = SortingOrder.none;
     _tooltipBehavior = TooltipBehavior(
-        enable: true,
-        canShowMarker: false,
-        header: '',
-        format: 'point.x : point.y m');
+      enable: true,
+      canShowMarker: false,
+      header: '',
+      format: 'point.x : point.y m',
+    );
     _sortBy = 'y';
     super.initState();
   }
@@ -48,8 +49,9 @@ class _SortingDefaultState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: model.isWebFullView || !isCardView ? 0 : 60),
+      padding: EdgeInsets.only(
+        bottom: model.isWebFullView || !isCardView ? 0 : 60,
+      ),
       child: _buildDefaultSortingChart(),
     );
   }
@@ -73,11 +75,10 @@ class _SortingDefaultState extends SampleViewState {
   Widget _buildSortByDropdown(StateSetter stateSetter) {
     return Row(
       children: <Widget>[
-        Text('Sort by ',
-            style: TextStyle(
-              color: model.textColor,
-              fontSize: 16,
-            )),
+        Text(
+          'Sort by ',
+          style: TextStyle(color: model.textColor, fontSize: 16),
+        ),
         Container(
           padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
           height: 50,
@@ -87,12 +88,16 @@ class _SortingDefaultState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedType,
-            items: _labelList!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'y',
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
+            items:
+                _labelList!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'y',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               _onPositionTypeChange(value.toString());
               stateSetter(() {});
@@ -109,10 +114,7 @@ class _SortingDefaultState extends SampleViewState {
       children: <Widget>[
         Text(
           'Sorting order   ',
-          style: TextStyle(
-            color: model.textColor,
-            fontSize: 16,
-          ),
+          style: TextStyle(color: model.textColor, fontSize: 16),
         ),
         SizedBox(
           height: 50,
@@ -121,12 +123,16 @@ class _SortingDefaultState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedSortType,
-            items: _sortList!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'none',
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
+            items:
+                _sortList!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'none',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               _onSortingTypeChange(value.toString());
               stateSetter(() {});
@@ -142,8 +148,9 @@ class _SortingDefaultState extends SampleViewState {
     return SfCartesianChart(
       title: const ChartTitle(text: "World's tallest buildings"),
       plotAreaBorderWidth: 0,
-      primaryXAxis:
-          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
       onDataLabelRender: (DataLabelRenderArgs args) {
         args.text =
             args.dataPoints[args.viewportPointIndex].y.toString() + ' m';
@@ -175,9 +182,10 @@ class _SortingDefaultState extends SampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.y,
         sortingOrder: _sortingOrder,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
-        sortFieldValueMapper: (ChartSampleData sales, int index) =>
-            _sortBy == 'x' ? sales.x : sales.y,
-      )
+        sortFieldValueMapper:
+            (ChartSampleData sales, int index) =>
+                _sortBy == 'x' ? sales.x : sales.y,
+      ),
     ];
   }
 

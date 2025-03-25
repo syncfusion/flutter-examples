@@ -66,10 +66,7 @@ class _PlotBandDefaultState extends SampleViewState {
           children: <Widget>[
             Text(
               'Plot band type',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: model.textColor,
-              ),
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -78,20 +75,18 @@ class _PlotBandDefaultState extends SampleViewState {
               child: DropdownButton<String>(
                 dropdownColor: model.drawerBackgroundColor,
                 focusColor: Colors.transparent,
-                underline: Container(
-                  color: const Color(0xFFBDBDBD),
-                  height: 1,
-                ),
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedType,
-                items: _plotBandType!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'horizontal',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+                items:
+                    _plotBandType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'horizontal',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                 onChanged: (dynamic value) {
                   _onPlotBandModeChange(value.toString());
                   stateSetter(() {});
@@ -111,16 +106,15 @@ class _PlotBandDefaultState extends SampleViewState {
 
   /// Return the Cartesian Chart with Line series.
   SfCartesianChart _buildCartesianChart() {
-    final Color yAxisPlotBandTextColor = ((isSegment || isLine) &&
-            model != null &&
-            model.themeData.colorScheme.brightness == Brightness.light)
-        ? Colors.black54
-        : const Color.fromRGBO(255, 255, 255, 1);
+    final Color yAxisPlotBandTextColor =
+        ((isSegment || isLine) &&
+                model != null &&
+                model.themeData.colorScheme.brightness == Brightness.light)
+            ? Colors.black54
+            : const Color.fromRGBO(255, 255, 255, 1);
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Weather report',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Weather report'),
       primaryXAxis: CategoryAxis(
         interval: 1,
 
@@ -132,10 +126,7 @@ class _PlotBandDefaultState extends SampleViewState {
             start: -0.5,
             end: 1.5,
             text: 'Winter',
-            textStyle: const TextStyle(
-              color: Colors.black,
-              fontSize: 13,
-            ),
+            textStyle: const TextStyle(color: Colors.black, fontSize: 13),
             color: const Color.fromRGBO(101, 199, 209, 1),
           ),
           PlotBand(
@@ -143,10 +134,7 @@ class _PlotBandDefaultState extends SampleViewState {
             start: 4.5,
             end: 7.5,
             text: 'Summer',
-            textStyle: const TextStyle(
-              color: Colors.black,
-              fontSize: 13,
-            ),
+            textStyle: const TextStyle(color: Colors.black, fontSize: 13),
             color: const Color.fromRGBO(254, 213, 2, 1),
           ),
           PlotBand(
@@ -154,10 +142,7 @@ class _PlotBandDefaultState extends SampleViewState {
             start: 1.5,
             end: 4.5,
             text: 'Spring',
-            textStyle: const TextStyle(
-              color: Colors.black,
-              fontSize: 13,
-            ),
+            textStyle: const TextStyle(color: Colors.black, fontSize: 13),
             color: const Color.fromRGBO(140, 198, 62, 1),
           ),
           PlotBand(
@@ -165,10 +150,7 @@ class _PlotBandDefaultState extends SampleViewState {
             start: 7.5,
             end: 9.5,
             text: 'Autumn',
-            textStyle: const TextStyle(
-              color: Colors.black,
-              fontSize: 13,
-            ),
+            textStyle: const TextStyle(color: Colors.black, fontSize: 13),
             color: const Color.fromRGBO(217, 112, 1, 1),
           ),
           PlotBand(
@@ -176,10 +158,7 @@ class _PlotBandDefaultState extends SampleViewState {
             start: 9.5,
             end: 10.5,
             text: 'Winter',
-            textStyle: const TextStyle(
-              color: Colors.black,
-              fontSize: 13,
-            ),
+            textStyle: const TextStyle(color: Colors.black, fontSize: 13),
             color: const Color.fromRGBO(101, 199, 209, 1),
           ),
           PlotBand(
@@ -192,10 +171,7 @@ class _PlotBandDefaultState extends SampleViewState {
             associatedAxisEnd: 27.5,
             isVisible: isCardView ? false : isSegment,
             color: const Color.fromRGBO(224, 155, 0, 1),
-            textStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-            ),
+            textStyle: const TextStyle(color: Colors.white, fontSize: 17),
           ),
           PlotBand(
             start: 7.5,
@@ -207,10 +183,7 @@ class _PlotBandDefaultState extends SampleViewState {
             textAngle: 0,
             isVisible: isCardView ? false : isSegment,
             color: const Color.fromRGBO(224, 155, 0, 1),
-            textStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-            ),
+            textStyle: const TextStyle(color: Colors.white, fontSize: 17),
           ),
           PlotBand(
             start: 4.5,
@@ -222,10 +195,7 @@ class _PlotBandDefaultState extends SampleViewState {
             textAngle: 0,
             isVisible: isCardView ? false : isSegment,
             color: const Color.fromRGBO(207, 85, 7, 1),
-            textStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-            ),
+            textStyle: const TextStyle(color: Colors.white, fontSize: 17),
           ),
         ],
         majorGridLines: const MajorGridLines(width: 0),
@@ -252,23 +222,27 @@ class _PlotBandDefaultState extends SampleViewState {
                 isLine ? TextAnchor.start : TextAnchor.middle,
             // Padding for plotBand text.
             verticalTextPadding: isLine ? '-7' : '',
-            borderWidth: isCardView
-                ? 0
-                : isLine
+            borderWidth:
+                isCardView
+                    ? 0
+                    : isLine
                     ? 2
                     : 0,
-            borderColor: isCardView
-                ? Colors.black
-                : isLine
+            borderColor:
+                isCardView
+                    ? Colors.black
+                    : isLine
                     ? const Color.fromRGBO(207, 85, 7, 1)
                     : Colors.black,
             text: 'High Temperature',
             color: const Color.fromRGBO(207, 85, 7, 1),
-            textStyle: ((isSegment || isLine) &&
-                    model != null &&
-                    model.themeData.colorScheme.brightness == Brightness.light)
-                ? const TextStyle(color: Colors.black)
-                : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+            textStyle:
+                ((isSegment || isLine) &&
+                        model != null &&
+                        model.themeData.colorScheme.brightness ==
+                            Brightness.light)
+                    ? const TextStyle(color: Colors.black)
+                    : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
           ),
           PlotBand(
             isVisible: isCardView ? false : isVertical,
@@ -278,25 +252,29 @@ class _PlotBandDefaultState extends SampleViewState {
                 isLine ? TextAnchor.start : TextAnchor.middle,
             verticalTextAlignment:
                 isLine ? TextAnchor.start : TextAnchor.middle,
-            borderWidth: isCardView
-                ? 0
-                : isLine
+            borderWidth:
+                isCardView
+                    ? 0
+                    : isLine
                     ? 2
                     : 0,
-            borderColor: isCardView
-                ? Colors.black
-                : isLine
+            borderColor:
+                isCardView
+                    ? Colors.black
+                    : isLine
                     ? const Color.fromRGBO(224, 155, 0, 1)
                     : Colors.black,
             text: 'Average Temperature',
             // Padding for plotBand text.
             verticalTextPadding: isLine ? '-7' : '',
             color: const Color.fromRGBO(224, 155, 0, 1),
-            textStyle: ((isSegment || isLine) &&
-                    model != null &&
-                    model.themeData.colorScheme.brightness == Brightness.light)
-                ? const TextStyle(color: Colors.black)
-                : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+            textStyle:
+                ((isSegment || isLine) &&
+                        model != null &&
+                        model.themeData.colorScheme.brightness ==
+                            Brightness.light)
+                    ? const TextStyle(color: Colors.black)
+                    : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
           ),
           PlotBand(
             isVisible: isCardView ? false : isVertical,
@@ -306,25 +284,29 @@ class _PlotBandDefaultState extends SampleViewState {
                 isLine ? TextAnchor.start : TextAnchor.middle,
             verticalTextAlignment:
                 isLine ? TextAnchor.start : TextAnchor.middle,
-            borderWidth: isCardView
-                ? 0
-                : isLine
+            borderWidth:
+                isCardView
+                    ? 0
+                    : isLine
                     ? 2
                     : 0,
-            borderColor: isCardView
-                ? Colors.black
-                : isLine
+            borderColor:
+                isCardView
+                    ? Colors.black
+                    : isLine
                     ? const Color.fromRGBO(237, 195, 12, 1)
                     : Colors.black,
             text: 'Low Temperature',
             // padding for plotBand text.
             verticalTextPadding: isLine ? '-7' : '',
             color: const Color.fromRGBO(237, 195, 12, 1),
-            textStyle: ((isSegment || isLine) &&
-                    model != null &&
-                    model.themeData.colorScheme.brightness == Brightness.light)
-                ? const TextStyle(color: Colors.black)
-                : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+            textStyle:
+                ((isSegment || isLine) &&
+                        model != null &&
+                        model.themeData.colorScheme.brightness ==
+                            Brightness.light)
+                    ? const TextStyle(color: Colors.black)
+                    : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
           ),
         ],
       ),
@@ -338,11 +320,12 @@ class _PlotBandDefaultState extends SampleViewState {
 
   /// Returns the list of Cartesian Line series.
   List<LineSeries<ChartSampleData, String>> _buildLineSeries() {
-    final Color seriesColor = (isSegment || isLine) &&
-            model != null &&
-            model.themeData.colorScheme.brightness == Brightness.light
-        ? Colors.black54
-        : Colors.white;
+    final Color seriesColor =
+        (isSegment || isLine) &&
+                model != null &&
+                model.themeData.colorScheme.brightness == Brightness.light
+            ? Colors.black54
+            : Colors.white;
     return <LineSeries<ChartSampleData, String>>[
       LineSeries<ChartSampleData, String>(
         dataSource: _weatherReport,

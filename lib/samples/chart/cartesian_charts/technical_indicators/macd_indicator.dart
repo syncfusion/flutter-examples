@@ -65,14 +65,13 @@ class _MACDIndicatorState extends SampleViewState {
     final double dropDownWidth = 0.7 * screenWidth;
 
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          _buildSettingsRow(dropDownWidth, stateSetter),
-        ],
-      );
-    });
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[_buildSettingsRow(dropDownWidth, stateSetter)],
+        );
+      },
+    );
   }
 
   /// Builds the main settings row containing period and MACD type settings.
@@ -117,15 +116,16 @@ class _MACDIndicatorState extends SampleViewState {
             child: CustomDirectionalButtons(
               maxValue: 50,
               initialValue: _period,
-              onChanged: (double val) => setState(() {
-                _period = val;
-              }),
+              onChanged:
+                  (double val) => setState(() {
+                    _period = val;
+                  }),
               loop: true,
               iconColor: model.textColor,
               style: TextStyle(fontSize: 20.0, color: model.textColor),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -148,14 +148,15 @@ class _MACDIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _longPeriod,
-            onChanged: (double val) => setState(() {
-              _longPeriod = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _longPeriod = val;
+                }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -178,14 +179,15 @@ class _MACDIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _shortPeriod,
-            onChanged: (double val) => setState(() {
-              _shortPeriod = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _shortPeriod = val;
+                }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -196,31 +198,35 @@ class _MACDIndicatorState extends SampleViewState {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Flexible(
-          child: Text('MACD type',
-              softWrap: false,
-              style: TextStyle(
-                fontSize: 16,
-                color: model.textColor,
-              )),
+          child: Text(
+            'MACD type',
+            softWrap: false,
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
         ),
         Flexible(
           child: DropdownButton<String>(
-              dropdownColor: model.drawerBackgroundColor,
-              focusColor: Colors.transparent,
-              isExpanded: true,
-              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-              value: _selectedMacdIndicatorType,
-              items: _macdIndicatorTypeList!.map((String value) {
-                return DropdownMenuItem<String>(
+            dropdownColor: model.drawerBackgroundColor,
+            focusColor: Colors.transparent,
+            isExpanded: true,
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+            value: _selectedMacdIndicatorType,
+            items:
+                _macdIndicatorTypeList!.map((String value) {
+                  return DropdownMenuItem<String>(
                     value: (value != null) ? value : 'Both',
-                    child:
-                        Text(value, style: TextStyle(color: model.textColor)));
-              }).toList(),
-              onChanged: (String? value) {
-                _onMacdIndicatorTypeChanged(value.toString());
-                stateSetter(() {});
-              }),
-        )
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
+            onChanged: (String? value) {
+              _onMacdIndicatorTypeChanged(value.toString());
+              stateSetter(() {});
+            },
+          ),
+        ),
       ],
     );
   }
@@ -256,12 +262,13 @@ class _MACDIndicatorState extends SampleViewState {
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
         /// MACD indicator for the 'AAPL' series.
         MacdIndicator<ChartSampleData, DateTime>(
-            period: _period.toInt(),
-            longPeriod: _longPeriod.toInt(),
-            shortPeriod: _shortPeriod.toInt(),
-            macdType: _macdType,
-            seriesName: 'AAPL',
-            yAxisName: 'yAxis'),
+          period: _period.toInt(),
+          longPeriod: _longPeriod.toInt(),
+          shortPeriod: _shortPeriod.toInt(),
+          macdType: _macdType,
+          seriesName: 'AAPL',
+          yAxisName: 'yAxis',
+        ),
       ],
       trackballBehavior: _trackballBehavior,
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),

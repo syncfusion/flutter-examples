@@ -83,8 +83,9 @@ class _PointColorMapperState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: const ChartTitle(text: 'Average monthly temperature of London'),
-      primaryXAxis:
-          const CategoryAxis(majorGridLines: MajorGridLines(width: 0)),
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+      ),
       primaryYAxis: NumericAxis(
         labelFormat: '{value}°C',
         minimum: 0,
@@ -107,9 +108,10 @@ class _PointColorMapperState extends SampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.y,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
         name: 'London',
-        pointColorMapper: (ChartSampleData data, int index) =>
-            _determinePointColorByValue(data.y),
-      )
+        pointColorMapper:
+            (ChartSampleData data, int index) =>
+                _determinePointColorByValue(data.y),
+      ),
     ];
   }
 

@@ -8,6 +8,8 @@ import 'samples/ai_samples/ai_charts/data_pre_processing.dart';
 import 'samples/ai_samples/ai_charts/stock_forecasting.dart';
 import 'samples/ai_samples/ai_datagrid/anamoly_detection.dart';
 import 'samples/ai_samples/ai_datagrid/predictive_data_entry.dart';
+import 'samples/ai_samples/ai_map/location_finder.dart';
+import 'samples/ai_samples/ai_pdf_viewer/ai_document_summarization.dart';
 import 'samples/ai_samples/ai_pdf_viewer/ai_form_filling.dart';
 import 'samples/barcodes/data_matrix.dart';
 import 'samples/barcodes/one_dimensional.dart';
@@ -448,8 +450,11 @@ Map<String, Function> getSampleWidget() {
     // ai samples
     'data_pre_processing_sample': (Key key) => DataPreProcessingSample(key),
     'stock_forecasting_sample': (Key key) => StockForecastingSample(key),
+    'location_finder': (Key key) => MapLocationFinder(key),
     'calendar_sample': (Key key) => AICalendar(key),
     'pdf_viewer_smart_fill': (Key key) => SmartFillSample(key),
+    'pdf_viewer_document_summarization':
+        (Key key) => DocumentSummarizerSample(key),
     // cartesian charts
     'default_line_chart': (Key key) => LineDefault(key),
     'line_with_dashes': (Key key) => LineDashed(key),
@@ -505,8 +510,8 @@ Map<String, Function> getSampleWidget() {
     'default_rangecolumn_chart': (Key key) => RangeColumnDefault(key),
     'vertical_rangecolumn_chart': (Key key) => RangeBarChart(key),
     'rangecolumn_with_track': (Key key) => RangeColumnWithTrack(key),
-    'animation_rangecolumn_chart': (Key key) =>
-        AnimationRangeColumnDefault(key),
+    'animation_rangecolumn_chart':
+        (Key key) => AnimationRangeColumnDefault(key),
     'stacked_line_chart': (Key key) => StackedLineChart(key),
     'stacked_area_chart': (Key key) => StackedAreaChart(key),
     'stacked_column_chart': (Key key) => StackedColumnChart(key),
@@ -524,8 +529,8 @@ Map<String, Function> getSampleWidget() {
     'default_datetime_axis': (Key key) => DateTimeDefault(key),
     'datetime_axis_with_label_format': (Key key) => DateTimeLabel(key),
     'default_datetime_category_axis': (Key key) => DateTimeCategoryDefault(key),
-    'default_datetime_category_axis_label': (Key key) =>
-        DateTimeCategoryLabel(key),
+    'default_datetime_category_axis_label':
+        (Key key) => DateTimeCategoryLabel(key),
     'default_logarithmic_axis': (Key key) => LogarithmicAxisDefault(key),
     'inversed_logarithmic_axis': (Key key) => LogarithmicAxisInversed(key),
     'hilo_chart': (Key key) => HiloChart(key),
@@ -568,8 +573,8 @@ Map<String, Function> getSampleWidget() {
     'chart_with_customized_legend': (Key key) => LegendCustomized(key),
     'chart_with_legend': (Key key) => LegendDefault(key),
     'legend_with_various_options': (Key key) => LegendOptions(key),
-    'cartesian_legend_various_options': (Key key) =>
-        CartesianLegendOptions(key),
+    'cartesian_legend_various_options':
+        (Key key) => CartesianLegendOptions(key),
     'circular_floating_legend': (Key key) => CircularFloatingLegend(key),
 
     //Technical Indicators
@@ -763,8 +768,8 @@ Map<String, Function> getSampleWidget() {
     'certificate': (Key key) => CourseCompletionCertificatePdf(key),
     'header_and_footer': (Key key) => HeaderAndFooterPdf(key),
     'annotations': (Key key) => AnnotationsPdf(key),
-    'import_and_export_annotation_data': (Key key) =>
-        ImportAndExportAnnotationData(key),
+    'import_and_export_annotation_data':
+        (Key key) => ImportAndExportAnnotationData(key),
     'digital_signature': (Key key) => SignPdf(key),
     'encryption': (Key key) => EncryptPdf(key),
     'form': (Key key) => FormFillingPdf(key),
@@ -817,8 +822,8 @@ Map<String, Function> getSampleWidget() {
 
     'slider_divider_label_tick': (Key key) => SliderLabelCustomizationPage(key),
 
-    'slider_color_customization': (Key key) =>
-        SliderColorCustomizationPage(key),
+    'slider_color_customization':
+        (Key key) => SliderColorCustomizationPage(key),
 
     'slider_shape_customization': (Key key) => ShapeCustomizedSliderPage(key),
 
@@ -827,8 +832,8 @@ Map<String, Function> getSampleWidget() {
     // Range Slider Samples
     'range_slider_default_appearance': (Key key) => DefaultRangeSliderPage(key),
 
-    'range_slider_label_customization': (Key key) =>
-        LabelCustomizationRangleSlider(key),
+    'range_slider_label_customization':
+        (Key key) => LabelCustomizationRangleSlider(key),
 
     'range_slider_divider_label_tick': (Key key) => ScaleRangeSliderPage(key),
 
@@ -838,106 +843,105 @@ Map<String, Function> getSampleWidget() {
 
     'shape_customization': (Key key) => ShapeCustomizedRangeSliderPage(key),
 
-    'range_slider_thumb_icon_customization': (Key key) =>
-        ThumbCustomizationRangeSliderPage(key),
+    'range_slider_thumb_icon_customization':
+        (Key key) => ThumbCustomizationRangeSliderPage(key),
 
     'range_slider_tooltip_type': (Key key) => TooltipRangeSliderPage(key),
 
     'range_slider_step': (Key key) => SliderStepDurationPage(key),
 
-    'range_slider_interval_selection': (Key key) =>
-        RangeSliderIntervalSelectionPage(key),
+    'range_slider_interval_selection':
+        (Key key) => RangeSliderIntervalSelectionPage(key),
 
     'range_slider_drag_mode': (Key key) => RangeSliderDragModePage(key),
 
     'size_customization': (Key key) => SfRangeSliderSizeCustomizationPage(key),
 
-    'range_slider_text_direction': (Key key) =>
-        RangeSliderTextDirectionPage(key),
+    'range_slider_text_direction':
+        (Key key) => RangeSliderTextDirectionPage(key),
 
     //Vertical Slider samples
     'default_vertical_slider': (Key key) => DefaultVerticalSliderPage(key),
 
-    'vertical_slider_date_interval': (Key key) =>
-        VerticalDateIntervalSliderPage(key),
+    'vertical_slider_date_interval':
+        (Key key) => VerticalDateIntervalSliderPage(key),
 
-    'vertical_slider_divider_label_tick': (Key key) =>
-        VerticalSliderLabelCustomizationPage(key),
+    'vertical_slider_divider_label_tick':
+        (Key key) => VerticalSliderLabelCustomizationPage(key),
 
     'vertical_slider_step': (Key key) => VerticalStepSliderPage(key),
 
-    'vertical_slider_label_customization': (Key key) =>
-        VerticalSliderLabelCustomization(key),
+    'vertical_slider_label_customization':
+        (Key key) => VerticalSliderLabelCustomization(key),
 
-    'vertical_slider_tooltip_position': (Key key) =>
-        VerticalSliderTooltipTypeSliderPage(key),
+    'vertical_slider_tooltip_position':
+        (Key key) => VerticalSliderTooltipTypeSliderPage(key),
 
-    'vertical_slider_color_customization': (Key key) =>
-        VerticalSliderColorCustomizationPage(key),
+    'vertical_slider_color_customization':
+        (Key key) => VerticalSliderColorCustomizationPage(key),
 
-    'vertical_slider_size_customization': (Key key) =>
-        VerticalSliderSizeCustomizationPage(key),
+    'vertical_slider_size_customization':
+        (Key key) => VerticalSliderSizeCustomizationPage(key),
 
-    'vertical_thumb_icon_customization': (Key key) =>
-        VerticalThumbCustomizationSliderPage(key),
+    'vertical_thumb_icon_customization':
+        (Key key) => VerticalThumbCustomizationSliderPage(key),
 
-    'vertical_slider_shape_customization': (Key key) =>
-        VerticalShapeCustomizedSliderPage(key),
+    'vertical_slider_shape_customization':
+        (Key key) => VerticalShapeCustomizedSliderPage(key),
 
     //Vertical Range Slider Samples
+    'vertical_range_slider_default_appearance':
+        (Key key) => VerticalDefaultRangeSliderPage(key),
+    'vertical_range_slider_label_customization':
+        (Key key) => VerticalRangeSliderCustomization(key),
 
-    'vertical_range_slider_default_appearance': (Key key) =>
-        VerticalDefaultRangeSliderPage(key),
-    'vertical_range_slider_label_customization': (Key key) =>
-        VerticalRangeSliderCustomization(key),
+    'vertical_range_slider_divider_label_tick':
+        (Key key) => VerticalScaleRangeSliderPage(key),
 
-    'vertical_range_slider_divider_label_tick': (Key key) =>
-        VerticalScaleRangeSliderPage(key),
+    'vertical_range_slider_date_time_label':
+        (Key key) => VerticalDateRangeSliderPage(key),
 
-    'vertical_range_slider_date_time_label': (Key key) =>
-        VerticalDateRangeSliderPage(key),
+    'vertical_range_slider_step':
+        (Key key) => VerticalSliderStepDurationPage(key),
 
-    'vertical_range_slider_step': (Key key) =>
-        VerticalSliderStepDurationPage(key),
+    'vertical_range_slider_interval_selection':
+        (Key key) => VerticalRangeSliderIntervalSelectionPage(key),
 
-    'vertical_range_slider_interval_selection': (Key key) =>
-        VerticalRangeSliderIntervalSelectionPage(key),
+    'vertical_range_slider_drag_mode':
+        (Key key) => VerticalRangeSliderDragModePage(key),
 
-    'vertical_range_slider_drag_mode': (Key key) =>
-        VerticalRangeSliderDragModePage(key),
+    'vertical_range_slider_tooltip_position':
+        (Key key) => VerticalTooltipRangeSliderPage(key),
 
-    'vertical_range_slider_tooltip_position': (Key key) =>
-        VerticalTooltipRangeSliderPage(key),
+    'vertical_range_slider_thumb_icon_customization':
+        (Key key) => VerticalThumbCustomizationRangeSliderPage(key),
 
-    'vertical_range_slider_thumb_icon_customization': (Key key) =>
-        VerticalThumbCustomizationRangeSliderPage(key),
+    'vertical_range_slider_color_customization':
+        (Key key) => VerticalColorCustomizedRangeSliderPage(key),
 
-    'vertical_range_slider_color_customization': (Key key) =>
-        VerticalColorCustomizedRangeSliderPage(key),
+    'vertical_range_slider_shape_customization':
+        (Key key) => VerticalShapeCustomizedRangeSliderPage(key),
 
-    'vertical_range_slider_shape_customization': (Key key) =>
-        VerticalShapeCustomizedRangeSliderPage(key),
-
-    'vertical_range_slider_size_customization': (Key key) =>
-        VerticalSfRangeSliderSizeCustomizationPage(key),
+    'vertical_range_slider_size_customization':
+        (Key key) => VerticalSfRangeSliderSizeCustomizationPage(key),
 
     // Range Selector Samples
-    'range_selector_default_appearance': (Key key) =>
-        DefaultRangeSelectorPage(key),
+    'range_selector_default_appearance':
+        (Key key) => DefaultRangeSelectorPage(key),
 
-    'range_selector_with_selection': (Key key) =>
-        RangeSelectorSelectionPage(key),
+    'range_selector_with_selection':
+        (Key key) => RangeSelectorSelectionPage(key),
 
-    'range_selector_label_customization': (Key key) =>
-        RangeSelectorLabelCustomization(key),
+    'range_selector_label_customization':
+        (Key key) => RangeSelectorLabelCustomization(key),
 
     'range_selector_with_zooming': (Key key) => RangeSelectorZoomingPage(key),
 
-    'range_selector_with_histogram_chart': (Key key) =>
-        RangeSelectorHistogramChartPage(key),
+    'range_selector_with_histogram_chart':
+        (Key key) => RangeSelectorHistogramChartPage(key),
 
-    'range_selector_with_bar_chart': (Key key) =>
-        RangeSelectorBarChartPage(key),
+    'range_selector_with_bar_chart':
+        (Key key) => RangeSelectorBarChartPage(key),
 
     //dataGridSample
     'getting_started_datagrid': (Key key) => GettingStartedDataGrid(key: key),
@@ -960,8 +964,8 @@ Map<String, Function> getSampleWidget() {
 
     'row_height_datagrid': (Key key) => RowHeightDataGrid(key: key),
 
-    'conditional_styling_datagrid': (Key key) =>
-        ConditionalStylingDataGrid(key: key),
+    'conditional_styling_datagrid':
+        (Key key) => ConditionalStylingDataGrid(key: key),
 
     'paging_datagrid': (Key key) => PagingDataGrid(key: key),
 
@@ -983,28 +987,26 @@ Map<String, Function> getSampleWidget() {
 
     'datagrid_custom_grouping': (Key key) => CustomgroupingDataGrid(key: key),
 
-    'datagrid_column_drag_and_drop': (Key key) =>
-        DataGridColumnDragAndDrop(key: key),
+    'datagrid_column_drag_and_drop':
+        (Key key) => DataGridColumnDragAndDrop(key: key),
 
     'custom_sorting_datagrid': (Key key) => CustomSortingDataGrid(key: key),
 
     'stacked_header_datagrid': (Key key) => StackedHeaderDataGrid(key: key),
 
-    'load_more_infinite_scrolling_datagrid': (Key key) =>
-        LoadMoreInfiniteScrollingDataGrid(key: key),
+    'load_more_infinite_scrolling_datagrid':
+        (Key key) => LoadMoreInfiniteScrollingDataGrid(key: key),
 
     'load_more_datagrid': (Key key) => LoadMoreDataGrid(key: key),
 
     'pull_to_refresh_datagrid': (Key key) => PullToRefreshDataGrid(key: key),
 
-    'context_menu_datagrid': (Key key) => ContextMenuDataGrid(
-          key: key,
-        ),
+    'context_menu_datagrid': (Key key) => ContextMenuDataGrid(key: key),
 
     'swiping_datagrid': (Key key) => SwipingDataGrid(key: key),
 
-    'checkbox_selection_datagrid': (Key key) =>
-        CheckboxSelectionDataGrid(key: key),
+    'checkbox_selection_datagrid':
+        (Key key) => CheckboxSelectionDataGrid(key: key),
 
     'table_summary_datagrid': (Key key) => TableSummaryDataGrid(key: key),
 
@@ -1051,16 +1053,16 @@ Map<String, Function> getSampleWidget() {
     'polygon': (Key key) => MapPolygonPage(key),
 
     // SignaturePad
-    'signature_pad_getting_started': (Key key) =>
-        GettingStartedSignaturePad(key),
+    'signature_pad_getting_started':
+        (Key key) => GettingStartedSignaturePad(key),
 
     // Circular progress bar
     'progress_bar_types': (Key key) => ProgressBarTypes(key),
-    'progress_bar_determinate_styles': (Key key) =>
-        ProgressBarDeterminateStyle(key),
+    'progress_bar_determinate_styles':
+        (Key key) => ProgressBarDeterminateStyle(key),
     'progress_bar_segment_styles': (Key key) => ProgressBarSegmentStyle(key),
-    'progress_bar_track_with_markers': (Key key) =>
-        ProgressBarTrackWithMarker(key),
+    'progress_bar_track_with_markers':
+        (Key key) => ProgressBarTrackWithMarker(key),
     'progress_bar_custom_labels': (Key key) => ProgressBarCustomLabels(key),
     'progress_bar_angles': (Key key) => ProgressBarAngles(key),
 
@@ -1075,29 +1077,29 @@ Map<String, Function> getSampleWidget() {
 
     //Radial Range Slider
     'radial_range_slider_angles': (Key key) => RadialRangeSliderAngles(key),
-    'radial_range_slider_ticks_and_labels': (Key key) =>
-        RadialRangeSliderLabelsTicks(key),
+    'radial_range_slider_ticks_and_labels':
+        (Key key) => RadialRangeSliderLabelsTicks(key),
     'radial_range_slider_state': (Key key) => RadialRangeSliderStateTypes(key),
-    'radial_range_slider_custom_text': (Key key) =>
-        RadialRangeSliderCustomText(key),
+    'radial_range_slider_custom_text':
+        (Key key) => RadialRangeSliderCustomText(key),
     'radial_range_slider_gradient': (Key key) => RadialRangeSliderGradient(key),
     'radial_range_slider_styles': (Key key) => RadialRangeSliderStyles(key),
     'radial_range_slider_thumb': (Key key) => RadialRangeSliderThumb(key),
 
     //Treemap
-    'squarified_treemap_flat': (Key key) =>
-        TreemapLayoutSample(key, LayoutType.squarified),
-    'slice_treemap_flat': (Key key) =>
-        TreemapLayoutSample(key, LayoutType.slice),
+    'squarified_treemap_flat':
+        (Key key) => TreemapLayoutSample(key, LayoutType.squarified),
+    'slice_treemap_flat':
+        (Key key) => TreemapLayoutSample(key, LayoutType.slice),
     'dice_treemap_flat': (Key key) => TreemapLayoutSample(key, LayoutType.dice),
-    'squarified_treemap_hierarchical': (Key key) =>
-        HierarchicalTreemapSample(key),
-    'squarified_range_color_mapping': (Key key) =>
-        TreemapRangeColorMappingSample(key),
-    'squarified_value_color_mapping': (Key key) =>
-        TreemapValueColorMappingSample(key),
-    'squarified_treemap_custom_background': (Key key) =>
-        TreemapCustomBackgroundSample(key),
+    'squarified_treemap_hierarchical':
+        (Key key) => HierarchicalTreemapSample(key),
+    'squarified_range_color_mapping':
+        (Key key) => TreemapRangeColorMappingSample(key),
+    'squarified_value_color_mapping':
+        (Key key) => TreemapValueColorMappingSample(key),
+    'squarified_treemap_custom_background':
+        (Key key) => TreemapCustomBackgroundSample(key),
     'squarified_treemap_selection': (Key key) => TreemapSelectionSample(key),
     'squarified_treemap_drilldown': (Key key) => TreemapDrilldownSample(key),
     'treemap_text_direction': (Key key) => TreemapTextDirectionPage(key),
@@ -1108,13 +1110,13 @@ Map<String, Function> getSampleWidget() {
     'customization': (Key key) => ChatCustomizationSample(key),
 
     // AssistView
-    'assist_view_getting_started': (Key key) =>
-        AssistViewGettingStartedSample(key),
-    'assist_view_customization': (Key key) =>
-        AssistViewCustomizationSample(key),
-    'ai_assist_view_getting_started': (Key key) =>
-        AssistViewGettingStartedSample(key),
-    'ai_assist_view_customization': (Key key) =>
-        AssistViewCustomizationSample(key),
+    'assist_view_getting_started':
+        (Key key) => AssistViewGettingStartedSample(key),
+    'assist_view_customization':
+        (Key key) => AssistViewCustomizationSample(key),
+    'ai_assist_view_getting_started':
+        (Key key) => AssistViewGettingStartedSample(key),
+    'ai_assist_view_customization':
+        (Key key) => AssistViewCustomizationSample(key),
   };
 }

@@ -26,21 +26,27 @@ class _TooltipTemplateState extends SampleViewState {
   @override
   void initState() {
     _tooltipBehavior = TooltipBehavior(
-        enable: true,
-        color: Colors.grey[400],
-        builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
-            int seriesIndex) {
-          return Container(
-            alignment: Alignment.center,
-            height: 40,
-            width: 70,
-            decoration: BoxDecoration(
-              color: Colors.grey[400],
-              borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-              child: Row(children: <Widget>[
+      enable: true,
+      color: Colors.grey[400],
+      builder: (
+        dynamic data,
+        dynamic point,
+        dynamic series,
+        int pointIndex,
+        int seriesIndex,
+      ) {
+        return Container(
+          alignment: Alignment.center,
+          height: 40,
+          width: 70,
+          decoration: BoxDecoration(
+            color: Colors.grey[400],
+            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+            child: Row(
+              children: <Widget>[
                 SizedBox(
                   height: 30,
                   width: 35,
@@ -51,10 +57,12 @@ class _TooltipTemplateState extends SampleViewState {
                   style: const TextStyle(fontSize: 12, color: Colors.black),
                   textScaler: TextScaler.noScaling,
                 ),
-              ]),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
     _chartData = _buildChartData();
     _gradient = const LinearGradient(
       colors: <Color>[
@@ -62,11 +70,7 @@ class _TooltipTemplateState extends SampleViewState {
         Color.fromRGBO(183, 45, 145, 1),
         Color.fromRGBO(250, 203, 118, 1),
       ],
-      stops: <double>[
-        0.0,
-        0.5,
-        1.0,
-      ],
+      stops: <double>[0.0, 0.5, 1.0],
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
     );
@@ -85,10 +89,7 @@ class _TooltipTemplateState extends SampleViewState {
         y: 42,
         pointColor: const Color.fromRGBO(26, 157, 235, 1),
       ),
-      ChartSampleData(
-        x: 'Instagram',
-        y: 63,
-      ),
+      ChartSampleData(x: 'Instagram', y: 63),
       ChartSampleData(
         x: 'Snapchat',
         y: 61,
@@ -111,9 +112,11 @@ class _TooltipTemplateState extends SampleViewState {
   SfCartesianChart _buildTooltipTemplateChart() {
     return SfCartesianChart(
       title: ChartTitle(
-          text: isCardView
-              ? ''
-              : 'Percentage of people using social media on a daily basis'),
+        text:
+            isCardView
+                ? ''
+                : 'Percentage of people using social media on a daily basis',
+      ),
       plotAreaBorderWidth: 0,
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
@@ -130,7 +133,7 @@ class _TooltipTemplateState extends SampleViewState {
     );
   }
 
-//ignore: unused_element
+  //ignore: unused_element
   Color? _buildTooltipBorderColor(int pointIndex) {
     Color? color;
     if (pointIndex == 0) {
@@ -166,15 +169,16 @@ class _TooltipTemplateState extends SampleViewState {
   }
 
   String _buildImageTemplate(int pointIndex) {
-    final String path = pointIndex == 0
-        ? 'images/youtube.png'
-        : (pointIndex == 1
-            ? 'images/maps_twitter.png'
-            : (pointIndex == 2
-                ? 'images/maps_instagram.png'
-                : (pointIndex == 3
-                    ? 'images/maps_snapchat.png'
-                    : 'images/maps_facebook.png')));
+    final String path =
+        pointIndex == 0
+            ? 'images/youtube.png'
+            : (pointIndex == 1
+                ? 'images/maps_twitter.png'
+                : (pointIndex == 2
+                    ? 'images/maps_instagram.png'
+                    : (pointIndex == 3
+                        ? 'images/maps_snapchat.png'
+                        : 'images/maps_facebook.png')));
     return path;
   }
 

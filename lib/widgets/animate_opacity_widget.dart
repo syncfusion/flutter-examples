@@ -6,8 +6,8 @@ class AnimateOpacityWidget extends StatefulWidget {
   /// Holds custom opacity widget information
   // ignore: tighten_type_of_initializing_formals
   const AnimateOpacityWidget({this.opacity, this.child, this.controller})
-      : assert(opacity != null),
-        assert(child != null);
+    : assert(opacity != null),
+      assert(child != null);
 
   /// The fraction to scale the child's alpha value.
   final double? opacity;

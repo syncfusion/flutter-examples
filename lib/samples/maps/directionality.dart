@@ -106,30 +106,35 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
       // the color of the legend icon respectively.
       shapeColorMappers: <MapColorMapper>[
         const MapColorMapper(
-            from: 0,
-            to: 50,
-            color: Color.fromRGBO(173, 60, 44, 1),
-            text: '{0},{50}'),
+          from: 0,
+          to: 50,
+          color: Color.fromRGBO(173, 60, 44, 1),
+          text: '{0},{50}',
+        ),
         const MapColorMapper(
-            from: 50,
-            to: 100,
-            color: Color.fromRGBO(182, 87, 0, 1),
-            text: '100'),
+          from: 50,
+          to: 100,
+          color: Color.fromRGBO(182, 87, 0, 1),
+          text: '100',
+        ),
         const MapColorMapper(
-            from: 100,
-            to: 150,
-            color: Color.fromRGBO(220, 121, 5, 1),
-            text: '150'),
+          from: 100,
+          to: 150,
+          color: Color.fromRGBO(220, 121, 5, 1),
+          text: '150',
+        ),
         const MapColorMapper(
-            from: 150,
-            to: 300,
-            color: Color.fromRGBO(221, 146, 0, 1),
-            text: '300'),
+          from: 150,
+          to: 300,
+          color: Color.fromRGBO(221, 146, 0, 1),
+          text: '300',
+        ),
         const MapColorMapper(
-            from: 300,
-            to: 700,
-            color: Color.fromRGBO(250, 189, 32, 1),
-            text: '700'),
+          from: 300,
+          to: 700,
+          color: Color.fromRGBO(250, 189, 32, 1),
+          text: '700',
+        ),
       ],
     );
   }
@@ -148,24 +153,26 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
     _updateTitleBasedOnLocale();
     _isLightTheme = _themeData.colorScheme.brightness == Brightness.light;
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final bool scrollEnabled = constraints.maxHeight > 400;
-      double height = scrollEnabled ? constraints.maxHeight : 400;
-      if (model.isWebFullView ||
-          (model.isMobile &&
-              MediaQuery.of(context).orientation == Orientation.landscape)) {
-        final double refHeight = height * 0.6;
-        height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
-      }
-      return Center(
-        child: SingleChildScrollView(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final bool scrollEnabled = constraints.maxHeight > 400;
+        double height = scrollEnabled ? constraints.maxHeight : 400;
+        if (model.isWebFullView ||
+            (model.isMobile &&
+                MediaQuery.of(context).orientation == Orientation.landscape)) {
+          final double refHeight = height * 0.6;
+          height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+        }
+        return Center(
+          child: SingleChildScrollView(
             child: SizedBox(
-          width: constraints.maxWidth,
-          height: height,
-          child: _buildMapsWidget(scrollEnabled),
-        )),
-      );
-    });
+              width: constraints.maxWidth,
+              height: height,
+              child: _buildMapsWidget(scrollEnabled),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _updateTitleBasedOnLocale() {
@@ -178,102 +185,132 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
 
   Widget _buildMapsWidget(bool scrollEnabled) {
     return Center(
-        child: Padding(
-      padding: scrollEnabled
-          ? EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.05,
-              bottom: MediaQuery.of(context).size.height * 0.05,
-              right: 10)
-          : const EdgeInsets.only(right: 10, bottom: 15),
-      child: SfMapsTheme(
-        data: const SfMapsThemeData(),
-        child: Column(children: <Widget>[
-          Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 30),
-              child: Align(
-                  child: Text(_title,
-                      textDirection: TextDirection.rtl,
-                      style: Theme.of(context).textTheme.titleMedium))),
-          Expanded(
-            child: SfMaps(
-              layers: <MapLayer>[
-                MapShapeLayer(
-                  loadingBuilder: (BuildContext context) {
-                    return const SizedBox(
-                      height: 25,
-                      width: 25,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                      ),
-                    );
-                  },
-                  source: _mapSource,
-                  strokeColor: model.homeCardColor,
-                  strokeWidth: 0.5,
-                  // Returns the custom tooltip for each shape.
-                  shapeTooltipBuilder: (BuildContext context, int index) {
-                    return Row(mainAxisSize: MainAxisSize.min, children: [
-                      Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(10.0, 7.0, 10.0, 8.5),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  text: model.locale == const Locale('ar', 'AE')
-                                      ? _stateWiseGRPDetails[index].stateLocale
-                                      : _stateWiseGRPDetails[index].state,
-                                  style:
-                                      _themeData.textTheme.bodySmall!.copyWith(
-                                    height: 1.5,
-                                    color: _isLightTheme
-                                        ? const Color.fromRGBO(255, 255, 255, 1)
-                                        : const Color.fromRGBO(10, 10, 10, 1),
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                        text: '\n€' +
-                                            _stateWiseGRPDetails[index]
-                                                .grp
-                                                .toStringAsFixed(2) +
-                                            'B'),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ))
-                    ]);
-                  },
-                  legend: const MapLegend.bar(MapElement.shape,
-                      position: MapLegendPosition.bottom,
-                      showPointerOnHover: true,
-                      overflowMode: MapLegendOverflowMode.wrap,
-                      labelsPlacement: MapLegendLabelsPlacement.betweenItems,
-                      padding: EdgeInsets.only(top: 15),
-                      spacing: 1.0,
-                      segmentSize: Size(55.0, 9.0)),
-                  tooltipSettings: MapTooltipSettings(
-                    color: _isLightTheme
-                        ? const Color.fromRGBO(45, 45, 45, 1)
-                        : const Color.fromRGBO(242, 242, 242, 1),
+      child: Padding(
+        padding:
+            scrollEnabled
+                ? EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.05,
+                  right: 10,
+                )
+                : const EdgeInsets.only(right: 10, bottom: 15),
+        child: SfMapsTheme(
+          data: const SfMapsThemeData(),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 30),
+                child: Align(
+                  child: Text(
+                    _title,
+                    textDirection: TextDirection.rtl,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-              ],
-            ),
-          )
-        ]),
+              ),
+              Expanded(
+                child: SfMaps(
+                  layers: <MapLayer>[
+                    MapShapeLayer(
+                      loadingBuilder: (BuildContext context) {
+                        return const SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: CircularProgressIndicator(strokeWidth: 3),
+                        );
+                      },
+                      source: _mapSource,
+                      strokeColor: model.homeCardColor,
+                      strokeWidth: 0.5,
+                      // Returns the custom tooltip for each shape.
+                      shapeTooltipBuilder: (BuildContext context, int index) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                10.0,
+                                7.0,
+                                10.0,
+                                8.5,
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text:
+                                          model.locale ==
+                                                  const Locale('ar', 'AE')
+                                              ? _stateWiseGRPDetails[index]
+                                                  .stateLocale
+                                              : _stateWiseGRPDetails[index]
+                                                  .state,
+                                      style: _themeData.textTheme.bodySmall!
+                                          .copyWith(
+                                            height: 1.5,
+                                            color:
+                                                _isLightTheme
+                                                    ? const Color.fromRGBO(
+                                                      255,
+                                                      255,
+                                                      255,
+                                                      1,
+                                                    )
+                                                    : const Color.fromRGBO(
+                                                      10,
+                                                      10,
+                                                      10,
+                                                      1,
+                                                    ),
+                                          ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text:
+                                              '\n€' +
+                                              _stateWiseGRPDetails[index].grp
+                                                  .toStringAsFixed(2) +
+                                              'B',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                      legend: const MapLegend.bar(
+                        MapElement.shape,
+                        position: MapLegendPosition.bottom,
+                        showPointerOnHover: true,
+                        overflowMode: MapLegendOverflowMode.wrap,
+                        labelsPlacement: MapLegendLabelsPlacement.betweenItems,
+                        padding: EdgeInsets.only(top: 15),
+                        spacing: 1.0,
+                        segmentSize: Size(55.0, 9.0),
+                      ),
+                      tooltipSettings: MapTooltipSettings(
+                        color:
+                            _isLightTheme
+                                ? const Color.fromRGBO(45, 45, 45, 1)
+                                : const Color.fromRGBO(242, 242, 242, 1),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 }
 
 class _StatesGRP {
-  _StatesGRP(
-    this.state,
-    this.grp,
-    this.stateLocale,
-  );
+  _StatesGRP(this.state, this.grp, this.stateLocale);
 
   final String state;
   final String stateLocale;

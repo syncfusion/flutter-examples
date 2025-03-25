@@ -21,7 +21,10 @@ class ChatCustomizationSampleState extends SampleViewState {
   late int _messageCount;
 
   Widget _buildBubbleHeader(
-      BuildContext context, int index, ChatMessage message) {
+    BuildContext context,
+    int index,
+    ChatMessage message,
+  ) {
     final String? previousAuthor =
         index == 0 ? null : _messages[index - 1].author.id;
     final String currentAuthor = message.author.id;
@@ -34,7 +37,10 @@ class ChatCustomizationSampleState extends SampleViewState {
   }
 
   Widget _buildBubbleAvatar(
-      BuildContext context, int index, ChatMessage message) {
+    BuildContext context,
+    int index,
+    ChatMessage message,
+  ) {
     final SampleModel model = SampleModel.instance;
     return GestureDetector(
       onTap: () {
@@ -79,15 +85,17 @@ class ChatCustomizationSampleState extends SampleViewState {
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(right: 8.0),
-                                    child:
-                                        Icon(Icons.videocam_outlined, size: 15),
+                                    child: Icon(
+                                      Icons.videocam_outlined,
+                                      size: 15,
+                                    ),
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                   const Padding(
@@ -100,8 +108,11 @@ class ChatCustomizationSampleState extends SampleViewState {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.phone,
-                                size: 15, color: model.primaryColor),
+                            Icon(
+                              Icons.phone,
+                              size: 15,
+                              color: model.primaryColor,
+                            ),
                             const Padding(
                               padding: EdgeInsets.only(left: 5),
                               child: Text('1234567890'),
@@ -112,8 +123,11 @@ class ChatCustomizationSampleState extends SampleViewState {
                           padding: const EdgeInsets.only(top: 5),
                           child: Row(
                             children: [
-                              Icon(Icons.mail,
-                                  size: 15, color: model.primaryColor),
+                              Icon(
+                                Icons.mail,
+                                size: 15,
+                                color: model.primaryColor,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
@@ -125,16 +139,14 @@ class ChatCustomizationSampleState extends SampleViewState {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             );
           },
         );
       },
-      child: CircleAvatar(
-        backgroundImage: message.author.avatar,
-      ),
+      child: CircleAvatar(backgroundImage: message.author.avatar),
     );
   }
 
@@ -142,8 +154,10 @@ class ChatCustomizationSampleState extends SampleViewState {
     const Radius maxRadius = Radius.circular(7.5);
     const Radius minRadius = Radius.zero;
 
-    final bool isFirstMessageFromAuthor =
-        _isFirstMessageFromAuthor(index, message);
+    final bool isFirstMessageFromAuthor = _isFirstMessageFromAuthor(
+      index,
+      message,
+    );
     final bool isLastMessageFromAuthor =
         !isFirstMessageFromAuthor && _isLastMessageFromAuthor(index, message);
     final bool isSameAuthorMessage =
@@ -153,21 +167,25 @@ class ChatCustomizationSampleState extends SampleViewState {
       return BorderRadius.only(
         topLeft: maxRadius,
         bottomLeft: maxRadius,
-        topRight: isLastMessageFromAuthor || isSameAuthorMessage
-            ? minRadius
-            : maxRadius,
-        bottomRight: isFirstMessageFromAuthor || isSameAuthorMessage
-            ? minRadius
-            : maxRadius,
+        topRight:
+            isLastMessageFromAuthor || isSameAuthorMessage
+                ? minRadius
+                : maxRadius,
+        bottomRight:
+            isFirstMessageFromAuthor || isSameAuthorMessage
+                ? minRadius
+                : maxRadius,
       );
     } else {
       return BorderRadius.only(
-        topLeft: isLastMessageFromAuthor || isSameAuthorMessage
-            ? minRadius
-            : maxRadius,
-        bottomLeft: isFirstMessageFromAuthor || isSameAuthorMessage
-            ? minRadius
-            : maxRadius,
+        topLeft:
+            isLastMessageFromAuthor || isSameAuthorMessage
+                ? minRadius
+                : maxRadius,
+        bottomLeft:
+            isFirstMessageFromAuthor || isSameAuthorMessage
+                ? minRadius
+                : maxRadius,
         topRight: maxRadius,
         bottomRight: maxRadius,
       );
@@ -194,13 +212,18 @@ class ChatCustomizationSampleState extends SampleViewState {
   }
 
   Widget _buildBubbleContent(
-      BuildContext context, int index, ChatMessage message) {
+    BuildContext context,
+    int index,
+    ChatMessage message,
+  ) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: _isOutgoingMessage(message)
-            ? model.themeData.colorScheme.primary
-            : model.themeData.colorScheme.secondaryContainer
-                .withValues(alpha: 0.5),
+        color:
+            _isOutgoingMessage(message)
+                ? model.themeData.colorScheme.primary
+                : model.themeData.colorScheme.secondaryContainer.withValues(
+                  alpha: 0.5,
+                ),
         borderRadius: _borderRadius(index, message),
       ),
       child: Padding(
@@ -245,10 +268,14 @@ class ChatCustomizationSampleState extends SampleViewState {
           child: Text(
             formattedTime,
             style: TextStyle(
-              color: isOutgoingMessage
-                  ? model.themeData.colorScheme.surface.withValues(alpha: 0.5)
-                  : model.themeData.colorScheme.onSurface
-                      .withValues(alpha: 0.5),
+              color:
+                  isOutgoingMessage
+                      ? model.themeData.colorScheme.surface.withValues(
+                        alpha: 0.5,
+                      )
+                      : model.themeData.colorScheme.onSurface.withValues(
+                        alpha: 0.5,
+                      ),
               fontSize: 10,
               fontWeight: FontWeight.w400,
             ),
@@ -262,9 +289,10 @@ class ChatCustomizationSampleState extends SampleViewState {
     final ChatMessageExt chatMessage = message as ChatMessageExt;
     final String text = chatMessage.text;
     final TextStyle textStyle = TextStyle(
-      color: isOutgoingMessage
-          ? model.themeData.colorScheme.surface
-          : model.themeData.colorScheme.onSurface,
+      color:
+          isOutgoingMessage
+              ? model.themeData.colorScheme.surface
+              : model.themeData.colorScheme.onSurface,
     );
     Widget result;
     if (chatMessage.link != null) {
@@ -281,7 +309,17 @@ class ChatCustomizationSampleState extends SampleViewState {
               TextSpan(
                 text: chatMessage.link,
                 recognizer: TapGestureRecognizer()..onTap = () => launchURL(),
-                style: const TextStyle(color: Colors.lightBlue),
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  decorationColor:
+                      model.themeData.useMaterial3
+                          ? Colors.lightBlue
+                          : Colors.white,
+                  color:
+                      model.themeData.useMaterial3
+                          ? Colors.lightBlue
+                          : Colors.white,
+                ),
               ),
             ],
           ),
@@ -387,30 +425,32 @@ class ChatCustomizationSampleState extends SampleViewState {
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        width: canCenter ? maxExpectedWidth : availableWidth,
-        child: SfChat(
-          messages: _messages,
-          outgoingUser: 'Felipe',
-          incomingBubbleSettings: const ChatBubbleSettings(
-            showUserName: false,
-            showTimestamp: false,
-            headerPadding: EdgeInsets.zero,
-            contentPadding: EdgeInsets.zero,
-            padding: EdgeInsets.symmetric(vertical: 0.5),
+      child: Center(
+        child: SizedBox(
+          width: canCenter ? maxExpectedWidth : availableWidth,
+          child: SfChat(
+            messages: _messages,
+            outgoingUser: 'Felipe',
+            incomingMessageSettings: const ChatMessageSettings(
+              showAuthorName: false,
+              showTimestamp: false,
+              headerPadding: EdgeInsets.zero,
+              padding: EdgeInsets.zero,
+              margin: EdgeInsets.symmetric(vertical: 0.5),
+            ),
+            outgoingMessageSettings: const ChatMessageSettings(
+              showAuthorName: false,
+              showTimestamp: false,
+              showAuthorAvatar: false,
+              headerPadding: EdgeInsets.zero,
+              padding: EdgeInsets.zero,
+              margin: EdgeInsets.symmetric(vertical: 0.5),
+            ),
+            messageHeaderBuilder: _buildBubbleHeader,
+            messageAvatarBuilder: _buildBubbleAvatar,
+            messageContentBuilder: _buildBubbleContent,
+            composer: ChatComposer.builder(builder: _buildComposer),
           ),
-          outgoingBubbleSettings: const ChatBubbleSettings(
-            showUserName: false,
-            showTimestamp: false,
-            showUserAvatar: false,
-            headerPadding: EdgeInsets.zero,
-            contentPadding: EdgeInsets.zero,
-            padding: EdgeInsets.symmetric(vertical: 0.5),
-          ),
-          bubbleHeaderBuilder: _buildBubbleHeader,
-          bubbleAvatarBuilder: _buildBubbleAvatar,
-          bubbleContentBuilder: _buildBubbleContent,
-          composer: ChatComposer.builder(builder: _buildComposer),
         ),
       ),
     );

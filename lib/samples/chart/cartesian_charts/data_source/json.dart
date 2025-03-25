@@ -26,6 +26,7 @@ class _JsonDataState extends SampleViewState {
   _JsonDataState();
   TrackballBehavior? _trackballBehavior;
   List<_SampleData>? _chartData;
+  GlobalKey<SfCartesianChartState>? _chartKey;
 
   /// Method to load Json file from assets.
   Future<String> _loadJsonDataAsset() async {
@@ -37,13 +38,15 @@ class _JsonDataState extends SampleViewState {
   Future _loadJsonChartData() async {
     final String jsonString =
         await _loadJsonDataAsset(); // Deserialization  step 1.
-    final dynamic jsonResponse =
-        json.decode(jsonString); // Deserialization  step 2.
+    final dynamic jsonResponse = json.decode(
+      jsonString,
+    ); // Deserialization  step 2.
     setState(() {
       // ignore: always_specify_types
       for (final Map<dynamic, dynamic> i in jsonResponse) {
         _chartData!.add(_SampleData.fromJson(i)); // Deserialization step 3.
       }
+      _chartKey = GlobalKey<SfCartesianChartState>();
     });
   }
 
@@ -54,9 +57,10 @@ class _JsonDataState extends SampleViewState {
     _loadJsonChartData();
     _trackballBehavior = TrackballBehavior(
       enable: true,
-      lineColor: model.themeData.colorScheme.brightness == Brightness.dark
-          ? const Color.fromRGBO(255, 255, 255, 0.03)
-          : const Color.fromRGBO(0, 0, 0, 0.03),
+      lineColor:
+          model.themeData.colorScheme.brightness == Brightness.dark
+              ? const Color.fromRGBO(255, 255, 255, 0.03)
+              : const Color.fromRGBO(0, 0, 0, 0.03),
       lineWidth: 15,
       activationMode: ActivationMode.singleTap,
       markerSettings: const TrackballMarkerSettings(
@@ -76,7 +80,7 @@ class _JsonDataState extends SampleViewState {
   /// Returns the cartesian chart with default line series.
   SfCartesianChart _buildDefaultLineChart() {
     return SfCartesianChart(
-      key: GlobalKey(),
+      key: _chartKey,
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Sales comparison'),
       legend: Legend(

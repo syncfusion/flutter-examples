@@ -2,13 +2,8 @@
 /// information about the stock which will be rendered in datagrid.
 class StockInfo {
   /// Creates the stock class with required details.
-  StockInfo(
-    this.name,
-    this.qs1,
-    this.qs2,
-    this.qs3,
-    this.qs4,
-  ) : totalSales = qs1 + qs2 + qs3 + qs4;
+  StockInfo(this.name, this.qs1, this.qs2, this.qs3, this.qs4)
+    : totalSales = qs1 + qs2 + qs3 + qs4;
 
   /// Qs1 of the stock.
   final double qs1;

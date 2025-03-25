@@ -62,9 +62,7 @@ class _LiveVerticalState extends SampleViewState {
       backgroundColor: model.sampleOutputCardColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
-        child: Container(
-          child: _buildAddRemovePointsChart(),
-        ),
+        child: Container(child: _buildAddRemovePointsChart()),
       ),
       floatingActionButton: _buildFloatingActionButton(),
     );
@@ -80,18 +78,16 @@ class _LiveVerticalState extends SampleViewState {
             padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
             child: SizedBox(
               height: isCardView ? 40 : 45,
-              width: model.isWebFullView
-                  ? 140
-                  : isCardView
+              width:
+                  model.isWebFullView
+                      ? 140
+                      : isCardView
                       ? 100
                       : 110,
               child: InkWell(
                 splashColor: Colors.transparent,
                 child: Row(
-                  children: <Widget>[
-                    _buildAddButton(),
-                    _buildRemoveButton(),
-                  ],
+                  children: <Widget>[_buildAddButton(), _buildRemoveButton()],
                 ),
               ),
             ),
@@ -174,8 +170,9 @@ class _LiveVerticalState extends SampleViewState {
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
         animationDuration: 0,
-        onRendererCreated:
-            (ChartSeriesController<ChartSampleData, num> controller) {
+        onRendererCreated: (
+          ChartSeriesController<ChartSampleData, num> controller,
+        ) {
           _chartSeriesController = controller;
         },
       ),

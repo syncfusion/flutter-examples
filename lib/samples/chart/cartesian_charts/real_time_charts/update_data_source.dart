@@ -33,7 +33,7 @@ class _LiveVerticalState extends SampleViewState {
       ChartSampleData(x: 3, y: 13),
       ChartSampleData(x: 5, y: 80),
       ChartSampleData(x: 7, y: 30),
-      ChartSampleData(x: 9, y: 72)
+      ChartSampleData(x: 9, y: 72),
     ];
     _random = Random();
     super.initState();
@@ -49,10 +49,11 @@ class _LiveVerticalState extends SampleViewState {
         child: Container(child: _buildUpdateDataSourceChart()),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(() {
-          _chartData = <ChartSampleData>[];
-          _chartData = _buildChartData();
-        }),
+        onPressed:
+            () => setState(() {
+              _chartData = <ChartSampleData>[];
+              _chartData = _buildChartData();
+            }),
         backgroundColor: model.primaryColor,
         child: const Icon(Icons.refresh, color: Colors.white),
       ),
@@ -86,9 +87,7 @@ class _LiveVerticalState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
-        dataLabelSettings: const DataLabelSettings(
-          isVisible: true,
-        ),
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
       ),
     ];
   }

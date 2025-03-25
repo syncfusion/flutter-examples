@@ -72,10 +72,7 @@ class _AxisCrossingState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Axis  ',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(138, 0, 0, 0),
@@ -87,15 +84,16 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedAxis,
-                    items: _axis!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'X',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                    items:
+                        _axis!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'X',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _onAxisTypeChange(value.toString());
                       stateSetter(() {});
@@ -108,10 +106,7 @@ class _AxisCrossingState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Cross at  ',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(85, 0, 0, 0),
@@ -119,15 +114,13 @@ class _AxisCrossingState extends SampleViewState {
                     minValue: -8,
                     maxValue: 8,
                     initialValue: _crossAt,
-                    onChanged: (double val) => setState(() {
-                      _crossAt = val;
-                    }),
+                    onChanged:
+                        (double val) => setState(() {
+                          _crossAt = val;
+                        }),
                     step: 2,
                     iconColor: model.textColor,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: model.textColor,
-                    ),
+                    style: TextStyle(fontSize: 20.0, color: model.textColor),
                   ),
                 ),
               ],
@@ -136,10 +129,7 @@ class _AxisCrossingState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Labels near axis line',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
                 SizedBox(
                   width: 75,
@@ -166,16 +156,15 @@ class _AxisCrossingState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Spline Interpolation',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Spline Interpolation'),
       primaryXAxis: NumericAxis(
         minimum: -8,
         maximum: 8,
         interval: 2,
-        placeLabelsNearAxisLine: isCardView
-            ? true
-            : _selectedAxisType == 'x'
+        placeLabelsNearAxisLine:
+            isCardView
+                ? true
+                : _selectedAxisType == 'x'
                 ? _isPlaceLabelsNearAxisLine ?? true
                 : true,
         crossesAt: _selectedAxisType == 'x' ? _crossAt : 0,
@@ -185,9 +174,10 @@ class _AxisCrossingState extends SampleViewState {
         minimum: -8,
         maximum: 8,
         interval: 2,
-        placeLabelsNearAxisLine: isCardView
-            ? true
-            : _selectedAxisType == 'y'
+        placeLabelsNearAxisLine:
+            isCardView
+                ? true
+                : _selectedAxisType == 'y'
                 ? _isPlaceLabelsNearAxisLine ?? true
                 : true,
         crossesAt: _selectedAxisType == 'y' ? _crossAt : 0,
@@ -201,7 +191,8 @@ class _AxisCrossingState extends SampleViewState {
 
   /// Returns the list of Cartesian Spline series.
   List<CartesianSeries<ChartSampleData, num>> _buildSplineSeries(
-      String seriesType) {
+    String seriesType,
+  ) {
     return <CartesianSeries<ChartSampleData, num>>[
       SplineSeries<ChartSampleData, num>(
         dataSource: _interpolationData,

@@ -32,46 +32,52 @@ class _RadialNonLinearLabelState extends SampleViewState {
       animationDuration: 2500,
       axes: <RadialAxis>[
         RadialAxis(
-            axisLineStyle: const AxisLineStyle(
-                thicknessUnit: GaugeSizeUnit.factor, thickness: 0.15),
-            radiusFactor: model.isWebFullView ? 0.8 : 0.9,
-            showTicks: false,
-            showLastLabel: true,
-            maximum: 150,
-            axisLabelStyle: const GaugeTextStyle(),
-            // Added custom axis renderer that extended from RadialAxisRenderer
-            onCreateAxisRenderer: handleCreateAxisRenderer,
-            pointers: <GaugePointer>[
-              NeedlePointer(
-                  enableAnimation: true,
-                  gradient: const LinearGradient(colors: <Color>[
-                    Color.fromRGBO(203, 126, 223, 0),
-                    Color(0xFFCB7EDF)
-                  ], stops: <double>[
-                    0.25,
-                    0.75
-                  ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
-                  animationType: AnimationType.easeOutBack,
-                  value: 60,
-                  animationDuration: 1300,
-                  needleStartWidth: isCardView ? 3 : 4,
-                  needleEndWidth: isCardView ? 6 : 8,
-                  needleLength: 0.8,
-                  knobStyle: const KnobStyle(
-                    knobRadius: 0,
-                  )),
-              RangePointer(
-                  value: 60,
-                  width: 0.15,
-                  sizeUnit: GaugeSizeUnit.factor,
-                  color: _pointerColor,
-                  animationDuration: 1300,
-                  animationType: AnimationType.easeOutBack,
-                  gradient: const SweepGradient(
-                      colors: <Color>[Color(0xFF9E40DC), Color(0xFFE63B86)],
-                      stops: <double>[0.25, 0.75]),
-                  enableAnimation: true)
-            ])
+          axisLineStyle: const AxisLineStyle(
+            thicknessUnit: GaugeSizeUnit.factor,
+            thickness: 0.15,
+          ),
+          radiusFactor: model.isWebFullView ? 0.8 : 0.9,
+          showTicks: false,
+          showLastLabel: true,
+          maximum: 150,
+          axisLabelStyle: const GaugeTextStyle(),
+          // Added custom axis renderer that extended from RadialAxisRenderer
+          onCreateAxisRenderer: handleCreateAxisRenderer,
+          pointers: <GaugePointer>[
+            NeedlePointer(
+              enableAnimation: true,
+              gradient: const LinearGradient(
+                colors: <Color>[
+                  Color.fromRGBO(203, 126, 223, 0),
+                  Color(0xFFCB7EDF),
+                ],
+                stops: <double>[0.25, 0.75],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+              animationType: AnimationType.easeOutBack,
+              value: 60,
+              animationDuration: 1300,
+              needleStartWidth: isCardView ? 3 : 4,
+              needleEndWidth: isCardView ? 6 : 8,
+              needleLength: 0.8,
+              knobStyle: const KnobStyle(knobRadius: 0),
+            ),
+            RangePointer(
+              value: 60,
+              width: 0.15,
+              sizeUnit: GaugeSizeUnit.factor,
+              color: _pointerColor,
+              animationDuration: 1300,
+              animationType: AnimationType.easeOutBack,
+              gradient: const SweepGradient(
+                colors: <Color>[Color(0xFF9E40DC), Color(0xFFE63B86)],
+                stops: <double>[0.25, 0.75],
+              ),
+              enableAnimation: true,
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -95,7 +101,11 @@ class _CustomAxisRenderer extends RadialAxisRenderer {
     for (num i = 0; i < 9; i++) {
       final double labelValue = _calculateLabelValue(i);
       final CircularAxisLabel label = CircularAxisLabel(
-          axis.axisLabelStyle, labelValue.toInt().toString(), i, false);
+        axis.axisLabelStyle,
+        labelValue.toInt().toString(),
+        i,
+        false,
+      );
       label.value = labelValue;
       visibleLabels.add(label);
     }

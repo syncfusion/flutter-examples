@@ -26,27 +26,71 @@ class _ScatterShapesState extends SampleViewState {
   void initState() {
     _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 1950, y: 0.8, secondSeriesYValue: 1.4, thirdSeriesYValue: 2),
+        x: 1950,
+        y: 0.8,
+        secondSeriesYValue: 1.4,
+        thirdSeriesYValue: 2,
+      ),
       ChartSampleData(
-          x: 1955, y: 1.2, secondSeriesYValue: 1.7, thirdSeriesYValue: 2.4),
+        x: 1955,
+        y: 1.2,
+        secondSeriesYValue: 1.7,
+        thirdSeriesYValue: 2.4,
+      ),
       ChartSampleData(
-          x: 1960, y: 0.9, secondSeriesYValue: 1.5, thirdSeriesYValue: 2.2),
+        x: 1960,
+        y: 0.9,
+        secondSeriesYValue: 1.5,
+        thirdSeriesYValue: 2.2,
+      ),
       ChartSampleData(
-          x: 1965, y: 1, secondSeriesYValue: 1.6, thirdSeriesYValue: 2.5),
+        x: 1965,
+        y: 1,
+        secondSeriesYValue: 1.6,
+        thirdSeriesYValue: 2.5,
+      ),
       ChartSampleData(
-          x: 1970, y: 0.8, secondSeriesYValue: 1.4, thirdSeriesYValue: 2.2),
+        x: 1970,
+        y: 0.8,
+        secondSeriesYValue: 1.4,
+        thirdSeriesYValue: 2.2,
+      ),
       ChartSampleData(
-          x: 1975, y: 1, secondSeriesYValue: 1.8, thirdSeriesYValue: 2.4),
+        x: 1975,
+        y: 1,
+        secondSeriesYValue: 1.8,
+        thirdSeriesYValue: 2.4,
+      ),
       ChartSampleData(
-          x: 1980, y: 1, secondSeriesYValue: 1.7, thirdSeriesYValue: 2),
+        x: 1980,
+        y: 1,
+        secondSeriesYValue: 1.7,
+        thirdSeriesYValue: 2,
+      ),
       ChartSampleData(
-          x: 1985, y: 1.2, secondSeriesYValue: 1.9, thirdSeriesYValue: 2.3),
+        x: 1985,
+        y: 1.2,
+        secondSeriesYValue: 1.9,
+        thirdSeriesYValue: 2.3,
+      ),
       ChartSampleData(
-          x: 1990, y: 1.1, secondSeriesYValue: 1.4, thirdSeriesYValue: 2),
+        x: 1990,
+        y: 1.1,
+        secondSeriesYValue: 1.4,
+        thirdSeriesYValue: 2,
+      ),
       ChartSampleData(
-          x: 1995, y: 1.2, secondSeriesYValue: 1.8, thirdSeriesYValue: 2.2),
+        x: 1995,
+        y: 1.2,
+        secondSeriesYValue: 1.8,
+        thirdSeriesYValue: 2.2,
+      ),
       ChartSampleData(
-          x: 2000, y: 1.4, secondSeriesYValue: 2, thirdSeriesYValue: 2.4),
+        x: 2000,
+        y: 1.4,
+        secondSeriesYValue: 2,
+        thirdSeriesYValue: 2.4,
+      ),
     ];
     _tooltipBehavior = TooltipBehavior(
       enable: true,
@@ -65,9 +109,7 @@ class _ScatterShapesState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Inflation Analysis',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Inflation Analysis'),
       primaryXAxis: NumericAxis(
         minimum: 1945,
         maximum: 2005,
@@ -104,8 +146,8 @@ class _ScatterShapesState extends SampleViewState {
       ScatterSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         name: 'China',
         markerSettings: const MarkerSettings(
           width: 15,
@@ -116,8 +158,8 @@ class _ScatterShapesState extends SampleViewState {
       ScatterSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
         name: 'Japan',
         markerSettings: const MarkerSettings(
           width: 15,

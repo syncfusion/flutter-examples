@@ -42,7 +42,7 @@ class _DoughnutGradientState extends SampleViewState {
       Color.fromRGBO(96, 87, 234, 1),
       Color.fromRGBO(59, 141, 236, 1),
       Color.fromRGBO(112, 198, 129, 1),
-      Color.fromRGBO(237, 241, 81, 1)
+      Color.fromRGBO(237, 241, 81, 1),
     ];
     _shaderType = 'sweep';
     _shaderTypes = <String>['linear', 'sweep', 'radial'].toList();
@@ -51,7 +51,7 @@ class _DoughnutGradientState extends SampleViewState {
       ChartSampleData(x: 'David', y: 14, text: '14%'),
       ChartSampleData(x: 'Steve', y: 15, text: '15%'),
       ChartSampleData(x: 'Jack', y: 30, text: '30%'),
-      ChartSampleData(x: 'Others', y: 41, text: '41%')
+      ChartSampleData(x: 'Others', y: 41, text: '41%'),
     ];
   }
 
@@ -60,23 +60,23 @@ class _DoughnutGradientState extends SampleViewState {
     final double screenWidth =
         model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                model.isWebFullView ? 'Gradient \nmode' : 'Gradient mode',
-                softWrap: false,
-                style: TextStyle(fontSize: 16, color: model.textColor),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 0.07 * screenWidth),
-                width: 0.5 * screenWidth,
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  model.isWebFullView ? 'Gradient \nmode' : 'Gradient mode',
+                  softWrap: false,
+                  style: TextStyle(fontSize: 16, color: model.textColor),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 0.07 * screenWidth),
+                  width: 0.5 * screenWidth,
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
                     dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline: Container(
@@ -84,26 +84,30 @@ class _DoughnutGradientState extends SampleViewState {
                       height: 1,
                     ),
                     value: _shaderType,
-                    items: _shaderTypes!.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'point',
-                          child: Text(
-                            value,
-                            style: TextStyle(color: model.textColor),
-                          ));
-                    }).toList(),
+                    items:
+                        _shaderTypes!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'point',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       setState(() {
                         _onShaderTyeChange(value);
                         stateSetter(() {});
                       });
-                    }),
-              )
-            ],
-          ),
-        ],
-      );
-    });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -132,23 +136,22 @@ class _DoughnutGradientState extends SampleViewState {
           );
         } else if (_shaderType == 'radial') {
           return ui.Gradient.radial(
-              chartShaderDetails.outerRect.center,
-              chartShaderDetails.outerRect.right -
-                  chartShaderDetails.outerRect.center.dx,
-              _gradientColors!,
-              _customStops);
+            chartShaderDetails.outerRect.center,
+            chartShaderDetails.outerRect.right -
+                chartShaderDetails.outerRect.center.dx,
+            _gradientColors!,
+            _customStops,
+          );
         } else {
           return ui.Gradient.sweep(
-              chartShaderDetails.outerRect.center,
-              _gradientColors!,
-              _gradientStops,
-              TileMode.clamp,
-              _degreeToRadian(0),
-              _degreeToRadian(360),
-              _resolveTransform(
-                chartShaderDetails.outerRect,
-                TextDirection.ltr,
-              ));
+            chartShaderDetails.outerRect.center,
+            _gradientColors!,
+            _gradientStops,
+            TileMode.clamp,
+            _degreeToRadian(0),
+            _degreeToRadian(360),
+            _resolveTransform(chartShaderDetails.outerRect, TextDirection.ltr),
+          );
         }
       },
       title: ChartTitle(text: isCardView ? '' : 'Sales by sales person'),
@@ -169,18 +172,20 @@ class _DoughnutGradientState extends SampleViewState {
         radius: isCardView ? '85%' : '63%',
         explodeOffset: '3%',
         explode: true,
-        strokeColor: model.themeData.brightness == Brightness.light
-            ? Colors.black.withValues(alpha: 0.3)
-            : Colors.white.withValues(alpha: 0.3),
+        strokeColor:
+            model.themeData.brightness == Brightness.light
+                ? Colors.black.withValues(alpha: 0.3)
+                : Colors.white.withValues(alpha: 0.3),
         strokeWidth: 1.5,
         dataLabelMapper: (ChartSampleData data, int index) => data.text,
         dataLabelSettings: DataLabelSettings(
           isVisible: true,
           labelPosition: ChartDataLabelPosition.outside,
           connectorLineSettings: ConnectorLineSettings(
-            color: model.themeData.brightness == Brightness.light
-                ? Colors.black.withValues(alpha: 0.5)
-                : Colors.white,
+            color:
+                model.themeData.brightness == Brightness.light
+                    ? Colors.black.withValues(alpha: 0.5)
+                    : Colors.white,
             width: 1.5,
             length: isCardView ? '7%' : '10%',
             type: ConnectorType.curve,
@@ -215,7 +220,11 @@ class _DoughnutGradientState extends SampleViewState {
   double _degreeToRadian(int deg) => deg * (3.141592653589793 / 180);
 
   List<double> _computeDoughnutStopOffsets(
-      List<Color> colors, List<double> stops, Rect outerRect, Rect innerRect) {
+    List<Color> colors,
+    List<double> stops,
+    Rect outerRect,
+    Rect innerRect,
+  ) {
     final List<double> defaultStopOffsets = <double>[0.625, 0.75, 0.875, 1.0];
     final num chartStart = innerRect.right;
     final Offset chartCenter = outerRect.center;
@@ -237,13 +246,16 @@ class _DoughnutGradientState extends SampleViewState {
       if (i == 0) {
         stopOffsets.add(centerStops += diffStartEnd * stops[i] / diffCenterEnd);
       } else {
-        stopOffsets.add(centerStops +=
-            (diffStartEnd * (stops[i] - stops[i - 1])) / diffCenterEnd);
+        stopOffsets.add(
+          centerStops +=
+              (diffStartEnd * (stops[i] - stops[i - 1])) / diffCenterEnd,
+        );
       }
     }
-    stopOffsets = listEquals(stopOffsets, defaultStopOffsets)
-        ? stopOffsets
-        : defaultStopOffsets;
+    stopOffsets =
+        listEquals(stopOffsets, defaultStopOffsets)
+            ? stopOffsets
+            : defaultStopOffsets;
     return stopOffsets;
   }
 

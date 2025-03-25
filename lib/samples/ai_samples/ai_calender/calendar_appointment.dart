@@ -66,20 +66,15 @@ class _AiCalendarState extends SampleViewState
     _calendarController.view = CalendarView.timelineDay;
     _selectedAppointment = null;
 
-    _events = _EventDataSource(
-      _scheduledAppointments,
-      _resources,
-    );
+    _events = _EventDataSource(_scheduledAppointments, _resources);
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
     )..repeat(reverse: true);
-    _animation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
-    );
+    _animation = Tween<double>(
+      begin: 0.8,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _addResourceDetails();
     _addResources();
@@ -92,15 +87,16 @@ class _AiCalendarState extends SampleViewState
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder: (context) => WelcomeDialog(
-            primaryColor: model.primaryColor,
-            apiKey: model.assistApiKey,
-            onApiKeySaved: (newApiKey) {
-              setState(() {
-                model.assistApiKey = newApiKey;
-              });
-            },
-          ),
+          builder:
+              (context) => WelcomeDialog(
+                primaryColor: model.primaryColor,
+                apiKey: model.assistApiKey,
+                onApiKeySaved: (newApiKey) {
+                  setState(() {
+                    model.assistApiKey = newApiKey;
+                  });
+                },
+              ),
         );
         model.isFirstTime = false;
       }
@@ -116,15 +112,7 @@ class _AiCalendarState extends SampleViewState
               constraints.maxWidth > 600 ? 360 : constraints.maxWidth;
           return Stack(
             children: [
-              Column(
-                children: [
-                  Expanded(
-                    child: _buildCalendar(
-                      _events,
-                    ),
-                  ),
-                ],
-              ),
+              Column(children: [Expanded(child: _buildCalendar(_events))]),
               AnimatedPositioned(
                 duration: Duration.zero,
                 right: isPressed ? 0 : -sidebarWidth,
@@ -132,22 +120,25 @@ class _AiCalendarState extends SampleViewState
                 bottom: 0,
                 child: Material(
                   elevation: 4.0,
-                  borderRadius:
-                      BorderRadius.circular(12.0), // Border radius on Material
+                  borderRadius: BorderRadius.circular(
+                    12.0,
+                  ), // Border radius on Material
                   child: ClipRRect(
                     // Clip the child to ensure rounded corners
                     borderRadius: BorderRadius.circular(12.0),
                     child: Container(
                       width: sidebarWidth,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? const Color(0xFFFFFBFE) // Light theme color
-                            : const Color(0xFF1C1B1F), // Dark theme color
+                        color:
+                            Theme.of(context).brightness == Brightness.light
+                                ? const Color(0xFFFFFBFE) // Light theme color
+                                : const Color(0xFF1C1B1F), // Dark theme color
                         border: Border.all(color: Colors.grey, width: 0.5),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(
-                                alpha: 0.16), // Shadow color, with opacity
+                              alpha: 0.16,
+                            ), // Shadow color, with opacity
                             blurRadius: 6.0, // Blur effect
                             offset: const Offset(0, 3), // Vertical shadow
                           ),
@@ -162,7 +153,9 @@ class _AiCalendarState extends SampleViewState
                               decoration: BoxDecoration(
                                 color: model.primaryColor,
                                 border: Border.all(
-                                    color: model.primaryColor, width: 0.5),
+                                  color: model.primaryColor,
+                                  width: 0.5,
+                                ),
                               ),
                               child: Row(
                                 mainAxisAlignment:
@@ -173,10 +166,11 @@ class _AiCalendarState extends SampleViewState
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color: model.themeData.brightness ==
-                                              Brightness.light
-                                          ? Colors.white
-                                          : Colors.black,
+                                      color:
+                                          model.themeData.brightness ==
+                                                  Brightness.light
+                                              ? Colors.white
+                                              : Colors.black,
                                     ),
                                   ),
                                   Row(
@@ -184,20 +178,22 @@ class _AiCalendarState extends SampleViewState
                                       IconButton(
                                         icon: Icon(
                                           Icons.autorenew,
-                                          color: model.themeData.brightness ==
-                                                  Brightness.light
-                                              ? Colors.white
-                                              : Colors.black,
+                                          color:
+                                              model.themeData.brightness ==
+                                                      Brightness.light
+                                                  ? Colors.white
+                                                  : Colors.black,
                                         ),
                                         onPressed: _refreshView,
                                       ),
                                       IconButton(
                                         icon: Icon(
                                           Icons.close,
-                                          color: model.themeData.brightness ==
-                                                  Brightness.light
-                                              ? Colors.white
-                                              : Colors.black,
+                                          color:
+                                              model.themeData.brightness ==
+                                                      Brightness.light
+                                                  ? Colors.white
+                                                  : Colors.black,
                                         ),
                                         onPressed: _toggleSidebar,
                                       ),
@@ -208,8 +204,10 @@ class _AiCalendarState extends SampleViewState
                             ),
                             Expanded(
                               child: StatefulBuilder(
-                                builder: (BuildContext context,
-                                    StateSetter setState) {
+                                builder: (
+                                  BuildContext context,
+                                  StateSetter setState,
+                                ) {
                                   return Stack(
                                     children: [
                                       Padding(
@@ -217,71 +215,88 @@ class _AiCalendarState extends SampleViewState
                                         child: SfAIAssistView(
                                           key: _assistViewKey,
                                           messages: _messages,
-                                          onSuggestionItemSelected:
-                                              (bool selected,
-                                                  int messageIndex,
-                                                  AssistMessageSuggestion
-                                                      suggestion,
-                                                  int suggestionIndex) {
+                                          onSuggestionItemSelected: (
+                                            bool selected,
+                                            int messageIndex,
+                                            AssistMessageSuggestion suggestion,
+                                            int suggestionIndex,
+                                          ) {
                                             _handleSuggestionSelected(
-                                                suggestion.data!, setState);
-                                            if (suggestion.data!
-                                                    .contains('AM') ||
-                                                suggestion.data!
-                                                    .contains('PM')) {
+                                              suggestion.data!,
+                                              setState,
+                                            );
+                                            if (suggestion.data!.contains(
+                                                  'AM',
+                                                ) ||
+                                                suggestion.data!.contains(
+                                                  'PM',
+                                                )) {
                                               _handleAppointmentTimeSelection(
-                                                  suggestion.data!, setState);
+                                                suggestion.data!,
+                                                setState,
+                                              );
                                             } else
                                               _scheduleAppointmentWithDetails(
-                                                  suggestion.data!, setState);
+                                                suggestion.data!,
+                                                setState,
+                                              );
                                           },
                                           placeholderBuilder:
                                               (BuildContext context) =>
-                                                  placeholder(context, setState,
-                                                      constraints),
-                                          responseBubbleSettings:
-                                              const AssistBubbleSettings(
-                                            showUserAvatar: false,
-                                            widthFactor: 0.95,
-                                            textStyle: TextStyle(
-                                              fontFamily: 'Roboto',
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.w500,
-                                              height: 20.0 / 14.0,
-                                              letterSpacing: 0.1,
-                                              textBaseline:
-                                                  TextBaseline.alphabetic,
-                                              decoration: TextDecoration.none,
-                                            ),
-                                          ),
-                                          requestBubbleSettings:
-                                              AssistBubbleSettings(
-                                            showUserAvatar: false,
-                                            widthFactor: 0.95,
-                                            contentBackgroundColor:
-                                                model.themeData.brightness ==
-                                                        Brightness.light
-                                                    ? Theme.of(context)
-                                                        .colorScheme
-                                                        .surfaceContainer
-                                                    : Theme.of(context)
-                                                        .colorScheme
-                                                        .surfaceContainer,
-                                            textStyle: const TextStyle(
-                                              fontFamily: 'Roboto',
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.w500,
-                                              height: 20.0 / 14.0,
-                                              letterSpacing: 0.1,
-                                              textBaseline:
-                                                  TextBaseline.alphabetic,
-                                              decoration: TextDecoration.none,
-                                            ),
-                                          ),
+                                                  placeholder(
+                                                    context,
+                                                    setState,
+                                                    constraints,
+                                                  ),
+                                          responseMessageSettings:
+                                              const AssistMessageSettings(
+                                                showAuthorAvatar: false,
+                                                widthFactor: 0.95,
+                                                textStyle: TextStyle(
+                                                  fontFamily: 'Roboto',
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  height: 20.0 / 14.0,
+                                                  letterSpacing: 0.1,
+                                                  textBaseline:
+                                                      TextBaseline.alphabetic,
+                                                  decoration:
+                                                      TextDecoration.none,
+                                                ),
+                                              ),
+                                          requestMessageSettings:
+                                              AssistMessageSettings(
+                                                showAuthorAvatar: false,
+                                                widthFactor: 0.95,
+                                                backgroundColor:
+                                                    model
+                                                                .themeData
+                                                                .brightness ==
+                                                            Brightness.light
+                                                        ? Theme.of(context)
+                                                            .colorScheme
+                                                            .surfaceContainer
+                                                        : Theme.of(context)
+                                                            .colorScheme
+                                                            .surfaceContainer,
+                                                textStyle: const TextStyle(
+                                                  fontFamily: 'Roboto',
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  height: 20.0 / 14.0,
+                                                  letterSpacing: 0.1,
+                                                  textBaseline:
+                                                      TextBaseline.alphabetic,
+                                                  decoration:
+                                                      TextDecoration.none,
+                                                ),
+                                              ),
                                           composer: AssistComposer.builder(
                                             builder: (BuildContext context) {
                                               return _buildComposer(
-                                                  context, setState);
+                                                context,
+                                                setState,
+                                              );
                                             },
                                           ),
                                         ),
@@ -336,7 +351,10 @@ class _AiCalendarState extends SampleViewState
   }
 
   Widget placeholder(
-      BuildContext context, StateSetter setState, BoxConstraints constraints) {
+    BuildContext context,
+    StateSetter setState,
+    BoxConstraints constraints,
+  ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -348,9 +366,10 @@ class _AiCalendarState extends SampleViewState
               'How can I assist with your healthcare needs?',
               style: TextStyle(
                 fontSize: 16.0,
-                color: model.themeData.brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                color:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Roboto',
               ),
@@ -405,26 +424,28 @@ class _AiCalendarState extends SampleViewState
         suffixIcon: IconButton(
           icon: Icon(
             Icons.send,
-            color: _textController.text.isNotEmpty
-                ? Theme.of(context).colorScheme.primary
-                : const Color(0xFF9E9E9E),
+            color:
+                _textController.text.isNotEmpty
+                    ? Theme.of(context).colorScheme.primary
+                    : const Color(0xFF9E9E9E),
           ),
-          onPressed: _textController.text.isNotEmpty
-              ? () {
-                  setState(() {
-                    _messages.add(
-                      AssistMessage.request(
-                        time: DateTime.now(),
-                        author: user,
-                        data: _textController.text,
-                      ),
-                    );
-                    _showButtons = false;
-                    _generateAIResponse(_textController.text, setState);
-                    _textController.clear();
-                  });
-                }
-              : null,
+          onPressed:
+              _textController.text.isNotEmpty
+                  ? () {
+                    setState(() {
+                      _messages.add(
+                        AssistMessage.request(
+                          time: DateTime.now(),
+                          author: user,
+                          data: _textController.text,
+                        ),
+                      );
+                      _showButtons = false;
+                      _generateAIResponse(_textController.text, setState);
+                      _textController.clear();
+                    });
+                  }
+                  : null,
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
@@ -446,13 +467,15 @@ class _AiCalendarState extends SampleViewState
     BoxConstraints constraints,
   ) {
     return ElevatedButton(
-      onPressed: () => _hideButtons(
-          'Book an appointment with Dr. $doctorName', doctorName, setState),
+      onPressed:
+          () => _hideButtons(
+            'Book an appointment with Dr. $doctorName',
+            doctorName,
+            setState,
+          ),
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         padding: EdgeInsets.zero,
       ),
       child: Column(
@@ -469,9 +492,10 @@ class _AiCalendarState extends SampleViewState
                 ),
                 Icon(
                   Icons.arrow_outward_sharp,
-                  color: model.themeData.brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                  color:
+                      model.themeData.brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
                 ),
               ],
             ),
@@ -486,9 +510,10 @@ class _AiCalendarState extends SampleViewState
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: model.themeData.brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                color:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
@@ -528,22 +553,22 @@ class _AiCalendarState extends SampleViewState
   }
 
   Future<void> _scheduleAppointmentWithDetails(
-      String appointment, StateSetter setState) async {
+    String appointment,
+    StateSetter setState,
+  ) async {
     await Future.delayed(const Duration(seconds: 1));
     _subject = appointment;
-    setState(
-      () {
-        _messages.add(
-          AssistMessage.response(
-            data:
-                'Your appointment with doctor $_doctorName has been booked. \n\nRefresh for booking the new appointment.',
-            time: DateTime.now(),
-            author: bot,
-          ),
-        );
-        _confirmAppointmentWithEmployee(setState);
-      },
-    );
+    setState(() {
+      _messages.add(
+        AssistMessage.response(
+          data:
+              'Your appointment with doctor $_doctorName has been booked. \n\nRefresh for booking the new appointment.',
+          time: DateTime.now(),
+          author: bot,
+        ),
+      );
+      _confirmAppointmentWithEmployee(setState);
+    });
   }
 
   void _confirmAppointmentWithEmployee(StateSetter setState) {
@@ -621,114 +646,113 @@ class _AiCalendarState extends SampleViewState
     }
 
     final selectedResource = _resources.firstWhere(
-        (resource) => resource.displayName == _doctorName,
-        orElse: () => _resources.first);
-    setState(
-      () {
-        final List<Appointment> appointmentList = <Appointment>[];
-        if (_selectedAppointment == null) {
-          _subject = _subject.isEmpty ? '(No title)' : _subject;
-          final newAppointment = Appointment(
-            startTime: _aiGeneratedResponse ? _selectedDateTime : dateTime,
-            endTime: dateTime.add(const Duration(minutes: 30)),
-            resourceIds: [selectedResource.id],
-            color: selectedResource.color,
-            subject: _subject,
-          );
-          appointmentList.add(newAppointment);
-          _events.appointments!.add(newAppointment);
-          SchedulerBinding.instance.addPostFrameCallback(
-            (Duration duration) {
-              _events.notifyListeners(
-                  CalendarDataSourceAction.add, appointmentList);
-            },
-          );
-          _selectedAppointment = newAppointment;
-        }
-      },
+      (resource) => resource.displayName == _doctorName,
+      orElse: () => _resources.first,
     );
+    setState(() {
+      final List<Appointment> appointmentList = <Appointment>[];
+      if (_selectedAppointment == null) {
+        _subject = _subject.isEmpty ? '(No title)' : _subject;
+        final newAppointment = Appointment(
+          startTime: _aiGeneratedResponse ? _selectedDateTime : dateTime,
+          endTime: dateTime.add(const Duration(minutes: 30)),
+          resourceIds: [selectedResource.id],
+          color: selectedResource.color,
+          subject: _subject,
+        );
+        appointmentList.add(newAppointment);
+        _events.appointments!.add(newAppointment);
+        SchedulerBinding.instance.addPostFrameCallback((Duration duration) {
+          _events.notifyListeners(
+            CalendarDataSourceAction.add,
+            appointmentList,
+          );
+        });
+        _selectedAppointment = newAppointment;
+      }
+    });
   }
 
   Future<void> _handleAppointmentTimeSelection(
-      String time, StateSetter setState) async {
+    String time,
+    StateSetter setState,
+  ) async {
     await Future.delayed(const Duration(seconds: 1));
-    setState(
-      () {
-        _appointmentTime = time;
-        _messages.add(
-          AssistMessage.response(
-            data: 'What is the purpose of your appointment?',
-            time: DateTime.now(),
-            author: bot,
-            suggestions: const [
-              AssistMessageSuggestion(data: 'General Check-Up'),
-              AssistMessageSuggestion(data: 'Vaccinations'),
-              AssistMessageSuggestion(data: 'Diagnostic report'),
-              AssistMessageSuggestion(data: 'Diabetes'),
-            ],
-            suggestionSettings: AssistSuggestionSettings(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              itemBackgroundColor: resolveItemBackgroundColor(),
-              padding: const EdgeInsets.fromLTRB(0, 15, 8, 8),
-              itemPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              orientation: Axis.vertical,
-              runSpacing: 10.0,
+    setState(() {
+      _appointmentTime = time;
+      _messages.add(
+        AssistMessage.response(
+          data: 'What is the purpose of your appointment?',
+          time: DateTime.now(),
+          author: bot,
+          suggestions: const [
+            AssistMessageSuggestion(data: 'General Check-Up'),
+            AssistMessageSuggestion(data: 'Vaccinations'),
+            AssistMessageSuggestion(data: 'Diagnostic report'),
+            AssistMessageSuggestion(data: 'Diabetes'),
+          ],
+          suggestionSettings: AssistSuggestionSettings(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
             ),
+            itemBackgroundColor: resolveItemBackgroundColor(),
+            margin: const EdgeInsets.fromLTRB(0, 15, 8, 8),
+            itemPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 10,
+            ),
+            orientation: Axis.vertical,
+            runSpacing: 10.0,
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 
   WidgetStateProperty<Color> resolveItemBackgroundColor() {
-    return WidgetStateProperty.resolveWith(
-      (Set<WidgetState> state) {
-        final surfaceContainer = Theme.of(context).colorScheme.surfaceContainer;
+    return WidgetStateProperty.resolveWith((Set<WidgetState> state) {
+      final surfaceContainer = Theme.of(context).colorScheme.surfaceContainer;
 
-        if (state.contains(WidgetState.hovered) ||
-            state.contains(WidgetState.focused)) {
-          return surfaceContainer.withValues(alpha: 0.8);
-        }
-        if (state.contains(WidgetState.pressed) ||
-            state.contains(WidgetState.disabled)) {
-          return surfaceContainer.withValues(alpha: 0.12);
-        }
-        return surfaceContainer;
-      },
-    );
+      if (state.contains(WidgetState.hovered) ||
+          state.contains(WidgetState.focused)) {
+        return surfaceContainer.withValues(alpha: 0.8);
+      }
+      if (state.contains(WidgetState.pressed) ||
+          state.contains(WidgetState.disabled)) {
+        return surfaceContainer.withValues(alpha: 0.12);
+      }
+      return surfaceContainer;
+    });
   }
 
   Future<void> _handleDoctorSelection(
-      String message, StateSetter setState) async {
+    String message,
+    StateSetter setState,
+  ) async {
     _handleSuggestionSelected(message, setState);
     await Future.delayed(const Duration(seconds: 1));
-    setState(
-      () {
-        _messages.add(
-          AssistMessage.response(
-            data: 'Please select an appointment time',
-            time: DateTime.now(),
-            author: bot,
-            suggestions: const [
-              AssistMessageSuggestion(data: '9 AM'),
-              AssistMessageSuggestion(data: '11 AM'),
-              AssistMessageSuggestion(data: '2 PM'),
-              AssistMessageSuggestion(data: '4 PM'),
-            ],
-            suggestionSettings: AssistSuggestionSettings(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
-              itemBackgroundColor: resolveItemBackgroundColor(),
+    setState(() {
+      _messages.add(
+        AssistMessage.response(
+          data: 'Please select an appointment time',
+          time: DateTime.now(),
+          author: bot,
+          suggestions: const [
+            AssistMessageSuggestion(data: '9 AM'),
+            AssistMessageSuggestion(data: '11 AM'),
+            AssistMessageSuggestion(data: '2 PM'),
+            AssistMessageSuggestion(data: '4 PM'),
+          ],
+          suggestionSettings: AssistSuggestionSettings(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
             ),
+            margin: const EdgeInsets.fromLTRB(0, 8, 8, 8),
+            itemBackgroundColor: resolveItemBackgroundColor(),
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 
   void convertAIResponse(String response, StateSetter setState) {
@@ -748,26 +772,24 @@ class _AiCalendarState extends SampleViewState
       }
       String startTime;
       String date;
-      setState(
-        () {
-          _aiGeneratedResponse = true;
-          _doctorName = appointmentDetails['DoctorName']!;
-          _doctorName = _doctorName.replaceAll(RegExp(r'Dr\.?\s*'), '');
-          _appointmentTime = appointmentDetails['Time']!;
-          startTime = _appointmentTime.split(' - ')[0].toUpperCase();
-          _appointmentTime = startTime;
-          date = appointmentDetails['Date']!;
-          final DateFormat dateFormat = DateFormat('dd-MM-yyyy h:mm a');
-          _selectedDateTime = dateFormat.parse('$date $startTime');
-          _subject = appointmentDetails['Subject']!;
+      setState(() {
+        _aiGeneratedResponse = true;
+        _doctorName = appointmentDetails['DoctorName']!;
+        _doctorName = _doctorName.replaceAll(RegExp(r'Dr\.?\s*'), '');
+        _appointmentTime = appointmentDetails['Time']!;
+        startTime = _appointmentTime.split(' - ')[0].toUpperCase();
+        _appointmentTime = startTime;
+        date = appointmentDetails['Date']!;
+        final DateFormat dateFormat = DateFormat('dd-MM-yyyy h:mm a');
+        _selectedDateTime = dateFormat.parse('$date $startTime');
+        _subject = appointmentDetails['Subject']!;
 
-          if (_doctorName.isNotEmpty &&
-              _appointmentTime.isNotEmpty &&
-              _subject.isNotEmpty) {
-            _confirmAppointmentWithEmployee(setState);
-          }
-        },
-      );
+        if (_doctorName.isNotEmpty &&
+            _appointmentTime.isNotEmpty &&
+            _subject.isNotEmpty) {
+          _confirmAppointmentWithEmployee(setState);
+        }
+      });
     }
   }
 
@@ -787,8 +809,9 @@ class _AiCalendarState extends SampleViewState
 
         conversationHistory.add(Content.text('User Input$prompt'));
 
-        final GenerateContentResponse response =
-            await aiModel.generateContent(conversationHistory);
+        final GenerateContentResponse response = await aiModel.generateContent(
+          conversationHistory,
+        );
         responseText = (response.text ?? '').trim();
 
         conversationHistory.add(Content.text(responseText));
@@ -810,17 +833,15 @@ class _AiCalendarState extends SampleViewState
     isFirstTime = false;
 
     if (responseText != null)
-      setState(
-        () {
-          _messages.add(
-            AssistMessage.response(
-              data: responseText!,
-              time: DateTime.now(),
-              author: bot,
-            ),
-          );
-        },
-      );
+      setState(() {
+        _messages.add(
+          AssistMessage.response(
+            data: responseText!,
+            time: DateTime.now(),
+            author: bot,
+          ),
+        );
+      });
   }
 
   String _generatePrompt() {
@@ -893,12 +914,10 @@ When responding to the user:
   }
 
   void _hideButtons(String message, String doctor, StateSetter setState) {
-    setState(
-      () {
-        _showButtons = false;
-        _doctorName = doctor;
-      },
-    );
+    setState(() {
+      _showButtons = false;
+      _doctorName = doctor;
+    });
     _handleDoctorSelection(message, setState);
   }
 
@@ -946,8 +965,12 @@ When responding to the user:
       for (int j = 0; j < 2; j++) {
         final int index = i == 0 ? j : j + 2;
         final int startHour = appointmentTime[index];
-        final DateTime shiftStartTime =
-            DateTime(date.year, date.month, date.day, startHour);
+        final DateTime shiftStartTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          startHour,
+        );
         _scheduledAppointments.add(
           Appointment(
             startTime: shiftStartTime,
@@ -1000,7 +1023,9 @@ When responding to the user:
 
 class _EventDataSource extends CalendarDataSource {
   _EventDataSource(
-      List<Appointment> source, List<CalendarResource> resourceColl) {
+    List<Appointment> source,
+    List<CalendarResource> resourceColl,
+  ) {
     appointments = source;
     resources = resourceColl;
   }

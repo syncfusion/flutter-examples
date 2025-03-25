@@ -49,17 +49,13 @@ class _BarTrackerState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Working hours of employees',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Working hours of employees'),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
         majorGridLines: const MajorGridLines(width: 0),
-        title: AxisTitle(
-          text: isCardView ? '' : 'Hours',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Hours'),
         minimum: 0,
         maximum: 8,
         majorTickLines: const MajorTickLines(size: 0),

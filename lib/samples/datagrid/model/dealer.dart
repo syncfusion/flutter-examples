@@ -5,8 +5,14 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 /// information about the dealers info which will be rendered in datagrid.
 class Dealer {
   /// Creates the dealers info class with required details.
-  Dealer(this.productNo, this.dealerName, this.shippedDate, this.shipCountry,
-      this.shipCity, this.productPrice);
+  Dealer(
+    this.productNo,
+    this.dealerName,
+    this.shippedDate,
+    this.shipCountry,
+    this.shipCity,
+    this.productPrice,
+  );
 
   /// Product number of the dealer.
   int productNo;
@@ -28,13 +34,15 @@ class Dealer {
 
   /// Get datagrid row of the dealer.
   DataGridRow obtainDataGridRow() {
-    return DataGridRow(cells: <DataGridCell>[
-      DataGridCell<int>(columnName: 'Product No', value: productNo),
-      DataGridCell<String>(columnName: 'Dealer Name', value: dealerName),
-      DataGridCell<DateTime>(columnName: 'Shipped Date', value: shippedDate),
-      DataGridCell<String>(columnName: 'Ship Country', value: shipCountry),
-      DataGridCell<String>(columnName: 'Ship City', value: shipCity),
-      DataGridCell<double>(columnName: 'Price', value: productPrice),
-    ]);
+    return DataGridRow(
+      cells: <DataGridCell>[
+        DataGridCell<int>(columnName: 'Product No', value: productNo),
+        DataGridCell<String>(columnName: 'Dealer Name', value: dealerName),
+        DataGridCell<DateTime>(columnName: 'Shipped Date', value: shippedDate),
+        DataGridCell<String>(columnName: 'Ship Country', value: shipCountry),
+        DataGridCell<String>(columnName: 'Ship City', value: shipCity),
+        DataGridCell<double>(columnName: 'Price', value: productPrice),
+      ],
+    );
   }
 }

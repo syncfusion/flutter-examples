@@ -1,10 +1,10 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 28.1.33
+version: 29.1.33
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ">=3.4.0 <4.0.0"
 
 dependencies:
   flutter_test:
@@ -13,30 +13,35 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  url_launcher: ^6.1.0
-  path_provider: ^2.0.1
+  file_picker: ^8.3.1
+  url_launcher: ^6.3.1
+  provider: ^6.1.2
+  path_provider: ^2.1.5
+  excel: ^4.0.6
+  shared_preferences: ^2.5.1
   path_provider_foundation: ^2.1.0
   desktop_window: 0.4.0
-  intl: '>=0.18.1 <0.20.0'
+  intl: ">=0.18.1 <0.21.0"
   cupertino_icons: ^1.0.8
   google_generative_ai: ^0.4.6
   flutter_markdown: ^0.7.4+1
-  
-  syncfusion_localizations: ^28.1.33
-  syncfusion_flutter_datagrid_export: ^28.1.33
-  syncfusion_flutter_calendar: ^28.1.33
-  syncfusion_flutter_datepicker: ^28.1.33
-  syncfusion_flutter_charts: ^28.1.33
-  syncfusion_flutter_gauges: ^28.1.33
-  syncfusion_flutter_sliders: ^28.1.33
-  syncfusion_flutter_pdf: ^28.1.33
-  syncfusion_flutter_barcodes: ^28.1.33
-  syncfusion_officechart: ^28.1.33
-  syncfusion_flutter_maps: ^28.1.33
-  syncfusion_flutter_signaturepad: ^28.1.33
-  syncfusion_flutter_pdfviewer: ^28.1.33
-  syncfusion_flutter_treemap: ^28.1.33
-  syncfusion_flutter_chat: ^28.1.33
+  web: ^1.1.0
+
+  syncfusion_localizations: ^29.1.33
+  syncfusion_flutter_datagrid_export: ^29.1.33
+  syncfusion_flutter_calendar: ^29.1.33
+  syncfusion_flutter_datepicker: ^29.1.33
+  syncfusion_flutter_charts: ^29.1.33
+  syncfusion_flutter_gauges: ^29.1.33
+  syncfusion_flutter_sliders: ^29.1.33
+  syncfusion_flutter_pdf: ^29.1.33
+  syncfusion_flutter_barcodes: ^29.1.33
+  syncfusion_officechart: ^29.1.33
+  syncfusion_flutter_maps: ^29.1.33
+  syncfusion_flutter_signaturepad: ^29.1.33
+  syncfusion_flutter_pdfviewer: ^29.1.33
+  syncfusion_flutter_treemap: ^29.1.33
+  syncfusion_flutter_chat: ^29.1.33
 
 flutter:
   uses-material-design: true
@@ -66,7 +71,17 @@ flutter:
     - assets/london_to_windsor_castle.json
     - assets/product_data.json
     - assets/chart_data.json
+    - assets/microsoft.png
+    - assets/google.png
+    - assets/amazon.png
+    - assets/tesla.png
+    - assets/export_icon.png
+    - assets/screen_cover.png
+
   fonts:
+    - family: Expense Tracker Icons
+      fonts:
+        - asset: assets/font_icon/expense_tracker_icon.ttf
     - family: HeeboBold
       fonts:
         - asset: assets/fonts/Heebo-Bold.ttf
@@ -81,4 +96,4 @@ flutter:
         - asset: assets/fonts/Roboto-Medium.ttf
     - family: Roboto-Regular
       fonts:
-        - asset: assets/fonts/Roboto-Regular.ttf 
+        - asset: assets/fonts/Roboto-Regular.ttf

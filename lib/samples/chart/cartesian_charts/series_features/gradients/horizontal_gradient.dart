@@ -26,10 +26,7 @@ class _HorizontalGradientState extends SampleViewState {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(
-      enable: true,
-      canShowMarker: false,
-    );
+    _tooltipBehavior = TooltipBehavior(enable: true, canShowMarker: false);
     _chartData = <_ChartSampleData>[
       _ChartSampleData(x: '1997', y: 17.70),
       _ChartSampleData(x: '1998', y: 18.20),
@@ -81,22 +78,22 @@ class _HorizontalGradientState extends SampleViewState {
         yValueMapper: (_ChartSampleData data, int index) => data.y,
 
         /// To set the gradient colors for border here.
-        borderGradient: const LinearGradient(colors: <Color>[
-          Color.fromRGBO(212, 126, 166, 1),
-          Color.fromRGBO(222, 187, 104, 1)
-        ], stops: <double>[
-          0.2,
-          0.9
-        ]),
+        borderGradient: const LinearGradient(
+          colors: <Color>[
+            Color.fromRGBO(212, 126, 166, 1),
+            Color.fromRGBO(222, 187, 104, 1),
+          ],
+          stops: <double>[0.2, 0.9],
+        ),
 
         /// To set the gradient colors for series.
-        gradient: const LinearGradient(colors: <Color>[
-          Color.fromRGBO(224, 139, 207, 0.9),
-          Color.fromRGBO(255, 232, 149, 0.9)
-        ], stops: <double>[
-          0.2,
-          0.9
-        ]),
+        gradient: const LinearGradient(
+          colors: <Color>[
+            Color.fromRGBO(224, 139, 207, 0.9),
+            Color.fromRGBO(255, 232, 149, 0.9),
+          ],
+          stops: <double>[0.2, 0.9],
+        ),
         markerSettings: const MarkerSettings(
           isVisible: true,
           borderColor: Colors.white,
@@ -107,7 +104,7 @@ class _HorizontalGradientState extends SampleViewState {
             series as SplineAreaSeries<_ChartSampleData, String>,
           );
         },
-      )
+      ),
     ];
   }
 
@@ -138,7 +135,7 @@ class _CustomSplineAreaSeriesRenderer<T, D>
     const Color.fromRGBO(226, 157, 126, 1),
     const Color.fromRGBO(220, 169, 122, 1),
     const Color.fromRGBO(221, 176, 108, 1),
-    const Color.fromRGBO(222, 187, 97, 1)
+    const Color.fromRGBO(222, 187, 97, 1),
   ];
 
   @override
@@ -154,7 +151,15 @@ class _CustomSplineAreaSeriesRenderer<T, D>
   ]) {
     strokePaint.color = Colors.white;
     fillPaint.color = markerColorList[index];
-    super.drawDataMarker(index, canvas, fillPaint, strokePaint, point, size,
-        type, seriesRenderer);
+    super.drawDataMarker(
+      index,
+      canvas,
+      fillPaint,
+      strokePaint,
+      point,
+      size,
+      type,
+      seriesRenderer,
+    );
   }
 }

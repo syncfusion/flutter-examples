@@ -30,10 +30,7 @@ class _GradientComparisonState extends SampleViewState {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(
-      enable: true,
-      canShowMarker: false,
-    );
+    _tooltipBehavior = TooltipBehavior(enable: true, canShowMarker: false);
     _chartData = <_ChartSampleData>[
       _ChartSampleData('Jan', 4.3),
       _ChartSampleData('Feb', 5.2),

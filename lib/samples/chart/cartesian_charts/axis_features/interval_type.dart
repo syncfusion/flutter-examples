@@ -37,15 +37,16 @@ class _IntervalTypeState extends SampleViewState {
   @override
   void initState() {
     _chartIntervalType = DateTimeIntervalType.years;
-    _intervalType = <String>[
-      'years',
-      'months',
-      'days',
-      'hours',
-      'minutes',
-      'seconds',
-      'milliseconds',
-    ].toList();
+    _intervalType =
+        <String>[
+          'years',
+          'months',
+          'days',
+          'hours',
+          'minutes',
+          'seconds',
+          'milliseconds',
+        ].toList();
     _year = <ChartSampleData>[
       ChartSampleData(x: DateTime(2015), yValue: _buildRandomIntData(15, 95)),
       ChartSampleData(x: DateTime(2016), yValue: _buildRandomIntData(5, 75)),
@@ -64,83 +65,130 @@ class _IntervalTypeState extends SampleViewState {
     ];
     _day = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2015, 1, 30), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 30),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 31), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 31),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(x: DateTime(2015, 2), yValue: _buildRandomIntData(5, 95)),
       ChartSampleData(
-          x: DateTime(2015, 2, 2), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 2, 2),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 2, 3), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 2, 3),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 2, 4), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 2, 4),
+        yValue: _buildRandomIntData(5, 95),
+      ),
     ];
     _hour = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 23), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 23),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 24, 59), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 24, 59),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 2, 1), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 2, 1),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 2, 2), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 2, 2),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 2, 3), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 2, 3),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 2, 4), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 2, 4),
+        yValue: _buildRandomIntData(5, 95),
+      ),
     ];
     _minute = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 10, 58), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 10, 58),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 10, 59), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 10, 59),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 11), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 11),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 11, 01), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 11, 01),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 11, 02), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 11, 02),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 11, 03), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 11, 03),
+        yValue: _buildRandomIntData(5, 95),
+      ),
     ];
     _second = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 14, 58, 58),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 14, 58, 58),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 14, 58, 59),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 14, 58, 59),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 14, 59), yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 14, 59),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 14, 59, 01),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 14, 59, 01),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 14, 59, 02),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 14, 59, 02),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 14, 59, 03),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 14, 59, 03),
+        yValue: _buildRandomIntData(5, 95),
+      ),
     ];
     _millisecond = <ChartSampleData>[
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 01, 01, 58, 998),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 01, 01, 58, 998),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 01, 01, 58, 999),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 01, 01, 58, 999),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 01, 01, 59),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 01, 01, 59),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 01, 01, 59, 001),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 01, 01, 59, 001),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 01, 01, 59, 002),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 01, 01, 59, 002),
+        yValue: _buildRandomIntData(5, 95),
+      ),
       ChartSampleData(
-          x: DateTime(2015, 1, 1, 01, 01, 59, 003),
-          yValue: _buildRandomIntData(5, 95)),
+        x: DateTime(2015, 1, 1, 01, 01, 59, 003),
+        yValue: _buildRandomIntData(5, 95),
+      ),
     ];
     _selectedIntervalType = 'years';
     _dateTimeData = _year;
@@ -161,38 +209,32 @@ class _IntervalTypeState extends SampleViewState {
             Text(
               'Interval type',
               softWrap: false,
-              style: TextStyle(
-                fontSize: 16,
-                color: model.textColor,
-              ),
+              style: TextStyle(fontSize: 16, color: model.textColor),
             ),
             Container(
               height: 50.0,
               padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
               child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  focusColor: Colors.transparent,
-                  underline: Container(
-                    color: const Color(0xFFBDBDBD),
-                    height: 1,
-                  ),
-                  value: _selectedIntervalType,
-                  items: _intervalType!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'left',
-                      child: Text(
-                        value,
-                        softWrap: false,
-                        style: TextStyle(
-                          color: model.textColor,
+                dropdownColor: model.drawerBackgroundColor,
+                focusColor: Colors.transparent,
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+                value: _selectedIntervalType,
+                items:
+                    _intervalType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'left',
+                        child: Text(
+                          value,
+                          softWrap: false,
+                          style: TextStyle(color: model.textColor),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    onIntervalTypeChanged(value);
-                    stateSetter(() {});
-                  }),
+                      );
+                    }).toList(),
+                onChanged: (dynamic value) {
+                  onIntervalTypeChanged(value);
+                  stateSetter(() {});
+                },
+              ),
             ),
           ],
         );
@@ -206,16 +248,19 @@ class _IntervalTypeState extends SampleViewState {
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
         title: AxisTitle(
-          text: isCardView
-              ? ''
-              : '${_selectedIntervalType[0].toUpperCase()}${_selectedIntervalType.substring(1).toLowerCase()}',
+          text:
+              isCardView
+                  ? ''
+                  : '${_selectedIntervalType[0].toUpperCase()}${_selectedIntervalType.substring(1).toLowerCase()}',
         ),
-        labelIntersectAction: _selectedIntervalType == 'hours'
-            ? AxisLabelIntersectAction.rotate45
-            : AxisLabelIntersectAction.multipleRows,
-        labelAlignment: _selectedIntervalType == 'hours'
-            ? LabelAlignment.start
-            : LabelAlignment.center,
+        labelIntersectAction:
+            _selectedIntervalType == 'hours'
+                ? AxisLabelIntersectAction.rotate45
+                : AxisLabelIntersectAction.multipleRows,
+        labelAlignment:
+            _selectedIntervalType == 'hours'
+                ? LabelAlignment.start
+                : LabelAlignment.center,
         intervalType: _chartIntervalType!,
         edgeLabelPlacement: EdgeLabelPlacement.shift,
         majorGridLines: const MajorGridLines(width: 0),

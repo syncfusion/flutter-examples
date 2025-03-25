@@ -3,7 +3,13 @@
 class OrderInfo {
   /// Creates the order class with required details.
   OrderInfo(
-      this.id, this.customerId, this.name, this.freight, this.city, this.price);
+    this.id,
+    this.customerId,
+    this.name,
+    this.freight,
+    this.city,
+    this.price,
+  );
 
   /// Id of an order.
   final int id;

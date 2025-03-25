@@ -47,49 +47,54 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
 
   SfSliderTheme _sliderWithStepDurationCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfSlider.vertical(
-          min: DateTime(2010),
-          max: DateTime(2018),
-          edgeLabelPlacement: _edgeLabelPlacement,
-          labelPlacement: _labelPlacement,
-          showLabels: true,
-          interval: 2,
-          dateFormat: DateFormat.y(),
-          dateIntervalType: DateIntervalType.years,
-          showTicks: true,
-          value: _yearValue,
-          onChanged: (dynamic values) {
-            setState(() {
-              _yearValue = values as DateTime;
-            });
-          },
-          enableTooltip: true,
-          tooltipTextFormatterCallback:
-              (dynamic actualLabel, String formattedText) {
-            return DateFormat.y().format(actualLabel);
-          },
-        ));
+      data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfSlider.vertical(
+        min: DateTime(2010),
+        max: DateTime(2018),
+        edgeLabelPlacement: _edgeLabelPlacement,
+        labelPlacement: _labelPlacement,
+        showLabels: true,
+        interval: 2,
+        dateFormat: DateFormat.y(),
+        dateIntervalType: DateIntervalType.years,
+        showTicks: true,
+        value: _yearValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _yearValue = values as DateTime;
+          });
+        },
+        enableTooltip: true,
+        tooltipTextFormatterCallback: (
+          dynamic actualLabel,
+          String formattedText,
+        ) {
+          return DateFormat.y().format(actualLabel);
+        },
+      ),
+    );
   }
 
   SfSliderTheme _sliderWithStepCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfSlider.vertical(
-            showLabels: true,
-            edgeLabelPlacement: _edgeLabelPlacement,
-            labelPlacement: _labelPlacement,
-            interval: 5,
-            min: -10.0,
-            max: 10.0,
-            showTicks: true,
-            value: _stepSliderValue,
-            onChanged: (dynamic values) {
-              setState(() {
-                _stepSliderValue = values as double;
-              });
-            },
-            enableTooltip: true));
+      data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfSlider.vertical(
+        showLabels: true,
+        edgeLabelPlacement: _edgeLabelPlacement,
+        labelPlacement: _labelPlacement,
+        interval: 5,
+        min: -10.0,
+        max: 10.0,
+        showTicks: true,
+        value: _stepSliderValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _stepSliderValue = values as double;
+          });
+        },
+        enableTooltip: true,
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -105,32 +110,40 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.all(padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.all(padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithStepCustomization()),
-              const Text('Numeric')
-            ]),
-            Column(children: <Widget>[
+              const Text('Numeric'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithStepDurationCustomization()),
-              const Text('DateTime')
-            ]),
-          ],
-        ));
+              const Text('DateTime'),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget slider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? slider
-          : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget slider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? slider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+      },
+    );
   }
 
   @override
@@ -144,32 +157,35 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                    model.isWebFullView
-                        ? 'Label \nplacement'
-                        : 'Label placement',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
+                  model.isWebFullView ? 'Label \nplacement' : 'Label placement',
+                  style: TextStyle(color: model.textColor, fontSize: 16),
+                ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      focusColor: Colors.transparent,
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _selectedLabelPlacementType,
-                      items: _labelpositionList.map((String value) {
-                        return DropdownMenuItem<String>(
+                    dropdownColor: model.drawerBackgroundColor,
+                    focusColor: Colors.transparent,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
+                    ),
+                    value: _selectedLabelPlacementType,
+                    items:
+                        _labelpositionList.map((String value) {
+                          return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'on ticks',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onLabelPositionTypeChange(value.toString());
-                        stateSetter(() {});
-                      }),
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
+                    onChanged: (dynamic value) {
+                      _onLabelPositionTypeChange(value.toString());
+                      stateSetter(() {});
+                    },
+                  ),
                 ),
               ],
             ),
@@ -177,34 +193,39 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                    model.isWebFullView
-                        ? 'Edge label \nplacement '
-                        : 'Edge label placement',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    )),
+                  model.isWebFullView
+                      ? 'Edge label \nplacement '
+                      : 'Edge label placement',
+                  style: TextStyle(color: model.textColor, fontSize: 16),
+                ),
                 Container(
                   width: model.isDesktop ? 140 : 143,
                   padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      isExpanded: true,
-                      focusColor: Colors.transparent,
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _selectedType,
-                      items: _edgeList!.map((String value) {
-                        return DropdownMenuItem<String>(
+                    dropdownColor: model.drawerBackgroundColor,
+                    isExpanded: true,
+                    focusColor: Colors.transparent,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
+                    ),
+                    value: _selectedType,
+                    items:
+                        _edgeList!.map((String value) {
+                          return DropdownMenuItem<String>(
                             value: (value != null) ? value : 'inside',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onPositionTypeChange(value.toString());
-                        stateSetter(() {});
-                      }),
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
+                    onChanged: (dynamic value) {
+                      _onPositionTypeChange(value.toString());
+                      stateSetter(() {});
+                    },
+                  ),
                 ),
               ],
             ),

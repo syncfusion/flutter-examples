@@ -30,31 +30,11 @@ class _TooltipPositionState extends SampleViewState {
     _selectedTooltipPosition = 'auto';
     _tooltipPosition = TooltipPosition.auto;
     _chartData = <_ChartData>[
-      _ChartData(
-        '<5',
-        5.55,
-        const Color.fromRGBO(53, 92, 125, 1),
-      ),
-      _ChartData(
-        '5-15',
-        11.61,
-        const Color.fromRGBO(192, 108, 132, 1),
-      ),
-      _ChartData(
-        '15-24',
-        12.87,
-        const Color.fromRGBO(246, 114, 128, 1),
-      ),
-      _ChartData(
-        '25-64',
-        69.59,
-        const Color.fromRGBO(248, 177, 149, 1),
-      ),
-      _ChartData(
-        '>65',
-        28.92,
-        const Color.fromRGBO(116, 180, 155, 1),
-      ),
+      _ChartData('<5', 5.55, const Color.fromRGBO(53, 92, 125, 1)),
+      _ChartData('5-15', 11.61, const Color.fromRGBO(192, 108, 132, 1)),
+      _ChartData('15-24', 12.87, const Color.fromRGBO(246, 114, 128, 1)),
+      _ChartData('25-64', 69.59, const Color.fromRGBO(248, 177, 149, 1)),
+      _ChartData('>65', 28.92, const Color.fromRGBO(116, 180, 155, 1)),
     ];
     super.initState();
   }
@@ -67,24 +47,21 @@ class _TooltipPositionState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text(
-                'Tooltip position',
-                style: TextStyle(
-                  color: model.textColor,
-                  fontSize: 16,
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  'Tooltip position',
+                  style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-                height: 50,
-                alignment: Alignment.bottomCenter,
-                child: DropdownButton<String>(
+                Container(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                  height: 50,
+                  alignment: Alignment.bottomCenter,
+                  child: DropdownButton<String>(
                     dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
                     underline: Container(
@@ -92,27 +69,28 @@ class _TooltipPositionState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedTooltipPosition,
-                    items: _tooltipPositionList.map(
-                      (String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'auto',
-                          child: Text(
-                            value,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      },
-                    ).toList(),
+                    items:
+                        _tooltipPositionList.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'auto',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _updateTooltipPosition(value.toString());
                       stateSetter(() {});
-                    }),
-              ),
-            ],
-          ),
-        ],
-      );
-    });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   /// Returns a cartesian column chart with tooltip position option.
@@ -163,11 +141,9 @@ class _TooltipPositionState extends SampleViewState {
     if (_selectedTooltipPosition == 'pointer') {
       _tooltipPosition = TooltipPosition.pointer;
     }
-    setState(
-      () {
-        /// Update the tooltip position changes.
-      },
-    );
+    setState(() {
+      /// Update the tooltip position changes.
+    });
   }
 
   @override

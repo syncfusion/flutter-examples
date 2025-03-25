@@ -91,7 +91,7 @@ class _RadialBarDefaultState extends SampleViewState {
         cornerStyle: CornerStyle.bothCurve,
         gap: '10%',
         radius: '90%',
-      )
+      ),
     ];
   }
 

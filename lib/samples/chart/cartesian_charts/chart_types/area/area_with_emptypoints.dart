@@ -56,20 +56,19 @@ class _AreaEmptyState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Inflation rate of US',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Inflation rate of US'),
       primaryXAxis: const NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
         interval: 1,
       ),
       primaryYAxis: NumericAxis(
-          minimum: 100000000,
-          maximum: 500000000,
-          title: AxisTitle(text: isCardView ? '' : 'Rates'),
-          numberFormat: NumberFormat.compact(),
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0)),
+        minimum: 100000000,
+        maximum: 500000000,
+        title: AxisTitle(text: isCardView ? '' : 'Rates'),
+        numberFormat: NumberFormat.compact(),
+        axisLine: const AxisLine(width: 0),
+        majorTickLines: const MajorTickLines(size: 0),
+      ),
       series: _buildAreaSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

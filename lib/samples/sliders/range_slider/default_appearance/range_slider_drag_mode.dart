@@ -27,11 +27,8 @@ class _RangeSliderDragModePageState extends SampleViewState {
         return constraints.maxHeight > 325
             ? _DragModeRangeSlider()
             : SingleChildScrollView(
-                child: SizedBox(
-                  height: 325,
-                  child: _DragModeRangeSlider(),
-                ),
-              );
+              child: SizedBox(height: 325, child: _DragModeRangeSlider()),
+            );
       },
     );
   }
@@ -110,21 +107,22 @@ class _DragModeRangeSliderState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Padding(
-        padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            title('On thumb'),
-            _buildSliderWithDragModeOnThumb(),
-            columnSpacing40,
-            title('Between thumbs'),
-            _buildSliderWithDragModeBetweenThumbs(),
-            columnSpacing30,
-            title('Both'),
-            _buildSliderWithDragModeBoth(),
-            columnSpacing40,
-          ],
-        ));
+      padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          title('On thumb'),
+          _buildSliderWithDragModeOnThumb(),
+          columnSpacing40,
+          title('Between thumbs'),
+          _buildSliderWithDragModeBetweenThumbs(),
+          columnSpacing30,
+          title('Both'),
+          _buildSliderWithDragModeBoth(),
+          columnSpacing40,
+        ],
+      ),
+    );
   }
 
   @override

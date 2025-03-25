@@ -29,11 +29,14 @@ class _RadialSliderGradientState extends SampleViewState {
       _annotationFontSize = model.isWebFullView ? 25 : 15;
     }
     return Center(
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             radiusFactor: 0.85,
             axisLineStyle: const AxisLineStyle(
-                thickness: 0, thicknessUnit: GaugeSizeUnit.factor),
+              thickness: 0,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             tickOffset: 0.20,
             labelOffset: 0.10,
             offsetUnit: GaugeSizeUnit.factor,
@@ -44,38 +47,45 @@ class _RadialSliderGradientState extends SampleViewState {
               args.text = celsiusValue.toStringAsFixed(1);
             },
             majorTickStyle: const MajorTickStyle(
-                length: 0.1, lengthUnit: GaugeSizeUnit.factor),
+              length: 0.1,
+              lengthUnit: GaugeSizeUnit.factor,
+            ),
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Text(
-                    '$_annotationValue2°C',
-                    style: TextStyle(
-                      fontSize: _celsiusAnnotationFontSize,
-                      fontFamily: 'Times',
-                    ),
+                widget: Text(
+                  '$_annotationValue2°C',
+                  style: TextStyle(
+                    fontSize: _celsiusAnnotationFontSize,
+                    fontFamily: 'Times',
                   ),
-                  positionFactor: 0.15,
-                  angle: 90)
-            ]),
-        RadialAxis(
+                ),
+                positionFactor: 0.15,
+                angle: 90,
+              ),
+            ],
+          ),
+          RadialAxis(
             axisLineStyle: const AxisLineStyle(
-                thickness: 0.05, thicknessUnit: GaugeSizeUnit.factor),
+              thickness: 0.05,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             showTicks: false,
             labelOffset: 20,
             onAxisTapped: handlePointerValueChanged,
             pointers: <GaugePointer>[
               RangePointer(
-                  value: _currentValue,
-                  width: 0.05,
-                  cornerStyle: CornerStyle.endCurve,
-                  gradient: const SweepGradient(colors: <Color>[
+                value: _currentValue,
+                width: 0.05,
+                cornerStyle: CornerStyle.endCurve,
+                gradient: const SweepGradient(
+                  colors: <Color>[
                     Color.fromRGBO(115, 67, 189, 1),
-                    Color.fromRGBO(202, 94, 230, 1)
-                  ], stops: <double>[
-                    0.5,
-                    1
-                  ]),
-                  sizeUnit: GaugeSizeUnit.factor),
+                    Color.fromRGBO(202, 94, 230, 1),
+                  ],
+                  stops: <double>[0.5, 1],
+                ),
+                sizeUnit: GaugeSizeUnit.factor,
+              ),
               MarkerPointer(
                 value: _currentValue,
                 overlayColor: const Color.fromRGBO(202, 94, 230, 0.125),
@@ -84,13 +94,15 @@ class _RadialSliderGradientState extends SampleViewState {
                 onValueChanging: handlePointerValueChanging,
                 enableDragging: true,
                 elevation: 5,
-                color: model.themeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
+                color:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                 borderWidth: 5,
-                borderColor: model.themeData.brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                borderColor:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
                 markerType: MarkerType.circle,
@@ -98,17 +110,20 @@ class _RadialSliderGradientState extends SampleViewState {
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Text(
-                    '$_annotationValue°F',
-                    style: TextStyle(
-                      fontSize: _annotationFontSize,
-                      fontFamily: 'Times',
-                      fontWeight: FontWeight.bold,
-                    ),
+                widget: Text(
+                  '$_annotationValue°F',
+                  style: TextStyle(
+                    fontSize: _annotationFontSize,
+                    fontFamily: 'Times',
+                    fontWeight: FontWeight.bold,
                   ),
-                  angle: 0)
-            ]),
-      ]),
+                ),
+                angle: 0,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

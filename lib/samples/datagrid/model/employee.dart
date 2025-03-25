@@ -2,29 +2,31 @@
 /// which will be rendered in datagrid.
 class Employee {
   /// Creates the employee info class with required details.
-  Employee(
-      {required this.id,
-      required this.contactName,
-      required this.companyName,
-      required this.address,
-      required this.city,
-      required this.country,
-      required this.designation,
-      required this.postalCode,
-      required this.phoneNumber});
+  Employee({
+    required this.id,
+    required this.contactName,
+    required this.companyName,
+    required this.address,
+    required this.city,
+    required this.country,
+    required this.designation,
+    required this.postalCode,
+    required this.phoneNumber,
+  });
 
   /// Fetch data from json
   factory Employee.fromJson(Map<String, dynamic> json) {
     return Employee(
-        id: json['id'],
-        contactName: json['contactName'],
-        companyName: json['companyName'],
-        address: json['address'],
-        city: json['city'],
-        country: json['country'],
-        designation: json['designation'],
-        postalCode: json['postalCode'],
-        phoneNumber: json['phoneNumber']);
+      id: json['id'],
+      contactName: json['contactName'],
+      companyName: json['companyName'],
+      address: json['address'],
+      city: json['city'],
+      country: json['country'],
+      designation: json['designation'],
+      postalCode: json['postalCode'],
+      phoneNumber: json['phoneNumber'],
+    );
   }
 
   /// Id of an employee info.

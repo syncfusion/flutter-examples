@@ -122,19 +122,19 @@ class _StackedLineChartState extends SampleViewState {
       StackedLineSeries<ChartSampleData, String>(
         dataSource: chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.secondSeriesYValue,
         name: 'Son',
         markerSettings: const MarkerSettings(isVisible: true),
       ),
       StackedLineSeries<ChartSampleData, String>(
         dataSource: chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.thirdSeriesYValue,
         name: 'Daughter',
         markerSettings: const MarkerSettings(isVisible: true),
-      )
+      ),
     ];
   }
 

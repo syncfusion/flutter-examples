@@ -58,9 +58,10 @@ class _SplineAreaState extends SampleViewState {
         edgeLabelPlacement: EdgeLabelPlacement.shift,
       ),
       primaryYAxis: const NumericAxis(
-          labelFormat: '{value}%',
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+        labelFormat: '{value}%',
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
       series: _buildSplineAreaSeries(
         themeData.useMaterial3,
         themeData.brightness == Brightness.light,
@@ -71,17 +72,21 @@ class _SplineAreaState extends SampleViewState {
 
   /// Returns the list of cartesian spline area series.
   List<CartesianSeries<_SplineAreaData, double>> _buildSplineAreaSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color seriesColor1 = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(6, 174, 224, 1)
-            : const Color.fromRGBO(255, 245, 0, 1))
-        : const Color.fromRGBO(75, 135, 185, 1);
-    final Color seriesColor2 = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(99, 85, 199, 1)
-            : const Color.fromRGBO(51, 182, 119, 1))
-        : const Color.fromRGBO(192, 108, 132, 1);
+    bool isMaterial3,
+    bool isLightMode,
+  ) {
+    final Color seriesColor1 =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(6, 174, 224, 1)
+                : const Color.fromRGBO(255, 245, 0, 1))
+            : const Color.fromRGBO(75, 135, 185, 1);
+    final Color seriesColor2 =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(99, 85, 199, 1)
+                : const Color.fromRGBO(51, 182, 119, 1))
+            : const Color.fromRGBO(192, 108, 132, 1);
     return <CartesianSeries<_SplineAreaData, double>>[
       SplineAreaSeries<_SplineAreaData, double>(
         dataSource: chartData,
@@ -98,7 +103,7 @@ class _SplineAreaState extends SampleViewState {
         borderColor: seriesColor2,
         color: seriesColor2.withValues(alpha: 0.6),
         name: 'China',
-      )
+      ),
     ];
   }
 

@@ -46,9 +46,7 @@ class _AreaDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Average sales comparison',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Average sales comparison'),
       primaryXAxis: DateTimeAxis(
         dateFormat: DateFormat.y(),
         interval: 1,
@@ -64,10 +62,7 @@ class _AreaDefaultState extends SampleViewState {
         majorTickLines: const MajorTickLines(size: 0),
       ),
       series: _buildAreaSeries(),
-      legend: Legend(
-        isVisible: !isCardView,
-        opacity: 0.7,
-      ),
+      legend: Legend(isVisible: !isCardView, opacity: 0.7),
       tooltipBehavior: _tooltipBehavior,
     );
   }
@@ -85,8 +80,8 @@ class _AreaDefaultState extends SampleViewState {
       AreaSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         opacity: 0.7,
         name: 'Product B',
       ),

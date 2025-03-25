@@ -56,7 +56,7 @@ class _AutoScrollingChartState extends SampleViewState {
       Color.fromRGBO(73, 76, 162, 1),
       Color.fromRGBO(255, 205, 96, 1),
       Color.fromRGBO(255, 240, 219, 1),
-      Color.fromRGBO(238, 238, 238, 1)
+      Color.fromRGBO(238, 238, 238, 1),
     ];
     _palette2 = const <Color>[
       Color.fromRGBO(6, 174, 224, 1),
@@ -68,7 +68,7 @@ class _AutoScrollingChartState extends SampleViewState {
       Color.fromRGBO(71, 59, 137, 1),
       Color.fromRGBO(236, 92, 123, 1),
       Color.fromRGBO(59, 163, 26, 1),
-      Color.fromRGBO(236, 131, 23, 1)
+      Color.fromRGBO(236, 131, 23, 1),
     ];
     _palette3 = const <Color>[
       Color.fromRGBO(255, 245, 0, 1),
@@ -80,7 +80,7 @@ class _AutoScrollingChartState extends SampleViewState {
       Color.fromRGBO(178, 243, 46, 1),
       Color.fromRGBO(185, 60, 228, 1),
       Color.fromRGBO(48, 167, 6, 1),
-      Color.fromRGBO(207, 142, 14, 1)
+      Color.fromRGBO(207, 142, 14, 1),
     ];
     _isPointerMoved = false;
     _chartData = <_ChartData>[
@@ -88,32 +88,30 @@ class _AutoScrollingChartState extends SampleViewState {
       _ChartData(DateTime(2020, 01, 1, 00, 00, 01), 47),
     ];
     _chartDataTemp = <_ChartData>[];
-    _timer = Timer.periodic(
-      const Duration(milliseconds: 1000),
-      (Timer timer) {
-        if (!_isPointerMoved) {
-          if (_chartDataTemp.isNotEmpty) {
-            _chartData.addAll(_chartDataTemp);
-            _chartDataTemp.clear();
-            _havingPanDataSource = true;
-          }
-          setState(() {
-            _chartData = _updateDataSource();
-            _havingPanDataSource = false;
-          });
-        } else {
-          _chartDataTemp = _updateTempDataSource();
+    _timer = Timer.periodic(const Duration(milliseconds: 1000), (Timer timer) {
+      if (!_isPointerMoved) {
+        if (_chartDataTemp.isNotEmpty) {
+          _chartData.addAll(_chartDataTemp);
+          _chartDataTemp.clear();
+          _havingPanDataSource = true;
         }
-      },
-    );
+        setState(() {
+          _chartData = _updateDataSource();
+          _havingPanDataSource = false;
+        });
+      } else {
+        _chartDataTemp = _updateTempDataSource();
+      }
+    });
   }
 
   /// Returns the cartesian column chart with auto scrolling.
   SfCartesianChart _buildAutoScrollingLineChart() {
     final ThemeData themeData = model.themeData;
-    _palette1 = themeData.useMaterial3
-        ? (themeData.brightness == Brightness.light ? _palette2 : _palette3)
-        : _palette1;
+    _palette1 =
+        themeData.useMaterial3
+            ? (themeData.brightness == Brightness.light ? _palette2 : _palette3)
+            : _palette1;
     return SfCartesianChart(
       zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
       onChartTouchInteractionMove: (ChartTouchInteractionArgs args) {
@@ -140,8 +138,8 @@ class _AutoScrollingChartState extends SampleViewState {
           xValueMapper: (_ChartData data, int index) => data.x,
           yValueMapper: (_ChartData data, int index) => data.y,
           color: const Color.fromRGBO(192, 108, 132, 1),
-          pointColorMapper: (_ChartData data, int index) =>
-              _palette1[index % 10],
+          pointColorMapper:
+              (_ChartData data, int index) => _palette1[index % 10],
           animationDuration: 0,
         ),
       ],
@@ -165,17 +163,13 @@ class _AutoScrollingChartState extends SampleViewState {
 
   List<_ChartData> _updateTempDataSource() {
     // Determine the x value based on whether _chartDataTemp is empty
-    final newXValue = _chartDataTemp.isEmpty
-        ? _chartData.last.x.add(const Duration(seconds: 1))
-        : _chartDataTemp.last.x.add(const Duration(seconds: 1));
+    final newXValue =
+        _chartDataTemp.isEmpty
+            ? _chartData.last.x.add(const Duration(seconds: 1))
+            : _chartDataTemp.last.x.add(const Duration(seconds: 1));
 
     // Create and add the new data point to _chartDataTemp
-    _chartDataTemp.add(
-      _ChartData(
-        newXValue,
-        _generateRandomInt(30, 60),
-      ),
-    );
+    _chartDataTemp.add(_ChartData(newXValue, _generateRandomInt(30, 60)));
 
     return _chartDataTemp;
   }

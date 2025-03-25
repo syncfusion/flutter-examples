@@ -34,11 +34,13 @@ class _MapCrosshairPageState extends SampleViewState {
 
   @override
   void initState() {
-    _tileLayerController = _CrosshairTileLayerController()
-      ..addZoomLevelChangeListener(_refresh);
+    _tileLayerController =
+        _CrosshairTileLayerController()..addZoomLevelChangeListener(_refresh);
     _textController = TextEditingController();
-    _zoomPanBehavior =
-        _CrosshairZoomPanBehavior(_tileLayerController, _textController);
+    _zoomPanBehavior = _CrosshairZoomPanBehavior(
+      _tileLayerController,
+      _textController,
+    );
     super.initState();
   }
 
@@ -53,51 +55,54 @@ class _MapCrosshairPageState extends SampleViewState {
 
   void _handleIncrementClicked() {
     setState(() {
-      _zoomPanBehavior.zoomLevel = (_zoomPanBehavior.zoomLevel + 1)
-          .clamp(_zoomPanBehavior.minZoomLevel, _zoomPanBehavior.maxZoomLevel);
+      _zoomPanBehavior.zoomLevel = (_zoomPanBehavior.zoomLevel + 1).clamp(
+        _zoomPanBehavior.minZoomLevel,
+        _zoomPanBehavior.maxZoomLevel,
+      );
     });
   }
 
   void _handleDecrementClicked() {
     setState(() {
-      _zoomPanBehavior.zoomLevel = (_zoomPanBehavior.zoomLevel - 1)
-          .clamp(_zoomPanBehavior.minZoomLevel, _zoomPanBehavior.maxZoomLevel);
+      _zoomPanBehavior.zoomLevel = (_zoomPanBehavior.zoomLevel - 1).clamp(
+        _zoomPanBehavior.minZoomLevel,
+        _zoomPanBehavior.maxZoomLevel,
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      Positioned.fill(
-        child: Image.asset(
-          'images/maps_grid.png',
-          repeat: ImageRepeat.repeat,
+    return Stack(
+      children: <Widget>[
+        Positioned.fill(
+          child: Image.asset(
+            'images/maps_grid.png',
+            repeat: ImageRepeat.repeat,
+          ),
         ),
-      ),
-      _buildMapsWidget(),
-      Positioned(
-        left: 16.0,
-        bottom: 16.0,
-        child: IgnorePointer(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 40,
-            child: TextField(
-              controller: _textController,
-              enabled: false,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.apply(color: Colors.black),
-              decoration: const InputDecoration(
-                border: InputBorder.none,
+        _buildMapsWidget(),
+        Positioned(
+          left: 16.0,
+          bottom: 16.0,
+          child: IgnorePointer(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 40,
+              child: TextField(
+                controller: _textController,
+                enabled: false,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.apply(color: Colors.black),
+                decoration: const InputDecoration(border: InputBorder.none),
               ),
             ),
           ),
         ),
-      ),
-      _buildToolbar(),
-    ]);
+        _buildToolbar(),
+      ],
+    );
   }
 
   Widget _buildMapsWidget() {
@@ -134,13 +139,16 @@ class _MapCrosshairPageState extends SampleViewState {
                 padding: EdgeInsets.zero,
               ),
               onPressed: _handleIncrementClicked,
-              child: Icon(Icons.add,
-                  size: 16,
-                  color: _zoomPanBehavior.maxZoomLevel ==
-                          _zoomPanBehavior.zoomLevel
-                      ? model.themeData.colorScheme.primary
-                          .withValues(alpha: 0.2)
-                      : model.themeData.colorScheme.primary),
+              child: Icon(
+                Icons.add,
+                size: 16,
+                color:
+                    _zoomPanBehavior.maxZoomLevel == _zoomPanBehavior.zoomLevel
+                        ? model.themeData.colorScheme.primary.withValues(
+                          alpha: 0.2,
+                        )
+                        : model.themeData.colorScheme.primary,
+              ),
             ),
           ),
           const SizedBox(height: 8.0),
@@ -153,13 +161,16 @@ class _MapCrosshairPageState extends SampleViewState {
                 padding: EdgeInsets.zero,
               ),
               onPressed: _handleDecrementClicked,
-              child: Icon(Icons.remove,
-                  size: 16,
-                  color: _zoomPanBehavior.minZoomLevel ==
-                          _zoomPanBehavior.zoomLevel
-                      ? model.themeData.colorScheme.primary
-                          .withValues(alpha: 0.2)
-                      : model.themeData.colorScheme.primary),
+              child: Icon(
+                Icons.remove,
+                size: 16,
+                color:
+                    _zoomPanBehavior.minZoomLevel == _zoomPanBehavior.zoomLevel
+                        ? model.themeData.colorScheme.primary.withValues(
+                          alpha: 0.2,
+                        )
+                        : model.themeData.colorScheme.primary,
+              ),
             ),
           ),
         ],
@@ -196,12 +207,12 @@ class _CrosshairTileLayerController extends MapTileLayerController {
 class _CrosshairZoomPanBehavior extends MapZoomPanBehavior {
   /// Creates the instance for [_CrosshairZoomPanBehavior].
   _CrosshairZoomPanBehavior(this.tileLayerController, this.textController)
-      : super(
-          showToolbar: false,
-          enableDoubleTapZooming: true,
-          zoomLevel: 3.0,
-          minZoomLevel: 3.0,
-        );
+    : super(
+        showToolbar: false,
+        enableDoubleTapZooming: true,
+        zoomLevel: 3.0,
+        minZoomLevel: 3.0,
+      );
 
   final _CrosshairTileLayerController tileLayerController;
   final TextEditingController textController;
@@ -229,8 +240,9 @@ class _CrosshairZoomPanBehavior extends MapZoomPanBehavior {
     if (event is PointerHoverEvent) {
       _showCrosshair = true;
       _hoveredOffset = event.localPosition;
-      final MapLatLng latLng =
-          tileLayerController.pixelToLatLng(event.localPosition);
+      final MapLatLng latLng = tileLayerController.pixelToLatLng(
+        event.localPosition,
+      );
       textController.text =
           'Latitude    : ${latLng.latitude}\nLongitude : ${latLng.longitude}';
     } else if (event is PointerExitEvent) {
@@ -252,14 +264,20 @@ class _CrosshairZoomPanBehavior extends MapZoomPanBehavior {
       double startY = 0;
 
       while (startX < size.width) {
-        context.canvas.drawLine(Offset(startX, _hoveredOffset.dy),
-            Offset(startX + dashWidth, _hoveredOffset.dy), paint);
+        context.canvas.drawLine(
+          Offset(startX, _hoveredOffset.dy),
+          Offset(startX + dashWidth, _hoveredOffset.dy),
+          paint,
+        );
         startX += space;
       }
 
       while (startY < size.height) {
-        context.canvas.drawLine(Offset(_hoveredOffset.dx, startY),
-            Offset(_hoveredOffset.dx, startY + dashWidth), paint);
+        context.canvas.drawLine(
+          Offset(_hoveredOffset.dx, startY),
+          Offset(_hoveredOffset.dx, startY + dashWidth),
+          paint,
+        );
         startY += space;
       }
       super.paint(context, offset);

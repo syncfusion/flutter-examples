@@ -71,9 +71,10 @@ class ChartMaximumLabelWidthState extends SampleViewState {
                   ),
                 ),
                 Container(
-                  padding: !model.isWebFullView
-                      ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
-                      : const EdgeInsets.fromLTRB(42, 0, 0, 0),
+                  padding:
+                      !model.isWebFullView
+                          ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
+                          : const EdgeInsets.fromLTRB(42, 0, 0, 0),
                   child: CustomDirectionalButtons(
                     maxValue: 120,
                     minValue: 1,
@@ -87,10 +88,7 @@ class ChartMaximumLabelWidthState extends SampleViewState {
                     loop: true,
                     padding: 5.0,
                     iconColor: model.textColor,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor,
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
               ],
@@ -114,7 +112,7 @@ class ChartMaximumLabelWidthState extends SampleViewState {
                         });
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -127,9 +125,10 @@ class ChartMaximumLabelWidthState extends SampleViewState {
                     style: TextStyle(color: model.textColor),
                   ),
                   Container(
-                    padding: !model.isWebFullView
-                        ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
-                        : const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                    padding:
+                        !model.isWebFullView
+                            ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
+                            : const EdgeInsets.fromLTRB(50, 0, 0, 0),
                     child: CustomDirectionalButtons(
                       maxValue: 200,
                       minValue: 1,
@@ -142,10 +141,7 @@ class ChartMaximumLabelWidthState extends SampleViewState {
                       step: 10,
                       loop: true,
                       iconColor: model.textColor,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: model.textColor,
-                      ),
+                      style: TextStyle(fontSize: 16.0, color: model.textColor),
                     ),
                   ),
                 ],
@@ -161,18 +157,14 @@ class ChartMaximumLabelWidthState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : "World's tallest buildings",
-      ),
+      title: ChartTitle(text: isCardView ? '' : "World's tallest buildings"),
       primaryXAxis: CategoryAxis(
         labelsExtent: _isEnableLabelExtend ? _xLabelsExtent : null,
         maximumLabelWidth: _xMaximumLabelWidth,
         majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-        title: AxisTitle(
-          text: isCardView ? '' : 'Height (meters)',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Height (meters)'),
         minimum: 500,
         maximum: 900,
         interval: 100,
@@ -183,7 +175,8 @@ class ChartMaximumLabelWidthState extends SampleViewState {
         args.text = args.dataPoints[args.pointIndex].y.toString() + ' m';
       },
       onTooltipRender: (TooltipArgs args) {
-        args.text = args.dataPoints![args.pointIndex!.toInt()].x.toString() +
+        args.text =
+            args.dataPoints![args.pointIndex!.toInt()].x.toString() +
             ' : ' +
             args.dataPoints![args.pointIndex!.toInt()].y.toString() +
             ' m';

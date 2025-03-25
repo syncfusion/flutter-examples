@@ -59,8 +59,9 @@ class _LoadMoreCalendarState extends SampleViewState {
       ///  when we change the parent of the widget.
       key: _globalKey,
       data: model.themeData.copyWith(
-        colorScheme:
-            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
       ),
       child: _getLoadMoreCalendar(
         _calendarController,
@@ -74,27 +75,28 @@ class _LoadMoreCalendarState extends SampleViewState {
       body: Row(
         children: <Widget>[
           Expanded(
-            child: _calendarController.view == CalendarView.month &&
-                    model.isWebFullView &&
-                    screenHeight < 800
-                ? Scrollbar(
-                    thumbVisibility: true,
-                    controller: _controller,
-                    child: ListView(
+            child:
+                _calendarController.view == CalendarView.month &&
+                        model.isWebFullView &&
+                        screenHeight < 800
+                    ? Scrollbar(
+                      thumbVisibility: true,
                       controller: _controller,
-                      children: <Widget>[
-                        Container(
-                          color: model.sampleOutputCardColor,
-                          height: 600,
-                          child: calendar,
-                        ),
-                      ],
+                      child: ListView(
+                        controller: _controller,
+                        children: <Widget>[
+                          Container(
+                            color: model.sampleOutputCardColor,
+                            height: 600,
+                            child: calendar,
+                          ),
+                        ],
+                      ),
+                    )
+                    : Container(
+                      color: model.sampleOutputCardColor,
+                      child: calendar,
                     ),
-                  )
-                : Container(
-                    color: model.sampleOutputCardColor,
-                    child: calendar,
-                  ),
           ),
         ],
       ),
@@ -150,18 +152,30 @@ class _LoadMoreCalendarState extends SampleViewState {
     final Random random = Random();
     _dataCollection = <DateTime, List<_Meeting>>{};
     final DateTime today = DateTime.now();
-    final DateTime rangeStartDate = DateTime(today.year, today.month, today.day)
-        .add(const Duration(days: -1000));
-    final DateTime rangeEndDate = DateTime(today.year, today.month, today.day)
-        .add(const Duration(days: 1000));
-    for (DateTime i = rangeStartDate;
-        i.isBefore(rangeEndDate);
-        i = i.add(Duration(days: 1 + random.nextInt(2)))) {
+    final DateTime rangeStartDate = DateTime(
+      today.year,
+      today.month,
+      today.day,
+    ).add(const Duration(days: -1000));
+    final DateTime rangeEndDate = DateTime(
+      today.year,
+      today.month,
+      today.day,
+    ).add(const Duration(days: 1000));
+    for (
+      DateTime i = rangeStartDate;
+      i.isBefore(rangeEndDate);
+      i = i.add(Duration(days: 1 + random.nextInt(2)))
+    ) {
       final DateTime date = i;
       final int count = 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate =
-            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
+        final DateTime startDate = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          8 + random.nextInt(8),
+        );
         final int duration = random.nextInt(3);
         final _Meeting meeting = _Meeting(
           subjectCollection[random.nextInt(7)],
@@ -199,15 +213,18 @@ class _LoadMoreCalendarState extends SampleViewState {
         decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
         color: Colors.red,
       ),
-      loadMoreWidgetBuilder:
-          (BuildContext context, LoadMoreCallback loadMoreAppointments) {
+      loadMoreWidgetBuilder: (
+        BuildContext context,
+        LoadMoreCallback loadMoreAppointments,
+      ) {
         return FutureBuilder<void>(
           future: loadMoreAppointments(),
           builder: (BuildContext context, AsyncSnapshot<void> snapShot) {
             return Container(
-              height: _calendarController.view == CalendarView.schedule
-                  ? 50
-                  : double.infinity,
+              height:
+                  _calendarController.view == CalendarView.schedule
+                      ? 50
+                      : double.infinity,
               width: double.infinity,
               alignment: Alignment.center,
               child: CircularProgressIndicator(
@@ -258,7 +275,9 @@ String _getMonthDate(int month) {
 
 /// Returns the builder for schedule view.
 Widget _scheduleViewBuilder(
-    BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
+  BuildContext buildContext,
+  ScheduleViewMonthHeaderDetails details,
+) {
   final String monthName = _getMonthDate(details.date.month);
   return Stack(
     children: <Widget>[
@@ -323,8 +342,14 @@ class _MeetingDataSource extends CalendarDataSource {
     await Future<dynamic>.delayed(const Duration(seconds: 1));
     final List<_Meeting> meetings = <_Meeting>[];
     DateTime date = DateTime(startDate.year, startDate.month, startDate.day);
-    final DateTime appEndDate =
-        DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59);
+    final DateTime appEndDate = DateTime(
+      endDate.year,
+      endDate.month,
+      endDate.day,
+      23,
+      59,
+      59,
+    );
     while (date.isBefore(appEndDate)) {
       final List<_Meeting>? data = _dataCollection[date];
       if (data == null) {
@@ -340,23 +365,14 @@ class _MeetingDataSource extends CalendarDataSource {
       date = date.add(const Duration(days: 1));
     }
     appointments.addAll(meetings);
-    notifyListeners(
-      CalendarDataSourceAction.add,
-      meetings,
-    );
+    notifyListeners(CalendarDataSourceAction.add, meetings);
   }
 }
 
 /// Custom business object class which contains properties to hold the detailed
 /// information about the event data which will be rendered in Calendar.
 class _Meeting {
-  _Meeting(
-    this.eventName,
-    this.from,
-    this.to,
-    this.background,
-    this.isAllDay,
-  );
+  _Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
 
   String eventName;
   DateTime from;

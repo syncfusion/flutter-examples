@@ -104,9 +104,7 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
       backgroundColor: model.sampleOutputCardColor,
       body: Padding(
         padding: EdgeInsets.fromLTRB(5, 0, 5, _bottomPadding),
-        child: Container(
-          child: _buildCartesianChart(false, _chartData),
-        ),
+        child: Container(child: _buildCartesianChart(false, _chartData)),
       ),
       floatingActionButton: isCardView ? null : _segmentedControl(),
     );
@@ -114,30 +112,30 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
 
   /// Get the format picker.
   Widget _segmentedControl() => SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Container(
-          foregroundDecoration: const BoxDecoration(shape: BoxShape.circle),
-          padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
-          child: CupertinoSegmentedControl<int>(
-            selectedColor: model.primaryColor,
-            borderColor: Colors.white,
-            children: const <int, Widget>{
-              0: Text('Y'),
-              1: Text('M'),
-              2: Text('D'),
-              3: Text('H'),
-              4: Text('Min'),
-            },
-            onValueChanged: (int val) {
-              setState(() {
-                _segmentedControlValue = val;
-                _changeAxisLabel(val);
-              });
-            },
-            groupValue: _segmentedControlValue,
-          ),
-        ),
-      );
+    width: MediaQuery.of(context).size.width,
+    child: Container(
+      foregroundDecoration: const BoxDecoration(shape: BoxShape.circle),
+      padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
+      child: CupertinoSegmentedControl<int>(
+        selectedColor: model.primaryColor,
+        borderColor: Colors.white,
+        children: const <int, Widget>{
+          0: Text('Y'),
+          1: Text('M'),
+          2: Text('D'),
+          3: Text('H'),
+          4: Text('Min'),
+        },
+        onValueChanged: (int val) {
+          setState(() {
+            _segmentedControlValue = val;
+            _changeAxisLabel(val);
+          });
+        },
+        groupValue: _segmentedControlValue,
+      ),
+    ),
+  );
 
   /// Change the label format.
   void _changeAxisLabel(int index) {
@@ -169,8 +167,10 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
   }
 
   /// Return the Cartesian Chart with Line series.
-  SfCartesianChart _buildCartesianChart(bool isTileView,
-      [List<_LabelData>? data]) {
+  SfCartesianChart _buildCartesianChart(
+    bool isTileView, [
+    List<_LabelData>? data,
+  ]) {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
@@ -184,50 +184,35 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
               _formatter4.format(_current) == details.text) {
             return ChartAxisLabel(
               'Current\nYear',
-              const TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.red,
-              ),
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red),
             );
           } else if (details.axis is DateTimeAxis &&
               _isMonth &&
               _formatter3.format(_current) == details.text) {
             return ChartAxisLabel(
               'Current\nMonth',
-              const TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.red,
-              ),
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red),
             );
           } else if (details.axis is DateTimeAxis &&
               _isDay &&
               _formatter.format(_current) == details.text) {
             return ChartAxisLabel(
               'Today',
-              const TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.red,
-              ),
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red),
             );
           } else if (details.axis is DateTimeAxis &&
               _isHours &&
               _formatter1.format(_current) == details.text) {
             return ChartAxisLabel(
               'Current\nHour',
-              const TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.red,
-              ),
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red),
             );
           } else if (details.axis is DateTimeAxis &&
               _isMinutes &&
               _formatter2.format(_current) == details.text) {
             return ChartAxisLabel(
               'Now',
-              const TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.red,
-              ),
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.red),
             );
           } else {
             return ChartAxisLabel(details.text, null);
@@ -314,12 +299,7 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
     _format = DateFormat.y();
     int temp = _currentYear;
     for (int itr = _count; itr > 0; itr--) {
-      _chartData.add(
-        _LabelData(
-          DateTime(temp),
-          _createRandomIntData(10, 100),
-        ),
-      );
+      _chartData.add(_LabelData(DateTime(temp), _createRandomIntData(10, 100)));
       temp = temp - 1;
     }
     return _chartData;
@@ -334,10 +314,7 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
     int temp = _currentMonth;
     for (int itr = _count; itr > 0; itr--) {
       _chartData.add(
-        _LabelData(
-          DateTime(_currentYear, temp),
-          _createRandomIntData(10, 100),
-        ),
+        _LabelData(DateTime(_currentYear, temp), _createRandomIntData(10, 100)),
       );
       temp = temp - 1;
     }

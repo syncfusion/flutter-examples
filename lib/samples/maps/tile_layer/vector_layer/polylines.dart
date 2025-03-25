@@ -42,9 +42,10 @@ class _PolylinesSampleState extends SampleViewState
     _routes = <_RouteDetails>[
       _RouteDetails(const MapLatLng(51.4700, -0.4543), null, 'London Heathrow'),
       _RouteDetails(
-          const MapLatLng(51.5194, -0.1270),
-          Icon(Icons.location_on, color: Colors.red[600], size: 30),
-          'The British Museum'),
+        const MapLatLng(51.5194, -0.1270),
+        Icon(Icons.location_on, color: Colors.red[600], size: 30),
+        'The British Museum',
+      ),
     ];
     _mapController = MapTileLayerController();
     _zoomPanBehavior = MapZoomPanBehavior(
@@ -52,7 +53,9 @@ class _PolylinesSampleState extends SampleViewState
       zoomLevel: 10,
       focalLatLng: const MapLatLng(51.4700, -0.2843),
       toolbarSettings: const MapToolbarSettings(
-          direction: Axis.vertical, position: MapToolbarPosition.bottomRight),
+        direction: Axis.vertical,
+        position: MapToolbarPosition.bottomRight,
+      ),
       enableDoubleTapZooming: true,
     );
 
@@ -94,17 +97,19 @@ class _PolylinesSampleState extends SampleViewState
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    _isDesktop = kIsWeb ||
+    _isDesktop =
+        kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.windows ||
         themeData.platform == TargetPlatform.linux;
     return FutureBuilder<dynamic>(
-        future: getJsonData(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapdata) {
-          if (snapdata.hasData) {
-            final List<MapLatLng> polylinePoints =
-                snapdata.data as List<MapLatLng>;
-            return Stack(children: <Widget>[
+      future: getJsonData(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapdata) {
+        if (snapdata.hasData) {
+          final List<MapLatLng> polylinePoints =
+              snapdata.data as List<MapLatLng>;
+          return Stack(
+            children: <Widget>[
               Positioned.fill(
                 child: Image.asset(
                   'images/maps_grid.png',
@@ -149,34 +154,43 @@ class _PolylinesSampleState extends SampleViewState
                       markerTooltipBuilder: (BuildContext context, int index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(_routes[index].city,
-                              style: model.themeData.textTheme.bodySmall!
-                                  .copyWith(
-                                      color: const Color.fromRGBO(
-                                          255, 255, 255, 1))),
+                          child: Text(
+                            _routes[index].city,
+                            style: model.themeData.textTheme.bodySmall!
+                                .copyWith(
+                                  color: const Color.fromRGBO(255, 255, 255, 1),
+                                ),
+                          ),
                         );
                       },
                       sublayers: <MapSublayer>[
                         MapPolylineLayer(
-                            polylines: <MapPolyline>{
-                              MapPolyline(
-                                points: polylinePoints,
-                                color: const Color.fromRGBO(0, 102, 255, 1.0),
-                                width: 6.0,
-                              )
-                            },
-                            animation: _animation,
-                            tooltipBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                    _routes[0].city + ' - ' + _routes[1].city,
-                                    style: model.themeData.textTheme.bodySmall!
-                                        .copyWith(
-                                            color: const Color.fromRGBO(
-                                                255, 255, 255, 1))),
-                              );
-                            }),
+                          polylines: <MapPolyline>{
+                            MapPolyline(
+                              points: polylinePoints,
+                              color: const Color.fromRGBO(0, 102, 255, 1.0),
+                              width: 6.0,
+                            ),
+                          },
+                          animation: _animation,
+                          tooltipBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                _routes[0].city + ' - ' + _routes[1].city,
+                                style: model.themeData.textTheme.bodySmall!
+                                    .copyWith(
+                                      color: const Color.fromRGBO(
+                                        255,
+                                        255,
+                                        255,
+                                        1,
+                                      ),
+                                    ),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                       zoomPanBehavior: _zoomPanBehavior,
                     ),
@@ -198,19 +212,22 @@ class _PolylinesSampleState extends SampleViewState
                     ],
                   ),
                 ),
-              )
-            ]);
-          } else {
-            return Container();
-          }
-        });
+              ),
+            ],
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 
   Widget _buildChipWidget(int index, String city) {
     return Padding(
-      padding: _isDesktop
-          ? const EdgeInsets.only(left: 8.0, top: 8.0)
-          : const EdgeInsets.only(left: 8.0),
+      padding:
+          _isDesktop
+              ? const EdgeInsets.only(left: 8.0, top: 8.0)
+              : const EdgeInsets.only(left: 8.0),
       child: ChoiceChip(
         backgroundColor:
             model.themeData.colorScheme.brightness == Brightness.light
@@ -219,12 +236,7 @@ class _PolylinesSampleState extends SampleViewState
         elevation: 3.0,
         shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
         showCheckmark: false,
-        label: Text(
-          city,
-          style: TextStyle(
-            color: model.textColor,
-          ),
-        ),
+        label: Text(city, style: TextStyle(color: model.textColor)),
         selected: _currentSelectedCityIndex == index,
         selectedColor:
             model.themeData.colorScheme.brightness == Brightness.light
@@ -249,8 +261,11 @@ class _PolylinesSampleState extends SampleViewState
           _routeJson = 'assets/london_to_british.json';
           _zoomPanBehavior.focalLatLng = const MapLatLng(51.4700, -0.2843);
           _zoomPanBehavior.zoomLevel = 10;
-          _routes[1] = _RouteDetails(const MapLatLng(51.5194, -0.1270),
-              Icon(Icons.location_on, color: Colors.red[600], size: 30), city);
+          _routes[1] = _RouteDetails(
+            const MapLatLng(51.5194, -0.1270),
+            Icon(Icons.location_on, color: Colors.red[600], size: 30),
+            city,
+          );
           _mapController!.updateMarkers(<int>[1]);
         });
         break;
@@ -259,8 +274,11 @@ class _PolylinesSampleState extends SampleViewState
           _routeJson = 'assets/london_to_windsor_castle.json';
           _zoomPanBehavior.focalLatLng = const MapLatLng(51.4700, -0.5443);
           _zoomPanBehavior.zoomLevel = 11;
-          _routes[1] = _RouteDetails(const MapLatLng(51.4839, -0.6044),
-              Icon(Icons.location_on, color: Colors.red[600], size: 30), city);
+          _routes[1] = _RouteDetails(
+            const MapLatLng(51.4839, -0.6044),
+            Icon(Icons.location_on, color: Colors.red[600], size: 30),
+            city,
+          );
           _mapController!.updateMarkers(<int>[1]);
         });
         break;
@@ -269,8 +287,11 @@ class _PolylinesSampleState extends SampleViewState
           _routeJson = 'assets/london_to_twickenham_stadium.json';
           _zoomPanBehavior.focalLatLng = const MapLatLng(51.4700, -0.3843);
           _zoomPanBehavior.zoomLevel = 11;
-          _routes[1] = _RouteDetails(const MapLatLng(51.4560, -0.3415),
-              Icon(Icons.location_on, color: Colors.red[600], size: 30), city);
+          _routes[1] = _RouteDetails(
+            const MapLatLng(51.4560, -0.3415),
+            Icon(Icons.location_on, color: Colors.red[600], size: 30),
+            city,
+          );
           _mapController!.updateMarkers(<int>[1]);
         });
         break;
@@ -279,8 +300,11 @@ class _PolylinesSampleState extends SampleViewState
           _routeJson = 'assets/london_to_chessington.json';
           _zoomPanBehavior.focalLatLng = const MapLatLng(51.4050, -0.4300);
           _zoomPanBehavior.zoomLevel = 10;
-          _routes[1] = _RouteDetails(const MapLatLng(51.3472, -0.3192),
-              Icon(Icons.location_on, color: Colors.red[600], size: 30), city);
+          _routes[1] = _RouteDetails(
+            const MapLatLng(51.3472, -0.3192),
+            Icon(Icons.location_on, color: Colors.red[600], size: 30),
+            city,
+          );
           _mapController!.updateMarkers(<int>[1]);
         });
         break;
@@ -289,8 +313,11 @@ class _PolylinesSampleState extends SampleViewState
           _routeJson = 'assets/london_to_hampton_court_palace.json';
           _zoomPanBehavior.focalLatLng = const MapLatLng(51.4500, -0.4393);
           _zoomPanBehavior.zoomLevel = 11;
-          _routes[1] = _RouteDetails(const MapLatLng(51.4036, -0.3378),
-              Icon(Icons.location_on, color: Colors.red[600], size: 30), city);
+          _routes[1] = _RouteDetails(
+            const MapLatLng(51.4036, -0.3378),
+            Icon(Icons.location_on, color: Colors.red[600], size: 30),
+            city,
+          );
           _mapController!.updateMarkers(<int>[1]);
         });
         break;

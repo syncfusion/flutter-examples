@@ -32,11 +32,12 @@ class _TreemapDrilldownSampleState extends SampleViewState
   void initState() {
     _worldPopulationDetails = <_WorldPopulationDetails>[
       const _WorldPopulationDetails(
-          continent: 'Asia',
-          country: 'India',
-          state: 'Uttar Pradesh',
-          populationInThousands: 199812.341,
-          color: Color.fromRGBO(204, 99, 130, 1.0)),
+        continent: 'Asia',
+        country: 'India',
+        state: 'Uttar Pradesh',
+        populationInThousands: 199812.341,
+        color: Color.fromRGBO(204, 99, 130, 1.0),
+      ),
       const _WorldPopulationDetails(
         continent: 'Asia',
         country: 'India',
@@ -575,11 +576,12 @@ class _TreemapDrilldownSampleState extends SampleViewState
         populationInThousands: 2881.053,
       ),
       const _WorldPopulationDetails(
-          continent: 'Africa',
-          country: 'Nigeria',
-          state: 'Lagos',
-          populationInThousands: 14862,
-          color: Color.fromRGBO(44, 90, 128, 1.0)),
+        continent: 'Africa',
+        country: 'Nigeria',
+        state: 'Lagos',
+        populationInThousands: 14862,
+        color: Color.fromRGBO(44, 90, 128, 1.0),
+      ),
       const _WorldPopulationDetails(
         continent: 'Africa',
         country: 'Nigeria',
@@ -1474,9 +1476,10 @@ class _TreemapDrilldownSampleState extends SampleViewState
         populationInThousands: 6.077,
       ),
       const _WorldPopulationDetails(
-          continent: 'Europe',
-          populationInThousands: 747636.026,
-          color: Color.fromRGBO(255, 100, 121, 1.0)),
+        continent: 'Europe',
+        populationInThousands: 747636.026,
+        color: Color.fromRGBO(255, 100, 121, 1.0),
+      ),
     ];
 
     _levels = _getTreemapLevels();
@@ -1486,9 +1489,13 @@ class _TreemapDrilldownSampleState extends SampleViewState
       'Europe': const Color.fromRGBO(215, 160, 68, 1.0),
     };
     _opacityAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1000));
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
     _opacityAnimation = CurvedAnimation(
-        parent: _opacityAnimationController, curve: Curves.linear);
+      parent: _opacityAnimationController,
+      curve: Curves.linear,
+    );
     super.initState();
   }
 
@@ -1504,16 +1511,18 @@ class _TreemapDrilldownSampleState extends SampleViewState
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     _isLightTheme = themeData.colorScheme.brightness == Brightness.light;
-    _isDesktop = kIsWeb ||
+    _isDesktop =
+        kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
     return Center(
       child: Padding(
-        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                _isDesktop
-            ? const EdgeInsets.all(12.5)
-            : const EdgeInsets.all(10.0),
+        padding:
+            MediaQuery.of(context).orientation == Orientation.portrait ||
+                    _isDesktop
+                ? const EdgeInsets.all(12.5)
+                : const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -1531,18 +1540,24 @@ class _TreemapDrilldownSampleState extends SampleViewState
                   },
                   enableDrilldown: true,
                   breadcrumbs: TreemapBreadcrumbs(
-                    builder: (BuildContext context, TreemapTile tile,
-                        bool isCurrent) {
+                    builder: (
+                      BuildContext context,
+                      TreemapTile tile,
+                      bool isCurrent,
+                    ) {
                       final String breadcrumbText =
                           tile.group == 'Home' ? 'Continents' : tile.group;
                       final Widget current = AnimatedDefaultTextStyle(
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: _isLightTheme
-                                ? const Color.fromRGBO(10, 10, 10, 1)
-                                : const Color.fromRGBO(255, 255, 255, 1),
-                            fontWeight: isCurrent && tile.group != 'Home'
-                                ? FontWeight.bold
-                                : FontWeight.normal),
+                          color:
+                              _isLightTheme
+                                  ? const Color.fromRGBO(10, 10, 10, 1)
+                                  : const Color.fromRGBO(255, 255, 255, 1),
+                          fontWeight:
+                              isCurrent && tile.group != 'Home'
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                        ),
                         duration: const Duration(milliseconds: 500),
                         child: Text(breadcrumbText),
                       );
@@ -1555,16 +1570,19 @@ class _TreemapDrilldownSampleState extends SampleViewState
                         }
 
                         return FadeTransition(
-                            opacity: _opacityAnimation, child: current);
+                          opacity: _opacityAnimation,
+                          child: current,
+                        );
                       }
 
                       return current;
                     },
                   ),
                   tooltipSettings: TreemapTooltipSettings(
-                    color: _isLightTheme
-                        ? const Color.fromRGBO(45, 45, 45, 1)
-                        : const Color.fromRGBO(242, 242, 242, 1),
+                    color:
+                        _isLightTheme
+                            ? const Color.fromRGBO(45, 45, 45, 1)
+                            : const Color.fromRGBO(242, 242, 242, 1),
                   ),
                   levels: _levels,
                 ),
@@ -1621,8 +1639,9 @@ class _TreemapDrilldownSampleState extends SampleViewState
   }
 
   Widget _buildParentTileLabels(TreemapTile tile) {
-    final Brightness brightness =
-        ThemeData.estimateBrightnessForColor(tile.color);
+    final Brightness brightness = ThemeData.estimateBrightnessForColor(
+      tile.color,
+    );
     final Color color =
         brightness == Brightness.dark ? Colors.white : Colors.black;
     return Stack(
@@ -1662,8 +1681,9 @@ class _TreemapDrilldownSampleState extends SampleViewState
   }
 
   Widget _buildDescendantsLabels(TreemapTile tile) {
-    final Brightness brightness =
-        ThemeData.estimateBrightnessForColor(tile.color);
+    final Brightness brightness = ThemeData.estimateBrightnessForColor(
+      tile.color,
+    );
     final Color color =
         brightness == Brightness.dark ? Colors.white : Colors.black;
     return Center(
@@ -1671,10 +1691,9 @@ class _TreemapDrilldownSampleState extends SampleViewState
         padding: const EdgeInsets.only(left: 4.0, top: 4.0, right: 4),
         child: Text(
           tile.group,
-          style: Theme.of(context)
-              .textTheme
-              .bodySmall!
-              .copyWith(fontSize: 11, color: color),
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall!.copyWith(fontSize: 11, color: color),
           overflow: TextOverflow.ellipsis,
         ),
       ),
@@ -1706,11 +1725,12 @@ class _TreemapDrilldownSampleState extends SampleViewState
               text: TextSpan(
                 text: _levels.indexOf(tile.level) == 1 ? 'Country' : 'State',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      height: 1.5,
-                      color: _isLightTheme
+                  height: 1.5,
+                  color:
+                      _isLightTheme
                           ? const Color.fromRGBO(255, 255, 255, 0.75)
                           : const Color.fromRGBO(10, 10, 10, 0.75),
-                    ),
+                ),
                 children: const <TextSpan>[TextSpan(text: '\nPopulation')],
               ),
             ),
@@ -1721,15 +1741,17 @@ class _TreemapDrilldownSampleState extends SampleViewState
               text: TextSpan(
                 text: tile.group,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      height: 1.5,
-                      fontWeight: FontWeight.bold,
-                      color: _isLightTheme
+                  height: 1.5,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      _isLightTheme
                           ? const Color.fromRGBO(255, 255, 255, 1)
                           : const Color.fromRGBO(10, 10, 10, 1),
-                    ),
+                ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: '\n' +
+                    text:
+                        '\n' +
                         ((_levels.indexOf(tile.level) == 1
                                     ? tile.weight
                                     : _worldPopulationDetails[tile.indices[0]]
@@ -1741,7 +1763,7 @@ class _TreemapDrilldownSampleState extends SampleViewState
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

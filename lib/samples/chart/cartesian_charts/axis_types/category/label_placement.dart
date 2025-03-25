@@ -35,10 +35,7 @@ class _CategoryTicksState extends SampleViewState {
       ChartSampleData(x: 'Antony', yValue: 11),
       ChartSampleData(x: 'Brit', yValue: 10),
     ];
-    _labelPosition = <String>[
-      'betweenTicks',
-      'onTicks',
-    ].toList();
+    _labelPosition = <String>['betweenTicks', 'onTicks'].toList();
     _selectedType = 'betweenTicks';
     _labelPlacement = LabelPlacement.betweenTicks;
     _tooltipBehavior = TooltipBehavior(
@@ -66,14 +63,15 @@ class _CategoryTicksState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Label placement ',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(
-                      model.isWebFullView ? 4 : 20, 0, 0, 0),
+                    model.isWebFullView ? 4 : 20,
+                    0,
+                    0,
+                    0,
+                  ),
                   height: 50,
                   alignment: Alignment.bottomCenter,
                   child: DropdownButton<String>(
@@ -84,23 +82,18 @@ class _CategoryTicksState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedType,
-                    items: _labelPosition!.map(
-                      (String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'betweenTicks',
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                              color: model.textColor,
+                    items:
+                        _labelPosition!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'betweenTicks',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
                             ),
-                          ),
-                        );
-                      },
-                    ).toList(),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
-                      _onPositionTypeChange(
-                        value.toString(),
-                      );
+                      _onPositionTypeChange(value.toString());
                       stateSetter(() {});
                     },
                   ),
@@ -117,9 +110,7 @@ class _CategoryTicksState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Employees task count',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Employees task count'),
       primaryXAxis: CategoryAxis(
         majorGridLines: const MajorGridLines(width: 0),
         labelPlacement: _labelPlacement,

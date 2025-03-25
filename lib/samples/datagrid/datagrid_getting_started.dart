@@ -47,22 +47,10 @@ class _GettingStartedDataGridState extends SampleViewState {
             child: const Text('Team'),
           ),
         ),
-        GridColumn(
-          columnName: 'wins',
-          label: const Center(
-            child: Text('W'),
-          ),
-        ),
-        GridColumn(
-            columnName: 'losses',
-            label: const Center(
-              child: Text('L'),
-            )),
+        GridColumn(columnName: 'wins', label: const Center(child: Text('W'))),
+        GridColumn(columnName: 'losses', label: const Center(child: Text('L'))),
         GridColumn(columnName: 'pct', label: const Center(child: Text('WPCT'))),
-        GridColumn(
-          columnName: 'gb',
-          label: const Center(child: Text('GB')),
-        ),
+        GridColumn(columnName: 'gb', label: const Center(child: Text('GB'))),
       ],
     );
   }
@@ -71,19 +59,17 @@ class _GettingStartedDataGridState extends SampleViewState {
     return Row(
       children: <Widget>[
         Image.asset('images/location.png'),
-        Text(
-          ' ' + location,
-        )
+        Text(' ' + location),
       ],
     );
   }
 
   Widget buildTrustWidget(String trust) {
-    return Row(children: <Widget>[
-      Row(
-        children: <Widget>[Image.asset('images/Perfect.png'), Text(trust)],
-      )
-    ]);
+    return Row(
+      children: <Widget>[
+        Row(children: <Widget>[Image.asset('images/Perfect.png'), Text(trust)]),
+      ],
+    );
   }
 
   SfDataGrid _buildDataGridForWeb() {
@@ -91,26 +77,21 @@ class _GettingStartedDataGridState extends SampleViewState {
       source: _employeeDataGridSource,
       columns: <GridColumn>[
         GridColumn(
-            width: 130,
-            columnName: 'employeeName',
-            label: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
-                'Employee Name',
-                overflow: TextOverflow.ellipsis,
-              ),
-            )),
+          width: 130,
+          columnName: 'employeeName',
+          label: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(8.0),
+            child: const Text('Employee Name', overflow: TextOverflow.ellipsis),
+          ),
+        ),
         GridColumn(
           columnName: 'designation',
           width: (model.isWeb || model.isMacOS || model.isLinux) ? 150 : 130,
           label: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Designation',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: const Text('Designation', overflow: TextOverflow.ellipsis),
           ),
         ),
         GridColumn(
@@ -119,10 +100,7 @@ class _GettingStartedDataGridState extends SampleViewState {
           label: Container(
             padding: const EdgeInsets.all(8.0),
             alignment: Alignment.centerLeft,
-            child: const Text(
-              'Mail',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: const Text('Mail', overflow: TextOverflow.ellipsis),
           ),
         ),
         GridColumn(
@@ -131,51 +109,48 @@ class _GettingStartedDataGridState extends SampleViewState {
           label: Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Location',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: const Text('Location', overflow: TextOverflow.ellipsis),
           ),
         ),
         GridColumn(
           columnName: 'status',
           label: Container(
-              padding: const EdgeInsets.all(8.0),
-              alignment: Alignment.center,
-              child: const Text(
-                'Status',
-                overflow: TextOverflow.ellipsis,
-              )),
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.center,
+            child: const Text('Status', overflow: TextOverflow.ellipsis),
+          ),
         ),
         GridColumn(
-            columnName: 'trustworthiness',
-            width: 130,
-            label: Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Trustworthiness',
-                  overflow: TextOverflow.ellipsis,
-                ))),
+          columnName: 'trustworthiness',
+          width: 130,
+          label: Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
+              'Trustworthiness',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
         GridColumn(
-            columnName: 'softwareProficiency',
-            width: 165,
-            label: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Software Proficiency',
-                  overflow: TextOverflow.ellipsis,
-                ))),
+          columnName: 'softwareProficiency',
+          width: 165,
+          label: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(8.0),
+            child: const Text(
+              'Software Proficiency',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
         GridColumn(
           columnName: 'salary',
           label: Container(
-              padding: const EdgeInsets.all(8.0),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Salary',
-                overflow: TextOverflow.ellipsis,
-              )),
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerRight,
+            child: const Text('Salary', overflow: TextOverflow.ellipsis),
+          ),
         ),
         GridColumn(
           columnName: 'address',
@@ -183,10 +158,7 @@ class _GettingStartedDataGridState extends SampleViewState {
           label: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Address',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: const Text('Address', overflow: TextOverflow.ellipsis),
           ),
         ),
       ],

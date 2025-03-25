@@ -43,8 +43,9 @@ class _EmptyPointsState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: model.isWebFullView || !isCardView ? 0 : 60),
+      padding: EdgeInsets.only(
+        bottom: model.isWebFullView || !isCardView ? 0 : 60,
+      ),
       child: _buildEmptyPointChart(),
     );
   }
@@ -52,36 +53,42 @@ class _EmptyPointsState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(
-        children: <Widget>[
-          Text(
-            'Empty point mode  ',
-            style: TextStyle(fontSize: 16.0, color: model.textColor),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-            height: 50,
-            alignment: Alignment.bottomLeft,
-            child: DropdownButton<String>(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Row(
+          children: <Widget>[
+            Text(
+              'Empty point mode  ',
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+              height: 50,
+              alignment: Alignment.bottomLeft,
+              child: DropdownButton<String>(
                 dropdownColor: model.drawerBackgroundColor,
                 focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedMode,
-                items: _emptyPointMode!.map((String value) {
-                  return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'zero',
-                      child: Text(value,
-                          style: TextStyle(color: model.textColor)));
-                }).toList(),
+                items:
+                    _emptyPointMode!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'zero',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                 onChanged: (dynamic value) {
                   _onEmptyPointModeChange(value.toString());
                   stateSetter(() {});
-                }),
-          ),
-        ],
-      );
-    });
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   /// Returns the cartesian column chart with empty points.
@@ -93,9 +100,10 @@ class _EmptyPointsState extends SampleViewState {
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: const NumericAxis(
-          axisLine: AxisLine(width: 0),
-          labelFormat: '{value}%',
-          majorTickLines: MajorTickLines(size: 0)),
+        axisLine: AxisLine(width: 0),
+        labelFormat: '{value}%',
+        majorTickLines: MajorTickLines(size: 0),
+      ),
       series: _buildColumnSeries(),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -122,7 +130,7 @@ class _EmptyPointsState extends SampleViewState {
           isVisible: true,
           textStyle: TextStyle(fontSize: 10),
         ),
-      )
+      ),
     ];
   }
 

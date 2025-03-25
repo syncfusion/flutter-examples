@@ -41,41 +41,13 @@ class _EdgeLabelState extends SampleViewState {
         y: 37.99,
         secondSeriesYValue: 28.22,
       ),
-      ChartSampleData(
-        x: DateTime(2006, 4),
-        y: 43.5,
-        secondSeriesYValue: 30.45,
-      ),
-      ChartSampleData(
-        x: DateTime(2007, 4),
-        y: 43,
-        secondSeriesYValue: 30.25,
-      ),
-      ChartSampleData(
-        x: DateTime(2008, 4),
-        y: 45.5,
-        secondSeriesYValue: 31.76,
-      ),
-      ChartSampleData(
-        x: DateTime(2009, 4),
-        y: 44.7,
-        secondSeriesYValue: 30.86,
-      ),
-      ChartSampleData(
-        x: DateTime(2010, 4),
-        y: 48,
-        secondSeriesYValue: 38.1,
-      ),
-      ChartSampleData(
-        x: DateTime(2011, 4),
-        y: 58.5,
-        secondSeriesYValue: 37.75,
-      ),
-      ChartSampleData(
-        x: DateTime(2012, 4),
-        y: 65.6,
-        secondSeriesYValue: 40.91,
-      ),
+      ChartSampleData(x: DateTime(2006, 4), y: 43.5, secondSeriesYValue: 30.45),
+      ChartSampleData(x: DateTime(2007, 4), y: 43, secondSeriesYValue: 30.25),
+      ChartSampleData(x: DateTime(2008, 4), y: 45.5, secondSeriesYValue: 31.76),
+      ChartSampleData(x: DateTime(2009, 4), y: 44.7, secondSeriesYValue: 30.86),
+      ChartSampleData(x: DateTime(2010, 4), y: 48, secondSeriesYValue: 38.1),
+      ChartSampleData(x: DateTime(2011, 4), y: 58.5, secondSeriesYValue: 37.75),
+      ChartSampleData(x: DateTime(2012, 4), y: 65.6, secondSeriesYValue: 40.91),
       ChartSampleData(
         x: DateTime(2013, 4),
         y: 66.09,
@@ -116,35 +88,34 @@ class _EdgeLabelState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Edge label placement',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                   alignment: Alignment.bottomLeft,
                   child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      focusColor: Colors.transparent,
-                      underline: Container(
-                        color: const Color(0xFFBDBDBD),
-                        height: 1,
-                      ),
-                      value: _selectedType,
-                      items: _edgeList!.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'hide',
-                          child: Text(
-                            value,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onPositionTypeChange(value.toString());
-                        stateSetter(() {});
-                      }),
+                    dropdownColor: model.drawerBackgroundColor,
+                    focusColor: Colors.transparent,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
+                    ),
+                    value: _selectedType,
+                    items:
+                        _edgeList!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'hide',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
+                    onChanged: (dynamic value) {
+                      _onPositionTypeChange(value.toString());
+                      stateSetter(() {});
+                    },
+                  ),
                 ),
               ],
             ),
@@ -157,6 +128,7 @@ class _EdgeLabelState extends SampleViewState {
   /// Return the Cartesian Chart with Spline series.
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
+      margin: const EdgeInsets.fromLTRB(10, 10, 20, 10),
       plotAreaBorderWidth: 1,
       title: ChartTitle(text: isCardView ? '' : 'Fuel price in India'),
       primaryXAxis: DateTimeAxis(
@@ -180,9 +152,7 @@ class _EdgeLabelState extends SampleViewState {
 
         /// This is the API for y axis edge label placement.
         edgeLabelPlacement: _edgeLabelPlacement!,
-        title: AxisTitle(
-          text: isCardView ? '' : 'Rupees per litre',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Rupees per litre'),
       ),
       series: _buildSplineSeries(),
       legend: Legend(
@@ -209,8 +179,8 @@ class _EdgeLabelState extends SampleViewState {
       SplineSeries<ChartSampleData, DateTime>(
         dataSource: _fuelPriceDataOfIndia,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         name: 'Diesel',
         markerSettings: const MarkerSettings(
           isVisible: true,

@@ -95,7 +95,7 @@ class _StackedColumnChartState extends SampleViewState {
 
   /// Returns the list of cartesian stacked column series.
   List<StackedColumnSeries<ChartSampleData, String>>
-      _buildStackedColumnSeries() {
+  _buildStackedColumnSeries() {
     return <StackedColumnSeries<ChartSampleData, String>>[
       StackedColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
@@ -112,17 +112,17 @@ class _StackedColumnChartState extends SampleViewState {
       StackedColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.secondSeriesYValue,
         name: 'Product C',
       ),
       StackedColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.thirdSeriesYValue,
         name: 'Product D',
-      )
+      ),
     ];
   }
 

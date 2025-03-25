@@ -36,10 +36,7 @@ class _DataLabelTemplateState extends SampleViewState {
         y: 42,
         pointColor: const Color.fromRGBO(26, 157, 235, 1),
       ),
-      ChartSampleData(
-        x: 'Instagram',
-        y: 63,
-      ),
+      ChartSampleData(x: 'Instagram', y: 63),
       ChartSampleData(
         x: 'Snapchat',
         y: 61,
@@ -63,9 +60,10 @@ class _DataLabelTemplateState extends SampleViewState {
   SfCartesianChart _buildDataLabelTemplateChart() {
     return SfCartesianChart(
       title: ChartTitle(
-        text: isCardView
-            ? ''
-            : 'Percentage of people using social media on a daily basis',
+        text:
+            isCardView
+                ? ''
+                : 'Percentage of people using social media on a daily basis',
       ),
       plotAreaBorderWidth: 0,
       primaryXAxis: const CategoryAxis(
@@ -97,7 +95,7 @@ class _DataLabelTemplateState extends SampleViewState {
           colors: <Color>[
             Color.fromRGBO(93, 80, 202, 1),
             Color.fromRGBO(183, 45, 145, 1),
-            Color.fromRGBO(250, 203, 118, 1)
+            Color.fromRGBO(250, 203, 118, 1),
           ],
           stops: <double>[0.0, 0.5, 1.0],
           begin: Alignment.topCenter,
@@ -113,8 +111,13 @@ class _DataLabelTemplateState extends SampleViewState {
   DataLabelSettings _buildDataLabelSettings() {
     return DataLabelSettings(
       isVisible: true,
-      builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
-          int seriesIndex) {
+      builder: (
+        dynamic data,
+        dynamic point,
+        dynamic series,
+        int pointIndex,
+        int seriesIndex,
+      ) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -126,12 +129,7 @@ class _DataLabelTemplateState extends SampleViewState {
                 width: 30,
               ),
             ),
-            Text(
-              data.y.toString() + '%',
-              style: const TextStyle(
-                fontSize: 10,
-              ),
-            )
+            Text(data.y.toString() + '%', style: const TextStyle(fontSize: 10)),
           ],
         );
       },
@@ -139,15 +137,16 @@ class _DataLabelTemplateState extends SampleViewState {
   }
 
   String _getImageTemplate(int pointIndex) {
-    final String path = pointIndex == 0
-        ? 'images/youtube.png'
-        : (pointIndex == 1
-            ? 'images/maps_twitter.png'
-            : (pointIndex == 2
-                ? 'images/maps_instagram.png'
-                : (pointIndex == 3
-                    ? 'images/maps_snapchat.png'
-                    : 'images/maps_facebook.png')));
+    final String path =
+        pointIndex == 0
+            ? 'images/youtube.png'
+            : (pointIndex == 1
+                ? 'images/maps_twitter.png'
+                : (pointIndex == 2
+                    ? 'images/maps_instagram.png'
+                    : (pointIndex == 3
+                        ? 'images/maps_snapchat.png'
+                        : 'images/maps_facebook.png')));
     return path;
   }
 

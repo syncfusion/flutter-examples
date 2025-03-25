@@ -72,7 +72,7 @@ class _SplineDashedState extends SampleViewState {
         y: 17.93,
         secondSeriesYValue: 21.65,
         thirdSeriesYValue: 25.31,
-      )
+      ),
     ];
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
@@ -87,9 +87,7 @@ class _SplineDashedState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Total investment (% of GDP)',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Total investment (% of GDP)'),
       primaryXAxis: const NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
         interval: 1,
@@ -123,8 +121,8 @@ class _SplineDashedState extends SampleViewState {
       SplineSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         dashArray: const <double>[12, 3, 3, 3],
         name: 'Sweden',
         markerSettings: const MarkerSettings(isVisible: true),
@@ -132,8 +130,8 @@ class _SplineDashedState extends SampleViewState {
       SplineSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
         dashArray: const <double>[12, 3, 3, 3],
         name: 'Greece',
         markerSettings: const MarkerSettings(isVisible: true),

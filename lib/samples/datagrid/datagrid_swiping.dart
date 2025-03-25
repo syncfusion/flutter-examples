@@ -48,7 +48,9 @@ class _SwipingDataGridState extends SampleViewState {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
     _dataSource = OrderInfoDataGridSource(
-        isWebOrDesktop: _isWebOrDesktop, orderDataCount: 100);
+      isWebOrDesktop: _isWebOrDesktop,
+      orderDataCount: 100,
+    );
     _orderIdController = TextEditingController();
     _customerIdController = TextEditingController();
     _cityController = TextEditingController();
@@ -66,8 +68,10 @@ class _SwipingDataGridState extends SampleViewState {
   }
 
   /// Building the each field with label and TextFormField
-  Widget _buildRow(
-      {required TextEditingController controller, required String columnName}) {
+  Widget _buildRow({
+    required TextEditingController controller,
+    required String columnName,
+  }) {
     final TextInputType keyboardType =
         <String>['City', 'Name'].contains(columnName)
             ? TextInputType.text
@@ -79,9 +83,10 @@ class _SwipingDataGridState extends SampleViewState {
     return Row(
       children: <Widget>[
         Container(
-            width: _isWebOrDesktop ? 150 : 130,
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Text(columnName)),
+          width: _isWebOrDesktop ? 150 : 130,
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: Text(columnName),
+        ),
         SizedBox(
           width: _isWebOrDesktop ? 150 : 130,
           child: TextFormField(
@@ -94,10 +99,10 @@ class _SwipingDataGridState extends SampleViewState {
             controller: controller,
             keyboardType: keyboardType,
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(regExp)
+              FilteringTextInputFormatter.allow(regExp),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -106,29 +111,29 @@ class _SwipingDataGridState extends SampleViewState {
   Widget _buildAlertDialogContent() {
     return _isWebOrDesktop
         ? Column(
-            children: <Widget>[
-              _buildRow(
-                  controller: _orderIdController!, columnName: 'Order ID'),
-              _buildRow(
-                  controller: _customerIdController!,
-                  columnName: 'Customer ID'),
-              _buildRow(controller: _nameController!, columnName: 'Name'),
-              _buildRow(controller: _freightController!, columnName: 'Freight'),
-              _buildRow(controller: _cityController!, columnName: 'City'),
-              _buildRow(controller: _priceController!, columnName: 'Price'),
-            ],
-          )
+          children: <Widget>[
+            _buildRow(controller: _orderIdController!, columnName: 'Order ID'),
+            _buildRow(
+              controller: _customerIdController!,
+              columnName: 'Customer ID',
+            ),
+            _buildRow(controller: _nameController!, columnName: 'Name'),
+            _buildRow(controller: _freightController!, columnName: 'Freight'),
+            _buildRow(controller: _cityController!, columnName: 'City'),
+            _buildRow(controller: _priceController!, columnName: 'Price'),
+          ],
+        )
         : Column(
-            children: <Widget>[
-              _buildRow(
-                  controller: _orderIdController!, columnName: 'Order ID'),
-              _buildRow(
-                  controller: _customerIdController!,
-                  columnName: 'Customer ID'),
-              _buildRow(controller: _nameController!, columnName: 'Name'),
-              _buildRow(controller: _cityController!, columnName: 'City'),
-            ],
-          );
+          children: <Widget>[
+            _buildRow(controller: _orderIdController!, columnName: 'Order ID'),
+            _buildRow(
+              controller: _customerIdController!,
+              columnName: 'Customer ID',
+            ),
+            _buildRow(controller: _nameController!, columnName: 'Name'),
+            _buildRow(controller: _cityController!, columnName: 'City'),
+          ],
+        );
   }
 
   /// Updating the DataGridRows after changing the value and notify the DataGrid
@@ -157,57 +162,68 @@ class _SwipingDataGridState extends SampleViewState {
 
   // Updating the data to the TextEditingController
   void _updateTextFieldContext(DataGridRow row) {
-    final String? orderId = row
-        .getCells()
-        .firstWhereOrNull((DataGridCell element) => element.columnName == 'id')
-        ?.value
-        .toString();
+    final String? orderId =
+        row
+            .getCells()
+            .firstWhereOrNull(
+              (DataGridCell element) => element.columnName == 'id',
+            )
+            ?.value
+            .toString();
     _orderIdController!.text = orderId ?? '';
 
-    final String? customerId = row
-        .getCells()
-        .firstWhereOrNull(
-            (DataGridCell element) => element.columnName == 'customerId')
-        ?.value
-        .toString();
+    final String? customerId =
+        row
+            .getCells()
+            .firstWhereOrNull(
+              (DataGridCell element) => element.columnName == 'customerId',
+            )
+            ?.value
+            .toString();
 
     _customerIdController!.text = customerId ?? '';
 
-    final String? name = row
-        .getCells()
-        .firstWhereOrNull(
-            (DataGridCell element) => element.columnName == 'name')
-        ?.value
-        .toString();
+    final String? name =
+        row
+            .getCells()
+            .firstWhereOrNull(
+              (DataGridCell element) => element.columnName == 'name',
+            )
+            ?.value
+            .toString();
 
     _nameController!.text = name ?? '';
 
-    final dynamic freight = row
-        .getCells()
-        .firstWhereOrNull(
-            (DataGridCell element) => element.columnName == 'freight')
-        ?.value;
+    final dynamic freight =
+        row
+            .getCells()
+            .firstWhereOrNull(
+              (DataGridCell element) => element.columnName == 'freight',
+            )
+            ?.value;
 
     _freightController!.text =
         freight == null ? '' : freight.roundToDouble().toString();
 
-    final String? city = row
-        .getCells()
-        .firstWhereOrNull(
-          (DataGridCell element) => element.columnName == 'city',
-        )
-        ?.value
-        .toString();
+    final String? city =
+        row
+            .getCells()
+            .firstWhereOrNull(
+              (DataGridCell element) => element.columnName == 'city',
+            )
+            ?.value
+            .toString();
 
     _cityController!.text = city ?? '';
 
-    final String? price = row
-        .getCells()
-        .firstWhereOrNull(
-          (DataGridCell element) => element.columnName == 'price',
-        )
-        ?.value
-        .toString();
+    final String? price =
+        row
+            .getCells()
+            .firstWhereOrNull(
+              (DataGridCell element) => element.columnName == 'price',
+            )
+            ?.value
+            .toString();
 
     _priceController!.text = price ?? '';
   }
@@ -217,17 +233,11 @@ class _SwipingDataGridState extends SampleViewState {
     return <Widget>[
       TextButton(
         onPressed: () => _processCellUpdate(row, buildContext),
-        child: Text(
-          'SAVE',
-          style: TextStyle(color: model.primaryColor),
-        ),
+        child: Text('SAVE', style: TextStyle(color: model.primaryColor)),
       ),
       TextButton(
         onPressed: () => Navigator.pop(buildContext),
-        child: Text(
-          'CANCEL',
-          style: TextStyle(color: model.primaryColor),
-        ),
+        child: Text('CANCEL', style: TextStyle(color: model.primaryColor)),
       ),
     ];
   }
@@ -237,22 +247,23 @@ class _SwipingDataGridState extends SampleViewState {
     _updateTextFieldContext(row);
     showDialog<String>(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
-        scrollable: true,
-        titleTextStyle: TextStyle(
-            color: model.textColor, fontWeight: FontWeight.bold, fontSize: 16),
-        title: const Text('Edit Details'),
-        actions: _buildActionButtons(row, context),
-        content: Scrollbar(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Form(
-              key: _formKey,
-              child: _buildAlertDialogContent(),
+      builder:
+          (BuildContext context) => AlertDialog(
+            scrollable: true,
+            titleTextStyle: TextStyle(
+              color: model.textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+            title: const Text('Edit Details'),
+            actions: _buildActionButtons(row, context),
+            content: Scrollbar(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Form(key: _formKey, child: _buildAlertDialogContent()),
+              ),
             ),
           ),
-        ),
-      ),
     );
   }
 
@@ -264,49 +275,56 @@ class _SwipingDataGridState extends SampleViewState {
     _dataSource.updateDataSource();
     showDialog<String>(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'OK',
-              style: TextStyle(color: model.primaryColor),
-            ),
+      builder:
+          (BuildContext context) => AlertDialog(
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK', style: TextStyle(color: model.primaryColor)),
+              ),
+            ],
+            content: const Text('Row deleted successfully'),
           ),
-        ],
-        content: const Text('Row deleted successfully'),
-      ),
     );
   }
 
   /// Callback for left swiping, and it will flipped for RTL case
   Widget _buildStartSwipeWidget(
-      BuildContext context, DataGridRow row, int rowIndex) {
+    BuildContext context,
+    DataGridRow row,
+    int rowIndex,
+  ) {
     final bool isMaterial3 = model.themeData.useMaterial3;
     return GestureDetector(
       onTap: () => _handleEditWidgetTap(row),
       child: Container(
-        color: isMaterial3
-            ? model.themeData.colorScheme.primary
-            : Colors.blueAccent,
+        color:
+            isMaterial3
+                ? model.themeData.colorScheme.primary
+                : Colors.blueAccent,
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.edit,
-                color: isMaterial3
-                    ? model.themeData.colorScheme.onPrimary
-                    : Colors.white,
-                size: 20),
+            Icon(
+              Icons.edit,
+              color:
+                  isMaterial3
+                      ? model.themeData.colorScheme.onPrimary
+                      : Colors.white,
+              size: 20,
+            ),
             const SizedBox(width: 16.0),
             Text(
               'EDIT',
               style: TextStyle(
-                  color: isMaterial3
-                      ? model.themeData.colorScheme.onPrimary
-                      : Colors.white,
-                  fontSize: 15),
-            )
+                color:
+                    isMaterial3
+                        ? model.themeData.colorScheme.onPrimary
+                        : Colors.white,
+                fontSize: 15,
+              ),
+            ),
           ],
         ),
       ),
@@ -315,7 +333,10 @@ class _SwipingDataGridState extends SampleViewState {
 
   /// Callback for right swiping, and it will flipped for RTL case
   Widget _buildEndSwipeWidget(
-      BuildContext context, DataGridRow row, int rowIndex) {
+    BuildContext context,
+    DataGridRow row,
+    int rowIndex,
+  ) {
     final bool isMaterial3 = model.themeData.useMaterial3;
     return GestureDetector(
       onTap: () => _handleDeleteWidgetTap(row),
@@ -326,19 +347,24 @@ class _SwipingDataGridState extends SampleViewState {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.delete,
-                color: isMaterial3
-                    ? model.themeData.colorScheme.onPrimary
-                    : Colors.white,
-                size: 20),
+            Icon(
+              Icons.delete,
+              color:
+                  isMaterial3
+                      ? model.themeData.colorScheme.onPrimary
+                      : Colors.white,
+              size: 20,
+            ),
             const SizedBox(width: 16.0),
             Text(
               'DELETE',
               style: TextStyle(
-                  color: isMaterial3
-                      ? model.themeData.colorScheme.onPrimary
-                      : Colors.white,
-                  fontSize: 15),
+                color:
+                    isMaterial3
+                        ? model.themeData.colorScheme.onPrimary
+                        : Colors.white,
+                fontSize: 15,
+              ),
             ),
           ],
         ),
@@ -362,19 +388,22 @@ class _SwipingDataGridState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
-    columns = _isWebOrDesktop
-        ? <GridColumn>[
-            GridColumn(
+    columns =
+        _isWebOrDesktop
+            ? <GridColumn>[
+              GridColumn(
                 columnName: 'id',
-                width: (_isWebOrDesktop && model.isMobileResolution)
-                    ? 120.0
-                    : double.nan,
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerRight,
@@ -382,12 +411,14 @@ class _SwipingDataGridState extends SampleViewState {
                     'Order ID',
                     overflow: TextOverflow.ellipsis,
                   ),
-                )),
-            GridColumn(
+                ),
+              ),
+              GridColumn(
                 columnName: 'customerId',
-                width: (_isWebOrDesktop && model.isMobileResolution)
-                    ? 150.0
-                    : double.nan,
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 150.0
+                        : double.nan,
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerRight,
@@ -395,113 +426,98 @@ class _SwipingDataGridState extends SampleViewState {
                     'Customer ID',
                     overflow: TextOverflow.ellipsis,
                   ),
-                )),
-            GridColumn(
-              columnName: 'name',
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              label: Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.all(8),
-                child: const Text(
-                  'Name',
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'freight',
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 110.0
-                  : double.nan,
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Freight',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                columnName: 'name',
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                label: Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.all(8),
+                  child: const Text('Name', overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'city',
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'City',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                columnName: 'freight',
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 110.0
+                        : double.nan,
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text('Freight', overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'price',
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Price',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                columnName: 'city',
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: const Text('City', overflow: TextOverflow.ellipsis),
                 ),
               ),
-            )
-          ]
-        : <GridColumn>[
-            GridColumn(
-              columnName: 'id',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'ID',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                columnName: 'price',
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text('Price', overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'customerId',
-              columnWidthMode: _isLandscapeInMobileView
-                  ? ColumnWidthMode.fill
-                  : ColumnWidthMode.none,
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Customer ID',
-                  overflow: TextOverflow.ellipsis,
+            ]
+            : <GridColumn>[
+              GridColumn(
+                columnName: 'id',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text('ID', overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'name',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Name',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                columnName: 'customerId',
+                columnWidthMode:
+                    _isLandscapeInMobileView
+                        ? ColumnWidthMode.fill
+                        : ColumnWidthMode.none,
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text(
+                    'Customer ID',
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'city',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'City',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                columnName: 'name',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: const Text('Name', overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-          ];
+              GridColumn(
+                columnName: 'city',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: const Text('City', overflow: TextOverflow.ellipsis),
+                ),
+              ),
+            ];
     return columns;
   }
 }

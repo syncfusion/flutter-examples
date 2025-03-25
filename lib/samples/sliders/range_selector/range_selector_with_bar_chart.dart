@@ -35,8 +35,10 @@ class _RangeSelectorBarChartPageState extends SampleViewState
 
   final DateTime _dayMin = DateTime(2020, 05, 31, 12);
   final DateTime _dayMax = DateTime(2020, 06, 30, 12);
-  final SfRangeValues _monthValues =
-      SfRangeValues(DateTime(2020, 06, 12), DateTime(2020, 06, 23));
+  final SfRangeValues _monthValues = SfRangeValues(
+    DateTime(2020, 06, 12),
+    DateTime(2020, 06, 23),
+  );
 
   late RangeController _rangeController;
 
@@ -106,86 +108,81 @@ class _RangeSelectorBarChartPageState extends SampleViewState
       children: <Widget>[
         Center(
           child: Container(
-              padding: const EdgeInsets.only(bottom: 40),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
-                      child: Text(
-                        'Sales Metrics',
-                        style: TextStyle(fontSize: 20),
-                      ),
+            padding: const EdgeInsets.only(bottom: 40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 20.0),
+                  child: Text('Sales Metrics', style: TextStyle(fontSize: 20)),
+                ),
+                SfRangeSelectorTheme(
+                  data: SfRangeSelectorThemeData(
+                    thumbColor: isLightTheme ? Colors.white : Colors.black,
+                    thumbStrokeColor:
+                        isLightTheme ? Colors.black : Colors.white,
+                    thumbStrokeWidth: 2.0,
+                    activeTrackHeight: 2.5,
+                    inactiveTrackHeight: 1.0,
+                    activeTrackColor:
+                        isLightTheme ? Colors.black : Colors.white,
+                    inactiveTrackColor:
+                        isLightTheme ? Colors.black : Colors.white,
+                    inactiveRegionColor: model.sampleOutputCardColor.withValues(
+                      alpha: 0.75,
                     ),
-                    SfRangeSelectorTheme(
-                        data: SfRangeSelectorThemeData(
-                          thumbColor:
-                              isLightTheme ? Colors.white : Colors.black,
-                          thumbStrokeColor:
-                              isLightTheme ? Colors.black : Colors.white,
-                          thumbStrokeWidth: 2.0,
-                          activeTrackHeight: 2.5,
-                          inactiveTrackHeight: 1.0,
-                          activeTrackColor:
-                              isLightTheme ? Colors.black : Colors.white,
-                          inactiveTrackColor:
-                              isLightTheme ? Colors.black : Colors.white,
-                          inactiveRegionColor: model.sampleOutputCardColor
-                              .withValues(alpha: 0.75),
-                          tooltipBackgroundColor:
-                              isLightTheme ? Colors.black : Colors.white,
-                          overlayColor: isLightTheme
-                              ? Colors.black.withValues(alpha: 0.12)
-                              : Colors.white.withValues(alpha: 0.12),
-                          tooltipTextStyle: TextStyle(
-                              color:
-                                  isLightTheme ? Colors.white : Colors.black),
-                        ),
-                        child: SfRangeSelector(
-                          min: _dayMin.subtract(
-                            Duration.zero,
-                          ),
-                          max: _dayMax.add(
-                            Duration.zero,
-                          ),
-                          controller: _rangeController,
-                          dateFormat: DateFormat.yMd(),
-                          enableTooltip: true,
-                          thumbShape: ThumbShape(),
-                          trackShape: TrackShape(),
-                          overlayShape: OverlayShape(),
-                          tooltipShape: TooltipShape(),
-                          onChanged: (SfRangeValues values) {
-                            setState(() {
-                              _updateProfit(values);
-                            });
-                          },
-                          child: SizedBox(
-                            width: mediaQueryData.orientation ==
-                                    Orientation.landscape
-                                ? model.isWebFullView
-                                    ? mediaQueryData.size.width * 0.5
-                                    : mediaQueryData.size.width
-                                : mediaQueryData.size.width,
-                            height: mediaQueryData.size.height * 0.40 - 25,
-                            child: _getColumnChart(),
-                          ),
-                        )),
-                  ])),
-        ),
-        Padding(
-          padding: mediaQueryData.orientation == Orientation.landscape ||
-                  model.isWebFullView
-              ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1)
-              : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.2),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(
-              _profitText,
-              style: const TextStyle(fontSize: 18.0),
+                    tooltipBackgroundColor:
+                        isLightTheme ? Colors.black : Colors.white,
+                    overlayColor:
+                        isLightTheme
+                            ? Colors.black.withValues(alpha: 0.12)
+                            : Colors.white.withValues(alpha: 0.12),
+                    tooltipTextStyle: TextStyle(
+                      color: isLightTheme ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  child: SfRangeSelector(
+                    min: _dayMin.subtract(Duration.zero),
+                    max: _dayMax.add(Duration.zero),
+                    controller: _rangeController,
+                    dateFormat: DateFormat.yMd(),
+                    enableTooltip: true,
+                    thumbShape: ThumbShape(),
+                    trackShape: TrackShape(),
+                    overlayShape: OverlayShape(),
+                    tooltipShape: TooltipShape(),
+                    onChanged: (SfRangeValues values) {
+                      setState(() {
+                        _updateProfit(values);
+                      });
+                    },
+                    child: SizedBox(
+                      width:
+                          mediaQueryData.orientation == Orientation.landscape
+                              ? model.isWebFullView
+                                  ? mediaQueryData.size.width * 0.5
+                                  : mediaQueryData.size.width
+                              : mediaQueryData.size.width,
+                      height: mediaQueryData.size.height * 0.40 - 25,
+                      child: _getColumnChart(),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        )
+        ),
+        Padding(
+          padding:
+              mediaQueryData.orientation == Orientation.landscape ||
+                      model.isWebFullView
+                  ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1)
+                  : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.2),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Text(_profitText, style: const TextStyle(fontSize: 18.0)),
+          ),
+        ),
       ],
     );
   }
@@ -216,10 +213,11 @@ class _RangeSelectorBarChartPageState extends SampleViewState
         dataSource: _chartData,
         xValueMapper: (_ChartSampleData data, _) => data.x,
         yValueMapper: (_ChartSampleData data, _) => data.y,
-        pointColorMapper: (_ChartSampleData data, _) =>
-            data.y < 0 ? Colors.red : Colors.green,
+        pointColorMapper:
+            (_ChartSampleData data, _) =>
+                data.y < 0 ? Colors.red : Colors.green,
         borderRadius: const BorderRadius.all(Radius.circular(15)),
-      )
+      ),
     ];
   }
 
@@ -228,11 +226,13 @@ class _RangeSelectorBarChartPageState extends SampleViewState
     double profit = 0.0;
     for (int i = 0; i < _chartData.length; i++) {
       if (_chartData[i].x.isAfter(
-              //ignore: avoid_as
-              (values.start as DateTime).subtract(const Duration(hours: 1))) &&
+            //ignore: avoid_as
+            (values.start as DateTime).subtract(const Duration(hours: 1)),
+          ) &&
           _chartData[i].x.isBefore(
-              //ignore: avoid_as
-              (values.end as DateTime).add(const Duration(hours: 1)))) {
+            //ignore: avoid_as
+            (values.end as DateTime).add(const Duration(hours: 1)),
+          )) {
         profit += _chartData[i].y;
         count += 1;
       }
@@ -281,18 +281,18 @@ class ThumbShape extends SfThumbShape {
     required SfThumb? thumb,
   }) {
     super.paint(
-        context,
-        center -
-            Offset(
-                0.0, parentBox.size.height / 2 - themeData.overlayRadius / 2),
-        parentBox: parentBox,
-        child: child,
-        themeData: themeData,
-        currentValues: currentValues,
-        paint: paint,
-        enableAnimation: enableAnimation,
-        textDirection: textDirection,
-        thumb: thumb);
+      context,
+      center -
+          Offset(0.0, parentBox.size.height / 2 - themeData.overlayRadius / 2),
+      parentBox: parentBox,
+      child: child,
+      themeData: themeData,
+      currentValues: currentValues,
+      paint: paint,
+      enableAnimation: enableAnimation,
+      textDirection: textDirection,
+      thumb: thumb,
+    );
   }
 }
 
@@ -317,21 +317,21 @@ class TrackShape extends SfTrackShape {
     required TextDirection textDirection,
   }) {
     super.paint(
-        context,
-        offset -
-            Offset(
-                0.0, parentBox.size.height / 2 - themeData.overlayRadius / 2),
-        thumbCenter,
-        startThumbCenter,
-        endThumbCenter,
-        parentBox: parentBox,
-        themeData: themeData,
-        currentValues: currentValues,
-        currentValue: currentValue,
-        enableAnimation: enableAnimation,
-        inactivePaint: inactivePaint,
-        activePaint: activePaint,
-        textDirection: textDirection);
+      context,
+      offset -
+          Offset(0.0, parentBox.size.height / 2 - themeData.overlayRadius / 2),
+      thumbCenter,
+      startThumbCenter,
+      endThumbCenter,
+      parentBox: parentBox,
+      themeData: themeData,
+      currentValues: currentValues,
+      currentValue: currentValue,
+      enableAnimation: enableAnimation,
+      inactivePaint: inactivePaint,
+      activePaint: activePaint,
+      textDirection: textDirection,
+    );
   }
 }
 
@@ -340,26 +340,29 @@ class TrackShape extends SfTrackShape {
 /// `super.onPaint` to the half the height of the `parentBox`.
 class OverlayShape extends SfOverlayShape {
   @override
-  void paint(PaintingContext context, Offset center,
-      {required RenderBox parentBox,
-      required SfSliderThemeData themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      required Paint? paint,
-      required Animation<double> animation,
-      required SfThumb? thumb}) {
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required RenderBox parentBox,
+    required SfSliderThemeData themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    required Paint? paint,
+    required Animation<double> animation,
+    required SfThumb? thumb,
+  }) {
     super.paint(
-        context,
-        center -
-            Offset(
-                0.0, parentBox.size.height / 2 - themeData.overlayRadius / 2),
-        parentBox: parentBox,
-        themeData: themeData,
-        currentValue: currentValue,
-        currentValues: currentValues,
-        paint: paint,
-        animation: animation,
-        thumb: thumb);
+      context,
+      center -
+          Offset(0.0, parentBox.size.height / 2 - themeData.overlayRadius / 2),
+      parentBox: parentBox,
+      themeData: themeData,
+      currentValue: currentValue,
+      currentValues: currentValues,
+      paint: paint,
+      animation: animation,
+      thumb: thumb,
+    );
   }
 }
 
@@ -368,24 +371,31 @@ class OverlayShape extends SfOverlayShape {
 /// `super.onPaint` to the half the height of the `parentBox`.
 class TooltipShape extends SfRectangularTooltipShape {
   @override
-  void paint(PaintingContext context, Offset thumbCenter, Offset offset,
-      TextPainter textPainter,
-      {required RenderBox parentBox,
-      required SfSliderThemeData sliderThemeData,
-      required Paint paint,
-      required Animation<double> animation,
-      required Rect trackRect}) {
+  void paint(
+    PaintingContext context,
+    Offset thumbCenter,
+    Offset offset,
+    TextPainter textPainter, {
+    required RenderBox parentBox,
+    required SfSliderThemeData sliderThemeData,
+    required Paint paint,
+    required Animation<double> animation,
+    required Rect trackRect,
+  }) {
     super.paint(
-        context,
-        thumbCenter -
-            Offset(0.0,
-                parentBox.size.height / 2 - sliderThemeData.overlayRadius / 2),
-        offset,
-        textPainter,
-        parentBox: parentBox,
-        sliderThemeData: sliderThemeData,
-        paint: paint,
-        animation: animation,
-        trackRect: trackRect);
+      context,
+      thumbCenter -
+          Offset(
+            0.0,
+            parentBox.size.height / 2 - sliderThemeData.overlayRadius / 2,
+          ),
+      offset,
+      textPainter,
+      parentBox: parentBox,
+      sliderThemeData: sliderThemeData,
+      paint: paint,
+      animation: animation,
+      trackRect: trackRect,
+    );
   }
 }

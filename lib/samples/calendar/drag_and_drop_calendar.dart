@@ -57,8 +57,9 @@ class _DragAndDropCalendarState extends SampleViewState {
       /// when we change the parent of the widget.
       key: _globalKey,
       data: model.themeData.copyWith(
-        colorScheme:
-            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
       ),
       child: _getDragAndDropCalendar(
         _calendarController,
@@ -71,27 +72,28 @@ class _DragAndDropCalendarState extends SampleViewState {
       body: Row(
         children: <Widget>[
           Expanded(
-            child: _calendarController.view == CalendarView.month &&
-                    model.isWebFullView &&
-                    screenHeight < 800
-                ? Scrollbar(
-                    thumbVisibility: true,
-                    controller: _controller,
-                    child: ListView(
+            child:
+                _calendarController.view == CalendarView.month &&
+                        model.isWebFullView &&
+                        screenHeight < 800
+                    ? Scrollbar(
+                      thumbVisibility: true,
                       controller: _controller,
-                      children: <Widget>[
-                        Container(
-                          color: model.sampleOutputCardColor,
-                          height: 600,
-                          child: calendar,
-                        ),
-                      ],
+                      child: ListView(
+                        controller: _controller,
+                        children: <Widget>[
+                          Container(
+                            color: model.sampleOutputCardColor,
+                            height: 600,
+                            child: calendar,
+                          ),
+                        ],
+                      ),
+                    )
+                    : Container(
+                      color: model.sampleOutputCardColor,
+                      child: calendar,
                     ),
-                  )
-                : Container(
-                    color: model.sampleOutputCardColor,
-                    child: calendar,
-                  ),
           ),
         ],
       ),
@@ -144,17 +146,24 @@ class _DragAndDropCalendarState extends SampleViewState {
     final List<Appointment> appointments = <Appointment>[];
     final Random random = Random();
     DateTime today = DateTime.now();
-    final DateTime rangeStartDate =
-        today.add(const Duration(days: -(365 ~/ 2)));
+    final DateTime rangeStartDate = today.add(
+      const Duration(days: -(365 ~/ 2)),
+    );
     final DateTime rangeEndDate = today.add(const Duration(days: 365));
-    for (DateTime i = rangeStartDate;
-        i.isBefore(rangeEndDate);
-        i = i.add(const Duration(days: 1))) {
+    for (
+      DateTime i = rangeStartDate;
+      i.isBefore(rangeEndDate);
+      i = i.add(const Duration(days: 1))
+    ) {
       final DateTime date = i;
       final int count = random.nextInt(2);
       for (int j = 0; j < count; j++) {
-        final DateTime startDate =
-            DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
+        final DateTime startDate = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          8 + random.nextInt(8),
+        );
         appointments.add(
           Appointment(
             subject: subjectCollection[random.nextInt(7)],

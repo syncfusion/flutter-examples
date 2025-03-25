@@ -25,10 +25,7 @@ class _AreaZoneState extends SampleViewState {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(
-      enable: true,
-      canShowMarker: false,
-    );
+    _tooltipBehavior = TooltipBehavior(enable: true, canShowMarker: false);
     _chartData = <ChartSampleData>[
       ChartSampleData(x: 'Jan', y: 35.53),
       ChartSampleData(x: 'Feb', y: 46.06),
@@ -54,9 +51,10 @@ class _AreaZoneState extends SampleViewState {
   /// Return the Cartesian Chart with Area series.
   SfCartesianChart _buildCartesianChart(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
-    final double containerSize = kIsWeb
-        ? 80
-        : orientation == Orientation.portrait
+    final double containerSize =
+        kIsWeb
+            ? 80
+            : orientation == Orientation.portrait
             ? 80
             : 45;
     final double fontSize = 14 / MediaQuery.of(context).textScaler.scale(1);
@@ -97,10 +95,7 @@ class _AreaZoneState extends SampleViewState {
                       color: const Color.fromRGBO(116, 182, 194, 1),
                       size: size,
                     ),
-                    Text(
-                      ' Winter',
-                      style: TextStyle(fontSize: fontSize),
-                    ),
+                    Text(' Winter', style: TextStyle(fontSize: fontSize)),
                   ],
                 ),
                 Row(
@@ -110,10 +105,7 @@ class _AreaZoneState extends SampleViewState {
                       color: const Color.fromRGBO(75, 189, 138, 1),
                       size: size,
                     ),
-                    Text(
-                      ' Spring',
-                      style: TextStyle(fontSize: fontSize),
-                    )
+                    Text(' Spring', style: TextStyle(fontSize: fontSize)),
                   ],
                 ),
                 Row(
@@ -123,10 +115,7 @@ class _AreaZoneState extends SampleViewState {
                       color: const Color.fromRGBO(255, 186, 83, 1),
                       size: size,
                     ),
-                    Text(
-                      ' Summer',
-                      style: TextStyle(fontSize: fontSize),
-                    )
+                    Text(' Summer', style: TextStyle(fontSize: fontSize)),
                   ],
                 ),
                 Row(
@@ -136,10 +125,7 @@ class _AreaZoneState extends SampleViewState {
                       color: const Color.fromRGBO(194, 110, 21, 1),
                       size: size,
                     ),
-                    Text(
-                      ' Autumn',
-                      style: TextStyle(fontSize: fontSize),
-                    )
+                    Text(' Autumn', style: TextStyle(fontSize: fontSize)),
                   ],
                 ),
               ],
@@ -148,7 +134,7 @@ class _AreaZoneState extends SampleViewState {
           coordinateUnit: CoordinateUnit.percentage,
           x: kIsWeb ? '95%' : '85%',
           y: kIsWeb ? '21%' : '14%',
-        )
+        ),
       ],
     );
   }
@@ -175,16 +161,7 @@ class _AreaZoneState extends SampleViewState {
               Color.fromRGBO(194, 110, 21, 1),
               Color.fromRGBO(116, 182, 194, 1),
             ],
-            <double>[
-              0.165,
-              0.165,
-              0.416,
-              0.416,
-              0.666,
-              0.666,
-              0.918,
-              0.918,
-            ],
+            <double>[0.165, 0.165, 0.416, 0.416, 0.666, 0.666, 0.918, 0.918],
           );
         },
       ),

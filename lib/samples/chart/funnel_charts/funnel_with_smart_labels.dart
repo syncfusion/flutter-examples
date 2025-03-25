@@ -74,7 +74,10 @@ class _FunnelSmartLabelState extends SampleViewState {
 
   /// Builds the main row layout containing settings controls.
   Widget _buildMainRow(
-      BuildContext context, double dropDownWidth, StateSetter stateSetter) {
+    BuildContext context,
+    double dropDownWidth,
+    StateSetter stateSetter,
+  ) {
     return Row(
       children: <Widget>[
         Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
@@ -114,19 +117,23 @@ class _FunnelSmartLabelState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _selectedPosition,
-              items: _labelPosition!.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: (value != null) ? value : 'outside',
-                  child: Text(value, style: TextStyle(color: model.textColor)),
-                );
-              }).toList(),
+              items:
+                  _labelPosition!.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'outside',
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
               onChanged: (dynamic value) {
                 _onLabelPositionChange(value.toString());
                 stateSetter(() {});
               },
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -142,9 +149,10 @@ class _FunnelSmartLabelState extends SampleViewState {
             softWrap: false,
             style: TextStyle(
               fontSize: 16,
-              color: _selectedPosition != 'inside'
-                  ? model.textColor.withValues(alpha: 0.3)
-                  : model.textColor,
+              color:
+                  _selectedPosition != 'inside'
+                      ? model.textColor.withValues(alpha: 0.3)
+                      : model.textColor,
             ),
           ),
         ),
@@ -158,31 +166,34 @@ class _FunnelSmartLabelState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _selectedOverflowMode,
-              items: _selectedPosition != 'inside'
-                  ? null
-                  : _overflowModeList!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'none',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+              items:
+                  _selectedPosition != 'inside'
+                      ? null
+                      : _overflowModeList!.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'none',
+                          child: Text(
+                            value,
+                            style: TextStyle(color: model.textColor),
+                          ),
+                        );
+                      }).toList(),
               onChanged: (dynamic value) {
                 _updateOverflowMode(value.toString());
                 stateSetter(() {});
               },
             ),
           ),
-        )
+        ),
       ],
     );
   }
 
   /// Builds the row for selecting the label intersect action.
   Widget _buildLabelIntersectActionRow(
-      double dropDownWidth, StateSetter stateSetter) {
+    double dropDownWidth,
+    StateSetter stateSetter,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -192,10 +203,11 @@ class _FunnelSmartLabelState extends SampleViewState {
             softWrap: false,
             style: TextStyle(
               fontSize: 16,
-              color: (_selectedOverflowMode != 'none' &&
-                      _selectedPosition != 'outside')
-                  ? model.textColor.withValues(alpha: 0.3)
-                  : model.textColor,
+              color:
+                  (_selectedOverflowMode != 'none' &&
+                          _selectedPosition != 'outside')
+                      ? model.textColor.withValues(alpha: 0.3)
+                      : model.textColor,
             ),
           ),
         ),
@@ -209,25 +221,26 @@ class _FunnelSmartLabelState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _labelIntersectAction,
-              items: (_selectedOverflowMode != 'none' &&
-                      _selectedPosition != 'outside')
-                  ? null
-                  : _labelIntersectActionList!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'shift',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+              items:
+                  (_selectedOverflowMode != 'none' &&
+                          _selectedPosition != 'outside')
+                      ? null
+                      : _labelIntersectActionList!.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'shift',
+                          child: Text(
+                            value,
+                            style: TextStyle(color: model.textColor),
+                          ),
+                        );
+                      }).toList(),
               onChanged: (dynamic value) {
                 _updateLabelIntersectAction(value.toString());
                 stateSetter(() {});
               },
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -241,9 +254,7 @@ class _FunnelSmartLabelState extends SampleViewState {
   SfFunnelChart _buildFunnelSmartLabelChart() {
     return SfFunnelChart(
       title: ChartTitle(text: isCardView ? '' : 'Tournament details'),
-      tooltipBehavior: TooltipBehavior(
-        enable: true,
-      ),
+      tooltipBehavior: TooltipBehavior(enable: true),
       series: _buildFunnelSeries(),
     );
   }
@@ -259,9 +270,10 @@ class _FunnelSmartLabelState extends SampleViewState {
       /// To enable the data label for funnel chart.
       dataLabelSettings: DataLabelSettings(
         isVisible: true,
-        labelPosition: isCardView
-            ? ChartDataLabelPosition.outside
-            : _selectedLabelPosition,
+        labelPosition:
+            isCardView
+                ? ChartDataLabelPosition.outside
+                : _selectedLabelPosition,
         labelIntersectAction: _intersectAction,
         overflowMode: _overflowMode,
         useSeriesColor: true,

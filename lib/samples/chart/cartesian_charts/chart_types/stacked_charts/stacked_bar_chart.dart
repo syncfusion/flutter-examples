@@ -83,10 +83,10 @@ class _StackedBarChartState extends SampleViewState {
       StackedBarSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.secondSeriesYValue,
         name: 'Wastage',
-      )
+      ),
     ];
   }
 

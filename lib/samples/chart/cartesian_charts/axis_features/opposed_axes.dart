@@ -64,9 +64,7 @@ class _NumericOpposedState extends SampleViewState {
         edgeLabelPlacement: EdgeLabelPlacement.shift,
       ),
       primaryYAxis: NumericAxis(
-        title: AxisTitle(
-          text: isCardView ? '' : 'Sales in thousands',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Sales in thousands'),
         opposedPosition: true,
         numberFormat: NumberFormat.decimalPattern(),
         minimum: 8000,

@@ -40,7 +40,7 @@ class _PieTooltipPositionState extends SampleViewState {
       ChartSampleData(x: 'Dominican Republic', y: 350000, text: '72.5%'),
       ChartSampleData(x: 'Egypt', y: 301000, text: '85.8%'),
       ChartSampleData(x: 'Kazakhstan', y: 300000, text: '90.5%'),
-      ChartSampleData(x: 'Somalia', y: 357022, text: '95.6%')
+      ChartSampleData(x: 'Somalia', y: 357022, text: '95.6%'),
     ];
     super.initState();
   }
@@ -66,10 +66,7 @@ class _PieTooltipPositionState extends SampleViewState {
       children: <Widget>[
         Text(
           'Tooltip position',
-          style: TextStyle(
-            color: model.textColor,
-            fontSize: 16,
-          ),
+          style: TextStyle(color: model.textColor, fontSize: 16),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
@@ -78,22 +75,18 @@ class _PieTooltipPositionState extends SampleViewState {
           child: DropdownButton<String>(
             dropdownColor: model.drawerBackgroundColor,
             focusColor: Colors.transparent,
-            underline: Container(
-              color: const Color(0xFFBDBDBD),
-              height: 1,
-            ),
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedTooltipPosition,
-            items: _tooltipPositionList!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'auto',
-                child: Text(
-                  value,
-                  style: TextStyle(
-                    color: model.textColor,
-                  ),
-                ),
-              );
-            }).toList(),
+            items:
+                _tooltipPositionList!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'auto',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               setState(() {
                 _updateTooltipPosition(value.toString());
@@ -120,9 +113,10 @@ class _PieTooltipPositionState extends SampleViewState {
             minValue: 1,
             maxValue: 10,
             initialValue: _duration,
-            onChanged: (double val) => setState(() {
-              _duration = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _duration = val;
+                }),
             step: 2,
             loop: true,
             iconColor: model.textColor,
@@ -145,8 +139,9 @@ class _PieTooltipPositionState extends SampleViewState {
         text: isCardView ? '' : 'Various countries population density and area',
       ),
       legend: Legend(
-          isVisible: isCardView ? false : true,
-          overflowMode: LegendItemOverflowMode.wrap),
+        isVisible: isCardView ? false : true,
+        overflowMode: LegendItemOverflowMode.wrap,
+      ),
       series: _buildPieSeries(),
 
       /// To enable the tooltip and its behavior.
@@ -162,17 +157,18 @@ class _PieTooltipPositionState extends SampleViewState {
   List<PieSeries<ChartSampleData, String>> _buildPieSeries() {
     return <PieSeries<ChartSampleData, String>>[
       PieSeries<ChartSampleData, String>(
-          dataSource: _chartData,
-          xValueMapper: (ChartSampleData data, int index) => data.x,
-          yValueMapper: (ChartSampleData data, int index) => data.y,
-          dataLabelMapper: (ChartSampleData data, int index) => data.x,
-          startAngle: 100,
-          endAngle: 100,
-          pointRadiusMapper: (ChartSampleData data, int index) => data.text,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: true,
-            labelPosition: ChartDataLabelPosition.outside,
-          ))
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        dataLabelMapper: (ChartSampleData data, int index) => data.x,
+        startAngle: 100,
+        endAngle: 100,
+        pointRadiusMapper: (ChartSampleData data, int index) => data.text,
+        dataLabelSettings: const DataLabelSettings(
+          isVisible: true,
+          labelPosition: ChartDataLabelPosition.outside,
+        ),
+      ),
     ];
   }
 

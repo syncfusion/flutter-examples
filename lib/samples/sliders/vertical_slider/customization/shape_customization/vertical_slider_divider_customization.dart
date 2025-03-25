@@ -51,26 +51,33 @@ class _DividerShape extends SfDividerShape {
   SampleModel model;
 
   @override
-  void paint(PaintingContext context, Offset center, Offset? thumbCenter,
-      Offset? startThumbCenter, Offset? endThumbCenter,
-      {RenderBox? parentBox,
-      SfSliderThemeData? themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      Paint? paint,
-      Animation<double>? enableAnimation,
-      TextDirection? textDirection}) {
+  void paint(
+    PaintingContext context,
+    Offset center,
+    Offset? thumbCenter,
+    Offset? startThumbCenter,
+    Offset? endThumbCenter, {
+    RenderBox? parentBox,
+    SfSliderThemeData? themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    Paint? paint,
+    Animation<double>? enableAnimation,
+    TextDirection? textDirection,
+  }) {
     bool isActive;
 
     isActive = center.dy >= thumbCenter!.dy;
 
     context.canvas.drawRect(
-        Rect.fromCenter(center: center, width: 10.0, height: 5.0),
-        Paint()
-          ..isAntiAlias = true
-          ..style = PaintingStyle.fill
-          ..color = isActive
-              ? themeData!.activeTrackColor!
-              : model.themeData.canvasColor);
+      Rect.fromCenter(center: center, width: 10.0, height: 5.0),
+      Paint()
+        ..isAntiAlias = true
+        ..style = PaintingStyle.fill
+        ..color =
+            isActive
+                ? themeData!.activeTrackColor!
+                : model.themeData.canvasColor,
+    );
   }
 }

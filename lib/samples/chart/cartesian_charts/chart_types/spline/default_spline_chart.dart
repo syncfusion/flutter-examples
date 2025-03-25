@@ -26,29 +26,77 @@ class _SplineDefaultState extends SampleViewState {
   void initState() {
     _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'Jan', y: 43, secondSeriesYValue: 37, thirdSeriesYValue: 41),
+        x: 'Jan',
+        y: 43,
+        secondSeriesYValue: 37,
+        thirdSeriesYValue: 41,
+      ),
       ChartSampleData(
-          x: 'Feb', y: 45, secondSeriesYValue: 37, thirdSeriesYValue: 45),
+        x: 'Feb',
+        y: 45,
+        secondSeriesYValue: 37,
+        thirdSeriesYValue: 45,
+      ),
       ChartSampleData(
-          x: 'Mar', y: 50, secondSeriesYValue: 39, thirdSeriesYValue: 48),
+        x: 'Mar',
+        y: 50,
+        secondSeriesYValue: 39,
+        thirdSeriesYValue: 48,
+      ),
       ChartSampleData(
-          x: 'Apr', y: 55, secondSeriesYValue: 43, thirdSeriesYValue: 52),
+        x: 'Apr',
+        y: 55,
+        secondSeriesYValue: 43,
+        thirdSeriesYValue: 52,
+      ),
       ChartSampleData(
-          x: 'May', y: 63, secondSeriesYValue: 48, thirdSeriesYValue: 57),
+        x: 'May',
+        y: 63,
+        secondSeriesYValue: 48,
+        thirdSeriesYValue: 57,
+      ),
       ChartSampleData(
-          x: 'Jun', y: 68, secondSeriesYValue: 54, thirdSeriesYValue: 61),
+        x: 'Jun',
+        y: 68,
+        secondSeriesYValue: 54,
+        thirdSeriesYValue: 61,
+      ),
       ChartSampleData(
-          x: 'Jul', y: 72, secondSeriesYValue: 57, thirdSeriesYValue: 66),
+        x: 'Jul',
+        y: 72,
+        secondSeriesYValue: 57,
+        thirdSeriesYValue: 66,
+      ),
       ChartSampleData(
-          x: 'Aug', y: 70, secondSeriesYValue: 57, thirdSeriesYValue: 66),
+        x: 'Aug',
+        y: 70,
+        secondSeriesYValue: 57,
+        thirdSeriesYValue: 66,
+      ),
       ChartSampleData(
-          x: 'Sep', y: 66, secondSeriesYValue: 54, thirdSeriesYValue: 63),
+        x: 'Sep',
+        y: 66,
+        secondSeriesYValue: 54,
+        thirdSeriesYValue: 63,
+      ),
       ChartSampleData(
-          x: 'Oct', y: 57, secondSeriesYValue: 48, thirdSeriesYValue: 55),
+        x: 'Oct',
+        y: 57,
+        secondSeriesYValue: 48,
+        thirdSeriesYValue: 55,
+      ),
       ChartSampleData(
-          x: 'Nov', y: 50, secondSeriesYValue: 43, thirdSeriesYValue: 50),
+        x: 'Nov',
+        y: 50,
+        secondSeriesYValue: 43,
+        thirdSeriesYValue: 50,
+      ),
       ChartSampleData(
-          x: 'Dec', y: 45, secondSeriesYValue: 37, thirdSeriesYValue: 45),
+        x: 'Dec',
+        y: 45,
+        secondSeriesYValue: 37,
+        thirdSeriesYValue: 45,
+      ),
     ];
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
@@ -97,8 +145,8 @@ class _SplineDefaultState extends SampleViewState {
       SplineSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'Low',
       ),

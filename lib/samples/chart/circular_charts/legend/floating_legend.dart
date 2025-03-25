@@ -71,12 +71,7 @@ class _CircularFloatingLegendState extends SampleViewState {
   /// Builds a dropdown menu for selecting the legend position.
   Widget _buildPositionDropdown(double screenWidth, StateSetter stateSetter) {
     return ListTile(
-      title: Text(
-        'Position',
-        style: TextStyle(
-          color: model.textColor,
-        ),
-      ),
+      title: Text('Position', style: TextStyle(color: model.textColor)),
       trailing: Container(
         padding: EdgeInsets.only(left: 0.07 * screenWidth),
         width: 0.4 * screenWidth,
@@ -86,22 +81,15 @@ class _CircularFloatingLegendState extends SampleViewState {
           dropdownColor: model.drawerBackgroundColor,
           focusColor: Colors.transparent,
           isExpanded: true,
-          underline: Container(
-            color: const Color(0xFFBDBDBD),
-            height: 1,
-          ),
+          underline: Container(color: const Color(0xFFBDBDBD), height: 1),
           value: _selectedPosition,
-          items: _position!.map((String value) {
-            return DropdownMenuItem<String>(
-              value: (value != null) ? value : 'left',
-              child: Text(
-                value,
-                style: TextStyle(
-                  color: model.textColor,
-                ),
-              ),
-            );
-          }).toList(),
+          items:
+              _position!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : 'left',
+                  child: Text(value, style: TextStyle(color: model.textColor)),
+                );
+              }).toList(),
           onChanged: (dynamic value) {
             _selectedPosition = value.toString();
             stateSetter(() {});
@@ -114,21 +102,17 @@ class _CircularFloatingLegendState extends SampleViewState {
   /// Builds the control for adjusting the X offset of the legend.
   Widget _buildXOffsetControl(double screenWidth) {
     return ListTile(
-      title: Text(
-        'X offset',
-        style: TextStyle(
-          color: model.textColor,
-        ),
-      ),
+      title: Text('X offset', style: TextStyle(color: model.textColor)),
       trailing: SizedBox(
         width: 0.4 * screenWidth,
         child: CustomDirectionalButtons(
           minValue: 100,
           maxValue: 300,
           initialValue: _xValue,
-          onChanged: (double val) => setState(() {
-            _xValue = val;
-          }),
+          onChanged:
+              (double val) => setState(() {
+                _xValue = val;
+              }),
           step: 10,
           iconColor: model.textColor,
           style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -140,21 +124,17 @@ class _CircularFloatingLegendState extends SampleViewState {
   /// Builds the control for adjusting the Y offset of the legend.
   Widget _buildYOffsetControl(double screenWidth) {
     return ListTile(
-      title: Text(
-        'Y offset',
-        style: TextStyle(
-          color: model.textColor,
-        ),
-      ),
+      title: Text('Y offset', style: TextStyle(color: model.textColor)),
       trailing: SizedBox(
         width: 0.4 * screenWidth,
         child: CustomDirectionalButtons(
           minValue: 100,
           maxValue: 300,
           initialValue: _yValue,
-          onChanged: (double val) => setState(() {
-            _yValue = val;
-          }),
+          onChanged:
+              (double val) => setState(() {
+                _yValue = val;
+              }),
           step: 10,
           iconColor: model.textColor,
           style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -168,18 +148,20 @@ class _CircularFloatingLegendState extends SampleViewState {
     return SfCircularChart(
       tooltipBehavior: TooltipBehavior(enable: true),
       title: ChartTitle(
-          text: isCardView ? '' : 'Sales comparison of fruits in a shop'),
+        text: isCardView ? '' : 'Sales comparison of fruits in a shop',
+      ),
       series: _buildPieSeries(),
       annotations: const <CircularChartAnnotation>[
         CircularChartAnnotation(
           widget: SizedBox(
-              height: 80,
-              width: 80,
-              child: Text(
-                'Floating',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              )),
-        )
+            height: 80,
+            width: 80,
+            child: Text(
+              'Floating',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
       ],
     );
   }

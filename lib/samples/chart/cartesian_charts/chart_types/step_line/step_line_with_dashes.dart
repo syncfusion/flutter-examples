@@ -26,41 +26,47 @@ class _StepLineDashedState extends SampleViewState {
   void initState() {
     _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 2006,
-          y: 378,
-          yValue: 463,
-          secondSeriesYValue: 519,
-          thirdSeriesYValue: 570),
+        x: 2006,
+        y: 378,
+        yValue: 463,
+        secondSeriesYValue: 519,
+        thirdSeriesYValue: 570,
+      ),
       ChartSampleData(
-          x: 2007,
-          y: 416,
-          yValue: 449,
-          secondSeriesYValue: 508,
-          thirdSeriesYValue: 579),
+        x: 2007,
+        y: 416,
+        yValue: 449,
+        secondSeriesYValue: 508,
+        thirdSeriesYValue: 579,
+      ),
       ChartSampleData(
-          x: 2008,
-          y: 404,
-          yValue: 458,
-          secondSeriesYValue: 502,
-          thirdSeriesYValue: 563),
+        x: 2008,
+        y: 404,
+        yValue: 458,
+        secondSeriesYValue: 502,
+        thirdSeriesYValue: 563,
+      ),
       ChartSampleData(
-          x: 2009,
-          y: 390,
-          yValue: 450,
-          secondSeriesYValue: 495,
-          thirdSeriesYValue: 550),
+        x: 2009,
+        y: 390,
+        yValue: 450,
+        secondSeriesYValue: 495,
+        thirdSeriesYValue: 550,
+      ),
       ChartSampleData(
-          x: 2010,
-          y: 376,
-          yValue: 425,
-          secondSeriesYValue: 485,
-          thirdSeriesYValue: 545),
+        x: 2010,
+        y: 376,
+        yValue: 425,
+        secondSeriesYValue: 485,
+        thirdSeriesYValue: 545,
+      ),
       ChartSampleData(
-          x: 2011,
-          y: 365,
-          yValue: 430,
-          secondSeriesYValue: 470,
-          thirdSeriesYValue: 525),
+        x: 2011,
+        y: 365,
+        yValue: 430,
+        secondSeriesYValue: 470,
+        thirdSeriesYValue: 525,
+      ),
     ];
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
@@ -75,9 +81,7 @@ class _StepLineDashedState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'CO2 - Intensity analysis',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'CO2 - Intensity analysis'),
       primaryXAxis: NumericAxis(
         interval: 1,
         majorGridLines: const MajorGridLines(width: 0),
@@ -89,9 +93,7 @@ class _StepLineDashedState extends SampleViewState {
         maximum: 600,
         interval: 30,
         majorTickLines: const MajorTickLines(size: 0),
-        title: AxisTitle(
-          text: isCardView ? '' : 'Intensity (g/kWh)',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Intensity (g/kWh)'),
       ),
       series: _buildStepLineSeries(),
       legend: Legend(isVisible: !isCardView),
@@ -119,16 +121,16 @@ class _StepLineDashedState extends SampleViewState {
       StepLineSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.secondSeriesYValue,
         name: 'Korea',
         dashArray: const <double>[10, 5],
       ),
       StepLineSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.thirdSeriesYValue,
         name: 'Japan',
         dashArray: const <double>[10, 5],
       ),

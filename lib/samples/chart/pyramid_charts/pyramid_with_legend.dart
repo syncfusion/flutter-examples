@@ -25,26 +25,11 @@ class _PyramidLegendState extends SampleViewState {
   void initState() {
     _chartData = <ChartSampleData>[
       ChartSampleData(x: 'Ray', y: 7.3),
-      ChartSampleData(
-        x: 'Michael',
-        y: 6.6,
-      ),
-      ChartSampleData(
-        x: 'John ',
-        y: 3,
-      ),
-      ChartSampleData(
-        x: 'Mercy',
-        y: 0.8,
-      ),
-      ChartSampleData(
-        x: 'Tina ',
-        y: 1.4,
-      ),
-      ChartSampleData(
-        x: 'Stephen',
-        y: 5.2,
-      ),
+      ChartSampleData(x: 'Michael', y: 6.6),
+      ChartSampleData(x: 'John ', y: 3),
+      ChartSampleData(x: 'Mercy', y: 0.8),
+      ChartSampleData(x: 'Tina ', y: 1.4),
+      ChartSampleData(x: 'Stephen', y: 5.2),
     ];
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
@@ -88,9 +73,7 @@ class _PyramidLegendState extends SampleViewState {
       dataSource: _chartData,
       xValueMapper: (ChartSampleData data, int index) => data.x,
       yValueMapper: (ChartSampleData data, int index) => data.y,
-      dataLabelSettings: DataLabelSettings(
-        isVisible: !isCardView,
-      ),
+      dataLabelSettings: DataLabelSettings(isVisible: !isCardView),
     );
   }
 

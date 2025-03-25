@@ -4,8 +4,15 @@ import 'package:flutter/material.dart';
 /// information about the customer info which will be rendered in datagrid.
 class Customer {
   /// Creates the customer info class with required details.
-  Customer(this.dealer, this.id, this.name, this.price, this.shippedDate,
-      this.city, this.freight);
+  Customer(
+    this.dealer,
+    this.id,
+    this.name,
+    this.price,
+    this.shippedDate,
+    this.city,
+    this.freight,
+  );
 
   /// Id of customer.
   final int id;

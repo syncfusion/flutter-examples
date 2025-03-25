@@ -41,31 +41,32 @@ class _AnimationDefaultState extends SampleViewState {
       ChartSampleData(x: 'March', y: 25, secondSeriesYValue: 1000),
       ChartSampleData(x: 'April', y: 100, secondSeriesYValue: 7000),
       ChartSampleData(x: 'May', y: 85, secondSeriesYValue: 5000),
-      ChartSampleData(x: 'June', y: 140, secondSeriesYValue: 7000)
+      ChartSampleData(x: 'June', y: 140, secondSeriesYValue: 7000),
     ];
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    padding = MediaQuery.of(context).orientation == Orientation.landscape ||
-            model.isWebFullView
-        ? (MediaQuery.of(context).size.width / 100 * 14)
-        : (MediaQuery.of(context).size.width / 100) * 5;
+    padding =
+        MediaQuery.of(context).orientation == Orientation.landscape ||
+                model.isWebFullView
+            ? (MediaQuery.of(context).size.width / 100 * 14)
+            : (MediaQuery.of(context).size.width / 100) * 5;
     return _buildDefaultAnimationChart();
   }
 
   /// Returns a cartesian chart with default series animation.
   Column _buildDefaultAnimationChart() {
-    return Column(children: <Widget>[
-      Expanded(
-        child: _buildCartesianChart(),
-      ),
-      if (isCardView)
-        const SizedBox(height: 0, width: 0)
-      else
-        _buildChartButtonRow(),
-    ]);
+    return Column(
+      children: <Widget>[
+        Expanded(child: _buildCartesianChart()),
+        if (isCardView)
+          const SizedBox(height: 0, width: 0)
+        else
+          _buildChartButtonRow(),
+      ],
+    );
   }
 
   /// Returns a cartesian chart with default series animation.
@@ -86,13 +87,14 @@ class _AnimationDefaultState extends SampleViewState {
       ),
       axes: <ChartAxis>[
         NumericAxis(
-            numberFormat: NumberFormat.compact(),
-            majorGridLines: const MajorGridLines(width: 0),
-            opposedPosition: true,
-            name: 'yAxis1',
-            interval: 1000,
-            minimum: 0,
-            maximum: 7000)
+          numberFormat: NumberFormat.compact(),
+          majorGridLines: const MajorGridLines(width: 0),
+          opposedPosition: true,
+          name: 'yAxis1',
+          interval: 1000,
+          minimum: 0,
+          maximum: 7000,
+        ),
       ],
       series: _buildDefaultAnimationSeries(),
       tooltipBehavior: _tooltipBehavior,
@@ -105,23 +107,25 @@ class _AnimationDefaultState extends SampleViewState {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          child: model.isWebFullView
-              ? ButtonTheme(
-                  minWidth: 40.0,
-                  height: 30.0,
-                  child: _buildColumnButton(),
-                )
-              : _buildColumnButton(),
+          child:
+              model.isWebFullView
+                  ? ButtonTheme(
+                    minWidth: 40.0,
+                    height: 30.0,
+                    child: _buildColumnButton(),
+                  )
+                  : _buildColumnButton(),
         ),
         const Padding(padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
         Container(
-          child: model.isWebFullView
-              ? ButtonTheme(
-                  minWidth: 40.0,
-                  height: 30.0,
-                  child: _buildLineButton(),
-                )
-              : _buildColumnButton(),
+          child:
+              model.isWebFullView
+                  ? ButtonTheme(
+                    minWidth: 40.0,
+                    height: 30.0,
+                    child: _buildLineButton(),
+                  )
+                  : _buildColumnButton(),
         ),
       ],
     );
@@ -130,14 +134,15 @@ class _AnimationDefaultState extends SampleViewState {
   /// Returns the list of cartesian series which need
   /// to render on the cartesian chart.
   List<CartesianSeries<ChartSampleData, String>>
-      _buildDefaultAnimationSeries() {
+  _buildDefaultAnimationSeries() {
     return <CartesianSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
-        onRendererCreated:
-            (ChartSeriesController<ChartSampleData, String> controller) {
+        onRendererCreated: (
+          ChartSeriesController<ChartSampleData, String> controller,
+        ) {
           _chartSeriesController1 = controller;
         },
         name: 'Unit Sold',
@@ -145,16 +150,17 @@ class _AnimationDefaultState extends SampleViewState {
       LineSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.secondSeriesYValue,
         yAxisName: 'yAxis1',
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'Total Transaction',
-        onRendererCreated:
-            (ChartSeriesController<ChartSampleData, String> controller) {
+        onRendererCreated: (
+          ChartSeriesController<ChartSampleData, String> controller,
+        ) {
           _chartSeriesController2 = controller;
         },
-      )
+      ),
     ];
   }
 

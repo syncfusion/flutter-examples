@@ -19,15 +19,17 @@ class DealerDataGridSource extends DataGridSource {
     _textStyle =
         sampleModel.themeData.colorScheme.brightness == Brightness.light
             ? const TextStyle(
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: Colors.black87)
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              color: Colors.black87,
+            )
             : const TextStyle(
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: Color.fromRGBO(255, 255, 255, 1));
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              color: Color.fromRGBO(255, 255, 255, 1),
+            );
     _dealers = _obtainDealerDetails(100);
     _buildDataGridRows();
   }
@@ -64,9 +66,10 @@ class DealerDataGridSource extends DataGridSource {
 
   /// Building the [DataGridRow]'s.
   void _buildDataGridRows() {
-    _dataGridRows = _dealers
-        .map<DataGridRow>((Dealer dealer) => dealer.obtainDataGridRow())
-        .toList();
+    _dataGridRows =
+        _dealers
+            .map<DataGridRow>((Dealer dealer) => dealer.obtainDataGridRow())
+            .toList();
   }
 
   @override
@@ -75,39 +78,49 @@ class DealerDataGridSource extends DataGridSource {
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-        cells: row.getCells().map<Widget>((DataGridCell dataGridCell) {
-      final bool isRightAlign = dataGridCell.columnName == 'Product No' ||
-          dataGridCell.columnName == 'Shipped Date' ||
-          dataGridCell.columnName == 'Price';
+      cells:
+          row.getCells().map<Widget>((DataGridCell dataGridCell) {
+            final bool isRightAlign =
+                dataGridCell.columnName == 'Product No' ||
+                dataGridCell.columnName == 'Shipped Date' ||
+                dataGridCell.columnName == 'Price';
 
-      String value = dataGridCell.value.toString();
+            String value = dataGridCell.value.toString();
 
-      if (dataGridCell.columnName == 'Price') {
-        value = NumberFormat.currency(locale: 'en_US', symbol: r'$')
-            .format(dataGridCell.value);
-      } else if (dataGridCell.columnName == 'Shipped Date') {
-        value = DateFormat('MM/dd/yyyy').format(dataGridCell.value);
-      }
+            if (dataGridCell.columnName == 'Price') {
+              value = NumberFormat.currency(
+                locale: 'en_US',
+                symbol: r'$',
+              ).format(dataGridCell.value);
+            } else if (dataGridCell.columnName == 'Shipped Date') {
+              value = DateFormat('MM/dd/yyyy').format(dataGridCell.value);
+            }
 
-      return Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: isRightAlign ? Alignment.centerRight : Alignment.centerLeft,
-        child: Text(
-          value,
-          overflow: TextOverflow.ellipsis,
-        ),
-      );
-    }).toList());
+            return Container(
+              padding: const EdgeInsets.all(8.0),
+              alignment:
+                  isRightAlign ? Alignment.centerRight : Alignment.centerLeft,
+              child: Text(value, overflow: TextOverflow.ellipsis),
+            );
+          }).toList(),
+    );
   }
 
   @override
-  Widget? buildEditWidget(DataGridRow dataGridRow,
-      RowColumnIndex rowColumnIndex, GridColumn column, CellSubmit submitCell) {
+  Widget? buildEditWidget(
+    DataGridRow dataGridRow,
+    RowColumnIndex rowColumnIndex,
+    GridColumn column,
+    CellSubmit submitCell,
+  ) {
     // Text going to display on editable widget
-    final String displayText = dataGridRow
+    final String displayText =
+        dataGridRow
             .getCells()
-            .firstWhereOrNull((DataGridCell dataGridCell) =>
-                dataGridCell.columnName == column.columnName)
+            .firstWhereOrNull(
+              (DataGridCell dataGridCell) =>
+                  dataGridCell.columnName == column.columnName,
+            )
             ?.value
             ?.toString() ??
         '';
@@ -122,28 +135,40 @@ class DealerDataGridSource extends DataGridSource {
     } else if (column.columnName == 'Ship Country') {
       return _buildDropDownWidget(displayText, submitCell, _shipCountry);
     } else if (column.columnName == 'Ship City') {
-      final String shipCountry = dataGridRow
+      final String shipCountry =
+          dataGridRow
               .getCells()
-              .firstWhereOrNull((DataGridCell dataGridCell) =>
-                  dataGridCell.columnName == 'Ship Country')
+              .firstWhereOrNull(
+                (DataGridCell dataGridCell) =>
+                    dataGridCell.columnName == 'Ship Country',
+              )
               ?.value
               ?.toString() ??
           '';
 
-      return _buildDropDownWidget(displayText == '' ? null : displayText,
-          submitCell, _shipCity[shipCountry]!);
+      return _buildDropDownWidget(
+        displayText == '' ? null : displayText,
+        submitCell,
+        _shipCity[shipCountry]!,
+      );
     } else {
       return _buildTextFieldWidget(displayText, column, submitCell);
     }
   }
 
   @override
-  Future<void> onCellSubmit(DataGridRow dataGridRow,
-      RowColumnIndex rowColumnIndex, GridColumn column) async {
-    final dynamic oldValue = dataGridRow
+  Future<void> onCellSubmit(
+    DataGridRow dataGridRow,
+    RowColumnIndex rowColumnIndex,
+    GridColumn column,
+  ) async {
+    final dynamic oldValue =
+        dataGridRow
             .getCells()
-            .firstWhereOrNull((DataGridCell dataGridCell) =>
-                dataGridCell.columnName == column.columnName)
+            .firstWhereOrNull(
+              (DataGridCell dataGridCell) =>
+                  dataGridCell.columnName == column.columnName,
+            )
             ?.value ??
         '';
 
@@ -154,9 +179,11 @@ class DealerDataGridSource extends DataGridSource {
     }
 
     if (column.columnName == 'Shipped Date') {
-      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<DateTime>(
-              columnName: 'Shipped Date', value: _newCellValue);
+      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex
+          .columnIndex] = DataGridCell<DateTime>(
+        columnName: 'Shipped Date',
+        value: _newCellValue,
+      );
       _dealers[dataRowIndex].shippedDate = _newCellValue as DateTime;
     } else if (column.columnName == 'Product No') {
       _dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -171,15 +198,19 @@ class DealerDataGridSource extends DataGridSource {
           DataGridCell<String>(columnName: 'Dealer Name', value: _newCellValue);
       _dealers[dataRowIndex].dealerName = _newCellValue.toString();
     } else if (column.columnName == 'Ship Country') {
-      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<String>(
-              columnName: 'Ship Country', value: _newCellValue);
+      _dataGridRows[dataRowIndex].getCells()[rowColumnIndex
+          .columnIndex] = DataGridCell<String>(
+        columnName: 'Ship Country',
+        value: _newCellValue,
+      );
       final dynamic dataGridCell = _dataGridRows[dataRowIndex]
           .getCells()
           .firstWhereOrNull(
-              (DataGridCell element) => element.columnName == 'Ship City');
-      final int dataCellIndex =
-          _dataGridRows[dataRowIndex].getCells().indexOf(dataGridCell);
+            (DataGridCell element) => element.columnName == 'Ship City',
+          );
+      final int dataCellIndex = _dataGridRows[dataRowIndex].getCells().indexOf(
+        dataGridCell,
+      );
       _dataGridRows[dataRowIndex].getCells()[dataCellIndex] =
           const DataGridCell<String>(columnName: 'Ship City', value: '');
       _dealers[dataRowIndex].shipCountry = _newCellValue.toString();
@@ -200,8 +231,12 @@ class DealerDataGridSource extends DataGridSource {
 
   /// Building a [TextField] for numeric and text column.
   Widget _buildTextFieldWidget(
-      String displayText, GridColumn column, CellSubmit submitCell) {
-    final bool isTextAlignRight = column.columnName == 'Product No' ||
+    String displayText,
+    GridColumn column,
+    CellSubmit submitCell,
+  ) {
+    final bool isTextAlignRight =
+        column.columnName == 'Product No' ||
         column.columnName == 'Shipped Date' ||
         column.columnName == 'Price';
 
@@ -222,22 +257,25 @@ class DealerDataGridSource extends DataGridSource {
         autocorrect: false,
         keyboardAppearance: sampleModel.themeData.colorScheme.brightness,
         decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
-            focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: sampleModel.primaryColor))),
+          contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: sampleModel.primaryColor),
+          ),
+        ),
         style: _textStyle,
         cursorColor: sampleModel.primaryColor,
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(regExp)
+          FilteringTextInputFormatter.allow(regExp),
         ],
         keyboardType:
             isNumericKeyBoardType ? TextInputType.number : TextInputType.text,
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericKeyBoardType) {
-              _newCellValue = column.columnName == 'Price'
-                  ? double.parse(value)
-                  : int.parse(value);
+              _newCellValue =
+                  column.columnName == 'Price'
+                      ? double.parse(value)
+                      : int.parse(value);
             } else {
               _newCellValue = value;
             }
@@ -270,11 +308,11 @@ class DealerDataGridSource extends DataGridSource {
           alignment: Alignment.centerRight,
           child: Focus(
             autofocus: true,
-            focusNode: FocusNode()
-              ..addListener(() async {
-                if (!_isDatePickerVisible) {
-                  _isDatePickerVisible = true;
-                  await showDatePicker(
+            focusNode:
+                FocusNode()..addListener(() async {
+                  if (!_isDatePickerVisible) {
+                    _isDatePickerVisible = true;
+                    await showDatePicker(
                       context: context,
                       initialDate: selectedDate,
                       firstDate: firstDate,
@@ -282,25 +320,28 @@ class DealerDataGridSource extends DataGridSource {
                       builder: (BuildContext context, Widget? child) {
                         return Theme(
                           data: Theme.of(context).copyWith(
-                              colorScheme: sampleModel
-                                          .themeData.colorScheme.brightness ==
-                                      Brightness.light
-                                  ? ColorScheme.light(
-                                      primary: sampleModel.primaryColor)
-                                  : ColorScheme.dark(
+                            colorScheme:
+                                sampleModel.themeData.colorScheme.brightness ==
+                                        Brightness.light
+                                    ? ColorScheme.light(
                                       primary: sampleModel.primaryColor,
-                                    )),
+                                    )
+                                    : ColorScheme.dark(
+                                      primary: sampleModel.primaryColor,
+                                    ),
+                          ),
                           child: child!,
                         );
-                      }).then((DateTime? value) {
-                    _newCellValue = value;
+                      },
+                    ).then((DateTime? value) {
+                      _newCellValue = value;
 
-                    /// Call [CellSubmit] callback to fire the canSubmitCell and
-                    /// onCellSubmit to commit the new value in single place.
-                    submitCell();
-                  });
-                }
-              }),
+                      /// Call [CellSubmit] callback to fire the canSubmitCell and
+                      /// onCellSubmit to commit the new value in single place.
+                      submitCell();
+                    });
+                  }
+                }),
             child: Text(
               displayText,
               textAlign: TextAlign.right,
@@ -324,34 +365,35 @@ class DealerDataGridSource extends DataGridSource {
   }
 
   /// Building a [DropDown] for combo box column.
-  Widget _buildDropDownWidget(String? displayText, CellSubmit submitCell,
-      List<String> dropDownMenuItems) {
+  Widget _buildDropDownWidget(
+    String? displayText,
+    CellSubmit submitCell,
+    List<String> dropDownMenuItems,
+  ) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       alignment: Alignment.centerLeft,
       child: DropdownButton<String>(
-          dropdownColor: _dropDownColor(),
-          value: displayText,
-          autofocus: true,
-          focusColor: Colors.transparent,
-          underline: const SizedBox.shrink(),
-          icon: const Icon(Icons.arrow_drop_down_sharp),
-          isExpanded: true,
-          style: _textStyle,
-          onChanged: (String? value) {
-            _newCellValue = value;
+        dropdownColor: _dropDownColor(),
+        value: displayText,
+        autofocus: true,
+        focusColor: Colors.transparent,
+        underline: const SizedBox.shrink(),
+        icon: const Icon(Icons.arrow_drop_down_sharp),
+        isExpanded: true,
+        style: _textStyle,
+        onChanged: (String? value) {
+          _newCellValue = value;
 
-            /// Call [CellSubmit] callback to fire the canSubmitCell and
-            /// onCellSubmit to commit the new value in single place.
-            submitCell();
-          },
-          items:
-              dropDownMenuItems.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList()),
+          /// Call [CellSubmit] callback to fire the canSubmitCell and
+          /// onCellSubmit to commit the new value in single place.
+          submitCell();
+        },
+        items:
+            dropDownMenuItems.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(value: value, child: Text(value));
+            }).toList(),
+      ),
     );
   }
 
@@ -365,14 +407,15 @@ class DealerDataGridSource extends DataGridSource {
       final String selectedShipCountry = _shipCountry[_random.nextInt(5)];
       final List<String> selectedShipCities = _shipCity[selectedShipCountry]!;
       final Dealer ord = Dealer(
-          _productNo[_random.nextInt(15)],
-          i.isEven
-              ? _customersMale[_random.nextInt(15)]
-              : _customersFemale[_random.nextInt(14)],
-          shippedDate[i - 1],
-          selectedShipCountry,
-          selectedShipCities[_random.nextInt(selectedShipCities.length - 1)],
-          next(2000, 10000).toDouble());
+        _productNo[_random.nextInt(15)],
+        i.isEven
+            ? _customersMale[_random.nextInt(15)]
+            : _customersFemale[_random.nextInt(14)],
+        shippedDate[i - 1],
+        selectedShipCountry,
+        selectedShipCities[_random.nextInt(selectedShipCities.length - 1)],
+        next(2000, 10000).toDouble(),
+      );
       dealerDetails.add(ord);
     }
 
@@ -399,24 +442,9 @@ class DealerDataGridSource extends DataGridSource {
     'Argentina': <String>['Rosario', 'Catamarca', 'Formosa', 'Salta'],
     'Austria': <String>['Graz', 'Salzburg', 'Linz', 'Wels'],
     'Belgium': <String>['Bruxelles', 'Charleroi', 'Namur', 'Mons'],
-    'Brazil': <String>[
-      'Campinas',
-      'Resende',
-      'Recife',
-      'Manaus',
-    ],
-    'Canada': <String>[
-      'Alberta',
-      'Montreal',
-      'Tsawwassen',
-      'Vancouver',
-    ],
-    'Denmark': <String>[
-      'Svendborg',
-      'Farum',
-      'Åarhus',
-      'København',
-    ],
+    'Brazil': <String>['Campinas', 'Resende', 'Recife', 'Manaus'],
+    'Canada': <String>['Alberta', 'Montreal', 'Tsawwassen', 'Vancouver'],
+    'Denmark': <String>['Svendborg', 'Farum', 'Åarhus', 'København'],
     'Finland': <String>['Helsinki', 'Espoo', 'Oulu'],
     'France': <String>[
       'Lille',
@@ -427,7 +455,7 @@ class DealerDataGridSource extends DataGridSource {
       'Reims',
       'Strasbourg',
       'Toulouse',
-      'Versailles'
+      'Versailles',
     ],
     'Germany': <String>[
       'Aachen',
@@ -440,37 +468,17 @@ class DealerDataGridSource extends DataGridSource {
       'Mannheim',
       'München',
       'Münster',
-      'Stuttgart'
+      'Stuttgart',
     ],
     'Ireland': <String>['Cork', 'Waterford', 'Bray', 'Athlone'],
-    'Italy': <String>[
-      'Bergamo',
-      'Reggio Calabria',
-      'Torino',
-      'Genoa',
-    ],
-    'Mexico': <String>[
-      'Mexico City',
-      'Puebla',
-      'León',
-      'Zapopan',
-    ],
+    'Italy': <String>['Bergamo', 'Reggio Calabria', 'Torino', 'Genoa'],
+    'Mexico': <String>['Mexico City', 'Puebla', 'León', 'Zapopan'],
     'Norway': <String>['Stavern', 'Hamar', 'Harstad', 'Narvik'],
     'Poland': <String>['Warszawa', 'Gdynia', 'Rybnik', 'Legnica'],
     'Portugal': <String>['Lisboa', 'Albufeira', 'Elvas', 'Estremoz'],
-    'Spain': <String>[
-      'Barcelona',
-      'Madrid',
-      'Sevilla',
-      'Bilboa',
-    ],
+    'Spain': <String>['Barcelona', 'Madrid', 'Sevilla', 'Bilboa'],
     'Sweden': <String>['Bräcke', 'Piteå', 'Robertsfors', 'Luleå'],
-    'Switzerland': <String>[
-      'Bern',
-      'Genève',
-      'Charrat',
-      'Châtillens',
-    ],
+    'Switzerland': <String>['Bern', 'Genève', 'Charrat', 'Châtillens'],
     'UK': <String>['Colchester', 'Hedge End', 'London', 'Bristol'],
     'USA': <String>[
       'Albuquerque',
@@ -512,7 +520,7 @@ class DealerDataGridSource extends DataGridSource {
     'Stone',
     'Williams',
     'Jobs',
-    'Holmes'
+    'Holmes',
   ];
 
   final List<String> _customersFemale = <String>[
@@ -548,7 +556,7 @@ class DealerDataGridSource extends DataGridSource {
     3652,
     3524,
     6532,
-    2123
+    2123,
   ];
 
   final List<String> _shipCountry = <String>[

@@ -18,10 +18,14 @@ class AssistViewGettingStartedSample extends SampleView {
 }
 
 class _AssistViewState extends SampleViewState {
-  final AssistMessageAuthor _userAuthor =
-      const AssistMessageAuthor(id: 'Emile Kraven', name: 'Emile Kraven');
-  final AssistMessageAuthor _aiAuthor =
-      const AssistMessageAuthor(id: 'AI', name: 'AI');
+  final AssistMessageAuthor _userAuthor = const AssistMessageAuthor(
+    id: 'Emile Kraven',
+    name: 'Emile Kraven',
+  );
+  final AssistMessageAuthor _aiAuthor = const AssistMessageAuthor(
+    id: 'AI',
+    name: 'AI',
+  );
 
   late List<AssistMessage> _messages;
   late List<String> _bubbleAlignmentItem;
@@ -32,7 +36,7 @@ class _AssistViewState extends SampleViewState {
   String _selectedBehavior = 'Scroll';
   AssistPlaceholderBehavior _placeholderBehavior =
       AssistPlaceholderBehavior.scrollWithMessage;
-  AssistBubbleAlignment _bubbleAlignment = AssistBubbleAlignment.auto;
+  AssistMessageAlignment _bubbleAlignment = AssistMessageAlignment.auto;
 
   bool _showRequestAvatar = true;
   bool _showRequestUserName = false;
@@ -48,27 +52,25 @@ class _AssistViewState extends SampleViewState {
         messages: _messages,
         placeholderBuilder: _buildPlaceholder,
         placeholderBehavior: _placeholderBehavior,
-        bubbleAvatarBuilder: _buildAvatar,
-        bubbleAlignment: _bubbleAlignment,
-        requestBubbleSettings: AssistBubbleSettings(
+        messageAvatarBuilder: _buildAvatar,
+        messageAlignment: _bubbleAlignment,
+        requestMessageSettings: AssistMessageSettings(
           widthFactor: model.isWebFullView ? _widthFactor : 1.0,
-          showUserAvatar: _showRequestAvatar,
+          showAuthorAvatar: _showRequestAvatar,
           showTimestamp: _showRequestTimestamp,
-          showUserName: _showRequestUserName,
+          showAuthorName: _showRequestUserName,
         ),
-        responseBubbleSettings: AssistBubbleSettings(
+        responseMessageSettings: AssistMessageSettings(
           widthFactor: model.isWebFullView ? _widthFactor : 1.0,
-          showUserAvatar: _showResponseAvatar,
+          showAuthorAvatar: _showResponseAvatar,
           showTimestamp: _showResponseTimestamp,
-          showUserName: _showResponseUserName,
+          showAuthorName: _showResponseUserName,
         ),
         composer: const AssistComposer(
-          decoration: InputDecoration(
-            hintText: 'Type message here...',
-          ),
+          decoration: InputDecoration(hintText: 'Type message here...'),
         ),
         actionButton: AssistActionButton(onPressed: _handleActionButtonPressed),
-        bubbleContentBuilder: (context, int index, AssistMessage message) {
+        messageContentBuilder: (context, int index, AssistMessage message) {
           return MarkdownBody(data: message.data);
         },
       ),
@@ -114,8 +116,8 @@ class _AssistViewState extends SampleViewState {
       return Column(
         children: [
           InkWell(
-            onTapDown: (TapDownDetails details) =>
-                _handleQuickAccessTileTap(topic),
+            onTapDown:
+                (TapDownDetails details) => _handleQuickAccessTileTap(topic),
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
@@ -153,11 +155,13 @@ class _AssistViewState extends SampleViewState {
   }
 
   void _handleQuickAccessTileTap(Map<String, String> topic) {
-    _addMessageAndRebuild(AssistMessage.request(
-      data: topic['title']!,
-      author: _userAuthor,
-      time: DateTime.now(),
-    ));
+    _addMessageAndRebuild(
+      AssistMessage.request(
+        data: topic['title']!,
+        author: _userAuthor,
+        time: DateTime.now(),
+      ),
+    );
     Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         _generateResponse(
@@ -168,16 +172,19 @@ class _AssistViewState extends SampleViewState {
     });
   }
 
-  Future<void> _generateResponse(String prompt,
-      [String localResponse = '']) async {
+  Future<void> _generateResponse(
+    String prompt, [
+    String localResponse = '',
+  ]) async {
     final GenerativeModel aiModel = GenerativeModel(
       model: 'gemini-1.5-flash-latest',
       apiKey: model.assistApiKey,
     );
 
     try {
-      final GenerateContentResponse response =
-          await aiModel.generateContent([Content.text(prompt)]);
+      final GenerateContentResponse response = await aiModel.generateContent([
+        Content.text(prompt),
+      ]);
       _addResponseMessage(response.text!);
     } catch (err) {
       if (localResponse.isNotEmpty) {
@@ -189,11 +196,13 @@ class _AssistViewState extends SampleViewState {
   }
 
   void _addResponseMessage(String response) {
-    _addMessageAndRebuild(AssistMessage.response(
-      data: response,
-      author: _aiAuthor,
-      time: DateTime.now(),
-    ));
+    _addMessageAndRebuild(
+      AssistMessage.response(
+        data: response,
+        author: _aiAuthor,
+        time: DateTime.now(),
+      ),
+    );
   }
 
   void _addMessageAndRebuild(AssistMessage message) {
@@ -204,36 +213,35 @@ class _AssistViewState extends SampleViewState {
     return message.isRequested
         ? Image.asset('images/People_Circle7.png')
         : Image.asset(
-            _lightTheme
-                ? 'images/ai_avatar_light.png'
-                : 'images/ai_avatar_dark.png',
-            color: model.themeData.colorScheme.primary,
-          );
+          _lightTheme
+              ? 'images/ai_avatar_light.png'
+              : 'images/ai_avatar_dark.png',
+          color: model.themeData.colorScheme.primary,
+        );
   }
 
   void _handleActionButtonPressed(String prompt) {
-    _addMessageAndRebuild(AssistMessage.request(
-      data: prompt,
-      author: _userAuthor,
-      time: DateTime.now(),
-    ));
-    Future.delayed(
-      const Duration(milliseconds: 500),
-      () {
-        if (model.assistApiKey.isEmpty) {
-          _addMessageAndRebuild(
-            AssistMessage.response(
-              data:
-                  'Please connect to your preferred AI server for real-time queries.',
-              author: _aiAuthor,
-              time: DateTime.now(),
-            ),
-          );
-        } else {
-          _generateResponse(prompt);
-        }
-      },
+    _addMessageAndRebuild(
+      AssistMessage.request(
+        data: prompt,
+        author: _userAuthor,
+        time: DateTime.now(),
+      ),
     );
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (model.assistApiKey.isEmpty) {
+        _addMessageAndRebuild(
+          AssistMessage.response(
+            data:
+                'Please connect to your preferred AI server for real-time queries.',
+            author: _aiAuthor,
+            time: DateTime.now(),
+          ),
+        );
+      } else {
+        _generateResponse(prompt);
+      }
+    });
   }
 
   Widget _buildAIConfigurationSetting() {
@@ -255,15 +263,16 @@ class _AssistViewState extends SampleViewState {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => WelcomeDialog(
-                  primaryColor: model.primaryColor,
-                  apiKey: model.assistApiKey,
-                  onApiKeySaved: (newApiKey) {
-                    setState(() {
-                      model.assistApiKey = newApiKey;
-                    });
-                  },
-                ),
+                builder:
+                    (context) => WelcomeDialog(
+                      primaryColor: model.primaryColor,
+                      apiKey: model.assistApiKey,
+                      onApiKeySaved: (newApiKey) {
+                        setState(() {
+                          model.assistApiKey = newApiKey;
+                        });
+                      },
+                    ),
               );
             },
           ),
@@ -276,10 +285,7 @@ class _AssistViewState extends SampleViewState {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        const Text(
-          'Width factor',
-          style: TextStyle(fontSize: 16),
-        ),
+        const Text('Width factor', style: TextStyle(fontSize: 16)),
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: CustomDirectionalButtons(
@@ -287,13 +293,14 @@ class _AssistViewState extends SampleViewState {
             minValue: 0.8,
             step: 0.05,
             initialValue: _widthFactor,
-            onChanged: (double val) => setState(() {
-              _widthFactor = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _widthFactor = val;
+                }),
             iconColor: model.textColor,
             style: TextStyle(fontSize: 16.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -314,21 +321,19 @@ class _AssistViewState extends SampleViewState {
           DropdownButton<String>(
             dropdownColor: model.drawerBackgroundColor,
             focusColor: Colors.transparent,
-            underline: Container(
-              color: const Color(0xFFBDBDBD),
-              height: 1.0,
-            ),
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1.0),
             value: _selectedAlignment,
-            items: _bubbleAlignmentItem.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'Auto',
-                child: Text(
-                  value,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: model.textColor),
-                ),
-              );
-            }).toList(),
+            items:
+                _bubbleAlignmentItem.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'Auto',
+                    child: Text(
+                      value,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (String? value) {
               stateSetter(() {
                 _handleAlignmentChange(value.toString());
@@ -345,13 +350,13 @@ class _AssistViewState extends SampleViewState {
       _selectedAlignment = value;
       switch (value) {
         case 'Start':
-          _bubbleAlignment = AssistBubbleAlignment.start;
+          _bubbleAlignment = AssistMessageAlignment.start;
           break;
         case 'End':
-          _bubbleAlignment = AssistBubbleAlignment.end;
+          _bubbleAlignment = AssistMessageAlignment.end;
           break;
         case 'Auto':
-          _bubbleAlignment = AssistBubbleAlignment.auto;
+          _bubbleAlignment = AssistMessageAlignment.auto;
           break;
       }
     });
@@ -375,16 +380,17 @@ class _AssistViewState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1.0),
             value: _selectedBehavior,
-            items: _placeholderBehaviorItem.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'Scroll',
-                child: Text(
-                  value,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: model.textColor),
-                ),
-              );
-            }).toList(),
+            items:
+                _placeholderBehaviorItem.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'Scroll',
+                    child: Text(
+                      value,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (String? value) {
               stateSetter(() {
                 _handlePlaceholderBehavior(value.toString());
@@ -544,14 +550,14 @@ class _AssistViewState extends SampleViewState {
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return model.themeData.colorScheme.onSurface;
-              }
-              return model.themeData.colorScheme.primary;
-            },
-          ),
+          backgroundColor: WidgetStateProperty.resolveWith<Color?>((
+            Set<WidgetState> states,
+          ) {
+            if (states.contains(WidgetState.pressed)) {
+              return model.themeData.colorScheme.onSurface;
+            }
+            return model.themeData.colorScheme.primary;
+          }),
         ),
         onPressed: () {
           if (_messages.isNotEmpty) {
@@ -562,9 +568,7 @@ class _AssistViewState extends SampleViewState {
         },
         child: Text(
           'Clear Chat',
-          style: TextStyle(
-            color: model.themeData.colorScheme.onPrimary,
-          ),
+          style: TextStyle(color: model.themeData.colorScheme.onPrimary),
         ),
       ),
     );
@@ -582,15 +586,16 @@ class _AssistViewState extends SampleViewState {
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder: (context) => WelcomeDialog(
-            primaryColor: model.primaryColor,
-            apiKey: model.assistApiKey,
-            onApiKeySaved: (newApiKey) {
-              setState(() {
-                model.assistApiKey = newApiKey;
-              });
-            },
-          ),
+          builder:
+              (context) => WelcomeDialog(
+                primaryColor: model.primaryColor,
+                apiKey: model.assistApiKey,
+                onApiKeySaved: (newApiKey) {
+                  setState(() {
+                    model.assistApiKey = newApiKey;
+                  });
+                },
+              ),
         );
         model.isFirstTime = false;
       }
@@ -608,9 +613,10 @@ class _AssistViewState extends SampleViewState {
             const double maxExpectedWidth = 750;
             final bool canCenter = availableWidth > maxExpectedWidth;
             return Padding(
-              padding: canCenter
-                  ? const EdgeInsets.symmetric(vertical: 10.0)
-                  : const EdgeInsets.all(10.0),
+              padding:
+                  canCenter
+                      ? const EdgeInsets.symmetric(vertical: 10.0)
+                      : const EdgeInsets.all(10.0),
               child: Center(
                 child: SizedBox(
                   width: canCenter ? maxExpectedWidth : availableWidth,
@@ -635,7 +641,7 @@ class _AssistViewState extends SampleViewState {
             ),
           ),
         ),
-        _buildAIConfigurationSetting()
+        _buildAIConfigurationSetting(),
       ],
     );
   }
@@ -665,7 +671,7 @@ class _AssistViewState extends SampleViewState {
                     _buildBubbleSettingTitle('Response bubble settings'),
                     _buildResponseShowAvatarSetting(stateSetter),
                     _buildResponseShowUserNameSetting(stateSetter),
-                    _buildResponseShowTimestampSetting(stateSetter)
+                    _buildResponseShowTimestampSetting(stateSetter),
                   ],
                 ),
               ],

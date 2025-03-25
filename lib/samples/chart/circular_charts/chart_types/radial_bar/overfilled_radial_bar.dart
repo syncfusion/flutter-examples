@@ -61,39 +61,38 @@ class _OverfilledRadialBarState extends SampleViewState {
     final Orientation orientation = MediaQuery.of(context).orientation;
 
     return SfCircularChart(
-        key: GlobalKey(),
-        legend: Legend(
-          toggleSeriesVisibility: false,
-          isVisible: !isCardView,
-          iconHeight: 20,
-          iconWidth: 20,
-          overflowMode: LegendItemOverflowMode.wrap,
-        ),
-        title: ChartTitle(
-          text: isCardView ? '' : 'Steps Goal Tracker',
-        ),
-        annotations: [
-          _buildGoalAnnotation(orientation)
-        ], // Moved annotation here
-        series: _buildRadialBarSeries(),
-        tooltipBehavior: _tooltipBehavior,
-        onTooltipRender: (TooltipArgs args) {
-          final NumberFormat numberFormat = NumberFormat.compactCurrency(
-            decimalDigits: 2,
-            symbol: '',
-          );
-          args.text = _chartData![args.pointIndex as int].text +
-              ' : ' +
-              numberFormat.format(_chartData![args.pointIndex as int].y);
-        });
+      key: GlobalKey(),
+      legend: Legend(
+        toggleSeriesVisibility: false,
+        isVisible: !isCardView,
+        iconHeight: 20,
+        iconWidth: 20,
+        overflowMode: LegendItemOverflowMode.wrap,
+      ),
+      title: ChartTitle(text: isCardView ? '' : 'Steps Goal Tracker'),
+      annotations: [_buildGoalAnnotation(orientation)], // Moved annotation here
+      series: _buildRadialBarSeries(),
+      tooltipBehavior: _tooltipBehavior,
+      onTooltipRender: (TooltipArgs args) {
+        final NumberFormat numberFormat = NumberFormat.compactCurrency(
+          decimalDigits: 2,
+          symbol: '',
+        );
+        args.text =
+            _chartData![args.pointIndex as int].text +
+            ' : ' +
+            numberFormat.format(_chartData![args.pointIndex as int].y);
+      },
+    );
   }
 
   /// Builds the annotation for the goal.
   CircularChartAnnotation _buildGoalAnnotation(Orientation orientation) {
     return CircularChartAnnotation(
-      height: isCardView
-          ? '45%'
-          : model.isWeb
+      height:
+          isCardView
+              ? '45%'
+              : model.isWeb
               ? '30%'
               : '35%',
       width: isCardView || orientation == Orientation.landscape ? '65%' : '55%',
@@ -101,9 +100,10 @@ class _OverfilledRadialBarState extends SampleViewState {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(
-              top: model.isWeb || model.isDesktop
-                  ? 5
-                  : model.isWebFullView
+              top:
+                  model.isWeb || model.isDesktop
+                      ? 5
+                      : model.isWebFullView
                       ? 15
                       : 0,
             ),
@@ -117,11 +117,12 @@ class _OverfilledRadialBarState extends SampleViewState {
           ),
           Padding(
             padding: EdgeInsets.only(
-              top: model.isAndroid &&
-                      !isCardView &&
-                      orientation == Orientation.landscape
-                  ? 0
-                  : isCardView || orientation == Orientation.landscape
+              top:
+                  model.isAndroid &&
+                          !isCardView &&
+                          orientation == Orientation.landscape
+                      ? 0
+                      : isCardView || orientation == Orientation.landscape
                       ? 0
                       : 10,
             ),
@@ -144,19 +145,19 @@ class _OverfilledRadialBarState extends SampleViewState {
   List<RadialBarSeries<_ChartData, String>> _buildRadialBarSeries() {
     final List<RadialBarSeries<_ChartData, String>> list =
         <RadialBarSeries<_ChartData, String>>[
-      RadialBarSeries<_ChartData, String>(
-        dataSource: _chartData,
-        xValueMapper: (_ChartData data, int index) => data.x,
-        yValueMapper: (_ChartData data, int index) => data.y,
-        pointColorMapper: (_ChartData data, int index) => data.color,
-        dataLabelMapper: (_ChartData data, int index) => data.text,
-        dataLabelSettings: const DataLabelSettings(isVisible: true),
-        maximumValue: 6000,
-        radius: '100%',
-        gap: '3%',
-        cornerStyle: CornerStyle.bothCurve,
-      )
-    ];
+          RadialBarSeries<_ChartData, String>(
+            dataSource: _chartData,
+            xValueMapper: (_ChartData data, int index) => data.x,
+            yValueMapper: (_ChartData data, int index) => data.y,
+            pointColorMapper: (_ChartData data, int index) => data.color,
+            dataLabelMapper: (_ChartData data, int index) => data.text,
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
+            maximumValue: 6000,
+            radius: '100%',
+            gap: '3%',
+            cornerStyle: CornerStyle.bothCurve,
+          ),
+        ];
     return list;
   }
 

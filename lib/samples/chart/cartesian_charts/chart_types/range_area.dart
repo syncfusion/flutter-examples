@@ -27,10 +27,7 @@ class _RangeAreaState extends SampleViewState {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(
-      enable: true,
-      decimalPlaces: 1,
-    );
+    _tooltipBehavior = TooltipBehavior(enable: true, decimalPlaces: 1);
     super.initState();
   }
 
@@ -57,19 +54,24 @@ class _RangeAreaState extends SampleViewState {
         majorTickLines: MajorTickLines(size: 0),
       ),
       series: _buildRangeAreaSeries(
-          themeData.useMaterial3, themeData.brightness == Brightness.light),
+        themeData.useMaterial3,
+        themeData.brightness == Brightness.light,
+      ),
       tooltipBehavior: _tooltipBehavior,
     );
   }
 
   /// Returns the list of cartesian Range area series.
   List<CartesianSeries<ChartSampleData, DateTime>> _buildRangeAreaSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color color = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(6, 174, 224, 1)
-            : const Color.fromRGBO(255, 245, 0, 1))
-        : const Color.fromRGBO(50, 198, 255, 1);
+    bool isMaterial3,
+    bool isLightMode,
+  ) {
+    final Color color =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(6, 174, 224, 1)
+                : const Color.fromRGBO(255, 245, 0, 1))
+            : const Color.fromRGBO(50, 198, 255, 1);
     return <CartesianSeries<ChartSampleData, DateTime>>[
       RangeAreaSeries<ChartSampleData, DateTime>(
         dataSource: _buildChartData(),
@@ -81,7 +83,7 @@ class _RangeAreaState extends SampleViewState {
         borderColor: color,
         color: color,
         borderDrawMode: RangeAreaBorderMode.excludeSides,
-      )
+      ),
     ];
   }
 
@@ -96,8 +98,13 @@ class _RangeAreaState extends SampleViewState {
           ? value += Random().nextDouble()
           : value -= Random().nextDouble();
 
-      chartData.add(ChartSampleData(
-          x: DateTime(2000, i + 2, i), high: value, low: value + 10));
+      chartData.add(
+        ChartSampleData(
+          x: DateTime(2000, i + 2, i),
+          high: value,
+          low: value + 10,
+        ),
+      );
     }
     return chartData;
   }

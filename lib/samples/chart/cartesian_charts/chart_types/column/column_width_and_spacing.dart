@@ -28,15 +28,35 @@ class _ColumnSpacingState extends SampleViewState {
   void initState() {
     _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'Norway', y: 16, secondSeriesYValue: 8, thirdSeriesYValue: 13),
+        x: 'Norway',
+        y: 16,
+        secondSeriesYValue: 8,
+        thirdSeriesYValue: 13,
+      ),
       ChartSampleData(
-          x: 'USA', y: 8, secondSeriesYValue: 10, thirdSeriesYValue: 7),
+        x: 'USA',
+        y: 8,
+        secondSeriesYValue: 10,
+        thirdSeriesYValue: 7,
+      ),
       ChartSampleData(
-          x: 'Germany', y: 12, secondSeriesYValue: 10, thirdSeriesYValue: 5),
+        x: 'Germany',
+        y: 12,
+        secondSeriesYValue: 10,
+        thirdSeriesYValue: 5,
+      ),
       ChartSampleData(
-          x: 'Canada', y: 4, secondSeriesYValue: 8, thirdSeriesYValue: 14),
+        x: 'Canada',
+        y: 4,
+        secondSeriesYValue: 8,
+        thirdSeriesYValue: 14,
+      ),
       ChartSampleData(
-          x: 'Netherlands', y: 8, secondSeriesYValue: 5, thirdSeriesYValue: 4),
+        x: 'Netherlands',
+        y: 8,
+        secondSeriesYValue: 5,
+        thirdSeriesYValue: 4,
+      ),
     ];
     _columnWidth = 0.8;
     _columnSpacing = 0.2;
@@ -56,10 +76,7 @@ class _ColumnSpacingState extends SampleViewState {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Text(
-              'Width  ',
-              style: TextStyle(color: model.textColor),
-            ),
+            Text('Width  ', style: TextStyle(color: model.textColor)),
             Container(
               padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
               child: CustomDirectionalButtons(
@@ -73,10 +90,7 @@ class _ColumnSpacingState extends SampleViewState {
                 step: 0.1,
                 loop: true,
                 iconColor: model.textColor,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: model.textColor,
-                ),
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
             ),
           ],
@@ -105,12 +119,9 @@ class _ColumnSpacingState extends SampleViewState {
                 loop: true,
                 padding: 5.0,
                 iconColor: model.textColor,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: model.textColor,
-                ),
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
-            )
+            ),
           ],
         ),
       ],
@@ -159,8 +170,8 @@ class _ColumnSpacingState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         width: isCardView ? 0.8 : _columnWidth,
         spacing: isCardView ? 0.2 : _columnSpacing,
         color: const Color.fromRGBO(177, 183, 188, 1),
@@ -169,8 +180,8 @@ class _ColumnSpacingState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
         width: isCardView ? 0.8 : _columnWidth,
         spacing: isCardView ? 0.2 : _columnSpacing,
         color: const Color.fromRGBO(140, 92, 69, 1),

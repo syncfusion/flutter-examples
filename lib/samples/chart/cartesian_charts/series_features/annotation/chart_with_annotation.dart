@@ -125,14 +125,16 @@ class _AnnotationWatermarkState extends SampleViewState {
     return <CartesianChartAnnotation>[
       CartesianChartAnnotation(
         widget: SizedBox(
-          height: isCardView
-              ? 100
-              : needSmallAnnotation
+          height:
+              isCardView
+                  ? 100
+                  : needSmallAnnotation
                   ? 80
                   : 150,
-          width: isCardView
-              ? 100
-              : needSmallAnnotation
+          width:
+              isCardView
+                  ? 100
+                  : needSmallAnnotation
                   ? 80
                   : 150,
           child: SfCircularChart(
@@ -140,8 +142,8 @@ class _AnnotationWatermarkState extends SampleViewState {
               PieSeries<ChartSampleData, String>(
                 radius: '90%',
                 dataSource: _annotationChartData,
-                dataLabelMapper: (ChartSampleData data, int index) =>
-                    data.xValue as String,
+                dataLabelMapper:
+                    (ChartSampleData data, int index) => data.xValue as String,
                 xValueMapper: (ChartSampleData data, int index) => data.x,
                 yValueMapper: (ChartSampleData data, int index) => data.y,
                 dataLabelSettings: DataLabelSettings(
@@ -149,16 +151,17 @@ class _AnnotationWatermarkState extends SampleViewState {
                   labelIntersectAction: LabelIntersectAction.none,
                   textStyle: TextStyle(
                     color: Colors.white,
-                    fontSize: isCardView
-                        ? 10
-                        : needSmallAnnotation
+                    fontSize:
+                        isCardView
+                            ? 10
+                            : needSmallAnnotation
                             ? 7
                             : 12,
                   ),
                 ),
-                pointColorMapper: (ChartSampleData data, int index) =>
-                    data.pointColor,
-              )
+                pointColorMapper:
+                    (ChartSampleData data, int index) => data.pointColor,
+              ),
             ],
           ),
         ),
@@ -180,9 +183,10 @@ class _AnnotationWatermarkState extends SampleViewState {
         width: 0.8,
         dataLabelSettings: DataLabelSettings(
           isVisible: true,
-          textStyle: isCardView
-              ? const TextStyle(color: Colors.white, fontSize: 10)
-              : const TextStyle(color: Colors.white, fontSize: 12),
+          textStyle:
+              isCardView
+                  ? const TextStyle(color: Colors.white, fontSize: 10)
+                  : const TextStyle(color: Colors.white, fontSize: 12),
           labelAlignment: ChartDataLabelAlignment.top,
         ),
       ),

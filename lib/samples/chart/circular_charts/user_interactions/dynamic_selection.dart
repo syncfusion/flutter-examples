@@ -36,7 +36,7 @@ class _CircularSelectionState extends SampleViewState {
       ChartSampleData(x: 'Dominican Republic', y: 350000),
       ChartSampleData(x: 'Egypt', y: 301000),
       ChartSampleData(x: 'Kazakhstan', y: 300000),
-      ChartSampleData(x: 'Somalia', y: 357022)
+      ChartSampleData(x: 'Somalia', y: 357022),
     ];
     super.initState();
   }
@@ -45,56 +45,49 @@ class _CircularSelectionState extends SampleViewState {
   Widget buildSettings(BuildContext context) {
     return ListView(
       shrinkWrap: true,
-      children: <Widget>[
-        _buildPointIndexDropdown(),
-        _buildSelectButton(),
-      ],
+      children: <Widget>[_buildPointIndexDropdown(), _buildSelectButton()],
     );
   }
 
   /// Builds the dropdown for selecting point index.
   Widget _buildPointIndexDropdown() {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-      return Row(
-        children: <Widget>[
-          Text(
-            'Point index ',
-            softWrap: false,
-            style: TextStyle(
-              color: model.textColor,
-              fontSize: 16,
+      builder: (BuildContext context, StateSetter setState) {
+        return Row(
+          children: <Widget>[
+            Text(
+              'Point index ',
+              softWrap: false,
+              style: TextStyle(color: model.textColor, fontSize: 16),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
-            child: DropdownButton<String>(
-              dropdownColor: model.drawerBackgroundColor,
-              focusColor: Colors.transparent,
-              underline: Container(
-                color: const Color(0xFFBDBDBD),
-                height: 1,
+            Container(
+              padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
+              child: DropdownButton<String>(
+                dropdownColor: model.drawerBackgroundColor,
+                focusColor: Colors.transparent,
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+                value: _pointIndex.toString(),
+                items:
+                    _pointIndexList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : '0',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                onChanged: (dynamic value) {
+                  setState(() {
+                    _pointIndex = int.parse(value);
+                  });
+                },
               ),
-              value: _pointIndex.toString(),
-              items: _pointIndexList!.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: (value != null) ? value : '0',
-                  child: Text(
-                    value,
-                    style: TextStyle(color: model.textColor),
-                  ),
-                );
-              }).toList(),
-              onChanged: (dynamic value) {
-                setState(() {
-                  _pointIndex = int.parse(value);
-                });
-              },
             ),
-          ),
-        ],
-      );
-    });
+          ],
+        );
+      },
+    );
   }
 
   /// Builds the button for selecting the point index.
@@ -106,16 +99,14 @@ class _CircularSelectionState extends SampleViewState {
           padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
           child: ElevatedButton(
             style: ButtonStyle(
-              backgroundColor:
-                  WidgetStateProperty.all<Color>(model.primaryColor),
+              backgroundColor: WidgetStateProperty.all<Color>(
+                model.primaryColor,
+              ),
             ),
             onPressed: () {
               _selectionBehavior!.selectDataPoints(_pointIndex);
             },
-            child: const Text(
-              'Select',
-              style: TextStyle(color: Colors.white),
-            ),
+            child: const Text('Select', style: TextStyle(color: Colors.white)),
           ),
         ),
       ],
@@ -152,7 +143,7 @@ class _CircularSelectionState extends SampleViewState {
         startAngle: 100,
         endAngle: 100,
         selectionBehavior: _selectionBehavior,
-      )
+      ),
     ];
   }
 

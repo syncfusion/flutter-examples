@@ -32,105 +32,125 @@ class _TreemapSelectionSampleState extends SampleViewState {
     // [product] is the second level grouping key.
     _topImportsAndExports = <_ImportAndExportDetails>[
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'Cars',
-          valueInBillions: 145.66,
-          color: Color.fromRGBO(64, 116, 218, 1.0)),
+        type: 'Import',
+        product: 'Cars',
+        valueInBillions: 145.66,
+        color: Color.fromRGBO(64, 116, 218, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'PC, optical readers',
-          valueInBillions: 104.95,
-          color: Color.fromRGBO(85, 126, 213, 1.0)),
+        type: 'Import',
+        product: 'PC, optical readers',
+        valueInBillions: 104.95,
+        color: Color.fromRGBO(85, 126, 213, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'Phone devices',
-          valueInBillions: 102.55,
-          color: Color.fromRGBO(98, 136, 217, 1.0)),
+        type: 'Import',
+        product: 'Phone devices',
+        valueInBillions: 102.55,
+        color: Color.fromRGBO(98, 136, 217, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'Medication',
-          valueInBillions: 95.18,
-          color: Color.fromRGBO(109, 145, 219, 1.0)),
+        type: 'Import',
+        product: 'Medication',
+        valueInBillions: 95.18,
+        color: Color.fromRGBO(109, 145, 219, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'Crude oil',
-          valueInBillions: 81.86,
-          color: Color.fromRGBO(121, 154, 222, 1.0)),
+        type: 'Import',
+        product: 'Crude oil',
+        valueInBillions: 81.86,
+        color: Color.fromRGBO(121, 154, 222, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'Automobile parts',
-          valueInBillions: 81.63,
-          color: Color.fromRGBO(134, 163, 225, 1.0)),
+        type: 'Import',
+        product: 'Automobile parts',
+        valueInBillions: 81.63,
+        color: Color.fromRGBO(134, 163, 225, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'Blood fractions',
-          valueInBillions: 60.04,
-          color: Color.fromRGBO(158, 181, 230, 1.0)),
+        type: 'Import',
+        product: 'Blood fractions',
+        valueInBillions: 60.04,
+        color: Color.fromRGBO(158, 181, 230, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'Petroleum oils',
-          valueInBillions: 51.38,
-          color: Color.fromRGBO(171, 191, 234, 1.0)),
+        type: 'Import',
+        product: 'Petroleum oils',
+        valueInBillions: 51.38,
+        color: Color.fromRGBO(171, 191, 234, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'Gold',
-          valueInBillions: 36.32,
-          color: Color.fromRGBO(182, 200, 236, 1.0)),
+        type: 'Import',
+        product: 'Gold',
+        valueInBillions: 36.32,
+        color: Color.fromRGBO(182, 200, 236, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Import',
-          product: 'IC',
-          valueInBillions: 34.69,
-          color: Color.fromRGBO(202, 215, 241, 1.0)),
+        type: 'Import',
+        product: 'IC',
+        valueInBillions: 34.69,
+        color: Color.fromRGBO(202, 215, 241, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'Petroleum oils',
-          valueInBillions: 60.71,
-          color: Color.fromRGBO(83, 192, 83, 1.0)),
+        type: 'Export',
+        product: 'Petroleum oils',
+        valueInBillions: 60.71,
+        color: Color.fromRGBO(83, 192, 83, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'Crude oil',
-          valueInBillions: 50.29,
-          color: Color.fromRGBO(121, 193, 106, 1.0)),
+        type: 'Export',
+        product: 'Crude oil',
+        valueInBillions: 50.29,
+        color: Color.fromRGBO(121, 193, 106, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'Cars',
-          valueInBillions: 45.64,
-          color: Color.fromRGBO(129, 197, 115, 1.0)),
+        type: 'Export',
+        product: 'Cars',
+        valueInBillions: 45.64,
+        color: Color.fromRGBO(129, 197, 115, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'IC',
-          valueInBillions: 44.21,
-          color: Color.fromRGBO(138, 201, 126, 1.0)),
+        type: 'Export',
+        product: 'IC',
+        valueInBillions: 44.21,
+        color: Color.fromRGBO(138, 201, 126, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'Petroleum gases',
-          valueInBillions: 33.34,
-          color: Color.fromRGBO(147, 205, 136, 1.0)),
+        type: 'Export',
+        product: 'Petroleum gases',
+        valueInBillions: 33.34,
+        color: Color.fromRGBO(147, 205, 136, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'Automobile parts',
-          valueInBillions: 33.17,
-          color: Color.fromRGBO(156, 210, 146, 1.0)),
+        type: 'Export',
+        product: 'Automobile parts',
+        valueInBillions: 33.17,
+        color: Color.fromRGBO(156, 210, 146, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'Phone devices',
-          valueInBillions: 28.09,
-          color: Color.fromRGBO(165, 214, 156, 1.0)),
+        type: 'Export',
+        product: 'Phone devices',
+        valueInBillions: 28.09,
+        color: Color.fromRGBO(165, 214, 156, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'Electro-medical',
-          valueInBillions: 28.02,
-          color: Color.fromRGBO(174, 218, 166, 1.0)),
+        type: 'Export',
+        product: 'Electro-medical',
+        valueInBillions: 28.02,
+        color: Color.fromRGBO(174, 218, 166, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'Blood fractions',
-          valueInBillions: 26.09,
-          color: Color.fromRGBO(184, 222, 177, 1.0)),
+        type: 'Export',
+        product: 'Blood fractions',
+        valueInBillions: 26.09,
+        color: Color.fromRGBO(184, 222, 177, 1.0),
+      ),
       const _ImportAndExportDetails(
-          type: 'Export',
-          product: 'Soya beans',
-          valueInBillions: 25.85,
-          color: Color.fromRGBO(202, 231, 198, 1.0)),
+        type: 'Export',
+        product: 'Soya beans',
+        valueInBillions: 25.85,
+        color: Color.fromRGBO(202, 231, 198, 1.0),
+      ),
     ];
 
     _importTextEditingController = TextEditingController();
@@ -150,16 +170,18 @@ class _TreemapSelectionSampleState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    isDesktop = kIsWeb ||
+    isDesktop =
+        kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
     return Center(
       child: Padding(
-        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                isDesktop
-            ? const EdgeInsets.all(12.5)
-            : const EdgeInsets.all(10.0),
+        padding:
+            MediaQuery.of(context).orientation == Orientation.portrait ||
+                    isDesktop
+                ? const EdgeInsets.all(12.5)
+                : const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -207,14 +229,16 @@ class _TreemapSelectionSampleState extends SampleViewState {
     if (tile != _selectedTile) {
       _selectedTile = tile;
       if (_topImportsAndExports[tile.indices[0]].type == 'Import') {
-        _importTextEditingController.text = tile.group == 'Import'
-            ? 'Import - ${tile.weight.toStringAsFixed(2)}B'
-            : 'Import -  ${tile.group} (${tile.weight.toStringAsFixed(2)}B)';
+        _importTextEditingController.text =
+            tile.group == 'Import'
+                ? 'Import - ${tile.weight.toStringAsFixed(2)}B'
+                : 'Import -  ${tile.group} (${tile.weight.toStringAsFixed(2)}B)';
         _exportTextEditingController.text = 'Export';
       } else {
-        _exportTextEditingController.text = tile.group == 'Export'
-            ? 'Export - ${tile.weight.toStringAsFixed(2)}B'
-            : 'Export -  ${tile.group} (${tile.weight.toStringAsFixed(2)}B)';
+        _exportTextEditingController.text =
+            tile.group == 'Export'
+                ? 'Export - ${tile.weight.toStringAsFixed(2)}B'
+                : 'Export -  ${tile.group} (${tile.weight.toStringAsFixed(2)}B)';
         _importTextEditingController.text = 'Import';
       }
     } else {
@@ -245,8 +269,9 @@ class _TreemapSelectionSampleState extends SampleViewState {
         color: Colors.transparent,
         // Returns a widget for each tile's data label.
         labelBuilder: (BuildContext context, TreemapTile tile) {
-          final Brightness brightness =
-              ThemeData.estimateBrightnessForColor(tile.color);
+          final Brightness brightness = ThemeData.estimateBrightnessForColor(
+            tile.color,
+          );
           final Color color =
               brightness == Brightness.dark ? Colors.white : Colors.black;
           if (tile.group == 'Import') {
@@ -308,7 +333,8 @@ class _TreemapSelectionSampleState extends SampleViewState {
         padding: EdgeInsets.zero,
         // Border around the tile.
         border: const RoundedRectangleBorder(
-            side: BorderSide(color: Colors.transparent)),
+          side: BorderSide(color: Colors.transparent),
+        ),
         // The value returned in the callback will specify the
         // color of each tile.
         colorValueMapper: (TreemapTile tile) {
@@ -316,8 +342,9 @@ class _TreemapSelectionSampleState extends SampleViewState {
         },
         // Returns a widget for each tile's data label.
         labelBuilder: (BuildContext context, TreemapTile tile) {
-          final Brightness brightness =
-              ThemeData.estimateBrightnessForColor(tile.color);
+          final Brightness brightness = ThemeData.estimateBrightnessForColor(
+            tile.color,
+          );
           final Color color =
               brightness == Brightness.dark ? Colors.white : Colors.black;
           return IgnorePointer(

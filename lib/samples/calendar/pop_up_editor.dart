@@ -90,16 +90,20 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
     _startDate = widget.selectedAppointment.startTime;
     _endDate = widget.selectedAppointment.endTime;
     _isAllDay = widget.selectedAppointment.isAllDay;
-    _selectedColorIndex =
-        widget.colorCollection.indexOf(widget.selectedAppointment.color);
-    _selectedTimeZoneIndex = widget.selectedAppointment.startTimeZone == null ||
-            widget.selectedAppointment.startTimeZone == ''
-        ? 0
-        : widget.timeZoneCollection
-            .indexOf(widget.selectedAppointment.startTimeZone!);
-    _subject = widget.selectedAppointment.subject == '(No title)'
-        ? ''
-        : widget.selectedAppointment.subject;
+    _selectedColorIndex = widget.colorCollection.indexOf(
+      widget.selectedAppointment.color,
+    );
+    _selectedTimeZoneIndex =
+        widget.selectedAppointment.startTimeZone == null ||
+                widget.selectedAppointment.startTimeZone == ''
+            ? 0
+            : widget.timeZoneCollection.indexOf(
+              widget.selectedAppointment.startTimeZone!,
+            );
+    _subject =
+        widget.selectedAppointment.subject == '(No title)'
+            ? ''
+            : widget.selectedAppointment.subject;
     _notes = widget.selectedAppointment.notes;
     _location = widget.selectedAppointment.location;
     _selectedColorIndex = _selectedColorIndex == -1 ? 0 : _selectedColorIndex;
@@ -108,22 +112,28 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
     _resourceIds = widget.selectedAppointment.resourceIds?.sublist(0);
     _startTime = TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
     _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
-    _selectedResources =
-        getSelectedResources(_resourceIds, widget.events.resources);
-    _unSelectedResources =
-        getUnSelectedResources(_selectedResources, widget.events.resources);
+    _selectedResources = getSelectedResources(
+      _resourceIds,
+      widget.events.resources,
+    );
+    _unSelectedResources = getUnSelectedResources(
+      _selectedResources,
+      widget.events.resources,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final Color defaultColor = widget.model.themeData != null &&
-            widget.model.themeData.colorScheme.brightness == Brightness.dark
-        ? Colors.white
-        : Colors.black54;
-    final Color defaultTextColor = widget.model.themeData != null &&
-            widget.model.themeData.colorScheme.brightness == Brightness.dark
-        ? Colors.white
-        : Colors.black87;
+    final Color defaultColor =
+        widget.model.themeData != null &&
+                widget.model.themeData.colorScheme.brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black54;
+    final Color defaultTextColor =
+        widget.model.themeData != null &&
+                widget.model.themeData.colorScheme.brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black87;
     final Widget startDatePicker = RawMaterialButton(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       onPressed: () async {
@@ -149,8 +159,13 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
         if (date != null && date != _startDate) {
           setState(() {
             final Duration difference = _endDate.difference(_startDate);
-            _startDate = DateTime(date.year, date.month, date.day,
-                _startTime.hour, _startTime.minute);
+            _startDate = DateTime(
+              date.year,
+              date.month,
+              date.day,
+              _startTime.hour,
+              _startTime.minute,
+            );
             _endDate = _startDate.add(difference);
             _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
           });
@@ -158,10 +173,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
       },
       child: Text(
         DateFormat('MMM dd, yyyy').format(_startDate),
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          color: defaultTextColor,
-        ),
+        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
         textAlign: TextAlign.left,
       ),
     );
@@ -170,8 +182,10 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
       onPressed: () async {
         final TimeOfDay? time = await showTimePicker(
           context: context,
-          initialTime:
-              TimeOfDay(hour: _startTime.hour, minute: _startTime.minute),
+          initialTime: TimeOfDay(
+            hour: _startTime.hour,
+            minute: _startTime.minute,
+          ),
           builder: (BuildContext context, Widget? child) {
             /// Theme widget used to apply the theme and primary color to the
             /// time picker.
@@ -190,8 +204,13 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           setState(() {
             _startTime = time;
             final Duration difference = _endDate.difference(_startDate);
-            _startDate = DateTime(_startDate.year, _startDate.month,
-                _startDate.day, _startTime.hour, _startTime.minute);
+            _startDate = DateTime(
+              _startDate.year,
+              _startDate.month,
+              _startDate.day,
+              _startTime.hour,
+              _startTime.minute,
+            );
             _endDate = _startDate.add(difference);
             _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
           });
@@ -199,10 +218,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
       },
       child: Text(
         DateFormat('hh:mm a').format(_startDate),
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          color: defaultTextColor,
-        ),
+        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
         textAlign: TextAlign.left,
       ),
     );
@@ -231,22 +247,26 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           setState(() {
             _endTime = time;
             final Duration difference = _endDate.difference(_startDate);
-            _endDate = DateTime(_endDate.year, _endDate.month, _endDate.day,
-                _endTime.hour, _endTime.minute);
+            _endDate = DateTime(
+              _endDate.year,
+              _endDate.month,
+              _endDate.day,
+              _endTime.hour,
+              _endTime.minute,
+            );
             if (_endDate.isBefore(_startDate)) {
               _startDate = _endDate.subtract(difference);
-              _startTime =
-                  TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
+              _startTime = TimeOfDay(
+                hour: _startDate.hour,
+                minute: _startDate.minute,
+              );
             }
           });
         }
       },
       child: Text(
         DateFormat('hh:mm a').format(_endDate),
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          color: defaultTextColor,
-        ),
+        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
         textAlign: TextAlign.left,
       ),
     );
@@ -275,22 +295,26 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
         if (date != null && date != _startDate) {
           setState(() {
             final Duration difference = _endDate.difference(_startDate);
-            _endDate = DateTime(date.year, date.month, date.day, _endTime.hour,
-                _endTime.minute);
+            _endDate = DateTime(
+              date.year,
+              date.month,
+              date.day,
+              _endTime.hour,
+              _endTime.minute,
+            );
             if (_endDate.isBefore(_startDate)) {
               _startDate = _endDate.subtract(difference);
-              _startTime =
-                  TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
+              _startTime = TimeOfDay(
+                hour: _startDate.hour,
+                minute: _startDate.minute,
+              );
             }
           });
         }
       },
       child: Text(
         DateFormat('MMM dd, yyyy').format(_endDate),
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          color: defaultTextColor,
-        ),
+        style: TextStyle(fontWeight: FontWeight.w500, color: defaultTextColor),
         textAlign: TextAlign.left,
       ),
     );
@@ -305,8 +329,9 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               splashRadius: 20,
               onPressed: () {
                 if (widget.newAppointment != null &&
-                    widget.events.appointments!
-                        .contains(widget.newAppointment)) {
+                    widget.events.appointments!.contains(
+                      widget.newAppointment,
+                    )) {
                   /// To remove the created appointment, when the appointment
                   /// editor closed without saving the appointment.
                   widget.events.appointments!.removeAt(
@@ -362,35 +387,32 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
             leading: Container(
               width: 30,
               alignment: Alignment.centerRight,
-              child: Icon(
-                Icons.access_time,
-                size: 20,
-                color: defaultColor,
-              ),
+              child: Icon(Icons.access_time, size: 20, color: defaultColor),
             ),
-            title: _isAllDay
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      startDatePicker,
-                      const Text(' - '),
-                      endDatePicker,
-                      const Text(''),
-                      const Text(''),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      startDatePicker,
-                      startTimePicker,
-                      const Text(' - '),
-                      endTimePicker,
-                      endDatePicker,
-                    ],
-                  ),
+            title:
+                _isAllDay
+                    ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        startDatePicker,
+                        const Text(' - '),
+                        endDatePicker,
+                        const Text(''),
+                        const Text(''),
+                      ],
+                    )
+                    : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        startDatePicker,
+                        startTimePicker,
+                        const Text(' - '),
+                        endTimePicker,
+                        endDatePicker,
+                      ],
+                    ),
           ),
         ),
         Container(
@@ -400,11 +422,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
             leading: Container(
               width: 30,
               alignment: Alignment.centerRight,
-              child: Icon(
-                Icons.location_on,
-                color: defaultColor,
-                size: 20,
-              ),
+              child: Icon(Icons.location_on, color: defaultColor, size: 20),
             ),
             title: TextField(
               cursorColor: widget.model.primaryColor,
@@ -414,10 +432,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               },
               keyboardType: TextInputType.multiline,
               maxLines: null,
-              style: TextStyle(
-                fontSize: 15,
-                color: defaultTextColor,
-              ),
+              style: TextStyle(fontSize: 15, color: defaultTextColor),
               decoration: const InputDecoration(
                 filled: true,
                 contentPadding: EdgeInsets.fromLTRB(5, 10, 10, 10),
@@ -435,11 +450,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
             leading: Container(
               width: 30,
               alignment: Alignment.centerRight,
-              child: Icon(
-                Icons.subject,
-                size: 20,
-                color: defaultColor,
-              ),
+              child: Icon(Icons.subject, size: 20, color: defaultColor),
             ),
             title: TextField(
               controller: TextEditingController(text: _notes),
@@ -448,10 +459,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               },
               keyboardType: TextInputType.multiline,
               maxLines: widget.model.isWebFullView ? 1 : null,
-              style: TextStyle(
-                fontSize: 15,
-                color: defaultTextColor,
-              ),
+              style: TextStyle(fontSize: 15, color: defaultTextColor),
               decoration: const InputDecoration(
                 filled: true,
                 contentPadding: EdgeInsets.fromLTRB(5, 10, 10, 10),
@@ -472,11 +480,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
               leading: Container(
                 width: 30,
                 alignment: Alignment.centerRight,
-                child: Icon(
-                  Icons.people,
-                  color: defaultColor,
-                  size: 20,
-                ),
+                child: Icon(Icons.people, color: defaultColor, size: 20),
               ),
               title: RawMaterialButton(
                 padding: const EdgeInsets.only(left: 5),
@@ -488,14 +492,19 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                         _unSelectedResources,
                         widget.model,
                         onChanged: (PickerChangedDetails details) {
-                          _resourceIds = _resourceIds == null
-                              ? <Object>[details.resourceId!]
-                              : (_resourceIds!.sublist(0)
-                                ..add(details.resourceId!));
+                          _resourceIds =
+                              _resourceIds == null
+                                  ? <Object>[details.resourceId!]
+                                  : (_resourceIds!.sublist(0)
+                                    ..add(details.resourceId!));
                           _selectedResources = getSelectedResources(
-                              _resourceIds, widget.events.resources);
+                            _resourceIds,
+                            widget.events.resources,
+                          );
                           _unSelectedResources = getUnSelectedResources(
-                              _selectedResources, widget.events.resources);
+                            _selectedResources,
+                            widget.events.resources,
+                          );
                         },
                       );
                     },
@@ -589,14 +598,16 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                             startTime: _startDate,
                             endTime: _endDate,
                             color: widget.colorCollection[_selectedColorIndex],
-                            startTimeZone: _selectedTimeZoneIndex == 0
-                                ? ''
-                                : widget
-                                    .timeZoneCollection[_selectedTimeZoneIndex],
-                            endTimeZone: _selectedTimeZoneIndex == 0
-                                ? ''
-                                : widget
-                                    .timeZoneCollection[_selectedTimeZoneIndex],
+                            startTimeZone:
+                                _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                        .timeZoneCollection[_selectedTimeZoneIndex],
+                            endTimeZone:
+                                _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                        .timeZoneCollection[_selectedTimeZoneIndex],
                             notes: _notes,
                             isAllDay: _isAllDay,
                             location: _location,
@@ -604,19 +615,24 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                             resourceIds: _resourceIds,
                           );
                           return PopScope(
-                            onPopInvokedWithResult:
-                                (bool value, Object? result) async {
+                            onPopInvokedWithResult: (
+                              bool value,
+                              Object? result,
+                            ) async {
                               if (widget.newAppointment != null) {
                                 final int appointmentIndex = widget
-                                    .events.appointments!
+                                    .events
+                                    .appointments!
                                     .indexOf(widget.newAppointment);
                                 if (appointmentIndex <=
                                         widget.events.appointments!.length -
                                             1 &&
                                     appointmentIndex >= 0) {
-                                  widget.events.appointments!.removeAt(widget
-                                      .events.appointments!
-                                      .indexOf(widget.newAppointment));
+                                  widget.events.appointments!.removeAt(
+                                    widget.events.appointments!.indexOf(
+                                      widget.newAppointment,
+                                    ),
+                                  );
                                   widget.events.notifyListeners(
                                     CalendarDataSourceAction.remove,
                                     <Appointment>[widget.newAppointment!],
@@ -659,20 +675,26 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                       if (widget.selectedAppointment != null ||
                           widget.newAppointment != null) {
                         if (widget.events.appointments!.isNotEmpty &&
-                            widget.events.appointments!
-                                .contains(widget.selectedAppointment)) {
-                          widget.events.appointments!.removeAt(widget
-                              .events.appointments!
-                              .indexOf(widget.selectedAppointment));
+                            widget.events.appointments!.contains(
+                              widget.selectedAppointment,
+                            )) {
+                          widget.events.appointments!.removeAt(
+                            widget.events.appointments!.indexOf(
+                              widget.selectedAppointment,
+                            ),
+                          );
                           widget.events.notifyListeners(
-                              CalendarDataSourceAction.remove,
-                              <Appointment>[widget.selectedAppointment]);
+                            CalendarDataSourceAction.remove,
+                            <Appointment>[widget.selectedAppointment],
+                          );
                         }
                         if (widget.appointment.isNotEmpty &&
-                            widget.appointment
-                                .contains(widget.newAppointment)) {
-                          widget.appointment.removeAt(widget.appointment
-                              .indexOf(widget.newAppointment!));
+                            widget.appointment.contains(
+                              widget.newAppointment,
+                            )) {
+                          widget.appointment.removeAt(
+                            widget.appointment.indexOf(widget.newAppointment!),
+                          );
                         }
                       }
                       widget.appointment.add(
@@ -680,14 +702,16 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
                           startTime: _startDate,
                           endTime: _endDate,
                           color: widget.colorCollection[_selectedColorIndex],
-                          startTimeZone: _selectedTimeZoneIndex == 0
-                              ? ''
-                              : widget
-                                  .timeZoneCollection[_selectedTimeZoneIndex],
-                          endTimeZone: _selectedTimeZoneIndex == 0
-                              ? ''
-                              : widget
-                                  .timeZoneCollection[_selectedTimeZoneIndex],
+                          startTimeZone:
+                              _selectedTimeZoneIndex == 0
+                                  ? ''
+                                  : widget
+                                      .timeZoneCollection[_selectedTimeZoneIndex],
+                          endTimeZone:
+                              _selectedTimeZoneIndex == 0
+                                  ? ''
+                                  : widget
+                                      .timeZoneCollection[_selectedTimeZoneIndex],
                           notes: _notes,
                           isAllDay: _isAllDay,
                           location: _location,
@@ -723,10 +747,7 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
   /// appointment.
   Widget _getResourceEditor(TextStyle hintTextStyle) {
     if (_selectedResources == null || _selectedResources.isEmpty) {
-      return Text(
-        'Add people',
-        style: hintTextStyle,
-      );
+      return Text('Add people', style: hintTextStyle);
     }
     final List<Widget> chipWidgets = <Widget>[];
     for (int i = 0; i < _selectedResources.length; i++) {
@@ -737,9 +758,10 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
           avatar: CircleAvatar(
             backgroundColor: widget.model.primaryColor,
             backgroundImage: selectedResource.image,
-            child: selectedResource.image == null
-                ? Text(selectedResource.displayName[0])
-                : null,
+            child:
+                selectedResource.image == null
+                    ? Text(selectedResource.displayName[0])
+                    : null,
           ),
           label: Text(selectedResource.displayName),
           onDeleted: () {
@@ -755,10 +777,6 @@ class _PopUpAppointmentEditorState extends State<PopUpAppointmentEditor> {
       );
     }
 
-    return Wrap(
-      spacing: 6.0,
-      runSpacing: 6.0,
-      children: chipWidgets,
-    );
+    return Wrap(spacing: 6.0, runSpacing: 6.0, children: chipWidgets);
   }
 }

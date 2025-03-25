@@ -29,7 +29,7 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     CalendarView.workWeek,
     CalendarView.timelineDay,
     CalendarView.timelineWeek,
-    CalendarView.timelineWorkWeek
+    CalendarView.timelineWorkWeek,
   ];
   List<TimeRegion> regions = <TimeRegion>[];
   late _DataSource events;
@@ -44,8 +44,9 @@ class _SpecialRegionsCalendarState extends SampleViewState {
 
   /// Adds the special time region for the Calendar.
   void _updateRegions() {
-    final DateTime date =
-        DateTime.now().add(Duration(days: -DateTime.now().weekday));
+    final DateTime date = DateTime.now().add(
+      Duration(days: -DateTime.now().weekday),
+    );
     regions.add(
       TimeRegion(
         startTime: DateTime(date.year, date.month, date.day),
@@ -138,13 +139,16 @@ class _SpecialRegionsCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFF0A8043));
 
     final Random random = Random();
-    final DateTime rangeStartDate =
-        DateTime.now().add(const Duration(days: -(365 ~/ 2)));
+    final DateTime rangeStartDate = DateTime.now().add(
+      const Duration(days: -(365 ~/ 2)),
+    );
     final DateTime rangeEndDate = DateTime.now().add(const Duration(days: 365));
     final List<Appointment> appointments = <Appointment>[];
-    for (DateTime i = rangeStartDate;
-        i.isBefore(rangeEndDate);
-        i = i.add(const Duration(days: 1))) {
+    for (
+      DateTime i = rangeStartDate;
+      i.isBefore(rangeEndDate);
+      i = i.add(const Duration(days: 1))
+    ) {
       final DateTime date = i;
       if (date.weekday == 6 || date.weekday == 7) {
         continue;
@@ -177,8 +181,9 @@ class _SpecialRegionsCalendarState extends SampleViewState {
               color: model.sampleOutputCardColor,
               child: Theme(
                 data: model.themeData.copyWith(
-                  colorScheme: model.themeData.colorScheme
-                      .copyWith(secondary: model.primaryColor),
+                  colorScheme: model.themeData.colorScheme.copyWith(
+                    secondary: model.primaryColor,
+                  ),
                 ),
                 child: _getSpecialRegionCalendar(
                   regions: regions,
@@ -193,7 +198,9 @@ class _SpecialRegionsCalendarState extends SampleViewState {
   }
 
   Widget _getSpecialRegionWidget(
-      BuildContext context, TimeRegionDetails details) {
+    BuildContext context,
+    TimeRegionDetails details,
+  ) {
     if (details.region.text == 'Lunch') {
       return Container(
         color: details.region.color,
@@ -207,18 +214,17 @@ class _SpecialRegionsCalendarState extends SampleViewState {
       return Container(
         color: details.region.color,
         alignment: Alignment.center,
-        child: Icon(
-          Icons.block,
-          color: Colors.grey.withValues(alpha: 0.5),
-        ),
+        child: Icon(Icons.block, color: Colors.grey.withValues(alpha: 0.5)),
       );
     }
     return Container(color: details.region.color);
   }
 
   /// Return the Calendar widget based on the properties passed.
-  SfCalendar _getSpecialRegionCalendar(
-      {List<TimeRegion>? regions, _DataSource? dataSource}) {
+  SfCalendar _getSpecialRegionCalendar({
+    List<TimeRegion>? regions,
+    _DataSource? dataSource,
+  }) {
     return SfCalendar(
       showNavigationArrow: model.isWebFullView,
       controller: calendarController,

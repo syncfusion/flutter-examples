@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 ///Local imports
 import '../../../model/sample_view.dart';
 import '../../common/export/save_file_mobile.dart'
-    if (dart.library.html) '../../common/export/save_file_web.dart';
+    if (dart.library.js_interop) '../../common/export/save_file_web.dart';
 
 ///Renders box whisker chart sample
 class AutoFilterXlsIO extends SampleView {
@@ -28,14 +28,15 @@ class _AutoFilterXlsIOState extends SampleViewState {
   void initState() {
     _selectMode = 'Text filter';
 
-    _modeType = <String>[
-      'Text filter',
-      'Custom filter',
-      'Date filter',
-      'Dynamic filter',
-      'Font color filter',
-      'Cell color filter'
-    ].toList();
+    _modeType =
+        <String>[
+          'Text filter',
+          'Custom filter',
+          'Date filter',
+          'Dynamic filter',
+          'Font color filter',
+          'Cell color filter',
+        ].toList();
     super.initState();
   }
 
@@ -55,52 +56,77 @@ class _AutoFilterXlsIOState extends SampleViewState {
           crossAxisAlignment: material.CrossAxisAlignment.start,
           children: <material.Widget>[
             material.Text(
-                'This feature allows filtering data to display only rows that meet criteria specified by the user and hide rows that do not. Syncfusion Flutter Excel creation library supports different filter types such as text, number, date, color, and custom.\r\n',
-                style:
-                    material.TextStyle(fontSize: 16, color: model.textColor)),
-            material.Row(children: <material.Widget>[
-              material.Text('Select the filter type ',
+              'This feature allows filtering data to display only rows that meet criteria specified by the user and hide rows that do not. Syncfusion Flutter Excel creation library supports different filter types such as text, number, date, color, and custom.\r\n',
+              style: material.TextStyle(fontSize: 16, color: model.textColor),
+            ),
+            material.Row(
+              children: <material.Widget>[
+                material.Text(
+                  'Select the filter type ',
                   style: material.TextStyle(
-                      fontSize: 16.0, color: model.textColor)),
-              material.Container(
-                padding: const material.EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: material.DropdownButton<String>(
+                    fontSize: 16.0,
+                    color: model.textColor,
+                  ),
+                ),
+                material.Container(
+                  padding: const material.EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: material.DropdownButton<String>(
                     dropdownColor: model.drawerBackgroundColor,
                     focusColor: material.Colors.transparent,
                     underline: material.Container(
-                        color: const material.Color(0xFFBDBDBD), height: 1),
+                      color: const material.Color(0xFFBDBDBD),
+                      height: 1,
+                    ),
                     value: _selectMode,
-                    items: _modeType!.map((String value) {
-                      return material.DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'Text filter',
-                          child: material.Padding(
+                    items:
+                        _modeType!.map((String value) {
+                          return material.DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'Text filter',
+                            child: material.Padding(
                               padding: const material.EdgeInsets.only(
-                                  left: 5, right: 5),
-                              child: material.Text(value,
-                                  style: material.TextStyle(
-                                      color: model.textColor))));
-                    }).toList(),
+                                left: 5,
+                                right: 5,
+                              ),
+                              child: material.Text(
+                                value,
+                                style: material.TextStyle(
+                                  color: model.textColor,
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (String? value) {
                       _onModeChange(value.toString());
-                    }),
-              )
-            ]),
+                    },
+                  ),
+                ),
+              ],
+            ),
             material.Align(
-                child: material.TextButton(
-              style: material.ButtonStyle(
-                backgroundColor:
-                    material.WidgetStateProperty.all<material.Color>(
-                        model.primaryColor),
-                padding: model.isMobile
-                    ? null
-                    : material.WidgetStateProperty.all(
-                        const material.EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 15)),
+              child: material.TextButton(
+                style: material.ButtonStyle(
+                  backgroundColor: material
+                      .WidgetStateProperty.all<material.Color>(
+                    model.primaryColor,
+                  ),
+                  padding:
+                      model.isMobile
+                          ? null
+                          : material.WidgetStateProperty.all(
+                            const material.EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
+                            ),
+                          ),
+                ),
+                onPressed: _generateExcel,
+                child: const material.Text(
+                  'Generate Excel',
+                  style: material.TextStyle(color: material.Colors.white),
+                ),
               ),
-              onPressed: _generateExcel,
-              child: const material.Text('Generate Excel',
-                  style: material.TextStyle(color: material.Colors.white)),
-            ))
+            ),
           ],
         ),
       ),

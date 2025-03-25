@@ -32,13 +32,14 @@ class _VerticalDividerCustomizedRangeSliderState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-          inactiveTrackColor: _inactiveColor.withValues(alpha: 0.5),
-          activeTrackColor: _activeColor,
-          thumbColor: _activeColor,
-          inactiveDividerColor: const Color.fromARGB(255, 194, 194, 194),
-          activeDividerColor: Colors.blue,
-          overlayColor: _activeColor.withValues(alpha: 0.12),
-          tooltipBackgroundColor: _activeColor),
+        inactiveTrackColor: _inactiveColor.withValues(alpha: 0.5),
+        activeTrackColor: _activeColor,
+        thumbColor: _activeColor,
+        inactiveDividerColor: const Color.fromARGB(255, 194, 194, 194),
+        activeDividerColor: Colors.blue,
+        overlayColor: _activeColor.withValues(alpha: 0.12),
+        tooltipBackgroundColor: _activeColor,
+      ),
       child: SfRangeSlider.vertical(
         max: 100.0,
         values: _values,
@@ -63,26 +64,33 @@ class _DividerShape extends SfDividerShape {
   SampleModel model;
 
   @override
-  void paint(PaintingContext context, Offset center, Offset? thumbCenter,
-      Offset? startThumbCenter, Offset? endThumbCenter,
-      {RenderBox? parentBox,
-      SfSliderThemeData? themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      Paint? paint,
-      Animation<double>? enableAnimation,
-      TextDirection? textDirection}) {
+  void paint(
+    PaintingContext context,
+    Offset center,
+    Offset? thumbCenter,
+    Offset? startThumbCenter,
+    Offset? endThumbCenter, {
+    RenderBox? parentBox,
+    SfSliderThemeData? themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    Paint? paint,
+    Animation<double>? enableAnimation,
+    TextDirection? textDirection,
+  }) {
     bool isActive;
     isActive =
         center.dy <= startThumbCenter!.dy && center.dy >= endThumbCenter!.dy;
 
     context.canvas.drawRect(
-        Rect.fromCenter(center: center, width: 10.0, height: 5.0),
-        Paint()
-          ..isAntiAlias = true
-          ..style = PaintingStyle.fill
-          ..color = isActive
-              ? themeData!.activeDividerColor!
-              : model.themeData.canvasColor);
+      Rect.fromCenter(center: center, width: 10.0, height: 5.0),
+      Paint()
+        ..isAntiAlias = true
+        ..style = PaintingStyle.fill
+        ..color =
+            isActive
+                ? themeData!.activeDividerColor!
+                : model.themeData.canvasColor,
+    );
   }
 }

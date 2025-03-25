@@ -378,11 +378,7 @@ class _DefaultPanningState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        _buildDefaultPanningChart(),
-      ],
-    );
+    return Stack(children: <Widget>[_buildDefaultPanningChart()]);
   }
 
   @override
@@ -405,10 +401,7 @@ class _DefaultPanningState extends SampleViewState {
       children: <Widget>[
         Text(
           'Zoom mode ',
-          style: TextStyle(
-            color: model.textColor,
-            fontSize: 16,
-          ),
+          style: TextStyle(color: model.textColor, fontSize: 16),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(70, 0, 40, 0),
@@ -416,22 +409,18 @@ class _DefaultPanningState extends SampleViewState {
           child: DropdownButton<String>(
             dropdownColor: model.drawerBackgroundColor,
             focusColor: Colors.transparent,
-            underline: Container(
-              color: const Color(0xFFBDBDBD),
-              height: 1,
-            ),
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedModeType,
-            items: _zoomModeTypeList.map(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: (value != null) ? value : 'x',
-                  child: Text(
-                    value,
-                    style: TextStyle(color: model.textColor),
-                  ),
-                );
-              },
-            ).toList(),
+            items:
+                _zoomModeTypeList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'x',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (String? value) {
               _updateZoomMode(value.toString());
               stateSetter(() {});
@@ -449,10 +438,7 @@ class _DefaultPanningState extends SampleViewState {
         children: <Widget>[
           Text(
             'Anchor range to \nvisible points',
-            style: TextStyle(
-              color: model.textColor,
-              fontSize: 16,
-            ),
+            style: TextStyle(color: model.textColor, fontSize: 16),
           ),
           SizedBox(
             width: 90,
@@ -505,7 +491,7 @@ class _DefaultPanningState extends SampleViewState {
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
         gradient: _gradient,
-      )
+      ),
     ];
   }
 

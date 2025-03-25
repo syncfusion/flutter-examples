@@ -30,27 +30,27 @@ class _RadialGaugeDefaultState extends SampleViewState {
       enableLoadingAnimation: true,
       axes: <RadialAxis>[
         RadialAxis(
-            interval: 10,
-            axisLineStyle: const AxisLineStyle(
-              thickness: 0.03,
-              thicknessUnit: GaugeSizeUnit.factor,
+          interval: 10,
+          axisLineStyle: const AxisLineStyle(
+            thickness: 0.03,
+            thicknessUnit: GaugeSizeUnit.factor,
+          ),
+          showTicks: false,
+          showLastLabel: true,
+          axisLabelStyle: GaugeTextStyle(fontSize: isCardView ? 12 : 14),
+          labelOffset: 25,
+          radiusFactor: model.isWebFullView ? 0.8 : 0.95,
+          pointers: <GaugePointer>[
+            NeedlePointer(
+              needleLength: 0.7,
+              value: 70,
+              needleColor: _needleColor,
+              needleStartWidth: 0,
+              needleEndWidth: isCardView ? 3 : 4,
+              knobStyle: KnobStyle(color: _needleColor, knobRadius: 0.05),
             ),
-            showTicks: false,
-            showLastLabel: true,
-            axisLabelStyle: GaugeTextStyle(
-              fontSize: isCardView ? 12 : 14,
-            ),
-            labelOffset: 25,
-            radiusFactor: model.isWebFullView ? 0.8 : 0.95,
-            pointers: <GaugePointer>[
-              NeedlePointer(
-                  needleLength: 0.7,
-                  value: 70,
-                  needleColor: _needleColor,
-                  needleStartWidth: 0,
-                  needleEndWidth: isCardView ? 3 : 4,
-                  knobStyle: KnobStyle(color: _needleColor, knobRadius: 0.05)),
-            ])
+          ],
+        ),
       ],
     );
   }

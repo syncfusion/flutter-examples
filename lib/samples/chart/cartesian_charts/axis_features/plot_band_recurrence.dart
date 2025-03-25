@@ -62,10 +62,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 children: <Widget>[
                   Text(
                     'X Axis',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: model.textColor, fontSize: 16),
                   ),
                   SizedBox(
                     width: 90,
@@ -88,10 +85,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
                 children: <Widget>[
                   Text(
                     'Y Axis',
-                    style: TextStyle(
-                      color: model.textColor,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: model.textColor, fontSize: 16),
                   ),
                   SizedBox(
                     width: 90,
@@ -119,9 +113,7 @@ class _PlotBandRecurrenceState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'World pollution report',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'World pollution report'),
       primaryXAxis: DateTimeAxis(
         interval: 5,
         dateFormat: DateFormat.y(),
@@ -142,9 +134,10 @@ class _PlotBandRecurrenceState extends SampleViewState {
             repeatUntil: DateTime(2010),
             start: DateTime(1965),
             end: DateTime(2010),
-            color: model.themeData.colorScheme.brightness == Brightness.light
-                ? const Color.fromRGBO(227, 228, 230, 1)
-                : const Color.fromRGBO(70, 70, 70, 1),
+            color:
+                model.themeData.colorScheme.brightness == Brightness.light
+                    ? const Color.fromRGBO(227, 228, 230, 1)
+                    : const Color.fromRGBO(70, 70, 70, 1),
           ),
         ],
       ),
@@ -163,18 +156,16 @@ class _PlotBandRecurrenceState extends SampleViewState {
             start: 0,
             end: 18000,
             repeatUntil: 18000,
-            color: model.themeData.colorScheme.brightness == Brightness.light
-                ? const Color.fromRGBO(227, 228, 230, 1)
-                : const Color.fromRGBO(70, 70, 70, 1),
+            color:
+                model.themeData.colorScheme.brightness == Brightness.light
+                    ? const Color.fromRGBO(227, 228, 230, 1)
+                    : const Color.fromRGBO(70, 70, 70, 1),
           ),
         ],
         majorGridLines: const MajorGridLines(color: Colors.grey),
         majorTickLines: const MajorTickLines(size: 0),
         axisLine: const AxisLine(width: 0),
-        labelStyle: const TextStyle(
-          fontSize: 0,
-          color: Colors.transparent,
-        ),
+        labelStyle: const TextStyle(fontSize: 0, color: Colors.transparent),
       ),
       series: _buildColumnSeries(),
       legend: Legend(isVisible: !isCardView),
