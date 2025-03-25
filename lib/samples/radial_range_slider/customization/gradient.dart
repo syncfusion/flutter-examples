@@ -30,11 +30,14 @@ class _RadialRangeSliderGradientState extends SampleViewState {
       _annotationFontSize = model.isWebFullView ? 25 : 15;
     }
     return Center(
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             radiusFactor: 0.85,
             axisLineStyle: const AxisLineStyle(
-                thickness: 0, thicknessUnit: GaugeSizeUnit.factor),
+              thickness: 0,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             tickOffset: 0.20,
             labelOffset: 0.10,
             offsetUnit: GaugeSizeUnit.factor,
@@ -45,66 +48,75 @@ class _RadialRangeSliderGradientState extends SampleViewState {
               args.text = celsiusValue.toStringAsFixed(1);
             },
             majorTickStyle: const MajorTickStyle(
-                length: 0.1, lengthUnit: GaugeSizeUnit.factor),
+              length: 0.1,
+              lengthUnit: GaugeSizeUnit.factor,
+            ),
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        '$_firstCelsiusAnnotationValue°C'
-                        ' to $_secondCelsiusAnnotationValue',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Times',
-                          // fontWeight: FontWeight.bold
-                        ),
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      '$_firstCelsiusAnnotationValue°C'
+                      ' to $_secondCelsiusAnnotationValue',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Times',
+                        // fontWeight: FontWeight.bold
                       ),
-                      const Text(
-                        '°C',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Times',
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
-                  ),
-                  positionFactor: 0.15,
-                  angle: 90)
-            ]),
-        RadialAxis(
+                    ),
+                    const Text(
+                      '°C',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Times',
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                positionFactor: 0.15,
+                angle: 90,
+              ),
+            ],
+          ),
+          RadialAxis(
             axisLineStyle: const AxisLineStyle(
-                thickness: 0.05, thicknessUnit: GaugeSizeUnit.factor),
+              thickness: 0.05,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             showTicks: false,
             labelOffset: 20,
             ranges: <GaugeRange>[
               GaugeRange(
-                  endValue: _secondMarkerValue,
-                  startValue: _firstMarkerValue,
-                  sizeUnit: GaugeSizeUnit.factor,
-                  gradient: const SweepGradient(colors: <Color>[
+                endValue: _secondMarkerValue,
+                startValue: _firstMarkerValue,
+                sizeUnit: GaugeSizeUnit.factor,
+                gradient: const SweepGradient(
+                  colors: <Color>[
                     Color.fromRGBO(115, 67, 189, 1),
-                    Color.fromRGBO(202, 94, 230, 1)
-                  ], stops: <double>[
-                    0.5,
-                    1
-                  ]),
-                  endWidth: 0.05,
-                  startWidth: 0.05)
+                    Color.fromRGBO(202, 94, 230, 1),
+                  ],
+                  stops: <double>[0.5, 1],
+                ),
+                endWidth: 0.05,
+                startWidth: 0.05,
+              ),
             ],
             pointers: <GaugePointer>[
               MarkerPointer(
                 value: _firstMarkerValue,
                 elevation: 5,
                 overlayColor: const Color.fromRGBO(202, 94, 230, 0.125),
-                color: model.themeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
+                color:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                 borderWidth: 7,
-                borderColor: model.themeData.brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                borderColor:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
                 markerType: MarkerType.circle,
@@ -115,13 +127,15 @@ class _RadialRangeSliderGradientState extends SampleViewState {
               MarkerPointer(
                 value: _secondMarkerValue,
                 elevation: 5,
-                color: model.themeData.brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
+                color:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                 borderWidth: 7,
-                borderColor: model.themeData.brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                borderColor:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                 markerHeight: _firstMarkerSize,
                 overlayColor: const Color.fromRGBO(202, 94, 230, 0.125),
                 markerWidth: _firstMarkerSize,
@@ -133,30 +147,33 @@ class _RadialRangeSliderGradientState extends SampleViewState {
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        '$_firstAnnotationValue°F to $_secondAnnotationValue',
-                        style: TextStyle(
-                            fontSize: _annotationFontSize,
-                            fontFamily: 'Times',
-                            fontWeight: FontWeight.bold),
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      '$_firstAnnotationValue°F to $_secondAnnotationValue',
+                      style: TextStyle(
+                        fontSize: _annotationFontSize,
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text(
-                        '°F',
-                        style: TextStyle(
-                          fontSize: _annotationFontSize,
-                          fontFamily: 'Times',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
-                  ),
-                  positionFactor: 0.05,
-                  angle: 0)
-            ])
-      ]),
+                    ),
+                    Text(
+                      '°F',
+                      style: TextStyle(
+                        fontSize: _annotationFontSize,
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                angle: 0,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

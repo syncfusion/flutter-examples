@@ -1,59 +1,31 @@
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local import
+/// Local import.
 import '../../../../model/sample_view.dart';
 
-/// Renders the steparea chart sample.
+/// Renders the step area series chart sample.
 class StepArea extends SampleView {
-  /// Creates the steparea chart sample.
+  /// Creates the step area series chart sample.
   const StepArea(Key key) : super(key: key);
 
   @override
   _StepAreaState createState() => _StepAreaState();
 }
 
-/// State clas of the step area chart.
+/// State class for the step area series chart.
 class _StepAreaState extends SampleViewState {
   _StepAreaState();
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(
-            bottom: model.isWebFullView || !isCardView ? 0 : 60),
-        child: _buildStepAreaChart());
-  }
-
-  /// Returns the cartesian step area chart.
-  SfCartesianChart _buildStepAreaChart() {
-    final ThemeData themeData = model.themeData;
-    return SfCartesianChart(
-      legend: const Legend(isVisible: true),
-      title: const ChartTitle(text: 'Temperature variation of Paris'),
-      plotAreaBorderWidth: 0,
-      primaryXAxis: const DateTimeAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          edgeLabelPlacement: EdgeLabelPlacement.shift),
-      primaryYAxis: const NumericAxis(
-          labelFormat: '{value}°C',
-          interval: 2,
-          maximum: 16,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getStepAreaSeries(
-          themeData.useMaterial3, themeData.brightness == Brightness.light),
-      tooltipBehavior: TooltipBehavior(enable: true),
-    );
-  }
-
   List<_StepAreaData>? chartData;
+  TooltipBehavior? _tooltipBehavior;
 
   @override
   void initState() {
+    _tooltipBehavior = TooltipBehavior(enable: true);
     chartData = <_StepAreaData>[
       _StepAreaData(DateTime(2019, 3), 12, 9),
       _StepAreaData(DateTime(2019, 3, 2), 13, 7),
@@ -77,37 +49,76 @@ class _StepAreaState extends SampleViewState {
     super.initState();
   }
 
-  /// Returns the list of chart series
-  /// which need to render on teh step area chart.
-  List<CartesianSeries<_StepAreaData, DateTime>> _getStepAreaSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color seriesColor1 = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(6, 174, 224, 1)
-            : const Color.fromRGBO(255, 245, 0, 1))
-        : const Color.fromRGBO(75, 135, 185, 1);
-    final Color seriesColor2 = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(99, 85, 199, 1)
-            : const Color.fromRGBO(51, 182, 119, 1))
-        : const Color.fromRGBO(192, 108, 132, 1);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: model.isWebFullView || !isCardView ? 0 : 60,
+      ),
+      child: _buildStepAreaChart(),
+    );
+  }
+
+  /// Returns the cartesian step area chart.
+  SfCartesianChart _buildStepAreaChart() {
+    final ThemeData themeData = model.themeData;
+    return SfCartesianChart(
+      legend: const Legend(isVisible: true),
+      title: const ChartTitle(text: 'Temperature variation of Paris'),
+      plotAreaBorderWidth: 0,
+      primaryXAxis: const DateTimeAxis(
+        majorGridLines: MajorGridLines(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+      ),
+      primaryYAxis: const NumericAxis(
+        labelFormat: '{value}°C',
+        interval: 2,
+        maximum: 16,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildStepAreaSeries(
+        themeData.useMaterial3,
+        themeData.brightness == Brightness.light,
+      ),
+      tooltipBehavior: _tooltipBehavior,
+    );
+  }
+
+  /// Returns the list of cartesian step area series.
+  List<CartesianSeries<_StepAreaData, DateTime>> _buildStepAreaSeries(
+    bool isMaterial3,
+    bool isLightMode,
+  ) {
+    final Color seriesColor1 =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(6, 174, 224, 1)
+                : const Color.fromRGBO(255, 245, 0, 1))
+            : const Color.fromRGBO(75, 135, 185, 1);
+    final Color seriesColor2 =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(99, 85, 199, 1)
+                : const Color.fromRGBO(51, 182, 119, 1))
+            : const Color.fromRGBO(192, 108, 132, 1);
     return <CartesianSeries<_StepAreaData, DateTime>>[
       StepAreaSeries<_StepAreaData, DateTime>(
         dataSource: chartData,
-        color: seriesColor1.withOpacity(0.6),
+        xValueMapper: (_StepAreaData data, int index) => data.x,
+        yValueMapper: (_StepAreaData data, int index) => data.high,
+        color: seriesColor1.withValues(alpha: 0.6),
         borderColor: seriesColor1,
         name: 'High',
-        xValueMapper: (_StepAreaData sales, _) => sales.x,
-        yValueMapper: (_StepAreaData sales, _) => sales.high,
       ),
       StepAreaSeries<_StepAreaData, DateTime>(
         dataSource: chartData,
+        xValueMapper: (_StepAreaData data, int index) => data.x,
+        yValueMapper: (_StepAreaData data, int index) => data.low,
+        color: seriesColor2.withValues(alpha: 0.6),
         borderColor: seriesColor2,
-        color: seriesColor2.withOpacity(0.6),
         name: 'Low',
-        xValueMapper: (_StepAreaData sales, _) => sales.x,
-        yValueMapper: (_StepAreaData sales, _) => sales.low,
-      )
+      ),
     ];
   }
 

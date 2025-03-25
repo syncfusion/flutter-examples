@@ -32,37 +32,70 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
     // [name] is the flat level grouping key.
     _topOnlineMarketPlaces = <_MarketPlace>[
       const _MarketPlace(
-          country: 'USA', name: 'Amazon', visitorsInBillions: 5.7),
+        country: 'USA',
+        name: 'Amazon',
+        visitorsInBillions: 5.7,
+      ),
       const _MarketPlace(
-          country: 'Japan', name: 'PayPay Mall', visitorsInBillions: 2.1),
+        country: 'Japan',
+        name: 'PayPay Mall',
+        visitorsInBillions: 2.1,
+      ),
       const _MarketPlace(country: 'USA', name: 'eBay', visitorsInBillions: 1.6),
       const _MarketPlace(
-          country: 'Argentina',
-          name: 'Mercado Libre',
-          visitorsInBillions: 0.6617),
+        country: 'Argentina',
+        name: 'Mercado Libre',
+        visitorsInBillions: 0.6617,
+      ),
       const _MarketPlace(
-          country: 'China', name: 'AliExpress', visitorsInBillions: 0.6391),
+        country: 'China',
+        name: 'AliExpress',
+        visitorsInBillions: 0.6391,
+      ),
       const _MarketPlace(
-          country: 'Japan', name: 'Rakuten', visitorsInBillions: 0.6215),
+        country: 'Japan',
+        name: 'Rakuten',
+        visitorsInBillions: 0.6215,
+      ),
       const _MarketPlace(
-          country: 'China', name: 'Taobao', visitorsInBillions: 0.5452),
+        country: 'China',
+        name: 'Taobao',
+        visitorsInBillions: 0.5452,
+      ),
       const _MarketPlace(
-          country: 'USA', name: 'Walmart.com', visitorsInBillions: 0.469),
+        country: 'USA',
+        name: 'Walmart.com',
+        visitorsInBillions: 0.469,
+      ),
       const _MarketPlace(
-          country: 'China', name: 'JD.com', visitorsInBillions: 0.3182),
+        country: 'China',
+        name: 'JD.com',
+        visitorsInBillions: 0.3182,
+      ),
       const _MarketPlace(
-          country: 'USA', name: 'Etsy', visitorsInBillions: 0.2663),
+        country: 'USA',
+        name: 'Etsy',
+        visitorsInBillions: 0.2663,
+      ),
     ];
 
     _colorMappers = <TreemapColorMapper>[
       const TreemapColorMapper.value(
-          value: 'USA', color: Color.fromRGBO(71, 94, 209, 1.0)),
+        value: 'USA',
+        color: Color.fromRGBO(71, 94, 209, 1.0),
+      ),
       const TreemapColorMapper.value(
-          value: 'Japan', color: Color.fromRGBO(236, 105, 85, 1.0)),
+        value: 'Japan',
+        color: Color.fromRGBO(236, 105, 85, 1.0),
+      ),
       const TreemapColorMapper.value(
-          value: 'Argentina', color: Color.fromRGBO(78, 198, 125, 1.0)),
+        value: 'Argentina',
+        color: Color.fromRGBO(78, 198, 125, 1.0),
+      ),
       const TreemapColorMapper.value(
-          value: 'China', color: Color.fromRGBO(240, 140, 86, 1.0)),
+        value: 'China',
+        color: Color.fromRGBO(240, 140, 86, 1.0),
+      ),
     ];
 
     super.initState();
@@ -79,64 +112,71 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     _isLightTheme = themeData.colorScheme.brightness == Brightness.light;
-    isDesktop = kIsWeb ||
+    isDesktop =
+        kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
 
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Size size = Size(constraints.maxWidth, constraints.maxHeight);
-      return Center(
-        child: Padding(
-          padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                  isDesktop
-              ? const EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5)
-              : const EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                'Top 10 Online Marketplaces',
-                style: Theme.of(context).textTheme.titleMedium,
-                textAlign: TextAlign.center,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: SfTreemap(
-                    // The number of data in your data source collection.
-                    //
-                    // The callback for the [weightValueMapper] and
-                    // [TreemapLevel.groupMapper] will be called
-                    // the number of times equal to the [dataCount].
-                    dataCount: _topOnlineMarketPlaces.length,
-                    // The value returned in the callback will specify the
-                    // weight of each tile.
-                    weightValueMapper: (int index) {
-                      return _topOnlineMarketPlaces[index].visitorsInBillions;
-                    },
-                    tooltipSettings: TreemapTooltipSettings(
-                      color: _isLightTheme
-                          ? const Color.fromRGBO(45, 45, 45, 1)
-                          : const Color.fromRGBO(242, 242, 242, 1),
-                    ),
-                    levels: _getTreemapLevels(themeData),
-                    colorMappers: _colorMappers,
-                    legend: TreemapLegend.bar(
-                      position: TreemapLegendPosition.bottom,
-                      segmentSize: isDesktop
-                          ? const Size(80.0, 12.0)
-                          : Size(
-                              (size.width * 0.80) / _colorMappers.length, 12.0),
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Size size = Size(constraints.maxWidth, constraints.maxHeight);
+        return Center(
+          child: Padding(
+            padding:
+                MediaQuery.of(context).orientation == Orientation.portrait ||
+                        isDesktop
+                    ? const EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5)
+                    : const EdgeInsets.all(10.0),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Top 10 Online Marketplaces',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: SfTreemap(
+                      // The number of data in your data source collection.
+                      //
+                      // The callback for the [weightValueMapper] and
+                      // [TreemapLevel.groupMapper] will be called
+                      // the number of times equal to the [dataCount].
+                      dataCount: _topOnlineMarketPlaces.length,
+                      // The value returned in the callback will specify the
+                      // weight of each tile.
+                      weightValueMapper: (int index) {
+                        return _topOnlineMarketPlaces[index].visitorsInBillions;
+                      },
+                      tooltipSettings: TreemapTooltipSettings(
+                        color:
+                            _isLightTheme
+                                ? const Color.fromRGBO(45, 45, 45, 1)
+                                : const Color.fromRGBO(242, 242, 242, 1),
+                      ),
+                      levels: _getTreemapLevels(themeData),
+                      colorMappers: _colorMappers,
+                      legend: TreemapLegend.bar(
+                        position: TreemapLegendPosition.bottom,
+                        segmentSize:
+                            isDesktop
+                                ? const Size(80.0, 12.0)
+                                : Size(
+                                  (size.width * 0.80) / _colorMappers.length,
+                                  12.0,
+                                ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   List<TreemapLevel> _getTreemapLevels(ThemeData themeData) {
@@ -158,8 +198,9 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
         },
         // Returns a widget for each tile's data label.
         labelBuilder: (BuildContext context, TreemapTile tile) {
-          final Brightness brightness =
-              ThemeData.estimateBrightnessForColor(tile.color);
+          final Brightness brightness = ThemeData.estimateBrightnessForColor(
+            tile.color,
+          );
           final Color color =
               brightness == Brightness.dark ? Colors.white : Colors.black;
           return Padding(
@@ -168,8 +209,9 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
               tile.group,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  color: color,
-                  fontSize: Theme.of(context).textTheme.bodySmall!.fontSize),
+                color: color,
+                fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+              ),
             ),
           );
         },
@@ -183,17 +225,20 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
                     'Country : ${_topOnlineMarketPlaces[tile.indices[0]].country}',
                 style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
-                  color: _isLightTheme
-                      ? const Color.fromRGBO(255, 255, 255, 1)
-                      : const Color.fromRGBO(10, 10, 10, 1),
+                  color:
+                      _isLightTheme
+                          ? const Color.fromRGBO(255, 255, 255, 1)
+                          : const Color.fromRGBO(10, 10, 10, 1),
                 ),
                 children: <TextSpan>[
                   TextSpan(
                     text: '\nVisitors : ${tile.weight}B',
                     style: themeData.textTheme.bodySmall!.copyWith(
-                        color: _isLightTheme
-                            ? const Color.fromRGBO(255, 255, 255, 1)
-                            : const Color.fromRGBO(10, 10, 10, 1)),
+                      color:
+                          _isLightTheme
+                              ? const Color.fromRGBO(255, 255, 255, 1)
+                              : const Color.fromRGBO(10, 10, 10, 1),
+                    ),
                   ),
                 ],
               ),

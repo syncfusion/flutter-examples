@@ -1,25 +1,25 @@
-///Dart imports
+/// Dart import.
 import 'dart:math';
 
-///Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-/// core import
+/// Core import.
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Smallest fare value
+/// Smallest fare value.
 const String _kBestPrice = r'$100.17';
 
-/// Widget of air fare calendar
+/// Widget of air fare Calendar.
 class AirFareCalendar extends SampleView {
-  /// Creates default air fare calendar
+  /// Creates default air fare Calendar.
   const AirFareCalendar(Key key) : super(key: key);
 
   @override
@@ -35,12 +35,12 @@ class _AirFareCalendarCalendarState extends SampleViewState {
   final List<int> _airlineId = <int>[1, 2, 3, 4];
   final List<String> _fares = <String>[];
   final DateTime _minDate = DateTime.now();
-
-  /// Global key used to maintain the state, when we change the parent of the
-  /// widget
-  final GlobalKey _globalKey = GlobalKey();
   late double _screenHeight;
   late Orientation _deviceOrientation;
+
+  /// Global key used to maintain the state, when we change the parent of the
+  /// widget.
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
@@ -87,7 +87,7 @@ class _AirFareCalendarCalendarState extends SampleViewState {
   }
 
   /// Returns color for the airplane data.
-  Color _getAirPlaneColor(int id) {
+  Color _addAirPlaneColor(int id) {
     if (id == 1) {
       return Colors.grey;
     } else if (id == 2) {
@@ -97,7 +97,7 @@ class _AirFareCalendarCalendarState extends SampleViewState {
     }
   }
 
-  /// Creates the air fare data with required information
+  /// Creates the air fare data with required information.
   void _addAirFareData() {
     _airFareDataCollection = <AirFare>[];
     for (int i = 0; i < 100; i++) {
@@ -108,13 +108,13 @@ class _AirFareCalendarCalendarState extends SampleViewState {
         id -= 1;
       }
       final String fare = _fares[i % _fares.length];
-      final Color color = _getAirPlaneColor(id);
-      _airFareDataCollection
-          .add(AirFare(fare, color, 'Airways ' + id.toString()));
+      final Color color = _addAirPlaneColor(id);
+      _airFareDataCollection.add(
+        AirFare(fare, color, 'Airways ' + id.toString()),
+      );
     }
   }
 
-  @override
   @override
   void didChangeDependencies() {
     _deviceOrientation = MediaQuery.of(context).orientation;
@@ -125,42 +125,51 @@ class _AirFareCalendarCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final Widget calendar = Theme(
-
-        /// The key set here to maintain the state,
-        ///  when we change the parent of the widget
-        key: _globalKey,
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child: _getAirFareCalendar());
+      /// The key set here to maintain the state,
+      /// when we change the parent of the widget.
+      key: _globalKey,
+      data: model.themeData.copyWith(
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
+      ),
+      child: _buildAirFareCalendar(),
+    );
 
     return Scaffold(
-      body:
-          Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-        Expanded(
-          child: (model.isWebFullView && _screenHeight < 800) ||
-                  _deviceOrientation == Orientation.landscape
-              ? Scrollbar(
-                  thumbVisibility: true,
-                  controller: _controller,
-                  child: ListView(
-                    controller: _controller,
-                    children: <Widget>[
-                      Container(
-                        color: model.sampleOutputCardColor,
-                        height: 600,
-                        child: calendar,
-                      )
-                    ],
-                  ))
-              : Container(color: model.sampleOutputCardColor, child: calendar),
-        )
-      ]),
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child:
+                (model.isWebFullView && _screenHeight < 800) ||
+                        _deviceOrientation == Orientation.landscape
+                    ? Scrollbar(
+                      thumbVisibility: true,
+                      controller: _controller,
+                      child: ListView(
+                        controller: _controller,
+                        children: <Widget>[
+                          Container(
+                            color: model.sampleOutputCardColor,
+                            height: 600,
+                            child: calendar,
+                          ),
+                        ],
+                      ),
+                    )
+                    : Container(
+                      color: model.sampleOutputCardColor,
+                      child: calendar,
+                    ),
+          ),
+        ],
+      ),
     );
   }
 
-  /// Returns the calendar widget based on the properties passed.
-  SfCalendar _getAirFareCalendar() {
+  /// Returns the Calendar widget based on the properties passed.
+  SfCalendar _buildAirFareCalendar() {
     return SfCalendar(
       showNavigationArrow: model.isWebFullView,
       view: CalendarView.month,
@@ -172,37 +181,43 @@ class _AirFareCalendarCalendarState extends SampleViewState {
 
   /// Returns the builder for month cell.
   Widget _monthCellBuilder(
-      BuildContext buildContext, MonthCellDetails details) {
+    BuildContext buildContext,
+    MonthCellDetails details,
+  ) {
     final Random random = Random();
     final bool isToday = isSameDate(details.date, DateTime.now());
     final AirFare airFare = _airFareDataCollection[random.nextInt(100)];
-    final Color defaultColor = model.themeData != null &&
-            model.themeData.colorScheme.brightness == Brightness.dark
-        ? Colors.white
-        : Colors.black54;
+    final Color defaultColor =
+        model.themeData != null &&
+                model.themeData.colorScheme.brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black54;
     final bool isBestPrice = airFare.fare == _kBestPrice;
     final bool isDisabledDate =
         details.date.isBefore(_minDate) && !isSameDate(details.date, _minDate);
     return Container(
       decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(width: 0.1, color: defaultColor),
-            left: BorderSide(width: 0.1, color: defaultColor),
-          ),
-          color: isDisabledDate
-              ? Colors.grey.withOpacity(0.1)
-              : isBestPrice
-                  ? Colors.yellow.withOpacity(0.2)
-                  : null),
+        border: Border(
+          top: BorderSide(width: 0.1, color: defaultColor),
+          left: BorderSide(width: 0.1, color: defaultColor),
+        ),
+        color:
+            isDisabledDate
+                ? Colors.grey.withValues(alpha: 0.1)
+                : isBestPrice
+                ? Colors.yellow.withValues(alpha: 0.2)
+                : null,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
-              mainAxisAlignment: model.isMobileResolution
-                  ? MainAxisAlignment.center
-                  : isBestPrice
+              mainAxisAlignment:
+                  model.isMobileResolution
+                      ? MainAxisAlignment.center
+                      : isBestPrice
                       ? MainAxisAlignment.spaceBetween
                       : MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,30 +225,34 @@ class _AirFareCalendarCalendarState extends SampleViewState {
                 Text(
                   details.date.day.toString(),
                   style: TextStyle(
-                      color: isToday
-                          ? model.primaryColor
-                          : isDisabledDate
-                              ? Colors.grey
-                              : null,
-                      fontWeight: isToday ? FontWeight.bold : null),
+                    color:
+                        isToday
+                            ? model.primaryColor
+                            : isDisabledDate
+                            ? Colors.grey
+                            : null,
+                    fontWeight: isToday ? FontWeight.bold : null,
+                  ),
                 ),
                 if (!model.isMobileResolution && airFare.fare == _kBestPrice)
                   Text(
                     'Best Price',
                     style: TextStyle(
-                        color: isDisabledDate ? Colors.grey : Colors.green),
+                      color: isDisabledDate ? Colors.grey : Colors.green,
+                    ),
                   )
                 else
-                  const Text('')
+                  const Text(''),
               ],
             ),
           ),
           Text(
             airFare.fare,
             style: TextStyle(
-                fontSize: model.isMobileResolution ? 12 : 15,
-                color: const Color.fromRGBO(42, 138, 148, 1),
-                fontWeight: FontWeight.bold),
+              fontSize: model.isMobileResolution ? 12 : 15,
+              color: const Color.fromRGBO(42, 138, 148, 1),
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -241,22 +260,21 @@ class _AirFareCalendarCalendarState extends SampleViewState {
               Transform.rotate(
                 angle: pi / 4,
                 child: Text(
-                  // '\u2708',
                   String.fromCharCode(Icons.airplanemode_active.codePoint),
                   style: TextStyle(
-                      color: airFare.color,
-                      fontFamily:
-                          Icons.airplanemode_active.fontFamily, //'Roboto',
-                      fontSize: !model.isMobileResolution ? 20 : 14),
+                    color: airFare.color,
+                    fontFamily: Icons.airplanemode_active.fontFamily,
+                    fontSize: !model.isMobileResolution ? 20 : 14,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
               if (!model.isMobileResolution)
                 Text(airFare.airline)
               else
-                const Text('')
+                const Text(''),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -265,15 +283,15 @@ class _AirFareCalendarCalendarState extends SampleViewState {
 
 /// Object to hold the air fare data.
 class AirFare {
-  /// Holds the data of air fares
+  /// Holds the data of air fares.
   const AirFare(this.fare, this.color, this.airline);
 
-  /// holds the string fare data
+  /// Holds the string fare data.
   final String fare;
 
-  /// Color of the fare
+  /// Color of the fare.
   final Color color;
 
-  /// Holds string of airline
+  /// Holds string of airline.
   final String airline;
 }

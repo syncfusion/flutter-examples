@@ -1,28 +1,29 @@
-/// Package import
+/// Dart import.
 import 'dart:async';
 import 'dart:ui' as ui;
 
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// WIdget to be rendered.
+/// Widget to be rendered.
 Widget? renderWidget;
 
-/// Render the default pie series.
+/// Renders the default pie series chart with image.
 class PieImageShader extends SampleView {
-  /// Creates the default pie series.
+  /// Creates the default pie series chart with image.
   const PieImageShader(Key key) : super(key: key);
 
   @override
   _PieImageShaderState createState() => _PieImageShaderState();
 }
 
-/// State class of pie series.
+/// State class for the pie series chart with image.
 class _PieImageShaderState extends SampleViewState {
   _PieImageShaderState();
 
@@ -31,52 +32,66 @@ class _PieImageShaderState extends SampleViewState {
   ui.Image? image3;
   ui.Image? image4;
 
+  @override
+  void initState() {
+    super.initState();
+    _fetchImage();
+  }
+
   // ignore: avoid_void_async
-  void getImage() async {
+  void _fetchImage() async {
     final Completer<ImageInfo> completer = Completer<ImageInfo>();
     const ImageProvider imageProvider = AssetImage('images/apple.png');
     imageProvider
         .resolve(ImageConfiguration.empty)
-        .addListener(ImageStreamListener((ImageInfo info, bool _) async {
-      completer.complete(info);
-      final ImageInfo imageInfo = await completer.future;
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) async {
+            completer.complete(info);
+            final ImageInfo imageInfo = await completer.future;
 
-      image1 = imageInfo.image;
-    }));
+            image1 = imageInfo.image;
+          }),
+        );
 
     final Completer<ImageInfo> completer1 = Completer<ImageInfo>();
     const ImageProvider imageProvider1 = AssetImage('images/orange.png');
     imageProvider1
         .resolve(ImageConfiguration.empty)
-        .addListener(ImageStreamListener((ImageInfo info, bool _) async {
-      completer1.complete(info);
-      final ImageInfo imageInfo1 = await completer1.future;
-      image2 = imageInfo1.image;
-    }));
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) async {
+            completer1.complete(info);
+            final ImageInfo imageInfo1 = await completer1.future;
+            image2 = imageInfo1.image;
+          }),
+        );
 
     final Completer<ImageInfo> completer2 = Completer<ImageInfo>();
     const ImageProvider imageProvider2 = AssetImage('images/pears.png');
     imageProvider2
         .resolve(ImageConfiguration.empty)
-        .addListener(ImageStreamListener((ImageInfo info, bool _) async {
-      completer2.complete(info);
-      final ImageInfo imageInfo2 = await completer2.future;
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) async {
+            completer2.complete(info);
+            final ImageInfo imageInfo2 = await completer2.future;
 
-      image3 = imageInfo2.image;
-    }));
+            image3 = imageInfo2.image;
+          }),
+        );
 
     final Completer<ImageInfo> completer3 = Completer<ImageInfo>();
     const ImageProvider imageProvider3 = AssetImage('images/other_fruits.png');
     imageProvider3
         .resolve(ImageConfiguration.empty)
-        .addListener(ImageStreamListener((ImageInfo info, bool _) async {
-      completer3.complete(info);
-      final ImageInfo imageInfo4 = await completer3.future;
-      image4 = imageInfo4.image;
-      if (mounted) {
-        setState(() {});
-      }
-    }));
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) async {
+            completer3.complete(info);
+            final ImageInfo imageInfo4 = await completer3.future;
+            image4 = imageInfo4.image;
+            if (mounted) {
+              setState(() {});
+            }
+          }),
+        );
   }
 
   @override
@@ -84,7 +99,8 @@ class _PieImageShaderState extends SampleViewState {
     if (image1 != null && image2 != null && image3 != null && image4 != null) {
       renderWidget = SfCircularChart(
         title: ChartTitle(
-            text: isCardView ? '' : 'Sales comparison of fruits in a shop'),
+          text: isCardView ? '' : 'Sales comparison of fruits in a shop',
+        ),
         legend: Legend(isVisible: isCardView ? false : true),
         series: <PieSeries<_ChartShaderData, String>>[
           PieSeries<_ChartShaderData, String>(
@@ -134,38 +150,52 @@ class _PieImageShaderState extends SampleViewState {
                 ),
               ),
             ],
-            xValueMapper: (_ChartShaderData data, _) => data.x,
-            strokeColor: model.themeData.brightness == Brightness.light
-                ? Colors.black.withOpacity(0.5)
-                : Colors.transparent,
+            xValueMapper: (_ChartShaderData data, int index) => data.x,
+            yValueMapper: (_ChartShaderData data, int index) => data.y,
+            strokeColor:
+                model.themeData.brightness == Brightness.light
+                    ? Colors.black.withValues(alpha: 0.5)
+                    : Colors.transparent,
             strokeWidth: 1.5,
+            explode: true,
             explodeAll: true,
             explodeOffset: '3%',
-            explode: true,
-            yValueMapper: (_ChartShaderData data, _) => data.y,
-            dataLabelMapper: (_ChartShaderData data, _) => data.text,
-            pointShaderMapper: (dynamic data, _, Color color, Rect rect) =>
-                data.shader,
-            dataLabelSettings: DataLabelSettings(
-                isVisible: true,
-                labelPosition: ChartDataLabelPosition.outside,
-                connectorLineSettings: ConnectorLineSettings(
-                  color: model.themeData.brightness == Brightness.light
-                      ? Colors.black.withOpacity(0.5)
-                      : Colors.white,
-                  width: 1.5,
-                  length: isCardView ? '10%' : '15%',
-                  type: ConnectorType.curve,
-                )),
             radius: isCardView ? '85%' : '63%',
+            dataLabelMapper: (_ChartShaderData data, int index) => data.text,
+            pointShaderMapper:
+                (dynamic data, int index, Color color, Rect rect) =>
+                    data.shader,
+            dataLabelSettings: DataLabelSettings(
+              isVisible: true,
+              labelPosition: ChartDataLabelPosition.outside,
+              connectorLineSettings: ConnectorLineSettings(
+                color:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.black.withValues(alpha: 0.5)
+                        : Colors.white,
+                width: 1.5,
+                length: isCardView ? '10%' : '15%',
+                type: ConnectorType.curve,
+              ),
+            ),
           ),
         ],
       );
     } else {
-      getImage();
+      _fetchImage();
       renderWidget = const Center(child: CircularProgressIndicator());
     }
     return renderWidget!;
+  }
+
+  @override
+  void dispose() {
+    image1 = null;
+    image2 = null;
+    image3 = null;
+    image4 = null;
+
+    super.dispose();
   }
 }
 

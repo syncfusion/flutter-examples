@@ -30,10 +30,13 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
       _annotationFontSize = model.isWebFullView ? 28 : 15;
     }
     return Center(
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             axisLineStyle: const AxisLineStyle(
-                thickness: 0.07, thicknessUnit: GaugeSizeUnit.factor),
+              thickness: 0.07,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             showTicks: false,
             labelOffset: 25,
             ranges: <GaugeRange>[
@@ -44,7 +47,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
                 color: _rangeColor,
                 endWidth: 0.07,
                 startWidth: 0.07,
-              )
+              ),
             ],
             pointers: <GaugePointer>[
               MarkerPointer(
@@ -55,7 +58,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
                 markerWidth: _firstMarkerSize,
                 borderColor: _rangeColor,
                 overlayRadius: 0,
-                overlayColor: _rangeColor.withOpacity(0.125),
+                overlayColor: _rangeColor.withValues(alpha: 0.125),
                 borderWidth: 8.5,
                 markerType: MarkerType.circle,
                 enableDragging: true,
@@ -71,7 +74,7 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
                 color: Colors.white,
                 borderColor: _rangeColor,
                 overlayRadius: 0,
-                overlayColor: _rangeColor.withOpacity(0.125),
+                overlayColor: _rangeColor.withValues(alpha: 0.125),
                 borderWidth: 8.5,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
@@ -93,10 +96,11 @@ class _RadialRangeSliderCustomTextState extends SampleViewState {
                     ),
                   ],
                 ),
-                positionFactor: 0.09,
-              )
-            ])
-      ]),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

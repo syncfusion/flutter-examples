@@ -62,7 +62,7 @@ class LocalizationSampleViewState<T extends LocalizationSampleView>
         const Locale('en', 'US'),
         const Locale('es', 'ES'),
         const Locale('fr', 'FR'),
-        const Locale('zh', 'CN')
+        const Locale('zh', 'CN'),
       ];
     } else {
       _supportedLocales = <Locale>[
@@ -80,75 +80,83 @@ class LocalizationSampleViewState<T extends LocalizationSampleView>
         model.isWebFullView ? 250 : MediaQuery.of(context).size.width;
     final double dropDownWidth = 0.6 * screenWidth;
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(
-        children: <Widget>[
-          Text(this is DirectionalitySampleViewState ? 'Language' : 'Locale',
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Row(
+          children: <Widget>[
+            Text(
+              this is DirectionalitySampleViewState ? 'Language' : 'Locale',
               softWrap: false,
-              style: TextStyle(
-                fontSize: 16,
-                color: model.textColor,
-              )),
-          Container(
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
+            Container(
               padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
               width: dropDownWidth,
               child: DropdownButton<Locale>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  focusColor: Colors.transparent,
-                  isExpanded: true,
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: model.locale,
-                  items: _supportedLocales.map((Locale value) {
-                    String localeString = value.toString();
-                    if (this is DirectionalitySampleViewState) {
-                      localeString =
-                          (localeString == 'ar_AE') ? 'Arabic' : 'English';
-                    } else {
-                      localeString = localeString.substring(0, 2) +
-                          '-' +
-                          localeString.substring(3, 5);
-                    }
+                dropdownColor: model.drawerBackgroundColor,
+                focusColor: Colors.transparent,
+                isExpanded: true,
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+                value: model.locale,
+                items:
+                    _supportedLocales.map((Locale value) {
+                      String localeString = value.toString();
+                      if (this is DirectionalitySampleViewState) {
+                        localeString =
+                            (localeString == 'ar_AE') ? 'Arabic' : 'English';
+                      } else {
+                        localeString =
+                            localeString.substring(0, 2) +
+                            '-' +
+                            localeString.substring(3, 5);
+                      }
 
-                    return DropdownMenuItem<Locale>(
+                      return DropdownMenuItem<Locale>(
                         value: value,
-                        child: Text(localeString,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (Locale? value) {
-                    if (model.locale != value) {
-                      setState(() {
-                        stateSetter(() {
-                          model.isInitialRender = false;
-                          model.locale = value;
-                          if (this is! DirectionalitySampleViewState) {
-                            if (model.locale == const Locale('ar', 'AE')) {
-                              model.textDirection = TextDirection.rtl;
-                            } else {
-                              model.textDirection = TextDirection.ltr;
-                            }
+                        child: Text(
+                          localeString,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                onChanged: (Locale? value) {
+                  if (model.locale != value) {
+                    setState(() {
+                      stateSetter(() {
+                        model.isInitialRender = false;
+                        model.locale = value;
+                        if (this is! DirectionalitySampleViewState) {
+                          if (model.locale == const Locale('ar', 'AE')) {
+                            model.textDirection = TextDirection.rtl;
+                          } else {
+                            model.textDirection = TextDirection.ltr;
                           }
-                        });
+                        }
                       });
-                    }
-                  })),
-        ],
-      );
-    });
+                    });
+                  }
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildDirectionalityWidget() {
     return Localizations(
-        locale: model.locale!,
-        delegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          SfGlobalLocalizations.delegate
-        ],
-        child: Directionality(
-            textDirection: model.textDirection,
-            child: buildSample(context) ?? Container()));
+      locale: model.locale!,
+      delegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        SfGlobalLocalizations.delegate,
+      ],
+      child: Directionality(
+        textDirection: model.textDirection,
+        child: buildSample(context) ?? Container(),
+      ),
+    );
   }
 
   /// Method to get the widget's color based on the widget state
@@ -211,68 +219,73 @@ class DirectionalitySampleViewState<T extends DirectionalitySampleView>
     closeAllOverlay();
     final double dropDownWidth = 0.6 * screenWidth;
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(
-        children: <Widget>[
-          Text('Rendering\nDirection',
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Row(
+          children: <Widget>[
+            Text(
+              'Rendering\nDirection',
               maxLines: 2,
               textAlign: TextAlign.left,
               softWrap: false,
-              style: TextStyle(
-                fontSize: 16,
-                color: model.textColor,
-              )),
-          Container(
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
+            Container(
               padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
               width: dropDownWidth,
               child: DropdownButton<TextDirection>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  focusColor: Colors.transparent,
-                  isExpanded: true,
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: model.textDirection,
-                  items: _supportedTextDirection.map((TextDirection value) {
-                    return DropdownMenuItem<TextDirection>(
+                dropdownColor: model.drawerBackgroundColor,
+                focusColor: Colors.transparent,
+                isExpanded: true,
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+                value: model.textDirection,
+                items:
+                    _supportedTextDirection.map((TextDirection value) {
+                      return DropdownMenuItem<TextDirection>(
                         value: value,
                         child: Text(
-                            value.toString().split('.')[1].toUpperCase(),
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (TextDirection? value) {
-                    if (model.textDirection != value) {
-                      setState(() {
-                        stateSetter(() {
-                          model.isInitialRender = false;
-                          model.textDirection = value!;
-                        });
+                          value.toString().split('.')[1].toUpperCase(),
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                onChanged: (TextDirection? value) {
+                  if (model.textDirection != value) {
+                    setState(() {
+                      stateSetter(() {
+                        model.isInitialRender = false;
+                        model.textDirection = value!;
                       });
-                    }
-                  })),
-        ],
-      );
-    });
+                    });
+                  }
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 
 ///Chart sample data
 class ChartSampleData {
   /// Holds the datapoint values like x, y, etc.,
-  ChartSampleData(
-      {this.x,
-      this.y,
-      this.xValue,
-      this.yValue,
-      this.secondSeriesYValue,
-      this.thirdSeriesYValue,
-      this.pointColor,
-      this.size,
-      this.text,
-      this.open,
-      this.close,
-      this.low,
-      this.high,
-      this.volume});
+  ChartSampleData({
+    this.x,
+    this.y,
+    this.xValue,
+    this.yValue,
+    this.secondSeriesYValue,
+    this.thirdSeriesYValue,
+    this.pointColor,
+    this.size,
+    this.text,
+    this.open,
+    this.close,
+    this.low,
+    this.high,
+    this.volume,
+  });
 
   /// Holds x value of the datapoint
   final dynamic x;
@@ -345,15 +358,19 @@ class ProgressBarColor {
 
   /// Get the pointer color based on the theme.
   Color? get pointerColor =>
-      model.themeData.useMaterial3 ? model.primaryColor.withOpacity(0.8) : null;
+      model.themeData.useMaterial3
+          ? model.primaryColor.withValues(alpha: 0.8)
+          : null;
 
   /// Get the axis line color based on the theme.
-  Color get axisLineColor => model.themeData.useMaterial3
-      ? model.primaryColor.withAlpha(30)
-      : const Color.fromARGB(30, 0, 169, 181);
+  Color get axisLineColor =>
+      model.themeData.useMaterial3
+          ? model.primaryColor.withAlpha(30)
+          : const Color.fromARGB(30, 0, 169, 181);
 
   /// Get the buffer color based on the theme.
-  Color get bufferColor => model.themeData.useMaterial3
-      ? model.primaryColor.withAlpha(90)
-      : const Color.fromARGB(90, 0, 169, 181);
+  Color get bufferColor =>
+      model.themeData.useMaterial3
+          ? model.primaryColor.withAlpha(90)
+          : const Color.fromARGB(90, 0, 169, 181);
 }

@@ -32,9 +32,13 @@ class _GroupingDataGridState extends SampleViewState {
     _isWebOrDesktop = model.isWeb || model.isDesktop;
     _columns = _obtainColumns();
     groupingDataGridSource = OrderInfoDataGridSource(
-        isWebOrDesktop: true, orderDataCount: 100, isGrouping: true);
-    groupingDataGridSource
-        .addColumnGroup(ColumnGroup(name: 'City', sortGroupRows: true));
+      isWebOrDesktop: true,
+      orderDataCount: 100,
+      isGrouping: true,
+    );
+    groupingDataGridSource.addColumnGroup(
+      ColumnGroup(name: 'City', sortGroupRows: true),
+    );
   }
 
   @override
@@ -54,91 +58,81 @@ class _GroupingDataGridState extends SampleViewState {
   List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
-          columnName: 'ID',
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 120.0
-              : double.nan,
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          label: Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
-                'Order ID',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'ID',
+        width:
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Order ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'CustomerId',
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: !_isWebOrDesktop
-              ? 120
-              : (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : 160,
-          label: Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
-                'Customer ID',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'CustomerId',
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width:
+            !_isWebOrDesktop
+                ? 120
+                : (_isWebOrDesktop && model.isMobileResolution)
+                ? 150.0
+                : 160,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Customer ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'Name',
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 120.0
-              : double.nan,
-          label: Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
-                'Name',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'Name',
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width:
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Name', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 120.0
-              : double.nan,
-          columnName: 'Freight',
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          label: Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
-                'Freight',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        width:
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        columnName: 'Freight',
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Freight', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 120.0
-              : double.nan,
-          columnName: 'City',
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          label: Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
-                'City',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        width:
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        columnName: 'City',
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('City', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'Price',
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 120.0
-              : double.nan,
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          label: Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
-                'Price',
-                overflow: TextOverflow.ellipsis,
-              )))
+        columnName: 'Price',
+        width:
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Price', overflow: TextOverflow.ellipsis),
+        ),
+      ),
     ];
   }
 }

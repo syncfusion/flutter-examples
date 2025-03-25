@@ -53,79 +53,68 @@ class _EditingDataGridState extends SampleViewState {
       navigationMode: GridNavigationMode.cell,
       selectionMode: SelectionMode.single,
       editingGestureType: _editingGestureType,
-      columnWidthMode: _isWebOrDesktop
-          ? (_isWebOrDesktop && model.isMobileResolution)
-              ? ColumnWidthMode.none
-              : ColumnWidthMode.fill
-          : _isLandscapeInMobileView
+      columnWidthMode:
+          _isWebOrDesktop
+              ? (_isWebOrDesktop && model.isMobileResolution)
+                  ? ColumnWidthMode.none
+                  : ColumnWidthMode.fill
+              : _isLandscapeInMobileView
               ? ColumnWidthMode.fill
               : ColumnWidthMode.none,
       columns: <GridColumn>[
         GridColumn(
-            columnName: 'Product No',
-            width: _isWebOrDesktop ? double.nan : 110,
-            label: Container(
-              padding: const EdgeInsets.all(8.0),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Product No',
-                overflow: TextOverflow.ellipsis,
-              ),
-            )),
+          columnName: 'Product No',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerRight,
+            child: const Text('Product No', overflow: TextOverflow.ellipsis),
+          ),
+        ),
         GridColumn(
-            columnName: 'Dealer Name',
-            width: _isWebOrDesktop ? double.nan : 110,
-            label: Container(
-              padding: const EdgeInsets.all(8.0),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'Dealer Name',
-                overflow: TextOverflow.ellipsis,
-              ),
-            )),
+          columnName: 'Dealer Name',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerLeft,
+            child: const Text('Dealer Name', overflow: TextOverflow.ellipsis),
+          ),
+        ),
         GridColumn(
-            columnName: 'Shipped Date',
-            width: _isWebOrDesktop ? double.nan : 110,
-            label: Container(
-              padding: const EdgeInsets.all(8.0),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Shipped Date',
-                overflow: TextOverflow.ellipsis,
-              ),
-            )),
+          columnName: 'Shipped Date',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerRight,
+            child: const Text('Shipped Date', overflow: TextOverflow.ellipsis),
+          ),
+        ),
         GridColumn(
-            columnName: 'Ship Country',
-            width: _isWebOrDesktop ? double.nan : 110,
-            label: Container(
-              padding: const EdgeInsets.all(8.0),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'Ship Country',
-                overflow: TextOverflow.ellipsis,
-              ),
-            )),
+          columnName: 'Ship Country',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerLeft,
+            child: const Text('Ship Country', overflow: TextOverflow.ellipsis),
+          ),
+        ),
         GridColumn(
-            columnName: 'Ship City',
-            width: _isWebOrDesktop ? double.nan : 110,
-            label: Container(
-              padding: const EdgeInsets.all(8.0),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'Ship City',
-                overflow: TextOverflow.ellipsis,
-              ),
-            )),
+          columnName: 'Ship City',
+          width: _isWebOrDesktop ? double.nan : 110,
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerLeft,
+            child: const Text('Ship City', overflow: TextOverflow.ellipsis),
+          ),
+        ),
         GridColumn(
-            columnName: 'Price',
-            label: Container(
-              padding: const EdgeInsets.all(8.0),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Price',
-                overflow: TextOverflow.ellipsis,
-              ),
-            )),
+          columnName: 'Price',
+          label: Container(
+            padding: const EdgeInsets.all(8.0),
+            alignment: Alignment.centerRight,
+            child: const Text('Price', overflow: TextOverflow.ellipsis),
+          ),
+        ),
       ],
     );
   }
@@ -133,8 +122,8 @@ class _EditingDataGridState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
@@ -147,36 +136,44 @@ class _EditingDataGridState extends SampleViewState {
             Theme(
               data: ThemeData(canvasColor: model.drawerBackgroundColor),
               child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  focusColor: Colors.transparent,
-                  value: _editingGestureType.toString().split('.')[1],
-                  items: <String>['tap', 'doubleTap'].map((String value) {
-                    return DropdownMenuItem<String>(
+                dropdownColor: model.drawerBackgroundColor,
+                focusColor: Colors.transparent,
+                value: _editingGestureType.toString().split('.')[1],
+                items:
+                    <String>['tap', 'doubleTap'].map((String value) {
+                      return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value,
-                            softWrap: false,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    if (value == 'tap') {
-                      _editingGestureType = EditingGestureType.tap;
-                    } else {
-                      _editingGestureType = EditingGestureType.doubleTap;
-                    }
-                    stateSetter(() {});
-                    setState(() {});
-                  }),
-            )
-          ]);
-    });
+                        child: Text(
+                          value,
+                          softWrap: false,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                onChanged: (dynamic value) {
+                  if (value == 'tap') {
+                    _editingGestureType = EditingGestureType.tap;
+                  } else {
+                    _editingGestureType = EditingGestureType.doubleTap;
+                  }
+                  stateSetter(() {});
+                  setState(() {});
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _editingDataGridSource.sampleModel = model;
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 

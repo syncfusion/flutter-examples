@@ -39,67 +39,73 @@ class _RadialSliderStateTypesState extends SampleViewState {
       child: SfRadialGauge(
         axes: <RadialAxis>[
           RadialAxis(
-              radiusFactor: 0.8,
-              axisLineStyle: AxisLineStyle(
-                  color:
-                      model.themeData.colorScheme.brightness == Brightness.light
-                          ? const Color.fromRGBO(191, 214, 245, 1)
-                          : const Color.fromRGBO(36, 58, 89, 1),
-                  thickness: model.isWebFullView ? 0.05 : 0.075,
-                  thicknessUnit: GaugeSizeUnit.factor),
-              showLabels: false,
-              showTicks: false,
-              startAngle: 270,
-              endAngle: 270,
-              pointers: <GaugePointer>[
-                RangePointer(
-                    width: model.isWebFullView ? 0.05 : 0.075,
-                    value: _value,
-                    cornerStyle: CornerStyle.bothCurve,
-                    color: _enableDragging
+            radiusFactor: 0.8,
+            axisLineStyle: AxisLineStyle(
+              color:
+                  model.themeData.colorScheme.brightness == Brightness.light
+                      ? const Color.fromRGBO(191, 214, 245, 1)
+                      : const Color.fromRGBO(36, 58, 89, 1),
+              thickness: model.isWebFullView ? 0.05 : 0.075,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
+            showLabels: false,
+            showTicks: false,
+            startAngle: 270,
+            endAngle: 270,
+            pointers: <GaugePointer>[
+              RangePointer(
+                width: model.isWebFullView ? 0.05 : 0.075,
+                value: _value,
+                cornerStyle: CornerStyle.bothCurve,
+                color:
+                    _enableDragging
                         ? const Color.fromRGBO(44, 117, 220, 1)
                         : const Color(0xFF888888),
-                    sizeUnit: GaugeSizeUnit.factor),
-                MarkerPointer(
-                  value: _value,
-                  onValueChanged: handlePointerValueChanged,
-                  onValueChangeEnd: handlePointerValueChanged,
-                  onValueChanging: handlePointerValueChanging,
-                  elevation: 5,
-                  enableDragging: _enableDragging,
-                  color: _enableDragging
-                      ? const Color.fromRGBO(44, 117, 220, 1)
-                      : const Color(0xFF888888),
-                  markerHeight: _firstMarkerSize,
-                  markerWidth: _firstMarkerSize,
-                  markerType: MarkerType.circle,
-                )
-              ],
-              annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                    widget: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          _annotationValue,
-                          style: TextStyle(
-                            fontSize: _annotationFontSize,
-                            // fontFamily: 'Times',
-                            // fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '%',
-                          style: TextStyle(
-                            fontSize: _annotationFontSize,
-                            // fontFamily: 'Times',
-                            // fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
+                sizeUnit: GaugeSizeUnit.factor,
+              ),
+              MarkerPointer(
+                value: _value,
+                onValueChanged: handlePointerValueChanged,
+                onValueChangeEnd: handlePointerValueChanged,
+                onValueChanging: handlePointerValueChanging,
+                elevation: 5,
+                enableDragging: _enableDragging,
+                color:
+                    _enableDragging
+                        ? const Color.fromRGBO(44, 117, 220, 1)
+                        : const Color(0xFF888888),
+                markerHeight: _firstMarkerSize,
+                markerWidth: _firstMarkerSize,
+                markerType: MarkerType.circle,
+              ),
+            ],
+            annotations: <GaugeAnnotation>[
+              GaugeAnnotation(
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      _annotationValue,
+                      style: TextStyle(
+                        fontSize: _annotationFontSize,
+                        // fontFamily: 'Times',
+                        // fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    angle: 90)
-              ])
+                    Text(
+                      '%',
+                      style: TextStyle(
+                        fontSize: _annotationFontSize,
+                        // fontFamily: 'Times',
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                angle: 90,
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -108,26 +114,30 @@ class _RadialSliderStateTypesState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(children: <Widget>[
-        Text('Enable drag', style: TextStyle(color: model.textColor)),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
-          child: Transform.scale(
-              scale: 0.8,
-              child: CupertinoSwitch(
-                activeColor: model.primaryColor,
-                value: _enableDragging,
-                onChanged: (bool value) {
-                  setState(() {
-                    _enableDragging = value;
-                    stateSetter(() {});
-                  });
-                },
-              )),
-        ),
-      ]);
-    });
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Row(
+          children: <Widget>[
+            Text('Enable drag', style: TextStyle(color: model.textColor)),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
+              child: Transform.scale(
+                scale: 0.8,
+                child: CupertinoSwitch(
+                  activeTrackColor: model.primaryColor,
+                  value: _enableDragging,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _enableDragging = value;
+                      stateSetter(() {});
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   /// Dragged pointer new value is updated to pointer and

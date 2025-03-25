@@ -31,13 +31,17 @@ class _FilteringDataGridState extends SampleViewState {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
     _orderInfoDataGridSource = OrderInfoDataGridSource(
-        isWebOrDesktop: true, orderDataCount: 100, isFilteringSample: true);
+      isWebOrDesktop: true,
+      orderDataCount: 100,
+      isFilteringSample: true,
+    );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -50,9 +54,10 @@ class _FilteringDataGridState extends SampleViewState {
       columns: _obtainColumns(),
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
-      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
-          ? ColumnWidthMode.fill
-          : ColumnWidthMode.none,
+      columnWidthMode:
+          _isWebOrDesktop || _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
     );
   }
 
@@ -61,52 +66,43 @@ class _FilteringDataGridState extends SampleViewState {
         !_isWebOrDesktop || (_isWebOrDesktop && model.isMobileResolution);
     return <GridColumn>[
       GridColumn(
-          columnName: 'Order ID',
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: isMobileView ? 120.0 : double.nan,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Order ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'Order ID',
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: isMobileView ? 120.0 : double.nan,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Order ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'Customer ID',
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: isMobileView ? 150.0 : double.nan,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Customer ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'Customer ID',
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: isMobileView ? 150.0 : double.nan,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Customer ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'Name',
-          width: isMobileView ? 120.0 : double.nan,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Name',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'Name',
+        width: isMobileView ? 120.0 : double.nan,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Name', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
         columnName: 'Freight',
         width: isMobileView ? 120.0 : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'Freight',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Freight', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -117,10 +113,7 @@ class _FilteringDataGridState extends SampleViewState {
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'City',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('City', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -130,12 +123,9 @@ class _FilteringDataGridState extends SampleViewState {
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'Price',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Price', overflow: TextOverflow.ellipsis),
         ),
-      )
+      ),
     ];
   }
 }

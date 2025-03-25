@@ -70,160 +70,168 @@ class _StylingDataGridState extends SampleViewState {
   }
 
   List<GridColumn> _obtainColumns() {
-    const TextStyle textStyle =
-        TextStyle(color: Color.fromRGBO(255, 255, 255, 1));
+    const TextStyle textStyle = TextStyle(
+      color: Color.fromRGBO(255, 255, 255, 1),
+    );
     return _isWebOrDesktop
         ? <GridColumn>[
-            GridColumn(
-              columnName: 'orderId',
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 110.0
-                  : double.nan,
-              label: Container(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Order ID',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          GridColumn(
+            columnName: 'orderId',
+            width:
+                (_isWebOrDesktop && model.isMobileResolution)
+                    ? 110.0
+                    : double.nan,
+            label: Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
+                'Order ID',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            GridColumn(
-              columnName: 'customerId',
-              width: 120.0,
-              label: Container(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Customer ID',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ),
+          GridColumn(
+            columnName: 'customerId',
+            width: 120.0,
+            label: Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
+                'Customer ID',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            GridColumn(
-              columnName: 'name',
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 110.0
-                  : double.nan,
-              label: Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Name',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ),
+          GridColumn(
+            columnName: 'name',
+            width:
+                (_isWebOrDesktop && model.isMobileResolution)
+                    ? 110.0
+                    : double.nan,
+            label: Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
+                'Name',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            GridColumn(
-              columnName: 'freight',
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 100.0
-                  : double.nan,
-              label: Container(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Freight',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ),
+          GridColumn(
+            columnName: 'freight',
+            width:
+                (_isWebOrDesktop && model.isMobileResolution)
+                    ? 100.0
+                    : double.nan,
+            label: Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
+                'Freight',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            GridColumn(
-              columnName: 'city',
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 100.0
-                  : double.nan,
-              label: Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'City',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ),
+          GridColumn(
+            columnName: 'city',
+            width:
+                (_isWebOrDesktop && model.isMobileResolution)
+                    ? 100.0
+                    : double.nan,
+            label: Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
+                'City',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            GridColumn(
-              columnName: 'price',
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 115.0
-                  : double.nan,
-              label: Container(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Price',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ),
+          GridColumn(
+            columnName: 'price',
+            width:
+                (_isWebOrDesktop && model.isMobileResolution)
+                    ? 115.0
+                    : double.nan,
+            label: Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.all(8.0),
+              child: const Text(
+                'Price',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
-            )
-          ]
+            ),
+          ),
+        ]
         : <GridColumn>[
-            GridColumn(
-              columnName: 'orderId',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Order ID',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          GridColumn(
+            columnName: 'orderId',
+            label: Container(
+              padding: const EdgeInsets.all(8),
+              alignment: Alignment.centerRight,
+              child: const Text(
+                'Order ID',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            GridColumn(
-              width: 100,
-              columnName: 'customerId',
-              columnWidthMode: _isLandscapeInMobileView
-                  ? ColumnWidthMode.fill
-                  : ColumnWidthMode.none,
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Customer ID',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ),
+          GridColumn(
+            width: 100,
+            columnName: 'customerId',
+            columnWidthMode:
+                _isLandscapeInMobileView
+                    ? ColumnWidthMode.fill
+                    : ColumnWidthMode.none,
+            label: Container(
+              padding: const EdgeInsets.all(8),
+              alignment: Alignment.centerRight,
+              child: const Text(
+                'Customer ID',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            GridColumn(
-              columnName: 'name',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Name',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ),
+          GridColumn(
+            columnName: 'name',
+            label: Container(
+              padding: const EdgeInsets.all(8),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Name',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            GridColumn(
-              columnName: 'city',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'City',
-                  style: textStyle,
-                  overflow: TextOverflow.ellipsis,
-                ),
+          ),
+          GridColumn(
+            columnName: 'city',
+            label: Container(
+              padding: const EdgeInsets.all(8),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'City',
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
               ),
-            )
-          ];
+            ),
+          ),
+        ];
   }
 
   SfDataGridTheme _buildDataGrid(GridLinesVisibility gridLineVisibility) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-          headerHoverColor: Colors.white.withOpacity(0.3),
-          headerColor: model.primaryColor),
+        headerHoverColor: Colors.white.withValues(alpha: 0.3),
+        headerColor: model.primaryColor,
+      ),
       child: SfDataGrid(
         source: _stylingDataGridSource,
         columnWidthMode: ColumnWidthMode.fill,
@@ -238,7 +246,10 @@ class _StylingDataGridState extends SampleViewState {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
     _stylingDataGridSource = OrderInfoDataGridSource(
-        model: model, isWebOrDesktop: _isWebOrDesktop, orderDataCount: 100);
+      model: model,
+      isWebOrDesktop: _isWebOrDesktop,
+      orderDataCount: 100,
+    );
     _gridLinesVisibility = 'horizontal';
     _gridLineVisibility = GridLinesVisibility.horizontal;
     panelOpen = _frontPanelVisible.value;
@@ -248,15 +259,16 @@ class _StylingDataGridState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
@@ -268,33 +280,43 @@ class _StylingDataGridState extends SampleViewState {
             ),
             Theme(
               data: ThemeData(
-                  useMaterial3: false,
-                  canvasColor: model.drawerBackgroundColor),
+                useMaterial3: false,
+                canvasColor: model.drawerBackgroundColor,
+              ),
               child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  focusColor: Colors.transparent,
-                  value: _gridLinesVisibility,
-                  items: _encoding.map((String value) {
-                    return DropdownMenuItem<String>(
+                dropdownColor: model.drawerBackgroundColor,
+                focusColor: Colors.transparent,
+                value: _gridLinesVisibility,
+                items:
+                    _encoding.map((String value) {
+                      return DropdownMenuItem<String>(
                         value: (value != null) ? value : 'none',
-                        child: Text(value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    _onGridLinesVisibilityChanges(value);
-                    stateSetter(() {});
-                  }),
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                onChanged: (dynamic value) {
+                  _onGridLinesVisibilityChanges(value);
+                  stateSetter(() {});
+                },
+              ),
             ),
-          ]);
-    });
+          ],
+        );
+      },
+    );
   }
 
   BoxDecoration _drawBorder() {
     final BorderSide borderSide = BorderSide(
-        color: model.themeData.colorScheme.brightness == Brightness.light
-            ? const Color.fromRGBO(0, 0, 0, 0.26)
-            : const Color.fromRGBO(255, 255, 255, 0.26));
+      color:
+          model.themeData.colorScheme.brightness == Brightness.light
+              ? const Color.fromRGBO(0, 0, 0, 0.26)
+              : const Color.fromRGBO(255, 255, 255, 0.26),
+    );
 
     // Restricts the right side border when Datagrid has gridlinesVisibility
     // to both and vertical to maintains the border thickness.
@@ -302,32 +324,42 @@ class _StylingDataGridState extends SampleViewState {
       case GridLinesVisibility.none:
       case GridLinesVisibility.horizontal:
         return BoxDecoration(
-            border: Border(
-                left: borderSide, right: borderSide, bottom: borderSide));
+          border: Border(
+            left: borderSide,
+            right: borderSide,
+            bottom: borderSide,
+          ),
+        );
       case GridLinesVisibility.both:
       case GridLinesVisibility.vertical:
         return BoxDecoration(
-            border: Border(left: borderSide, bottom: borderSide));
+          border: Border(left: borderSide, bottom: borderSide),
+        );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: model.themeData.colorScheme.brightness == Brightness.light
-            ? const Color(0xFFFAFAFA)
-            : null,
-        child: Card(
-            margin: _isWebOrDesktop
+      color:
+          model.themeData.colorScheme.brightness == Brightness.light
+              ? const Color(0xFFFAFAFA)
+              : null,
+      child: Card(
+        margin:
+            _isWebOrDesktop
                 ? const EdgeInsets.all(24.0)
                 : const EdgeInsets.all(16.0),
-            clipBehavior: Clip.antiAlias,
-            elevation: 1.0,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: DecoratedBox(
-                  decoration: _drawBorder(),
-                  child: _buildDataGrid(_gridLineVisibility)),
-            )));
+        clipBehavior: Clip.antiAlias,
+        elevation: 1.0,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: DecoratedBox(
+            decoration: _drawBorder(),
+            child: _buildDataGrid(_gridLineVisibility),
+          ),
+        ),
+      ),
+    );
   }
 }

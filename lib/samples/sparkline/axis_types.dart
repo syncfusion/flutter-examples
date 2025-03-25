@@ -69,7 +69,7 @@ class _SparklineAxesTypesState extends SampleViewState {
       _SalesData(xval: 'Margaret', yval: 77),
       _SalesData(xval: 'Steven', yval: 68),
       _SalesData(xval: 'Laura', yval: 96),
-      _SalesData(xval: 'Elizabeth', yval: 57)
+      _SalesData(xval: 'Elizabeth', yval: 57),
     ];
     super.initState();
   }
@@ -84,166 +84,182 @@ class _SparklineAxesTypesState extends SampleViewState {
     _isVertical =
         MediaQuery.of(context).size.height > MediaQuery.of(context).size.width;
     if (_isVertical) {
-      _size = model.isWebFullView
-          ? MediaQuery.of(context).size.height / 5
-          : MediaQuery.of(context).size.height / 4.5;
+      _size =
+          model.isWebFullView
+              ? MediaQuery.of(context).size.height / 5
+              : MediaQuery.of(context).size.height / 4.5;
       return model.isWebFullView && model.isMobileResolution
           ? SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  ),
-                  _buildSparkNumericChart(),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  ),
-                  _buildSparkCategoryChart(),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  ),
-                  _buildSparkDatetimeChart(),
-                ]))
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                _buildSparkNumericChart(),
+                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                _buildSparkCategoryChart(),
+                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                _buildSparkDatetimeChart(),
+              ],
+            ),
+          )
           : Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  ),
-                  _buildSparkNumericChart(),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  ),
-                  _buildSparkCategoryChart(),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  ),
-                  _buildSparkDatetimeChart(),
-                ]));
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                _buildSparkNumericChart(),
+                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                _buildSparkCategoryChart(),
+                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                _buildSparkDatetimeChart(),
+              ],
+            ),
+          );
     } else {
       _size = MediaQuery.of(context).size.width / 4.5;
       return Center(
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
             _buildSparkNumericChart(),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-            ),
+            const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
             _buildSparkCategoryChart(),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-            ),
+            const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
             _buildSparkDatetimeChart(),
-          ]));
+          ],
+        ),
+      );
     }
   }
 
   // Get the cartesian chart with default line series
   Widget _buildSparkDatetimeChart() {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              height: _isVertical ? _size : _size * 0.7,
-              width: _isVertical ? _size * 1.7 : _size,
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
-              child: Column(children: <Widget>[
-                const Text('Average working hours for a month',
-                    textAlign: TextAlign.center),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: _isVertical ? _size : _size * 0.7,
+          width: _isVertical ? _size * 1.7 : _size,
+          padding: const EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
+          ),
+          child: Column(
+            children: <Widget>[
+              const Text(
+                'Average working hours for a month',
+                textAlign: TextAlign.center,
+              ),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+              Expanded(
+                child: SfSparkBarChart.custom(
+                  axisLineWidth: 0,
+                  dataCount: 23,
+                  xValueMapper: (int index) => _dateTimeChartData[index].xval,
+                  yValueMapper: (int index) => _dateTimeChartData[index].yval!,
+                  trackball: const SparkChartTrackball(),
                 ),
-                Expanded(
-                    child: SfSparkBarChart.custom(
-                        axisLineWidth: 0,
-                        dataCount: 23,
-                        xValueMapper: (int index) =>
-                            _dateTimeChartData[index].xval,
-                        yValueMapper: (int index) =>
-                            _dateTimeChartData[index].yval!,
-                        trackball: const SparkChartTrackball())),
-                const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                const Text('DateTime Axis',
-                    style: TextStyle(fontStyle: FontStyle.italic)),
-              ])),
-        ]);
+              ),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+              const Text(
+                'DateTime Axis',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
-// Get the cartesian chart with default line series
+  // Get the cartesian chart with default line series
   Widget _buildSparkCategoryChart() {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              height: _isVertical ? _size : _size * 0.7,
-              width: _isVertical ? _size * 1.7 : _size,
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
-              child: Column(children: <Widget>[
-                const Text('Percentage of the students in a class',
-                    textAlign: TextAlign.center),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: _isVertical ? _size : _size * 0.7,
+          width: _isVertical ? _size * 1.7 : _size,
+          padding: const EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
+          ),
+          child: Column(
+            children: <Widget>[
+              const Text(
+                'Percentage of the students in a class',
+                textAlign: TextAlign.center,
+              ),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+              Expanded(
+                child: SfSparkBarChart.custom(
+                  axisLineWidth: 0,
+                  dataCount: 12,
+                  xValueMapper: (int index) => _categorydata[index].xval,
+                  yValueMapper: (int index) => _categorydata[index].yval!,
+                  trackball: SparkChartTrackball(
+                    tooltipFormatter: (TooltipFormatterDetails details) {
+                      final String labelText = '${details.x} : ${details.y}%';
+                      return labelText;
+                    },
+                  ),
                 ),
-                Expanded(
-                    child: SfSparkBarChart.custom(
-                        axisLineWidth: 0,
-                        dataCount: 12,
-                        xValueMapper: (int index) => _categorydata[index].xval,
-                        yValueMapper: (int index) => _categorydata[index].yval!,
-                        trackball: SparkChartTrackball(tooltipFormatter:
-                            (TooltipFormatterDetails details) {
-                          final String labelText =
-                              '${details.x} : ${details.y}%';
-                          return labelText;
-                        }))),
-                const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                const Text('Category Axis',
-                    style: TextStyle(fontStyle: FontStyle.italic)),
-              ])),
-        ]);
+              ),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+              const Text(
+                'Category Axis',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
-// Get the cartesian chart with default line series
+  // Get the cartesian chart with default line series
   Widget _buildSparkNumericChart() {
     return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              height: _isVertical ? _size : _size * 0.7,
-              width: _isVertical ? _size * 1.7 : _size,
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.withOpacity(0.5))),
-              child: Column(children: <Widget>[
-                const Text('Expenditure details of various trips',
-                    textAlign: TextAlign.center),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: _isVertical ? _size : _size * 0.7,
+          width: _isVertical ? _size * 1.7 : _size,
+          padding: const EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
+          ),
+          child: Column(
+            children: <Widget>[
+              const Text(
+                'Expenditure details of various trips',
+                textAlign: TextAlign.center,
+              ),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+              Expanded(
+                child: SfSparkBarChart.custom(
+                  axisLineWidth: 0,
+                  dataCount: 7,
+                  xValueMapper: (int index) => _numericdata[index].xval,
+                  yValueMapper: (int index) => _numericdata[index].yval!,
+                  trackball: SparkChartTrackball(
+                    tooltipFormatter: (TooltipFormatterDetails details) {
+                      final String labelText = '${details.x} : \$${details.y}';
+                      return labelText;
+                    },
+                  ),
                 ),
-                Expanded(
-                    child: SfSparkBarChart.custom(
-                        axisLineWidth: 0,
-                        dataCount: 7,
-                        xValueMapper: (int index) => _numericdata[index].xval,
-                        yValueMapper: (int index) => _numericdata[index].yval!,
-                        trackball: SparkChartTrackball(tooltipFormatter:
-                            (TooltipFormatterDetails details) {
-                          final String labelText =
-                              '${details.x} : \$${details.y}';
-                          return labelText;
-                        }))),
-                const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
-                const Text('Numeric Axis',
-                    style: TextStyle(fontStyle: FontStyle.italic)),
-              ])),
-        ]);
+              ),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+              const Text(
+                'Numeric Axis',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   @override

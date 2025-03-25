@@ -35,16 +35,17 @@ const double _kCloseProgressThreshold = 0.5;
 class CustomBottomSheet extends StatefulWidget {
   /// holds the informtion of customized bottom sheet
   const CustomBottomSheet(
-      // ignore: tighten_type_of_initializing_formals
-      {Key? key,
-      this.animationController,
-      // ignore: tighten_type_of_initializing_formals
-      this.onClosing,
-      // ignore: tighten_type_of_initializing_formals
-      this.builder})
-      : assert(onClosing != null),
-        assert(builder != null),
-        super(key: key);
+  // ignore: tighten_type_of_initializing_formals
+  {
+    Key? key,
+    this.animationController,
+    // ignore: tighten_type_of_initializing_formals
+    this.onClosing,
+    // ignore: tighten_type_of_initializing_formals
+    this.builder,
+  }) : assert(onClosing != null),
+       assert(builder != null),
+       super(key: key);
 
   /// The animation that controls the bottom sheet's position.
   ///
@@ -127,10 +128,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     return GestureDetector(
       onVerticalDragUpdate: _handleDragUpdate,
       onVerticalDragEnd: _handleDragEnd,
-      child: Material(
-        key: _childKey,
-        child: widget.builder!(context),
-      ),
+      child: Material(key: _childKey, child: widget.builder!(context)),
     );
   }
 }
@@ -144,9 +142,10 @@ class _RoundedModalBottomSheetLayout extends SingleChildLayoutDelegate {
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
     return BoxConstraints(
-        minWidth: constraints.maxWidth,
-        maxWidth: constraints.maxWidth,
-        maxHeight: constraints.maxHeight * 9.0 / 16.0);
+      minWidth: constraints.maxWidth,
+      maxWidth: constraints.maxWidth,
+      maxHeight: constraints.maxHeight * 9.0 / 16.0,
+    );
   }
 
   @override
@@ -199,21 +198,26 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
   @override
   AnimationController createAnimationController() {
     assert(animationController == null);
-    animationController =
-        BottomSheet.createAnimationController(navigator!.overlay!);
+    animationController = BottomSheet.createAnimationController(
+      navigator!.overlay!,
+    );
     return animationController!;
   }
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
     return MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: Theme(
-          data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-          child: _RoundedModalBottomSheet<T>(route: this),
-        ));
+      context: context,
+      removeTop: true,
+      child: Theme(
+        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+        child: _RoundedModalBottomSheet<T>(route: this),
+      ),
+    );
   }
 }
 
@@ -257,30 +261,32 @@ class _RoundedModalBottomSheetState<T>
     return GestureDetector(
       child: AnimatedBuilder(
         animation: widget.route!.animation!,
-        builder: (BuildContext context, Widget? child) =>
-            CustomSingleChildLayout(
-          delegate: _RoundedModalBottomSheetLayout(
-              widget.route!.autoResize!
-                  ? MediaQuery.of(context).viewInsets.bottom
-                  : 0.0,
-              widget.route!.animation!.value),
-          child: CustomBottomSheet(
-            animationController: widget.route!.animationController,
-            onClosing: () => Navigator.pop(context),
-            builder: (BuildContext context) => Container(
-              decoration: BoxDecoration(
-                color: widget.route!.color,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12.0),
-                  topRight: Radius.circular(12.0),
-                ),
+        builder:
+            (BuildContext context, Widget? child) => CustomSingleChildLayout(
+              delegate: _RoundedModalBottomSheetLayout(
+                widget.route!.autoResize!
+                    ? MediaQuery.of(context).viewInsets.bottom
+                    : 0.0,
+                widget.route!.animation!.value,
               ),
-              child: SafeArea(
-                child: Builder(builder: widget.route!.builder!),
+              child: CustomBottomSheet(
+                animationController: widget.route!.animationController,
+                onClosing: () => Navigator.pop(context),
+                builder:
+                    (BuildContext context) => Container(
+                      decoration: BoxDecoration(
+                        color: widget.route!.color,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12.0),
+                          topRight: Radius.circular(12.0),
+                        ),
+                      ),
+                      child: SafeArea(
+                        child: Builder(builder: widget.route!.builder!),
+                      ),
+                    ),
               ),
             ),
-          ),
-        ),
       ),
     );
   }

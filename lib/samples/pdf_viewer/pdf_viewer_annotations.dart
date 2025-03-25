@@ -14,9 +14,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import '../../model/model.dart';
 import '../../model/sample_view.dart';
 import '../pdf/helper/save_file_mobile.dart'
-    if (dart.library.html) '../pdf/helper/save_file_web.dart';
-import './shared/mobile_helper.dart'
-    if (dart.library.html) './shared/web_helper.dart' as helper;
+    if (dart.library.js_interop) '../pdf/helper/save_file_web.dart';
 import 'pdf_viewer_custom_toolbar.dart';
 import 'shared/helper.dart';
 import 'shared/toolbar_widgets.dart';
@@ -62,12 +60,10 @@ class _AnnotationsPdfViewerState extends SampleViewState {
   void initState() {
     super.initState();
     _documentPath = 'assets/pdf/annotations.pdf';
-    _isDesktopWeb = isDesktop &&
+    _isDesktopWeb =
+        isDesktop &&
         model.isMobileResolution != null &&
         !model.isMobileResolution;
-    if (_isDesktopWeb) {
-      helper.preventDefaultContextMenu();
-    }
     _needToMaximize = model.needToMaximize;
   }
 
@@ -84,18 +80,20 @@ class _AnnotationsPdfViewerState extends SampleViewState {
     super.didChangeDependencies();
     _useMaterial3 = Theme.of(context).useMaterial3;
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
-    _contextMenuColor = _useMaterial3
-        ? _isLight
-            ? const Color(0xFFEEE8F4)
-            : const Color(0xFF302D38)
-        : _isLight
+    _contextMenuColor =
+        _useMaterial3
+            ? _isLight
+                ? const Color(0xFFEEE8F4)
+                : const Color(0xFF302D38)
+            : _isLight
             ? const Color(0xFFFFFFFF)
             : const Color(0xFF424242);
     if (_needToMaximize != model.needToMaximize) {
       _closeOverlays();
       _needToMaximize = model.needToMaximize;
     }
-    _isDesktopWeb = isDesktop &&
+    _isDesktopWeb =
+        isDesktop &&
         model.isMobileResolution != null &&
         !model.isMobileResolution;
   }
@@ -103,23 +101,30 @@ class _AnnotationsPdfViewerState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     if (isDesktop) {
-      final bool? isDrawerOpened = model.webOutputContainerState.widget
-          .webLayoutPageState?.scaffoldKey.currentState?.isEndDrawerOpen;
+      final bool? isDrawerOpened =
+          model
+              .webOutputContainerState
+              .widget
+              .webLayoutPageState
+              ?.scaffoldKey
+              .currentState
+              ?.isEndDrawerOpen;
       if (isDrawerOpened != null && isDrawerOpened) {
         _closeOverlays();
       }
     }
 
     final PreferredSizeWidget appBar = AppBar(
-      bottom: _useMaterial3
-          ? PreferredSize(
-              preferredSize: const Size.fromHeight(0),
-              child: Container(
-                color: Theme.of(context).colorScheme.outlineVariant,
-                height: 1,
-              ),
-            )
-          : null,
+      bottom:
+          _useMaterial3
+              ? PreferredSize(
+                preferredSize: const Size.fromHeight(0),
+                child: Container(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  height: 1,
+                ),
+              )
+              : null,
       flexibleSpace: Semantics(
         label: 'PdfAnnotation toolbar',
         child: AnnotationToolbar(
@@ -137,18 +142,26 @@ class _AnnotationsPdfViewerState extends SampleViewState {
 
                 if (_pdfViewerController.annotationMode == toolbarItem) {
                   _pdfViewerController.annotationMode = PdfAnnotationMode.none;
-                  _toolbarKey.currentState
-                      ?._changeToolbarItemVisibility('Color Palette', false);
                   _toolbarKey.currentState?._changeToolbarItemVisibility(
-                      'Sticky note icons', false);
+                    'Color Palette',
+                    false,
+                  );
+                  _toolbarKey.currentState?._changeToolbarItemVisibility(
+                    'Sticky note icons',
+                    false,
+                  );
                 } else {
                   _pdfViewerController.annotationMode =
                       toolbarItem as PdfAnnotationMode;
-                  _toolbarKey.currentState
-                      ?._changeToolbarItemVisibility('Color Palette', true);
+                  _toolbarKey.currentState?._changeToolbarItemVisibility(
+                    'Color Palette',
+                    true,
+                  );
                   if (toolbarItem == PdfAnnotationMode.stickyNote) {
                     _toolbarKey.currentState?._changeToolbarItemVisibility(
-                        'Sticky note icons', true);
+                      'Sticky note icons',
+                      true,
+                    );
                   }
                 }
               }
@@ -191,8 +204,9 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                 if (_selectedAnnotation != null) {
                   _selectedAnnotation!.isLocked =
                       !_selectedAnnotation!.isLocked;
-                  _toolbarKey.currentState
-                      ?._setAnnotationLocked(_selectedAnnotation!.isLocked);
+                  _toolbarKey.currentState?._setAnnotationLocked(
+                    _selectedAnnotation!.isLocked,
+                  );
                 }
               }
             }
@@ -200,25 +214,30 @@ class _AnnotationsPdfViewerState extends SampleViewState {
             if (toolbarItem == 'Save') {
               final List<int> savedBytes =
                   await _pdfViewerController.saveDocument();
-              _saveDocument(savedBytes,
-                  'The document was saved at the location ', 'annotations.pdf');
+              _saveDocument(
+                savedBytes,
+                'The document was saved at the location ',
+                'annotations.pdf',
+              );
             }
 
             if (toolbarItem == 'Undo' || toolbarItem == 'Redo') {
               if (_selectedAnnotation != null) {
-                _toolbarKey.currentState
-                    ?._setAnnotationLocked(_selectedAnnotation!.isLocked);
+                _toolbarKey.currentState?._setAnnotationLocked(
+                  _selectedAnnotation!.isLocked,
+                );
               }
             }
           },
         ),
       ),
       automaticallyImplyLeading: false,
-      backgroundColor: _useMaterial3
-          ? Theme.of(context).colorScheme.brightness == Brightness.light
-              ? const Color.fromRGBO(247, 242, 251, 1)
-              : const Color.fromRGBO(37, 35, 42, 1)
-          : Theme.of(context).colorScheme.brightness == Brightness.light
+      backgroundColor:
+          _useMaterial3
+              ? Theme.of(context).colorScheme.brightness == Brightness.light
+                  ? const Color.fromRGBO(247, 242, 251, 1)
+                  : const Color.fromRGBO(37, 35, 42, 1)
+              : Theme.of(context).colorScheme.brightness == Brightness.light
               ? const Color(0xFFFAFAFA)
               : const Color(0xFF424242),
     );
@@ -226,10 +245,11 @@ class _AnnotationsPdfViewerState extends SampleViewState {
     return Scaffold(
       appBar: appBar,
       body: FutureBuilder(
-        future: Future<dynamic>.delayed(const Duration(milliseconds: 200))
-            .then((dynamic value) {
-          _canShowPdf = true;
-        }),
+        future: Future<dynamic>.delayed(const Duration(milliseconds: 200)).then(
+          (dynamic value) {
+            _canShowPdf = true;
+          },
+        ),
         builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
           final Widget pdfViewer = Listener(
             onPointerDown: (PointerDownEvent details) {
@@ -258,22 +278,35 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                       _pdfViewerController.annotationMode =
                           PdfAnnotationMode.none;
                       if (_isDesktopWeb) {
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemFillColor('Text Markup', false);
                         _toolbarKey.currentState?._changeToolbarItemFillColor(
-                            'Sticky note icons', false);
-                        _toolbarKey.currentState
-                            ?._setAnnotationLocked(annotation.isLocked);
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemVisibility('Lock', true);
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemVisibility('Delete', true);
+                          'Text Markup',
+                          false,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemFillColor(
+                          'Sticky note icons',
+                          false,
+                        );
+                        _toolbarKey.currentState?._setAnnotationLocked(
+                          annotation.isLocked,
+                        );
                         _toolbarKey.currentState?._changeToolbarItemVisibility(
-                            'Color Palette', true);
+                          'Lock',
+                          true,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Delete',
+                          true,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Color Palette',
+                          true,
+                        );
                         if (annotation is StickyNoteAnnotation) {
                           _toolbarKey.currentState
                               ?._changeToolbarItemVisibility(
-                                  'Sticky note icons', true);
+                                'Sticky note icons',
+                                true,
+                              );
                         }
                       } else {
                         setState(() {
@@ -285,14 +318,22 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                       _selectedAnnotation = null;
                       _selectedColor = null;
                       if (_isDesktopWeb) {
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemVisibility('Lock', false);
-                        _toolbarKey.currentState
-                            ?._changeToolbarItemVisibility('Delete', false);
                         _toolbarKey.currentState?._changeToolbarItemVisibility(
-                            'Color Palette', false);
+                          'Lock',
+                          false,
+                        );
                         _toolbarKey.currentState?._changeToolbarItemVisibility(
-                            'Sticky note icons', false);
+                          'Delete',
+                          false,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Color Palette',
+                          false,
+                        );
+                        _toolbarKey.currentState?._changeToolbarItemVisibility(
+                          'Sticky note icons',
+                          false,
+                        );
                       } else {
                         setState(() {
                           _selectedAnnotation = null;
@@ -315,8 +356,9 @@ class _AnnotationsPdfViewerState extends SampleViewState {
                       selectedAnnotation: _selectedAnnotation,
                       onBackButtonPressed: () {
                         if (_selectedAnnotation != null) {
-                          _pdfViewerController
-                              .deselectAnnotation(_selectedAnnotation!);
+                          _pdfViewerController.deselectAnnotation(
+                            _selectedAnnotation!,
+                          );
                         }
                       },
                     ),
@@ -334,8 +376,9 @@ class _AnnotationsPdfViewerState extends SampleViewState {
             );
           } else {
             return Container(
-              color: SfPdfViewerTheme.of(context)!.backgroundColor ??
-                  Theme.of(context).colorScheme.surface.withOpacity(0.08),
+              color:
+                  SfPdfViewerTheme.of(context)!.backgroundColor ??
+                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.08),
             );
           }
         },
@@ -345,7 +388,10 @@ class _AnnotationsPdfViewerState extends SampleViewState {
 
   /// Saves the PDF document.
   Future<void> _saveDocument(
-      List<int> dataBytes, String message, String fileName) async {
+    List<int> dataBytes,
+    String message,
+    String fileName,
+  ) async {
     if (kIsWeb) {
       await FileSaveHelper.saveAndLaunchFile(dataBytes, fileName);
     } else {
@@ -355,6 +401,11 @@ class _AnnotationsPdfViewerState extends SampleViewState {
       try {
         await file.writeAsBytes(dataBytes);
         _showDialog('Document saved', message + path + r'\' + fileName);
+      } on PathAccessException catch (e) {
+        _showDialog(
+          'Error',
+          e.osError?.message ?? 'Error in saving the document',
+        );
       } catch (e) {
         _showDialog('Error', 'Error in saving the document');
       }
@@ -364,47 +415,53 @@ class _AnnotationsPdfViewerState extends SampleViewState {
   /// Alert dialog for save.
   void _showDialog(String title, String message) {
     showDialog<Widget>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(title),
-            content: SizedBox(
-              width: 328.0,
-              child: Scrollbar(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  child: Text(message),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SizedBox(
+            width: 328.0,
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
                 ),
+                child: Text(message),
               ),
             ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: _useMaterial3
-                    ? TextButton.styleFrom(
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              style:
+                  _useMaterial3
+                      ? TextButton.styleFrom(
                         fixedSize: const Size(double.infinity, 40),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
+                          vertical: 10,
+                          horizontal: 20,
+                        ),
                       )
-                    : null,
-                child: const Text('Close'),
-              )
-            ],
-          );
-        });
+                      : null,
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   /// Shows the drop down menu overlay.
   OverlayEntry? _showDropDownOverlay(
-      RenderBox toolbarItemRenderBox,
-      OverlayEntry? overlayEntry,
-      BoxConstraints constraints,
-      Widget dropDownItems,
-      [Offset? positionOverride,
-      double? borderRadius]) {
+    RenderBox toolbarItemRenderBox,
+    OverlayEntry? overlayEntry,
+    BoxConstraints constraints,
+    Widget dropDownItems, [
+    Offset? positionOverride,
+    double? borderRadius,
+  ]) {
     OverlayState? overlayState;
     const List<BoxShadow> boxShadows = <BoxShadow>[
       BoxShadow(
@@ -418,22 +475,28 @@ class _AnnotationsPdfViewerState extends SampleViewState {
           positionOverride ?? toolbarItemRenderBox.localToGlobal(Offset.zero);
       overlayState = Overlay.of(context, rootOverlay: true);
       overlayEntry = OverlayEntry(
-        builder: (BuildContext context) => Positioned(
-          top: position.dy + 40.0,
-          left: position.dx,
-          child: Container(
-            decoration: BoxDecoration(
-              color:
-                  _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242),
-              boxShadow: boxShadows,
-              borderRadius: _useMaterial3
-                  ? BorderRadius.all(Radius.circular(borderRadius ?? 4.0))
-                  : null,
+        builder:
+            (BuildContext context) => Positioned(
+              top: position.dy + 40.0,
+              left: position.dx,
+              child: Container(
+                decoration: BoxDecoration(
+                  color:
+                      _isLight
+                          ? const Color(0xFFFFFFFF)
+                          : const Color(0xFF424242),
+                  boxShadow: boxShadows,
+                  borderRadius:
+                      _useMaterial3
+                          ? BorderRadius.all(
+                            Radius.circular(borderRadius ?? 4.0),
+                          )
+                          : null,
+                ),
+                constraints: constraints,
+                child: dropDownItems,
+              ),
             ),
-            constraints: constraints,
-            child: dropDownItems,
-          ),
-        ),
       );
     }
     overlayState?.insert(overlayEntry!);
@@ -442,11 +505,14 @@ class _AnnotationsPdfViewerState extends SampleViewState {
 
   /// Shows the color palette menu for web platform.
   void _showColorPaletteMenu(BuildContext context) {
-    _toolbarKey.currentState
-        ?._changeToolbarItemFillColor('Color Palette', true);
-    final RenderBox colorPaletteRenderBox = (_toolbarKey
-        .currentState?._colorPaletteKey.currentContext
-        ?.findRenderObject())! as RenderBox;
+    _toolbarKey.currentState?._changeToolbarItemFillColor(
+      'Color Palette',
+      true,
+    );
+    final RenderBox colorPaletteRenderBox =
+        (_toolbarKey.currentState?._colorPaletteKey.currentContext
+                ?.findRenderObject())!
+            as RenderBox;
     if (colorPaletteRenderBox != null) {
       final Widget child = ColorPalette(
         pdfViewerController: _pdfViewerController,
@@ -459,12 +525,15 @@ class _AnnotationsPdfViewerState extends SampleViewState {
         },
       );
       final Offset position = colorPaletteRenderBox.localToGlobal(
-          Offset(-(_kColorPaletteWidth - colorPaletteRenderBox.size.width), 0));
+        Offset(-(_kColorPaletteWidth - colorPaletteRenderBox.size.width), 0),
+      );
       _colorPaletteOverlayEntry = _showDropDownOverlay(
         colorPaletteRenderBox,
         _colorPaletteOverlayEntry,
         BoxConstraints.tightFor(
-            width: _kColorPaletteWidth, height: _kColorPaletteHeight),
+          width: _kColorPaletteWidth,
+          height: _kColorPaletteHeight,
+        ),
         child,
         position,
         12,
@@ -478,34 +547,43 @@ class _AnnotationsPdfViewerState extends SampleViewState {
       _colorPaletteOverlayEntry?.remove();
       _colorPaletteOverlayEntry = null;
     }
-    _toolbarKey.currentState
-        ?._changeToolbarItemFillColor('Color Palette', false);
+    _toolbarKey.currentState?._changeToolbarItemFillColor(
+      'Color Palette',
+      false,
+    );
   }
 
   /// Shows the sticky note icon menu for web platform.
   void _showStickyNoteAnnotationIconMenu(BuildContext context) {
-    _toolbarKey.currentState
-        ?._changeToolbarItemFillColor('Sticky note icons', true);
+    _toolbarKey.currentState?._changeToolbarItemFillColor(
+      'Sticky note icons',
+      true,
+    );
 
-    final RenderBox? stickyNoteAnnotationMenuRenderBox = _toolbarKey
-        .currentState?._stickyNoteKey.currentContext
-        ?.findRenderObject() as RenderBox?;
+    final RenderBox? stickyNoteAnnotationMenuRenderBox =
+        _toolbarKey.currentState?._stickyNoteKey.currentContext
+                ?.findRenderObject()
+            as RenderBox?;
 
     if (stickyNoteAnnotationMenuRenderBox != null) {
       final Widget child = _stickyNoteIconMenuContainer();
       final Offset position = stickyNoteAnnotationMenuRenderBox.localToGlobal(
-          Offset(
-              -(_kStickyNoteIconMenuWidth -
-                  stickyNoteAnnotationMenuRenderBox.size.width),
-              0));
+        Offset(
+          -(_kStickyNoteIconMenuWidth -
+              stickyNoteAnnotationMenuRenderBox.size.width),
+          0,
+        ),
+      );
       _stickyNoteIconMenuOverlayEntry = _showDropDownOverlay(
-          stickyNoteAnnotationMenuRenderBox,
-          _stickyNoteIconMenuOverlayEntry,
-          BoxConstraints.tightFor(
-              width: _kStickyNoteIconMenuWidth,
-              height: _kStickyNoteIconMenuHeight),
-          child,
-          position);
+        stickyNoteAnnotationMenuRenderBox,
+        _stickyNoteIconMenuOverlayEntry,
+        BoxConstraints.tightFor(
+          width: _kStickyNoteIconMenuWidth,
+          height: _kStickyNoteIconMenuHeight,
+        ),
+        child,
+        position,
+      );
     }
   }
 
@@ -531,7 +609,9 @@ class _AnnotationsPdfViewerState extends SampleViewState {
             _stickyNoteIconMenuItem('Help', PdfStickyNoteIcon.help),
             _stickyNoteIconMenuItem('Paragraph', PdfStickyNoteIcon.paragraph),
             _stickyNoteIconMenuItem(
-                'New Paragraph', PdfStickyNoteIcon.newParagraph),
+              'New Paragraph',
+              PdfStickyNoteIcon.newParagraph,
+            ),
           ],
         ),
       ),
@@ -565,8 +645,10 @@ class _AnnotationsPdfViewerState extends SampleViewState {
 
   /// Close sticky note icon overlay.
   void _handleStickyNoteIconOverlayClose() {
-    _toolbarKey.currentState
-        ?._changeToolbarItemFillColor('Sticky note icons', false);
+    _toolbarKey.currentState?._changeToolbarItemFillColor(
+      'Sticky note icons',
+      false,
+    );
     if (_stickyNoteIconMenuOverlayEntry != null) {
       _stickyNoteIconMenuOverlayEntry?.remove();
       _stickyNoteIconMenuOverlayEntry = null;
@@ -636,28 +718,32 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
   void didChangeDependencies() {
     _isLight = Theme.of(context).brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _annotationIconColor = _useMaterial3
-        ? widget.model?.themeData.colorScheme.onSurfaceVariant
-        : (widget.model?.themeData.brightness == Brightness.light)
-            ? Colors.black.withOpacity(0.87)
+    _annotationIconColor =
+        _useMaterial3
+            ? widget.model?.themeData.colorScheme.onSurfaceVariant
+            : (widget.model?.themeData.brightness == Brightness.light)
+            ? Colors.black.withValues(alpha: 0.87)
             : Colors.white;
-    _color = _useMaterial3
-        ? _isLight
-            ? const Color.fromRGBO(73, 69, 79, 1)
-            : const Color.fromRGBO(202, 196, 208, 1)
-        : _isLight
-            ? Colors.black.withOpacity(0.54)
-            : Colors.white.withOpacity(0.65);
-    _disabledColor = _useMaterial3
-        ? _isLight
-            ? const Color.fromRGBO(28, 27, 31, 1).withOpacity(0.38)
-            : const Color.fromRGBO(230, 225, 229, 1).withOpacity(0.38)
-        : _isLight
+    _color =
+        _useMaterial3
+            ? _isLight
+                ? const Color.fromRGBO(73, 69, 79, 1)
+                : const Color.fromRGBO(202, 196, 208, 1)
+            : _isLight
+            ? Colors.black.withValues(alpha: 0.54)
+            : Colors.white.withValues(alpha: 0.65);
+    _disabledColor =
+        _useMaterial3
+            ? _isLight
+                ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+                : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
+            : _isLight
             ? Colors.black12
             : Colors.white12;
-    _fillColor = _useMaterial3
-        ? Theme.of(context).colorScheme.onSurface.withOpacity(0.08)
-        : _isLight
+    _fillColor =
+        _useMaterial3
+            ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
+            : _isLight
             ? const Color(0xFFD2D2D2)
             : const Color(0xFF525252);
     _isWeb =
@@ -704,36 +790,41 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
     double iconSize = 16;
     switch (mode) {
       case PdfAnnotationMode.highlight:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/highlight_light.png'
-            : 'images/pdf_viewer/highlight_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/highlight_light.png'
+                : 'images/pdf_viewer/highlight_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.strikethrough:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/strikethrough_light.png'
-            : 'images/pdf_viewer/strikethrough_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/strikethrough_light.png'
+                : 'images/pdf_viewer/strikethrough_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.underline:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/underline_light.png'
-            : 'images/pdf_viewer/underline_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/underline_light.png'
+                : 'images/pdf_viewer/underline_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.squiggly:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/squiggly_light.png'
-            : 'images/pdf_viewer/squiggly_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/squiggly_light.png'
+                : 'images/pdf_viewer/squiggly_dark.png';
         iconSize = 18;
         break;
 
       case PdfAnnotationMode.none:
         break;
       case PdfAnnotationMode.stickyNote:
-        iconPath = _isLight
-            ? 'images/pdf_viewer/note_light.png'
-            : 'images/pdf_viewer/note_dark.png';
+        iconPath =
+            _isLight
+                ? 'images/pdf_viewer/note_light.png'
+                : 'images/pdf_viewer/note_dark.png';
         iconSize = 18;
         break;
     }
@@ -748,36 +839,41 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
   /// Constructs web toolbar item widget.
   Widget _webToolbarItem(String toolTip, Widget child, {Key? key}) {
     return Padding(
-      padding: toolTip == 'Lock' ||
-              toolTip == 'Unlock' ||
-              toolTip == 'Delete' ||
-              toolTip == 'Color Palette' ||
-              toolTip == 'Sticky note icons'
-          ? const EdgeInsets.only(right: 8)
-          : const EdgeInsets.only(left: 8),
+      padding:
+          toolTip == 'Lock' ||
+                  toolTip == 'Unlock' ||
+                  toolTip == 'Delete' ||
+                  toolTip == 'Color Palette' ||
+                  toolTip == 'Sticky note icons'
+              ? const EdgeInsets.only(right: 8)
+              : const EdgeInsets.only(left: 8),
       child: Tooltip(
         message: toolTip,
-        decoration: _useMaterial3
-            ? BoxDecoration(
-                color: Theme.of(context).colorScheme.inverseSurface,
-                borderRadius: BorderRadius.circular(4),
-              )
-            : null,
-        textStyle: _useMaterial3
-            ? TextStyle(
-                color: Theme.of(context).colorScheme.onInverseSurface,
-                fontSize: 14,
-              )
-            : null,
-        padding: _useMaterial3
-            ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
-            : null,
+        decoration:
+            _useMaterial3
+                ? BoxDecoration(
+                  color: Theme.of(context).colorScheme.inverseSurface,
+                  borderRadius: BorderRadius.circular(4),
+                )
+                : null,
+        textStyle:
+            _useMaterial3
+                ? TextStyle(
+                  color: Theme.of(context).colorScheme.onInverseSurface,
+                  fontSize: 14,
+                )
+                : null,
+        padding:
+            _useMaterial3
+                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+                : null,
         height: _useMaterial3 ? 48 : null,
         child: SizedBox(
-            key: key,
-            height: 36,
-            width: toolTip == 'Options' ? 50 : 36,
-            child: child),
+          key: key,
+          height: 36,
+          width: toolTip == 'Options' ? 50 : 36,
+          child: child,
+        ),
       ),
     );
   }
@@ -800,14 +896,15 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
       focusElevation: focusElevation,
       hoverElevation: hoverElevation,
       highlightElevation: highlightElevation,
-      shape: shape ??
+      shape:
+          shape ??
           (_useMaterial3
               ? const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                )
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+              )
               : const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                )),
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              )),
       child: child,
     );
   }
@@ -815,9 +912,10 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
   /// Constructs the toolbar divider
   Widget _groupDivider(bool isPaddingLeft) {
     return Padding(
-      padding: isPaddingLeft
-          ? const EdgeInsets.only(left: 8)
-          : const EdgeInsets.only(right: 8),
+      padding:
+          isPaddingLeft
+              ? const EdgeInsets.only(left: 8)
+              : const EdgeInsets.only(right: 8),
       child: VerticalDivider(
         width: 1.0,
         // width of vertical divider
@@ -827,10 +925,11 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
         // top indent of vertical divider
         endIndent: _useMaterial3 ? 16 : 12.0,
         // bottom indent of vertical divider
-        color: _useMaterial3
-            ? Theme.of(context).colorScheme.outlineVariant
-            : _isLight
-                ? Colors.black.withOpacity(0.24)
+        color:
+            _useMaterial3
+                ? Theme.of(context).colorScheme.outlineVariant
+                : _isLight
+                ? Colors.black.withValues(alpha: 0.24)
                 : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
@@ -839,235 +938,249 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
   /// Constructs web toolbar widget.
   Widget _webToolbar() {
     return SizedBox(
-        height: 56, // height of toolbar for web
-        width: 1200, // width of toolbar for web
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                _webToolbarItem(
-                  'Save',
-                  _webToolbarButton(
-                    onPressed: () async {
-                      widget.pdfViewerController.clearSelection();
-                      widget.onTap?.call('Save');
-                    },
-                    child: Icon(
-                      Icons.save,
-                      color: _color,
-                      size: 20,
-                    ),
-                  ),
+      height: 56, // height of toolbar for web
+      width: 1200, // width of toolbar for web
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              _webToolbarItem(
+                'Save',
+                _webToolbarButton(
+                  onPressed: () async {
+                    widget.pdfViewerController.clearSelection();
+                    widget.onTap?.call('Save');
+                  },
+                  child: Icon(Icons.save, color: _color, size: 20),
                 ),
-                _groupDivider(true),
-                _webToolbarItem(
-                  'Undo',
-                  ValueListenableBuilder<UndoHistoryValue>(
-                    valueListenable: widget.undoHistoryController!,
-                    builder: (BuildContext context, UndoHistoryValue value,
-                        Widget? child) {
-                      return _webToolbarButton(
-                        onPressed: value.canUndo
-                            ? () {
+              ),
+              _groupDivider(true),
+              _webToolbarItem(
+                'Undo',
+                ValueListenableBuilder<UndoHistoryValue>(
+                  valueListenable: widget.undoHistoryController!,
+                  builder: (
+                    BuildContext context,
+                    UndoHistoryValue value,
+                    Widget? child,
+                  ) {
+                    return _webToolbarButton(
+                      onPressed:
+                          value.canUndo
+                              ? () {
                                 widget.undoHistoryController!.undo();
                                 widget.onTap?.call('Undo');
                               }
-                            : null,
-                        child: Icon(
-                          Icons.undo,
-                          color: value.canUndo ? _color : _disabledColor,
-                          size: 20,
-                        ),
-                      );
-                    },
-                  ),
+                              : null,
+                      child: Icon(
+                        Icons.undo,
+                        color: value.canUndo ? _color : _disabledColor,
+                        size: 20,
+                      ),
+                    );
+                  },
                 ),
-                _webToolbarItem(
-                  'Redo',
-                  ValueListenableBuilder<UndoHistoryValue>(
-                    valueListenable: widget.undoHistoryController!,
-                    builder: (BuildContext context, UndoHistoryValue value,
-                        Widget? child) {
-                      return _webToolbarButton(
-                        onPressed: value.canRedo
-                            ? () {
+              ),
+              _webToolbarItem(
+                'Redo',
+                ValueListenableBuilder<UndoHistoryValue>(
+                  valueListenable: widget.undoHistoryController!,
+                  builder: (
+                    BuildContext context,
+                    UndoHistoryValue value,
+                    Widget? child,
+                  ) {
+                    return _webToolbarButton(
+                      onPressed:
+                          value.canRedo
+                              ? () {
                                 widget.undoHistoryController!.redo();
                                 widget.onTap?.call('Redo');
                               }
-                            : null,
-                        child: Icon(
-                          Icons.redo,
-                          color: value.canRedo ? _color : _disabledColor,
-                          size: 20,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                _webToolbarItem(
-                  'Highlight',
-                  _webToolbarButton(
-                    onPressed: () {
-                      widget.onTap?.call(PdfAnnotationMode.highlight);
-                    },
-                    fillColor: widget.pdfViewerController.annotationMode ==
-                            PdfAnnotationMode.highlight
-                        ? _fillColor
-                        : null,
-                    child: _annotationIcon(PdfAnnotationMode.highlight),
-                  ),
-                ),
-                _webToolbarItem(
-                  'Underline',
-                  _webToolbarButton(
-                    onPressed: () {
-                      widget.onTap?.call(PdfAnnotationMode.underline);
-                    },
-                    fillColor: widget.pdfViewerController.annotationMode ==
-                            PdfAnnotationMode.underline
-                        ? _fillColor
-                        : null,
-                    child: _annotationIcon(PdfAnnotationMode.underline),
-                  ),
-                ),
-                _webToolbarItem(
-                  'Strikethrough',
-                  _webToolbarButton(
-                    onPressed: () {
-                      widget.onTap?.call(PdfAnnotationMode.strikethrough);
-                    },
-                    fillColor: widget.pdfViewerController.annotationMode ==
-                            PdfAnnotationMode.strikethrough
-                        ? _fillColor
-                        : null,
-                    child: _annotationIcon(PdfAnnotationMode.strikethrough),
-                  ),
-                ),
-                _webToolbarItem(
-                  'Squiggly',
-                  _webToolbarButton(
-                    onPressed: () {
-                      widget.onTap?.call(PdfAnnotationMode.squiggly);
-                    },
-                    fillColor: widget.pdfViewerController.annotationMode ==
-                            PdfAnnotationMode.squiggly
-                        ? _fillColor
-                        : null,
-                    child: _annotationIcon(PdfAnnotationMode.squiggly),
-                  ),
-                ),
-                _webToolbarItem(
-                  'Sticky note',
-                  _webToolbarButton(
-                    onPressed: () {
-                      widget.onTap?.call(PdfAnnotationMode.stickyNote);
-                    },
-                    fillColor: widget.pdfViewerController.annotationMode ==
-                            PdfAnnotationMode.stickyNote
-                        ? _fillColor
-                        : null,
-                    child: _annotationIcon(PdfAnnotationMode.stickyNote),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 250,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Visibility(
-                    visible: _canShowColorPaletteIcon && !_isAnnotationLocked,
-                    child: _webToolbarItem(
-                      'Color Palette',
-                      _webToolbarButton(
-                        onPressed: () {
-                          widget.onTap?.call('Color Palette');
-                        },
-                        fillColor: _colorPaletteFillColor,
-                        child: ImageIcon(
-                          const AssetImage(
-                              'images/pdf_viewer/color_palette.png'),
-                          size: 17,
-                          color:
-                              _isLight ? Colors.black : const Color(0xFFFFFFFF),
-                        ),
+                              : null,
+                      child: Icon(
+                        Icons.redo,
+                        color: value.canRedo ? _color : _disabledColor,
+                        size: 20,
                       ),
-                      key: _colorPaletteKey,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              _webToolbarItem(
+                'Highlight',
+                _webToolbarButton(
+                  onPressed: () {
+                    widget.onTap?.call(PdfAnnotationMode.highlight);
+                  },
+                  fillColor:
+                      widget.pdfViewerController.annotationMode ==
+                              PdfAnnotationMode.highlight
+                          ? _fillColor
+                          : null,
+                  child: _annotationIcon(PdfAnnotationMode.highlight),
+                ),
+              ),
+              _webToolbarItem(
+                'Underline',
+                _webToolbarButton(
+                  onPressed: () {
+                    widget.onTap?.call(PdfAnnotationMode.underline);
+                  },
+                  fillColor:
+                      widget.pdfViewerController.annotationMode ==
+                              PdfAnnotationMode.underline
+                          ? _fillColor
+                          : null,
+                  child: _annotationIcon(PdfAnnotationMode.underline),
+                ),
+              ),
+              _webToolbarItem(
+                'Strikethrough',
+                _webToolbarButton(
+                  onPressed: () {
+                    widget.onTap?.call(PdfAnnotationMode.strikethrough);
+                  },
+                  fillColor:
+                      widget.pdfViewerController.annotationMode ==
+                              PdfAnnotationMode.strikethrough
+                          ? _fillColor
+                          : null,
+                  child: _annotationIcon(PdfAnnotationMode.strikethrough),
+                ),
+              ),
+              _webToolbarItem(
+                'Squiggly',
+                _webToolbarButton(
+                  onPressed: () {
+                    widget.onTap?.call(PdfAnnotationMode.squiggly);
+                  },
+                  fillColor:
+                      widget.pdfViewerController.annotationMode ==
+                              PdfAnnotationMode.squiggly
+                          ? _fillColor
+                          : null,
+                  child: _annotationIcon(PdfAnnotationMode.squiggly),
+                ),
+              ),
+              _webToolbarItem(
+                'Sticky note',
+                _webToolbarButton(
+                  onPressed: () {
+                    widget.onTap?.call(PdfAnnotationMode.stickyNote);
+                  },
+                  fillColor:
+                      widget.pdfViewerController.annotationMode ==
+                              PdfAnnotationMode.stickyNote
+                          ? _fillColor
+                          : null,
+                  child: _annotationIcon(PdfAnnotationMode.stickyNote),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 250,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Visibility(
+                  visible: _canShowColorPaletteIcon && !_isAnnotationLocked,
+                  child: _webToolbarItem(
+                    'Color Palette',
+                    _webToolbarButton(
+                      onPressed: () {
+                        widget.onTap?.call('Color Palette');
+                      },
+                      fillColor: _colorPaletteFillColor,
+                      child: ImageIcon(
+                        const AssetImage('images/pdf_viewer/color_palette.png'),
+                        size: 17,
+                        color:
+                            _isLight ? Colors.black : const Color(0xFFFFFFFF),
+                      ),
                     ),
+                    key: _colorPaletteKey,
                   ),
-                  Visibility(
-                    visible: _canshowStickyNoteIconMenu && !_isAnnotationLocked,
-                    child: _webToolbarItem(
-                      'Sticky note icons',
-                      _webToolbarButton(
-                        onPressed: () {
-                          widget.onTap?.call('Sticky note icons');
-                        },
-                        fillColor: _stickyNoteIconFillColor,
-                        child: _isLight
-                            ? ImageIcon(
+                ),
+                Visibility(
+                  visible: _canshowStickyNoteIconMenu && !_isAnnotationLocked,
+                  child: _webToolbarItem(
+                    'Sticky note icons',
+                    _webToolbarButton(
+                      onPressed: () {
+                        widget.onTap?.call('Sticky note icons');
+                      },
+                      fillColor: _stickyNoteIconFillColor,
+                      child:
+                          _isLight
+                              ? ImageIcon(
                                 const AssetImage(
-                                    'images/pdf_viewer/Note_light.png'),
+                                  'images/pdf_viewer/Note_light.png',
+                                ),
                                 size: 17,
                                 color: _annotationIconColor,
                               )
-                            : ImageIcon(
+                              : ImageIcon(
                                 const AssetImage(
-                                    'images/pdf_viewer/Note_dark.png'),
+                                  'images/pdf_viewer/Note_dark.png',
+                                ),
                                 size: 17,
                                 color: _annotationIconColor,
                               ),
+                    ),
+                    key: _stickyNoteKey,
+                  ),
+                ),
+                Visibility(
+                  visible: _canShowDeleteIcon && !_isAnnotationLocked,
+                  child: _webToolbarItem(
+                    'Delete',
+                    _webToolbarButton(
+                      onPressed: () {
+                        widget.onTap?.call('Delete');
+                      },
+                      child: ImageIcon(
+                        const AssetImage('images/pdf_viewer/delete.png'),
+                        size: 17,
+                        color:
+                            _isLight ? Colors.black : const Color(0xFFFFFFFF),
                       ),
-                      key: _stickyNoteKey,
                     ),
                   ),
-                  Visibility(
-                    visible: _canShowDeleteIcon && !_isAnnotationLocked,
-                    child: _webToolbarItem(
-                      'Delete',
-                      _webToolbarButton(
-                        onPressed: () {
-                          widget.onTap?.call('Delete');
-                        },
-                        child: ImageIcon(
-                          const AssetImage('images/pdf_viewer/delete.png'),
-                          size: 17,
-                          color:
-                              _isLight ? Colors.black : const Color(0xFFFFFFFF),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: _canShowLockIcon,
-                    child: _webToolbarItem(
-                      _isAnnotationLocked ? 'Unlock' : 'Lock',
-                      _webToolbarButton(
-                        onPressed: () {
-                          widget.onTap?.call('Lock');
-                        },
-                        child: ImageIcon(
-                          AssetImage(_isAnnotationLocked
+                ),
+                Visibility(
+                  visible: _canShowLockIcon,
+                  child: _webToolbarItem(
+                    _isAnnotationLocked ? 'Unlock' : 'Lock',
+                    _webToolbarButton(
+                      onPressed: () {
+                        widget.onTap?.call('Lock');
+                      },
+                      child: ImageIcon(
+                        AssetImage(
+                          _isAnnotationLocked
                               ? 'images/pdf_viewer/unlocked.png'
-                              : 'images/pdf_viewer/locked.png'),
-                          size: 18,
-                          color:
-                              _isLight ? Colors.black : const Color(0xFFFFFFFF),
+                              : 'images/pdf_viewer/locked.png',
                         ),
+                        size: 18,
+                        color:
+                            _isLight ? Colors.black : const Color(0xFFFFFFFF),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -1093,8 +1206,11 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     height: 40,
                     child: ValueListenableBuilder<UndoHistoryValue>(
                       valueListenable: widget.undoHistoryController!,
-                      builder: (BuildContext context, UndoHistoryValue value,
-                          Widget? child) {
+                      builder: (
+                        BuildContext context,
+                        UndoHistoryValue value,
+                        Widget? child,
+                      ) {
                         return Material(
                           color: Colors.transparent,
                           child: IconButton(
@@ -1103,9 +1219,10 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                               color: value.canUndo ? _color : _disabledColor,
                               size: 24,
                             ),
-                            onPressed: value.canUndo
-                                ? widget.undoHistoryController!.undo
-                                : null,
+                            onPressed:
+                                value.canUndo
+                                    ? widget.undoHistoryController!.undo
+                                    : null,
                             tooltip: widget.showTooltip ? 'Undo' : null,
                           ),
                         );
@@ -1117,8 +1234,11 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     height: 40,
                     child: ValueListenableBuilder<UndoHistoryValue>(
                       valueListenable: widget.undoHistoryController!,
-                      builder: (BuildContext context, UndoHistoryValue value,
-                          Widget? child) {
+                      builder: (
+                        BuildContext context,
+                        UndoHistoryValue value,
+                        Widget? child,
+                      ) {
                         return Material(
                           color: Colors.transparent,
                           child: IconButton(
@@ -1127,9 +1247,10 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                               color: value.canRedo ? _color : _disabledColor,
                               size: 24,
                             ),
-                            onPressed: value.canRedo
-                                ? widget.undoHistoryController!.redo
-                                : null,
+                            onPressed:
+                                value.canRedo
+                                    ? widget.undoHistoryController!.redo
+                                    : null,
                             tooltip: widget.showTooltip ? 'Redo' : null,
                           ),
                         );
@@ -1146,11 +1267,7 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     child: Material(
                       color: Colors.transparent,
                       child: IconButton(
-                        icon: Icon(
-                          Icons.save,
-                          color: _color,
-                          size: 24,
-                        ),
+                        icon: Icon(Icons.save, color: _color, size: 24),
                         onPressed: () async {
                           widget.pdfViewerController.clearSelection();
                           widget.onTap?.call('Save');

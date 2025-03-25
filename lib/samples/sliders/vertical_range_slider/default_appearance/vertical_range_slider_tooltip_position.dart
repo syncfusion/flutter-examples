@@ -26,63 +26,69 @@ class VerticalTooltipRangeSliderPage extends SampleView {
 class _VerticalTooltipRangeSliderPageState extends SampleViewState {
   _VerticalTooltipRangeSliderPageState();
   SfRangeValues _values = const SfRangeValues(140.0, 160.0);
-  SfRangeValues _hourValues =
-      SfRangeValues(DateTime(2010, 01, 01, 13), DateTime(2010, 01, 01, 17));
+  SfRangeValues _hourValues = SfRangeValues(
+    DateTime(2010, 01, 01, 13),
+    DateTime(2010, 01, 01, 17),
+  );
   bool _isInversed = false;
   bool _shouldAlwaysShowTooltip = false;
 
   SfRangeSliderTheme _yearRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-            tooltipBackgroundColor: model.primaryColor,
-            labelOffset: const Offset(-40, 0),
-            tickOffset: const Offset(-14, 0)),
-        child: SfRangeSlider.vertical(
-          min: 100.0,
-          max: 200.0,
-          showLabels: true,
-          interval: 20,
-          showTicks: true,
-          isInversed: _isInversed,
-          values: _values,
-          tooltipPosition: SliderTooltipPosition.right,
-          onChanged: (SfRangeValues values) {
-            setState(() {
-              _values = values;
-            });
-          },
-          enableTooltip: true,
-          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
-        ));
+      data: SfRangeSliderThemeData(
+        tooltipBackgroundColor: model.primaryColor,
+        labelOffset: const Offset(-40, 0),
+        tickOffset: const Offset(-14, 0),
+      ),
+      child: SfRangeSlider.vertical(
+        min: 100.0,
+        max: 200.0,
+        showLabels: true,
+        interval: 20,
+        showTicks: true,
+        isInversed: _isInversed,
+        values: _values,
+        tooltipPosition: SliderTooltipPosition.right,
+        onChanged: (SfRangeValues values) {
+          setState(() {
+            _values = values;
+          });
+        },
+        enableTooltip: true,
+        shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
+      ),
+    );
   }
 
   SfRangeSliderTheme _hourRangeSlider() {
     return SfRangeSliderTheme(
-        data:
-            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfRangeSlider.vertical(
-          min: DateTime(2010, 01, 01, 9),
-          max: DateTime(2010, 01, 01, 21),
-          showLabels: true,
-          interval: 4,
-          showTicks: true,
-          isInversed: _isInversed,
-          minorTicksPerInterval: 3,
-          dateFormat: DateFormat('h a'),
-          dateIntervalType: DateIntervalType.hours,
-          values: _hourValues,
-          onChanged: (SfRangeValues values) {
-            setState(() {
-              _hourValues = values;
-            });
-          },
-          enableTooltip: true,
-          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
-          tooltipTextFormatterCallback:
-              (dynamic actualLabel, String formattedText) {
-            return DateFormat('h:mm a').format(actualLabel);
-          },
-        ));
+      data: SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfRangeSlider.vertical(
+        min: DateTime(2010, 01, 01, 9),
+        max: DateTime(2010, 01, 01, 21),
+        showLabels: true,
+        interval: 4,
+        showTicks: true,
+        isInversed: _isInversed,
+        minorTicksPerInterval: 3,
+        dateFormat: DateFormat('h a'),
+        dateIntervalType: DateIntervalType.hours,
+        values: _hourValues,
+        onChanged: (SfRangeValues values) {
+          setState(() {
+            _hourValues = values;
+          });
+        },
+        enableTooltip: true,
+        shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
+        tooltipTextFormatterCallback: (
+          dynamic actualLabel,
+          String formattedText,
+        ) {
+          return DateFormat('h:mm a').format(actualLabel);
+        },
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -98,33 +104,40 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.all(padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.all(padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _yearRangeSlider()),
-              const Text('Tooltip on the right')
-            ]),
-            Column(children: <Widget>[
+              const Text('Tooltip on the right'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _hourRangeSlider()),
               const Text('Tooltip on the left'),
-            ]),
-          ],
-        ));
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget rangeSlider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget rangeSlider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? rangeSlider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+      },
+    );
   }
 
   @override
@@ -135,10 +148,7 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
           children: <Widget>[
             CheckboxListTile(
               value: _isInversed,
-              title: const Text(
-                'Inversed',
-                softWrap: false,
-              ),
+              title: const Text('Inversed', softWrap: false),
               activeColor: model.primaryColor,
               contentPadding: EdgeInsets.zero,
               onChanged: (bool? value) {
@@ -150,10 +160,7 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
             ),
             CheckboxListTile(
               value: _shouldAlwaysShowTooltip,
-              title: const Text(
-                'Show tooltip always',
-                softWrap: false,
-              ),
+              title: const Text('Show tooltip always', softWrap: false),
               activeColor: model.primaryColor,
               contentPadding: EdgeInsets.zero,
               onChanged: (bool? value) {

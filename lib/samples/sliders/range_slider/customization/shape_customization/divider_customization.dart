@@ -33,14 +33,19 @@ class _DividerCustomizedRangeSliderState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-          inactiveTrackColor: _inactiveColor.withOpacity(0.5),
-          activeTrackColor: _activeColor,
-          thumbColor: _activeColor,
-          inactiveDividerColor:
-              const Color.fromARGB(255, 214, 214, 214).withOpacity(1),
-          activeDividerColor: const Color.fromARGB(255, 255, 0, 58),
-          overlayColor: _activeColor.withOpacity(0.12),
-          tooltipBackgroundColor: _activeColor),
+        inactiveTrackColor: _inactiveColor.withValues(alpha: 0.5),
+        activeTrackColor: _activeColor,
+        thumbColor: _activeColor,
+        inactiveDividerColor: const Color.fromARGB(
+          255,
+          214,
+          214,
+          214,
+        ).withValues(alpha: 1),
+        activeDividerColor: const Color.fromARGB(255, 255, 0, 58),
+        overlayColor: _activeColor.withValues(alpha: 0.12),
+        tooltipBackgroundColor: _activeColor,
+      ),
       child: SfRangeSlider(
         max: 100.0,
         values: _values,
@@ -64,35 +69,44 @@ class _DividerShape extends SfDividerShape {
   SampleModel model;
 
   @override
-  void paint(PaintingContext context, Offset center, Offset? thumbCenter,
-      Offset? startThumbCenter, Offset? endThumbCenter,
-      {required RenderBox parentBox,
-      required SfSliderThemeData themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      required Paint? paint,
-      required Animation<double> enableAnimation,
-      required TextDirection textDirection}) {
+  void paint(
+    PaintingContext context,
+    Offset center,
+    Offset? thumbCenter,
+    Offset? startThumbCenter,
+    Offset? endThumbCenter, {
+    required RenderBox parentBox,
+    required SfSliderThemeData themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    required Paint? paint,
+    required Animation<double> enableAnimation,
+    required TextDirection textDirection,
+  }) {
     late bool isActive;
 
     switch (textDirection) {
       case TextDirection.ltr:
-        isActive = center.dx >= startThumbCenter!.dx &&
+        isActive =
+            center.dx >= startThumbCenter!.dx &&
             center.dx <= endThumbCenter!.dx;
         break;
       case TextDirection.rtl:
-        isActive = center.dx >= endThumbCenter!.dx &&
+        isActive =
+            center.dx >= endThumbCenter!.dx &&
             center.dx <= startThumbCenter!.dx;
         break;
     }
 
     context.canvas.drawRect(
-        Rect.fromCenter(center: center, width: 5.0, height: 10.0),
-        Paint()
-          ..isAntiAlias = true
-          ..style = PaintingStyle.fill
-          ..color = isActive
-              ? themeData.activeDividerColor!
-              : model.themeData.canvasColor);
+      Rect.fromCenter(center: center, width: 5.0, height: 10.0),
+      Paint()
+        ..isAntiAlias = true
+        ..style = PaintingStyle.fill
+        ..color =
+            isActive
+                ? themeData.activeDividerColor!
+                : model.themeData.canvasColor,
+    );
   }
 }

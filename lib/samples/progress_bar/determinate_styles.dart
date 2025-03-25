@@ -48,9 +48,10 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
     _progressBarColor = ProgressBarColor(model);
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size = model.isWebFullView
-          ? MediaQuery.of(context).size.height / 5
-          : MediaQuery.of(context).size.height / 4.5;
+      _size =
+          model.isWebFullView
+              ? MediaQuery.of(context).size.height / 5
+              : MediaQuery.of(context).size.height / 4.5;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +61,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
             getFilledProgressStyle(),
             const Center(child: Text('Filled progress')),
             getGradientProgressStyle(),
-            const Center(child: Text('Gradient track'))
+            const Center(child: Text('Gradient track')),
           ],
         ),
       );
@@ -88,7 +89,7 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 getGradientProgressStyle(),
-                const Center(child: Text('Gradient track'))
+                const Center(child: Text('Gradient track')),
               ],
             ),
           ],
@@ -106,50 +107,60 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
   /// Returns filled track style circular progress bar.
   Widget getFilledTrackStyle() {
     return SizedBox(
-        height: _size,
-        width: _size,
-        child: SfRadialGauge(axes: <RadialAxis>[
+      height: _size,
+      width: _size,
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
           RadialAxis(
-              showLabels: false,
-              showTicks: false,
-              startAngle: 270,
-              endAngle: 270,
-              radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-              axisLineStyle: AxisLineStyle(
-                thickness: 1,
-                color: _progressBarColor!.pointerColor ??
-                    const Color.fromARGB(255, 0, 169, 181),
-                thicknessUnit: GaugeSizeUnit.factor,
+            showLabels: false,
+            showTicks: false,
+            startAngle: 270,
+            endAngle: 270,
+            radiusFactor: model.isWebFullView ? 0.7 : 0.8,
+            axisLineStyle: AxisLineStyle(
+              thickness: 1,
+              color:
+                  _progressBarColor!.pointerColor ??
+                  const Color.fromARGB(255, 0, 169, 181),
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
+            pointers: <GaugePointer>[
+              RangePointer(
+                value: progressValue,
+                width: 0.15,
+                enableAnimation: true,
+                animationDuration: 30,
+                color: Colors.white,
+                pointerOffset: 0.1,
+                cornerStyle: CornerStyle.bothCurve,
+                animationType: AnimationType.linear,
+                sizeUnit: GaugeSizeUnit.factor,
               ),
-              pointers: <GaugePointer>[
-                RangePointer(
-                  value: progressValue,
-                  width: 0.15,
-                  enableAnimation: true,
-                  animationDuration: 30,
-                  color: Colors.white,
-                  pointerOffset: 0.1,
-                  cornerStyle: CornerStyle.bothCurve,
-                  animationType: AnimationType.linear,
-                  sizeUnit: GaugeSizeUnit.factor,
-                )
-              ],
-              annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                    positionFactor: 0.5,
-                    widget: Text(progressValue.toStringAsFixed(0) + '%',
-                        style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold)))
-              ])
-        ]));
+            ],
+            annotations: <GaugeAnnotation>[
+              GaugeAnnotation(
+                widget: Text(
+                  progressValue.toStringAsFixed(0) + '%',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   /// Returns filled progress style circular progress bar.
   Widget getFilledProgressStyle() {
     return SizedBox(
-        height: _size,
-        width: _size,
-        child: SfRadialGauge(axes: <RadialAxis>[
+      height: _size,
+      width: _size,
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
           RadialAxis(
             showLabels: false,
             showTicks: false,
@@ -173,52 +184,61 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
                 enableAnimation: true,
                 animationType: AnimationType.linear,
                 animationDuration: 75,
-              )
+              ),
             ],
-          )
-        ]));
+          ),
+        ],
+      ),
+    );
   }
 
   /// Returns gradient progress style circular progress bar.
   Widget getGradientProgressStyle() {
     final ThemeData themeData = model.themeData;
-    final Color gradientColor1 = themeData.useMaterial3
-        ? model.primaryColor.withOpacity(0.4)
-        : const Color(0xFFa4edeb);
+    final Color gradientColor1 =
+        themeData.useMaterial3
+            ? model.primaryColor.withValues(alpha: 0.4)
+            : const Color(0xFFa4edeb);
     final Color gradientColor2 =
         themeData.useMaterial3 ? model.primaryColor : const Color(0xFF00a9b5);
     return SizedBox(
-        height: _size,
-        width: _size,
-        child: SfRadialGauge(axes: <RadialAxis>[
+      height: _size,
+      width: _size,
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
           RadialAxis(
-              showLabels: false,
-              showTicks: false,
-              startAngle: 270,
-              endAngle: 270,
-              radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-              axisLineStyle: AxisLineStyle(
-                thickness: 0.2,
-                color: _progressBarColor!.axisLineColor,
-                thicknessUnit: GaugeSizeUnit.factor,
+            showLabels: false,
+            showTicks: false,
+            startAngle: 270,
+            endAngle: 270,
+            radiusFactor: model.isWebFullView ? 0.7 : 0.8,
+            axisLineStyle: AxisLineStyle(
+              thickness: 0.2,
+              color: _progressBarColor!.axisLineColor,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
+            pointers: <GaugePointer>[
+              RangePointer(
+                value: progressValue,
+                width: 0.2,
+                sizeUnit: GaugeSizeUnit.factor,
+                enableAnimation: true,
+                animationDuration: 75,
+                animationType: AnimationType.linear,
+                gradient: SweepGradient(
+                  colors: <Color>[gradientColor1, gradientColor2],
+                  stops: const <double>[0.25, 0.75],
+                ),
               ),
-              pointers: <GaugePointer>[
-                RangePointer(
-                    value: progressValue,
-                    width: 0.2,
-                    sizeUnit: GaugeSizeUnit.factor,
-                    enableAnimation: true,
-                    animationDuration: 75,
-                    animationType: AnimationType.linear,
-                    gradient: SweepGradient(
-                        colors: <Color>[gradientColor1, gradientColor2],
-                        stops: const <double>[0.25, 0.75])),
-              ],
-              annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                    positionFactor: 0.1,
-                    widget: Text(progressValue.toStringAsFixed(0) + '%'))
-              ]),
-        ]));
+            ],
+            annotations: <GaugeAnnotation>[
+              GaugeAnnotation(
+                widget: Text(progressValue.toStringAsFixed(0) + '%'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

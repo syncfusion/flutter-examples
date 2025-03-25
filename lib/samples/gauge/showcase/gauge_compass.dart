@@ -97,10 +97,7 @@ class _GaugeCompassExampleState extends SampleViewState {
       ],
     );
     if (model.isWebFullView) {
-      return Padding(
-        padding: const EdgeInsets.all(35),
-        child: widget,
-      );
+      return Padding(padding: const EdgeInsets.all(35), child: widget);
     } else {
       return widget;
     }
@@ -111,8 +108,9 @@ class _GaugeCompassExampleState extends SampleViewState {
     if (args.text == '90') {
       args.text = 'E';
       args.labelStyle = GaugeTextStyle(
-          color: const Color(0xFFDF5F2D),
-          fontSize: isCardView ? 10 : _labelFontSize);
+        color: const Color(0xFFDF5F2D),
+        fontSize: isCardView ? 10 : _labelFontSize,
+      );
     } else if (args.text == '360') {
       args.text = '';
     } else {
@@ -125,8 +123,9 @@ class _GaugeCompassExampleState extends SampleViewState {
       }
 
       args.labelStyle = GaugeTextStyle(
-          color: const Color(0xFFFFFFFF),
-          fontSize: isCardView ? 10 : _labelFontSize);
+        color: const Color(0xFFFFFFFF),
+        fontSize: isCardView ? 10 : _labelFontSize,
+      );
     }
   }
 

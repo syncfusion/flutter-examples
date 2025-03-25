@@ -32,36 +32,63 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
     // [team] is the second level grouping key.
     _europeanCupAndUEFALeagueWinners = <_FootballTeamDetails>[
       const _FootballTeamDetails(
-          nation: 'ESP', team: 'Real Madrid', titles: 13),
+        nation: 'ESP',
+        team: 'Real Madrid',
+        titles: 13,
+      ),
       const _FootballTeamDetails(nation: 'ITA', team: 'Milan', titles: 7),
       const _FootballTeamDetails(
-          nation: 'GER', team: 'Bayern Munich', titles: 6),
+        nation: 'GER',
+        team: 'Bayern Munich',
+        titles: 6,
+      ),
       const _FootballTeamDetails(nation: 'ENG', team: 'Liverpool', titles: 6),
       const _FootballTeamDetails(nation: 'ESP', team: 'Barcelona', titles: 5),
       const _FootballTeamDetails(nation: 'NED', team: 'Ajax', titles: 4),
       const _FootballTeamDetails(
-          nation: 'ENG', team: 'Manchester United', titles: 3),
+        nation: 'ENG',
+        team: 'Manchester United',
+        titles: 3,
+      ),
       const _FootballTeamDetails(nation: 'ITA', team: 'Inter Milan', titles: 3),
       const _FootballTeamDetails(nation: 'ITA', team: 'Juventus', titles: 2),
       const _FootballTeamDetails(nation: 'POR', team: 'Benfica', titles: 2),
       const _FootballTeamDetails(
-          nation: 'ENG', team: 'Nottingham Forest', titles: 2),
+        nation: 'ENG',
+        team: 'Nottingham Forest',
+        titles: 2,
+      ),
       const _FootballTeamDetails(nation: 'POR', team: 'Porto', titles: 2),
       const _FootballTeamDetails(nation: 'SCO', team: 'Celtic', titles: 1),
       const _FootballTeamDetails(
-          nation: 'GER', team: 'Hamburger SV', titles: 1),
+        nation: 'GER',
+        team: 'Hamburger SV',
+        titles: 1,
+      ),
       const _FootballTeamDetails(
-          nation: 'ROU', team: 'Steaua București', titles: 1),
+        nation: 'ROU',
+        team: 'Steaua București',
+        titles: 1,
+      ),
       const _FootballTeamDetails(nation: 'FRA', team: 'Marseille', titles: 1),
       const _FootballTeamDetails(
-          nation: 'GER', team: 'Borussia Dortmund', titles: 1),
+        nation: 'GER',
+        team: 'Borussia Dortmund',
+        titles: 1,
+      ),
       const _FootballTeamDetails(nation: 'ENG', team: 'Chelsea', titles: 1),
       const _FootballTeamDetails(nation: 'NED', team: 'Feyenoord', titles: 1),
       const _FootballTeamDetails(nation: 'ENG', team: 'Aston Villa', titles: 1),
       const _FootballTeamDetails(
-          nation: 'NED', team: 'PSV Eindhoven', titles: 1),
+        nation: 'NED',
+        team: 'PSV Eindhoven',
+        titles: 1,
+      ),
       const _FootballTeamDetails(
-          nation: 'YUG', team: 'Red Star Belgrade', titles: 1),
+        nation: 'YUG',
+        team: 'Red Star Belgrade',
+        titles: 1,
+      ),
     ];
 
     _dropDownMenuItems = _getDropDownMenuItems();
@@ -79,30 +106,39 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
   List<DropdownMenuItem<TreemapLayoutDirection>> _getDropDownMenuItems() {
     return <DropdownMenuItem<TreemapLayoutDirection>>[
       const DropdownMenuItem<TreemapLayoutDirection>(
-          value: TreemapLayoutDirection.topLeft, child: Text('topLeft')),
+        value: TreemapLayoutDirection.topLeft,
+        child: Text('topLeft'),
+      ),
       const DropdownMenuItem<TreemapLayoutDirection>(
-          value: TreemapLayoutDirection.bottomLeft, child: Text('bottomLeft')),
+        value: TreemapLayoutDirection.bottomLeft,
+        child: Text('bottomLeft'),
+      ),
       const DropdownMenuItem<TreemapLayoutDirection>(
-          value: TreemapLayoutDirection.topRight, child: Text('topRight')),
+        value: TreemapLayoutDirection.topRight,
+        child: Text('topRight'),
+      ),
       const DropdownMenuItem<TreemapLayoutDirection>(
-          value: TreemapLayoutDirection.bottomRight,
-          child: Text('bottomRight')),
+        value: TreemapLayoutDirection.bottomRight,
+        child: Text('bottomRight'),
+      ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    isDesktop = kIsWeb ||
+    isDesktop =
+        kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
     return Center(
       child: Padding(
-        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                isDesktop
-            ? const EdgeInsets.all(12.5)
-            : const EdgeInsets.all(10.0),
+        padding:
+            MediaQuery.of(context).orientation == Orientation.portrait ||
+                    isDesktop
+                ? const EdgeInsets.all(12.5)
+                : const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -148,8 +184,8 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
         //
         // Once grouped, we will get [labelBuilder] and [tooltipBuilder]
         // callbacks respectively.
-        groupMapper: (int index) =>
-            _europeanCupAndUEFALeagueWinners[index].nation,
+        groupMapper:
+            (int index) => _europeanCupAndUEFALeagueWinners[index].nation,
         // Padding around the tile.
         padding: const EdgeInsets.all(1.5),
         // Returns a widget for each tile's data label.
@@ -162,8 +198,9 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
                 tile.group,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: Theme.of(context).textTheme.bodySmall!.fontSize),
+                  color: Colors.white,
+                  fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+                ),
               ),
             ),
           );
@@ -176,8 +213,8 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
         //
         // Once grouped, we will get [labelBuilder] and [tooltipBuilder]
         // callbacks respectively.
-        groupMapper: (int index) =>
-            _europeanCupAndUEFALeagueWinners[index].team,
+        groupMapper:
+            (int index) => _europeanCupAndUEFALeagueWinners[index].team,
         // Padding around the tile.
         padding: const EdgeInsets.all(1.0),
         // Returns a widget for each tile's data label.
@@ -190,8 +227,9 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
                 tile.group,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: Theme.of(context).textTheme.bodySmall!.fontSize),
+                  color: Colors.black,
+                  fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+                ),
               ),
             ),
           );
@@ -204,14 +242,17 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
               text: TextSpan(
                 text: tile.group,
                 style: themeData.textTheme.bodySmall!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    height: 1.5),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  height: 1.5,
+                ),
                 children: <TextSpan>[
                   TextSpan(
                     text: '\nTitles : ${tile.weight.round()}',
                     style: themeData.textTheme.bodySmall!.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.normal),
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ],
               ),
@@ -273,10 +314,7 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Layout direction',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0),
@@ -285,29 +323,26 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
                     value: _layoutDirection,
                     items: _dropDownMenuItems,
                     onChanged: (TreemapLayoutDirection? value) {
-                      setState(
-                        () {
-                          _layoutDirection = value!;
-                          switch (_layoutDirection) {
-                            case TreemapLayoutDirection.topLeft:
-                              _layoutDirection = TreemapLayoutDirection.topLeft;
-                              break;
-                            case TreemapLayoutDirection.topRight:
-                              _layoutDirection =
-                                  TreemapLayoutDirection.topRight;
-                              break;
-                            case TreemapLayoutDirection.bottomLeft:
-                              _layoutDirection =
-                                  TreemapLayoutDirection.bottomLeft;
-                              break;
-                            case TreemapLayoutDirection.bottomRight:
-                              _layoutDirection =
-                                  TreemapLayoutDirection.bottomRight;
-                              break;
-                          }
-                          stateSetter(() {});
-                        },
-                      );
+                      setState(() {
+                        _layoutDirection = value!;
+                        switch (_layoutDirection) {
+                          case TreemapLayoutDirection.topLeft:
+                            _layoutDirection = TreemapLayoutDirection.topLeft;
+                            break;
+                          case TreemapLayoutDirection.topRight:
+                            _layoutDirection = TreemapLayoutDirection.topRight;
+                            break;
+                          case TreemapLayoutDirection.bottomLeft:
+                            _layoutDirection =
+                                TreemapLayoutDirection.bottomLeft;
+                            break;
+                          case TreemapLayoutDirection.bottomRight:
+                            _layoutDirection =
+                                TreemapLayoutDirection.bottomRight;
+                            break;
+                        }
+                        stateSetter(() {});
+                      });
                     },
                   ),
                 ),
@@ -321,11 +356,7 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
 }
 
 class _FootballTeamDetails {
-  const _FootballTeamDetails({
-    required this.titles,
-    this.nation,
-    this.team,
-  });
+  const _FootballTeamDetails({required this.titles, this.nation, this.team});
 
   final String? nation;
   final String? team;

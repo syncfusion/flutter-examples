@@ -16,23 +16,26 @@ import 'model.dart';
 import 'sample_view.dart';
 
 /// Callback for changing the theme.
-typedef ChangeThemeCallback = void Function(
-    bool isMaterial3, Brightness brightness);
+typedef ChangeThemeCallback =
+    void Function(bool isMaterial3, Brightness brightness);
 
 /// The index of the selected palette color.
 int selectedColorPaletteIndex = 0;
 
 /// On tap the button, select the samples.
-void onTapControlInMobile(BuildContext context, SampleModel model,
-    WidgetCategory category, int position) {
+void onTapControlInMobile(
+  BuildContext context,
+  SampleModel model,
+  WidgetCategory category,
+  int position,
+) {
   category.selectedIndex = position;
   Navigator.push<dynamic>(
     context,
     MaterialPageRoute<dynamic>(
-      builder: (BuildContext context) => LayoutPage(
-        sampleModel: model,
-        category: category,
-      ),
+      builder:
+          (BuildContext context) =>
+              LayoutPage(sampleModel: model, category: category),
     ),
   );
 }
@@ -56,27 +59,41 @@ void resetLocaleValue(SampleModel model, SubItem currentSample) {
 }
 
 /// On tap the mouse, select the samples in web.
-void onTapControlInWeb(BuildContext context, SampleModel model,
-    WidgetCategory category, int position) {
+void onTapControlInWeb(
+  BuildContext context,
+  SampleModel model,
+  WidgetCategory category,
+  int position,
+) {
   category.selectedIndex = position;
   final SubItem subItem =
       category.controlList![category.selectedIndex!].subItems[0].type ==
               'parent'
-          ? category.controlList![category.selectedIndex!].subItems[0]
-              .subItems[0].subItems[0] as SubItem
+          ? category
+                  .controlList![category.selectedIndex!]
+                  .subItems[0]
+                  .subItems[0]
+                  .subItems[0]
+              as SubItem
           : category.controlList![category.selectedIndex!].subItems[0].type ==
-                  'child'
-              ? category.controlList![category.selectedIndex!].subItems[0]
-                  .subItems[0] as SubItem
-              : category.controlList![category.selectedIndex!].subItems[0]
-                  as SubItem;
+              'child'
+          ? category
+                  .controlList![category.selectedIndex!]
+                  .subItems[0]
+                  .subItems[0]
+              as SubItem
+          : category.controlList![category.selectedIndex!].subItems[0]
+              as SubItem;
 
   Navigator.pushNamed(context, subItem.breadCrumbText!);
 }
 
 /// On tap the expand button, get the fullview sample.
 void onTapExpandSample(
-    BuildContext context, SubItem subItem, SampleModel model) {
+  BuildContext context,
+  SubItem subItem,
+  SampleModel model,
+) {
   model.isCardView = false;
   final Function sampleWidget = model.sampleWidget[subItem.key]!;
   final SampleView sampleView = sampleWidget(GlobalKey<State>()) as SampleView;
@@ -84,10 +101,7 @@ void onTapExpandSample(
     context,
     MaterialPageRoute<dynamic>(
       builder: (BuildContext context) {
-        return _FullViewSampleLayout(
-          sampleWidget: sampleView,
-          sample: subItem,
-        );
+        return _FullViewSampleLayout(sampleWidget: sampleView, sample: subItem);
       },
     ),
   );
@@ -206,11 +220,12 @@ List<TextSpan> getTextSpan(String description, SampleModel model) {
   for (int i = 0; i < list.length; i++) {
     if (list[i].contains('[')) {
       final List<String> splits = list[i].split('[');
-      final String text = splits[0].isEmpty
-          ? splits[1].contains(']')
-              ? splits[1].replaceAll(']', '')
-              : splits[1]
-          : splits[0];
+      final String text =
+          splits[0].isEmpty
+              ? splits[1].contains(']')
+                  ? splits[1].replaceAll(']', '')
+                  : splits[1]
+              : splits[0];
       if (i != 0) {
         textSpans.add(const TextSpan(text: ' '));
       }
@@ -226,10 +241,11 @@ List<TextSpan> getTextSpan(String description, SampleModel model) {
             height: 1.2,
             decoration: TextDecoration.underline,
           ),
-          recognizer: TapGestureRecognizer()
-            ..onTap = () {
-              launchUrl(Uri.parse(splits[1].replaceAll(']', '')));
-            },
+          recognizer:
+              TapGestureRecognizer()
+                ..onTap = () {
+                  launchUrl(Uri.parse(splits[1].replaceAll(']', '')));
+                },
         ),
       );
     } else if (highlightList.any((String element) => element == list[i])) {
@@ -255,19 +271,20 @@ List<TextSpan> getTextSpan(String description, SampleModel model) {
       textSpans.add(
         TextSpan(
           text: i == 0 ? list[i] : ' ' + list[i],
-          style: model.isWebFullView
-              ? TextStyle(
-                  color: model.textColor,
-                  fontFamily: 'Roboto-Regular',
-                  letterSpacing: 0.3,
-                )
-              : TextStyle(
-                  fontWeight: FontWeight.normal,
-                  letterSpacing: 0.2,
-                  fontSize: 15,
-                  height: 1.2,
-                  color: model.textColor,
-                ),
+          style:
+              model.isWebFullView
+                  ? TextStyle(
+                    color: model.textColor,
+                    fontFamily: 'Roboto-Regular',
+                    letterSpacing: 0.3,
+                  )
+                  : TextStyle(
+                    fontWeight: FontWeight.normal,
+                    letterSpacing: 0.2,
+                    fontSize: 15,
+                    height: 1.2,
+                    color: model.textColor,
+                  ),
         ),
       );
     }
@@ -286,35 +303,40 @@ class _FullViewSampleLayout extends StatelessWidget {
     final SampleModel model = SampleModel.instance;
     final bool needsFloatingBotton =
         (sample!.sourceLink != null && sample!.sourceLink != '') ||
-            (sample!.needsPropertyPanel ?? false);
+        (sample!.needsPropertyPanel ?? false);
     final bool needPadding =
         sample!.codeLink != null && sample!.codeLink!.contains('/chart/');
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return SafeArea(
-          child: sample == null
-              ? Container()
-              : Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  backgroundColor: model.primaryColor,
-                  appBar: PreferredSize(
-                    preferredSize: const Size.fromHeight(60.0),
-                    child: _buildAppBar(context, model),
+          child:
+              sample == null
+                  ? Container()
+                  : Scaffold(
+                    resizeToAvoidBottomInset: false,
+                    backgroundColor: model.primaryColor,
+                    appBar: PreferredSize(
+                      preferredSize: const Size.fromHeight(60.0),
+                      child: _buildAppBar(context, model),
+                    ),
+                    body: _buildSampleContent(
+                      needPadding,
+                      needsFloatingBotton,
+                      model,
+                    ),
+                    floatingActionButton:
+                        needsFloatingBotton
+                            ? Stack(
+                              children: <Widget>[
+                                if (sample!.sourceLink != null &&
+                                    sample!.sourceLink != '')
+                                  _buildSampleSourceLink(needPadding, model),
+                                if (sample!.needsPropertyPanel ?? false)
+                                  _buildSettings(context, model),
+                              ],
+                            )
+                            : null,
                   ),
-                  body: _buildSampleContent(
-                      needPadding, needsFloatingBotton, model),
-                  floatingActionButton: needsFloatingBotton
-                      ? Stack(
-                          children: <Widget>[
-                            if (sample!.sourceLink != null &&
-                                sample!.sourceLink != '')
-                              _buildSampleSourceLink(needPadding, model),
-                            if (sample!.needsPropertyPanel ?? false)
-                              _buildSettings(context, model),
-                          ],
-                        )
-                      : null,
-                ),
         );
       },
     );
@@ -327,44 +349,10 @@ class _FullViewSampleLayout extends StatelessWidget {
         sample!.title!,
         style: TextStyle(color: model.baseAppBarItemColor),
       ),
-      actions: (sample!.description != null && sample!.description != '')
-          ? <Widget>[
-              if (sample!.codeLink != null && sample!.codeLink != '')
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                  child: SizedBox(
-                    height: 37,
-                    width: 37,
-                    child: IconButton(
-                      icon: Image.asset('images/git_hub_mobile.png',
-                          color: model.baseAppBarItemColor),
-                      onPressed: () {
-                        launchUrl(Uri.parse(sample!.codeLink!));
-                      },
-                    ),
-                  ),
-                )
-              else
-                Container(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: SizedBox(
-                  height: 40,
-                  width: 40,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.info_outline,
-                      color: model.baseAppBarItemColor,
-                    ),
-                    onPressed: () {
-                      showBottomInfo(context, sample!.description!);
-                    },
-                  ),
-                ),
-              ),
-            ]
-          : (sample!.codeLink != null && sample!.codeLink != '')
-              ? (<Widget>[
+      actions:
+          (sample!.description != null && sample!.description != '')
+              ? <Widget>[
+                if (sample!.codeLink != null && sample!.codeLink != '')
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                     child: SizedBox(
@@ -380,8 +368,45 @@ class _FullViewSampleLayout extends StatelessWidget {
                         },
                       ),
                     ),
+                  )
+                else
+                  Container(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  child: SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.info_outline,
+                        color: model.baseAppBarItemColor,
+                      ),
+                      onPressed: () {
+                        showBottomInfo(context, sample!.description!);
+                      },
+                    ),
                   ),
-                ])
+                ),
+              ]
+              : (sample!.codeLink != null && sample!.codeLink != '')
+              ? (<Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                  child: SizedBox(
+                    height: 37,
+                    width: 37,
+                    child: IconButton(
+                      icon: Image.asset(
+                        'images/git_hub_mobile.png',
+                        color: model.baseAppBarItemColor,
+                      ),
+                      onPressed: () {
+                        launchUrl(Uri.parse(sample!.codeLink!));
+                      },
+                    ),
+                  ),
+                ),
+              ])
               : null,
       elevation: 0.0,
       backgroundColor: model.primaryColor,
@@ -390,15 +415,17 @@ class _FullViewSampleLayout extends StatelessWidget {
   }
 
   Widget _buildSampleContent(
-      bool needPadding, bool needsFloatingBotton, SampleModel model) {
+    bool needPadding,
+    bool needsFloatingBotton,
+    SampleModel model,
+  ) {
     return Container(
-      padding: needPadding
-          ? EdgeInsets.fromLTRB(5, 0, 5, needsFloatingBotton ? 57 : 0)
-          : EdgeInsets.zero,
+      padding:
+          needPadding
+              ? EdgeInsets.fromLTRB(5, 0, 5, needsFloatingBotton ? 57 : 0)
+              : EdgeInsets.zero,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(12),
-        ),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
         color: model.sampleOutputCardColor,
       ),
       child: sampleWidget,
@@ -417,24 +444,16 @@ class _FullViewSampleLayout extends StatelessWidget {
             hoverColor: model.hoverColor,
             highlightColor: model.splashColor,
             splashColor: model.splashColor,
-            onTap: () => launchUrl(
-              Uri.parse(sample!.sourceLink!),
-            ),
+            onTap: () => launchUrl(Uri.parse(sample!.sourceLink!)),
             child: Row(
               children: <Widget>[
                 Text(
                   'Source: ',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16, color: model.textColor),
                 ),
                 Text(
                   sample!.sourceText!,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.blue,
-                  ),
+                  style: const TextStyle(fontSize: 14, color: Colors.blue),
                 ),
               ],
             ),
@@ -457,10 +476,7 @@ class _FullViewSampleLayout extends StatelessWidget {
           showBottomPropertySettingsPanel(context, settingsContent);
         },
         backgroundColor: model.primaryColor,
-        child: const Icon(
-          Icons.graphic_eq,
-          color: Colors.white,
-        ),
+        child: const Icon(Icons.graphic_eq, color: Colors.white),
       ),
     );
   }
@@ -471,13 +487,15 @@ Widget buildLeftSideDrawer(SampleModel model) {
   return LayoutBuilder(
     builder: (BuildContext context, BoxConstraints constraints) {
       return SizedBox(
-        width: MediaQuery.of(context).size.width *
+        width:
+            MediaQuery.of(context).size.width *
             (MediaQuery.of(context).size.width < 600 ? 0.7 : 0.4),
         child: Drawer(
           child: ColoredBox(
-            color: model.themeData.colorScheme.brightness == Brightness.dark
-                ? Colors.black
-                : Colors.white,
+            color:
+                model.themeData.colorScheme.brightness == Brightness.dark
+                    ? Colors.black
+                    : Colors.white,
             child: Column(
               children: <Widget>[
                 _buildNavigationBannerImage(model),
@@ -535,10 +553,7 @@ Widget _buildNavigationBannerImage(SampleModel model) {
   if (model.themeData.colorScheme.brightness == Brightness.light) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 30, 30, 10),
-      child: Image.asset(
-        'images/image_nav_banner.png',
-        fit: BoxFit.cover,
-      ),
+      child: Image.asset('images/image_nav_banner.png', fit: BoxFit.cover),
     );
   } else {
     return Padding(
@@ -568,9 +583,7 @@ Widget _buildProductPageButton(BuildContext context, SampleModel model) {
           padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
           child: Column(
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-              ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
               Row(
                 children: <Widget>[
                   Image.asset(
@@ -592,12 +605,10 @@ Widget _buildProductPageButton(BuildContext context, SampleModel model) {
                         fontWeight: FontWeight.normal,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-              ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
             ],
           ),
         ),
@@ -627,13 +638,11 @@ Widget _buildOtherProducts(SampleModel model, BuildContext context) {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-        ),
+        const Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
         _buildMauiDemoButton(context, model),
         _buildXamarinDemoButton(context, model),
         _buildXamarinUiKitDemoButton(context, model),
@@ -651,14 +660,15 @@ Widget _buildMauiDemoButton(BuildContext context, SampleModel model) {
       splashColor: model.splashColor,
       onTap: () {
         Feedback.forLongPress(context);
-        launchUrl(Uri.parse(
-            'https://play.google.com/store/apps/details?id=com.syncfusion.sampleBrowser.maui&pcampaignid=web_share'));
+        launchUrl(
+          Uri.parse(
+            'https://play.google.com/store/apps/details?id=com.syncfusion.sampleBrowser.maui&pcampaignid=web_share',
+          ),
+        );
       },
       child: Column(
         children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.only(top: 10),
-          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
           Row(
             children: <Widget>[
               Padding(
@@ -684,15 +694,10 @@ Widget _buildMauiDemoButton(BuildContext context, SampleModel model) {
                 ),
               ),
               const Spacer(),
-              Icon(
-                Icons.arrow_forward,
-                color: model.primaryColor,
-              ),
+              Icon(Icons.arrow_forward, color: model.primaryColor),
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 10),
-          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
         ],
       ),
     ),
@@ -708,14 +713,15 @@ Widget _buildXamarinDemoButton(BuildContext context, SampleModel model) {
       splashColor: model.splashColor,
       onTap: () {
         Feedback.forLongPress(context);
-        launchUrl(Uri.parse(
-            'https://play.google.com/store/apps/details?id=com.syncfusion.samplebrowser&hl=en'));
+        launchUrl(
+          Uri.parse(
+            'https://play.google.com/store/apps/details?id=com.syncfusion.samplebrowser&hl=en',
+          ),
+        );
       },
       child: Column(
         children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.only(top: 10),
-          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
           Row(
             children: <Widget>[
               Padding(
@@ -741,15 +747,10 @@ Widget _buildXamarinDemoButton(BuildContext context, SampleModel model) {
                 ),
               ),
               const Spacer(),
-              Icon(
-                Icons.arrow_forward,
-                color: model.primaryColor,
-              ),
+              Icon(Icons.arrow_forward, color: model.primaryColor),
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 10),
-          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
         ],
       ),
     ),
@@ -765,14 +766,15 @@ Widget _buildXamarinUiKitDemoButton(BuildContext context, SampleModel model) {
       splashColor: model.splashColor,
       onTap: () {
         Feedback.forLongPress(context);
-        launchUrl(Uri.parse(
-            'https://play.google.com/store/apps/details?id=com.syncfusion.xamarin.uikit&hl=en'));
+        launchUrl(
+          Uri.parse(
+            'https://play.google.com/store/apps/details?id=com.syncfusion.xamarin.uikit&hl=en',
+          ),
+        );
       },
       child: Column(
         children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.only(top: 10),
-          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
           Row(
             children: <Widget>[
               Padding(
@@ -798,15 +800,10 @@ Widget _buildXamarinUiKitDemoButton(BuildContext context, SampleModel model) {
                 ),
               ),
               const Spacer(),
-              Icon(
-                Icons.arrow_forward,
-                color: model.primaryColor,
-              ),
+              Icon(Icons.arrow_forward, color: model.primaryColor),
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 10),
-          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
         ],
       ),
     ),
@@ -824,16 +821,17 @@ Widget _buildDocumentationButton(BuildContext context, SampleModel model) {
         splashColor: model.splashColor,
         onTap: () {
           Feedback.forLongPress(context);
-          launchUrl(Uri.parse(
-              'https://help.syncfusion.com/flutter/introduction/overview'));
+          launchUrl(
+            Uri.parse(
+              'https://help.syncfusion.com/flutter/introduction/overview',
+            ),
+          );
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
           child: Column(
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-              ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
               Row(
                 children: <Widget>[
                   Image.asset(
@@ -855,12 +853,10 @@ Widget _buildDocumentationButton(BuildContext context, SampleModel model) {
                         fontWeight: FontWeight.normal,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-              ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
             ],
           ),
         ),
@@ -889,7 +885,7 @@ Widget _buildCompanyLogoAndAppVersion(SampleModel model) {
         Align(
           alignment: Alignment.bottomCenter,
           child: Text(
-            'Version 26.1.35',
+            'Version 28.1.33',
             style: TextStyle(
               color: model.drawerTextIconColor,
               fontSize: 12,
@@ -914,11 +910,20 @@ Widget buildFooter(BuildContext context, SampleModel model) {
       border: Border(top: BorderSide(width: 0.8, color: model.dividerColor)),
       color: model.footerColor,
     ),
-    padding: model.isMobileResolution
-        ? EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 0,
-            MediaQuery.of(context).size.width * 0.025, 0)
-        : EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.05, 0,
-            MediaQuery.of(context).size.width * 0.05, 0),
+    padding:
+        model.isMobileResolution
+            ? EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.025,
+              0,
+              MediaQuery.of(context).size.width * 0.025,
+              0,
+            )
+            : EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.05,
+              0,
+              MediaQuery.of(context).size.width * 0.05,
+              0,
+            ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -929,57 +934,58 @@ Widget buildFooter(BuildContext context, SampleModel model) {
             Row(
               children: <Widget>[
                 InkWell(
-                  onTap: () => launchUrl(Uri.parse(
-                      'https://help.syncfusion.com/flutter/introduction/overview')),
+                  onTap:
+                      () => launchUrl(
+                        Uri.parse(
+                          'https://help.syncfusion.com/flutter/introduction/overview',
+                        ),
+                      ),
                   child: Text(
                     'Documentation',
                     style: TextStyle(color: textColor, fontSize: 12),
                   ),
                 ),
-                Text(
-                  ' | ',
-                  style: TextStyle(fontSize: 12, color: textColor),
-                ),
+                Text(' | ', style: TextStyle(fontSize: 12, color: textColor)),
                 InkWell(
-                  onTap: () => launchUrl(
-                    Uri.parse('https://www.syncfusion.com/forums/flutter'),
-                  ),
+                  onTap:
+                      () => launchUrl(
+                        Uri.parse('https://www.syncfusion.com/forums/flutter'),
+                      ),
                   child: Text(
                     'Forum',
                     style: TextStyle(color: textColor, fontSize: 12),
                   ),
                 ),
-                Text(
-                  ' | ',
-                  style: TextStyle(fontSize: 12, color: textColor),
-                ),
+                Text(' | ', style: TextStyle(fontSize: 12, color: textColor)),
                 InkWell(
-                  onTap: () => launchUrl(
-                    Uri.parse('https://www.syncfusion.com/blogs/?s=flutter'),
-                  ),
+                  onTap:
+                      () => launchUrl(
+                        Uri.parse(
+                          'https://www.syncfusion.com/blogs/?s=flutter',
+                        ),
+                      ),
                   child: Text(
                     'Blog',
                     style: TextStyle(color: textColor, fontSize: 12),
                   ),
                 ),
-                Text(
-                  ' | ',
-                  style: TextStyle(color: textColor, fontSize: 12),
-                ),
+                Text(' | ', style: TextStyle(color: textColor, fontSize: 12)),
                 InkWell(
-                  onTap: () => launchUrl(
-                      Uri.parse('https://www.syncfusion.com/kb/flutter')),
+                  onTap:
+                      () => launchUrl(
+                        Uri.parse('https://www.syncfusion.com/kb/flutter'),
+                      ),
                   child: Text(
                     'Knowledge base',
                     style: TextStyle(color: textColor, fontSize: 12),
                   ),
-                )
+                ),
               ],
             ),
             Container(
               padding: const EdgeInsets.only(top: 10),
               child: Text(
-                'Copyright © 2001 - 2024 Syncfusion Inc.',
+                'Copyright © 2001 - 2025 Syncfusion® Inc.',
                 style: TextStyle(
                   color: model.themeData.colorScheme.onSurfaceVariant,
                   fontSize: 12,
@@ -1007,7 +1013,10 @@ Widget buildFooter(BuildContext context, SampleModel model) {
 
 /// Show Right drawer which contains theme settings for web.
 Widget buildWebThemeSettings(
-    SampleModel model, BuildContext context, ChangeThemeCallback refresh) {
+  SampleModel model,
+  BuildContext context,
+  ChangeThemeCallback refresh,
+) {
   int selectedValue = model.selectedThemeIndex;
   return StatefulBuilder(
     builder: (BuildContext context, StateSetter setState) {
@@ -1049,7 +1058,12 @@ Widget buildWebThemeSettings(
                 Align(
                   alignment: Alignment.centerLeft,
                   child: buildM2ToM3SwapOption(
-                      model, context, MainAxisSize.max, textColor, refresh),
+                    model,
+                    context,
+                    MainAxisSize.max,
+                    textColor,
+                    refresh,
+                  ),
                 ),
               if (MediaQuery.of(context).size.width < 1020)
                 const SizedBox(height: 25),
@@ -1065,9 +1079,10 @@ Widget buildWebThemeSettings(
                         child: Text(
                           'Light theme',
                           style: TextStyle(
-                            color: selectedValue == 0
-                                ? model.baseAppBarItemColor
-                                : textColor,
+                            color:
+                                selectedValue == 0
+                                    ? model.baseAppBarItemColor
+                                    : textColor,
                             fontFamily: 'Roboto-Medium',
                           ),
                         ),
@@ -1078,13 +1093,14 @@ Widget buildWebThemeSettings(
                         child: Text(
                           'Dark theme',
                           style: TextStyle(
-                            color: selectedValue == 1
-                                ? model.baseAppBarItemColor
-                                : textColor,
+                            color:
+                                selectedValue == 1
+                                    ? model.baseAppBarItemColor
+                                    : textColor,
                             fontFamily: 'Roboto-Medium',
                           ),
                         ),
-                      )
+                      ),
                     },
                     unselectedColor: Colors.transparent,
                     selectedColor: model.primaryColor,
@@ -1122,7 +1138,12 @@ Widget buildWebThemeSettings(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: _buildColorPalettes(
-                          model, context, selectedValue, refresh, setState),
+                        model,
+                        context,
+                        selectedValue,
+                        refresh,
+                        setState,
+                      ),
                     ),
                   ),
                 ],
@@ -1136,9 +1157,13 @@ Widget buildWebThemeSettings(
 }
 
 /// Adding the palette color in the theme setting panel.
-List<Widget> _buildColorPalettes(SampleModel model, BuildContext context,
-    int selectedValue, ChangeThemeCallback refresh,
-    [StateSetter? setState]) {
+List<Widget> _buildColorPalettes(
+  SampleModel model,
+  BuildContext context,
+  int selectedValue,
+  ChangeThemeCallback refresh, [
+  StateSetter? setState,
+]) {
   final List<Widget> colorPaletteWidgets = <Widget>[];
   for (int i = 0; i < model.paletteColors.length; i++) {
     colorPaletteWidgets.add(
@@ -1147,14 +1172,17 @@ List<Widget> _buildColorPalettes(SampleModel model, BuildContext context,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: Colors.transparent,
-            border: model.paletteBorderColors.isNotEmpty &&
-                    model.paletteBorderColorsM3.isNotEmpty
-                ? Border.all(
-                    color: model.themeData.useMaterial3
-                        ? model.paletteBorderColorsM3[i]
-                        : model.paletteBorderColors[i],
-                    width: 2.0)
-                : const Border(),
+            border:
+                model.paletteBorderColors.isNotEmpty &&
+                        model.paletteBorderColorsM3.isNotEmpty
+                    ? Border.all(
+                      color:
+                          model.themeData.useMaterial3
+                              ? model.paletteBorderColorsM3[i]
+                              : model.paletteBorderColors[i],
+                      width: 2.0,
+                    )
+                    : const Border(),
             shape: BoxShape.circle,
           ),
           child: InkWell(
@@ -1164,17 +1192,24 @@ List<Widget> _buildColorPalettes(SampleModel model, BuildContext context,
             borderRadius: BorderRadius.circular(20.0),
             onTap: () {
               selectedColorPaletteIndex = i;
-              changeColorPalette(model, context, selectedValue,
-                  model.themeData.useMaterial3, refresh, setState);
+              changeColorPalette(
+                model,
+                context,
+                selectedValue,
+                model.themeData.useMaterial3,
+                refresh,
+                setState,
+              );
             },
             child: Icon(
               Icons.brightness_1,
               size: 40.0,
-              color: model.themeData.useMaterial3
-                  ? model.themeData.brightness == Brightness.light
-                      ? model.paletteColorsM3[i]
-                      : model.darkPaletteColorsM3[i]
-                  : model.paletteColors[i],
+              color:
+                  model.themeData.useMaterial3
+                      ? model.themeData.brightness == Brightness.light
+                          ? model.paletteColorsM3[i]
+                          : model.darkPaletteColorsM3[i]
+                      : model.paletteColors[i],
             ),
           ),
         ),
@@ -1198,9 +1233,10 @@ void changeColorPalette(
     model.paletteBorderColorsM3[j] = Colors.transparent;
   }
 
-  final Brightness brightness = selectedThemeValue == -1
-      ? model.systemTheme.brightness
-      : selectedThemeValue == 0
+  final Brightness brightness =
+      selectedThemeValue == -1
+          ? model.systemTheme.brightness
+          : selectedThemeValue == 0
           ? Brightness.light
           : Brightness.dark;
   setState?.call(() {});
@@ -1208,8 +1244,13 @@ void changeColorPalette(
 }
 
 /// UI for switching m2 and m3.
-Widget buildM2ToM3SwapOption(SampleModel model, BuildContext context,
-    MainAxisSize mainAxisSize, Color textColor, ChangeThemeCallback refresh) {
+Widget buildM2ToM3SwapOption(
+  SampleModel model,
+  BuildContext context,
+  MainAxisSize mainAxisSize,
+  Color textColor,
+  ChangeThemeCallback refresh,
+) {
   final bool isMaterial3 = model.themeData.useMaterial3;
   final Widget themeSwitch = SwitchTheme(
     data: SwitchThemeData(
@@ -1241,19 +1282,13 @@ Widget buildM2ToM3SwapOption(SampleModel model, BuildContext context,
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: mainAxisSize,
       children: <Widget>[
-        Text(
-          'Material 3',
-          style: TextStyle(color: textColor),
-        ),
+        Text('Material 3', style: TextStyle(color: textColor)),
         if (isMaterial3) const SizedBox(width: 5),
         if (mainAxisSize == MainAxisSize.min)
           themeSwitch
         else
           Expanded(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: themeSwitch,
-            ),
+            child: Align(alignment: Alignment.centerRight, child: themeSwitch),
           ),
       ],
     ),
@@ -1266,9 +1301,10 @@ String statusTag(SubItem item) {
       kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isLinux;
   String status = '';
   if (item.subItems == null) {
-    status = (item.status == 'new' || item.status == 'New')
-        ? (isWeb ? 'New' : 'N')
-        : (item.status == 'updated' || item.status == 'Updated')
+    status =
+        (item.status == 'new' || item.status == 'New')
+            ? (isWeb ? 'New' : 'N')
+            : (item.status == 'updated' || item.status == 'Updated')
             ? (isWeb ? 'Updated' : 'U')
             : '';
   } else {
@@ -1295,9 +1331,10 @@ String statusTag(SubItem item) {
         }
       }
     }
-    status = (newCount != 0 && newCount == item.subItems!.length)
-        ? (isWeb ? 'New' : 'N')
-        : (newCount != 0 || updateCount != 0)
+    status =
+        (newCount != 0 && newCount == item.subItems!.length)
+            ? (isWeb ? 'New' : 'N')
+            : (newCount != 0 || updateCount != 0)
             ? (isWeb ? 'Updated' : 'U')
             : '';
   }
@@ -1306,200 +1343,214 @@ String statusTag(SubItem item) {
 
 /// show bottom sheet which contains theme settings.
 void showBottomSettingsPanel(
-    SampleModel model, BuildContext context, ChangeThemeCallback refresh) {
+  SampleModel model,
+  BuildContext context,
+  ChangeThemeCallback refresh,
+) {
   int selectedValue = model.selectedThemeIndex;
   final double width = MediaQuery.of(context).size.width * 0.3;
   showRoundedModalBottomSheet<dynamic>(
     context: context,
-    builder: (BuildContext context) =>
-        StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-      final Color textColor =
-          model.themeData.colorScheme.brightness == Brightness.light
-              ? const Color.fromRGBO(84, 84, 84, 1)
-              : const Color.fromRGBO(218, 218, 218, 1);
-      return Container(
-        height: 300,
-        color: model.drawerBackgroundColor,
-        padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Settings',
-                  style: TextStyle(
-                    color: model.themeData.colorScheme.onSurface,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Roboto-Medium',
-                  ),
-                ),
-                IconButton(
-                  color: model.themeData.colorScheme.onSurface,
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: buildM2ToM3SwapOption(
-                  model, context, MainAxisSize.max, textColor, refresh),
-            ),
-            const SizedBox(height: 25),
-            StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return CupertinoSegmentedControl<int>(
-                  padding: EdgeInsets.zero,
-                  children: <int, Widget>{
-                    0: Container(
-                      width: width,
-                      padding: const EdgeInsets.symmetric(vertical: 12.5),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'System theme',
-                        style: TextStyle(
-                          color: selectedValue == 0
-                              ? model.baseAppBarItemColor
-                              : textColor,
-                          fontFamily: 'HeeboMedium',
-                        ),
-                      ),
-                    ),
-                    1: Container(
-                      width: width,
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Light theme',
-                        style: TextStyle(
-                          color: selectedValue == 1
-                              ? model.baseAppBarItemColor
-                              : textColor,
-                          fontFamily: 'HeeboMedium',
-                        ),
-                      ),
-                    ),
-                    2: Container(
-                      width: width,
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Dark theme',
-                        style: TextStyle(
-                          color: selectedValue == 2
-                              ? model.baseAppBarItemColor
-                              : textColor,
-                          fontFamily: 'HeeboMedium',
-                        ),
-                      ),
-                    )
-                  },
-                  unselectedColor: Colors.transparent,
-                  selectedColor: model.primaryColor,
-                  pressedColor: model.primaryColor,
-                  borderColor: model.primaryColor,
-                  groupValue: selectedValue,
-                  onValueChanged: (int value) {
-                    setState(() {
-                      selectedValue = value;
-                      model.selectedThemeIndex = value;
-                      Brightness brightness;
-                      if (value == 0) {
-                        brightness = model.systemTheme.brightness;
-                      } else if (value == 1) {
-                        brightness = Brightness.light;
-                      } else {
-                        brightness = Brightness.dark;
-                      }
-                      refresh(model.themeData.useMaterial3, brightness);
-                    });
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 25),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Theme colors',
-                style: TextStyle(
-                  color: Color.fromRGBO(128, 128, 128, 1),
-                  fontSize: 14,
-                  fontFamily: 'HeeboMedium',
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Row(
+    builder:
+        (BuildContext context) => StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            final Color textColor =
+                model.themeData.colorScheme.brightness == Brightness.light
+                    ? const Color.fromRGBO(84, 84, 84, 1)
+                    : const Color.fromRGBO(218, 218, 218, 1);
+            return Container(
+              height: 300,
+              color: model.drawerBackgroundColor,
+              padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
+              child: Column(
+                children: <Widget>[
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: _buildColorPalettes(
-                        model,
-                        context,
-                        selectedValue == 0
-                            ? -1
-                            : selectedValue == 1
+                    children: <Widget>[
+                      Text(
+                        'Settings',
+                        style: TextStyle(
+                          color: model.themeData.colorScheme.onSurface,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Roboto-Medium',
+                        ),
+                      ),
+                      IconButton(
+                        color: model.themeData.colorScheme.onSurface,
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: buildM2ToM3SwapOption(
+                      model,
+                      context,
+                      MainAxisSize.max,
+                      textColor,
+                      refresh,
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                      return CupertinoSegmentedControl<int>(
+                        padding: EdgeInsets.zero,
+                        children: <int, Widget>{
+                          0: Container(
+                            width: width,
+                            padding: const EdgeInsets.symmetric(vertical: 12.5),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'System theme',
+                              style: TextStyle(
+                                color:
+                                    selectedValue == 0
+                                        ? model.baseAppBarItemColor
+                                        : textColor,
+                                fontFamily: 'HeeboMedium',
+                              ),
+                            ),
+                          ),
+                          1: Container(
+                            width: width,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Light theme',
+                              style: TextStyle(
+                                color:
+                                    selectedValue == 1
+                                        ? model.baseAppBarItemColor
+                                        : textColor,
+                                fontFamily: 'HeeboMedium',
+                              ),
+                            ),
+                          ),
+                          2: Container(
+                            width: width,
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Dark theme',
+                              style: TextStyle(
+                                color:
+                                    selectedValue == 2
+                                        ? model.baseAppBarItemColor
+                                        : textColor,
+                                fontFamily: 'HeeboMedium',
+                              ),
+                            ),
+                          ),
+                        },
+                        unselectedColor: Colors.transparent,
+                        selectedColor: model.primaryColor,
+                        pressedColor: model.primaryColor,
+                        borderColor: model.primaryColor,
+                        groupValue: selectedValue,
+                        onValueChanged: (int value) {
+                          setState(() {
+                            selectedValue = value;
+                            model.selectedThemeIndex = value;
+                            Brightness brightness;
+                            if (value == 0) {
+                              brightness = model.systemTheme.brightness;
+                            } else if (value == 1) {
+                              brightness = Brightness.light;
+                            } else {
+                              brightness = Brightness.dark;
+                            }
+                            refresh(model.themeData.useMaterial3, brightness);
+                          });
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 25),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Theme colors',
+                      style: TextStyle(
+                        color: Color.fromRGBO(128, 128, 128, 1),
+                        fontSize: 14,
+                        fontFamily: 'HeeboMedium',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: _buildColorPalettes(
+                            model,
+                            context,
+                            selectedValue == 0
+                                ? -1
+                                : selectedValue == 1
                                 ? 0
                                 : 1,
-                        refresh,
-                        setState),
+                            refresh,
+                            setState,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            );
+          },
         ),
-      );
-    }),
   );
 }
 
 /// To show the settings panel content in the bottom sheet.
 void showBottomPropertySettingsPanel(
-    BuildContext context, Widget propertyWidget) {
+  BuildContext context,
+  Widget propertyWidget,
+) {
   final SampleModel model = SampleModel.instance;
   showRoundedModalBottomSheet<dynamic>(
     context: context,
     color: model.drawerBackgroundColor,
-    builder: (BuildContext context) => Container(
-      padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-      child: Stack(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    builder:
+        (BuildContext context) => Container(
+          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+          child: Stack(
             children: <Widget>[
-              Text(
-                'Settings',
-                style: TextStyle(
-                  color: model.textColor,
-                  fontSize: 18,
-                  letterSpacing: 0.34,
-                  fontWeight: FontWeight.w500,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Settings',
+                    style: TextStyle(
+                      color: model.textColor,
+                      fontSize: 18,
+                      letterSpacing: 0.34,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.close, color: model.textColor),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.close,
-                  color: model.textColor,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 50, 0, 0),
+                child: propertyWidget,
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 50, 0, 0),
-            child: propertyWidget,
-          ),
-        ],
-      ),
-    ),
+        ),
   );
 }
 
@@ -1515,58 +1566,56 @@ void showBottomInfo(BuildContext context, String information) {
     showRoundedModalBottomSheet<dynamic>(
       context: context,
       color: model.drawerBackgroundColor,
-      builder: (BuildContext context) => Container(
-        padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-        child: Stack(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      builder:
+          (BuildContext context) => Container(
+            padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+            child: Stack(
               children: <Widget>[
-                Text(
-                  'Description',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 18,
-                    letterSpacing: 0.34,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Description',
+                      style: TextStyle(
+                        color: model.textColor,
+                        fontSize: 18,
+                        letterSpacing: 0.34,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.close, color: model.textColor),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    color: model.textColor,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 45, 12, 15),
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      RichText(
+                        textAlign: TextAlign.justify,
+                        text: TextSpan(
+                          text: textSpan!.text,
+                          style: TextStyle(
+                            color: model.textColor,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 15.0,
+                            letterSpacing: 0.2,
+                            height: 1.2,
+                          ),
+                          children: textSpans,
+                        ),
+                      ),
+                    ],
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 45, 12, 15),
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  RichText(
-                    textAlign: TextAlign.justify,
-                    text: TextSpan(
-                      text: textSpan!.text,
-                      style: TextStyle(
-                        color: model.textColor,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15.0,
-                        letterSpacing: 0.2,
-                        height: 1.2,
-                      ),
-                      children: textSpans,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 }

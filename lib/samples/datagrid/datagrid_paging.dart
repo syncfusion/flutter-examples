@@ -40,123 +40,115 @@ class _PagingDataGridState extends SampleViewState {
   void initState() {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
-    _orderInfoDataSource =
-        OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 300);
+    _orderInfoDataSource = OrderInfoDataGridSource(
+      isWebOrDesktop: true,
+      orderDataCount: 300,
+    );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   Widget _buildDataGrid() {
     return SfDataGrid(
-        source: _orderInfoDataSource,
-        rowsPerPage: _rowsPerPage,
-        allowSorting: true,
-        columnWidthMode: (_isWebOrDesktop && !model.isMobileResolution) ||
-                _isLandscapeInMobileView
-            ? ColumnWidthMode.fill
-            : ColumnWidthMode.none,
-        columns: <GridColumn>[
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
-            columnName: 'id',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Order ID',
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+      source: _orderInfoDataSource,
+      rowsPerPage: _rowsPerPage,
+      allowSorting: true,
+      columnWidthMode:
+          (_isWebOrDesktop && !model.isMobileResolution) ||
+                  _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
+      columns: <GridColumn>[
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          columnName: 'id',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: const Text('Order ID', overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
-            columnWidthMode: (_isWebOrDesktop && model.isMobileResolution)
-                ? ColumnWidthMode.none
-                : ColumnWidthMode.fitByColumnName,
-            autoFitPadding: const EdgeInsets.all(8),
-            columnName: 'customerId',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Customer ID',
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 150.0
+                  : double.nan,
+          columnWidthMode:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? ColumnWidthMode.none
+                  : ColumnWidthMode.fitByColumnName,
+          autoFitPadding: const EdgeInsets.all(8),
+          columnName: 'customerId',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: const Text('Customer ID', overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
-            columnName: 'name',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'Name',
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          columnName: 'name',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerLeft,
+            child: const Text('Name', overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 110.0
-                : double.nan,
-            columnName: 'freight',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Freight',
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 110.0
+                  : double.nan,
+          columnName: 'freight',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: const Text('Freight', overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
-            columnName: 'city',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'City',
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          columnName: 'city',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerLeft,
+            child: const Text('City', overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
-            columnName: 'price',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Price',
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          )
-        ]);
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          columnName: 'price',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: const Text('Price', overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildDataPager() {
     return SfDataPagerTheme(
-      data: SfDataPagerThemeData(
-        selectedItemColor: model.primaryColor,
-      ),
+      data: SfDataPagerThemeData(selectedItemColor: model.primaryColor),
       child: SfDataPager(
         delegate: _orderInfoDataSource,
         availableRowsPerPage: const <int>[15, 20, 25],
@@ -172,29 +164,35 @@ class _PagingDataGridState extends SampleViewState {
 
   Widget _buildLayoutBuilder() {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraint) {
-      return Column(
-        children: <Widget>[
-          SizedBox(
+      builder: (BuildContext context, BoxConstraints constraint) {
+        return Column(
+          children: <Widget>[
+            SizedBox(
               height: constraint.maxHeight - _dataPagerHeight,
               width: constraint.maxWidth,
-              child: _buildDataGrid()),
-          Container(
-            height: _dataPagerHeight,
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface.withOpacity(0.12),
+              child: _buildDataGrid(),
+            ),
+            Container(
+              height: _dataPagerHeight,
+              decoration: BoxDecoration(
+                color: Theme.of(
+                  context,
+                ).colorScheme.surface.withValues(alpha: 0.12),
                 border: Border(
-                    top: BorderSide(
-                        width: .5,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.12)))),
-            child: Align(child: _buildDataPager()),
-          )
-        ],
-      );
-    });
+                  top: BorderSide(
+                    width: .5,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.12),
+                  ),
+                ),
+              ),
+              child: Align(child: _buildDataPager()),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

@@ -78,9 +78,7 @@ class _ProgressBarTypesState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     _progressBarColor = ProgressBarColor(model);
-    return Center(
-      child: _getWidget(MediaQuery.of(context).size),
-    );
+    return Center(child: _getWidget(MediaQuery.of(context).size));
   }
 
   Widget _getWidget(Size size) {
@@ -90,23 +88,26 @@ class _ProgressBarTypesState extends SampleViewState {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _getDeterminateProgressBar(),
-                const Center(child: Text('Determinate')),
-              ]),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _getDeterminateProgressBar(),
+              const Center(child: Text('Determinate')),
+            ],
+          ),
           Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _getBufferProgressBar(),
-                const Center(child: Text('Buffer')),
-              ]),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _getBufferProgressBar(),
+              const Center(child: Text('Buffer')),
+            ],
+          ),
           Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _getSegmentProgressBar(),
-                const Center(child: Text('Segment'))
-              ]),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _getSegmentProgressBar(),
+              const Center(child: Text('Segment')),
+            ],
+          ),
         ],
       );
     } else {
@@ -119,7 +120,7 @@ class _ProgressBarTypesState extends SampleViewState {
           _getBufferProgressBar(),
           const Center(child: Text('Buffer')),
           _getSegmentProgressBar(),
-          const Center(child: Text('Segment'))
+          const Center(child: Text('Segment')),
         ],
       );
     }
@@ -135,30 +136,33 @@ class _ProgressBarTypesState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
-          startAngle: 270,
-          endAngle: 270,
-          showLabels: false,
-          showTicks: false,
-          radiusFactor: model.isWebFullView ? 0.7 : 0.75,
-          axisLineStyle: AxisLineStyle(
-            thickness: 0.05,
-            color: _progressBarColor!.axisLineColor,
-            thicknessUnit: GaugeSizeUnit.factor,
-          ),
-          pointers: <GaugePointer>[
-            RangePointer(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
+            startAngle: 270,
+            endAngle: 270,
+            showLabels: false,
+            showTicks: false,
+            radiusFactor: model.isWebFullView ? 0.7 : 0.75,
+            axisLineStyle: AxisLineStyle(
+              thickness: 0.05,
+              color: _progressBarColor!.axisLineColor,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
+            pointers: <GaugePointer>[
+              RangePointer(
                 value: _value,
                 width: 0.05,
                 color: _progressBarColor!.pointerColor,
                 sizeUnit: GaugeSizeUnit.factor,
                 enableAnimation: true,
                 animationDuration: 20,
-                animationType: AnimationType.linear)
-          ],
-        )
-      ]),
+                animationType: AnimationType.linear,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -166,47 +170,52 @@ class _ProgressBarTypesState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
-          showLabels: false,
-          showTicks: false,
-          startAngle: 270,
-          endAngle: 270,
-          canScaleToFit: true,
-          radiusFactor: model.isWebFullView ? 0.7 : 0.8,
-          axisLineStyle: AxisLineStyle(
-            thickness: 0.05,
-            color: _progressBarColor!.axisLineColor,
-            thicknessUnit: GaugeSizeUnit.factor,
-          ),
-          pointers: <GaugePointer>[
-            RangePointer(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
+            showLabels: false,
+            showTicks: false,
+            startAngle: 270,
+            endAngle: 270,
+            canScaleToFit: true,
+            radiusFactor: model.isWebFullView ? 0.7 : 0.8,
+            axisLineStyle: AxisLineStyle(
+              thickness: 0.05,
+              color: _progressBarColor!.axisLineColor,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
+            pointers: <GaugePointer>[
+              RangePointer(
                 value: _value1,
                 width: 0.05,
                 color: _progressBarColor!.bufferColor,
                 sizeUnit: GaugeSizeUnit.factor,
                 enableAnimation: true,
                 animationDuration: 20,
-                animationType: AnimationType.linear),
-            RangePointer(
+                animationType: AnimationType.linear,
+              ),
+              RangePointer(
                 value: _value2,
                 width: 0.05,
                 color: _progressBarColor!.pointerColor,
                 sizeUnit: GaugeSizeUnit.factor,
                 enableAnimation: true,
                 animationDuration: 20,
-                animationType: AnimationType.linear)
-          ],
-        )
-      ]),
+                animationType: AnimationType.linear,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
   Widget _getSegmentProgressBar() {
     return SizedBox(
-        height: _size,
-        width: _size,
-        child: SfRadialGauge(axes: <RadialAxis>[
+      height: _size,
+      width: _size,
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
           // Create primary radial axis
           RadialAxis(
             interval: 25,
@@ -222,14 +231,15 @@ class _ProgressBarTypesState extends SampleViewState {
             ),
             pointers: <GaugePointer>[
               RangePointer(
-                  value: _value,
-                  width: 0.05,
-                  pointerOffset: 0.07,
-                  color: _progressBarColor!.pointerColor,
-                  sizeUnit: GaugeSizeUnit.factor,
-                  enableAnimation: true,
-                  animationDuration: 20,
-                  animationType: AnimationType.linear)
+                value: _value,
+                width: 0.05,
+                pointerOffset: 0.07,
+                color: _progressBarColor!.pointerColor,
+                sizeUnit: GaugeSizeUnit.factor,
+                enableAnimation: true,
+                animationDuration: 20,
+                animationType: AnimationType.linear,
+              ),
             ],
           ),
           // Create secondary radial axis for segmented line
@@ -244,13 +254,17 @@ class _ProgressBarTypesState extends SampleViewState {
             endAngle: 270,
             radiusFactor: model.isWebFullView ? 0.7 : 0.8,
             majorTickStyle: MajorTickStyle(
-                length: 0.3,
-                thickness: 3,
-                lengthUnit: GaugeSizeUnit.factor,
-                color: model.themeData.brightness == Brightness.light
-                    ? Colors.white
-                    : const Color.fromRGBO(33, 33, 33, 1)),
-          )
-        ]));
+              length: 0.3,
+              thickness: 3,
+              lengthUnit: GaugeSizeUnit.factor,
+              color:
+                  model.themeData.brightness == Brightness.light
+                      ? Colors.white
+                      : const Color.fromRGBO(33, 33, 33, 1),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

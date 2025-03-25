@@ -1,16 +1,16 @@
-/// Package imports
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../model/sample_view.dart';
 
 /// Render the positioning axis label.
 class RangePaddingView extends SampleView {
-  /// Creates the positioning axis label.
   const RangePaddingView(Key key) : super(key: key);
+
   @override
   _RangePaddingViewState createState() => _RangePaddingViewState();
 }
@@ -18,43 +18,47 @@ class RangePaddingView extends SampleView {
 /// State class of positioning axis label.
 class _RangePaddingViewState extends SampleViewState {
   _RangePaddingViewState();
-  late String _selectedRangeTypeX;
-  late ChartRangePadding _rangePaddingX;
-  late String _selectedRangeTypeY;
-  late ChartRangePadding _rangePaddingY;
-  late List<ChartSampleData> chartData;
 
+  late ChartRangePadding _rangePaddingX;
+  late ChartRangePadding _rangePaddingY;
   List<String>? _rangePaddingTypeX;
   List<String>? _rangePaddingTypeY;
+  late String _selectedRangeTypeX;
+  late String _selectedRangeTypeY;
+  late List<ChartSampleData> _salesProductData;
+  late TooltipBehavior _tooltipBehavior;
+
   @override
   void initState() {
-    _selectedRangeTypeX = 'auto';
     _rangePaddingX = ChartRangePadding.auto;
-    _rangePaddingTypeX = <String>[
-      'auto',
-      'none',
-      'additional',
-      'additionalStart',
-      'additionalEnd',
-      'normal',
-      'round',
-      'roundStart',
-      'roundEnd'
-    ].toList();
-    _selectedRangeTypeY = 'auto';
     _rangePaddingY = ChartRangePadding.auto;
-    _rangePaddingTypeY = <String>[
-      'auto',
-      'none',
-      'additional',
-      'additionalStart',
-      'additionalEnd',
-      'normal',
-      'round',
-      'roundStart',
-      'roundEnd'
-    ].toList();
-    chartData = <ChartSampleData>[
+    _rangePaddingTypeX =
+        <String>[
+          'auto',
+          'none',
+          'additional',
+          'additionalStart',
+          'additionalEnd',
+          'normal',
+          'round',
+          'roundStart',
+          'roundEnd',
+        ].toList();
+    _rangePaddingTypeY =
+        <String>[
+          'auto',
+          'none',
+          'additional',
+          'additionalStart',
+          'additionalEnd',
+          'normal',
+          'round',
+          'roundStart',
+          'roundEnd',
+        ].toList();
+    _selectedRangeTypeX = 'auto';
+    _selectedRangeTypeY = 'auto';
+    _salesProductData = <ChartSampleData>[
       ChartSampleData(x: -7, y: -2.35),
       ChartSampleData(x: -6, y: 0),
       ChartSampleData(x: -4, y: 2.75),
@@ -65,136 +69,150 @@ class _RangePaddingViewState extends SampleViewState {
       ChartSampleData(x: 6, y: 2.75),
       ChartSampleData(x: 7, y: 1.65),
     ];
+    _tooltipBehavior = TooltipBehavior(enable: true);
 
     super.initState();
   }
 
   @override
-  void dispose() {
-    _rangePaddingTypeX!.clear();
-    _rangePaddingTypeY!.clear();
-    super.dispose();
-  }
-
-  @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text('X Axis',
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  'X Axis',
                   style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor,
-                      fontWeight: FontWeight.bold)),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Text('Range padding ',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                height: 50,
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
+                    fontSize: 16.0,
+                    color: model.textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  'Range padding ',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  height: 50,
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
                     dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
+                    ),
                     value: _selectedRangeTypeX,
-                    items: _rangePaddingTypeX!.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'auto',
-                          child: Text(value,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
+                    items:
+                        _rangePaddingTypeX!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'auto',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _onRangePaddingChangeX(value.toString());
                       stateSetter(() {});
-                    }),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Text('Y Axis',
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  'Y Axis',
                   style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor,
-                      fontWeight: FontWeight.bold)),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Text('Range padding ',
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                height: 50,
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
+                    fontSize: 16.0,
+                    color: model.textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  'Range padding ',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  height: 50,
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
                     dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
+                    ),
                     value: _selectedRangeTypeY,
-                    items: _rangePaddingTypeY!.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'auto',
-                          child: Text(value,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
+                    items:
+                        _rangePaddingTypeY!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'auto',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _onRangePaddingChangeY(value.toString());
                       stateSetter(() {});
-                    }),
-              ),
-            ],
-          ),
-        ],
-      );
-    });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buildChart();
+    return _buildCartesianChart();
   }
 
-  /// Return the Spline series with range padding customization.
-  SfCartesianChart _buildChart() {
+  /// Return the Cartesian Chart with Spline series.
+  SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Product Sales'),
-      primaryXAxis: NumericAxis(
-        rangePadding: _rangePaddingX,
-        interval: 2,
-      ),
-      primaryYAxis: NumericAxis(
-        rangePadding: _rangePaddingY,
-        interval: 1,
-      ),
-      series: _buildSeries(),
-      tooltipBehavior: TooltipBehavior(enable: true),
+      primaryXAxis: NumericAxis(rangePadding: _rangePaddingX, interval: 2),
+      primaryYAxis: NumericAxis(rangePadding: _rangePaddingY, interval: 1),
+      series: _buildSplineSeries(),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Return the spline series.
-  List<CartesianSeries<ChartSampleData, dynamic>> _buildSeries() {
+  /// Returns the list of Cartesian Spline series.
+  List<CartesianSeries<ChartSampleData, dynamic>> _buildSplineSeries() {
     return <CartesianSeries<ChartSampleData, dynamic>>[
       SplineSeries<ChartSampleData, dynamic>(
-          animationDuration: 0,
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData data, int index) => data.x,
-          yValueMapper: (ChartSampleData data, int index) => data.y,
-          name: 'Product Sales')
+        dataSource: _salesProductData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+        animationDuration: 0,
+        name: 'Product Sales',
+      ),
     ];
   }
 
-  /// Method for Range Padding change.
+  /// Method for range padding change.
   void _onRangePaddingChangeX(String item) {
     setState(() {
       _selectedRangeTypeX = item;
@@ -263,5 +281,12 @@ class _RangePaddingViewState extends SampleViewState {
           break;
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _rangePaddingTypeX!.clear();
+    _rangePaddingTypeY!.clear();
+    super.dispose();
   }
 }

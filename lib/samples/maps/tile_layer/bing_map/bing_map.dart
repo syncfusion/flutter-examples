@@ -64,23 +64,23 @@ class _BingMapState extends SampleViewState {
     /// key.
     return _hasBingMapKey
         ? FutureBuilder<String?>(
-            future: getBingUrlTemplate(_bingURL),
-            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  final String urlTemplate = snapshot.data!;
-                  return _buildBingMap(urlTemplate);
-                } else {
-                  _hasBingMapKey = false;
-                  _showEmptyKeyError = false;
-                  _showKeyError = true;
-                  return _buildKeyValidationScreen();
-                }
+          future: getBingUrlTemplate(_bingURL),
+          builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                final String urlTemplate = snapshot.data!;
+                return _buildBingMap(urlTemplate);
               } else {
-                return const Center(child: CircularProgressIndicator());
+                _hasBingMapKey = false;
+                _showEmptyKeyError = false;
+                _showKeyError = true;
+                return _buildKeyValidationScreen();
               }
-            },
-          )
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        )
         : _buildKeyValidationScreen();
   }
 
@@ -88,7 +88,8 @@ class _BingMapState extends SampleViewState {
   Widget _buildKeyValidationScreen() {
     return Center(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width *
+        width:
+            MediaQuery.of(context).size.width *
             (model.isWebFullView ? 0.4 : 0.8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -98,8 +99,12 @@ class _BingMapState extends SampleViewState {
               controller: _textFieldController,
               onSubmitted: (String text) => _handleKeyValidation(),
               decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                contentPadding: const EdgeInsets.fromLTRB(
+                  20.0,
+                  15.0,
+                  20.0,
+                  15.0,
+                ),
                 hintText: 'Enter the Bing Maps key',
                 errorText: _getErrorMessage(),
                 helperText: '',
@@ -108,9 +113,10 @@ class _BingMapState extends SampleViewState {
                   splashRadius: 20,
                   icon: const Icon(Icons.send),
                   onPressed: () => _handleKeyValidation(),
-                  color: (_showEmptyKeyError || _showKeyError)
-                      ? Colors.red
-                      : const Color.fromRGBO(153, 153, 153, 1),
+                  color:
+                      (_showEmptyKeyError || _showKeyError)
+                          ? Colors.red
+                          : const Color.fromRGBO(153, 153, 153, 1),
                 ),
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
@@ -141,10 +147,7 @@ class _BingMapState extends SampleViewState {
                   const SizedBox(height: 10),
                   const Text(
                     'Note:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                   ),
                   const SizedBox(height: 3),
                   Wrap(
@@ -157,29 +160,30 @@ class _BingMapState extends SampleViewState {
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
                           onTap: () {
-                            launchUrl(Uri.parse(
-                                'https://docs.microsoft.com/en-us/bingmaps/getting-started/bing-maps-dev-center-help/getting-a-bing-maps-key'));
+                            launchUrl(
+                              Uri.parse(
+                                'https://docs.microsoft.com/en-us/bingmaps/getting-started/bing-maps-dev-center-help/getting-a-bing-maps-key',
+                              ),
+                            );
                           },
                           child: const Text(
                             'development or testing key',
                             style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 11,
-                                decoration: TextDecoration.underline),
+                              color: Colors.blue,
+                              fontSize: 11,
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
                         ),
                       ),
-                      const Text(
-                        '.',
-                        style: TextStyle(fontSize: 11),
-                      ),
+                      const Text('.', style: TextStyle(fontSize: 11)),
                     ],
                   ),
                   const SizedBox(height: 3),
                   const Text(
                     '2. The key entered here is used only for testing this feature from your side. We will not upload it to any server or use it for any other purposes.',
                     style: TextStyle(fontSize: 11),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -226,10 +230,7 @@ class _BingMapState extends SampleViewState {
     return ChoiceChip(
       label: Text(mapType),
       selected: _selectedMapViewIndex == index,
-      labelStyle: TextStyle(
-        color: model.textColor,
-        fontSize: 12,
-      ),
+      labelStyle: TextStyle(color: model.textColor, fontSize: 12),
       onSelected: (bool isSelected) {
         if (_selectedMapViewIndex != index) {
           setState(() {
@@ -250,21 +251,21 @@ class _BingMapState extends SampleViewState {
       case 0:
         _bingURL =
             'https://dev.virtualearth.net/REST/V1/Imagery/Metadata/RoadOnDemand?output=json&uriScheme=https&include=ImageryProviders&key=' +
-                _bingKey;
+            _bingKey;
         break;
 
       /// Aerial view
       case 1:
         _bingURL =
             'https://dev.virtualearth.net/REST/V1/Imagery/Metadata/Aerial?output=json&uriScheme=https&include=ImageryProviders&key=' +
-                _bingKey;
+            _bingKey;
         break;
       case 2:
 
         /// Aerial view with labels
         _bingURL =
             'https://dev.virtualearth.net/REST/V1/Imagery/Metadata/AerialWithLabels?output=json&uriScheme=https&include=ImageryProviders&key=' +
-                _bingKey;
+            _bingKey;
         break;
     }
   }

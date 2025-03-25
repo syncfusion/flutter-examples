@@ -53,10 +53,11 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
     _chartData = <_RoomData>[
       _RoomData(rate: 300, hasBanquetHall: true),
       _RoomData(
-          rate: 762,
-          hasBanquetHall: true,
-          hasHealthSpa: true,
-          petsAllowed: true),
+        rate: 762,
+        hasBanquetHall: true,
+        hasHealthSpa: true,
+        petsAllowed: true,
+      ),
       _RoomData(rate: 550, hasBanquetHall: true, petsAllowed: true),
       _RoomData(rate: 336, hasHealthSpa: true),
       _RoomData(rate: 150),
@@ -68,11 +69,12 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       _RoomData(rate: 729, hasIndoorEntertainment: true, hasBanquetHall: true),
       _RoomData(rate: 179, petsAllowed: true),
       _RoomData(
-          rate: 969,
-          hasBanquetHall: true,
-          hasHealthSpa: true,
-          petsAllowed: true,
-          hasIndoorEntertainment: true),
+        rate: 969,
+        hasBanquetHall: true,
+        hasHealthSpa: true,
+        petsAllowed: true,
+        hasIndoorEntertainment: true,
+      ),
       _RoomData(rate: 699, hasBanquetHall: true, petsAllowed: true),
       _RoomData(rate: 288, petsAllowed: true),
       _RoomData(rate: 399, petsAllowed: true),
@@ -80,24 +82,27 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       _RoomData(rate: 316, hasBanquetHall: true),
       _RoomData(rate: 778, hasHealthSpa: true, hasIndoorEntertainment: true),
       _RoomData(
-          rate: 899,
-          hasBanquetHall: true,
-          hasHealthSpa: true,
-          petsAllowed: true,
-          hasIndoorEntertainment: true),
+        rate: 899,
+        hasBanquetHall: true,
+        hasHealthSpa: true,
+        petsAllowed: true,
+        hasIndoorEntertainment: true,
+      ),
       _RoomData(rate: 199, hasBanquetHall: true),
       _RoomData(rate: 299, hasHealthSpa: true),
       _RoomData(
-          rate: 947,
-          hasBanquetHall: true,
-          hasHealthSpa: true,
-          petsAllowed: true,
-          hasIndoorEntertainment: true),
+        rate: 947,
+        hasBanquetHall: true,
+        hasHealthSpa: true,
+        petsAllowed: true,
+        hasIndoorEntertainment: true,
+      ),
       _RoomData(
-          rate: 899,
-          hasBanquetHall: true,
-          hasIndoorEntertainment: true,
-          petsAllowed: true),
+        rate: 899,
+        hasBanquetHall: true,
+        hasIndoorEntertainment: true,
+        petsAllowed: true,
+      ),
       _RoomData(
         rate: 794,
         hasBanquetHall: true,
@@ -105,16 +110,18 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
         hasHealthSpa: true,
       ),
       _RoomData(
-          rate: 969,
-          hasBanquetHall: true,
-          hasHealthSpa: true,
-          petsAllowed: true,
-          hasIndoorEntertainment: true),
+        rate: 969,
+        hasBanquetHall: true,
+        hasHealthSpa: true,
+        petsAllowed: true,
+        hasIndoorEntertainment: true,
+      ),
       _RoomData(
-          rate: 849,
-          hasHealthSpa: true,
-          petsAllowed: true,
-          hasIndoorEntertainment: true),
+        rate: 849,
+        hasHealthSpa: true,
+        petsAllowed: true,
+        hasIndoorEntertainment: true,
+      ),
       _RoomData(rate: 724, hasBanquetHall: true, hasIndoorEntertainment: true),
       _RoomData(rate: 449, hasBanquetHall: true, hasHealthSpa: true),
       _RoomData(rate: 409, petsAllowed: true),
@@ -129,11 +136,12 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       _RoomData(rate: 287, hasIndoorEntertainment: true),
       _RoomData(rate: 100),
       _RoomData(
-          rate: 999,
-          hasBanquetHall: true,
-          hasHealthSpa: true,
-          petsAllowed: true,
-          hasIndoorEntertainment: true),
+        rate: 999,
+        hasBanquetHall: true,
+        hasHealthSpa: true,
+        petsAllowed: true,
+        hasIndoorEntertainment: true,
+      ),
     ];
 
     _updateChartData(_values);
@@ -263,9 +271,10 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       child: SingleChildScrollView(
         child: Container(
           color: isLightTheme ? const Color.fromRGBO(250, 250, 250, 1) : null,
-          padding: model.isWebFullView
-              ? const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 20.0)
-              : const EdgeInsets.fromLTRB(10.0, 12.5, 10.0, 10.0),
+          padding:
+              model.isWebFullView
+                  ? const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 20.0)
+                  : const EdgeInsets.fromLTRB(10.0, 12.5, 10.0, 10.0),
           child: _buildRangeSelector(mediaQueryData, isLightTheme),
         ),
       ),
@@ -284,10 +293,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       children: <Widget>[
         const Padding(
           padding: EdgeInsets.only(bottom: 10.0),
-          child: Text(
-            'Room availability',
-            style: TextStyle(fontSize: 20),
-          ),
+          child: Text('Room availability', style: TextStyle(fontSize: 20)),
         ),
         Flex(
           direction: direction,
@@ -314,19 +320,19 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
         color: model.sampleOutputCardColor,
         surfaceTintColor: Colors.transparent,
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(3.0),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.0)),
         child: Padding(
-          padding: model.isWebFullView
-              ? const EdgeInsets.all(20.0)
-              : const EdgeInsets.fromLTRB(10, 20, 10, 20),
+          padding:
+              model.isWebFullView
+                  ? const EdgeInsets.all(20.0)
+                  : const EdgeInsets.fromLTRB(10, 20, 10, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding:
-                    EdgeInsets.only(left: model.isWebFullView ? 5.0 : 15.0),
+                padding: EdgeInsets.only(
+                  left: model.isWebFullView ? 5.0 : 15.0,
+                ),
                 child: const Text(
                   r'$100 to $1000',
                   style: TextStyle(fontSize: 20),
@@ -334,7 +340,11 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(
-                    model.isWebFullView ? 5.0 : 15.0, 5.0, 0.0, 5.0),
+                  model.isWebFullView ? 5.0 : 15.0,
+                  5.0,
+                  0.0,
+                  5.0,
+                ),
                 child: Text(_textController.text),
               ),
               SfRangeSelectorTheme(
@@ -343,12 +353,14 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                   thumbStrokeColor: const Color.fromRGBO(0, 179, 134, 1.0),
                   thumbStrokeWidth: 2.0,
                   thumbRadius: 15,
-                  tooltipBackgroundColor: isLightTheme
-                      ? const Color.fromRGBO(0, 153, 115, 1.0)
-                      : const Color.fromRGBO(0, 204, 153, 1.0),
+                  tooltipBackgroundColor:
+                      isLightTheme
+                          ? const Color.fromRGBO(0, 153, 115, 1.0)
+                          : const Color.fromRGBO(0, 204, 153, 1.0),
                   overlayColor: const Color.fromRGBO(0, 179, 134, 0.12),
-                  inactiveRegionColor:
-                      model.sampleOutputCardColor.withOpacity(0.75),
+                  inactiveRegionColor: model.sampleOutputCardColor.withValues(
+                    alpha: 0.75,
+                  ),
                   activeTrackColor: const Color.fromRGBO(0, 179, 134, 1.0),
                   inactiveTrackColor: const Color.fromRGBO(0, 179, 134, 0.5),
                 ),
@@ -363,12 +375,16 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                   showLabels: true,
                   enableTooltip: true,
                   initialValues: _values,
-                  tooltipTextFormatterCallback:
-                      (dynamic actualValue, String formattedText) {
+                  tooltipTextFormatterCallback: (
+                    dynamic actualValue,
+                    String formattedText,
+                  ) {
                     return '\$${actualValue.toInt()}';
                   },
-                  labelFormatterCallback:
-                      (dynamic actualValue, String formattedText) {
+                  labelFormatterCallback: (
+                    dynamic actualValue,
+                    String formattedText,
+                  ) {
                     return '\$$formattedText';
                   },
                   onChanged: (SfRangeValues values) {
@@ -382,10 +398,11 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                     plotAreaBorderWidth: 0,
                     enableAxisAnimation: true,
                     primaryXAxis: const NumericAxis(
-                        isVisible: false, minimum: 100, maximum: 1000),
-                    primaryYAxis: const NumericAxis(
                       isVisible: false,
+                      minimum: 100,
+                      maximum: 1000,
                     ),
+                    primaryYAxis: const NumericAxis(isVisible: false),
                     series: _getHistogramSeries(),
                   ),
                 ),
@@ -412,43 +429,44 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
 
   /// UI part of amenities section.
   Widget _buildAmenities() {
-    return Column(children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Card(
-          color: model.sampleOutputCardColor,
-          surfaceTintColor: Colors.transparent,
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(3.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
-            child: SizedBox(
-              height: 327,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 5, left: 8),
-                    child: Text(
-                      'Amenities:',
-                      style: TextStyle(fontSize: 20),
-                      textAlign: TextAlign.start,
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Card(
+            color: model.sampleOutputCardColor,
+            surfaceTintColor: Colors.transparent,
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(3.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
+              child: SizedBox(
+                height: 327,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 5, left: 8),
+                      child: Text(
+                        'Amenities:',
+                        style: TextStyle(fontSize: 20),
+                        textAlign: TextAlign.start,
+                      ),
                     ),
-                  ),
-                  CheckboxListTile(
-                    contentPadding: const EdgeInsets.only(left: 8),
-                    title: const Text(
-                      'Basic',
-                      style: TextStyle(fontSize: 16),
+                    CheckboxListTile(
+                      contentPadding: const EdgeInsets.only(left: 8),
+                      title: const Text(
+                        'Basic',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      value: true,
+                      activeColor: Colors.grey,
+                      onChanged: (bool? value) {},
                     ),
-                    value: true,
-                    activeColor: Colors.grey,
-                    onChanged: (bool? value) {},
-                  ),
-                  CheckboxListTile(
+                    CheckboxListTile(
                       contentPadding: const EdgeInsets.only(left: 8),
                       title: const Text(
                         'Banquet hall',
@@ -459,8 +477,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                         setState(() {
                           _needBanquetHall = value!;
                         });
-                      }),
-                  CheckboxListTile(
+                      },
+                    ),
+                    CheckboxListTile(
                       contentPadding: const EdgeInsets.only(left: 8),
                       title: const Text(
                         'Health spa',
@@ -471,8 +490,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                         setState(() {
                           _needHealthSpa = value!;
                         });
-                      }),
-                  CheckboxListTile(
+                      },
+                    ),
+                    CheckboxListTile(
                       contentPadding: const EdgeInsets.only(left: 8),
                       title: const Text(
                         'Pets allowed',
@@ -483,8 +503,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                         setState(() {
                           _needPets = value!;
                         });
-                      }),
-                  CheckboxListTile(
+                      },
+                    ),
+                    CheckboxListTile(
                       contentPadding: const EdgeInsets.only(left: 8),
                       title: const Text(
                         'Indoor entertainment',
@@ -495,18 +516,20 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                         setState(() {
                           _needIndoorEntertainment = value!;
                         });
-                      }),
-                ],
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
-        child: _buildFilterButton(),
-      )
-    ]);
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
+          child: _buildFilterButton(),
+        ),
+      ],
+    );
   }
 
   Widget _buildFilterButton() {
@@ -516,7 +539,8 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all<Color>(
-              const Color.fromRGBO(255, 102, 102, 1.0)),
+            const Color.fromRGBO(255, 102, 102, 1.0),
+          ),
         ),
 
         /// On clicking the button, chart inside the range selector will be
@@ -534,9 +558,7 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
         },
         child: const Text(
           'Apply filter',
-          style: TextStyle(
-            color: Colors.white,
-          ),
+          style: TextStyle(color: Colors.white),
         ),
       ),
     );

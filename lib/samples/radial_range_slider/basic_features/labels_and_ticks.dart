@@ -37,8 +37,9 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
             : false;
 
     return Center(
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             showFirstLabel: false,
             startAngle: 270,
             endAngle: 270,
@@ -46,25 +47,31 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
             maximum: 12,
             interval: 3,
             axisLineStyle: const AxisLineStyle(
-                color: Color.fromRGBO(128, 94, 246, 0.3),
-                thickness: 0.075,
-                thicknessUnit: GaugeSizeUnit.factor),
+              color: Color.fromRGBO(128, 94, 246, 0.3),
+              thickness: 0.075,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             tickOffset: 0.15,
             labelOffset: 0.1,
             offsetUnit: GaugeSizeUnit.factor,
             minorTicksPerInterval: 30,
             minorTickStyle: const MinorTickStyle(
-                length: 0.05, lengthUnit: GaugeSizeUnit.factor),
+              length: 0.05,
+              lengthUnit: GaugeSizeUnit.factor,
+            ),
             majorTickStyle: const MajorTickStyle(
-                length: 0.1, lengthUnit: GaugeSizeUnit.factor),
+              length: 0.1,
+              lengthUnit: GaugeSizeUnit.factor,
+            ),
             ranges: <GaugeRange>[
               GaugeRange(
-                  endValue: _secondMarkerValue,
-                  startValue: _firstMarkerValue,
-                  sizeUnit: GaugeSizeUnit.factor,
-                  color: const Color.fromRGBO(128, 94, 246, 1),
-                  endWidth: 0.075,
-                  startWidth: 0.075)
+                endValue: _secondMarkerValue,
+                startValue: _firstMarkerValue,
+                sizeUnit: GaugeSizeUnit.factor,
+                color: const Color.fromRGBO(128, 94, 246, 1),
+                endWidth: 0.075,
+                startWidth: 0.075,
+              ),
             ],
             pointers: <GaugePointer>[
               MarkerPointer(
@@ -93,115 +100,134 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                 onValueChanging: _handleSecondPointerValueChanging,
                 onValueChangeStart: _handleSecondPointerValueStart,
                 onValueChangeEnd: _handleSecondPointerValueEnd,
-              )
+              ),
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: SizedBox(
-                    width: 300,
-                    child: Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: <Widget>[
-                        AnimatedPositioned(
-                          right: (_isFirstPointer && !_isSecondPointer)
-                              ? isWebOrDesktop
-                                  ? 120
-                                  : 130
-                              : isWebOrDesktop
-                                  ? 165
-                                  : isLandscape
-                                      ? 158
-                                      : 165,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.decelerate,
-                          child: AnimatedOpacity(
-                            opacity: _isFirstPointer ? 1.0 : 0.0,
-                            duration: (_isFirstPointer && _isSecondPointer)
-                                ? const Duration(milliseconds: 800)
-                                : const Duration(milliseconds: 200),
-                            child: CustomAnimatedBuilder(
-                              value: !_isSecondPointer
-                                  ? isLandscape
-                                      ? 1.5
-                                      : 2.0
-                                  : 1.0,
-                              curve: Curves.decelerate,
-                              duration: const Duration(milliseconds: 300),
-                              builder: (BuildContext context, Widget? child,
-                                      Animation<dynamic> animation) =>
-                                  Transform.scale(
-                                scale: animation.value,
-                                child: child,
-                              ),
-                              child: Text(
-                                _annotationValue1,
-                                style: TextStyle(
-                                    fontSize: _annotationFontSize,
-                                    fontFamily: 'Times'),
-                              ),
-                            ),
-                          ),
-                        ),
-                        AnimatedOpacity(
-                          opacity:
-                              (_isSecondPointer && _isFirstPointer) ? 1.0 : 0.0,
-                          duration: (_isFirstPointer && _isSecondPointer)
-                              ? const Duration(milliseconds: 800)
-                              : const Duration(milliseconds: 200),
-                          child: Text(
-                            '-',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
+                widget: SizedBox(
+                  width: 300,
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: <Widget>[
+                      AnimatedPositioned(
+                        right:
+                            (_isFirstPointer && !_isSecondPointer)
+                                ? isWebOrDesktop
+                                    ? 120
+                                    : 130
+                                : isWebOrDesktop
+                                ? 165
+                                : isLandscape
+                                ? 158
+                                : 165,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.decelerate,
+                        child: AnimatedOpacity(
+                          opacity: _isFirstPointer ? 1.0 : 0.0,
+                          duration:
+                              (_isFirstPointer && _isSecondPointer)
+                                  ? const Duration(milliseconds: 800)
+                                  : const Duration(milliseconds: 200),
+                          child: CustomAnimatedBuilder(
+                            value:
+                                !_isSecondPointer
+                                    ? isLandscape
+                                        ? 1.5
+                                        : 2.0
+                                    : 1.0,
+                            curve: Curves.decelerate,
+                            duration: const Duration(milliseconds: 300),
+                            builder:
+                                (
+                                  BuildContext context,
+                                  Widget? child,
+                                  Animation<dynamic> animation,
+                                ) => Transform.scale(
+                                  scale: animation.value,
+                                  child: child,
+                                ),
+                            child: Text(
+                              _annotationValue1,
+                              style: TextStyle(
                                 fontSize: _annotationFontSize,
-                                fontFamily: 'Times'),
-                          ),
-                        ),
-                        AnimatedPositioned(
-                          left: (_isSecondPointer && !_isFirstPointer)
-                              ? isWebOrDesktop
-                                  ? 120
-                                  : 135
-                              : isWebOrDesktop
-                                  ? 165
-                                  : isLandscape
-                                      ? 158
-                                      : 165,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.decelerate,
-                          child: AnimatedOpacity(
-                            opacity: _isSecondPointer ? 1.0 : 0.0,
-                            duration: (_isFirstPointer && _isSecondPointer)
-                                ? const Duration(milliseconds: 800)
-                                : const Duration(milliseconds: 200),
-                            child: CustomAnimatedBuilder(
-                              value: !_isFirstPointer
-                                  ? isLandscape
-                                      ? 1.5
-                                      : 2.0
-                                  : 1.0,
-                              curve: Curves.decelerate,
-                              duration: const Duration(milliseconds: 300),
-                              builder: (BuildContext context, Widget? child,
-                                      Animation<dynamic> animation) =>
-                                  Transform.scale(
-                                scale: animation.value,
-                                child: child,
-                              ),
-                              child: Text(
-                                _annotationValue2,
-                                style: TextStyle(
-                                    fontSize: _annotationFontSize,
-                                    fontFamily: 'Times'),
+                                fontFamily: 'Times',
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      AnimatedOpacity(
+                        opacity:
+                            (_isSecondPointer && _isFirstPointer) ? 1.0 : 0.0,
+                        duration:
+                            (_isFirstPointer && _isSecondPointer)
+                                ? const Duration(milliseconds: 800)
+                                : const Duration(milliseconds: 200),
+                        child: Text(
+                          '-',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: _annotationFontSize,
+                            fontFamily: 'Times',
+                          ),
+                        ),
+                      ),
+                      AnimatedPositioned(
+                        left:
+                            (_isSecondPointer && !_isFirstPointer)
+                                ? isWebOrDesktop
+                                    ? 120
+                                    : 135
+                                : isWebOrDesktop
+                                ? 165
+                                : isLandscape
+                                ? 158
+                                : 165,
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.decelerate,
+                        child: AnimatedOpacity(
+                          opacity: _isSecondPointer ? 1.0 : 0.0,
+                          duration:
+                              (_isFirstPointer && _isSecondPointer)
+                                  ? const Duration(milliseconds: 800)
+                                  : const Duration(milliseconds: 200),
+                          child: CustomAnimatedBuilder(
+                            value:
+                                !_isFirstPointer
+                                    ? isLandscape
+                                        ? 1.5
+                                        : 2.0
+                                    : 1.0,
+                            curve: Curves.decelerate,
+                            duration: const Duration(milliseconds: 300),
+                            builder:
+                                (
+                                  BuildContext context,
+                                  Widget? child,
+                                  Animation<dynamic> animation,
+                                ) => Transform.scale(
+                                  scale: animation.value,
+                                  child: child,
+                                ),
+                            child: Text(
+                              _annotationValue2,
+                              style: TextStyle(
+                                fontSize: _annotationFontSize,
+                                fontFamily: 'Times',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  angle: 90)
-            ]),
-      ]),
+                ),
+                angle: 90,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -211,9 +237,10 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
     setState(() {
       _secondMarkerValue = markerValue;
       final int value = _secondMarkerValue.round();
-      _annotationValue2 = value == 12
-          ? '$value PM'
-          : value == 0
+      _annotationValue2 =
+          value == 12
+              ? '$value PM'
+              : value == 0
               ? ' 12 AM'
               : '$value AM';
     });
@@ -232,9 +259,10 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
     setState(() {
       _firstMarkerValue = markerValue;
       final int value = _firstMarkerValue.round();
-      _annotationValue1 = value == 12
-          ? '$value PM'
-          : value == 0
+      _annotationValue1 =
+          value == 12
+              ? '$value PM'
+              : value == 0
               ? ' 12 AM'
               : '$value AM';
     });
@@ -315,7 +343,8 @@ class CustomAnimatedBuilder extends StatefulWidget {
     BuildContext context,
     Widget? child,
     Animation<dynamic> animation,
-  ) builder;
+  )
+  builder;
 
   @override
   _CustomAnimatedBuilderState createState() => _CustomAnimatedBuilderState();
@@ -359,11 +388,9 @@ class _CustomAnimatedBuilderState extends State<CustomAnimatedBuilder>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _animationController,
-      builder: (BuildContext context, Widget? child) => widget.builder(
-        context,
-        widget.child,
-        _animationController,
-      ),
+      builder:
+          (BuildContext context, Widget? child) =>
+              widget.builder(context, widget.child, _animationController),
     );
   }
 }

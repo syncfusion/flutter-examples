@@ -35,10 +35,14 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
     return SfSliderTheme(
       data: SfSliderThemeData(
         tooltipBackgroundColor: model.primaryColor,
-        activeLabelStyle: _themeData.textTheme.bodyLarge!
-            .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-        inactiveLabelStyle: _themeData.textTheme.bodyLarge!
-            .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
+        activeLabelStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
+        ),
+        inactiveLabelStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
+        ),
         tooltipTextStyle: _themeData.textTheme.bodyLarge!.copyWith(
           fontWeight: FontWeight.normal,
           fontSize: 14,
@@ -64,34 +68,39 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
 
   SfSliderTheme _dateTimeSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(
-          tooltipBackgroundColor: model.primaryColor,
-          activeLabelStyle: _themeData.textTheme.bodyLarge!
-              .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-          inactiveLabelStyle: _themeData.textTheme.bodyLarge!
-              .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-          tooltipTextStyle: _themeData.textTheme.bodyLarge!.copyWith(
-            fontWeight: FontWeight.normal,
-            fontSize: 14,
-            color: Colors.white,
-          ),
+      data: SfSliderThemeData(
+        tooltipBackgroundColor: model.primaryColor,
+        activeLabelStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
         ),
-        child: SfSlider(
-          min: DateTime(2000),
-          max: DateTime(2020),
-          value: _dateSliderValue,
-          showLabels: true,
-          interval: 5,
-          showTicks: true,
-          dateFormat: DateFormat.y(),
-          dateIntervalType: DateIntervalType.years,
-          onChanged: (dynamic value) {
-            setState(() {
-              _dateSliderValue = value as DateTime;
-            });
-          },
-          enableTooltip: true,
-        ));
+        inactiveLabelStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
+        ),
+        tooltipTextStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
+          color: Colors.white,
+        ),
+      ),
+      child: SfSlider(
+        min: DateTime(2000),
+        max: DateTime(2020),
+        value: _dateSliderValue,
+        showLabels: true,
+        interval: 5,
+        showTicks: true,
+        dateFormat: DateFormat.y(),
+        dateIntervalType: DateIntervalType.years,
+        onChanged: (dynamic value) {
+          setState(() {
+            _dateSliderValue = value as DateTime;
+          });
+        },
+        enableTooltip: true,
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -144,7 +153,8 @@ class _SliderTextDirectionPageState extends DirectionalitySampleViewState {
         return constraints.maxHeight > 300
             ? slider
             : SingleChildScrollView(
-                child: SizedBox(height: 300, child: slider));
+              child: SizedBox(height: 300, child: slider),
+            );
       },
     );
   }

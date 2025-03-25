@@ -34,16 +34,17 @@ class _VerticalTickCustomizedRangeSliderState extends SampleViewState {
   Widget build(BuildContext context) {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-          inactiveTrackColor: _inactiveColor.withOpacity(0.5),
-          activeTrackColor: _activeColor,
-          inactiveTickColor: _inactiveColor.withOpacity(0.8),
-          activeTickColor: _activeColor,
-          inactiveMinorTickColor: _inactiveColor,
-          activeMinorTickColor: _activeColor,
-          thumbColor: _activeColor,
-          overlayColor: _activeColor.withOpacity(0.24),
-          tickOffset: Offset.zero,
-          tooltipBackgroundColor: _activeColor),
+        inactiveTrackColor: _inactiveColor.withValues(alpha: 0.5),
+        activeTrackColor: _activeColor,
+        inactiveTickColor: _inactiveColor.withValues(alpha: 0.8),
+        activeTickColor: _activeColor,
+        inactiveMinorTickColor: _inactiveColor,
+        activeMinorTickColor: _activeColor,
+        thumbColor: _activeColor,
+        overlayColor: _activeColor.withValues(alpha: 0.24),
+        tickOffset: Offset.zero,
+        tooltipBackgroundColor: _activeColor,
+      ),
       child: SfRangeSlider.vertical(
         max: 100.0,
         values: _values,
@@ -66,89 +67,129 @@ class _VerticalTickCustomizedRangeSliderState extends SampleViewState {
 
 class _TickShape extends SfTickShape {
   @override
-  void paint(PaintingContext context, Offset offset, Offset? thumbCenter,
-      Offset? startThumbCenter, Offset? endThumbCenter,
-      {RenderBox? parentBox,
-      SfSliderThemeData? themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      Animation<double>? enableAnimation,
-      TextDirection? textDirection}) {
+  void paint(
+    PaintingContext context,
+    Offset offset,
+    Offset? thumbCenter,
+    Offset? startThumbCenter,
+    Offset? endThumbCenter, {
+    RenderBox? parentBox,
+    SfSliderThemeData? themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    Animation<double>? enableAnimation,
+    TextDirection? textDirection,
+  }) {
     final Size tickSize = getPreferredSize(themeData!);
-    final bool isTickRightOfThumb = endThumbCenter == null
-        ? offset.dy < thumbCenter!.dy
-        : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
-    final Color begin = isTickRightOfThumb
-        ? themeData.disabledInactiveTickColor!
-        : themeData.disabledActiveTickColor!;
-    final Color end = isTickRightOfThumb
-        ? themeData.inactiveTickColor!
-        : themeData.activeTickColor!;
-    final Paint paint = Paint()
-      ..isAntiAlias = true
-      ..strokeWidth = tickSize.height
-      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation!)!;
-    context.canvas
-        .drawLine(offset, Offset(offset.dx + tickSize.width, offset.dy), paint);
+    final bool isTickRightOfThumb =
+        endThumbCenter == null
+            ? offset.dy < thumbCenter!.dy
+            : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
+    final Color begin =
+        isTickRightOfThumb
+            ? themeData.disabledInactiveTickColor!
+            : themeData.disabledActiveTickColor!;
+    final Color end =
+        isTickRightOfThumb
+            ? themeData.inactiveTickColor!
+            : themeData.activeTickColor!;
+    final Paint paint =
+        Paint()
+          ..isAntiAlias = true
+          ..strokeWidth = tickSize.height
+          ..color =
+              ColorTween(begin: begin, end: end).evaluate(enableAnimation!)!;
     context.canvas.drawLine(
-        Offset(
-            offset.dx -
-                2 * themeData.tickOffset!.dx -
-                math.max(
-                    themeData.activeTrackHeight, themeData.inactiveTrackHeight),
-            offset.dy),
-        Offset(
-            offset.dx -
-                2 * themeData.tickOffset!.dx -
-                math.max(themeData.activeTrackHeight,
-                    themeData.inactiveTrackHeight) -
-                tickSize.width,
-            offset.dy),
-        paint);
+      offset,
+      Offset(offset.dx + tickSize.width, offset.dy),
+      paint,
+    );
+    context.canvas.drawLine(
+      Offset(
+        offset.dx -
+            2 * themeData.tickOffset!.dx -
+            math.max(
+              themeData.activeTrackHeight,
+              themeData.inactiveTrackHeight,
+            ),
+        offset.dy,
+      ),
+      Offset(
+        offset.dx -
+            2 * themeData.tickOffset!.dx -
+            math.max(
+              themeData.activeTrackHeight,
+              themeData.inactiveTrackHeight,
+            ) -
+            tickSize.width,
+        offset.dy,
+      ),
+      paint,
+    );
   }
 }
 
 class _MinorTickShape extends SfTickShape {
   @override
-  void paint(PaintingContext context, Offset offset, Offset? thumbCenter,
-      Offset? startThumbCenter, Offset? endThumbCenter,
-      {RenderBox? parentBox,
-      SfSliderThemeData? themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      Animation<double>? enableAnimation,
-      TextDirection? textDirection,
-      bool? isVertical}) {
+  void paint(
+    PaintingContext context,
+    Offset offset,
+    Offset? thumbCenter,
+    Offset? startThumbCenter,
+    Offset? endThumbCenter, {
+    RenderBox? parentBox,
+    SfSliderThemeData? themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    Animation<double>? enableAnimation,
+    TextDirection? textDirection,
+    bool? isVertical,
+  }) {
     final Size minorTickSize = getPreferredSize(themeData!);
-    final bool isMinorTickRightOfThumb = endThumbCenter == null
-        ? offset.dy < thumbCenter!.dy
-        : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
-    final Color begin = isMinorTickRightOfThumb
-        ? themeData.disabledInactiveMinorTickColor!
-        : themeData.disabledActiveMinorTickColor!;
-    final Color end = isMinorTickRightOfThumb
-        ? themeData.inactiveMinorTickColor!
-        : themeData.activeMinorTickColor!;
-    final Paint paint = Paint()
-      ..isAntiAlias = true
-      ..strokeWidth = minorTickSize.height
-      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation!)!;
+    final bool isMinorTickRightOfThumb =
+        endThumbCenter == null
+            ? offset.dy < thumbCenter!.dy
+            : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
+    final Color begin =
+        isMinorTickRightOfThumb
+            ? themeData.disabledInactiveMinorTickColor!
+            : themeData.disabledActiveMinorTickColor!;
+    final Color end =
+        isMinorTickRightOfThumb
+            ? themeData.inactiveMinorTickColor!
+            : themeData.activeMinorTickColor!;
+    final Paint paint =
+        Paint()
+          ..isAntiAlias = true
+          ..strokeWidth = minorTickSize.height
+          ..color =
+              ColorTween(begin: begin, end: end).evaluate(enableAnimation!)!;
     context.canvas.drawLine(
-        offset, Offset(offset.dx + minorTickSize.width, offset.dy), paint);
+      offset,
+      Offset(offset.dx + minorTickSize.width, offset.dy),
+      paint,
+    );
     context.canvas.drawLine(
-        Offset(
-            offset.dx -
-                2 * themeData.tickOffset!.dx -
-                math.max(
-                    themeData.activeTrackHeight, themeData.inactiveTrackHeight),
-            offset.dy),
-        Offset(
-            offset.dx -
-                2 * themeData.tickOffset!.dx -
-                math.max(themeData.activeTrackHeight,
-                    themeData.inactiveTrackHeight) -
-                minorTickSize.width,
-            offset.dy),
-        paint);
+      Offset(
+        offset.dx -
+            2 * themeData.tickOffset!.dx -
+            math.max(
+              themeData.activeTrackHeight,
+              themeData.inactiveTrackHeight,
+            ),
+        offset.dy,
+      ),
+      Offset(
+        offset.dx -
+            2 * themeData.tickOffset!.dx -
+            math.max(
+              themeData.activeTrackHeight,
+              themeData.inactiveTrackHeight,
+            ) -
+            minorTickSize.width,
+        offset.dy,
+      ),
+      paint,
+    );
   }
 }

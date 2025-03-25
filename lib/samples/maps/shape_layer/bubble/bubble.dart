@@ -74,39 +74,54 @@ class _MapBubblePageState extends SampleViewState
     _isLightTheme = model.themeData.colorScheme.brightness == Brightness.light;
 
     _facebookController = AnimationController(
-        duration: const Duration(milliseconds: 500),
-        vsync: this,
-        lowerBound: 0.6);
-    _facebookAnimation =
-        CurvedAnimation(parent: _facebookController, curve: Curves.easeInOut);
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+      lowerBound: 0.6,
+    );
+    _facebookAnimation = CurvedAnimation(
+      parent: _facebookController,
+      curve: Curves.easeInOut,
+    );
 
     _twitterController = AnimationController(
-        duration: const Duration(milliseconds: 500),
-        vsync: this,
-        lowerBound: 0.6);
-    _twitterAnimation =
-        CurvedAnimation(parent: _twitterController, curve: Curves.easeInOut);
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+      lowerBound: 0.6,
+    );
+    _twitterAnimation = CurvedAnimation(
+      parent: _twitterController,
+      curve: Curves.easeInOut,
+    );
 
     _instagramController = AnimationController(
-        duration: const Duration(milliseconds: 500),
-        vsync: this,
-        lowerBound: 0.6);
-    _instagramAnimation =
-        CurvedAnimation(parent: _instagramController, curve: Curves.easeInOut);
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+      lowerBound: 0.6,
+    );
+    _instagramAnimation = CurvedAnimation(
+      parent: _instagramController,
+      curve: Curves.easeInOut,
+    );
 
     _tiktokController = AnimationController(
-        duration: const Duration(milliseconds: 500),
-        vsync: this,
-        lowerBound: 0.6);
-    _tiktokAnimation =
-        CurvedAnimation(parent: _tiktokController, curve: Curves.easeInOut);
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+      lowerBound: 0.6,
+    );
+    _tiktokAnimation = CurvedAnimation(
+      parent: _tiktokController,
+      curve: Curves.easeInOut,
+    );
 
     _snapchatController = AnimationController(
-        duration: const Duration(milliseconds: 500),
-        vsync: this,
-        lowerBound: 0.6);
-    _snapchatAnimation =
-        CurvedAnimation(parent: _snapchatController, curve: Curves.easeInOut);
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+      lowerBound: 0.6,
+    );
+    _snapchatAnimation = CurvedAnimation(
+      parent: _snapchatController,
+      curve: Curves.easeInOut,
+    );
 
     _facebookController.forward();
 
@@ -268,22 +283,35 @@ class _MapBubblePageState extends SampleViewState
 
     _mapSource = _facebookMapSource;
     _currentDelegate = 'FaceBook';
-    _shapeColor = _isLightTheme
-        ? const Color.fromRGBO(57, 110, 218, 0.35)
-        : const Color.fromRGBO(72, 132, 255, 0.35);
-    _shapeStrokeColor = const Color.fromARGB(255, 52, 85, 176).withOpacity(0);
-    _bubbleColor = _isLightTheme
-        ? const Color.fromRGBO(15, 59, 177, 0.5)
-        : const Color.fromRGBO(135, 167, 255, 0.6);
+    _shapeColor =
+        _isLightTheme
+            ? const Color.fromRGBO(57, 110, 218, 0.35)
+            : const Color.fromRGBO(72, 132, 255, 0.35);
+    _shapeStrokeColor = const Color.fromARGB(
+      255,
+      52,
+      85,
+      176,
+    ).withValues(alpha: 0);
+    _bubbleColor =
+        _isLightTheme
+            ? const Color.fromRGBO(15, 59, 177, 0.5)
+            : const Color.fromRGBO(135, 167, 255, 0.6);
     _bubbleStrokeColor = Colors.white;
-    _tooltipColor = _isLightTheme
-        ? const Color.fromRGBO(35, 65, 148, 1)
-        : const Color.fromRGBO(52, 85, 176, 1);
+    _tooltipColor =
+        _isLightTheme
+            ? const Color.fromRGBO(35, 65, 148, 1)
+            : const Color.fromRGBO(52, 85, 176, 1);
     _tooltipStrokeColor = Colors.white;
     _tooltipTextColor = Colors.white;
     _facebookBoxDecoration = _getBoxDecoration(
-        const Color.fromARGB(255, 52, 85, 176)
-            .withOpacity(_isLightTheme ? 0.1 : 0.3));
+      const Color.fromARGB(
+        255,
+        52,
+        85,
+        176,
+      ).withValues(alpha: _isLightTheme ? 0.1 : 0.3),
+    );
   }
 
   @override
@@ -306,51 +334,59 @@ class _MapBubblePageState extends SampleViewState
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final bool scrollEnabled = constraints.maxHeight > 400;
-      double height = scrollEnabled ? constraints.maxHeight : 400;
-      if (model.isWebFullView ||
-          (model.isMobile &&
-              MediaQuery.of(context).orientation == Orientation.landscape)) {
-        final double refHeight = height * 0.6;
-        height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
-      }
-      return Center(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            width: constraints.maxWidth,
-            height: height,
-            child: _buildMapsWidget(scrollEnabled),
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final bool scrollEnabled = constraints.maxHeight > 400;
+        double height = scrollEnabled ? constraints.maxHeight : 400;
+        if (model.isWebFullView ||
+            (model.isMobile &&
+                MediaQuery.of(context).orientation == Orientation.landscape)) {
+          final double refHeight = height * 0.6;
+          height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+        }
+        return Center(
+          child: SingleChildScrollView(
+            child: SizedBox(
+              width: constraints.maxWidth,
+              height: height,
+              child: _buildMapsWidget(scrollEnabled),
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   Widget _buildMapsWidget(bool scrollEnabled) {
     return Stack(
       children: <Widget>[
         Padding(
-          padding: scrollEnabled
-              ? EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.15,
-                  right: 10)
-              : const EdgeInsets.only(bottom: 75.0, right: 10),
+          padding:
+              scrollEnabled
+                  ? EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.05,
+                    bottom: MediaQuery.of(context).size.height * 0.15,
+                    right: 10,
+                  )
+                  : const EdgeInsets.only(bottom: 75.0, right: 10),
           child: SfMapsTheme(
-              data: SfMapsThemeData(
-                shapeHoverColor: Colors.transparent,
-                shapeHoverStrokeColor: Colors.transparent,
-                bubbleHoverColor: _shapeColor,
-                bubbleHoverStrokeColor: _bubbleColor,
-                bubbleHoverStrokeWidth: 1.5,
-              ),
-              child: Column(children: <Widget>[
+            data: SfMapsThemeData(
+              shapeHoverColor: Colors.transparent,
+              shapeHoverStrokeColor: Colors.transparent,
+              bubbleHoverColor: _shapeColor,
+              bubbleHoverStrokeColor: _bubbleColor,
+              bubbleHoverStrokeWidth: 1.5,
+            ),
+            child: Column(
+              children: <Widget>[
                 Padding(
-                    padding: const EdgeInsets.only(top: 15, bottom: 30),
-                    child: Align(
-                        child: Text('Social Media Users Statistics',
-                            style: Theme.of(context).textTheme.titleMedium))),
+                  padding: const EdgeInsets.only(top: 15, bottom: 30),
+                  child: Align(
+                    child: Text(
+                      'Social Media Users Statistics',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: SfMaps(
                     layers: <MapLayer>[
@@ -359,9 +395,7 @@ class _MapBubblePageState extends SampleViewState
                           return const SizedBox(
                             height: 25,
                             width: 25,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 3),
                           );
                         },
                         source: _mapSource,
@@ -369,30 +403,36 @@ class _MapBubblePageState extends SampleViewState
                         strokeWidth: 1,
                         strokeColor: _shapeStrokeColor,
                         // Returns the custom tooltip for each bubble.
-                        bubbleTooltipBuilder:
-                            (BuildContext context, int index) {
+                        bubbleTooltipBuilder: (
+                          BuildContext context,
+                          int index,
+                        ) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(_getCustomizedString(index),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: _tooltipTextColor)),
+                            child: Text(
+                              _getCustomizedString(index),
+                              style: Theme.of(context).textTheme.bodySmall!
+                                  .copyWith(color: _tooltipTextColor),
+                            ),
                           );
                         },
                         bubbleSettings: MapBubbleSettings(
-                            strokeColor: _bubbleStrokeColor,
-                            strokeWidth: 0.5,
-                            color: _bubbleColor,
-                            maxRadius: 40),
+                          strokeColor: _bubbleStrokeColor,
+                          strokeWidth: 0.5,
+                          color: _bubbleColor,
+                          maxRadius: 40,
+                        ),
                         tooltipSettings: MapTooltipSettings(
-                            color: _tooltipColor,
-                            strokeColor: _tooltipStrokeColor),
+                          color: _tooltipColor,
+                          strokeColor: _tooltipStrokeColor,
+                        ),
                       ),
                     ],
                   ),
-                )
-              ])),
+                ),
+              ],
+            ),
+          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -408,25 +448,32 @@ class _MapBubblePageState extends SampleViewState
                     scale: _facebookAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
+                        maximumSize: WidgetStatePropertyAll(Size(70, 70)),
+                      ),
                       icon: Image.asset('images/maps_facebook.png'),
                       iconSize: 50,
                       onPressed: () {
                         setState(() {
                           _mapSource = _facebookMapSource;
                           _currentDelegate = 'FaceBook';
-                          _shapeColor = _isLightTheme
-                              ? const Color.fromRGBO(57, 110, 218, 0.35)
-                              : const Color.fromRGBO(72, 132, 255, 0.35);
-                          _shapeStrokeColor =
-                              const Color.fromARGB(255, 52, 85, 176)
-                                  .withOpacity(0);
-                          _bubbleColor = _isLightTheme
-                              ? const Color.fromRGBO(15, 59, 177, 0.5)
-                              : const Color.fromRGBO(135, 167, 255, 0.6);
-                          _tooltipColor = _isLightTheme
-                              ? const Color.fromRGBO(35, 65, 148, 1)
-                              : const Color.fromRGBO(52, 85, 176, 1);
+                          _shapeColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(57, 110, 218, 0.35)
+                                  : const Color.fromRGBO(72, 132, 255, 0.35);
+                          _shapeStrokeColor = const Color.fromARGB(
+                            255,
+                            52,
+                            85,
+                            176,
+                          ).withValues(alpha: 0);
+                          _bubbleColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(15, 59, 177, 0.5)
+                                  : const Color.fromRGBO(135, 167, 255, 0.6);
+                          _tooltipColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(35, 65, 148, 1)
+                                  : const Color.fromRGBO(52, 85, 176, 1);
                           _bubbleStrokeColor = Colors.white;
                           _tooltipStrokeColor = Colors.white;
                           _tooltipTextColor = Colors.white;
@@ -444,8 +491,13 @@ class _MapBubblePageState extends SampleViewState
                           _tiktokBoxDecoration = null;
 
                           _facebookBoxDecoration = _getBoxDecoration(
-                              const Color.fromARGB(255, 52, 85, 176)
-                                  .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                            const Color.fromARGB(
+                              255,
+                              52,
+                              85,
+                              176,
+                            ).withValues(alpha: _isLightTheme ? 0.1 : 0.3),
+                          );
                         });
                       },
                     ),
@@ -457,25 +509,32 @@ class _MapBubblePageState extends SampleViewState
                     scale: _twitterAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
+                        maximumSize: WidgetStatePropertyAll(Size(70, 70)),
+                      ),
                       icon: Image.asset('images/maps_twitter.png'),
                       iconSize: 50,
                       onPressed: () {
                         setState(() {
                           _mapSource = _twitterMapSource;
                           _currentDelegate = 'Twitter';
-                          _shapeColor = _isLightTheme
-                              ? const Color.fromRGBO(86, 170, 235, 0.35)
-                              : const Color.fromRGBO(32, 154, 255, 0.35);
-                          _shapeStrokeColor =
-                              const Color.fromARGB(255, 0, 122, 202)
-                                  .withOpacity(0);
-                          _bubbleColor = _isLightTheme
-                              ? const Color.fromRGBO(17, 124, 179, 0.5)
-                              : const Color.fromRGBO(56, 184, 251, 0.5);
-                          _tooltipColor = _isLightTheme
-                              ? const Color.fromRGBO(27, 129, 188, 1)
-                              : const Color.fromRGBO(65, 154, 207, 1);
+                          _shapeColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(86, 170, 235, 0.35)
+                                  : const Color.fromRGBO(32, 154, 255, 0.35);
+                          _shapeStrokeColor = const Color.fromARGB(
+                            255,
+                            0,
+                            122,
+                            202,
+                          ).withValues(alpha: 0);
+                          _bubbleColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(17, 124, 179, 0.5)
+                                  : const Color.fromRGBO(56, 184, 251, 0.5);
+                          _tooltipColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(27, 129, 188, 1)
+                                  : const Color.fromRGBO(65, 154, 207, 1);
                           _bubbleStrokeColor = Colors.white;
                           _tooltipStrokeColor = Colors.white;
                           _tooltipTextColor = Colors.white;
@@ -493,8 +552,13 @@ class _MapBubblePageState extends SampleViewState
                           _tiktokBoxDecoration = null;
 
                           _twitterBoxDecoration = _getBoxDecoration(
-                              const Color.fromARGB(255, 0, 122, 202)
-                                  .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                            const Color.fromARGB(
+                              255,
+                              0,
+                              122,
+                              202,
+                            ).withValues(alpha: _isLightTheme ? 0.1 : 0.3),
+                          );
                         });
                       },
                     ),
@@ -506,25 +570,32 @@ class _MapBubblePageState extends SampleViewState
                     scale: _instagramAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
+                        maximumSize: WidgetStatePropertyAll(Size(70, 70)),
+                      ),
                       icon: Image.asset('images/maps_instagram.png'),
                       iconSize: 50,
                       onPressed: () {
                         setState(() {
                           _mapSource = _instagramMapSource;
                           _currentDelegate = 'Instagram';
-                          _shapeColor = _isLightTheme
-                              ? const Color.fromRGBO(159, 119, 213, 0.35)
-                              : const Color.fromRGBO(166, 104, 246, 0.35);
-                          _shapeStrokeColor =
-                              const Color.fromARGB(255, 238, 46, 73)
-                                  .withOpacity(0);
-                          _bubbleColor = _isLightTheme
-                              ? const Color.fromRGBO(249, 99, 20, 0.5)
-                              : const Color.fromRGBO(253, 173, 38, 0.5);
-                          _tooltipColor = _isLightTheme
-                              ? const Color.fromRGBO(175, 90, 66, 1)
-                              : const Color.fromRGBO(202, 130, 8, 1);
+                          _shapeColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(159, 119, 213, 0.35)
+                                  : const Color.fromRGBO(166, 104, 246, 0.35);
+                          _shapeStrokeColor = const Color.fromARGB(
+                            255,
+                            238,
+                            46,
+                            73,
+                          ).withValues(alpha: 0);
+                          _bubbleColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(249, 99, 20, 0.5)
+                                  : const Color.fromRGBO(253, 173, 38, 0.5);
+                          _tooltipColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(175, 90, 66, 1)
+                                  : const Color.fromRGBO(202, 130, 8, 1);
                           _bubbleStrokeColor = Colors.white;
                           _tooltipStrokeColor = Colors.white;
                           _tooltipTextColor = Colors.white;
@@ -542,8 +613,13 @@ class _MapBubblePageState extends SampleViewState
                           _tiktokBoxDecoration = null;
 
                           _instagramBoxDecoration = _getBoxDecoration(
-                              const Color.fromARGB(255, 238, 46, 73)
-                                  .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                            const Color.fromARGB(
+                              255,
+                              238,
+                              46,
+                              73,
+                            ).withValues(alpha: _isLightTheme ? 0.1 : 0.3),
+                          );
                         });
                       },
                     ),
@@ -555,25 +631,32 @@ class _MapBubblePageState extends SampleViewState
                     scale: _snapchatAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
+                        maximumSize: WidgetStatePropertyAll(Size(70, 70)),
+                      ),
                       icon: Image.asset('images/maps_snapchat.png'),
                       iconSize: 50,
                       onPressed: () {
                         setState(() {
                           _mapSource = _snapChatMapSource;
                           _currentDelegate = 'SnapChat';
-                          _shapeColor = _isLightTheme
-                              ? const Color.fromRGBO(212, 185, 48, 0.35)
-                              : const Color.fromRGBO(227, 226, 73, 0.35);
-                          _shapeStrokeColor =
-                              const Color.fromARGB(255, 255, 126, 0)
-                                  .withOpacity(0);
-                          _bubbleColor = _isLightTheme
-                              ? const Color.fromRGBO(182, 150, 2, 0.5)
-                              : const Color.fromRGBO(254, 253, 2, 0.458);
-                          _tooltipColor = _isLightTheme
-                              ? const Color.fromRGBO(173, 144, 12, 1)
-                              : const Color.fromRGBO(225, 225, 30, 1);
+                          _shapeColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(212, 185, 48, 0.35)
+                                  : const Color.fromRGBO(227, 226, 73, 0.35);
+                          _shapeStrokeColor = const Color.fromARGB(
+                            255,
+                            255,
+                            126,
+                            0,
+                          ).withValues(alpha: 0);
+                          _bubbleColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(182, 150, 2, 0.5)
+                                  : const Color.fromRGBO(254, 253, 2, 0.458);
+                          _tooltipColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(173, 144, 12, 1)
+                                  : const Color.fromRGBO(225, 225, 30, 1);
                           _bubbleStrokeColor =
                               _isLightTheme ? Colors.black : Colors.white;
                           _tooltipStrokeColor =
@@ -594,8 +677,13 @@ class _MapBubblePageState extends SampleViewState
                           _tiktokBoxDecoration = null;
 
                           _snapchatBoxDecoration = _getBoxDecoration(
-                              const Color.fromARGB(255, 255, 221, 0)
-                                  .withOpacity(_isLightTheme ? 0.2 : 0.3));
+                            const Color.fromARGB(
+                              255,
+                              255,
+                              221,
+                              0,
+                            ).withValues(alpha: _isLightTheme ? 0.2 : 0.3),
+                          );
                         });
                       },
                     ),
@@ -607,23 +695,29 @@ class _MapBubblePageState extends SampleViewState
                     scale: _tiktokAnimation,
                     child: IconButton(
                       style: const ButtonStyle(
-                          maximumSize: WidgetStatePropertyAll(Size(70, 70))),
+                        maximumSize: WidgetStatePropertyAll(Size(70, 70)),
+                      ),
                       icon: Image.asset('images/maps_tiktok.png'),
                       iconSize: 50,
                       onPressed: () {
                         setState(() {
                           _mapSource = _tikTokMapSorce;
                           _currentDelegate = 'Tiktok';
-                          _shapeColor = _isLightTheme
-                              ? const Color.fromRGBO(72, 193, 188, 0.35)
-                              : const Color.fromRGBO(50, 216, 210, 0.35);
-                          _shapeStrokeColor = Colors.black54.withOpacity(0);
-                          _bubbleColor = _isLightTheme
-                              ? const Color.fromRGBO(250, 60, 114, 0.5)
-                              : const Color.fromRGBO(218, 11, 69, 0.5);
-                          _tooltipColor = _isLightTheme
-                              ? const Color.fromRGBO(186, 57, 108, 1)
-                              : const Color.fromRGBO(189, 74, 119, 1);
+                          _shapeColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(72, 193, 188, 0.35)
+                                  : const Color.fromRGBO(50, 216, 210, 0.35);
+                          _shapeStrokeColor = Colors.black54.withValues(
+                            alpha: 0,
+                          );
+                          _bubbleColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(250, 60, 114, 0.5)
+                                  : const Color.fromRGBO(218, 11, 69, 0.5);
+                          _tooltipColor =
+                              _isLightTheme
+                                  ? const Color.fromRGBO(186, 57, 108, 1)
+                                  : const Color.fromRGBO(189, 74, 119, 1);
                           _bubbleStrokeColor = Colors.white;
                           _tooltipStrokeColor = Colors.white;
                           _tooltipTextColor = Colors.white;
@@ -640,8 +734,11 @@ class _MapBubblePageState extends SampleViewState
                           _instagramBoxDecoration = null;
                           _snapchatBoxDecoration = null;
 
-                          _tiktokBoxDecoration = _getBoxDecoration(Colors.black
-                              .withOpacity(_isLightTheme ? 0.1 : 0.3));
+                          _tiktokBoxDecoration = _getBoxDecoration(
+                            Colors.black.withValues(
+                              alpha: _isLightTheme ? 0.1 : 0.3,
+                            ),
+                          );
                         });
                       },
                     ),
@@ -691,11 +788,7 @@ class _MapBubblePageState extends SampleViewState
   BoxDecoration _getBoxDecoration(Color color) {
     return BoxDecoration(
       shape: BoxShape.circle,
-      boxShadow: <BoxShadow>[
-        BoxShadow(
-          color: color,
-        )
-      ],
+      boxShadow: <BoxShadow>[BoxShadow(color: color)],
     );
   }
 }

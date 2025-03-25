@@ -28,9 +28,11 @@ class ConditionalStyleDataGridSource extends DataGridSource {
   /// Rows are generated once and for CRUD operation we have to refresh
   /// the data row.
   void _buildDataGridRows() {
-    _dataGridRows = _stocks
-        .map<DataGridRow>(
-            (Stock dataGridRow) => DataGridRow(cells: <DataGridCell<dynamic>>[
+    _dataGridRows =
+        _stocks
+            .map<DataGridRow>(
+              (Stock dataGridRow) => DataGridRow(
+                cells: <DataGridCell<dynamic>>[
                   DataGridCell<String>(
                     columnName: 'name',
                     value: dataGridRow.name,
@@ -51,68 +53,70 @@ class ConditionalStyleDataGridSource extends DataGridSource {
                     columnName: 'qs4',
                     value: dataGridRow.qs4,
                   ),
-                ]))
-        .toList();
+                ],
+              ),
+            )
+            .toList();
   }
 
   // Building the Widget for each data cells
   Widget _buildQ1(double value) {
     if (value > 2000 && value < 2500) {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          color: const Color(0xFFF4C5B9),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: const TextStyle(color: Colors.black),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFFF4C5B9),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style: const TextStyle(color: Colors.black),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     } else if (value > 2500) {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          color: const Color(0xFFEB552C),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: const TextStyle(color: Colors.white),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFFEB552C),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style: const TextStyle(color: Colors.white),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     } else {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          color: const Color(0xFFEF8465),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFFEF8465),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     }
   }
 
   Widget _buildQ2(double value) {
     if (value > 2000 && value < 2500) {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          color: const Color(0xFFF5BD16),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFFF5BD16),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     } else if (value > 2500) {
       return Container(
         padding: const EdgeInsets.all(4.0),
@@ -121,9 +125,7 @@ class ConditionalStyleDataGridSource extends DataGridSource {
           alignment: Alignment.centerRight,
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style: const TextStyle(
-              color: Color.fromRGBO(0, 0, 0, 1),
-            ),
+            style: const TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -216,19 +218,17 @@ class ConditionalStyleDataGridSource extends DataGridSource {
       );
     } else {
       return Container(
-          padding: const EdgeInsets.all(4.0),
-          color: const Color(0xFF4CAC4C),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                  .format(value),
-              style: const TextStyle(
-                color: Color.fromRGBO(255, 255, 255, 1),
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ));
+        padding: const EdgeInsets.all(4.0),
+        color: const Color(0xFF4CAC4C),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
+            style: const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      );
     }
   }
 
@@ -239,18 +239,21 @@ class ConditionalStyleDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: <Widget>[
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        child: Align(
+    return DataGridRowAdapter(
+      cells: <Widget>[
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(row.getCells()[0].value.toString())),
-      ),
-      _buildQ1(row.getCells()[1].value),
-      _buildQ2(row.getCells()[2].value),
-      _buildQ3(row.getCells()[3].value),
-      _buildQ4(row.getCells()[4].value)
-    ]);
+            child: Text(row.getCells()[0].value.toString()),
+          ),
+        ),
+        _buildQ1(row.getCells()[1].value),
+        _buildQ2(row.getCells()[2].value),
+        _buildQ3(row.getCells()[3].value),
+        _buildQ4(row.getCells()[4].value),
+      ],
+    );
   }
 
   // Generating the stock data collection
@@ -268,19 +271,21 @@ class ConditionalStyleDataGridSource extends DataGridSource {
     'Gary',
     'Carol',
     'James',
-    'Martha'
+    'Martha',
   ];
 
   List<Stock> _fetchStocks(int count) {
     final List<Stock> stockData = <Stock>[];
     for (int i = 1; i < count; i++) {
-      stockData.add(Stock(
-        _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
-        1800.0 + _random.nextInt(2000),
-        1500.0 + _random.nextInt(1000),
-        2000.0 + _random.nextInt(3000),
-        1400.0 + _random.nextInt(4000),
-      ));
+      stockData.add(
+        Stock(
+          _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
+          1800.0 + _random.nextInt(2000),
+          1500.0 + _random.nextInt(1000),
+          2000.0 + _random.nextInt(3000),
+          1400.0 + _random.nextInt(4000),
+        ),
+      );
     }
     return stockData;
   }

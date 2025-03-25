@@ -11,8 +11,11 @@ import '../model/product.dart';
 /// Set product's data collection to data grid source.
 class ProductDataGridSource extends DataGridSource {
   /// Creates the product data source class with required details.
-  ProductDataGridSource(String sampleType,
-      {required this.productDataCount, columns}) {
+  ProductDataGridSource(
+    String sampleType, {
+    required this.productDataCount,
+    columns,
+  }) {
     _products = _fetchProducts(productDataCount);
     _sampleName = sampleType;
     if (columns != null) {
@@ -38,35 +41,66 @@ class ProductDataGridSource extends DataGridSource {
 
   /// Build DataGridRows
   void _buildDataGridRows(String sampleType) {
-    _dataGridRows = _products.map<DataGridRow>((Product product) {
-      if (sampleType == 'Stacked Header') {
-        return DataGridRow(cells: <DataGridCell<dynamic>>[
-          DataGridCell<String>(columnName: 'name', value: product.name),
-          DataGridCell<String>(columnName: 'city', value: product.city),
-          DataGridCell<int>(columnName: 'id', value: product.id),
-          DataGridCell<DateTime>(
-              columnName: 'orderDate', value: product.orderDate),
-          DataGridCell<String>(columnName: 'product', value: product.product),
-          DataGridCell<int>(columnName: 'productId', value: product.productId),
-          DataGridCell<int>(columnName: 'quantity', value: product.quantity),
-          DataGridCell<double>(
-              columnName: 'unitPrice', value: product.unitPrice),
-        ]);
-      } else {
-        return DataGridRow(cells: <DataGridCell<dynamic>>[
-          DataGridCell<int>(columnName: 'id', value: product.id),
-          DataGridCell<int>(columnName: 'productId', value: product.productId),
-          DataGridCell<String>(columnName: 'name', value: product.name),
-          DataGridCell<String>(columnName: 'product', value: product.product),
-          DataGridCell<DateTime>(
-              columnName: 'orderDate', value: product.orderDate),
-          DataGridCell<int>(columnName: 'quantity', value: product.quantity),
-          DataGridCell<String>(columnName: 'city', value: product.city),
-          DataGridCell<double>(
-              columnName: 'unitPrice', value: product.unitPrice),
-        ]);
-      }
-    }).toList();
+    _dataGridRows =
+        _products.map<DataGridRow>((Product product) {
+          if (sampleType == 'Stacked Header') {
+            return DataGridRow(
+              cells: <DataGridCell<dynamic>>[
+                DataGridCell<String>(columnName: 'name', value: product.name),
+                DataGridCell<String>(columnName: 'city', value: product.city),
+                DataGridCell<int>(columnName: 'id', value: product.id),
+                DataGridCell<DateTime>(
+                  columnName: 'orderDate',
+                  value: product.orderDate,
+                ),
+                DataGridCell<String>(
+                  columnName: 'product',
+                  value: product.product,
+                ),
+                DataGridCell<int>(
+                  columnName: 'productId',
+                  value: product.productId,
+                ),
+                DataGridCell<int>(
+                  columnName: 'quantity',
+                  value: product.quantity,
+                ),
+                DataGridCell<double>(
+                  columnName: 'unitPrice',
+                  value: product.unitPrice,
+                ),
+              ],
+            );
+          } else {
+            return DataGridRow(
+              cells: <DataGridCell<dynamic>>[
+                DataGridCell<int>(columnName: 'id', value: product.id),
+                DataGridCell<int>(
+                  columnName: 'productId',
+                  value: product.productId,
+                ),
+                DataGridCell<String>(columnName: 'name', value: product.name),
+                DataGridCell<String>(
+                  columnName: 'product',
+                  value: product.product,
+                ),
+                DataGridCell<DateTime>(
+                  columnName: 'orderDate',
+                  value: product.orderDate,
+                ),
+                DataGridCell<int>(
+                  columnName: 'quantity',
+                  value: product.quantity,
+                ),
+                DataGridCell<String>(columnName: 'city', value: product.city),
+                DataGridCell<double>(
+                  columnName: 'unitPrice',
+                  value: product.unitPrice,
+                ),
+              ],
+            );
+          }
+        }).toList();
   }
 
   @override
@@ -75,163 +109,175 @@ class ProductDataGridSource extends DataGridSource {
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     if (_sampleName == 'Stacked Header') {
-      return DataGridRowAdapter(cells: <Widget>[
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[0].value.toString(),
-            overflow: TextOverflow.ellipsis,
+      return DataGridRowAdapter(
+        cells: <Widget>[
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[0].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[1].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[1].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[2].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[2].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            DateFormat('MM/dd/yyyy').format(row.getCells()[3].value),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              DateFormat('MM/dd/yyyy').format(row.getCells()[3].value),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[4].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[4].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[5].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[5].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[6].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[6].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                .format(row.getCells()[7].value),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              NumberFormat.currency(
+                locale: 'en_US',
+                symbol: r'$',
+              ).format(row.getCells()[7].value),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-      ]);
+        ],
+      );
     } else if (_sampleName == 'Column Drag and Drop') {
       return DataGridRowAdapter(
-          cells: _columns.map<Widget>((e) {
-        final DataGridCell cell = row
-            .getCells()
-            .firstWhere((cell) => cell.columnName == e.columnName);
+        cells:
+            _columns.map<Widget>((e) {
+              final DataGridCell cell = row.getCells().firstWhere(
+                (cell) => cell.columnName == e.columnName,
+              );
 
-        return Container(
-          alignment: (cell.columnName == 'name' ||
-                  cell.columnName == 'product' ||
-                  cell.columnName == 'city')
-              ? Alignment.centerLeft
-              : Alignment.centerRight,
-          padding: const EdgeInsets.all(8.0),
-          child: cell.columnName == 'orderDate'
-              ? Text(
-                  DateFormat('MM/dd/yyyy').format(cell.value),
-                  overflow: TextOverflow.ellipsis,
-                )
-              : Text(cell.value.toString()),
-        );
-      }).toList());
+              return Container(
+                alignment:
+                    (cell.columnName == 'name' ||
+                            cell.columnName == 'product' ||
+                            cell.columnName == 'city')
+                        ? Alignment.centerLeft
+                        : Alignment.centerRight,
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    cell.columnName == 'orderDate'
+                        ? Text(
+                          DateFormat('MM/dd/yyyy').format(cell.value),
+                          overflow: TextOverflow.ellipsis,
+                        )
+                        : Text(cell.value.toString()),
+              );
+            }).toList(),
+      );
     } else {
-      return DataGridRowAdapter(cells: <Widget>[
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[0].value.toString(),
-            overflow: TextOverflow.ellipsis,
+      return DataGridRowAdapter(
+        cells: <Widget>[
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[0].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[1].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[1].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[2].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[2].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[3].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[3].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            DateFormat('MM/dd/yyyy').format(row.getCells()[4].value),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              DateFormat('MM/dd/yyyy').format(row.getCells()[4].value),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[5].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[5].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            row.getCells()[6].value.toString(),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              row.getCells()[6].value.toString(),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            NumberFormat.currency(locale: 'en_US', symbol: r'$')
-                .format(row.getCells()[7].value),
-            overflow: TextOverflow.ellipsis,
+          Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              NumberFormat.currency(
+                locale: 'en_US',
+                symbol: r'$',
+              ).format(row.getCells()[7].value),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
-      ]);
+        ],
+      );
     }
   }
 
@@ -351,7 +397,7 @@ class ProductDataGridSource extends DataGridSource {
     'Pete',
     'Steve',
     'Vince',
-    'Zeke'
+    'Zeke',
   ];
 
   /// Get products collection
@@ -360,19 +406,20 @@ class ProductDataGridSource extends DataGridSource {
     for (int i = 0; i < count; i++) {
       productData.add(
         Product(
-            i + 1000,
-            _productId[i < _productId.length
-                ? i
-                : _random.nextInt(_productId.length - 1)],
-            _product[
-                i < _product.length ? i : _random.nextInt(_product.length - 1)],
-            _random.nextInt(count),
-            70.0 + _random.nextInt(100),
-            _cities[
-                i < _cities.length ? i : _random.nextInt(_cities.length - 1)],
-            // 1700 + random.nextInt(100),
-            _orderDate[_random.nextInt(_orderDate.length - 1)],
-            _names[i < _names.length ? i : _random.nextInt(_names.length - 1)]),
+          i + 1000,
+          _productId[i < _productId.length
+              ? i
+              : _random.nextInt(_productId.length - 1)],
+          _product[i < _product.length
+              ? i
+              : _random.nextInt(_product.length - 1)],
+          _random.nextInt(count),
+          70.0 + _random.nextInt(100),
+          _cities[i < _cities.length ? i : _random.nextInt(_cities.length - 1)],
+          // 1700 + random.nextInt(100),
+          _orderDate[_random.nextInt(_orderDate.length - 1)],
+          _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
+        ),
       );
     }
     return productData;
@@ -386,18 +433,22 @@ class ProductDataGridSource extends DataGridSource {
   @override
   int compare(DataGridRow? a, DataGridRow? b, SortColumnDetails sortColumn) {
     if (_sampleName == 'Custom Sorting' && sortColumn.name == 'name') {
-      final String? value1 = a
-          ?.getCells()
-          .firstWhereOrNull(
-              (dynamic element) => element.columnName == sortColumn.name)
-          ?.value
-          ?.toString();
-      final String? value2 = b
-          ?.getCells()
-          .firstWhereOrNull(
-              (dynamic element) => element.columnName == sortColumn.name)
-          ?.value
-          ?.toString();
+      final String? value1 =
+          a
+              ?.getCells()
+              .firstWhereOrNull(
+                (dynamic element) => element.columnName == sortColumn.name,
+              )
+              ?.value
+              ?.toString();
+      final String? value2 =
+          b
+              ?.getCells()
+              .firstWhereOrNull(
+                (dynamic element) => element.columnName == sortColumn.name,
+              )
+              ?.value
+              ?.toString();
 
       final int? aLength = value1?.length;
       final int? bLength = value2?.length;

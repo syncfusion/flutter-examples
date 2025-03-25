@@ -1,6 +1,6 @@
-# Syncfusion Flutter examples
+# Syncfusion<sup>&reg;</sup> Flutter examples
 
-This repository contains awesome demos of [Syncfusion Flutter UI widgets](https://www.syncfusion.com/flutter-widgets). This is the best place to check our widgets to get more insight into the usage of APIs. You can also check our widgets by installing the complete Flutter sample browser from [Google Play Store](https://play.google.com/store/apps/details?id=com.syncfusion.flutter.examples) or [App Store](https://apps.apple.com/us/app/syncfusion-flutter-ui-widgets/id1475231341), in which you can browse the demo for all the widgets and view the source code of each sample within the app itself. 
+This repository contains awesome demos of [Syncfusion<sup>&reg;</sup> Flutter UI widgets](https://www.syncfusion.com/flutter-widgets). This is the best place to check our widgets to get more insight into the usage of APIs. You can also check our widgets by installing the complete Flutter sample browser from [Google Play Store](https://play.google.com/store/apps/details?id=com.syncfusion.flutter.examples) or [App Store](https://apps.apple.com/us/app/syncfusion-flutter-ui-widgets/id1475231341), in which you can browse the demo for all the widgets and view the source code of each sample within the app itself.
 
 <img src="images/flutter_examples.png"/>
 
@@ -18,12 +18,12 @@ This repository contains awesome demos of [Syncfusion Flutter UI widgets](https:
 * Flutter SDK
   | Channel| Version|
   |--------|--------|
-  | Stable | [3.24.0]([https://code.visualstudio.com/download](https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.0-stable.zip))|
+  | Stable | [3.24.0](https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.24.0-stable.zip)|
 
 * Dart and Flutter add-ons for Visual Studio Code (available via the Visual studio code extension) in Android Studio it available in plugin preference.
 
 ## <a name="repository-structure"></a> Repository Structure ##
-The <b>lib/samples</b> directory contains the Flutter widget examples for each widget such as Charts, DataGrid, etc. All the examples can be deployed in Android, Web, Windows, Linux, iOS, and Mac platforms.
+The <b>lib/samples</b> directory contains the Flutter widget examples for each widget such as Charts, DataGrid, etc. All the examples can be deployed in Android, Web, Windows, iOS, Mac, and Linux platforms.
 
 ## <a name="widgets-catalog"></a>Widgets Catalog ##
 
@@ -51,7 +51,7 @@ The <b>lib/samples</b> directory contains the Flutter widget examples for each w
 
 ## <a name="license"></a>License ##
 
-Syncfusion has no liability for any damage or consequence that may arise by the use or viewing of the examples. The examples are for demonstrative purposes and if you choose to use or access the examples you agree to not hold Syncfusion liable, in any form, for any damage that is related to use, accessing or otherwise viewing the examples. By accessing, viewing, or otherwise seeing the examples you acknowledge and agree Syncfusion’s examples will not allow you to seek injunctive relief in any form for any claim related to the sample. If you do not agree to this, do not view, access, utilize or otherwise do anything with Syncfusion’s examples.
+Syncfusion<sup>&reg;</sup> has no liability for any damage or consequence that may arise by the use or viewing of the examples. The examples are for demonstrative purposes and if you choose to use or access the examples you agree to not hold Syncfusion<sup>&reg;</sup> liable, in any form, for any damage that is related to use, accessing or otherwise viewing the examples. By accessing, viewing, or otherwise seeing the examples you acknowledge and agree Syncfusion<sup>&reg;</sup> examples will not allow you to seek injunctive relief in any form for any claim related to the sample. If you do not agree to this, do not view, access, utilize or otherwise do anything with Syncfusion<sup>&reg;</sup> examples.
 
 ## <a name="using-the-examples"></a>Using the examples ##
 
@@ -120,9 +120,9 @@ Explore the full capabilities of our Flutter widgets on your device by installin
 
 
 ## Useful links
-Take a look at the following to learn more about Syncfusion Flutter widgets:
+Take a look at the following to learn more about Syncfusion<sup>&reg;</sup> Flutter widgets:
 
-* [Syncfusion Flutter product page](https://www.syncfusion.com/flutter-widgets)
+* [Syncfusion<sup>&reg;</sup> Flutter product page](https://www.syncfusion.com/flutter-widgets)
 * [User guide documentation](https://help.syncfusion.com/flutter/introduction/overview)
 * [API reference](https://help.syncfusion.com/flutter/introduction/api-reference)
 * [Knowledge base](https://www.syncfusion.com/kb/flutter)
@@ -130,12 +130,11 @@ Take a look at the following to learn more about Syncfusion Flutter widgets:
 
 ## Support and feedback
 
-* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident) or post the queries through the [Community forums](https://www.syncfusion.com/forums) and submit a feature request or a bug through our [Feedback portal](https://www.syncfusion.com/feedback/flutter).
+* For any other queries, reach our [Syncfusion<sup>&reg;</sup> support team](https://www.syncfusion.com/support/directtrac/incidents/newincident) or post the queries through the [Community forums](https://www.syncfusion.com/forums) and submit a feature request or a bug through our [Feedback portal](https://www.syncfusion.com/feedback/flutter).
 * To renew the subscription, click [renew](https://www.syncfusion.com/sales/products) or contact our sales team at salessupport@syncfusion.com | Toll Free: 1-888-9 DOTNET.
 
-## About Syncfusion
+## About Syncfusion<sup>&reg;</sup>
 
-Founded in 2001 and headquartered in Research Triangle Park, N.C., Syncfusion has more than 20,000 customers and more than 1 million users, including large financial institutions, Fortune 500 companies, and global IT consultancies.
+Founded in 2001 and headquartered in Research Triangle Park, N.C., Syncfusion<sup>&reg;</sup> has more than 20,000 customers and more than 1 million users, including large financial institutions, Fortune 500 companies, and global IT consultancies.
 
 Today we provide 1,000+ controls and frameworks for web ([ASP.NET Core](https://www.syncfusion.com/aspnet-core-ui-controls), [ASP.NET MVC](https://www.syncfusion.com/aspnet-mvc-ui-controls), [ASP.NET WebForms](https://www.syncfusion.com/jquery/aspnet-web-forms-ui-controls), [JavaScript](https://www.syncfusion.com/javascript-ui-controls), [Angular](https://www.syncfusion.com/angular-ui-components), [React](https://www.syncfusion.com/react-ui-components), [Vue](https://www.syncfusion.com/vue-ui-components), and [Blazor](https://www.syncfusion.com/blazor-components), mobile ([Xamarin](https://www.syncfusion.com/xamarin-ui-controls), [Flutter](https://www.syncfusion.com/flutter-widgets), [UWP](https://www.syncfusion.com/uwp-ui-controls), and [JavaScript](https://www.syncfusion.com/javascript-ui-controls)), and desktop development ([WinForms](https://www.syncfusion.com/winforms-ui-controls), [WPF](https://www.syncfusion.com/wpf-ui-controls), and [UWP](https://www.syncfusion.com/uwp-ui-controls) and [WinUI](https://www.syncfusion.com/winui-controls)). We provide ready-to deploy enterprise software for dashboards, reports, data integration, and big data processing. Many customers have saved millions in licensing fees by deploying our software.
-

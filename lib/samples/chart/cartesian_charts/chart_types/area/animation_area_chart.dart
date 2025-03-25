@@ -1,74 +1,98 @@
-/// Dart imports
+/// Dart imports.
 import 'dart:async';
 import 'dart:math';
 
-/// Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local import.
 import '../../../../../model/sample_view.dart';
 
-/// Render the animation area chart.
+/// Render the animation Area Chart.
 class AnimationAreaDefault extends SampleView {
-  /// Creates the animation area chart.
   const AnimationAreaDefault(Key key) : super(key: key);
 
   @override
   _AnimationAreaDefaultState createState() => _AnimationAreaDefaultState();
 }
 
-/// State class of animation area chart.
+/// State class of animation Area Chart.
 class _AnimationAreaDefaultState extends SampleViewState {
   _AnimationAreaDefaultState();
+
   List<_ChartData>? _chartData;
   Timer? _timer;
 
   @override
   Widget build(BuildContext context) {
-    _getChartData();
+    _buildChartData();
     _timer = Timer(const Duration(seconds: 2), () {
       setState(() {
-        _getChartData();
+        _buildChartData();
       });
     });
-    return _buildAnimationAreaChart();
+    return _buildCartesianChart();
   }
 
-  /// Return the cartesian chart with animation.
-  SfCartesianChart _buildAnimationAreaChart() {
+  /// Return the Cartesian Chart with animation.
+  SfCartesianChart _buildCartesianChart() {
     final ThemeData themeData = model.themeData;
     return SfCartesianChart(
-        plotAreaBorderWidth: 0,
-        primaryXAxis: const NumericAxis(
-            interval: 1, majorGridLines: MajorGridLines(width: 0)),
-        primaryYAxis: const NumericAxis(
-            majorTickLines: MajorTickLines(color: Colors.transparent),
-            axisLine: AxisLine(width: 0),
-            minimum: 0,
-            maximum: 100),
-        series: _getDefaultAreaSeries(
-            themeData.useMaterial3, themeData.brightness == Brightness.light));
+      plotAreaBorderWidth: 0,
+      primaryXAxis: const NumericAxis(
+        interval: 1,
+        majorGridLines: MajorGridLines(width: 0),
+      ),
+      primaryYAxis: const NumericAxis(
+        majorTickLines: MajorTickLines(color: Colors.transparent),
+        axisLine: AxisLine(width: 0),
+        minimum: 0,
+        maximum: 100,
+      ),
+      series: _buildAreaSeries(
+        themeData.useMaterial3,
+        themeData.brightness == Brightness.light,
+      ),
+    );
   }
 
-  /// Return the list of  area series which need to be animated.
-  List<AreaSeries<_ChartData, num>> _getDefaultAreaSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color color = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(6, 174, 224, 1)
-            : const Color.fromRGBO(255, 245, 0, 1))
-        : const Color.fromRGBO(75, 135, 185, 1);
+  /// Returns the list of Cartesian Area series.
+  List<AreaSeries<_ChartData, num>> _buildAreaSeries(
+    bool isMaterial3,
+    bool isLightMode,
+  ) {
+    final Color color =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(6, 174, 224, 1)
+                : const Color.fromRGBO(255, 245, 0, 1))
+            : const Color.fromRGBO(75, 135, 185, 1);
     return <AreaSeries<_ChartData, num>>[
       AreaSeries<_ChartData, num>(
-          dataSource: _chartData,
-          color: color.withOpacity(0.6),
-          borderColor: color,
-          xValueMapper: (_ChartData sales, _) => sales.x,
-          yValueMapper: (_ChartData sales, _) => sales.y)
+        dataSource: _chartData,
+        xValueMapper: (_ChartData sales, int index) => sales.x,
+        yValueMapper: (_ChartData sales, int index) => sales.y,
+        color: color.withValues(alpha: 0.6),
+        borderColor: color,
+      ),
     ];
+  }
+
+  /// Return the random value in Area series.
+  int _buildRandomInt(int min, int max) {
+    final Random random = Random();
+    return min + random.nextInt(max - min);
+  }
+
+  void _buildChartData() {
+    _chartData = <_ChartData>[];
+    for (int i = 1; i <= 8; i++) {
+      _chartData!.add(_ChartData(i, _buildRandomInt(10, 95)));
+    }
+    _timer?.cancel();
   }
 
   @override
@@ -76,20 +100,6 @@ class _AnimationAreaDefaultState extends SampleViewState {
     super.dispose();
     _timer!.cancel();
     _chartData!.clear();
-  }
-
-  /// Return the random value in area series.
-  int _getRandomInt(int min, int max) {
-    final Random random = Random();
-    return min + random.nextInt(max - min);
-  }
-
-  void _getChartData() {
-    _chartData = <_ChartData>[];
-    for (int i = 1; i <= 8; i++) {
-      _chartData!.add(_ChartData(i, _getRandomInt(10, 95)));
-    }
-    _timer?.cancel();
   }
 }
 

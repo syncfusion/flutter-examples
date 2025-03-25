@@ -25,16 +25,22 @@ class TeamDataGridSource extends DataGridSource {
 
   /// Building DataGridRows
   void _buildDataGridRows() {
-    _dataGridRows = _teams.map<DataGridRow>((Team team) {
-      return DataGridRow(cells: <DataGridCell>[
-        DataGridCell<Image>(columnName: 'image', value: team.image),
-        DataGridCell<String>(columnName: 'team', value: team.team),
-        DataGridCell<int>(columnName: 'wins', value: team.wins),
-        DataGridCell<int>(columnName: 'losses', value: team.losses),
-        DataGridCell<double>(columnName: 'pct', value: team.winPercentage),
-        DataGridCell<double>(columnName: 'gb', value: team.gamesBehind),
-      ]);
-    }).toList();
+    _dataGridRows =
+        _teams.map<DataGridRow>((Team team) {
+          return DataGridRow(
+            cells: <DataGridCell>[
+              DataGridCell<Image>(columnName: 'image', value: team.image),
+              DataGridCell<String>(columnName: 'team', value: team.team),
+              DataGridCell<int>(columnName: 'wins', value: team.wins),
+              DataGridCell<int>(columnName: 'losses', value: team.losses),
+              DataGridCell<double>(
+                columnName: 'pct',
+                value: team.winPercentage,
+              ),
+              DataGridCell<double>(columnName: 'gb', value: team.gamesBehind),
+            ],
+          );
+        }).toList();
   }
 
   // Overrides
@@ -43,51 +49,50 @@ class TeamDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: <Widget>[
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        child: row.getCells()[0].value,
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          row.getCells()[1].value.toString(),
-          softWrap: true,
+    return DataGridRowAdapter(
+      cells: <Widget>[
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          child: row.getCells()[0].value,
         ),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.center,
-        child: Text(
-          row.getCells()[2].value.toString(),
-          overflow: TextOverflow.ellipsis,
+        Container(
+          alignment: Alignment.centerLeft,
+          child: Text(row.getCells()[1].value.toString(), softWrap: true),
         ),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.center,
-        child: Text(
-          row.getCells()[3].value.toString(),
-          overflow: TextOverflow.ellipsis,
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.center,
+          child: Text(
+            row.getCells()[2].value.toString(),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.center,
-        child: Text(
-          row.getCells()[4].value.toString(),
-          overflow: TextOverflow.ellipsis,
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.center,
+          child: Text(
+            row.getCells()[3].value.toString(),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.center,
-        child: Text(
-          row.getCells()[5].value.toString(),
-          overflow: TextOverflow.ellipsis,
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.center,
+          child: Text(
+            row.getCells()[4].value.toString(),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-      ),
-    ]);
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.center,
+          child: Text(
+            row.getCells()[5].value.toString(),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
   }
 
   // Team data's
@@ -142,7 +147,7 @@ class TeamDataGridSource extends DataGridSource {
     28.5,
     31,
     16.6,
-    10.3
+    10.3,
   ];
   final List<int> _wins = <int>[
     93,
@@ -161,7 +166,7 @@ class TeamDataGridSource extends DataGridSource {
     68,
     66,
     23,
-    45
+    45,
   ];
   final List<double> _pct = <double>[
     .616,
@@ -180,7 +185,7 @@ class TeamDataGridSource extends DataGridSource {
     .453,
     .437,
     .567,
-    .345
+    .345,
   ];
   final List<int> _losses = <int>[
     58,
@@ -199,20 +204,22 @@ class TeamDataGridSource extends DataGridSource {
     82,
     85,
     68,
-    78
+    78,
   ];
 
   List<Team> _fetchTeams(int count) {
     final List<Team> teamData = <Team>[];
     for (int i = 0; i < count; i++) {
-      teamData.add(Team(
-        _teamNames[i],
-        _pct[i],
-        _gb[i],
-        _wins[i],
-        _losses[i],
-        _teamLogos[i],
-      ));
+      teamData.add(
+        Team(
+          _teamNames[i],
+          _pct[i],
+          _gb[i],
+          _wins[i],
+          _losses[i],
+          _teamLogos[i],
+        ),
+      );
     }
     return teamData;
   }
@@ -232,24 +239,43 @@ class EmployeeDataGridSource extends DataGridSource {
 
   /// Building DataGridRows
   void _buildDataGridRows() {
-    _dataGridRows = _employees.map<DataGridRow>((Employee employee) {
-      return DataGridRow(cells: <DataGridCell>[
-        DataGridCell<String>(
-            columnName: 'employeeName', value: employee.employeeName),
-        DataGridCell<String>(
-            columnName: 'designation', value: employee.designation),
-        DataGridCell<String>(columnName: 'mail', value: employee.mail),
-        DataGridCell<String>(columnName: 'location', value: employee.location),
-        DataGridCell<String>(columnName: 'status', value: employee.status),
-        DataGridCell<String>(
-            columnName: 'trustworthiness', value: employee.trustworthiness),
-        DataGridCell<int>(
-            columnName: 'softwareProficiency',
-            value: employee.softwareProficiency),
-        DataGridCell<int>(columnName: 'salary', value: employee.salary),
-        DataGridCell<String>(columnName: 'address', value: employee.address),
-      ]);
-    }).toList();
+    _dataGridRows =
+        _employees.map<DataGridRow>((Employee employee) {
+          return DataGridRow(
+            cells: <DataGridCell>[
+              DataGridCell<String>(
+                columnName: 'employeeName',
+                value: employee.employeeName,
+              ),
+              DataGridCell<String>(
+                columnName: 'designation',
+                value: employee.designation,
+              ),
+              DataGridCell<String>(columnName: 'mail', value: employee.mail),
+              DataGridCell<String>(
+                columnName: 'location',
+                value: employee.location,
+              ),
+              DataGridCell<String>(
+                columnName: 'status',
+                value: employee.status,
+              ),
+              DataGridCell<String>(
+                columnName: 'trustworthiness',
+                value: employee.trustworthiness,
+              ),
+              DataGridCell<int>(
+                columnName: 'softwareProficiency',
+                value: employee.softwareProficiency,
+              ),
+              DataGridCell<int>(columnName: 'salary', value: employee.salary),
+              DataGridCell<String>(
+                columnName: 'address',
+                value: employee.address,
+              ),
+            ],
+          );
+        }).toList();
   }
 
   // Overrides
@@ -260,7 +286,9 @@ class EmployeeDataGridSource extends DataGridSource {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
       child: _buildWidget(
-          Icon(Icons.account_circle, size: 30, color: Colors.blue[300]), value),
+        Icon(Icons.account_circle, size: 30, color: Colors.blue[300]),
+        value,
+      ),
     );
   }
 
@@ -299,14 +327,16 @@ class EmployeeDataGridSource extends DataGridSource {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-                width: 50,
-                child: LinearProgressIndicator(
-                  value: progressValue / 100,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      progressValue < 50 ? Colors.red : Colors.green),
-                  backgroundColor:
-                      progressValue < 50 ? Colors.red[100] : Colors.green[100],
-                )),
+              width: 50,
+              child: LinearProgressIndicator(
+                value: progressValue / 100,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  progressValue < 50 ? Colors.red : Colors.green,
+                ),
+                backgroundColor:
+                    progressValue < 50 ? Colors.red[100] : Colors.green[100],
+              ),
+            ),
             Text(' ' + (progressValue.toString() + '%')),
           ],
         ),
@@ -321,15 +351,9 @@ class EmployeeDataGridSource extends DataGridSource {
       color: Colors.transparent,
       child: Row(
         children: <Widget>[
-          Container(
-            child: image,
-          ),
+          Container(child: image),
           const SizedBox(width: 6),
-          Expanded(
-              child: Text(
-            text,
-            overflow: TextOverflow.ellipsis,
-          ))
+          Expanded(child: Text(text, overflow: TextOverflow.ellipsis)),
         ],
       ),
     );
@@ -351,40 +375,47 @@ class EmployeeDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: <Widget>[
-      _buildEmployeeName(row.getCells()[0].value),
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.centerLeft,
-        child: Text(row.getCells()[1].value.toString()),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.centerLeft,
-        child: Text(row.getCells()[2].value.toString()),
-      ),
-      _buildLocation(row.getCells()[3].value),
-      Container(
+    return DataGridRowAdapter(
+      cells: <Widget>[
+        _buildEmployeeName(row.getCells()[0].value),
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.centerLeft,
+          child: Text(row.getCells()[1].value.toString()),
+        ),
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.centerLeft,
+          child: Text(row.getCells()[2].value.toString()),
+        ),
+        _buildLocation(row.getCells()[3].value),
+        Container(
           padding: const EdgeInsets.all(8.0),
           alignment: Alignment.center,
           child: Text(
             row.getCells()[4].value.toString(),
             style: _styleForStatusText(row.getCells()[4].value),
-          )),
-      _buildTrustWorthiness(row.getCells()[5].value.toString()),
-      _buildSoftwareProficiency(row.getCells()[6].value),
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.centerRight,
-        child: Text(NumberFormat.currency(locale: 'en_US', symbol: r'$')
-            .format(row.getCells()[7].value)),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        alignment: Alignment.centerLeft,
-        child: Text(row.getCells()[8].value.toString()),
-      ),
-    ]);
+          ),
+        ),
+        _buildTrustWorthiness(row.getCells()[5].value.toString()),
+        _buildSoftwareProficiency(row.getCells()[6].value),
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.centerRight,
+          child: Text(
+            NumberFormat.currency(
+              locale: 'en_US',
+              symbol: r'$',
+            ).format(row.getCells()[7].value),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.centerLeft,
+          child: Text(row.getCells()[8].value.toString()),
+        ),
+      ],
+    );
   }
 
   // Employee Data's
@@ -414,7 +445,7 @@ class EmployeeDataGridSource extends DataGridSource {
     'Van',
     'Edward',
     'Jack',
-    'Rose'
+    'Rose',
   ];
   final List<String> _addresses = <String>[
     '59 rue de lAbbaye',
@@ -465,19 +496,19 @@ class EmployeeDataGridSource extends DataGridSource {
     'Project Lead',
     'Program Directory',
     'System Analyst',
-    'CFO'
+    'CFO',
   ];
   final List<String> _mails = <String>[
     'arpy.com',
     'sample.com',
     'rpy.com',
-    'jourrapide.com'
+    'jourrapide.com',
   ];
   final List<String> _status = <String>['Inactive', 'Active'];
   final List<String> _trusts = <String>[
     'Sufficient',
     'Perfect',
-    'Insufficient'
+    'Insufficient',
   ];
   final List<String> _locations = <String>[
     'UK',
@@ -488,13 +519,14 @@ class EmployeeDataGridSource extends DataGridSource {
     'Argentina',
     'Austria',
     'Germany',
-    'Mexico'
+    'Mexico',
   ];
 
   List<Employee> _obtainEmployees(int count) {
     final List<Employee> employeeData = <Employee>[];
     for (int i = 0; i < _employeeNames.length - 1; i++) {
-      employeeData.add(Employee(
+      employeeData.add(
+        Employee(
           _employeeNames[i],
           _designations[_random.nextInt(_designations.length - 1)],
           _employeeNames[i].toLowerCase() +
@@ -505,7 +537,9 @@ class EmployeeDataGridSource extends DataGridSource {
           _trusts[_random.nextInt(_trusts.length - 1)],
           20 + _random.nextInt(80),
           10000 + _random.nextInt(70000),
-          _addresses[_random.nextInt(_addresses.length - 1)]));
+          _addresses[_random.nextInt(_addresses.length - 1)],
+        ),
+      );
     }
     return employeeData;
   }

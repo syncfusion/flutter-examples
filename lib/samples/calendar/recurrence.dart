@@ -1,56 +1,55 @@
-///Dart imports
+/// Dart import.
 import 'dart:math';
 
-///Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local imports.
 import '../../model/sample_view.dart';
 import 'appointment_editor.dart';
 import 'getting_started.dart';
+import 'pop_up_editor.dart';
 
-/// Widget class of recurrence calendar
+/// Widget class of recurrence Calendar.
 class RecurrenceCalendar extends SampleView {
-  /// Creates recurrence calendar
+  /// Creates recurrence Calendar.
   const RecurrenceCalendar(Key key) : super(key: key);
 
   @override
   RecurrenceCalendarState createState() => RecurrenceCalendarState();
 }
 
-/// Represents the the state class of RecurrenceCalendarState
+/// Represents the the state class of RecurrenceCalendarState.
 class RecurrenceCalendarState extends SampleViewState {
-  /// Creates an instance of  state class of RecurrenceCalendarState
+  /// Creates an instance of  state class of RecurrenceCalendarState.
   RecurrenceCalendarState();
 
-  /// Represents the calendar controller
+  /// Represents the Calendar controller.
   final CalendarController calendarController = CalendarController();
   late _AppointmentDataSource _dataSource;
   final List<Color> _colorCollection = <Color>[];
   final List<String> _colorNames = <String>[];
   final List<String> _timeZoneCollection = <String>[];
-
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.day,
     CalendarView.week,
     CalendarView.workWeek,
     CalendarView.month,
-    CalendarView.schedule
+    CalendarView.schedule,
   ];
 
-  /// Represents the controller
+  /// Represents the controller.
   final ScrollController controller = ScrollController();
 
-  /// Global key used to maintain the state, when we change the parent of the
-  /// widget
+  /// Global key used to maintain the state,
+  /// when we change the parent of the widget.
   final GlobalKey _globalKey = GlobalKey();
   late List<DateTime> _visibleDates;
   CalendarView _view = CalendarView.week;
-
   Appointment? _selectedAppointment;
   bool _isAllDay = false;
   String _subject = '';
@@ -64,17 +63,15 @@ class RecurrenceCalendarState extends SampleViewState {
   }
 
   void _onCalendarTapped(CalendarTapDetails calendarTapDetails) {
-    /// Condition added to open the editor, when the calendar elements tapped
+    /// Condition added to open the editor, when the Calendar elements tapped
     /// other than the header.
     if (calendarTapDetails.targetElement == CalendarElement.header ||
         calendarTapDetails.targetElement == CalendarElement.viewHeader) {
       return;
     }
-
     _selectedAppointment = null;
 
-    /// Navigates the calendar to day view,
-    /// when we tap on month cells in mobile.
+    /// Navigates Calendar to day view, when we tap on month cells in mobile.
     if (!model.isWebFullView && calendarController.view == CalendarView.month) {
       calendarController.view = CalendarView.day;
     } else {
@@ -85,7 +82,6 @@ class RecurrenceCalendarState extends SampleViewState {
           _selectedAppointment = appointment;
         }
       }
-
       final DateTime selectedDate = calendarTapDetails.date!;
       final CalendarElement targetElement = calendarTapDetails.targetElement;
 
@@ -95,106 +91,116 @@ class RecurrenceCalendarState extends SampleViewState {
         final bool isAppointmentTapped =
             calendarTapDetails.targetElement == CalendarElement.appointment;
         showDialog<Widget>(
-            context: context,
-            builder: (BuildContext context) {
-              final List<Appointment> appointment = <Appointment>[];
-              Appointment? newAppointment;
+          context: context,
+          builder: (BuildContext context) {
+            final List<Appointment> appointment = <Appointment>[];
+            Appointment? newAppointment;
 
-              /// Creates a new appointment, which is displayed on the tapped
-              /// calendar element, when the editor is opened.
-              if (_selectedAppointment == null) {
-                _isAllDay = calendarTapDetails.targetElement ==
-                    CalendarElement.allDayPanel;
-                _selectedColorIndex = 0;
-                _subject = '';
-                final DateTime date = calendarTapDetails.date!;
-
-                newAppointment = Appointment(
-                  startTime: date,
-                  endTime: date.add(const Duration(hours: 1)),
-                  color: _colorCollection[_selectedColorIndex],
-                  isAllDay: _isAllDay,
-                  subject: _subject == '' ? '(No title)' : _subject,
-                );
-                appointment.add(newAppointment);
-
-                _dataSource.appointments.add(appointment[0]);
-
-                SchedulerBinding.instance
-                    .addPostFrameCallback((Duration duration) {
-                  _dataSource.notifyListeners(
-                      CalendarDataSourceAction.add, appointment);
-                });
-
-                _selectedAppointment = newAppointment;
-              }
-
-              return PopScope(
-                onPopInvokedWithResult: (bool value, Object? result) async {
-                  if (newAppointment != null) {
-                    /// To remove the created appointment when the pop-up closed
-                    /// without saving the appointment.
-                    final int appointmentIndex =
-                        _dataSource.appointments.indexOf(newAppointment);
-                    if (appointmentIndex <=
-                            _dataSource.appointments.length - 1 &&
-                        appointmentIndex >= 0) {
-                      _dataSource.appointments.removeAt(
-                          _dataSource.appointments.indexOf(newAppointment));
-                      _dataSource.notifyListeners(
-                          CalendarDataSourceAction.remove,
-                          <Appointment>[newAppointment]);
-                    }
-                  }
-                },
-                child: Center(
-                    child: SizedBox(
-                        width: isAppointmentTapped ? 400 : 500,
-                        height: isAppointmentTapped
-                            ? (_selectedAppointment!.location == null ||
-                                    _selectedAppointment!.location!.isEmpty
-                                ? 150
-                                : 200)
-                            : 400,
-                        child: Theme(
-                            data: model.themeData,
-                            child: Card(
-                              margin: EdgeInsets.zero,
-                              color: model.sampleOutputCardColor,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
-                              child: isAppointmentTapped
-                                  ? displayAppointmentDetails(
-                                      context,
-                                      targetElement,
-                                      selectedDate,
-                                      model,
-                                      _selectedAppointment!,
-                                      _colorCollection,
-                                      _colorNames,
-                                      _dataSource,
-                                      _timeZoneCollection,
-                                      _visibleDates)
-                                  : PopUpAppointmentEditor(
-                                      model,
-                                      newAppointment,
-                                      appointment,
-                                      _dataSource,
-                                      _colorCollection,
-                                      _colorNames,
-                                      _selectedAppointment!,
-                                      _timeZoneCollection,
-                                      _visibleDates),
-                            )))),
+            /// Creates a new appointment, which is displayed on the tapped
+            /// Calendar element, when the editor is opened.
+            if (_selectedAppointment == null) {
+              _isAllDay =
+                  calendarTapDetails.targetElement ==
+                  CalendarElement.allDayPanel;
+              _selectedColorIndex = 0;
+              _subject = '';
+              final DateTime date = calendarTapDetails.date!;
+              newAppointment = Appointment(
+                startTime: date,
+                endTime: date.add(const Duration(hours: 1)),
+                color: _colorCollection[_selectedColorIndex],
+                isAllDay: _isAllDay,
+                subject: _subject == '' ? '(No title)' : _subject,
               );
-            });
+              appointment.add(newAppointment);
+              _dataSource.appointments.add(appointment[0]);
+              SchedulerBinding.instance.addPostFrameCallback((
+                Duration duration,
+              ) {
+                _dataSource.notifyListeners(
+                  CalendarDataSourceAction.add,
+                  appointment,
+                );
+              });
+              _selectedAppointment = newAppointment;
+            }
+            return PopScope(
+              onPopInvokedWithResult: (bool value, Object? result) async {
+                if (newAppointment != null) {
+                  /// To remove the created appointment when the pop-up closed
+                  /// without saving the appointment.
+                  final int appointmentIndex = _dataSource.appointments.indexOf(
+                    newAppointment,
+                  );
+                  if (appointmentIndex <= _dataSource.appointments.length - 1 &&
+                      appointmentIndex >= 0) {
+                    _dataSource.appointments.removeAt(
+                      _dataSource.appointments.indexOf(newAppointment),
+                    );
+                    _dataSource.notifyListeners(
+                      CalendarDataSourceAction.remove,
+                      <Appointment>[newAppointment],
+                    );
+                  }
+                }
+              },
+              child: Center(
+                child: SizedBox(
+                  width: isAppointmentTapped ? 400 : 500,
+                  height:
+                      isAppointmentTapped
+                          ? (_selectedAppointment!.location == null ||
+                                  _selectedAppointment!.location!.isEmpty
+                              ? 150
+                              : 200)
+                          : 400,
+                  child: Theme(
+                    data: model.themeData,
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      color: model.sampleOutputCardColor,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      child:
+                          isAppointmentTapped
+                              ? displayAppointmentDetails(
+                                context,
+                                targetElement,
+                                selectedDate,
+                                model,
+                                _selectedAppointment!,
+                                _colorCollection,
+                                _colorNames,
+                                _dataSource,
+                                _timeZoneCollection,
+                                _visibleDates,
+                              )
+                              : PopUpAppointmentEditor(
+                                model,
+                                newAppointment,
+                                appointment,
+                                _dataSource,
+                                _colorCollection,
+                                _colorNames,
+                                _selectedAppointment!,
+                                _timeZoneCollection,
+                                _visibleDates,
+                              ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
       } else {
-        /// Navigates to the appointment editor page on mobile
+        /// Navigates to the appointment editor page on mobile.
         Navigator.push<Widget>(
           context,
           MaterialPageRoute<Widget>(
-              builder: (BuildContext context) => AppointmentEditor(
+            builder:
+                (BuildContext context) => AppointmentEditor(
                   model,
                   _selectedAppointment,
                   targetElement,
@@ -202,7 +208,9 @@ class RecurrenceCalendarState extends SampleViewState {
                   _colorCollection,
                   _colorNames,
                   _dataSource,
-                  _timeZoneCollection)),
+                  _timeZoneCollection,
+                ),
+          ),
         );
       }
     }
@@ -211,44 +219,58 @@ class RecurrenceCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final Widget calendar = Theme(
-
-        /// The key set here to maintain the state, when we change
-        /// the parent of the widget
-        key: _globalKey,
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child: _getRecurrenceCalendar(calendarController, _dataSource,
-            _onViewChanged, scheduleViewBuilder, _onCalendarTapped));
+      /// The key set here to maintain the state,
+      /// when we change the parent of the widget.
+      key: _globalKey,
+      data: model.themeData.copyWith(
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
+      ),
+      child: _getRecurrenceCalendar(
+        calendarController,
+        _dataSource,
+        _onViewChanged,
+        scheduleViewBuilder,
+        _onCalendarTapped,
+      ),
+    );
 
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Row(children: <Widget>[
-        Expanded(
-          child: calendarController.view == CalendarView.month &&
-                  model.isWebFullView &&
-                  screenHeight < 800
-              ? Scrollbar(
-                  thumbVisibility: true,
-                  controller: controller,
-                  child: ListView(
-                    controller: controller,
-                    children: <Widget>[
-                      Container(
-                        color: model.sampleOutputCardColor,
-                        height: 600,
-                        child: calendar,
-                      )
-                    ],
-                  ))
-              : Container(color: model.sampleOutputCardColor, child: calendar),
-        )
-      ]),
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child:
+                calendarController.view == CalendarView.month &&
+                        model.isWebFullView &&
+                        screenHeight < 800
+                    ? Scrollbar(
+                      thumbVisibility: true,
+                      controller: controller,
+                      child: ListView(
+                        controller: controller,
+                        children: <Widget>[
+                          Container(
+                            color: model.sampleOutputCardColor,
+                            height: 600,
+                            child: calendar,
+                          ),
+                        ],
+                      ),
+                    )
+                    : Container(
+                      color: model.sampleOutputCardColor,
+                      child: calendar,
+                    ),
+          ),
+        ],
+      ),
     );
   }
 
-  /// The method called whenever the calendar view navigated to previous/next
-  /// view or switched to different calendar view.
+  /// The method called whenever the Calendar view navigated to previous/next
+  /// view or switched to different Calendar view.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     _visibleDates = visibleDatesChangedDetails.visibleDates;
     if (_view == calendarController.view ||
@@ -262,13 +284,13 @@ class RecurrenceCalendarState extends SampleViewState {
       setState(() {
         _view = calendarController.view!;
 
-        /// Update the current view when the calendar view changed to
+        /// Update the current view when the Calendar view changed to
         /// month view or from month view.
       });
     });
   }
 
-  /// Creates the data source with the recurrence appointments by adding required
+  /// Creates data source with the recurrence appointments by adding required
   /// information on it.
   List<Appointment> _getRecursiveAppointments() {
     _colorNames.add('Green');
@@ -398,198 +420,277 @@ class RecurrenceCalendarState extends SampleViewState {
 
     final List<Appointment> appointments = <Appointment>[];
     final Random random = Random();
-    //Recurrence Appointment 1
     final DateTime currentDate = DateTime.now();
-    final DateTime startTime =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 9);
-    final DateTime endTime =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 11);
+
+    final DateTime startTime = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      9,
+    );
+    final DateTime endTime = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      11,
+    );
     final RecurrenceProperties recurrencePropertiesForAlternativeDay =
         RecurrenceProperties(
-            startDate: startTime,
-            interval: 2,
-            recurrenceRange: RecurrenceRange.count,
-            recurrenceCount: 20);
+          startDate: startTime,
+          interval: 2,
+          recurrenceRange: RecurrenceRange.count,
+          recurrenceCount: 20,
+        );
     final Appointment alternativeDayAppointment = Appointment(
-        startTime: startTime,
-        endTime: endTime,
-        color: _colorCollection[random.nextInt(8)],
-        subject: 'Scrum meeting',
-        recurrenceRule: SfCalendar.generateRRule(
-            recurrencePropertiesForAlternativeDay, startTime, endTime));
-
+      startTime: startTime,
+      endTime: endTime,
+      color: _colorCollection[random.nextInt(8)],
+      subject: 'Scrum meeting',
+      recurrenceRule: SfCalendar.generateRRule(
+        recurrencePropertiesForAlternativeDay,
+        startTime,
+        endTime,
+      ),
+    );
     appointments.add(alternativeDayAppointment);
 
-    //Recurrence Appointment 2
-    final DateTime startTime1 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 13);
-    final DateTime endTime1 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 15);
+    final DateTime startTime1 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      13,
+    );
+    final DateTime endTime1 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      15,
+    );
     final RecurrenceProperties recurrencePropertiesForWeeklyAppointment =
         RecurrenceProperties(
-      startDate: startTime1,
-      recurrenceType: RecurrenceType.weekly,
-      recurrenceRange: RecurrenceRange.count,
-      weekDays: <WeekDays>[WeekDays.monday],
-      recurrenceCount: 20,
-    );
-
+          startDate: startTime1,
+          recurrenceType: RecurrenceType.weekly,
+          recurrenceRange: RecurrenceRange.count,
+          weekDays: <WeekDays>[WeekDays.monday],
+          recurrenceCount: 20,
+        );
     final Appointment weeklyAppointment = Appointment(
-        startTime: startTime1,
-        endTime: endTime1,
-        color: _colorCollection[random.nextInt(8)],
-        subject: 'product development status',
-        recurrenceRule: SfCalendar.generateRRule(
-            recurrencePropertiesForWeeklyAppointment, startTime1, endTime1));
-
+      startTime: startTime1,
+      endTime: endTime1,
+      color: _colorCollection[random.nextInt(8)],
+      subject: 'product development status',
+      recurrenceRule: SfCalendar.generateRRule(
+        recurrencePropertiesForWeeklyAppointment,
+        startTime1,
+        endTime1,
+      ),
+    );
     appointments.add(weeklyAppointment);
 
-    final DateTime startTime2 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 14);
-    final DateTime endTime2 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 15);
+    final DateTime startTime2 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      14,
+    );
+    final DateTime endTime2 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      15,
+    );
     final RecurrenceProperties recurrencePropertiesForMonthlyAppointment =
         RecurrenceProperties(
-            startDate: startTime2,
-            recurrenceType: RecurrenceType.monthly,
-            recurrenceRange: RecurrenceRange.count,
-            recurrenceCount: 10);
-
+          startDate: startTime2,
+          recurrenceType: RecurrenceType.monthly,
+          recurrenceRange: RecurrenceRange.count,
+          recurrenceCount: 10,
+        );
     final Appointment monthlyAppointment = Appointment(
-        startTime: startTime2,
-        endTime: endTime2,
-        color: _colorCollection[random.nextInt(8)],
-        subject: 'Sprint planning meeting',
-        recurrenceRule: SfCalendar.generateRRule(
-            recurrencePropertiesForMonthlyAppointment, startTime2, endTime2));
-
+      startTime: startTime2,
+      endTime: endTime2,
+      color: _colorCollection[random.nextInt(8)],
+      subject: 'Sprint planning meeting',
+      recurrenceRule: SfCalendar.generateRRule(
+        recurrencePropertiesForMonthlyAppointment,
+        startTime2,
+        endTime2,
+      ),
+    );
     appointments.add(monthlyAppointment);
 
-    final DateTime startTime3 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 12);
-    final DateTime endTime3 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 14);
+    final DateTime startTime3 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      12,
+    );
+    final DateTime endTime3 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      14,
+    );
     final RecurrenceProperties recurrencePropertiesForYearlyAppointment =
         RecurrenceProperties(
-            startDate: startTime3,
-            recurrenceType: RecurrenceType.yearly,
-            dayOfMonth: 5);
-
+          startDate: startTime3,
+          recurrenceType: RecurrenceType.yearly,
+          dayOfMonth: 5,
+        );
     final Appointment yearlyAppointment = Appointment(
-        startTime: startTime3,
-        endTime: endTime3,
-        color: _colorCollection[random.nextInt(8)],
-        isAllDay: true,
-        subject: 'Stephen birthday',
-        recurrenceRule: SfCalendar.generateRRule(
-            recurrencePropertiesForYearlyAppointment, startTime3, endTime3));
-
+      startTime: startTime3,
+      endTime: endTime3,
+      color: _colorCollection[random.nextInt(8)],
+      isAllDay: true,
+      subject: 'Stephen birthday',
+      recurrenceRule: SfCalendar.generateRRule(
+        recurrencePropertiesForYearlyAppointment,
+        startTime3,
+        endTime3,
+      ),
+    );
     appointments.add(yearlyAppointment);
 
-    final DateTime startTime4 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 17);
-    final DateTime endTime4 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 18);
+    final DateTime startTime4 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      17,
+    );
+    final DateTime endTime4 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      18,
+    );
     final RecurrenceProperties recurrencePropertiesForCustomDailyAppointment =
         RecurrenceProperties(startDate: startTime4);
-
     final Appointment customDailyAppointment = Appointment(
       startTime: startTime4,
       endTime: endTime4,
       color: _colorCollection[random.nextInt(8)],
       subject: 'General meeting',
       recurrenceRule: SfCalendar.generateRRule(
-          recurrencePropertiesForCustomDailyAppointment, startTime4, endTime4),
+        recurrencePropertiesForCustomDailyAppointment,
+        startTime4,
+        endTime4,
+      ),
     );
-
     appointments.add(customDailyAppointment);
 
-    final DateTime startTime5 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 12);
-    final DateTime endTime5 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 13);
+    final DateTime startTime5 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      12,
+    );
+    final DateTime endTime5 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      13,
+    );
     final RecurrenceProperties recurrencePropertiesForCustomWeeklyAppointment =
         RecurrenceProperties(
-            startDate: startTime5,
-            recurrenceType: RecurrenceType.weekly,
-            recurrenceRange: RecurrenceRange.endDate,
-            weekDays: <WeekDays>[WeekDays.monday, WeekDays.friday],
-            endDate: DateTime.now().add(const Duration(days: 14)));
-
+          startDate: startTime5,
+          recurrenceType: RecurrenceType.weekly,
+          recurrenceRange: RecurrenceRange.endDate,
+          weekDays: <WeekDays>[WeekDays.monday, WeekDays.friday],
+          endDate: DateTime.now().add(const Duration(days: 14)),
+        );
     final Appointment customWeeklyAppointment = Appointment(
-        startTime: startTime5,
-        endTime: endTime5,
-        color: _colorCollection[random.nextInt(8)],
-        subject: 'performance check',
-        recurrenceRule: SfCalendar.generateRRule(
-            recurrencePropertiesForCustomWeeklyAppointment,
-            startTime5,
-            endTime5));
-
+      startTime: startTime5,
+      endTime: endTime5,
+      color: _colorCollection[random.nextInt(8)],
+      subject: 'performance check',
+      recurrenceRule: SfCalendar.generateRRule(
+        recurrencePropertiesForCustomWeeklyAppointment,
+        startTime5,
+        endTime5,
+      ),
+    );
     appointments.add(customWeeklyAppointment);
 
-    final DateTime startTime6 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 16);
-    final DateTime endTime6 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 18);
-
+    final DateTime startTime6 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      16,
+    );
+    final DateTime endTime6 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      18,
+    );
     final RecurrenceProperties recurrencePropertiesForCustomMonthlyAppointment =
         RecurrenceProperties(
-            startDate: startTime6,
-            recurrenceType: RecurrenceType.monthly,
-            recurrenceRange: RecurrenceRange.count,
-            dayOfWeek: DateTime.friday,
-            week: 4,
-            recurrenceCount: 12);
-
+          startDate: startTime6,
+          recurrenceType: RecurrenceType.monthly,
+          recurrenceRange: RecurrenceRange.count,
+          dayOfWeek: DateTime.friday,
+          week: 4,
+          recurrenceCount: 12,
+        );
     final Appointment customMonthlyAppointment = Appointment(
-        startTime: startTime6,
-        endTime: endTime6,
-        color: _colorCollection[random.nextInt(8)],
-        subject: 'Sprint end meeting',
-        recurrenceRule: SfCalendar.generateRRule(
-            recurrencePropertiesForCustomMonthlyAppointment,
-            startTime6,
-            endTime6));
-
+      startTime: startTime6,
+      endTime: endTime6,
+      color: _colorCollection[random.nextInt(8)],
+      subject: 'Sprint end meeting',
+      recurrenceRule: SfCalendar.generateRRule(
+        recurrencePropertiesForCustomMonthlyAppointment,
+        startTime6,
+        endTime6,
+      ),
+    );
     appointments.add(customMonthlyAppointment);
 
-    final DateTime startTime7 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 14);
-    final DateTime endTime7 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 15);
+    final DateTime startTime7 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      14,
+    );
+    final DateTime endTime7 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      15,
+    );
     final RecurrenceProperties recurrencePropertiesForCustomYearlyAppointment =
         RecurrenceProperties(
-            startDate: startTime7,
-            recurrenceType: RecurrenceType.yearly,
-            recurrenceRange: RecurrenceRange.count,
-            interval: 2,
-            month: DateTime.february,
-            week: 2,
-            dayOfWeek: DateTime.sunday,
-            recurrenceCount: 10);
-
+          startDate: startTime7,
+          recurrenceType: RecurrenceType.yearly,
+          recurrenceRange: RecurrenceRange.count,
+          interval: 2,
+          month: DateTime.february,
+          week: 2,
+          dayOfWeek: DateTime.sunday,
+          recurrenceCount: 10,
+        );
     final Appointment customYearlyAppointment = Appointment(
-        startTime: startTime7,
-        endTime: endTime7,
-        color: _colorCollection[random.nextInt(8)],
-        subject: 'Alumini meet',
-        recurrenceRule: SfCalendar.generateRRule(
-            recurrencePropertiesForCustomYearlyAppointment,
-            startTime7,
-            endTime7));
-
+      startTime: startTime7,
+      endTime: endTime7,
+      color: _colorCollection[random.nextInt(8)],
+      subject: 'Alumini meet',
+      recurrenceRule: SfCalendar.generateRRule(
+        recurrencePropertiesForCustomYearlyAppointment,
+        startTime7,
+        endTime7,
+      ),
+    );
     appointments.add(customYearlyAppointment);
     return appointments;
   }
 
-  /// Returns the calendar widget based on the properties passed
-  SfCalendar _getRecurrenceCalendar(
-      [CalendarController? calendarController,
-      CalendarDataSource? calendarDataSource,
-      dynamic onViewChanged,
-      dynamic scheduleViewBuilder,
-      dynamic calendarTapCallback]) {
+  /// Returns the Calendar widget based on the properties passed.
+  SfCalendar _getRecurrenceCalendar([
+    CalendarController? calendarController,
+    CalendarDataSource? calendarDataSource,
+    dynamic onViewChanged,
+    dynamic scheduleViewBuilder,
+    dynamic calendarTapCallback,
+  ]) {
     return SfCalendar(
       showNavigationArrow: model.isWebFullView,
       controller: calendarController,
@@ -599,7 +700,8 @@ class RecurrenceCalendarState extends SampleViewState {
       onViewChanged: onViewChanged,
       dataSource: calendarDataSource,
       monthViewSettings: const MonthViewSettings(
-          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+        appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+      ),
       onTap: calendarTapCallback,
     );
   }

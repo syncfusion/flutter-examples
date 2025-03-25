@@ -248,7 +248,9 @@ class SampleModel extends Listenable {
   /// Contains the category, control, theme information.
   SampleModel() {
     isInitialRender = true;
-
+    isFirstTime = true;
+    // ignore: unnecessary_statements
+    assistApiKey;
     searchControlItems = <Control>[];
     sampleList = <SubItem>[];
     searchResults = <SubItem>[];
@@ -510,6 +512,10 @@ class SampleModel extends Listenable {
 
   final Set<VoidCallback> _listeners = <VoidCallback>{};
 
+  late bool isFirstTime;
+
+  String assistApiKey = '';
+
   /// Switching between light, dark, system themes.
   void changeTheme(ThemeData currentThemeData, bool isMaterial3) {
     themeData = currentThemeData;
@@ -519,9 +525,13 @@ class SampleModel extends Listenable {
       _updateMaterial2Colors(currentThemeData);
     }
 
-    hoverColor = currentThemeData.colorScheme.onSurface.withOpacity(0.08);
-    focusedColor = currentThemeData.colorScheme.onSurface.withOpacity(0.12);
-    splashColor = currentThemeData.colorScheme.onSurface.withOpacity(0.15);
+    hoverColor = currentThemeData.colorScheme.onSurface.withValues(alpha: 0.08);
+    focusedColor = currentThemeData.colorScheme.onSurface.withValues(
+      alpha: 0.12,
+    );
+    splashColor = currentThemeData.colorScheme.onSurface.withValues(
+      alpha: 0.15,
+    );
   }
 
   void _updateMaterial2Colors(ThemeData currentThemeData) {
@@ -530,8 +540,12 @@ class SampleModel extends Listenable {
         backgroundColor = const Color.fromRGBO(246, 246, 246, 1);
         homeCardColor = Colors.white;
         sampleOutputCardColor = const Color.fromRGBO(246, 246, 246, 1);
-        leftNavigationBarBackgroundColor =
-            const Color.fromRGBO(246, 246, 246, 1);
+        leftNavigationBarBackgroundColor = const Color.fromRGBO(
+          246,
+          246,
+          246,
+          1,
+        );
         dividerColor = const Color.fromRGBO(204, 204, 204, 1);
         drawerIconColor = const Color.fromRGBO(0, 0, 0, 0.54);
         subSamplesTabBarColor = const Color.fromRGBO(242, 242, 242, 1);
@@ -554,9 +568,10 @@ class SampleModel extends Listenable {
         drawerIconColor = const Color.fromRGBO(255, 255, 255, 0.65);
         subSamplesTabBarColor = const Color.fromRGBO(44, 44, 44, 1);
         drawerTextIconColor = Colors.white;
-        drawerBackgroundColor = isMobile
-            ? const Color.fromRGBO(34, 39, 51, 1)
-            : leftNavigationBarBackgroundColor;
+        drawerBackgroundColor =
+            isMobile
+                ? const Color.fromRGBO(34, 39, 51, 1)
+                : leftNavigationBarBackgroundColor;
         footerColor = const Color.fromRGBO(33, 33, 33, 1);
 
         // baseNavigationBarTextColor = Colors.white;
@@ -571,10 +586,13 @@ class SampleModel extends Listenable {
     switch (currentThemeData.brightness) {
       case Brightness.light:
         final Color primaryColor = Color.alphaBlend(
-            Colors.white.withOpacity(0.9),
-            currentThemeData.colorScheme.primary);
-        backgroundColor = Color.alphaBlend(Colors.white.withOpacity(0.95),
-            currentThemeData.colorScheme.primary);
+          Colors.white.withValues(alpha: 0.9),
+          currentThemeData.colorScheme.primary,
+        );
+        backgroundColor = Color.alphaBlend(
+          Colors.white.withValues(alpha: 0.95),
+          currentThemeData.colorScheme.primary,
+        );
         homeCardColor = primaryColor;
         sampleOutputCardColor = const Color(0xFFFFFBFE);
         leftNavigationBarBackgroundColor = primaryColor;
@@ -583,8 +601,10 @@ class SampleModel extends Listenable {
         subSamplesTabBarColor = primaryColor;
         drawerTextIconColor = currentThemeData.colorScheme.onSurface;
         drawerBackgroundColor = const Color(0xFFFFFBFE);
-        footerColor = Color.alphaBlend(Colors.white.withOpacity(0.85),
-            currentThemeData.colorScheme.primary);
+        footerColor = Color.alphaBlend(
+          Colors.white.withValues(alpha: 0.85),
+          currentThemeData.colorScheme.primary,
+        );
 
         // baseNavigationBarTextColor = currentThemeData.colorScheme.surface;
         // homeCardTitleTextColor = currentThemeData.colorScheme.surface;
@@ -594,10 +614,13 @@ class SampleModel extends Listenable {
 
       case Brightness.dark:
         final Color primaryColor = Color.alphaBlend(
-            Colors.black.withOpacity(0.85),
-            currentThemeData.colorScheme.primary);
-        backgroundColor = Color.alphaBlend(Colors.black.withOpacity(0.9),
-            currentThemeData.colorScheme.primary);
+          Colors.black.withValues(alpha: 0.85),
+          currentThemeData.colorScheme.primary,
+        );
+        backgroundColor = Color.alphaBlend(
+          Colors.black.withValues(alpha: 0.9),
+          currentThemeData.colorScheme.primary,
+        );
         homeCardColor = primaryColor;
         sampleOutputCardColor = const Color(0xFF1C1B1F);
         leftNavigationBarBackgroundColor = primaryColor;
@@ -606,8 +629,10 @@ class SampleModel extends Listenable {
         subSamplesTabBarColor = primaryColor;
         drawerTextIconColor = currentThemeData.colorScheme.onSurface;
         drawerBackgroundColor = const Color(0xFF1C1B1F);
-        footerColor = Color.alphaBlend(Colors.black.withOpacity(0.8),
-            currentThemeData.colorScheme.primary);
+        footerColor = Color.alphaBlend(
+          Colors.black.withValues(alpha: 0.8),
+          currentThemeData.colorScheme.primary,
+        );
 
         // baseNavigationBarTextColor =
         //     currentThemeData.colorScheme.primaryContainer;
@@ -619,14 +644,12 @@ class SampleModel extends Listenable {
   }
 
   @override
-
   /// [listener] will be invoked when the model changes.
   void addListener(VoidCallback listener) {
     _listeners.add(listener);
   }
 
   @override
-
   /// [listener] will no longer be invoked when the model changes.
   void removeListener(VoidCallback listener) {
     _listeners.remove(listener);
@@ -650,8 +673,9 @@ Future<void> updateControlItems() async {
   bool isChild = false;
   final bool isWeb =
       kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isLinux;
-  final String jsonText =
-      await rootBundle.loadString('lib/sample_details.json');
+  final String jsonText = await rootBundle.loadString(
+    'lib/sample_details.json',
+  );
   List<SubItem> firstLevelSubItems = <SubItem>[];
   List<SubItem> secondLevelSubItems = <SubItem>[];
   List<SubItem> thirdLevelSubItems = <SubItem>[];
@@ -663,44 +687,60 @@ Future<void> updateControlItems() async {
     final List<Control> controlList = <Control>[];
     if (SampleModel._categoryList[index].platformsToHide == null ||
         _needToShow(SampleModel._categoryList[index].platformsToHide)) {
-      for (int i = 0;
-          i < SampleModel._categoryList[index].controlList!.length;
-          i++) {
+      for (
+        int i = 0;
+        i < SampleModel._categoryList[index].controlList!.length;
+        i++
+      ) {
         controlList.add(
-            Control.fromJson(SampleModel._categoryList[index].controlList![i]));
+          Control.fromJson(SampleModel._categoryList[index].controlList![i]),
+        );
         if (controlList[i].platformsToHide == null ||
             _needToShow(controlList[i].platformsToHide)) {
           for (int j = 0; j < controlList[i].subItems!.length; j++) {
-            firstLevelSubItems
-                .add(SubItem.fromJson(controlList[i].subItems![j]));
+            firstLevelSubItems.add(
+              SubItem.fromJson(controlList[i].subItems![j]),
+            );
             if (firstLevelSubItems[j].type == 'parent') {
               for (int k = 0; k < firstLevelSubItems[j].subItems!.length; k++) {
-                if (SubItem.fromJson(firstLevelSubItems[j].subItems![k])
-                            .platformsToHide ==
+                if (SubItem.fromJson(
+                          firstLevelSubItems[j].subItems![k],
+                        ).platformsToHide ==
                         null ||
                     _needToShow(
-                        SubItem.fromJson(firstLevelSubItems[j].subItems![k])
-                            .platformsToHide)) {
+                      SubItem.fromJson(
+                        firstLevelSubItems[j].subItems![k],
+                      ).platformsToHide,
+                    )) {
                   secondLevelSubItems.add(
-                      SubItem.fromJson(firstLevelSubItems[j].subItems![k]));
-                  for (int l = 0;
-                      l <
-                          secondLevelSubItems[secondLevelSubItems.length - 1]
-                              .subItems!
-                              .length;
-                      l++) {
-                    if (SubItem.fromJson(secondLevelSubItems[
-                                        secondLevelSubItems.length - 1]
-                                    .subItems![l])
-                                .platformsToHide ==
+                    SubItem.fromJson(firstLevelSubItems[j].subItems![k]),
+                  );
+                  for (
+                    int l = 0;
+                    l <
+                        secondLevelSubItems[secondLevelSubItems.length - 1]
+                            .subItems!
+                            .length;
+                    l++
+                  ) {
+                    if (SubItem.fromJson(
+                              secondLevelSubItems[secondLevelSubItems.length -
+                                      1]
+                                  .subItems![l],
+                            ).platformsToHide ==
                             null ||
-                        _needToShow(SubItem.fromJson(secondLevelSubItems[
-                                    secondLevelSubItems.length - 1]
-                                .subItems![l])
-                            .platformsToHide)) {
-                      thirdLevelSubItems.add(SubItem.fromJson(
+                        _needToShow(
+                          SubItem.fromJson(
+                            secondLevelSubItems[secondLevelSubItems.length - 1]
+                                .subItems![l],
+                          ).platformsToHide,
+                        )) {
+                      thirdLevelSubItems.add(
+                        SubItem.fromJson(
                           secondLevelSubItems[secondLevelSubItems.length - 1]
-                              .subItems![l]));
+                              .subItems![l],
+                        ),
+                      );
                     }
                     thirdLevelSubItems[thirdLevelSubItems.length - 1]
                         .parentIndex = j;
@@ -710,33 +750,41 @@ Future<void> updateControlItems() async {
                         .sampleIndex ??= thirdLevelSubItems.length - 1;
                     thirdLevelSubItems[thirdLevelSubItems.length - 1].control =
                         controlList[i];
-                    final String breadCrumbText = ('/' +
-                            controlList[i].title! +
-                            '/' +
-                            firstLevelSubItems[j].title! +
-                            '/' +
-                            secondLevelSubItems[secondLevelSubItems.length - 1]
-                                .title! +
-                            (secondLevelSubItems[secondLevelSubItems.length - 1]
-                                        .subItems!
-                                        .length ==
-                                    1
-                                ? ''
-                                : ('/' +
-                                    thirdLevelSubItems[
-                                            thirdLevelSubItems.length - 1]
-                                        .title!)))
-                        .replaceAll(' ', '-')
-                        .toLowerCase();
+                    final String breadCrumbText =
+                        ('/' +
+                                controlList[i].title! +
+                                '/' +
+                                firstLevelSubItems[j].title! +
+                                '/' +
+                                secondLevelSubItems[secondLevelSubItems.length -
+                                        1]
+                                    .title! +
+                                (secondLevelSubItems[secondLevelSubItems
+                                                    .length -
+                                                1]
+                                            .subItems!
+                                            .length ==
+                                        1
+                                    ? ''
+                                    : ('/' +
+                                        thirdLevelSubItems[thirdLevelSubItems
+                                                    .length -
+                                                1]
+                                            .title!)))
+                            .replaceAll(' ', '-')
+                            .toLowerCase();
                     thirdLevelSubItems[thirdLevelSubItems.length - 1]
                         .breadCrumbText = breadCrumbText;
                     thirdLevelSubItems[thirdLevelSubItems.length - 1]
                             .categoryName =
                         SampleModel._categoryList[index].categoryName;
-                    sampleRoutes.add(SampleRoute(
+                    sampleRoutes.add(
+                      SampleRoute(
                         routeName: breadCrumbText,
                         subItem:
-                            thirdLevelSubItems[thirdLevelSubItems.length - 1]));
+                            thirdLevelSubItems[thirdLevelSubItems.length - 1],
+                      ),
+                    );
                   }
                   secondLevelSubItems[secondLevelSubItems.length - 1].subItems =
                       thirdLevelSubItems;
@@ -749,17 +797,23 @@ Future<void> updateControlItems() async {
               if (firstLevelSubItems[j].platformsToHide == null ||
                   _needToShow(firstLevelSubItems[j].platformsToHide)) {
                 isChild = true;
-                for (int k = 0;
-                    k < firstLevelSubItems[j].subItems!.length;
-                    k++) {
-                  if (SubItem.fromJson(firstLevelSubItems[j].subItems![k])
-                              .platformsToHide ==
+                for (
+                  int k = 0;
+                  k < firstLevelSubItems[j].subItems!.length;
+                  k++
+                ) {
+                  if (SubItem.fromJson(
+                            firstLevelSubItems[j].subItems![k],
+                          ).platformsToHide ==
                           null ||
                       _needToShow(
-                          SubItem.fromJson(firstLevelSubItems[j].subItems![k])
-                              .platformsToHide)) {
+                        SubItem.fromJson(
+                          firstLevelSubItems[j].subItems![k],
+                        ).platformsToHide,
+                      )) {
                     secondLevelSubItems.add(
-                        SubItem.fromJson(firstLevelSubItems[j].subItems![k]));
+                      SubItem.fromJson(firstLevelSubItems[j].subItems![k]),
+                    );
                     secondLevelSubItems[secondLevelSubItems.length - 1]
                         .childIndex = j;
                     secondLevelSubItems[secondLevelSubItems.length - 1]
@@ -769,25 +823,29 @@ Future<void> updateControlItems() async {
                     String breadCrumbText;
                     if (firstLevelSubItems[j].subItems!.length == 1 &&
                         secondLevelSubItems.length == 1) {
-                      breadCrumbText = ('/' +
-                              controlList[i].title! +
-                              '/' +
-                              secondLevelSubItems[
-                                      secondLevelSubItems.length - 1]
-                                  .title!)
-                          .replaceAll(' ', '-')
-                          .toLowerCase();
+                      breadCrumbText =
+                          ('/' +
+                                  controlList[i].title! +
+                                  '/' +
+                                  secondLevelSubItems[secondLevelSubItems
+                                              .length -
+                                          1]
+                                      .title!)
+                              .replaceAll(' ', '-')
+                              .toLowerCase();
                     } else {
-                      breadCrumbText = ('/' +
-                              controlList[i].title! +
-                              '/' +
-                              firstLevelSubItems[j].title! +
-                              '/' +
-                              secondLevelSubItems[
-                                      secondLevelSubItems.length - 1]
-                                  .title!)
-                          .replaceAll(' ', '-')
-                          .toLowerCase();
+                      breadCrumbText =
+                          ('/' +
+                                  controlList[i].title! +
+                                  '/' +
+                                  firstLevelSubItems[j].title! +
+                                  '/' +
+                                  secondLevelSubItems[secondLevelSubItems
+                                              .length -
+                                          1]
+                                      .title!)
+                              .replaceAll(' ', '-')
+                              .toLowerCase();
                     }
 
                     secondLevelSubItems[secondLevelSubItems.length - 1]
@@ -795,10 +853,13 @@ Future<void> updateControlItems() async {
                     secondLevelSubItems[secondLevelSubItems.length - 1]
                             .categoryName =
                         SampleModel._categoryList[index].categoryName;
-                    sampleRoutes.add(SampleRoute(
+                    sampleRoutes.add(
+                      SampleRoute(
                         routeName: breadCrumbText,
-                        subItem: secondLevelSubItems[
-                            secondLevelSubItems.length - 1]));
+                        subItem:
+                            secondLevelSubItems[secondLevelSubItems.length - 1],
+                      ),
+                    );
                   }
                 }
                 firstLevelSubItems[j].subItems = secondLevelSubItems;
@@ -813,18 +874,23 @@ Future<void> updateControlItems() async {
               firstLevelSubItems[j].sampleIndex ??= j;
               if (firstLevelSubItems[j].platformsToHide == null ||
                   _needToShow(firstLevelSubItems[j].platformsToHide)) {
-                final String breadCrumbText = ('/' +
-                        controlList[i].title! +
-                        '/' +
-                        firstLevelSubItems[j].title!)
-                    .replaceAll(' ', '-')
-                    .toLowerCase();
+                final String breadCrumbText =
+                    ('/' +
+                            controlList[i].title! +
+                            '/' +
+                            firstLevelSubItems[j].title!)
+                        .replaceAll(' ', '-')
+                        .toLowerCase();
                 firstLevelSubItems[j].breadCrumbText = breadCrumbText;
                 firstLevelSubItems[j].control = controlList[i];
                 firstLevelSubItems[j].categoryName =
                     SampleModel._categoryList[index].categoryName;
-                sampleRoutes.add(SampleRoute(
-                    routeName: breadCrumbText, subItem: firstLevelSubItems[j]));
+                sampleRoutes.add(
+                  SampleRoute(
+                    routeName: breadCrumbText,
+                    subItem: firstLevelSubItems[j],
+                  ),
+                );
                 secondLevelSubItems.add(firstLevelSubItems[j]);
               }
             }
@@ -864,17 +930,22 @@ Future<void> updateControlItems() async {
   /// Sorting the controls based on control id category wise.
   for (int i = 0; i < SampleModel._categoryList.length; i++) {
     SampleModel._categoryList[i].controlList!.sort(
-        (dynamic a, dynamic b) => a.controlId.compareTo(b.controlId) as int);
+      (dynamic a, dynamic b) => a.controlId.compareTo(b.controlId) as int,
+    );
   }
 
   if (isWeb) {
     /// Sorting categories based on [webCategoryId].
-    SampleModel._categoryList.sort((WidgetCategory a, WidgetCategory b) =>
-        a.webCategoryId!.compareTo(b.webCategoryId!));
+    SampleModel._categoryList.sort(
+      (WidgetCategory a, WidgetCategory b) =>
+          a.webCategoryId!.compareTo(b.webCategoryId!),
+    );
   } else {
     /// Sorting categories based on [mobileCategoryId].
-    SampleModel._categoryList.sort((WidgetCategory a, WidgetCategory b) =>
-        a.mobileCategoryId!.compareTo(b.mobileCategoryId!));
+    SampleModel._categoryList.sort(
+      (WidgetCategory a, WidgetCategory b) =>
+          a.mobileCategoryId!.compareTo(b.mobileCategoryId!),
+    );
   }
 }
 

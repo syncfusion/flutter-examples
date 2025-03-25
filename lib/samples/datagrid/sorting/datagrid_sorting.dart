@@ -45,16 +45,23 @@ class _SortingDataGridState extends SampleViewState {
   void initState() {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
-    _sortingDataGridSource =
-        OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 100);
-    _sortingDataGridSource.sortedColumns.add(const SortColumnDetails(
-        name: 'id', sortDirection: DataGridSortDirection.descending));
+    _sortingDataGridSource = OrderInfoDataGridSource(
+      isWebOrDesktop: true,
+      orderDataCount: 100,
+    );
+    _sortingDataGridSource.sortedColumns.add(
+      const SortColumnDetails(
+        name: 'id',
+        sortDirection: DataGridSortDirection.descending,
+      ),
+    );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
@@ -65,9 +72,10 @@ class _SortingDataGridState extends SampleViewState {
       columns: _obtainColumns(),
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
-      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
-          ? ColumnWidthMode.fill
-          : ColumnWidthMode.none,
+      columnWidthMode:
+          _isWebOrDesktop || _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
       allowSorting: allowSorting,
       allowMultiColumnSorting: allowMultiSorting,
       allowTriStateSorting: allowTriStateSorting,
@@ -78,20 +86,22 @@ class _SortingDataGridState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text('Allow sorting',
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Allow sorting',
                   softWrap: false,
-                  style: TextStyle(fontSize: 16, color: model.textColor)),
-              Transform.scale(
+                  style: TextStyle(fontSize: 16, color: model.textColor),
+                ),
+                Transform.scale(
                   scale: 0.8,
                   child: CupertinoSwitch(
-                    activeColor: model.primaryColor,
+                    activeTrackColor: model.primaryColor,
                     value: allowSorting,
                     onChanged: (bool value) {
                       setState(() {
@@ -99,175 +109,185 @@ class _SortingDataGridState extends SampleViewState {
                         stateSetter(() {});
                       });
                     },
-                  ))
-            ],
-          ),
-          Row(
+                  ),
+                ),
+              ],
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                    model.isWebFullView
-                        ? 'Allow multiple \ncolumn sorting'
-                        : 'Allow multiple column sorting',
-                    softWrap: false,
-                    style: TextStyle(fontSize: 16.0, color: model.textColor)),
+                  model.isWebFullView
+                      ? 'Allow multiple \ncolumn sorting'
+                      : 'Allow multiple column sorting',
+                  softWrap: false,
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
                 Transform.scale(
-                    scale: 0.8,
-                    child: CupertinoSwitch(
-                      activeColor: model.primaryColor,
-                      value: allowMultiSorting,
-                      onChanged: (bool value) {
-                        setState(() {
-                          allowMultiSorting = value;
-                          stateSetter(() {});
-                        });
-                      },
-                    ))
-              ]),
-          Row(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    activeTrackColor: model.primaryColor,
+                    value: allowMultiSorting,
+                    onChanged: (bool value) {
+                      setState(() {
+                        allowMultiSorting = value;
+                        stateSetter(() {});
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                    model.isWebFullView
-                        ? 'Allow tri-state \nsorting'
-                        : 'Allow tri-state sorting',
-                    softWrap: false,
-                    style: TextStyle(fontSize: 16, color: model.textColor)),
+                  model.isWebFullView
+                      ? 'Allow tri-state \nsorting'
+                      : 'Allow tri-state sorting',
+                  softWrap: false,
+                  style: TextStyle(fontSize: 16, color: model.textColor),
+                ),
                 Transform.scale(
-                    scale: 0.8,
-                    child: CupertinoSwitch(
-                      activeColor: model.primaryColor,
-                      value: allowTriStateSorting,
-                      onChanged: (bool value) {
-                        setState(() {
-                          allowTriStateSorting = value;
-                          stateSetter(() {});
-                        });
-                      },
-                    ))
-              ]),
-          Row(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    activeTrackColor: model.primaryColor,
+                    value: allowTriStateSorting,
+                    onChanged: (bool value) {
+                      setState(() {
+                        allowTriStateSorting = value;
+                        stateSetter(() {});
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                    model.isWebFullView
-                        ? 'Allow sorting for the \nName column'
-                        : 'Allow sorting for the Name column',
-                    softWrap: false,
-                    style: TextStyle(fontSize: 16, color: model.textColor)),
+                  model.isWebFullView
+                      ? 'Allow sorting for the \nName column'
+                      : 'Allow sorting for the Name column',
+                  softWrap: false,
+                  style: TextStyle(fontSize: 16, color: model.textColor),
+                ),
                 Transform.scale(
-                    scale: 0.8,
-                    child: CupertinoSwitch(
-                      activeColor: model.primaryColor,
-                      value: allowColumnSorting,
-                      onChanged: (bool value) {
-                        setState(() {
-                          allowColumnSorting = value;
-                          stateSetter(() {});
-                        });
-                      },
-                    )),
-              ]),
-          Row(
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    activeTrackColor: model.primaryColor,
+                    value: allowColumnSorting,
+                    onChanged: (bool value) {
+                      setState(() {
+                        allowColumnSorting = value;
+                        stateSetter(() {});
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                    model.isWebFullView
-                        ? 'Display sort \nsequence numbers'
-                        : 'Display sort sequence numbers',
-                    softWrap: false,
-                    style: TextStyle(fontSize: 16, color: model.textColor)),
+                  model.isWebFullView
+                      ? 'Display sort \nsequence numbers'
+                      : 'Display sort sequence numbers',
+                  softWrap: false,
+                  style: TextStyle(fontSize: 16, color: model.textColor),
+                ),
                 Transform.scale(
-                    scale: 0.8,
-                    child: CupertinoSwitch(
-                      activeColor: model.primaryColor,
-                      value: showSortNumbers,
-                      onChanged: (bool value) {
-                        setState(() {
-                          showSortNumbers = value;
-                          stateSetter(() {});
-                        });
-                      },
-                    ))
-              ]),
-        ],
-      );
-    });
+                  scale: 0.8,
+                  child: CupertinoSwitch(
+                    activeTrackColor: model.primaryColor,
+                    value: showSortNumbers,
+                    onChanged: (bool value) {
+                      setState(() {
+                        showSortNumbers = value;
+                        stateSetter(() {});
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
-          columnName: 'id',
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: !_isWebOrDesktop
-              ? 100
-              : (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Order ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'id',
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width:
+            !_isWebOrDesktop
+                ? 100
+                : (_isWebOrDesktop && model.isMobileResolution)
+                ? 120.0
+                : double.nan,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Order ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'customerId',
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: !_isWebOrDesktop
-              ? 120
-              : (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : double.nan,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Customer ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'customerId',
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width:
+            !_isWebOrDesktop
+                ? 120
+                : (_isWebOrDesktop && model.isMobileResolution)
+                ? 150.0
+                : double.nan,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Customer ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'name',
-          width: !_isWebOrDesktop
-              ? 80
-              : (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Name',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          allowSorting: allowColumnSorting),
+        columnName: 'name',
+        width:
+            !_isWebOrDesktop
+                ? 80
+                : (_isWebOrDesktop && model.isMobileResolution)
+                ? 120.0
+                : double.nan,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Name', overflow: TextOverflow.ellipsis),
+        ),
+        allowSorting: allowColumnSorting,
+      ),
       GridColumn(
         columnName: 'freight',
-        width: !_isWebOrDesktop
-            ? 120
-            : (_isWebOrDesktop && model.isMobileResolution)
+        width:
+            !_isWebOrDesktop
+                ? 120
+                : (_isWebOrDesktop && model.isMobileResolution)
                 ? 110.0
                 : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'Freight',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Freight', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
         columnName: 'city',
-        width: !_isWebOrDesktop
-            ? 90
-            : (_isWebOrDesktop && model.isMobileResolution)
+        width:
+            !_isWebOrDesktop
+                ? 90
+                : (_isWebOrDesktop && model.isMobileResolution)
                 ? 120.0
                 : double.nan,
         columnWidthMode:
@@ -275,10 +295,7 @@ class _SortingDataGridState extends SampleViewState {
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'City',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('City', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -289,12 +306,9 @@ class _SortingDataGridState extends SampleViewState {
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'Price',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Price', overflow: TextOverflow.ellipsis),
         ),
-      )
+      ),
     ];
   }
 }

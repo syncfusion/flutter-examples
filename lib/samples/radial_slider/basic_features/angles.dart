@@ -42,16 +42,19 @@ class _RadialSliderAnglesState extends SampleViewState {
           children: <Widget>[
             _buildFirstSlider(),
             Align(
-              alignment: !model.isWebFullView
-                  ? const Alignment(0, 0.1)
-                  : Alignment.center,
+              alignment:
+                  !model.isWebFullView
+                      ? const Alignment(0, 0.1)
+                      : Alignment.center,
               child: _buildSecondSlider(),
             ),
             Align(
-                alignment: !model.isWebFullView
-                    ? const Alignment(0, 0.1)
-                    : Alignment.center,
-                child: _buildThirdSlider()),
+              alignment:
+                  !model.isWebFullView
+                      ? const Alignment(0, 0.1)
+                      : Alignment.center,
+              child: _buildThirdSlider(),
+            ),
             _buildFourthSlider(),
           ],
         ),
@@ -63,28 +66,33 @@ class _RadialSliderAnglesState extends SampleViewState {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Align(
-              alignment: model.isWebFullView
-                  ? Alignment.centerRight
-                  : Alignment.center,
+              alignment:
+                  model.isWebFullView
+                      ? Alignment.centerRight
+                      : Alignment.center,
               child: _buildFirstSlider(),
             ),
             Align(
-              alignment: model.isWebFullView
-                  ? Alignment.centerLeft
-                  : const Alignment(0.8, 0),
+              alignment:
+                  model.isWebFullView
+                      ? Alignment.centerLeft
+                      : const Alignment(0.8, 0),
               child: _buildSecondSlider(),
             ),
             Align(
-              alignment: model.isWebFullView
-                  ? Alignment.centerLeft
-                  : const Alignment(-0.5, 0),
+              alignment:
+                  model.isWebFullView
+                      ? Alignment.centerLeft
+                      : const Alignment(-0.5, 0),
               child: _buildThirdSlider(),
             ),
             Align(
-                alignment: model.isWebFullView
-                    ? const Alignment(-0.1, 0.25)
-                    : const Alignment(0, 0.5),
-                child: _buildFourthSlider()),
+              alignment:
+                  model.isWebFullView
+                      ? const Alignment(-0.1, 0.25)
+                      : const Alignment(0, 0.5),
+              child: _buildFourthSlider(),
+            ),
           ],
         ),
       );
@@ -95,25 +103,28 @@ class _RadialSliderAnglesState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             useRangeColorForAxis: true,
             radiusFactor: 0.8,
             axisLineStyle: const AxisLineStyle(
-                color: Color.fromRGBO(88, 194, 143, 0.3),
-                thickness: 0.1,
-                thicknessUnit: GaugeSizeUnit.factor),
+              color: Color.fromRGBO(88, 194, 143, 0.3),
+              thickness: 0.1,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             showLabels: false,
             showTicks: false,
             startAngle: 270,
             endAngle: 270,
             pointers: <GaugePointer>[
               RangePointer(
-                  width: 0.1,
-                  value: _currentValue,
-                  cornerStyle: CornerStyle.bothCurve,
-                  color: const Color.fromRGBO(88, 194, 143, 1),
-                  sizeUnit: GaugeSizeUnit.factor),
+                width: 0.1,
+                value: _currentValue,
+                cornerStyle: CornerStyle.bothCurve,
+                color: const Color.fromRGBO(88, 194, 143, 1),
+                sizeUnit: GaugeSizeUnit.factor,
+              ),
               MarkerPointer(
                 enableDragging: true,
                 elevation: 5,
@@ -125,25 +136,29 @@ class _RadialSliderAnglesState extends SampleViewState {
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
-              )
+              ),
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Text(
-                    '$_annotationValue1' '%',
-                    style: TextStyle(
-                      fontSize: _annotationFontSize,
-                      fontFamily: 'Times',
-                      fontWeight: FontWeight.bold,
-                      color: model.themeData.brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
+                widget: Text(
+                  '$_annotationValue1'
+                  '%',
+                  style: TextStyle(
+                    fontSize: _annotationFontSize,
+                    fontFamily: 'Times',
+                    fontWeight: FontWeight.bold,
+                    color:
+                        model.themeData.brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
                   ),
-                  positionFactor: 0.13,
-                  angle: 0)
-            ])
-      ]),
+                ),
+                angle: 0,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -151,26 +166,29 @@ class _RadialSliderAnglesState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             radiusFactor: 0.8,
             canScaleToFit: model.isWebFullView && width > height,
             axisLineStyle: const AxisLineStyle(
-                cornerStyle: CornerStyle.bothCurve,
-                color: Color.fromRGBO(88, 194, 143, 0.3),
-                thickness: 0.1,
-                thicknessUnit: GaugeSizeUnit.factor),
+              cornerStyle: CornerStyle.bothCurve,
+              color: Color.fromRGBO(88, 194, 143, 0.3),
+              thickness: 0.1,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             showLabels: false,
             showTicks: false,
             startAngle: 90,
             endAngle: 270,
             pointers: <GaugePointer>[
               RangePointer(
-                  width: 0.1,
-                  value: _markerValueForFirstHalfSlider,
-                  cornerStyle: CornerStyle.bothCurve,
-                  color: const Color.fromRGBO(88, 194, 143, 1),
-                  sizeUnit: GaugeSizeUnit.factor),
+                width: 0.1,
+                value: _markerValueForFirstHalfSlider,
+                cornerStyle: CornerStyle.bothCurve,
+                color: const Color.fromRGBO(88, 194, 143, 1),
+                sizeUnit: GaugeSizeUnit.factor,
+              ),
               MarkerPointer(
                 value: _markerValueForFirstHalfSlider,
                 elevation: 5,
@@ -190,25 +208,29 @@ class _RadialSliderAnglesState extends SampleViewState {
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
-              )
+              ),
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Text(
-                    '$_annotationValue2' '%',
-                    style: TextStyle(
-                      fontSize: _annotationFontSize,
-                      fontFamily: 'Times',
-                      fontWeight: FontWeight.bold,
-                      color: model.themeData.brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
+                widget: Text(
+                  '$_annotationValue2'
+                  '%',
+                  style: TextStyle(
+                    fontSize: _annotationFontSize,
+                    fontFamily: 'Times',
+                    fontWeight: FontWeight.bold,
+                    color:
+                        model.themeData.brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
                   ),
-                  positionFactor: 0.13,
-                  angle: 0)
-            ]),
-      ]),
+                ),
+                angle: 0,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -216,14 +238,16 @@ class _RadialSliderAnglesState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             radiusFactor: 0.8,
             axisLineStyle: const AxisLineStyle(
-                cornerStyle: CornerStyle.bothCurve,
-                color: Color.fromRGBO(88, 194, 143, 0.3),
-                thickness: 0.1,
-                thicknessUnit: GaugeSizeUnit.factor),
+              cornerStyle: CornerStyle.bothCurve,
+              color: Color.fromRGBO(88, 194, 143, 0.3),
+              thickness: 0.1,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             canScaleToFit: model.isWebFullView && width > height,
             showLabels: false,
             showTicks: false,
@@ -231,11 +255,12 @@ class _RadialSliderAnglesState extends SampleViewState {
             endAngle: 90,
             pointers: <GaugePointer>[
               RangePointer(
-                  width: 0.1,
-                  value: _markerValueForPieSlider,
-                  cornerStyle: CornerStyle.bothCurve,
-                  color: const Color.fromRGBO(88, 194, 143, 1),
-                  sizeUnit: GaugeSizeUnit.factor),
+                width: 0.1,
+                value: _markerValueForPieSlider,
+                cornerStyle: CornerStyle.bothCurve,
+                color: const Color.fromRGBO(88, 194, 143, 1),
+                sizeUnit: GaugeSizeUnit.factor,
+              ),
               MarkerPointer(
                 value: _markerValueForPieSlider,
                 elevation: 5,
@@ -255,25 +280,29 @@ class _RadialSliderAnglesState extends SampleViewState {
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
-              )
+              ),
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Text(
-                    '$_annotationValue3' '%',
-                    style: TextStyle(
-                      fontSize: _annotationFontSize,
-                      fontFamily: 'Times',
-                      fontWeight: FontWeight.bold,
-                      color: model.themeData.brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
+                widget: Text(
+                  '$_annotationValue3'
+                  '%',
+                  style: TextStyle(
+                    fontSize: _annotationFontSize,
+                    fontFamily: 'Times',
+                    fontWeight: FontWeight.bold,
+                    color:
+                        model.themeData.brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
                   ),
-                  positionFactor: 0.13,
-                  angle: 0)
-            ])
-      ]),
+                ),
+                angle: 0,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -281,25 +310,28 @@ class _RadialSliderAnglesState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             radiusFactor: 0.9,
             axisLineStyle: const AxisLineStyle(
-                cornerStyle: CornerStyle.bothCurve,
-                color: Color.fromRGBO(88, 194, 143, 0.3),
-                thickness: 0.1,
-                thicknessUnit: GaugeSizeUnit.factor),
+              cornerStyle: CornerStyle.bothCurve,
+              color: Color.fromRGBO(88, 194, 143, 0.3),
+              thickness: 0.1,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             showLabels: false,
             showTicks: false,
             startAngle: 180,
             endAngle: 0,
             pointers: <GaugePointer>[
               RangePointer(
-                  width: 0.1,
-                  value: _markerValueForFirstQuarterSlider,
-                  cornerStyle: CornerStyle.bothCurve,
-                  color: const Color.fromRGBO(88, 194, 143, 1),
-                  sizeUnit: GaugeSizeUnit.factor),
+                width: 0.1,
+                value: _markerValueForFirstQuarterSlider,
+                cornerStyle: CornerStyle.bothCurve,
+                color: const Color.fromRGBO(88, 194, 143, 1),
+                sizeUnit: GaugeSizeUnit.factor,
+              ),
               MarkerPointer(
                 value: _markerValueForFirstQuarterSlider,
                 elevation: 5,
@@ -319,25 +351,29 @@ class _RadialSliderAnglesState extends SampleViewState {
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
-              )
+              ),
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Text(
-                    '$_annotationValue4' '%',
-                    style: TextStyle(
-                      fontSize: _annotationFontSize,
-                      fontFamily: 'Times',
-                      fontWeight: FontWeight.bold,
-                      color: model.themeData.brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
+                widget: Text(
+                  '$_annotationValue4'
+                  '%',
+                  style: TextStyle(
+                    fontSize: _annotationFontSize,
+                    fontFamily: 'Times',
+                    fontWeight: FontWeight.bold,
+                    color:
+                        model.themeData.brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
                   ),
-                  positionFactor: 0.13,
-                  angle: 0)
-            ]),
-      ]),
+                ),
+                angle: 0,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

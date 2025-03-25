@@ -14,7 +14,9 @@ class FileSaveHelper {
 
   ///To save the pdf file in the device
   static Future<void> saveAndLaunchFile(
-      List<int> bytes, String fileName) async {
+    List<int> bytes,
+    String fileName,
+  ) async {
     String? path;
     if (Platform.isIOS || Platform.isLinux || Platform.isWindows) {
       final Directory directory = await getApplicationSupportDirectory();
@@ -30,28 +32,33 @@ class FileSaveHelper {
     } else {
       path = await PathProviderPlatform.instance.getApplicationSupportPath();
     }
-    final File file =
-        File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
+    final File file = File(
+      Platform.isWindows ? '$path\\$fileName' : '$path/$fileName',
+    );
     await file.writeAsBytes(bytes, flush: true);
     if (Platform.isAndroid || Platform.isIOS) {
       final Map<String, String> argument = <String, String>{
-        'file_path': '$path/$fileName'
+        'file_path': '$path/$fileName',
       };
       try {
         //ignore: unused_local_variable
-        final Future<Map<String, String>?> result =
-            _platformCall.invokeMethod('viewPdf', argument);
+        final Future<Map<String, String>?> result = _platformCall.invokeMethod(
+          'viewPdf',
+          argument,
+        );
       } catch (e) {
         throw Exception(e);
       }
     } else if (Platform.isWindows) {
-      await Process.run('start', <String>['$path\\$fileName'],
-          runInShell: true);
+      await Process.run('start', <String>[
+        '$path\\$fileName',
+      ], runInShell: true);
     } else if (Platform.isMacOS) {
       await Process.run('open', <String>['$path/$fileName'], runInShell: true);
     } else if (Platform.isLinux) {
-      await Process.run('xdg-open', <String>['$path/$fileName'],
-          runInShell: true);
+      await Process.run('xdg-open', <String>[
+        '$path/$fileName',
+      ], runInShell: true);
     }
   }
 }

@@ -1,18 +1,21 @@
-///Package imports
+/// Dart import.
 import 'dart:math';
+
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local imports.
 import '../../model/sample_view.dart';
 import 'appointment_editor.dart';
+import 'pop_up_editor.dart';
 
-/// Widget class of shift scheduler calendar
+/// Widget class of shift scheduler Calendar.
 class ShiftScheduler extends SampleView {
-  /// Creates calendar of shift scheduler
+  /// Creates Calendar of shift scheduler.
   const ShiftScheduler(Key key) : super(key: key);
 
   @override
@@ -31,36 +34,30 @@ class _ShiftSchedulerState extends SampleViewState {
   final List<String> _userImages = <String>[];
   final List<String> _colorNames = <String>[];
   final List<String> _timeZoneCollection = <String>[];
-
   final CalendarController _calendarController = CalendarController();
-
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.timelineDay,
     CalendarView.timelineWeek,
     CalendarView.timelineWorkWeek,
-    CalendarView.timelineMonth
+    CalendarView.timelineMonth,
   ];
-
   late List<DateTime> _visibleDates;
-
   bool _isAllDay = false;
   String _subject = '';
   int _selectedColorIndex = 0;
-
   Appointment? _selectedAppointment;
-
   late _ShiftDataSource _events;
 
   @override
   void initState() {
     _calendarController.view = CalendarView.timelineWeek;
     _selectedAppointment = null;
+    _events = _ShiftDataSource(_shiftCollection, _employeeCollection);
     _addResourceDetails();
     _addResources();
     _addSpecialRegions();
     _addAppointmentDetails();
     _addAppointments();
-    _events = _ShiftDataSource(_shiftCollection, _employeeCollection);
     super.initState();
   }
 
@@ -68,21 +65,19 @@ class _ShiftSchedulerState extends SampleViewState {
     _visibleDates = visibleDatesChangedDetails.visibleDates;
   }
 
-  /// Navigates to appointment editor page when the calendar elements tapped
+  /// Navigates to appointment editor page when the Calendar elements tapped
   /// other than the header, handled the editor fields based on tapped element.
   void _onCalendarTapped(CalendarTapDetails calendarTapDetails) {
-    /// Condition added to open the editor, when the calendar elements tapped
+    /// Condition added to open the editor, when the Calendar elements tapped
     /// other than the header.
     if (calendarTapDetails.targetElement == CalendarElement.header ||
         calendarTapDetails.targetElement == CalendarElement.viewHeader ||
         calendarTapDetails.targetElement == CalendarElement.resourceHeader) {
       return;
     }
-
     _selectedAppointment = null;
 
-    /// Navigates the calendar to day view,
-    /// when we tap on month cells in mobile.
+    /// Navigates Calendar to day view, when we tap on month cells in mobile.
     if (!model.isWebFullView &&
         _calendarController.view == CalendarView.month) {
       _calendarController.view = CalendarView.day;
@@ -104,106 +99,117 @@ class _ShiftSchedulerState extends SampleViewState {
         final bool isAppointmentTapped =
             calendarTapDetails.targetElement == CalendarElement.appointment;
         showDialog<Widget>(
-            context: context,
-            builder: (BuildContext context) {
-              final List<Appointment> appointment = <Appointment>[];
-              Appointment? newAppointment;
+          context: context,
+          builder: (BuildContext context) {
+            final List<Appointment> appointment = <Appointment>[];
+            Appointment? newAppointment;
 
-              /// Creates a new appointment, which is displayed on the tapped
-              /// calendar element, when the editor is opened.
-              if (_selectedAppointment == null) {
-                _isAllDay = calendarTapDetails.targetElement ==
-                    CalendarElement.allDayPanel;
-                _selectedColorIndex = 0;
-                _subject = '';
-                final DateTime date = calendarTapDetails.date!;
-
-                newAppointment = Appointment(
-                  startTime: date,
-                  endTime: date.add(const Duration(hours: 1)),
-                  resourceIds: <Object>[calendarTapDetails.resource!.id],
-                  color: _colorCollection[_selectedColorIndex],
-                  isAllDay: _isAllDay,
-                  subject: _subject == '' ? '(No title)' : _subject,
-                );
-                appointment.add(newAppointment);
-
-                _events.appointments!.add(appointment[0]);
-
-                SchedulerBinding.instance
-                    .addPostFrameCallback((Duration duration) {
-                  _events.notifyListeners(
-                      CalendarDataSourceAction.add, appointment);
-                });
-
-                _selectedAppointment = newAppointment;
-              }
-
-              return PopScope(
-                onPopInvokedWithResult: (bool value, Object? result) async {
-                  if (newAppointment != null) {
-                    /// To remove the created appointment when the pop-up closed
-                    /// without saving the appointment.
-                    final int appointmentIndex =
-                        _events.appointments!.indexOf(newAppointment);
-
-                    if (appointmentIndex <= _events.appointments!.length - 1 &&
-                        appointmentIndex >= 0) {
-                      _events.appointments!.removeAt(
-                          _events.appointments!.indexOf(newAppointment));
-                      _events.notifyListeners(CalendarDataSourceAction.remove,
-                          <Appointment>[newAppointment]);
-                    }
-                  }
-                },
-                child: Center(
-                    child: SizedBox(
-                        width: isAppointmentTapped ? 400 : 500,
-                        height: isAppointmentTapped
-                            ? (_selectedAppointment!.location == null ||
-                                    _selectedAppointment!.location!.isEmpty
-                                ? 200
-                                : 250)
-                            : 450,
-                        child: Theme(
-                            data: model.themeData,
-                            child: Card(
-                              margin: EdgeInsets.zero,
-                              color: model.sampleOutputCardColor,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
-                              child: isAppointmentTapped
-                                  ? displayAppointmentDetails(
-                                      context,
-                                      targetElement,
-                                      selectedDate,
-                                      model,
-                                      _selectedAppointment!,
-                                      _colorCollection,
-                                      _colorNames,
-                                      _events,
-                                      _timeZoneCollection,
-                                      _visibleDates)
-                                  : PopUpAppointmentEditor(
-                                      model,
-                                      newAppointment,
-                                      appointment,
-                                      _events,
-                                      _colorCollection,
-                                      _colorNames,
-                                      _selectedAppointment!,
-                                      _timeZoneCollection,
-                                      _visibleDates),
-                            )))),
+            /// Creates a new appointment, which is displayed on the tapped
+            /// Calendar element, when the editor is opened.
+            if (_selectedAppointment == null) {
+              _isAllDay =
+                  calendarTapDetails.targetElement ==
+                  CalendarElement.allDayPanel;
+              _selectedColorIndex = 0;
+              _subject = '';
+              final DateTime date = calendarTapDetails.date!;
+              newAppointment = Appointment(
+                startTime: date,
+                endTime: date.add(const Duration(hours: 1)),
+                resourceIds: <Object>[calendarTapDetails.resource!.id],
+                color: _colorCollection[_selectedColorIndex],
+                isAllDay: _isAllDay,
+                subject: _subject == '' ? '(No title)' : _subject,
               );
-            });
+              appointment.add(newAppointment);
+              _events.appointments!.add(appointment[0]);
+              SchedulerBinding.instance.addPostFrameCallback((
+                Duration duration,
+              ) {
+                _events.notifyListeners(
+                  CalendarDataSourceAction.add,
+                  appointment,
+                );
+              });
+              _selectedAppointment = newAppointment;
+            }
+            return PopScope(
+              onPopInvokedWithResult: (bool value, Object? result) async {
+                if (newAppointment != null) {
+                  /// To remove the created appointment when the pop-up closed
+                  /// without saving the appointment.
+                  final int appointmentIndex = _events.appointments!.indexOf(
+                    newAppointment,
+                  );
+                  if (appointmentIndex <= _events.appointments!.length - 1 &&
+                      appointmentIndex >= 0) {
+                    _events.appointments!.removeAt(
+                      _events.appointments!.indexOf(newAppointment),
+                    );
+                    _events.notifyListeners(
+                      CalendarDataSourceAction.remove,
+                      <Appointment>[newAppointment],
+                    );
+                  }
+                }
+              },
+              child: Center(
+                child: SizedBox(
+                  width: isAppointmentTapped ? 400 : 500,
+                  height:
+                      isAppointmentTapped
+                          ? (_selectedAppointment!.location == null ||
+                                  _selectedAppointment!.location!.isEmpty
+                              ? 200
+                              : 250)
+                          : 450,
+                  child: Theme(
+                    data: model.themeData,
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      color: model.sampleOutputCardColor,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      child:
+                          isAppointmentTapped
+                              ? displayAppointmentDetails(
+                                context,
+                                targetElement,
+                                selectedDate,
+                                model,
+                                _selectedAppointment!,
+                                _colorCollection,
+                                _colorNames,
+                                _events,
+                                _timeZoneCollection,
+                                _visibleDates,
+                              )
+                              : PopUpAppointmentEditor(
+                                model,
+                                newAppointment,
+                                appointment,
+                                _events,
+                                _colorCollection,
+                                _colorNames,
+                                _selectedAppointment!,
+                                _timeZoneCollection,
+                                _visibleDates,
+                              ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
       } else {
-        /// Navigates to the appointment editor page on mobile
+        /// Navigates to the appointment editor page on mobile.
         Navigator.push<Widget>(
           context,
           MaterialPageRoute<Widget>(
-              builder: (BuildContext context) => AppointmentEditor(
+            builder:
+                (BuildContext context) => AppointmentEditor(
                   model,
                   _selectedAppointment,
                   targetElement,
@@ -212,7 +218,9 @@ class _ShiftSchedulerState extends SampleViewState {
                   _colorNames,
                   _events,
                   _timeZoneCollection,
-                  calendarTapDetails.resource)),
+                  calendarTapDetails.resource,
+                ),
+          ),
         );
       }
     }
@@ -223,15 +231,17 @@ class _ShiftSchedulerState extends SampleViewState {
     return Container(
       color: model.sampleOutputCardColor,
       child: Theme(
-          data: model.themeData.copyWith(
-              colorScheme: model.themeData.colorScheme
-                  .copyWith(secondary: model.primaryColor)),
-          child:
-              _getShiftScheduler(_events, _onCalendarTapped, _onViewChanged)),
+        data: model.themeData.copyWith(
+          colorScheme: model.themeData.colorScheme.copyWith(
+            secondary: model.primaryColor,
+          ),
+        ),
+        child: _getShiftScheduler(_events, _onCalendarTapped, _onViewChanged),
+      ),
     );
   }
 
-  /// Creates the required resource details as list
+  /// Creates the required resource details as list.
   void _addResourceDetails() {
     _nameCollection.add('John');
     _nameCollection.add('Bryan');
@@ -407,54 +417,67 @@ class _ShiftSchedulerState extends SampleViewState {
     _timeZoneCollection.add('Yakutsk Standard Time');
   }
 
-  /// Method that creates the resource collection for the calendar, with the
+  /// Method that creates the resource collection for the Calendar, with the
   /// required information.
   void _addResources() {
     final Random random = Random();
     for (int i = 0; i < _nameCollection.length; i++) {
-      _employeeCollection.add(CalendarResource(
+      _employeeCollection.add(
+        CalendarResource(
           displayName: _nameCollection[i],
           id: '000' + i.toString(),
           color: Color.fromRGBO(
-              random.nextInt(255), random.nextInt(255), random.nextInt(255), 1),
+            random.nextInt(255),
+            random.nextInt(255),
+            random.nextInt(255),
+            1,
+          ),
           image:
-              i < _userImages.length ? ExactAssetImage(_userImages[i]) : null));
+              i < _userImages.length ? ExactAssetImage(_userImages[i]) : null,
+        ),
+      );
     }
   }
 
-  /// Method that creates the collection the time region for calendar, with
+  /// Method that creates the collection the time region for Calendar, with
   /// required information.
   void _addSpecialRegions() {
     final DateTime date = DateTime.now();
     final Random random = Random();
     for (int i = 0; i < _employeeCollection.length; i++) {
-      _specialTimeRegions.add(TimeRegion(
+      _specialTimeRegions.add(
+        TimeRegion(
           startTime: DateTime(date.year, date.month, date.day, 13),
           endTime: DateTime(date.year, date.month, date.day, 14),
           text: 'Lunch',
-          color: Colors.grey.withOpacity(0.2),
+          color: Colors.grey.withValues(alpha: 0.2),
           resourceIds: <Object>[_employeeCollection[i].id],
-          recurrenceRule: 'FREQ=DAILY;INTERVAL=1'));
-
+          recurrenceRule: 'FREQ=DAILY;INTERVAL=1',
+        ),
+      );
       if (i.isEven) {
         continue;
       }
-
-      final DateTime startDate =
-          DateTime(date.year, date.month, date.day, 17 + random.nextInt(7));
-
-      _specialTimeRegions.add(TimeRegion(
-        startTime: startDate,
-        endTime: startDate.add(const Duration(hours: 1)),
-        text: 'Not Available',
-        color: Colors.grey.withOpacity(0.2),
-        enablePointerInteraction: false,
-        resourceIds: <Object>[_employeeCollection[i].id],
-      ));
+      final DateTime startDate = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        17 + random.nextInt(7),
+      );
+      _specialTimeRegions.add(
+        TimeRegion(
+          startTime: startDate,
+          endTime: startDate.add(const Duration(hours: 1)),
+          text: 'Not Available',
+          color: Colors.grey.withValues(alpha: 0.2),
+          enablePointerInteraction: false,
+          resourceIds: <Object>[_employeeCollection[i].id],
+        ),
+      );
     }
   }
 
-  /// Method that creates the collection the data source for calendar, with
+  /// Method that creates the collection the data source for Calendar, with
   /// required information.
   void _addAppointments() {
     final Random random = Random();
@@ -468,7 +491,6 @@ class _ShiftSchedulerState extends SampleViewState {
           employeeIds.add(employeeId);
         }
       }
-
       for (int k = 0; k < 365; k++) {
         if (employeeIds.length > 1 && k.isEven) {
           continue;
@@ -478,51 +500,57 @@ class _ShiftSchedulerState extends SampleViewState {
           int startHour = 9 + random.nextInt(6);
           startHour =
               startHour >= 13 && startHour <= 14 ? startHour + 1 : startHour;
-          final DateTime shiftStartTime =
-              DateTime(date.year, date.month, date.day, startHour);
-          _shiftCollection.add(Appointment(
+          final DateTime shiftStartTime = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            startHour,
+          );
+          _shiftCollection.add(
+            Appointment(
               startTime: shiftStartTime,
               endTime: shiftStartTime.add(const Duration(hours: 1)),
               subject: _subjectCollection[random.nextInt(8)],
               color: _colorCollection[random.nextInt(8)],
               startTimeZone: '',
               endTimeZone: '',
-              resourceIds: employeeIds));
+              resourceIds: employeeIds,
+            ),
+          );
         }
       }
     }
   }
 
   Widget _getSpecialRegionWidget(
-      BuildContext context, TimeRegionDetails details) {
+    BuildContext context,
+    TimeRegionDetails details,
+  ) {
     if (details.region.text == 'Lunch') {
       return Container(
         color: details.region.color,
         alignment: Alignment.center,
         child: Icon(
           Icons.restaurant_menu,
-          color: Colors.grey.withOpacity(0.5),
+          color: Colors.grey.withValues(alpha: 0.5),
         ),
       );
     } else if (details.region.text == 'Not Available') {
       return Container(
         color: details.region.color,
         alignment: Alignment.center,
-        child: Icon(
-          Icons.block,
-          color: Colors.grey.withOpacity(0.5),
-        ),
+        child: Icon(Icons.block, color: Colors.grey.withValues(alpha: 0.5)),
       );
     }
-
     return Container(color: details.region.color);
   }
 
-  /// Returns the calendar widget based on the properties passed
-  SfCalendar _getShiftScheduler(
-      [CalendarDataSource? calendarDataSource,
-      dynamic calendarTapCallback,
-      dynamic viewChangedCallback]) {
+  /// Returns the Calendar widget based on the properties passed.
+  SfCalendar _getShiftScheduler([
+    CalendarDataSource? calendarDataSource,
+    dynamic calendarTapCallback,
+    dynamic viewChangedCallback,
+  ]) {
     return SfCalendar(
       showDatePickerButton: true,
       controller: _calendarController,
@@ -538,11 +566,13 @@ class _ShiftSchedulerState extends SampleViewState {
 }
 
 /// An object to set the appointment collection data source to collection, which
-/// used to map the custom appointment data to the calendar appointment, and
+/// used to map the custom appointment data to the Calendar appointment, and
 /// allows to add, remove or reset the appointment collection.
 class _ShiftDataSource extends CalendarDataSource {
   _ShiftDataSource(
-      List<Appointment> source, List<CalendarResource> resourceColl) {
+    List<Appointment> source,
+    List<CalendarResource> resourceColl,
+  ) {
     appointments = source;
     resources = resourceColl;
   }

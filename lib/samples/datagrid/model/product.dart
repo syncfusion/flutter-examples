@@ -2,8 +2,16 @@
 /// information about the product which will be rendered in datagrid.
 class Product {
   /// Creates the product class with required details.
-  Product(this.id, this.productId, this.product, this.quantity, this.unitPrice,
-      this.city, this.orderDate, this.name);
+  Product(
+    this.id,
+    this.productId,
+    this.product,
+    this.quantity,
+    this.unitPrice,
+    this.city,
+    this.orderDate,
+    this.name,
+  );
 
   /// Id of product.
   final int id;

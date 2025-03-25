@@ -1,38 +1,38 @@
-///Dart imports
+/// Dart import.
 import 'dart:math';
 
-///Package imports
+/// Package imports.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-///calendar import
+/// Calendar import.
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Widget of getting started calendar
+/// Widget of getting started Calendar.
 class GettingStartedCalendar extends SampleView {
-  /// Creates default getting started calendar
+  /// Creates default getting started Calendar.
   const GettingStartedCalendar(Key key) : super(key: key);
 
   @override
   GettingStartedCalendarState createState() => GettingStartedCalendarState();
 }
 
-/// Represents the state class of  GettingStartedCalendarState
+/// Represents the state class of GettingStartedCalendarState.
 class GettingStartedCalendarState extends SampleViewState {
-  /// Creates an instance of  GettingStartedCalendarState state
+  /// Creates an instance of GettingStartedCalendarState state.
   GettingStartedCalendarState();
 
   final List<String> _subjectCollection = <String>[];
   final List<Color> _colorCollection = <Color>[];
   final _MeetingDataSource _events = _MeetingDataSource(<_Meeting>[]);
-  final DateTime _minDate =
-          DateTime.now().subtract(const Duration(days: 365 ~/ 2)),
+  final DateTime _minDate = DateTime.now().subtract(
+        const Duration(days: 365 ~/ 2),
+      ),
       _maxDate = DateTime.now().add(const Duration(days: 365 ~/ 2));
-
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.day,
     CalendarView.week,
@@ -41,44 +41,44 @@ class GettingStartedCalendarState extends SampleViewState {
     CalendarView.timelineWeek,
     CalendarView.timelineWorkWeek,
     CalendarView.month,
-    CalendarView.schedule
+    CalendarView.schedule,
   ];
 
   final List<String> _viewNavigationModeList =
       <String>['snap', 'none'].toList();
-  final List<String> _numberOfDaysList = <String>[
-    'default',
-    '1 day',
-    '2 days',
-    '3 days',
-    '4 days',
-    '5 days',
-    '6 days',
-    '7 days'
-  ].toList();
+  final List<String> _numberOfDaysList =
+      <String>[
+        'default',
+        '1 day',
+        '2 days',
+        '3 days',
+        '4 days',
+        '5 days',
+        '6 days',
+        '7 days',
+      ].toList();
 
-  final List<String> _numberOfDaysListWorkWeek = <String>[
-    'default',
-    '1 day',
-    '2 days',
-    '3 days',
-    '4 days',
-    '5 days',
-  ].toList();
+  final List<String> _numberOfDaysListWorkWeek =
+      <String>[
+        'default',
+        '1 day',
+        '2 days',
+        '3 days',
+        '4 days',
+        '5 days',
+      ].toList();
 
-  /// Global key used to maintain the state, when we change the parent of the
-  /// widget
+  /// Global key used to maintain the state,
+  /// when we change the parent of the widget.
   final GlobalKey _globalKey = GlobalKey();
   final ScrollController _controller = ScrollController();
   final CalendarController _calendarController = CalendarController();
-
   List<DateTime> _blackoutDates = <DateTime>[];
   bool _showLeadingAndTrailingDates = true;
   bool _showDatePickerButton = true;
   bool _allowViewNavigation = true;
   bool _showCurrentTimeIndicator = true;
   StateSetter? _setter;
-
   ViewNavigationMode _viewNavigationMode = ViewNavigationMode.snap;
   String _viewNavigationModeString = 'snap';
   bool _showWeekNumber = false;
@@ -95,45 +95,59 @@ class GettingStartedCalendarState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final Widget calendar = Theme(
-
-        /// The key set here to maintain the state,
-        ///  when we change the parent of the widget
-        key: _globalKey,
-        data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
-        child: _getGettingStartedCalendar(_calendarController, _events,
-            _onViewChanged, _minDate, _maxDate, scheduleViewBuilder));
-
+      /// The key set here to maintain the state,
+      ///  when we change the parent of the widget.
+      key: _globalKey,
+      data: model.themeData.copyWith(
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
+      ),
+      child: _getGettingStartedCalendar(
+        _calendarController,
+        _events,
+        _onViewChanged,
+        _minDate,
+        _maxDate,
+        scheduleViewBuilder,
+      ),
+    );
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Row(children: <Widget>[
-        Expanded(
-          child: _calendarController.view == CalendarView.month &&
-                  model.isWebFullView &&
-                  screenHeight < 800
-              ? Scrollbar(
-                  thumbVisibility: true,
-                  controller: _controller,
-                  child: ListView(
-                    controller: _controller,
-                    children: <Widget>[
-                      Container(
-                        color: model.sampleOutputCardColor,
-                        height: 600,
-                        child: calendar,
-                      )
-                    ],
-                  ))
-              : Container(color: model.sampleOutputCardColor, child: calendar),
-        )
-      ]),
+      body: Row(
+        children: <Widget>[
+          Expanded(
+            child:
+                _calendarController.view == CalendarView.month &&
+                        model.isWebFullView &&
+                        screenHeight < 800
+                    ? Scrollbar(
+                      thumbVisibility: true,
+                      controller: _controller,
+                      child: ListView(
+                        controller: _controller,
+                        children: <Widget>[
+                          Container(
+                            color: model.sampleOutputCardColor,
+                            height: 600,
+                            child: calendar,
+                          ),
+                        ],
+                      ),
+                    )
+                    : Container(
+                      color: model.sampleOutputCardColor,
+                      child: calendar,
+                    ),
+          ),
+        ],
+      ),
     );
   }
 
-  /// The method called whenever the calendar view navigated to previous/next
-  /// view or switched to different calendar view, based on the view changed
-  /// details new appointment collection added to the calendar
+  /// The method called whenever the Calendar view navigated to previous/next
+  /// view or switched to different Calendar view, based on the view changed
+  /// details new appointment collection added to the Calendar.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     final List<_Meeting> appointment = <_Meeting>[];
     _events.appointments.clear();
@@ -142,11 +156,13 @@ class GettingStartedCalendarState extends SampleViewState {
     if (_calendarController.view == CalendarView.month ||
         _calendarController.view == CalendarView.timelineMonth) {
       for (int i = 0; i < 5; i++) {
-        blockedDates.add(visibleDatesChangedDetails.visibleDates[
-            random.nextInt(visibleDatesChangedDetails.visibleDates.length)]);
+        blockedDates.add(
+          visibleDatesChangedDetails.visibleDates[random.nextInt(
+            visibleDatesChangedDetails.visibleDates.length,
+          )],
+        );
       }
     }
-
     SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       setState(() {
         if (_calendarController.view == CalendarView.workWeek) {
@@ -171,8 +187,7 @@ class GettingStartedCalendarState extends SampleViewState {
       }
     });
 
-    /// Creates new appointment collection based on
-    /// the visible dates in calendar.
+    /// Creates new appointment collection based on visible dates in Calendar.
     if (_calendarController.view != CalendarView.schedule) {
       for (int i = 0; i < visibleDatesChangedDetails.visibleDates.length; i++) {
         final DateTime date = visibleDatesChangedDetails.visibleDates[i];
@@ -183,37 +198,53 @@ class GettingStartedCalendarState extends SampleViewState {
         }
         final int count = 1 + random.nextInt(model.isWebFullView ? 2 : 3);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate =
-              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
-          appointment.add(_Meeting(
-            _subjectCollection[random.nextInt(7)],
-            startDate,
-            startDate.add(Duration(hours: random.nextInt(3))),
-            _colorCollection[random.nextInt(9)],
-            false,
-          ));
+          final DateTime startDate = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            8 + random.nextInt(8),
+          );
+          appointment.add(
+            _Meeting(
+              _subjectCollection[random.nextInt(7)],
+              startDate,
+              startDate.add(Duration(hours: random.nextInt(3))),
+              _colorCollection[random.nextInt(9)],
+              false,
+            ),
+          );
         }
       }
     } else {
-      final DateTime rangeStartDate =
-          DateTime.now().add(const Duration(days: -(365 ~/ 2)));
-      final DateTime rangeEndDate =
-          DateTime.now().add(const Duration(days: 365));
-      for (DateTime i = rangeStartDate;
-          i.isBefore(rangeEndDate);
-          i = i.add(const Duration(days: 1))) {
+      final DateTime rangeStartDate = DateTime.now().add(
+        const Duration(days: -(365 ~/ 2)),
+      );
+      final DateTime rangeEndDate = DateTime.now().add(
+        const Duration(days: 365),
+      );
+      for (
+        DateTime i = rangeStartDate;
+        i.isBefore(rangeEndDate);
+        i = i.add(const Duration(days: 1))
+      ) {
         final DateTime date = i;
         final int count = 1 + random.nextInt(3);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate =
-              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
-          appointment.add(_Meeting(
-            _subjectCollection[random.nextInt(7)],
-            startDate,
-            startDate.add(Duration(hours: random.nextInt(3))),
-            _colorCollection[random.nextInt(9)],
-            false,
-          ));
+          final DateTime startDate = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            8 + random.nextInt(8),
+          );
+          appointment.add(
+            _Meeting(
+              _subjectCollection[random.nextInt(7)],
+              startDate,
+              startDate.add(Duration(hours: random.nextInt(3))),
+              _colorCollection[random.nextInt(9)],
+              false,
+            ),
+          );
         }
       }
     }
@@ -252,7 +283,7 @@ class GettingStartedCalendarState extends SampleViewState {
     _colorCollection.add(const Color(0xFF0A8043));
   }
 
-  /// Allows/Restrict switching to previous/next views through swipe interaction
+  /// Allow/Restrict switching to previous/next views through swipe interaction.
   void onViewNavigationModeChange(String value) {
     _viewNavigationModeString = value;
     if (value == 'snap') {
@@ -261,11 +292,11 @@ class GettingStartedCalendarState extends SampleViewState {
       _viewNavigationMode = ViewNavigationMode.none;
     }
     setState(() {
-      /// update the view navigation mode changes
+      /// Update the view navigation mode changes.
     });
   }
 
-  /// Allows to switching the days count customization in calendar.
+  /// Allows to switching the days count customization in Calendar.
   void customNumberOfDaysInView(String value) {
     _numberOfDaysString = value;
     if (value == 'default') {
@@ -291,26 +322,29 @@ class GettingStartedCalendarState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      _setter = stateSetter;
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text('Allow view navigation',
+      builder: (BuildContext context, StateSetter stateSetter) {
+        _setter = stateSetter;
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Allow view navigation',
                   softWrap: false,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Theme(
-                data: Theme.of(context)
-                    .copyWith(canvasColor: model.drawerBackgroundColor),
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Transform.scale(
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+                Theme(
+                  data: Theme.of(
+                    context,
+                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Transform.scale(
                       scale: 0.8,
                       child: CupertinoSwitch(
-                        activeColor: model.primaryColor,
+                        activeTrackColor: model.primaryColor,
                         value: _allowViewNavigation,
                         onChanged: (bool value) {
                           setState(() {
@@ -318,28 +352,32 @@ class GettingStartedCalendarState extends SampleViewState {
                             stateSetter(() {});
                           });
                         },
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text('Show date picker button',
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Show date picker button',
                   softWrap: false,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor)),
-              Container(
-                padding: EdgeInsets.zero,
-                child: Theme(
-                  data: Theme.of(context)
-                      .copyWith(canvasColor: model.drawerBackgroundColor),
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Transform.scale(
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+                Container(
+                  padding: EdgeInsets.zero,
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Transform.scale(
                         scale: 0.8,
                         child: CupertinoSwitch(
-                          activeColor: model.primaryColor,
+                          activeTrackColor: model.primaryColor,
                           value: _showDatePickerButton,
                           onChanged: (bool value) {
                             setState(() {
@@ -347,91 +385,103 @@ class GettingStartedCalendarState extends SampleViewState {
                               stateSetter(() {});
                             });
                           },
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
                   child: Text(
-                      model.isWebFullView
-                          ? 'Show trailing and leading \ndates'
-                          : 'Show trailing and leading dates',
-                      softWrap: false,
-                      style:
-                          TextStyle(fontSize: 16.0, color: model.textColor))),
-              Theme(
-                  data: Theme.of(context)
-                      .copyWith(canvasColor: model.drawerBackgroundColor),
+                    model.isWebFullView
+                        ? 'Show trailing and leading \ndates'
+                        : 'Show trailing and leading dates',
+                    softWrap: false,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Theme(
+                  data: Theme.of(
+                    context,
+                  ).copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
-                        scale: 0.8,
-                        child: CupertinoSwitch(
-                          activeColor: model.primaryColor,
-                          value: _showLeadingAndTrailingDates,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _showLeadingAndTrailingDates = value;
-                              stateSetter(() {});
-                            });
-                          },
-                        )),
-                  )),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                  child: Text(
-                      model.isWebFullView
-                          ? 'Show current time \nindicator'
-                          : 'Show current time indicator',
-                      softWrap: false,
-                      style:
-                          TextStyle(fontSize: 16.0, color: model.textColor))),
-              Theme(
-                  data: Theme.of(context)
-                      .copyWith(canvasColor: model.drawerBackgroundColor),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Transform.scale(
-                        scale: 0.8,
-                        child: CupertinoSwitch(
-                          activeColor: model.primaryColor,
-                          value: _showCurrentTimeIndicator,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _showCurrentTimeIndicator = value;
-                              stateSetter(() {});
-                            });
-                          },
-                        )),
-                  )),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                  child: Text('Show week number',
-                      softWrap: false,
-                      style:
-                          TextStyle(fontSize: 16.0, color: model.textColor))),
-              Theme(
-                data: Theme.of(context)
-                    .copyWith(canvasColor: model.drawerBackgroundColor),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Transform.scale(
                       scale: 0.8,
                       child: CupertinoSwitch(
-                        activeColor: model.primaryColor,
+                        activeTrackColor: model.primaryColor,
+                        value: _showLeadingAndTrailingDates,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _showLeadingAndTrailingDates = value;
+                            stateSetter(() {});
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    model.isWebFullView
+                        ? 'Show current time \nindicator'
+                        : 'Show current time indicator',
+                    softWrap: false,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Theme(
+                  data: Theme.of(
+                    context,
+                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Transform.scale(
+                      scale: 0.8,
+                      child: CupertinoSwitch(
+                        activeTrackColor: model.primaryColor,
+                        value: _showCurrentTimeIndicator,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _showCurrentTimeIndicator = value;
+                            stateSetter(() {});
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'Show week number',
+                    softWrap: false,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Theme(
+                  data: Theme.of(
+                    context,
+                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Transform.scale(
+                      scale: 0.8,
+                      child: CupertinoSwitch(
+                        activeTrackColor: model.primaryColor,
                         value: _showWeekNumber,
                         onChanged: (bool value) {
                           setState(() {
@@ -439,98 +489,119 @@ class GettingStartedCalendarState extends SampleViewState {
                             stateSetter(() {});
                           });
                         },
-                      )),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
                   flex: model.isWebFullView ? 5 : 6,
                   child: Text(
-                      model.isWebFullView
-                          ? 'View navigation \nmode'
-                          : 'View navigation mode',
-                      softWrap: false,
-                      style:
-                          TextStyle(fontSize: 16.0, color: model.textColor))),
-              Expanded(
-                flex: model.isWebFullView ? 5 : 4,
-                child: Container(
-                  padding: const EdgeInsets.only(left: 60),
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
+                    model.isWebFullView
+                        ? 'View navigation \nmode'
+                        : 'View navigation mode',
+                    softWrap: false,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: model.isWebFullView ? 5 : 4,
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 60),
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
                       dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
+                      underline: Container(
+                        color: const Color(0xFFBDBDBD),
+                        height: 1,
+                      ),
                       value: _viewNavigationModeString,
-                      items: _viewNavigationModeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'Snap',
-                            child: Text(value,
+                      items:
+                          _viewNavigationModeList.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'Snap',
+                              child: Text(
+                                value,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
+                                style: TextStyle(color: model.textColor),
+                              ),
+                            );
+                          }).toList(),
                       onChanged: (dynamic value) {
                         onViewNavigationModeChange(value);
                         stateSetter(() {});
-                      }),
+                      },
+                    ),
+                  ),
                 ),
-              )
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
                   flex: model.isWebFullView ? 5 : 6,
-                  child: Text('Number of days',
-                      softWrap: false,
-                      style:
-                          TextStyle(fontSize: 16.0, color: model.textColor))),
-              Expanded(
-                flex: model.isWebFullView ? 6 : 4,
-                child: Container(
-                  padding: const EdgeInsets.only(left: 60),
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
+                  child: Text(
+                    'Number of days',
+                    softWrap: false,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: model.isWebFullView ? 6 : 4,
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 60),
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
                       dropdownColor: model.drawerBackgroundColor,
                       focusColor: Colors.transparent,
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
+                      underline: Container(
+                        color: const Color(0xFFBDBDBD),
+                        height: 1,
+                      ),
                       value: _numberOfDaysString,
-                      items: (_calendarController.view == CalendarView.workWeek
-                              ? _numberOfDaysListWorkWeek
-                              : _numberOfDaysList)
-                          .map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'default',
-                            child: Text(value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
+                      items:
+                          (_calendarController.view == CalendarView.workWeek
+                                  ? _numberOfDaysListWorkWeek
+                                  : _numberOfDaysList)
+                              .map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: (value != null) ? value : 'default',
+                                  child: Text(
+                                    value,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: model.textColor),
+                                  ),
+                                );
+                              })
+                              .toList(),
                       onChanged: (dynamic value) {
                         customNumberOfDaysInView(value);
                         stateSetter(() {});
-                      }),
+                      },
+                    ),
+                  ),
                 ),
-              )
-            ],
-          )
-        ],
-      );
-    });
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  /// Returns the calendar widget based on the properties passed.
-  SfCalendar _getGettingStartedCalendar(
-      [CalendarController? calendarController,
-      CalendarDataSource? calendarDataSource,
-      ViewChangedCallback? viewChangedCallback,
-      DateTime? minDate,
-      DateTime? maxDate,
-      dynamic scheduleViewBuilder]) {
+  /// Returns the Calendar widget based on the properties passed.
+  SfCalendar _getGettingStartedCalendar([
+    CalendarController? calendarController,
+    CalendarDataSource? calendarDataSource,
+    ViewChangedCallback? viewChangedCallback,
+    DateTime? minDate,
+    DateTime? maxDate,
+    dynamic scheduleViewBuilder,
+  ]) {
     return SfCalendar(
       controller: calendarController,
       dataSource: calendarDataSource,
@@ -543,16 +614,19 @@ class GettingStartedCalendarState extends SampleViewState {
       onViewChanged: viewChangedCallback,
       blackoutDates: _blackoutDates,
       blackoutDatesTextStyle: TextStyle(
-          decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
-          color: Colors.red),
+        decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
+        color: Colors.red,
+      ),
       minDate: minDate,
       maxDate: maxDate,
       monthViewSettings: MonthViewSettings(
-          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-          showTrailingAndLeadingDates: _showLeadingAndTrailingDates),
+        appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+        showTrailingAndLeadingDates: _showLeadingAndTrailingDates,
+      ),
       timeSlotViewSettings: TimeSlotViewSettings(
-          numberOfDaysInView: _numberOfDays,
-          minimumAppointmentDuration: const Duration(minutes: 60)),
+        numberOfDaysInView: _numberOfDays,
+        minimumAppointmentDuration: const Duration(minutes: 60),
+      ),
       viewNavigationMode: _viewNavigationMode,
       showWeekNumber: _showWeekNumber,
     );
@@ -590,15 +664,18 @@ String _getMonthDate(int month) {
 
 /// Returns the builder for schedule view.
 Widget scheduleViewBuilder(
-    BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
+  BuildContext buildContext,
+  ScheduleViewMonthHeaderDetails details,
+) {
   final String monthName = _getMonthDate(details.date.month);
   return Stack(
     children: <Widget>[
       Image(
-          image: ExactAssetImage('images/' + monthName + '.png'),
-          fit: BoxFit.cover,
-          width: details.bounds.width,
-          height: details.bounds.height),
+        image: ExactAssetImage('images/' + monthName + '.png'),
+        fit: BoxFit.cover,
+        width: details.bounds.width,
+        height: details.bounds.height,
+      ),
       Positioned(
         left: 55,
         right: 0,
@@ -608,13 +685,13 @@ Widget scheduleViewBuilder(
           monthName + ' ' + details.date.year.toString(),
           style: const TextStyle(fontSize: 18),
         ),
-      )
+      ),
     ],
   );
 }
 
 /// An object to set the appointment collection data source to collection, which
-/// used to map the custom appointment data to the calendar appointment, and
+/// used to map the custom appointment data to the Calendar appointment, and
 /// allows to add, remove or reset the appointment collection.
 class _MeetingDataSource extends CalendarDataSource<_Meeting> {
   _MeetingDataSource(this.source);
@@ -651,14 +728,21 @@ class _MeetingDataSource extends CalendarDataSource<_Meeting> {
 
   @override
   _Meeting convertAppointmentToObject(
-      _Meeting eventName, Appointment appointment) {
-    return _Meeting(appointment.subject, appointment.startTime,
-        appointment.endTime, appointment.color, appointment.isAllDay);
+    _Meeting eventName,
+    Appointment appointment,
+  ) {
+    return _Meeting(
+      appointment.subject,
+      appointment.startTime,
+      appointment.endTime,
+      appointment.color,
+      appointment.isAllDay,
+    );
   }
 }
 
 /// Custom business object class which contains properties to hold the detailed
-/// information about the event data which will be rendered in calendar.
+/// information about the event data which will be rendered in Calendar.
 class _Meeting {
   _Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
 

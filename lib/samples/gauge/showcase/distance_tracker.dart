@@ -28,8 +28,8 @@ class _DistanceTrackerExampleState extends SampleViewState {
           (MediaQuery.of(context).orientation == Orientation.portrait)
               ? 138
               : model.isWebFullView
-                  ? 138
-                  : 136;
+              ? 138
+              : 136;
     });
     return _buildDistanceTrackerExample();
   }
@@ -72,7 +72,7 @@ class _DistanceTrackerExampleState extends SampleViewState {
                         fontSize: isCardView ? 12 : 14,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

@@ -39,10 +39,8 @@ class _ColorCustomizedRangeSliderPageState extends SampleViewState {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           title('Active and inactive track color'),
-          const SizedBox(
-            height: 10,
-          ),
-          GradientTrackRangeSlider(gradientKey)
+          const SizedBox(height: 10),
+          GradientTrackRangeSlider(gradientKey),
         ],
       ),
     );
@@ -57,13 +55,14 @@ class _ColorCustomizedRangeSliderPageState extends SampleViewState {
         return constraints.maxHeight > 400
             ? rangeSlider
             : SingleChildScrollView(
-                child: SizedBox(
-                  height: 400,
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                      child: rangeSlider),
+              child: SizedBox(
+                height: 400,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                  child: rangeSlider,
                 ),
-              );
+              ),
+            );
       },
     );
   }

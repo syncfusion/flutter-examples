@@ -1,27 +1,31 @@
-/// Package imports
+/// Package imports.
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
+/// Chart import.
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-/// Local imports
+/// Local imports.
 import '../../../../model/sample_view.dart';
 import 'indicator_data_source.dart';
 
-/// Renders the OHLC chart with Accumulation distribution indicator samples.
+/// Renders the OHLC series chart with Accumulation
+/// distribution indicator samples.
 class AdIndicator extends SampleView {
-  /// creates the OHLC chart with Accumulation distribution indicator.
+  /// creates the OHLC series chart with Accumulation
+  /// distribution indicator.
   const AdIndicator(Key key) : super(key: key);
 
   @override
   _AdIndicatorState createState() => _AdIndicatorState();
 }
 
-/// State class of the OHLC chart with Accumulation distribution indicator.
+/// State class for the OHLC series chart with Accumulation
+/// distribution indicator.
 class _AdIndicatorState extends SampleViewState {
   _AdIndicatorState();
   TrackballBehavior? _trackballBehavior;
+  List<ChartSampleData>? _chartData;
 
   @override
   void initState() {
@@ -31,6 +35,7 @@ class _AdIndicatorState extends SampleViewState {
       activationMode: ActivationMode.singleTap,
       tooltipDisplayMode: TrackballDisplayMode.groupAllPoints,
     );
+    _chartData = getChartData();
   }
 
   @override
@@ -38,7 +43,8 @@ class _AdIndicatorState extends SampleViewState {
     return _buildDefaultAdIndicator();
   }
 
-  /// Returns the OHLC chart with Accumulation distribution indicator.
+  /// Returns a cartesian OHLC chart with Accumulation
+  /// distribution indicator.
   SfCartesianChart _buildDefaultAdIndicator() {
     return SfCartesianChart(
       legend: Legend(isVisible: !isCardView),
@@ -71,26 +77,37 @@ class _AdIndicatorState extends SampleViewState {
       ],
       trackballBehavior: _trackballBehavior,
       indicators: <TechnicalIndicator<ChartSampleData, DateTime>>[
-        /// AD indicator mentioned here.
+        /// Accumulation Distribution Indicator for the 'AAPL' series.
         AccumulationDistributionIndicator<ChartSampleData, DateTime>(
           seriesName: 'AAPL',
           yAxisName: 'yAxis',
         ),
       ],
       title: ChartTitle(text: isCardView ? '' : 'AAPL - 2016'),
-      series: <CartesianSeries<ChartSampleData, DateTime>>[
-        HiloOpenCloseSeries<ChartSampleData, DateTime>(
-          dataSource: getChartData(),
-          xValueMapper: (ChartSampleData sales, _) => sales.x as DateTime,
-          lowValueMapper: (ChartSampleData sales, _) => sales.low,
-          highValueMapper: (ChartSampleData sales, _) => sales.high,
-          openValueMapper: (ChartSampleData sales, _) => sales.open,
-          closeValueMapper: (ChartSampleData sales, _) => sales.close,
-          volumeValueMapper: (ChartSampleData sales, _) => sales.volume,
-          name: 'AAPL',
-          opacity: 0.7,
-        ),
-      ],
+      series: _buildHiloOpenCloseSeries(),
     );
+  }
+
+  /// Returns the cartesian hilo open close series.
+  List<CartesianSeries<ChartSampleData, DateTime>> _buildHiloOpenCloseSeries() {
+    return <CartesianSeries<ChartSampleData, DateTime>>[
+      HiloOpenCloseSeries<ChartSampleData, DateTime>(
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        lowValueMapper: (ChartSampleData data, int index) => data.low,
+        highValueMapper: (ChartSampleData data, int index) => data.high,
+        openValueMapper: (ChartSampleData data, int index) => data.open,
+        closeValueMapper: (ChartSampleData data, int index) => data.close,
+        volumeValueMapper: (ChartSampleData data, int index) => data.volume,
+        name: 'AAPL',
+        opacity: 0.7,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _chartData!.clear();
+    super.dispose();
   }
 }

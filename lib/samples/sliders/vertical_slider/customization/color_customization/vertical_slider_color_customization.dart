@@ -30,64 +30,73 @@ class _VerticalSliderColorCustomizationPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithTrackColorCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(
-            activeTrackColor: Colors.teal,
-            inactiveTrackColor: Colors.teal.withOpacity(0.24),
-            thumbColor: Colors.teal,
-            tooltipBackgroundColor: Colors.teal,
-            overlayColor: Colors.teal.withOpacity(0.24)),
-        child: SfSlider.vertical(
-            showLabels: true,
-            showTicks: true,
-            interval: 25,
-            min: -50.0,
-            max: 50.0,
-            value: _trackSliderValue,
-            onChanged: (dynamic values) {
-              setState(() {
-                _trackSliderValue = values as double;
-              });
-            },
-            enableTooltip: true,
-            numberFormat: NumberFormat('#')));
+      data: SfSliderThemeData(
+        activeTrackColor: Colors.teal,
+        inactiveTrackColor: Colors.teal.withValues(alpha: 0.24),
+        thumbColor: Colors.teal,
+        tooltipBackgroundColor: Colors.teal,
+        overlayColor: Colors.teal.withValues(alpha: 0.24),
+      ),
+      child: SfSlider.vertical(
+        showLabels: true,
+        showTicks: true,
+        interval: 25,
+        min: -50.0,
+        max: 50.0,
+        value: _trackSliderValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _trackSliderValue = values as double;
+          });
+        },
+        enableTooltip: true,
+        numberFormat: NumberFormat('#'),
+      ),
+    );
   }
 
   SfSliderTheme _sliderWithThumbStrokeColorCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(
-            inactiveDividerColor: model.isWebFullView
+      data: SfSliderThemeData(
+        inactiveDividerColor:
+            model.isWebFullView
                 ? model.backgroundColor
                 : model.sampleOutputCardColor,
-            activeDividerColor: model.isWebFullView
+        activeDividerColor:
+            model.isWebFullView
                 ? model.backgroundColor
                 : model.sampleOutputCardColor,
-            activeDividerStrokeWidth: 2,
-            activeDividerStrokeColor: Colors.deepOrange.withOpacity(0.24),
-            inactiveDividerStrokeWidth: 2,
-            inactiveDividerStrokeColor: Colors.deepOrange,
-            activeDividerRadius: 5.0,
-            inactiveDividerRadius: 5.0,
-            activeTrackColor: Colors.deepOrange,
-            inactiveTrackColor: Colors.deepOrange.withOpacity(0.24),
-            overlayColor: Colors.deepOrange.withOpacity(0.12),
-            thumbColor: model.isWebFullView
+        activeDividerStrokeWidth: 2,
+        activeDividerStrokeColor: Colors.deepOrange.withValues(alpha: 0.24),
+        inactiveDividerStrokeWidth: 2,
+        inactiveDividerStrokeColor: Colors.deepOrange,
+        activeDividerRadius: 5.0,
+        inactiveDividerRadius: 5.0,
+        activeTrackColor: Colors.deepOrange,
+        inactiveTrackColor: Colors.deepOrange.withValues(alpha: 0.24),
+        overlayColor: Colors.deepOrange.withValues(alpha: 0.12),
+        thumbColor:
+            model.isWebFullView
                 ? model.backgroundColor
                 : model.sampleOutputCardColor,
-            thumbStrokeWidth: 2.0,
-            tooltipBackgroundColor: Colors.deepOrange,
-            thumbStrokeColor: Colors.deepOrange),
-        child: SfSlider.vertical(
-            interval: 25,
-            showDividers: true,
-            max: 100.0,
-            value: _thumbStrokeSliderValue,
-            onChanged: (dynamic values) {
-              setState(() {
-                _thumbStrokeSliderValue = values as double;
-              });
-            },
-            enableTooltip: true,
-            numberFormat: NumberFormat('#')));
+        thumbStrokeWidth: 2.0,
+        tooltipBackgroundColor: Colors.deepOrange,
+        thumbStrokeColor: Colors.deepOrange,
+      ),
+      child: SfSlider.vertical(
+        interval: 25,
+        showDividers: true,
+        max: 100.0,
+        value: _thumbStrokeSliderValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _thumbStrokeSliderValue = values as double;
+          });
+        },
+        enableTooltip: true,
+        numberFormat: NumberFormat('#'),
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -104,31 +113,39 @@ class _VerticalSliderColorCustomizationPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.all(padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.all(padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithTrackColorCustomization()),
-              const Text('Track color')
-            ]),
-            Column(children: <Widget>[
+              const Text('Track color'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithThumbStrokeColorCustomization()),
               const Text('Stroke color'),
-            ]),
-          ],
-        ));
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget slider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? slider
-          : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget slider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? slider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+      },
+    );
   }
 }

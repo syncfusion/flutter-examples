@@ -43,50 +43,94 @@ class _MapZoomingPageState extends SampleViewState {
 
     _touristPlaces = <_TouristPlaceDetails>[
       const _TouristPlaceDetails(
-          MapLatLng(-25.6953, -54.4367), 'Iguazu Falls, Argentina'),
-      const _TouristPlaceDetails(MapLatLng(-50.9423, -73.4068),
-          'Torres del Paine National Park, Patagonia, Chile'),
+        MapLatLng(-25.6953, -54.4367),
+        'Iguazu Falls, Argentina',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-15.9254, -69.3354), 'Lake Titicaca, Bolivia'),
+        MapLatLng(-50.9423, -73.4068),
+        'Torres del Paine National Park, Patagonia, Chile',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-13.1631, -72.5450), 'Machu Picchu, Peru'),
+        MapLatLng(-15.9254, -69.3354),
+        'Lake Titicaca, Bolivia',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-0.1862504, -78.5706247), 'The Amazon via Quito, Ecuador'),
+        MapLatLng(-13.1631, -72.5450),
+        'Machu Picchu, Peru',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(5.9701, -62.5362), 'Angel Falls, Venezuela'),
+        MapLatLng(-0.1862504, -78.5706247),
+        'The Amazon via Quito, Ecuador',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-14.0875, -75.7626), 'Huacachina, Peru'),
+        MapLatLng(5.9701, -62.5362),
+        'Angel Falls, Venezuela',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-25.2637, -57.5759), 'Asuncion, Paraguay'),
+        MapLatLng(-14.0875, -75.7626),
+        'Huacachina, Peru',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-33.0472, -71.6127), 'Valparaiso, Chile'),
+        MapLatLng(-25.2637, -57.5759),
+        'Asuncion, Paraguay',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(0.8056, -77.5858), 'Santuario de las lajas, Colombia'),
+        MapLatLng(-33.0472, -71.6127),
+        'Valparaiso, Chile',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-19.5723, -65.7550), 'Potosi, Bolivia'),
+        MapLatLng(0.8056, -77.5858),
+        'Santuario de las lajas, Colombia',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-27.5986, -48.5187), 'Florianopolis, Brazil'),
+        MapLatLng(-19.5723, -65.7550),
+        'Potosi, Bolivia',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-22.7953, -67.8361), 'Laguna Verde, Bolivia'),
+        MapLatLng(-27.5986, -48.5187),
+        'Florianopolis, Brazil',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-50.5025092, -73.1997346), 'Perito Moreno, Venezuela'),
+        MapLatLng(-22.7953, -67.8361),
+        'Laguna Verde, Bolivia',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-22.9068, -43.1729), 'Rio de Janeiro, Brazil'),
+        MapLatLng(-50.5025092, -73.1997346),
+        'Perito Moreno, Venezuela',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(5.1765, -59.4808), 'Kaieteur Falls, Guyana'),
+        MapLatLng(-22.9068, -43.1729),
+        'Rio de Janeiro, Brazil',
+      ),
+      const _TouristPlaceDetails(
+        MapLatLng(5.1765, -59.4808),
+        'Kaieteur Falls, Guyana',
+      ),
       const _TouristPlaceDetails(MapLatLng(-13.5320, -71.9675), 'Cusco, Peru'),
       const _TouristPlaceDetails(
-          MapLatLng(-34.6037, -58.3816), 'Buenos Aires, Argentina'),
+        MapLatLng(-34.6037, -58.3816),
+        'Buenos Aires, Argentina',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-23.5505, -46.6333), 'Sao Paulo, Brazil'),
+        MapLatLng(-23.5505, -46.6333),
+        'Sao Paulo, Brazil',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-2.7956, -40.5142), 'Jericoacoara, Brazil'),
+        MapLatLng(-2.7956, -40.5142),
+        'Jericoacoara, Brazil',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-33.4489, -70.6693), 'Santiago, Chile'),
+        MapLatLng(-33.4489, -70.6693),
+        'Santiago, Chile',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(4.7110, -74.0721), 'Bogota, Colombia'),
+        MapLatLng(4.7110, -74.0721),
+        'Bogota, Colombia',
+      ),
       const _TouristPlaceDetails(
-          MapLatLng(-1.3928, -78.4269), 'Banos, Ecuador'),
+        MapLatLng(-1.3928, -78.4269),
+        'Banos, Ecuador',
+      ),
     ];
 
     _countryColors = <_CountryColor>[
@@ -128,99 +172,117 @@ class _MapZoomingPageState extends SampleViewState {
     final ThemeData themeData = Theme.of(context);
     final bool isLightTheme =
         themeData.colorScheme.brightness == Brightness.light;
-    final Color surfaceColor = isLightTheme
-        ? const Color.fromRGBO(45, 45, 45, 1)
-        : const Color.fromRGBO(242, 242, 242, 1);
+    final Color surfaceColor =
+        isLightTheme
+            ? const Color.fromRGBO(45, 45, 45, 1)
+            : const Color.fromRGBO(242, 242, 242, 1);
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final bool scrollEnabled = constraints.maxHeight > 400;
-      double height = scrollEnabled ? constraints.maxHeight : 400;
-      if (model.isWebFullView ||
-          (model.isMobile &&
-              MediaQuery.of(context).orientation == Orientation.landscape)) {
-        final double refHeight = height * 0.6;
-        height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
-      }
-      return Container(
-          padding: scrollEnabled
-              ? EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.05)
-              : const EdgeInsets.only(top: 10, bottom: 15),
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final bool scrollEnabled = constraints.maxHeight > 400;
+        double height = scrollEnabled ? constraints.maxHeight : 400;
+        if (model.isWebFullView ||
+            (model.isMobile &&
+                MediaQuery.of(context).orientation == Orientation.landscape)) {
+          final double refHeight = height * 0.6;
+          height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+        }
+        return Container(
+          padding:
+              scrollEnabled
+                  ? EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.05,
+                    bottom: MediaQuery.of(context).size.height * 0.05,
+                  )
+                  : const EdgeInsets.only(top: 10, bottom: 15),
           child: SfMapsTheme(
             data: SfMapsThemeData(
               shapeHoverColor: Colors.transparent,
               shapeHoverStrokeColor: Colors.grey[700],
               shapeHoverStrokeWidth: 1.5,
             ),
-            child: Column(children: <Widget>[
-              Padding(
+            child: Column(
+              children: <Widget>[
+                Padding(
                   padding: const EdgeInsets.only(top: 15, bottom: 30),
                   child: Align(
-                      child: Text('Tourist Places in South America',
-                          style: Theme.of(context).textTheme.titleMedium))),
-              Expanded(
-                  child: SfMaps(
-                layers: <MapLayer>[
-                  MapShapeLayer(
-                    loadingBuilder: (BuildContext context) {
-                      return const SizedBox(
-                        height: 25,
-                        width: 25,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3,
-                        ),
-                      );
-                    },
-                    color: Colors.white,
-                    strokeColor: const Color.fromRGBO(242, 242, 242, 1),
-                    strokeWidth: 1,
-                    source: _mapSource,
-                    showDataLabels: true,
-                    dataLabelSettings: const MapDataLabelSettings(
-                      overflowMode: MapLabelOverflow.ellipsis,
-                      textStyle: TextStyle(
-                        color: Color.fromRGBO(45, 45, 45, 1),
-                      ),
+                    child: Text(
+                      'Tourist Places in South America',
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    tooltipSettings: MapTooltipSettings(
-                      color: surfaceColor,
-                    ),
-                    initialMarkersCount: _touristPlaces.length,
-                    markerTooltipBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(_touristPlaces[index].place,
-                            style: themeData.textTheme.bodySmall!.copyWith(
-                                color: isLightTheme
-                                    ? const Color.fromRGBO(255, 255, 255, 1)
-                                    : const Color.fromRGBO(10, 10, 10, 1))),
-                      );
-                    },
-                    markerBuilder: (BuildContext context, int index) {
-                      return MapMarker(
-                        latitude: _touristPlaces[index].latLng.latitude,
-                        longitude: _touristPlaces[index].latLng.longitude,
-                        offset: Offset(0, -_markerSize / 2),
-                        size: Size(_markerSize, _markerSize * 2),
-                        child: Icon(
-                          Icons.location_on,
-                          color: isLightTheme
-                              ? const Color.fromRGBO(45, 45, 45, 1)
-                              : const Color.fromRGBO(199, 42, 89, 1),
-                        ),
-                      );
-                    },
-
-                    /// Adding `zoomPanBehavior` will enable the zooming and
-                    /// panning in the shape layer.
-                    zoomPanBehavior: _zoomPanBehavior,
                   ),
-                ],
-              )),
-            ]),
-          ));
-    });
+                ),
+                Expanded(
+                  child: SfMaps(
+                    layers: <MapLayer>[
+                      MapShapeLayer(
+                        loadingBuilder: (BuildContext context) {
+                          return const SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: CircularProgressIndicator(strokeWidth: 3),
+                          );
+                        },
+                        color: Colors.white,
+                        strokeColor: const Color.fromRGBO(242, 242, 242, 1),
+                        strokeWidth: 1,
+                        source: _mapSource,
+                        showDataLabels: true,
+                        dataLabelSettings: const MapDataLabelSettings(
+                          overflowMode: MapLabelOverflow.ellipsis,
+                          textStyle: TextStyle(
+                            color: Color.fromRGBO(45, 45, 45, 1),
+                          ),
+                        ),
+                        tooltipSettings: MapTooltipSettings(
+                          color: surfaceColor,
+                        ),
+                        initialMarkersCount: _touristPlaces.length,
+                        markerTooltipBuilder: (
+                          BuildContext context,
+                          int index,
+                        ) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              _touristPlaces[index].place,
+                              style: themeData.textTheme.bodySmall!.copyWith(
+                                color:
+                                    isLightTheme
+                                        ? const Color.fromRGBO(255, 255, 255, 1)
+                                        : const Color.fromRGBO(10, 10, 10, 1),
+                              ),
+                            ),
+                          );
+                        },
+                        markerBuilder: (BuildContext context, int index) {
+                          return MapMarker(
+                            latitude: _touristPlaces[index].latLng.latitude,
+                            longitude: _touristPlaces[index].latLng.longitude,
+                            offset: Offset(0, -_markerSize / 2),
+                            size: Size(_markerSize, _markerSize * 2),
+                            child: Icon(
+                              Icons.location_on,
+                              color:
+                                  isLightTheme
+                                      ? const Color.fromRGBO(45, 45, 45, 1)
+                                      : const Color.fromRGBO(199, 42, 89, 1),
+                            ),
+                          );
+                        },
+
+                        /// Adding `zoomPanBehavior` will enable the zooming and
+                        /// panning in the shape layer.
+                        zoomPanBehavior: _zoomPanBehavior,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

@@ -1,23 +1,23 @@
-///Package import
+/// Package import.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-/// core import
+/// core import.
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/core.dart';
 
-///Date picker imports
+/// Date picker import.
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-///Local import
+/// Local imports.
 import '../../model/model.dart';
 import '../../model/sample_view.dart';
 import 'popup_picker.dart';
 
-/// Render getting started date picker widget
+/// Renders a date picker widget using the Hijri calendar.
 class HijriDatePicker extends SampleView {
-  /// Creates date picker widget with customized options
+  /// Creates a date picker widget with customized options for the Hijri calendar.
   const HijriDatePicker(Key key) : super(key: key);
 
   @override
@@ -26,6 +26,8 @@ class HijriDatePicker extends SampleView {
 
 class _HijriDatePickerState extends SampleViewState {
   _HijriDatePickerState();
+
+  late Orientation _deviceOrientation;
 
   final HijriDatePickerController _controller = HijriDatePickerController();
   DateRangePickerSelectionMode _selectionMode =
@@ -39,23 +41,20 @@ class _HijriDatePickerState extends SampleViewState {
   bool _isWeb = false;
   bool _showWeekNumber = false;
   bool _showTodayButton = true;
-  late Orientation _deviceOrientation;
 
   String _selectionModeString = 'extendableRange';
-  final List<String> _selectionModeList = <String>[
-    'single',
-    'multiple',
-    'range',
-    'multiRange',
-    'extendableRange'
-  ].toList();
+  final List<String> _selectionModeList =
+      <String>[
+        'single',
+        'multiple',
+        'range',
+        'multiRange',
+        'extendableRange',
+      ].toList();
 
   String _viewModeString = 'month';
-  final List<String> _viewModeList = <String>[
-    'month',
-    'year',
-    'decade',
-  ].toList();
+  final List<String> _viewModeList =
+      <String>['month', 'year', 'decade'].toList();
 
   String _selectionDirectionString = 'both';
   final List<String> _selectionDirectionList =
@@ -69,20 +68,29 @@ class _HijriDatePickerState extends SampleViewState {
     _controller.selectedDates = <HijriDateTime>[
       HijriDateTime.now(),
       HijriDateTime.now().add(const Duration(days: 2)),
-      HijriDateTime.now().subtract(const Duration(days: 2))
+      HijriDateTime.now().subtract(const Duration(days: 2)),
     ];
     _controller.selectedRange = HijriDateRange(
-        HijriDateTime.now().subtract(const Duration(days: 2)),
-        HijriDateTime.now().add(const Duration(days: 2)));
+      HijriDateTime.now().subtract(const Duration(days: 2)),
+      HijriDateTime.now().add(const Duration(days: 2)),
+    );
     _controller.selectedRanges = <HijriDateRange>[
-      HijriDateRange(HijriDateTime.now().subtract(const Duration(days: 2)),
-          HijriDateTime.now().add(const Duration(days: 2))),
-      HijriDateRange(HijriDateTime.now().add(const Duration(days: 8)),
-          HijriDateTime.now().add(const Duration(days: 12))),
-      HijriDateRange(HijriDateTime.now().add(const Duration(days: 15)),
-          HijriDateTime.now().add(const Duration(days: 20))),
-      HijriDateRange(HijriDateTime.now().add(const Duration(days: 22)),
-          HijriDateTime.now().add(const Duration(days: 27)))
+      HijriDateRange(
+        HijriDateTime.now().subtract(const Duration(days: 2)),
+        HijriDateTime.now().add(const Duration(days: 2)),
+      ),
+      HijriDateRange(
+        HijriDateTime.now().add(const Duration(days: 8)),
+        HijriDateTime.now().add(const Duration(days: 12)),
+      ),
+      HijriDateRange(
+        HijriDateTime.now().add(const Duration(days: 15)),
+        HijriDateTime.now().add(const Duration(days: 20)),
+      ),
+      HijriDateRange(
+        HijriDateTime.now().add(const Duration(days: 22)),
+        HijriDateTime.now().add(const Duration(days: 27)),
+      ),
     ];
     super.initState();
   }
@@ -90,21 +98,21 @@ class _HijriDatePickerState extends SampleViewState {
   @override
   void didChangeDependencies() {
     //// Extra small devices (phones, 600px and down)
-//// @media only screen and (max-width: 600px) {...}
-////
-//// Small devices (portrait tablets and large phones, 600px and up)
-//// @media only screen and (min-width: 600px) {...}
-////
-//// Medium devices (landscape tablets, 768px and up)
-//// media only screen and (min-width: 768px) {...}
-////
-//// Large devices (laptops/desktops, 992px and up)
-//// media only screen and (min-width: 992px) {...}
-////
-//// Extra large devices (large laptops and desktops, 1200px and up)
-//// media only screen and (min-width: 1200px) {...}
-//// Default width to render the mobile UI in web, if the device width exceeds
-//// the given width agenda view will render the web UI.
+    //// @media only screen and (max-width: 600px) {...}
+    ////
+    //// Small devices (portrait tablets and large phones, 600px and up)
+    //// @media only screen and (min-width: 600px) {...}
+    ////
+    //// Medium devices (landscape tablets, 768px and up)
+    //// media only screen and (min-width: 768px) {...}
+    ////
+    //// Large devices (laptops/desktops, 992px and up)
+    //// media only screen and (min-width: 992px) {...}
+    ////
+    //// Extra large devices (large laptops and desktops, 1200px and up)
+    //// media only screen and (min-width: 1200px) {...}
+    //// Default width to render the mobile UI in web, if the device width exceeds
+    //// the given width agenda view will render the web UI.
     _isWeb = MediaQuery.of(context).size.width > 767;
     _deviceOrientation = MediaQuery.of(context).orientation;
 
@@ -113,72 +121,88 @@ class _HijriDatePickerState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    final bool enableMultiView = _isWeb &&
+    final bool enableMultiView =
+        _isWeb &&
         (_selectionMode == DateRangePickerSelectionMode.range ||
             _selectionMode == DateRangePickerSelectionMode.multiRange ||
             _selectionMode == DateRangePickerSelectionMode.extendableRange);
     final Widget cardView = Card(
-        elevation: 10,
-        margin: model.isWebFullView
-            ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
-            : const EdgeInsets.all(30),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          color: model.sampleOutputCardColor,
-          child: Theme(
-              data: model.themeData.copyWith(
-                  colorScheme: model.themeData.colorScheme
-                      .copyWith(secondary: model.primaryColor)),
-              child: _getGettingStartedDatePicker(
-                  _controller,
-                  _selectionMode,
-                  _enablePastDates,
-                  _enableSwipingSelection,
-                  _enableViewNavigation,
-                  _showActionButtons,
-                  HijriDateTime.now().subtract(const Duration(days: 200)),
-                  HijriDateTime.now().add(const Duration(days: 200)),
-                  enableMultiView,
-                  _showWeekNumber,
-                  _showTodayButton,
-                  _selectionDirection,
-                  context)),
-        ));
+      elevation: 10,
+      margin:
+          model.isWebFullView
+              ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
+              : const EdgeInsets.all(30),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+        color: model.sampleOutputCardColor,
+        child: Theme(
+          data: model.themeData.copyWith(
+            colorScheme: model.themeData.colorScheme.copyWith(
+              secondary: model.primaryColor,
+            ),
+          ),
+          child: _buildGettingStartedDatePicker(
+            _controller,
+            _selectionMode,
+            _enablePastDates,
+            _enableSwipingSelection,
+            _enableViewNavigation,
+            _showActionButtons,
+            HijriDateTime.now().subtract(const Duration(days: 200)),
+            HijriDateTime.now().add(const Duration(days: 200)),
+            enableMultiView,
+            _showWeekNumber,
+            _showTodayButton,
+            _selectionDirection,
+            context,
+          ),
+        ),
+      ),
+    );
     return Scaffold(
-      backgroundColor: model.themeData == null ||
-              model.themeData.colorScheme.brightness == Brightness.light
-          ? null
-          : const Color(0x00171a21),
-      body: Column(children: <Widget>[
-        Expanded(
+      backgroundColor:
+          model.themeData == null ||
+                  model.themeData.colorScheme.brightness == Brightness.light
+              ? null
+              : const Color(0x00171a21),
+      body: Column(
+        children: <Widget>[
+          Expanded(
             flex: model.isWebFullView ? 9 : 8,
-            child: model.isWebFullView
-                ? Center(
-                    child: SizedBox(
+            child:
+                model.isWebFullView
+                    ? Center(
+                      child: SizedBox(
                         width: !enableMultiView ? 550 : 700,
                         height: 600,
-                        child: cardView))
-                : ListView(padding: EdgeInsets.zero, children: <Widget>[
-                    SizedBox(
-                      height: 450,
-                      child: cardView,
+                        child: cardView,
+                      ),
                     )
-                  ])),
-        Expanded(
-            flex: model.isWebFullView
-                ? 1
-                : model.isMobileResolution &&
+                    : ListView(
+                      padding: EdgeInsets.zero,
+                      children: <Widget>[
+                        SizedBox(height: 450, child: cardView),
+                      ],
+                    ),
+          ),
+          Expanded(
+            flex:
+                model.isWebFullView
+                    ? 1
+                    : model.isMobileResolution &&
                         _deviceOrientation == Orientation.landscape
                     ? 0
                     : 1,
-            child: Container())
-      ]),
+            child: Container(),
+          ),
+        ],
+      ),
     );
   }
 
   /// To change the date range picker view to the selected view, the view which
   /// selected in the dropdown menu set to the view property of the controller.
-  void onPickerViewChange(String value) {
+  void _onPickerViewChange(String value) {
     _viewModeString = value;
     if (value == 'month') {
       _controller.view = HijriDatePickerView.month;
@@ -188,11 +212,11 @@ class _HijriDatePickerState extends SampleViewState {
       _controller.view = HijriDatePickerView.decade;
     }
     setState(() {
-      /// update the date range picker view changes
+      /// update the date range picker view changes.
     });
   }
 
-  void onSelectionDirectionChanged(String value) {
+  void _onSelectionDirectionChanged(String value) {
     _selectionDirectionString = value;
     if (value == 'none') {
       _selectionDirection = ExtendableRangeSelectionDirection.none;
@@ -204,14 +228,14 @@ class _HijriDatePickerState extends SampleViewState {
       _selectionDirection = ExtendableRangeSelectionDirection.both;
     }
     setState(() {
-      /// update the date range picker view changes
+      /// update the date range picker view changes.
     });
   }
 
-  /// To change the date range picker selection mode to the selected mode, the
-  /// mode which selected in the dropdown menu set to the selection mode property,
-  /// which is set to the selection mode property of date range picker.
-  void onSelectionModeChange(String value) {
+  /// Updates the date range picker selection mode based on the selected value
+  /// from the dropdown menu. The selected mode is applied to the
+  /// selection mode property of the date range picker.
+  void _onSelectionModeChange(String value) {
     _selectionModeString = value;
     if (value == 'single') {
       _selectionMode = DateRangePickerSelectionMode.single;
@@ -225,14 +249,13 @@ class _HijriDatePickerState extends SampleViewState {
       _selectionMode = DateRangePickerSelectionMode.extendableRange;
     }
     setState(() {
-      /// update the date range picker selection mode changes
+      /// update the date range picker selection mode changes.
     });
   }
 
-  /// Handled to update the boolean values from the property window, whenever the
-  /// boolean value changed it's value set the corresponding property of date range
-  /// picker.
-  void onBoolValueChange(String property, bool value) {
+  /// Updates the corresponding boolean properties of the date range picker
+  /// whenever a value is changed in the property window.
+  void _onBoolValueChange(String property, bool value) {
     if (property == 'EnablePastDates') {
       _enablePastDates = value;
     } else if (property == 'EnableSwipingSelection') {
@@ -246,383 +269,487 @@ class _HijriDatePickerState extends SampleViewState {
     } else if (property == 'ShowTodayButton') {
       _showTodayButton = value;
     }
-
     setState(() {
-      /// update the bool value changes
+      /// Apply the updated boolean property changes to the date range picker.
     });
   }
 
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      final List<Widget> propertyOptions = <Widget>[];
-      if (!model.isMobile) {
-        _controller.addPropertyChangedListener((String value) {
-          if (value == 'view') {
-            if (_controller.view == HijriDatePickerView.month) {
-              _viewModeString = 'month';
-            } else if (_controller.view == HijriDatePickerView.year) {
-              _viewModeString = 'year';
-            } else if (_controller.view == HijriDatePickerView.decade) {
-              _viewModeString = 'decade';
+      builder: (BuildContext context, StateSetter stateSetter) {
+        final List<Widget> propertyOptions = <Widget>[];
+        if (!model.isMobile) {
+          _controller.addPropertyChangedListener((String value) {
+            if (value == 'view') {
+              if (_controller.view == HijriDatePickerView.month) {
+                _viewModeString = 'month';
+              } else if (_controller.view == HijriDatePickerView.year) {
+                _viewModeString = 'year';
+              } else if (_controller.view == HijriDatePickerView.decade) {
+                _viewModeString = 'decade';
+              }
+              SchedulerBinding.instance.addPostFrameCallback((
+                Duration timeStamp,
+              ) {
+                stateSetter(() {});
+              });
             }
-            SchedulerBinding.instance
-                .addPostFrameCallback((Duration timeStamp) {
-              stateSetter(() {});
-            });
-          }
-        });
-      }
+          });
+        }
 
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-                flex: model.isWebFullView ? 4 : 5,
-                child: Text('Picker view',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-              flex: model.isWebFullView ? 6 : 5,
-              child: Container(
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
-                    dropdownColor: model.drawerBackgroundColor,
-                    focusColor: Colors.transparent,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _viewModeString,
-                    items: _viewModeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'month',
-                          child: Text(value,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      onPickerViewChange(value);
-                      stateSetter(() {});
-                    }),
-              ),
-            )
-          ],
-        ),
-      ));
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: model.isWebFullView ? 4 : 5,
+                  child: Text(
+                    'Picker view',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: model.isWebFullView ? 6 : 5,
+                  child: Container(
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
+                      focusColor: Colors.transparent,
+                      underline: Container(
+                        color: const Color(0xFFBDBDBD),
+                        height: 1,
+                      ),
+                      value: _viewModeString,
+                      items:
+                          _viewModeList.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'month',
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor),
+                              ),
+                            );
+                          }).toList(),
+                      onChanged: (dynamic value) {
+                        _onPickerViewChange(value);
+                        stateSetter(() {});
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
 
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-                flex: model.isWebFullView ? 4 : 5,
-                child: Text('Selection mode',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-              flex: model.isWebFullView ? 6 : 5,
-              child: Container(
-                padding: EdgeInsets.zero,
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
-                    dropdownColor: model.drawerBackgroundColor,
-                    focusColor: Colors.transparent,
-                    underline:
-                        Container(color: const Color(0xFFBDBDBD), height: 1),
-                    value: _selectionModeString,
-                    items: _selectionModeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'extendableRange',
-                          child: Text(value,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: model.textColor)));
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      onSelectionModeChange(value);
-                      stateSetter(() {});
-                    }),
-              ),
-            )
-          ],
-        ),
-      ));
-      propertyOptions.add(_selectionModeString == 'extendableRange'
-          ? SizedBox(
-              height: 50,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: model.isWebFullView ? 4 : 5,
+                  child: Text(
+                    'Selection mode',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: model.isWebFullView ? 6 : 5,
+                  child: Container(
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
+                      focusColor: Colors.transparent,
+                      underline: Container(
+                        color: const Color(0xFFBDBDBD),
+                        height: 1,
+                      ),
+                      value: _selectionModeString,
+                      items:
+                          _selectionModeList.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value:
+                                  (value != null) ? value : 'extendableRange',
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor),
+                              ),
+                            );
+                          }).toList(),
+                      onChanged: (dynamic value) {
+                        _onSelectionModeChange(value);
+                        stateSetter(() {});
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          _selectionModeString == 'extendableRange'
+              ? SizedBox(
+                height: 50,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
                       flex: model.isWebFullView ? 4 : 5,
-                      child: Text('Selection Direction',
-                          style: TextStyle(
-                              fontSize: 16.0, color: model.textColor))),
-                  Expanded(
-                    flex: model.isWebFullView ? 6 : 5,
-                    child: Container(
-                      alignment: Alignment.bottomLeft,
-                      child: DropdownButton<String>(
+                      child: Text(
+                        'Selection Direction',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: model.textColor,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: model.isWebFullView ? 6 : 5,
+                      child: Container(
+                        alignment: Alignment.bottomLeft,
+                        child: DropdownButton<String>(
                           dropdownColor: model.drawerBackgroundColor,
                           focusColor: Colors.transparent,
                           underline: Container(
-                              color: const Color(0xFFBDBDBD), height: 1),
+                            color: const Color(0xFFBDBDBD),
+                            height: 1,
+                          ),
                           value: _selectionDirectionString,
-                          items: _selectionDirectionList.map((String value) {
-                            return DropdownMenuItem<String>(
-                                value: (value != null) ? value : 'both',
-                                child: Text(value,
+                          items:
+                              _selectionDirectionList.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: (value != null) ? value : 'both',
+                                  child: Text(
+                                    value,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(color: model.textColor)));
-                          }).toList(),
+                                    style: TextStyle(color: model.textColor),
+                                  ),
+                                );
+                              }).toList(),
                           onChanged: (dynamic value) {
-                            onSelectionDirectionChanged(value);
+                            _onSelectionDirectionChanged(value);
                             stateSetter(() {});
-                          }),
+                          },
+                        ),
+                      ),
                     ),
-                  )
-                ],
-              ),
-            )
-          : Container());
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-                flex: model.isWebFullView ? 4 : 5,
-                child: Text('Display date',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-                flex: model.isWebFullView ? 6 : 5,
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  alignment: Alignment.centerLeft,
-                  child: Theme(
-                      data: model.themeData
-                          .copyWith(canvasColor: model.drawerBackgroundColor),
+                  ],
+                ),
+              )
+              : Container(),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: model.isWebFullView ? 4 : 5,
+                  child: Text(
+                    'Display date',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: model.isWebFullView ? 6 : 5,
+                  child: Container(
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.centerLeft,
+                    child: Theme(
+                      data: model.themeData.copyWith(
+                        canvasColor: model.drawerBackgroundColor,
+                      ),
                       child: _DateRangePickerOption(
                         _onDisplayDateChanged,
                         _controller.displayDate!,
                         model,
                         displayDate: _controller.displayDate!,
-                      )),
-                ))
-          ],
-        ),
-      ));
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-                flex: 7,
-                child: Text('Show action buttons',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-                flex: 3,
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  child: Theme(
-                    data: Theme.of(context)
-                        .copyWith(canvasColor: model.drawerBackgroundColor),
-                    child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                            scale: 0.8,
-                            child: CupertinoSwitch(
-                              value: _showActionButtons,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  onBoolValueChange('ShowActionButtons', value);
-                                  stateSetter(() {});
-                                });
-                              },
-                              activeColor: model.primaryColor,
-                            ))),
+                      ),
+                    ),
                   ),
-                ))
-          ],
-        ),
-      ));
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-                flex: 7,
-                child: Text('Show today button',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-                flex: 3,
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  child: Theme(
-                    data: Theme.of(context)
-                        .copyWith(canvasColor: model.drawerBackgroundColor),
-                    child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                            scale: 0.8,
-                            child: CupertinoSwitch(
-                              value: _showTodayButton,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  onBoolValueChange('ShowTodayButton', value);
-                                  stateSetter(() {});
-                                });
-                              },
-                              activeColor: model.primaryColor,
-                            ))),
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 7,
+                  child: Text(
+                    'Show action buttons',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
-                ))
-          ],
-        ),
-      ));
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-                flex: 7,
-                child: Text('Enable view navigation',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-                flex: 3,
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  child: Theme(
-                    data: Theme.of(context)
-                        .copyWith(canvasColor: model.drawerBackgroundColor),
-                    child: Container(
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    padding: EdgeInsets.zero,
+                    child: Theme(
+                      data: Theme.of(
+                        context,
+                      ).copyWith(canvasColor: model.drawerBackgroundColor),
+                      child: Container(
                         alignment: Alignment.centerLeft,
                         child: Transform.scale(
-                            scale: 0.8,
-                            child: CupertinoSwitch(
-                              value: _enableViewNavigation,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  onBoolValueChange(
-                                      'EnableViewNavigation', value);
-                                  stateSetter(() {});
-                                });
-                              },
-                              activeColor: model.primaryColor,
-                            ))),
-                  ),
-                ))
-          ],
-        ),
-      ));
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-                flex: 7,
-                child: Text('Enable past dates',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-                flex: 3,
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  child: Theme(
-                    data: Theme.of(context)
-                        .copyWith(canvasColor: model.drawerBackgroundColor),
-                    child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                            scale: 0.8,
-                            child: CupertinoSwitch(
-                              value: _enablePastDates,
-                              onChanged: (dynamic value) {
-                                onBoolValueChange('EnablePastDates', value);
+                          scale: 0.8,
+                          child: CupertinoSwitch(
+                            value: _showActionButtons,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _onBoolValueChange('ShowActionButtons', value);
                                 stateSetter(() {});
-                              },
-                              activeColor: model.primaryColor,
-                            ))),
+                              });
+                            },
+                            activeTrackColor: model.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ))
-          ],
-        ),
-      ));
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-                flex: 7,
-                child: Text('Enable swipe selection',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-                flex: 3,
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  child: Theme(
-                    data: Theme.of(context)
-                        .copyWith(canvasColor: model.drawerBackgroundColor),
-                    child: Container(
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 7,
+                  child: Text(
+                    'Show today button',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    padding: EdgeInsets.zero,
+                    child: Theme(
+                      data: Theme.of(
+                        context,
+                      ).copyWith(canvasColor: model.drawerBackgroundColor),
+                      child: Container(
                         alignment: Alignment.centerLeft,
                         child: Transform.scale(
-                            scale: 0.8,
-                            child: CupertinoSwitch(
-                              value: _enableSwipingSelection,
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  onBoolValueChange(
-                                      'EnableSwipingSelection', value);
-                                  stateSetter(() {});
-                                });
-                              },
-                              activeColor: model.primaryColor,
-                            ))),
+                          scale: 0.8,
+                          child: CupertinoSwitch(
+                            value: _showTodayButton,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _onBoolValueChange('ShowTodayButton', value);
+                                stateSetter(() {});
+                              });
+                            },
+                            activeTrackColor: model.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ))
-          ],
-        ),
-      ));
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-                flex: 7,
-                child: Text('Show week number',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor))),
-            Expanded(
-                flex: 3,
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  child: Theme(
-                    data: Theme.of(context)
-                        .copyWith(canvasColor: model.drawerBackgroundColor),
-                    child: Container(
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 7,
+                  child: Text(
+                    'Enable view navigation',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    padding: EdgeInsets.zero,
+                    child: Theme(
+                      data: Theme.of(
+                        context,
+                      ).copyWith(canvasColor: model.drawerBackgroundColor),
+                      child: Container(
                         alignment: Alignment.centerLeft,
                         child: Transform.scale(
-                            scale: 0.8,
-                            child: CupertinoSwitch(
-                              value: _showWeekNumber,
-                              onChanged: (dynamic value) {
-                                setState(() {
-                                  onBoolValueChange('showWeekNumber', value);
-                                  stateSetter(() {});
-                                });
-                              },
-                              activeColor: model.primaryColor,
-                            ))),
+                          scale: 0.8,
+                          child: CupertinoSwitch(
+                            value: _enableViewNavigation,
+                            onChanged: (bool value) {
+                              setState(() {
+                                _onBoolValueChange(
+                                  'EnableViewNavigation',
+                                  value,
+                                );
+                                stateSetter(() {});
+                              });
+                            },
+                            activeTrackColor: model.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ))
-          ],
-        ),
-      ));
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 7,
+                  child: Text(
+                    'Enable past dates',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    padding: EdgeInsets.zero,
+                    child: Theme(
+                      data: Theme.of(
+                        context,
+                      ).copyWith(canvasColor: model.drawerBackgroundColor),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Transform.scale(
+                          scale: 0.8,
+                          child: CupertinoSwitch(
+                            value: _enablePastDates,
+                            onChanged: (dynamic value) {
+                              _onBoolValueChange('EnablePastDates', value);
+                              stateSetter(() {});
+                            },
+                            activeTrackColor: model.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 7,
+                  child: Text(
+                    'Enable swipe selection',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    padding: EdgeInsets.zero,
+                    child: Theme(
+                      data: Theme.of(
+                        context,
+                      ).copyWith(canvasColor: model.drawerBackgroundColor),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Transform.scale(
+                          scale: 0.8,
+                          child: CupertinoSwitch(
+                            value: _enableSwipingSelection,
+                            onChanged: (dynamic value) {
+                              setState(() {
+                                _onBoolValueChange(
+                                  'EnableSwipingSelection',
+                                  value,
+                                );
+                                stateSetter(() {});
+                              });
+                            },
+                            activeTrackColor: model.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 7,
+                  child: Text(
+                    'Show week number',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    padding: EdgeInsets.zero,
+                    child: Theme(
+                      data: Theme.of(
+                        context,
+                      ).copyWith(canvasColor: model.drawerBackgroundColor),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Transform.scale(
+                          scale: 0.8,
+                          child: CupertinoSwitch(
+                            value: _showWeekNumber,
+                            onChanged: (dynamic value) {
+                              setState(() {
+                                _onBoolValueChange('showWeekNumber', value);
+                                stateSetter(() {});
+                              });
+                            },
+                            activeTrackColor: model.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
 
-      return Padding(
+        return Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
-          child: model.isWebFullView
-              ? Column(
-                  children: propertyOptions,
-                )
-              : ListView(
-                  children: propertyOptions,
-                ));
-    });
+          child:
+              model.isWebFullView
+                  ? Column(children: propertyOptions)
+                  : ListView(children: propertyOptions),
+        );
+      },
+    );
   }
 
   /// Updates the display for date range picker by setting the selected date value
@@ -640,8 +767,12 @@ class _HijriDatePickerState extends SampleViewState {
 /// Builds the date range picker in a pop-up window, to select the display date
 /// property for the date range picker, in the property window.
 class _DateRangePickerOption extends StatefulWidget {
-  const _DateRangePickerOption(this.selectionChanged, this.date, this.model,
-      {required this.displayDate});
+  const _DateRangePickerOption(
+    this.selectionChanged,
+    this.date,
+    this.model, {
+    required this.displayDate,
+  });
 
   final DateRangePickerSelectionChangedCallback selectionChanged;
   final HijriDateTime date;
@@ -664,7 +795,7 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
   }
 
   /// Updates the selected date value to the date range pickers selected
-  /// property
+  /// property.
   void _onSelectionChanged(HijriDateTime value) {
     setState(() {
       _date = value;
@@ -679,58 +810,65 @@ class _DateRangePickerOptionState extends State<_DateRangePickerOption> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Container(
-        color: Colors.transparent,
-        child: GestureDetector(
-            onTap: () async {
-              final HijriDateTime? result = await showDialog<HijriDateTime>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Theme(
-                        data: theme,
-                        child: DateRangePicker(
-                          _date,
-                          null,
-                          minDate: HijriDateTime.now()
-                              .subtract(const Duration(days: 200)),
-                          maxDate: HijriDateTime.now()
-                              .add(const Duration(days: 200)),
-                          displayDate: _date,
-                          model: widget.model,
-                        ));
-                  });
-
-              if (result != null) {
-                _onSelectionChanged(result);
-              }
+      color: Colors.transparent,
+      child: GestureDetector(
+        onTap: () async {
+          final HijriDateTime? result = await showDialog<HijriDateTime>(
+            context: context,
+            builder: (BuildContext context) {
+              return Theme(
+                data: theme,
+                child: DateRangePicker(
+                  _date,
+                  null,
+                  minDate: HijriDateTime.now().subtract(
+                    const Duration(days: 200),
+                  ),
+                  maxDate: HijriDateTime.now().add(const Duration(days: 200)),
+                  displayDate: _date,
+                  model: widget.model,
+                ),
+              );
             },
-            child: Text(
-                _date.day.toString() +
-                    '-' +
-                    _date.month.toString() +
-                    '-' +
-                    _date.year.toString(),
-                style: TextStyle(
-                    fontSize: 15,
-                    color: theme.textTheme.titleSmall?.color,
-                    fontWeight: FontWeight.w600))));
+          );
+
+          if (result != null) {
+            _onSelectionChanged(result);
+          }
+        },
+        child: Text(
+          _date.day.toString() +
+              '-' +
+              _date.month.toString() +
+              '-' +
+              _date.year.toString(),
+          style: TextStyle(
+            fontSize: 15,
+            color: theme.textTheme.titleSmall?.color,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
   }
 }
 
-/// Returns the date range picker based on the properties passed
-SfHijriDateRangePicker _getGettingStartedDatePicker(
-    HijriDatePickerController controller,
-    DateRangePickerSelectionMode mode,
-    bool enablePastDates,
-    bool enableSwipingSelection,
-    bool enableViewNavigation,
-    bool showActionButtons,
-    HijriDateTime minDate,
-    HijriDateTime maxDate,
-    bool enableMultiView,
-    bool showWeekNumber,
-    bool showTodayButton,
-    ExtendableRangeSelectionDirection selectionDirection,
-    BuildContext context) {
+/// Returns the date range picker based on the properties passed.
+SfHijriDateRangePicker _buildGettingStartedDatePicker(
+  HijriDatePickerController controller,
+  DateRangePickerSelectionMode mode,
+  bool enablePastDates,
+  bool enableSwipingSelection,
+  bool enableViewNavigation,
+  bool showActionButtons,
+  HijriDateTime minDate,
+  HijriDateTime maxDate,
+  bool enableMultiView,
+  bool showWeekNumber,
+  bool showTodayButton,
+  ExtendableRangeSelectionDirection selectionDirection,
+  BuildContext context,
+) {
   return SfHijriDateRangePicker(
     enablePastDates: enablePastDates,
     minDate: minDate,
@@ -743,25 +881,27 @@ SfHijriDateRangePicker _getGettingStartedDatePicker(
     controller: controller,
     showTodayButton: showTodayButton,
     headerStyle: DateRangePickerHeaderStyle(
-        textAlign: enableMultiView ? TextAlign.center : TextAlign.left),
+      textAlign: enableMultiView ? TextAlign.center : TextAlign.left,
+    ),
     onCancel: () {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          'Selection Cancelled',
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Selection Cancelled'),
+          duration: Duration(milliseconds: 200),
         ),
-        duration: Duration(milliseconds: 200),
-      ));
+      );
     },
     onSubmit: (Object? value) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          'Selection Confirmed',
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Selection Confirmed'),
+          duration: Duration(milliseconds: 200),
         ),
-        duration: Duration(milliseconds: 200),
-      ));
+      );
     },
     monthViewSettings: HijriDatePickerMonthViewSettings(
-        enableSwipeSelection: enableSwipingSelection,
-        showWeekNumber: showWeekNumber),
+      enableSwipeSelection: enableSwipingSelection,
+      showWeekNumber: showWeekNumber,
+    ),
   );
 }

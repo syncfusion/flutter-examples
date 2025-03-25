@@ -34,8 +34,11 @@ class _DataGridColumnDragAndDropState extends SampleViewState {
   void initState() {
     super.initState();
     _columns = _obtainColumns();
-    _source = ProductDataGridSource('Column Drag and Drop',
-        productDataCount: 20, columns: _columns);
+    _source = ProductDataGridSource(
+      'Column Drag and Drop',
+      productDataCount: 20,
+      columns: _columns,
+    );
   }
 
   @override
@@ -67,93 +70,77 @@ class _DataGridColumnDragAndDropState extends SampleViewState {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
-          columnName: 'id',
-          width: 160,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Order ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'id',
+        width: 160,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8),
+          child: const Text('Order ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'productId',
-          width: 170,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Product ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'productId',
+        width: 170,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8),
+          child: const Text('Product ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'name',
-          width: 190,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Customer Name',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'name',
+        width: 190,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8),
+          child: const Text('Customer Name', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'product',
-          width: 140,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Product',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'product',
+        width: 140,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8),
+          child: const Text('Product', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'orderDate',
-          width: 150,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Order Date',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'orderDate',
+        width: 150,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8),
+          child: const Text('Order Date', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'quantity',
-          width: 150,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Quantity',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'quantity',
+        width: 150,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8),
+          child: const Text('Quantity', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'city',
-          width: 140,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'City',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'city',
+        width: 140,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8),
+          child: const Text('City', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'unitPrice',
-          width: 140,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'Unit Price',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'unitPrice',
+        width: 140,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8),
+          child: const Text('Unit Price', overflow: TextOverflow.ellipsis),
+        ),
+      ),
     ];
     return columns;
   }

@@ -37,103 +37,95 @@ class _ColumnResizingDataGridState extends SampleViewState {
   Color _headerCellBackgroundColor() {
     final bool isMaterial3 = model.themeData.useMaterial3;
     return isMaterial3
-        ? model.themeData.colorScheme.surface.withOpacity(0.0001)
+        ? model.themeData.colorScheme.surface.withValues(alpha: 0.0001)
         : model.themeData.colorScheme.brightness == Brightness.light
-            ? const Color(0xFFF1F1F1)
-            : const Color(0xFF3A3A3A);
+        ? const Color(0xFFF1F1F1)
+        : const Color(0xFF3A3A3A);
   }
 
   List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
-          columnName: 'orderId',
-          width: _orderIdColumnWidth,
-          minimumWidth: 15.0,
-          label: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Order ID',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'orderId',
+        width: _orderIdColumnWidth,
+        minimumWidth: 15.0,
+        label: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerRight,
+          child: const Text('Order ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'productId',
-          width: _productIdColumnWidth,
-          minimumWidth: 15.0,
-          label: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Product ID',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'productId',
+        width: _productIdColumnWidth,
+        minimumWidth: 15.0,
+        label: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerRight,
+          child: const Text('Product ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'customerName',
-          width: _customerNameColumnWidth,
-          minimumWidth: 15.0,
-          label: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'Customer Name',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'customerName',
+        width: _customerNameColumnWidth,
+        minimumWidth: 15.0,
+        label: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerLeft,
+          child: const Text('Customer Name', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'product',
-          width: _productColumnWidth,
-          minimumWidth: 15.0,
-          label: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'Product',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'product',
+        width: _productColumnWidth,
+        minimumWidth: 15.0,
+        label: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerLeft,
+          child: const Text('Product', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'orderDate',
-          width: _orderDateColumnWidth,
-          minimumWidth: 15.0,
-          label: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Order Date',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'orderDate',
+        width: _orderDateColumnWidth,
+        minimumWidth: 15.0,
+        label: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerRight,
+          child: const Text('Order Date', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'quantity',
-          width: _quantityColumnWidth,
-          minimumWidth: 15.0,
-          label: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Quantity',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'quantity',
+        width: _quantityColumnWidth,
+        minimumWidth: 15.0,
+        label: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerRight,
+          child: const Text('Quantity', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'city',
-          width: _cityColumnWidth,
-          minimumWidth: 15.0,
-          label: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerLeft,
-              child: const Text(
-                'City',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'city',
+        width: _cityColumnWidth,
+        minimumWidth: 15.0,
+        label: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerLeft,
+          child: const Text('City', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'unitPrice',
-          width: _unitPriceColumnWidth,
-          minimumWidth: 15.0,
-          label: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.centerRight,
-              child: const Text(
-                'Unit Price',
-                overflow: TextOverflow.ellipsis,
-              ))),
+        columnName: 'unitPrice',
+        width: _unitPriceColumnWidth,
+        minimumWidth: 15.0,
+        label: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.centerRight,
+          child: const Text('Unit Price', overflow: TextOverflow.ellipsis),
+        ),
+      ),
     ];
     return columns;
   }
@@ -149,17 +141,16 @@ class _ColumnResizingDataGridState extends SampleViewState {
     _cityColumnWidth = model.isWeb ? 150 : 90;
     _unitPriceColumnWidth = model.isWeb ? 150 : 120;
     _orderDateColumnWidth = model.isWeb ? 150 : 120;
-    _columnResizingDataGridSource =
-        ProductDataGridSource('Column Resizing', productDataCount: 30);
+    _columnResizingDataGridSource = ProductDataGridSource(
+      'Column Resizing',
+      productDataCount: 30,
+    );
   }
 
   String _columnResizeMode = 'onResize';
   ColumnResizeMode columnResizeMode = ColumnResizeMode.onResize;
 
-  final List<String> _columnResize = <String>[
-    'onResize',
-    'onResizeEnd',
-  ];
+  final List<String> _columnResize = <String>['onResize', 'onResizeEnd'];
 
   void _onColumnResizeModeChanged(String item) {
     _columnResizeMode = item;
@@ -177,56 +168,68 @@ class _ColumnResizingDataGridState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(shrinkWrap: true, children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  'Column resize \nmode',
-                  softWrap: false,
-                  style: TextStyle(fontSize: 16.0, color: model.textColor),
-                ),
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      'Column resize \nmode',
+                      softWrap: false,
+                      style: TextStyle(fontSize: 16.0, color: model.textColor),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 40,
+                      alignment: Alignment.bottomLeft,
+                      child: DropdownButton<String>(
+                        dropdownColor: model.drawerBackgroundColor,
+                        focusColor: Colors.transparent,
+                        underline: Container(
+                          color: const Color(0xFFBDBDBD),
+                          height: 1,
+                        ),
+                        value: _columnResizeMode,
+                        items:
+                            _columnResize.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: (value != null) ? value : 'onResize',
+                                child: Text(
+                                  value,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: model.textColor),
+                                ),
+                              );
+                            }).toList(),
+                        onChanged: (dynamic value) {
+                          _onColumnResizeModeChanged(value);
+                          stateSetter(() {});
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Container(
-                  height: 40,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      focusColor: Colors.transparent,
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _columnResizeMode,
-                      items: _columnResize.map((String value) {
-                        return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'onResize',
-                            child: Text(value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor)));
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onColumnResizeModeChanged(value);
-                        stateSetter(() {});
-                      }),
-                ),
-              )
-            ],
-          ),
-        ),
-      ]);
-    });
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-          headerColor: _headerCellBackgroundColor(),
-          headerHoverColor: _headerCellBackgroundColor(),
-          columnResizeIndicatorColor: model.primaryColor),
+        headerColor: _headerCellBackgroundColor(),
+        headerHoverColor: _headerCellBackgroundColor(),
+        columnResizeIndicatorColor: model.primaryColor,
+      ),
       child: SfDataGrid(
         gridLinesVisibility: GridLinesVisibility.both,
         headerGridLinesVisibility: GridLinesVisibility.both,

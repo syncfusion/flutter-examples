@@ -1,18 +1,18 @@
-/// Dart import
+/// Dart import.
 import 'dart:math';
 
-///Package import
+/// Package import.
 import 'package:flutter/material.dart';
 
-///Date picker imports
+/// Date picker import.
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-///Local import
+/// Local import.
 import '../../model/sample_view.dart';
 
-/// Render datepicker widget with customized options
+/// Render date picker widget with customized options.
 class CustomizedDatePicker extends SampleView {
-  /// Creates datepicker widget with customized options
+  /// Creates date picker widget with customized options.
   const CustomizedDatePicker(Key key) : super(key: key);
 
   @override
@@ -27,21 +27,24 @@ class _CustomizedDatePickerState extends SampleViewState {
 
   @override
   void initState() {
-    _specialDates = _getSpecialDates();
+    _specialDates = _buildSpecialDates();
     super.initState();
   }
 
   /// Returns the list of dates which will set to the special dates of the
   /// date range picker.
-  List<DateTime> _getSpecialDates() {
+  List<DateTime> _buildSpecialDates() {
     final List<DateTime> dates = <DateTime>[];
-    final DateTime startDate =
-        DateTime.now().subtract(const Duration(days: 200));
+    final DateTime startDate = DateTime.now().subtract(
+      const Duration(days: 200),
+    );
     final DateTime endDate = DateTime.now().add(const Duration(days: 500));
     final Random random = Random();
-    for (DateTime date = startDate;
-        date.isBefore(endDate);
-        date = date.add(const Duration(days: 25))) {
+    for (
+      DateTime date = startDate;
+      date.isBefore(endDate);
+      date = date.add(const Duration(days: 25))
+    ) {
       for (int i = 0; i < 3; i++) {
         dates.add(date.add(Duration(days: random.nextInt(i + 4))));
       }
@@ -60,44 +63,63 @@ class _CustomizedDatePickerState extends SampleViewState {
   Widget build(BuildContext context) {
     final Widget datePicker = Card(
       elevation: 10,
-      margin: model.isWebFullView
-          ? const EdgeInsets.fromLTRB(30, 60, 30, 0)
-          : const EdgeInsets.all(30),
+      margin:
+          model.isWebFullView
+              ? const EdgeInsets.fromLTRB(30, 60, 30, 0)
+              : const EdgeInsets.all(30),
       child: Container(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
-          color: model.sampleOutputCardColor,
-          child: _getCustomizedDatePicker(_specialDates, model.themeData)),
+        padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+        color: model.sampleOutputCardColor,
+        child: _buildCustomizedDatePicker(_specialDates, model.themeData),
+      ),
     );
     return Scaffold(
-      backgroundColor: model.themeData == null ||
-              model.themeData.colorScheme.brightness == Brightness.light
-          ? null
-          : const Color(0x00171a21),
-      body: Column(children: <Widget>[
-        Expanded(
+      backgroundColor:
+          model.themeData == null ||
+                  model.themeData.colorScheme.brightness == Brightness.light
+              ? null
+              : const Color(0x00171a21),
+      body: Column(
+        children: <Widget>[
+          Expanded(
             flex: model.isWebFullView ? 9 : 8,
-            child: model.isWebFullView
-                ? Center(
-                    child: SizedBox(width: 400, height: 600, child: datePicker))
-                : ListView(children: <Widget>[
-                    SizedBox(height: 450, child: datePicker)
-                  ])),
-        Expanded(
-            flex: model.isWebFullView
-                ? 1
-                : model.isMobileResolution &&
+            child:
+                model.isWebFullView
+                    ? Center(
+                      child: SizedBox(
+                        width: 400,
+                        height: 600,
+                        child: datePicker,
+                      ),
+                    )
+                    : ListView(
+                      children: <Widget>[
+                        SizedBox(height: 450, child: datePicker),
+                      ],
+                    ),
+          ),
+          Expanded(
+            flex:
+                model.isWebFullView
+                    ? 1
+                    : model.isMobileResolution &&
                         _deviceOrientation == Orientation.landscape
                     ? 0
                     : 1,
-            child: Container())
-      ]),
+            child: Container(),
+          ),
+        ],
+      ),
     );
   }
 
-  /// Returns the date range picker based on the properties passed
-  SfDateRangePicker _getCustomizedDatePicker(
-      List<DateTime> specialDates, ThemeData theme) {
-    final bool isDark = theme != null &&
+  /// Returns the date range picker based on the properties passed.
+  SfDateRangePicker _buildCustomizedDatePicker(
+    List<DateTime> specialDates,
+    ThemeData theme,
+  ) {
+    final bool isDark =
+        theme != null &&
         theme.brightness != null &&
         theme.brightness == Brightness.dark;
 
@@ -113,56 +135,63 @@ class _CustomizedDatePickerState extends SampleViewState {
     return SfDateRangePicker(
       selectionShape: DateRangePickerSelectionShape.rectangle,
       selectionColor: highlightColor,
-      selectionTextStyle:
-          TextStyle(color: isDark ? Colors.black : Colors.white, fontSize: 14),
+      selectionTextStyle: TextStyle(
+        color: isDark ? Colors.black : Colors.white,
+        fontSize: 14,
+      ),
       minDate: DateTime.now().add(const Duration(days: -200)),
       maxDate: DateTime.now().add(const Duration(days: 500)),
       headerStyle: DateRangePickerHeaderStyle(
-          textAlign: TextAlign.center,
-          textStyle: TextStyle(
-            fontSize: 18,
-            color: cellTextColor,
-          )),
+        textAlign: TextAlign.center,
+        textStyle: TextStyle(fontSize: 18, color: cellTextColor),
+      ),
       monthCellStyle: DateRangePickerMonthCellStyle(
-          cellDecoration: _MonthCellDecoration(
-              backgroundColor: monthCellBackground,
-              showIndicator: false,
-              indicatorColor: indicatorColor),
-          todayCellDecoration: _MonthCellDecoration(
-              borderColor: highlightColor,
-              backgroundColor: monthCellBackground,
-              showIndicator: false,
-              indicatorColor: indicatorColor),
-          specialDatesDecoration: _MonthCellDecoration(
-              backgroundColor: monthCellBackground,
-              showIndicator: true,
-              indicatorColor: indicatorColor),
-          disabledDatesTextStyle: TextStyle(
-            color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe),
-          ),
-          weekendTextStyle: TextStyle(
-            color: highlightColor,
-          ),
-          textStyle: TextStyle(color: cellTextColor, fontSize: 14),
-          specialDatesTextStyle: TextStyle(color: cellTextColor, fontSize: 14),
-          todayTextStyle: TextStyle(color: highlightColor, fontSize: 14)),
+        cellDecoration: _MonthCellDecoration(
+          backgroundColor: monthCellBackground,
+          showIndicator: false,
+          indicatorColor: indicatorColor,
+        ),
+        todayCellDecoration: _MonthCellDecoration(
+          borderColor: highlightColor,
+          backgroundColor: monthCellBackground,
+          showIndicator: false,
+          indicatorColor: indicatorColor,
+        ),
+        specialDatesDecoration: _MonthCellDecoration(
+          backgroundColor: monthCellBackground,
+          showIndicator: true,
+          indicatorColor: indicatorColor,
+        ),
+        disabledDatesTextStyle: TextStyle(
+          color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe),
+        ),
+        weekendTextStyle: TextStyle(color: highlightColor),
+        textStyle: TextStyle(color: cellTextColor, fontSize: 14),
+        specialDatesTextStyle: TextStyle(color: cellTextColor, fontSize: 14),
+        todayTextStyle: TextStyle(color: highlightColor, fontSize: 14),
+      ),
       yearCellStyle: DateRangePickerYearCellStyle(
         todayTextStyle: TextStyle(color: highlightColor, fontSize: 14),
         textStyle: TextStyle(color: cellTextColor, fontSize: 14),
         disabledDatesTextStyle: TextStyle(
-            color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe)),
-        leadingDatesTextStyle:
-            TextStyle(color: cellTextColor.withOpacity(0.5), fontSize: 14),
+          color: isDark ? const Color(0xFF666479) : const Color(0xffe2d7fe),
+        ),
+        leadingDatesTextStyle: TextStyle(
+          color: cellTextColor.withValues(alpha: 0.5),
+          fontSize: 14,
+        ),
       ),
       showNavigationArrow: true,
       todayHighlightColor: highlightColor,
       monthViewSettings: DateRangePickerMonthViewSettings(
         firstDayOfWeek: 1,
         viewHeaderStyle: DateRangePickerViewHeaderStyle(
-            textStyle: TextStyle(
-                fontSize: 10,
-                color: cellTextColor,
-                fontWeight: FontWeight.w600)),
+          textStyle: TextStyle(
+            fontSize: 10,
+            color: cellTextColor,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         dayFormat: 'EEE',
         specialDates: specialDates,
       ),
@@ -170,21 +199,22 @@ class _CustomizedDatePickerState extends SampleViewState {
   }
 }
 
-/// [_MonthCellDecoration] used to customize the month cell
-/// background of [SfDateRangePicker].
-/// [backgroundColor] property used to draw the fill color the month cell
+/// [_MonthCellDecoration] customizes the background of month cells
+/// in the [SfDateRangePicker].
+/// [backgroundColor] property used to draw the fill color the month cell.
 /// [borderColor] property used to draw the border to highlight the
 /// today month cell.
 /// [showIndicator] property used to decide whether the cell
 /// have indicator or not.
-/// it is enabled then draw the circle on right top corner
-/// with [indicatorColor].
+/// If it is enabled a circle is drawn in the top right corner
+/// using [indicatorColor].
 class _MonthCellDecoration extends Decoration {
-  const _MonthCellDecoration(
-      {this.borderColor,
-      this.backgroundColor,
-      required this.showIndicator,
-      this.indicatorColor});
+  const _MonthCellDecoration({
+    this.borderColor,
+    this.backgroundColor,
+    required this.showIndicator,
+    this.indicatorColor,
+  });
 
   final Color? borderColor;
   final Color? backgroundColor;
@@ -194,20 +224,22 @@ class _MonthCellDecoration extends Decoration {
   @override
   BoxPainter createBoxPainter([VoidCallback? onChanged]) {
     return _MonthCellDecorationPainter(
-        borderColor: borderColor,
-        backgroundColor: backgroundColor,
-        showIndicator: showIndicator,
-        indicatorColor: indicatorColor);
+      borderColor: borderColor,
+      backgroundColor: backgroundColor,
+      showIndicator: showIndicator,
+      indicatorColor: indicatorColor,
+    );
   }
 }
 
 /// [_MonthCellDecorationPainter] used to paint month cell decoration.
 class _MonthCellDecorationPainter extends BoxPainter {
-  _MonthCellDecorationPainter(
-      {this.borderColor,
-      this.backgroundColor,
-      required this.showIndicator,
-      this.indicatorColor});
+  _MonthCellDecorationPainter({
+    this.borderColor,
+    this.backgroundColor,
+    required this.showIndicator,
+    this.indicatorColor,
+  });
 
   final Color? borderColor;
   final Color? backgroundColor;
@@ -223,13 +255,17 @@ class _MonthCellDecorationPainter extends BoxPainter {
   void _drawDecoration(Canvas canvas, Rect bounds) {
     final Paint paint = Paint()..color = backgroundColor!;
     canvas.drawRRect(
-        RRect.fromRectAndRadius(bounds, const Radius.circular(5)), paint);
+      RRect.fromRectAndRadius(bounds, const Radius.circular(5)),
+      paint,
+    );
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 1;
     if (borderColor != null) {
       paint.color = borderColor!;
       canvas.drawRRect(
-          RRect.fromRectAndRadius(bounds, const Radius.circular(5)), paint);
+        RRect.fromRectAndRadius(bounds, const Radius.circular(5)),
+        paint,
+      );
     }
 
     if (showIndicator) {

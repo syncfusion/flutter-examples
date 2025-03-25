@@ -40,76 +40,80 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
       child: SfRadialGauge(
         axes: <RadialAxis>[
           RadialAxis(
-              radiusFactor: 0.8,
-              axisLineStyle: AxisLineStyle(
-                  color:
-                      model.themeData.colorScheme.brightness == Brightness.light
-                          ? const Color.fromRGBO(191, 214, 245, 1)
-                          : const Color.fromRGBO(36, 58, 89, 1),
-                  thickness: 0.05,
-                  thicknessUnit: GaugeSizeUnit.factor),
-              showLabels: false,
-              showTicks: false,
-              startAngle: 270,
-              endAngle: 270,
-              ranges: <GaugeRange>[
-                GaugeRange(
-                  endValue: _secondMarkerValue,
-                  startValue: _firstMarkerValue,
-                  sizeUnit: GaugeSizeUnit.factor,
-                  color: _enableDragging
-                      ? const Color.fromRGBO(44, 117, 220, 1)
-                      : const Color(0xFF888888),
-                  endWidth: 0.05,
-                  startWidth: 0.05,
-                )
-              ],
-              pointers: <GaugePointer>[
-                MarkerPointer(
-                  value: _firstMarkerValue,
-                  elevation: 5,
-                  onValueChanged: handleFirstPointerValueChanged,
-                  onValueChanging: handleFirstPointerValueChanging,
-                  enableDragging: _enableDragging,
-                  color: _enableDragging
-                      ? const Color.fromRGBO(44, 117, 220, 1)
-                      : const Color(0xFF888888),
-                  markerHeight: _markerSize,
-                  markerWidth: _markerSize,
-                  markerType: MarkerType.circle,
-                ),
-                MarkerPointer(
-                  value: _secondMarkerValue,
-                  elevation: 5,
-                  onValueChanged: handleSecondPointerValueChanged,
-                  onValueChanging: handleSecondPointerValueChanging,
-                  enableDragging: _enableDragging,
-                  color: _enableDragging
-                      ? const Color.fromRGBO(44, 117, 220, 1)
-                      : const Color(0xFF888888),
-                  markerHeight: _markerSize,
-                  markerWidth: _markerSize,
-                  markerType: MarkerType.circle,
-                ),
-              ],
-              annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                  widget: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        '$_annotationValue1 - $_annotationValue2',
-                        style: TextStyle(
-                          fontSize: _annotationFontSize,
-                          fontFamily: 'Times',
-                          fontWeight: FontWeight.bold,
-                        ),
+            radiusFactor: 0.8,
+            axisLineStyle: AxisLineStyle(
+              color:
+                  model.themeData.colorScheme.brightness == Brightness.light
+                      ? const Color.fromRGBO(191, 214, 245, 1)
+                      : const Color.fromRGBO(36, 58, 89, 1),
+              thickness: 0.05,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
+            showLabels: false,
+            showTicks: false,
+            startAngle: 270,
+            endAngle: 270,
+            ranges: <GaugeRange>[
+              GaugeRange(
+                endValue: _secondMarkerValue,
+                startValue: _firstMarkerValue,
+                sizeUnit: GaugeSizeUnit.factor,
+                color:
+                    _enableDragging
+                        ? const Color.fromRGBO(44, 117, 220, 1)
+                        : const Color(0xFF888888),
+                endWidth: 0.05,
+                startWidth: 0.05,
+              ),
+            ],
+            pointers: <GaugePointer>[
+              MarkerPointer(
+                value: _firstMarkerValue,
+                elevation: 5,
+                onValueChanged: handleFirstPointerValueChanged,
+                onValueChanging: handleFirstPointerValueChanging,
+                enableDragging: _enableDragging,
+                color:
+                    _enableDragging
+                        ? const Color.fromRGBO(44, 117, 220, 1)
+                        : const Color(0xFF888888),
+                markerHeight: _markerSize,
+                markerWidth: _markerSize,
+                markerType: MarkerType.circle,
+              ),
+              MarkerPointer(
+                value: _secondMarkerValue,
+                elevation: 5,
+                onValueChanged: handleSecondPointerValueChanged,
+                onValueChanging: handleSecondPointerValueChanging,
+                enableDragging: _enableDragging,
+                color:
+                    _enableDragging
+                        ? const Color.fromRGBO(44, 117, 220, 1)
+                        : const Color(0xFF888888),
+                markerHeight: _markerSize,
+                markerWidth: _markerSize,
+                markerType: MarkerType.circle,
+              ),
+            ],
+            annotations: <GaugeAnnotation>[
+              GaugeAnnotation(
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      '$_annotationValue1 - $_annotationValue2',
+                      style: TextStyle(
+                        fontSize: _annotationFontSize,
+                        fontFamily: 'Times',
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
-                  positionFactor: 0.05,
-                )
-              ])
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -118,26 +122,30 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(children: <Widget>[
-        Text('Enable drag', style: TextStyle(color: model.textColor)),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(35, 0, 0, 0), //as you need
-          child: Transform.scale(
-              scale: 0.8,
-              child: CupertinoSwitch(
-                activeColor: model.primaryColor,
-                value: _enableDragging,
-                onChanged: (bool value) {
-                  setState(() {
-                    _enableDragging = value;
-                    stateSetter(() {});
-                  });
-                },
-              )),
-        ),
-      ]);
-    });
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Row(
+          children: <Widget>[
+            Text('Enable drag', style: TextStyle(color: model.textColor)),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(35, 0, 0, 0), //as you need
+              child: Transform.scale(
+                scale: 0.8,
+                child: CupertinoSwitch(
+                  activeTrackColor: model.primaryColor,
+                  value: _enableDragging,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _enableDragging = value;
+                      stateSetter(() {});
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   /// Dragged pointer new value is updated to pointer and

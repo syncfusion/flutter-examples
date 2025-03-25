@@ -19,45 +19,55 @@ class SplineRangeArea extends SampleView {
 class _SplineRangeAreaState extends SampleViewState {
   _SplineRangeAreaState();
 
+  List<ChartSampleData>? _chartData;
+  TooltipBehavior? _tooltipBehavior;
+
   @override
   void initState() {
-    chartData = <ChartSampleData>[
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'Jan',
-          y: 45,
-          yValue: 32,
-          secondSeriesYValue: 30,
-          thirdSeriesYValue: 18),
+        x: 'Jan',
+        y: 45,
+        yValue: 32,
+        secondSeriesYValue: 30,
+        thirdSeriesYValue: 18,
+      ),
       ChartSampleData(
-          x: 'Feb',
-          y: 48,
-          yValue: 34,
-          secondSeriesYValue: 24,
-          thirdSeriesYValue: 12),
+        x: 'Feb',
+        y: 48,
+        yValue: 34,
+        secondSeriesYValue: 24,
+        thirdSeriesYValue: 12,
+      ),
       ChartSampleData(
-          x: 'Mar',
-          y: 46,
-          yValue: 32,
-          secondSeriesYValue: 29,
-          thirdSeriesYValue: 15),
+        x: 'Mar',
+        y: 46,
+        yValue: 32,
+        secondSeriesYValue: 29,
+        thirdSeriesYValue: 15,
+      ),
       ChartSampleData(
-          x: 'Apr',
-          y: 48,
-          yValue: 36,
-          secondSeriesYValue: 24,
-          thirdSeriesYValue: 10),
+        x: 'Apr',
+        y: 48,
+        yValue: 36,
+        secondSeriesYValue: 24,
+        thirdSeriesYValue: 10,
+      ),
       ChartSampleData(
-          x: 'May',
-          y: 46,
-          yValue: 32,
-          secondSeriesYValue: 30,
-          thirdSeriesYValue: 18),
+        x: 'May',
+        y: 46,
+        yValue: 32,
+        secondSeriesYValue: 30,
+        thirdSeriesYValue: 18,
+      ),
       ChartSampleData(
-          x: 'Jun',
-          y: 49,
-          yValue: 34,
-          secondSeriesYValue: 24,
-          thirdSeriesYValue: 10)
+        x: 'Jun',
+        y: 49,
+        yValue: 34,
+        secondSeriesYValue: 24,
+        thirdSeriesYValue: 10,
+      ),
     ];
     super.initState();
   }
@@ -67,9 +77,7 @@ class _SplineRangeAreaState extends SampleViewState {
     return _buildSplineRangeAreaChart();
   }
 
-  List<ChartSampleData>? chartData;
-
-  ///Get chart with spline range area chart
+  /// Returns the cartesian spline range area chart.
   SfCartesianChart _buildSplineRangeAreaChart() {
     final ThemeData themeData = model.themeData;
     return SfCartesianChart(
@@ -77,61 +85,70 @@ class _SplineRangeAreaState extends SampleViewState {
       title: const ChartTitle(text: 'Product price comparison'),
       legend: const Legend(isVisible: true),
       primaryXAxis: const CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          labelPlacement: LabelPlacement.onTicks),
+        majorGridLines: MajorGridLines(width: 0),
+        labelPlacement: LabelPlacement.onTicks,
+      ),
       primaryYAxis: const NumericAxis(
-          minimum: 0,
-          maximum: 60,
-          axisLine: AxisLine(width: 0),
-          labelFormat: r'${value}',
-          majorTickLines: MajorTickLines(size: 0)),
-      series: _getSplineAreaSeries(
-          themeData.useMaterial3, themeData.brightness == Brightness.light),
-      tooltipBehavior: TooltipBehavior(enable: true),
+        minimum: 0,
+        maximum: 60,
+        axisLine: AxisLine(width: 0),
+        labelFormat: r'${value}',
+        majorTickLines: MajorTickLines(size: 0),
+      ),
+      series: _buildSplineAreaSeries(
+        themeData.useMaterial3,
+        themeData.brightness == Brightness.light,
+      ),
+      tooltipBehavior: _tooltipBehavior,
     );
   }
 
-  /// Returns the list of chart series
-  /// which need to render on the spline range area chart.
-  List<SplineRangeAreaSeries<ChartSampleData, String>> _getSplineAreaSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color seriesColor1 = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(6, 174, 224, 1)
-            : const Color.fromRGBO(255, 245, 0, 1))
-        : const Color.fromRGBO(75, 135, 185, 1);
-    final Color seriesColor2 = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(99, 85, 199, 1)
-            : const Color.fromRGBO(51, 182, 119, 1))
-        : const Color.fromRGBO(192, 108, 132, 1);
+  /// Returns the list of cartesian spline area series.
+  List<SplineRangeAreaSeries<ChartSampleData, String>> _buildSplineAreaSeries(
+    bool isMaterial3,
+    bool isLightMode,
+  ) {
+    final Color seriesColor1 =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(6, 174, 224, 1)
+                : const Color.fromRGBO(255, 245, 0, 1))
+            : const Color.fromRGBO(75, 135, 185, 1);
+    final Color seriesColor2 =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(99, 85, 199, 1)
+                : const Color.fromRGBO(51, 182, 119, 1))
+            : const Color.fromRGBO(192, 108, 132, 1);
     return <SplineRangeAreaSeries<ChartSampleData, String>>[
       SplineRangeAreaSeries<ChartSampleData, String>(
-        dataSource: chartData,
-        color: seriesColor1.withOpacity(0.5),
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        highValueMapper: (ChartSampleData data, int index) => data.y,
+        lowValueMapper: (ChartSampleData data, int index) => data.yValue,
+        color: seriesColor1.withValues(alpha: 0.5),
         borderColor: seriesColor1,
         borderDrawMode: RangeAreaBorderMode.excludeSides,
-        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-        highValueMapper: (ChartSampleData sales, _) => sales.y,
-        lowValueMapper: (ChartSampleData sales, _) => sales.yValue,
         name: 'Product A',
       ),
       SplineRangeAreaSeries<ChartSampleData, String>(
-        dataSource: chartData,
+        dataSource: _chartData,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        highValueMapper:
+            (ChartSampleData data, int index) => data.secondSeriesYValue,
+        lowValueMapper:
+            (ChartSampleData data, int index) => data.thirdSeriesYValue,
+        color: seriesColor2.withValues(alpha: 0.5),
         borderColor: seriesColor2,
-        color: seriesColor2.withOpacity(0.5),
         borderDrawMode: RangeAreaBorderMode.excludeSides,
-        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-        highValueMapper: (ChartSampleData sales, _) => sales.secondSeriesYValue,
-        lowValueMapper: (ChartSampleData sales, _) => sales.thirdSeriesYValue,
         name: 'Product B',
-      )
+      ),
     ];
   }
 
   @override
   void dispose() {
-    chartData!.clear();
+    _chartData!.clear();
     super.dispose();
   }
 }

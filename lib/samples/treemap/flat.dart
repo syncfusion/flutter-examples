@@ -16,7 +16,7 @@ enum LayoutType {
   dice,
 
   /// squarified layout.
-  squarified
+  squarified,
 }
 
 /// This sample demonstrates how to add a different layout in the treemap.
@@ -29,8 +29,8 @@ class TreemapLayoutSample extends SampleView {
 
   @override
   _TreemapLayoutSampleState createState() =>
-      // ignore: no_logic_in_create_state
-      _TreemapLayoutSampleState(layoutType);
+  // ignore: no_logic_in_create_state
+  _TreemapLayoutSampleState(layoutType);
 }
 
 class _TreemapLayoutSampleState extends SampleViewState {
@@ -49,55 +49,65 @@ class _TreemapLayoutSampleState extends SampleViewState {
     // [movie] is the flat level grouping key.
     _topTenMovies = <_MovieDetails>[
       const _MovieDetails(
-          movie: 'Avengers: Endgame',
-          director: 'Anthony and Joe Russo',
-          boxOffice: 2.798,
-          color: Color.fromRGBO(111, 194, 250, 1.0)),
+        movie: 'Avengers: Endgame',
+        director: 'Anthony and Joe Russo',
+        boxOffice: 2.798,
+        color: Color.fromRGBO(111, 194, 250, 1.0),
+      ),
       const _MovieDetails(
-          movie: 'Avatar',
-          director: 'James Cameron',
-          boxOffice: 2.834,
-          color: Color.fromRGBO(71, 94, 209, 1.0)),
+        movie: 'Avatar',
+        director: 'James Cameron',
+        boxOffice: 2.834,
+        color: Color.fromRGBO(71, 94, 209, 1.0),
+      ),
       const _MovieDetails(
-          movie: 'Titanic',
-          director: 'James Cameron',
-          boxOffice: 2.195,
-          color: Color.fromRGBO(236, 105, 85, 1.0)),
+        movie: 'Titanic',
+        director: 'James Cameron',
+        boxOffice: 2.195,
+        color: Color.fromRGBO(236, 105, 85, 1.0),
+      ),
       const _MovieDetails(
-          movie: 'Star Wars: The Force Awakens',
-          director: 'J. J. Abrams',
-          boxOffice: 2.068,
-          color: Color.fromRGBO(112, 74, 211, 1.0)),
+        movie: 'Star Wars: The Force Awakens',
+        director: 'J. J. Abrams',
+        boxOffice: 2.068,
+        color: Color.fromRGBO(112, 74, 211, 1.0),
+      ),
       const _MovieDetails(
-          movie: 'Avengers: Infinity War',
-          director: 'Anthony and Joe Russo',
-          boxOffice: 2.048,
-          color: Color.fromRGBO(78, 198, 125, 1.0)),
+        movie: 'Avengers: Infinity War',
+        director: 'Anthony and Joe Russo',
+        boxOffice: 2.048,
+        color: Color.fromRGBO(78, 198, 125, 1.0),
+      ),
       const _MovieDetails(
-          movie: 'Jurassic World',
-          director: 'Colin Trevorrow',
-          boxOffice: 1.670,
-          color: Color.fromRGBO(118, 196, 79, 1.0)),
+        movie: 'Jurassic World',
+        director: 'Colin Trevorrow',
+        boxOffice: 1.670,
+        color: Color.fromRGBO(118, 196, 79, 1.0),
+      ),
       const _MovieDetails(
-          movie: 'The Lion King',
-          director: 'Jon Favreau',
-          boxOffice: 1.657,
-          color: Color.fromRGBO(240, 140, 86, 1.0)),
+        movie: 'The Lion King',
+        director: 'Jon Favreau',
+        boxOffice: 1.657,
+        color: Color.fromRGBO(240, 140, 86, 1.0),
+      ),
       const _MovieDetails(
-          movie: 'The Avengers',
-          director: 'Joss Whedon',
-          boxOffice: 1.519,
-          color: Color.fromRGBO(84, 114, 246, 1.0)),
+        movie: 'The Avengers',
+        director: 'Joss Whedon',
+        boxOffice: 1.519,
+        color: Color.fromRGBO(84, 114, 246, 1.0),
+      ),
       const _MovieDetails(
-          movie: 'Furious 7',
-          director: 'James Wan',
-          boxOffice: 1.516,
-          color: Color.fromRGBO(143, 86, 245, 1.0)),
+        movie: 'Furious 7',
+        director: 'James Wan',
+        boxOffice: 1.516,
+        color: Color.fromRGBO(143, 86, 245, 1.0),
+      ),
       const _MovieDetails(
-          movie: 'Frozen II',
-          director: 'Chris Buck',
-          boxOffice: 1.450,
-          color: Color.fromRGBO(255, 128, 170, 1.0)),
+        movie: 'Frozen II',
+        director: 'Chris Buck',
+        boxOffice: 1.450,
+        color: Color.fromRGBO(255, 128, 170, 1.0),
+      ),
     ];
 
     super.initState();
@@ -112,17 +122,19 @@ class _TreemapLayoutSampleState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    _isDesktop = kIsWeb ||
+    _isDesktop =
+        kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
     _isLightTheme = themeData.colorScheme.brightness == Brightness.light;
     final Widget current = Center(
       child: Padding(
-        padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                _isDesktop
-            ? const EdgeInsets.all(12.5)
-            : const EdgeInsets.all(10.0),
+        padding:
+            MediaQuery.of(context).orientation == Orientation.portrait ||
+                    _isDesktop
+                ? const EdgeInsets.all(12.5)
+                : const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -153,19 +165,20 @@ class _TreemapLayoutSampleState extends SampleViewState {
                       _isDesktop
                   ? current
                   : SingleChildScrollView(
-                      child: SizedBox(height: 400, child: current),
-                    );
+                    child: SizedBox(height: 400, child: current),
+                  );
             },
           ),
           if (layoutType != LayoutType.squarified)
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: MediaQuery.of(context).orientation ==
-                            Orientation.portrait ||
-                        _isDesktop
-                    ? const EdgeInsets.only(right: 16.5, bottom: 16.5)
-                    : const EdgeInsets.only(right: 14.0, bottom: 14.0),
+                padding:
+                    MediaQuery.of(context).orientation ==
+                                Orientation.portrait ||
+                            _isDesktop
+                        ? const EdgeInsets.only(right: 16.5, bottom: 16.5)
+                        : const EdgeInsets.only(right: 14.0, bottom: 14.0),
                 child: SizedBox(
                   height: 45.0,
                   width: 45.0,
@@ -183,29 +196,32 @@ class _TreemapLayoutSampleState extends SampleViewState {
                     ),
                     child: TextButton(
                       style: ButtonStyle(
-                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(45 / 2))),
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(45 / 2),
+                          ),
+                        ),
                         backgroundColor: WidgetStateProperty.all(
-                            themeData.colorScheme.surface),
+                          themeData.colorScheme.surface,
+                        ),
                       ),
                       onPressed: () {
-                        setState(
-                          () {
-                            _sortAscending = !_sortAscending;
-                          },
-                        );
+                        setState(() {
+                          _sortAscending = !_sortAscending;
+                        });
                       },
                       child: Padding(
-                        padding: _isDesktop
-                            ? const EdgeInsets.all(2.0)
-                            : const EdgeInsets.all(1.0),
+                        padding:
+                            _isDesktop
+                                ? const EdgeInsets.all(2.0)
+                                : const EdgeInsets.all(1.0),
                         child: _buildIcon(layoutType),
                       ),
                     ),
                   ),
                 ),
               ),
-            )
+            ),
         ],
       ),
     );
@@ -215,19 +231,23 @@ class _TreemapLayoutSampleState extends SampleViewState {
     if (_isLightTheme) {
       return _sortAscending
           ? Tooltip(
-              message: 'Sort in descending order',
-              child: Image.asset('images/treemap_descending_light.png'))
+            message: 'Sort in descending order',
+            child: Image.asset('images/treemap_descending_light.png'),
+          )
           : Tooltip(
-              message: 'Sort in ascending order',
-              child: Image.asset('images/treemap_ascending_light.png'));
+            message: 'Sort in ascending order',
+            child: Image.asset('images/treemap_ascending_light.png'),
+          );
     } else {
       return _sortAscending
           ? Tooltip(
-              message: 'Sort in descending order',
-              child: Image.asset('images/treemap_descending_dark.png'))
+            message: 'Sort in descending order',
+            child: Image.asset('images/treemap_descending_dark.png'),
+          )
           : Tooltip(
-              message: 'Sort in ascending order',
-              child: Image.asset('images/treemap_ascending_dark.png'));
+            message: 'Sort in ascending order',
+            child: Image.asset('images/treemap_ascending_dark.png'),
+          );
     }
   }
 
@@ -247,9 +267,10 @@ class _TreemapLayoutSampleState extends SampleViewState {
         },
         sortAscending: _sortAscending,
         tooltipSettings: TreemapTooltipSettings(
-          color: _isLightTheme
-              ? const Color.fromRGBO(45, 45, 45, 1)
-              : const Color.fromRGBO(242, 242, 242, 1),
+          color:
+              _isLightTheme
+                  ? const Color.fromRGBO(45, 45, 45, 1)
+                  : const Color.fromRGBO(242, 242, 242, 1),
         ),
         levels: _getTreemapLevels(themeData),
       );
@@ -261,9 +282,10 @@ class _TreemapLayoutSampleState extends SampleViewState {
         },
         sortAscending: _sortAscending,
         tooltipSettings: TreemapTooltipSettings(
-          color: _isLightTheme
-              ? const Color.fromRGBO(45, 45, 45, 1)
-              : const Color.fromRGBO(242, 242, 242, 1),
+          color:
+              _isLightTheme
+                  ? const Color.fromRGBO(45, 45, 45, 1)
+                  : const Color.fromRGBO(242, 242, 242, 1),
         ),
         levels: _getTreemapLevels(themeData),
       );
@@ -274,9 +296,10 @@ class _TreemapLayoutSampleState extends SampleViewState {
           return _topTenMovies[index].boxOffice;
         },
         tooltipSettings: TreemapTooltipSettings(
-          color: _isLightTheme
-              ? const Color.fromRGBO(45, 45, 45, 1)
-              : const Color.fromRGBO(242, 242, 242, 1),
+          color:
+              _isLightTheme
+                  ? const Color.fromRGBO(45, 45, 45, 1)
+                  : const Color.fromRGBO(242, 242, 242, 1),
         ),
         levels: _getTreemapLevels(themeData),
       );
@@ -297,7 +320,8 @@ class _TreemapLayoutSampleState extends SampleViewState {
         padding: const EdgeInsets.all(1.0),
         // Border around the tile.
         border: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(2.0))),
+          borderRadius: BorderRadius.all(Radius.circular(2.0)),
+        ),
         // Returns a widget for each tile's data label.
         labelBuilder: (BuildContext context, TreemapTile tile) {
           return _buildLabelBuilder(tile);
@@ -380,9 +404,10 @@ class _TreemapLayoutSampleState extends SampleViewState {
       return Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
-          padding: _isDesktop
-              ? const EdgeInsets.only(bottom: 10.0)
-              : const EdgeInsets.only(bottom: 6.0),
+          padding:
+              _isDesktop
+                  ? const EdgeInsets.only(bottom: 10.0)
+                  : const EdgeInsets.only(bottom: 6.0),
           child: RotatedBox(
             quarterTurns: 3,
             child: Text(
@@ -418,13 +443,12 @@ class _TreemapLayoutSampleState extends SampleViewState {
                 text: 'Director',
                 style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
-                  color: _isLightTheme
-                      ? const Color.fromRGBO(255, 255, 255, 0.75)
-                      : const Color.fromRGBO(10, 10, 10, 0.75),
+                  color:
+                      _isLightTheme
+                          ? const Color.fromRGBO(255, 255, 255, 0.75)
+                          : const Color.fromRGBO(10, 10, 10, 0.75),
                 ),
-                children: const <TextSpan>[
-                  TextSpan(text: '\nBox office'),
-                ],
+                children: const <TextSpan>[TextSpan(text: '\nBox office')],
               ),
             ),
           ),
@@ -436,16 +460,17 @@ class _TreemapLayoutSampleState extends SampleViewState {
                 style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
                   fontWeight: FontWeight.bold,
-                  color: _isLightTheme
-                      ? const Color.fromRGBO(255, 255, 255, 1)
-                      : const Color.fromRGBO(10, 10, 10, 1),
+                  color:
+                      _isLightTheme
+                          ? const Color.fromRGBO(255, 255, 255, 1)
+                          : const Color.fromRGBO(10, 10, 10, 1),
                 ),
                 children: <TextSpan>[
                   TextSpan(text: '\n\$${movieDetails.boxOffice}B'),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -457,17 +482,11 @@ class _MovieDetails {
     required this.boxOffice,
     this.movie,
     this.director,
-    // ignore: unused_element
-    this.releaseDate,
-    // ignore: unused_element
-    this.budget,
     this.color,
   });
 
   final String? movie;
   final String? director;
-  final String? releaseDate;
-  final double? budget;
   final double boxOffice;
   final Color? color;
 }

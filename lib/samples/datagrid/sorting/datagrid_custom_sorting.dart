@@ -32,13 +32,19 @@ class _CustomSortingDataGridState extends SampleViewState {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
     _columns = _obtainColumns();
-    _customSortingDataGridSource =
-        ProductDataGridSource('Custom Sorting', productDataCount: 20);
+    _customSortingDataGridSource = ProductDataGridSource(
+      'Custom Sorting',
+      productDataCount: 20,
+    );
 
     /// Programmaticaly sorting based on string length for 'customer name' GirdColumn
 
-    _customSortingDataGridSource.sortedColumns.add(const SortColumnDetails(
-        name: 'name', sortDirection: DataGridSortDirection.ascending));
+    _customSortingDataGridSource.sortedColumns.add(
+      const SortColumnDetails(
+        name: 'name',
+        sortDirection: DataGridSortDirection.ascending,
+      ),
+    );
     _customSortingDataGridSource.sort();
   }
 
@@ -48,93 +54,82 @@ class _CustomSortingDataGridState extends SampleViewState {
       source: _customSortingDataGridSource,
       columns: _columns,
       allowSorting: true,
-      columnWidthMode: _isWebOrDesktop
-          ? (_isWebOrDesktop && model.isMobileResolution)
-              ? ColumnWidthMode.none
-              : ColumnWidthMode.fill
-          : ColumnWidthMode.none,
+      columnWidthMode:
+          _isWebOrDesktop
+              ? (_isWebOrDesktop && model.isMobileResolution)
+                  ? ColumnWidthMode.none
+                  : ColumnWidthMode.fill
+              : ColumnWidthMode.none,
     );
   }
 
   List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
-          columnName: 'id',
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Order ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'id',
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Order ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'productId',
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Product ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'productId',
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Product ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'name',
-          width: _isWebOrDesktop ? 170 : 150,
-          label: Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.all(8),
-              child: const Text('Customer Name'))),
+        columnName: 'name',
+        width: _isWebOrDesktop ? 170 : 150,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8),
+          child: const Text('Customer Name'),
+        ),
+      ),
       GridColumn(
-          columnName: 'product',
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerLeft,
-            child: const Text(
-              'Product',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'product',
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerLeft,
+          child: const Text('Product', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'orderDate',
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Order Date',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'orderDate',
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Order Date', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'quantity',
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Quantity',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'quantity',
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Quantity', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'city',
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8),
-            child: const Text(
-              'City',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'city',
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8),
+          child: const Text('City', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'unitPrice',
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Unit Price',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'unitPrice',
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Unit Price', overflow: TextOverflow.ellipsis),
+        ),
+      ),
     ];
   }
 }

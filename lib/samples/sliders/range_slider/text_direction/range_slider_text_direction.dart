@@ -30,48 +30,59 @@ class _RangeSliderTextDirectionPageState extends DirectionalitySampleViewState {
   late String _dateTitle;
   late ThemeData _themeData;
   SfRangeValues _numericRangeValues = const SfRangeValues(75.0, 125.0);
-  SfRangeValues _dateRangeValues =
-      SfRangeValues(DateTime(2005), DateTime(2015));
+  SfRangeValues _dateRangeValues = SfRangeValues(
+    DateTime(2005),
+    DateTime(2015),
+  );
   late ThemeData theme;
 
   SfRangeSliderTheme _numericRangeSlider() {
     return SfRangeSliderTheme(
-        data: SfRangeSliderThemeData(
-          tooltipBackgroundColor: model.primaryColor,
-          activeLabelStyle: _themeData.textTheme.bodyLarge!
-              .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-          inactiveLabelStyle: _themeData.textTheme.bodyLarge!
-              .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-          tooltipTextStyle: _themeData.textTheme.bodyLarge!.copyWith(
-            fontWeight: FontWeight.normal,
-            fontSize: 14,
-            color: Colors.white,
-          ),
+      data: SfRangeSliderThemeData(
+        tooltipBackgroundColor: model.primaryColor,
+        activeLabelStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
         ),
-        child: SfRangeSlider(
-          min: 50,
-          max: 150,
-          values: _numericRangeValues,
-          showLabels: true,
-          interval: 25,
-          showTicks: true,
-          onChanged: (SfRangeValues values) {
-            setState(() {
-              _numericRangeValues = values;
-            });
-          },
-          enableTooltip: true,
-        ));
+        inactiveLabelStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
+        ),
+        tooltipTextStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
+          color: Colors.white,
+        ),
+      ),
+      child: SfRangeSlider(
+        min: 50,
+        max: 150,
+        values: _numericRangeValues,
+        showLabels: true,
+        interval: 25,
+        showTicks: true,
+        onChanged: (SfRangeValues values) {
+          setState(() {
+            _numericRangeValues = values;
+          });
+        },
+        enableTooltip: true,
+      ),
+    );
   }
 
   SfRangeSliderTheme _dateTimeRangeSlider() {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
         tooltipBackgroundColor: model.primaryColor,
-        activeLabelStyle: _themeData.textTheme.bodyLarge!
-            .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
-        inactiveLabelStyle: _themeData.textTheme.bodyLarge!
-            .copyWith(fontWeight: FontWeight.normal, fontSize: 14),
+        activeLabelStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
+        ),
+        inactiveLabelStyle: _themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
+        ),
         tooltipTextStyle: _themeData.textTheme.bodyLarge!.copyWith(
           fontWeight: FontWeight.normal,
           fontSize: 14,
@@ -109,20 +120,21 @@ class _RangeSliderTextDirectionPageState extends DirectionalitySampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Padding(
-        padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            title(_numericTitle),
-            columnSpacing10,
-            _numericRangeSlider(),
-            columnSpacing40,
-            title(_dateTitle),
-            columnSpacing10,
-            _dateTimeRangeSlider(),
-            columnSpacing40,
-          ],
-        ));
+      padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          title(_numericTitle),
+          columnSpacing10,
+          _numericRangeSlider(),
+          columnSpacing40,
+          title(_dateTitle),
+          columnSpacing10,
+          _dateTimeRangeSlider(),
+          columnSpacing40,
+        ],
+      ),
+    );
   }
 
   void _updateTitleBasedOnLocale() {
@@ -141,13 +153,15 @@ class _RangeSliderTextDirectionPageState extends DirectionalitySampleViewState {
     _themeData = Theme.of(context);
     _updateTitleBasedOnLocale();
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget rangeSlider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 300
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 300, child: rangeSlider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget rangeSlider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 300
+            ? rangeSlider
+            : SingleChildScrollView(
+              child: SizedBox(height: 300, child: rangeSlider),
+            );
+      },
+    );
   }
 }

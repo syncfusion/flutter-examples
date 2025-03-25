@@ -32,159 +32,154 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
 
   /// DataGridController to do the programmatical selection.
   DataGridController _buildDataGridController() {
-    _dataGridController.selectedRows
-        .add(_checkboxDataGridSource.dataGridRows[2]);
-    _dataGridController.selectedRows
-        .add(_checkboxDataGridSource.dataGridRows[4]);
-    _dataGridController.selectedRows
-        .add(_checkboxDataGridSource.dataGridRows[6]);
+    _dataGridController.selectedRows.add(
+      _checkboxDataGridSource.dataGridRows[2],
+    );
+    _dataGridController.selectedRows.add(
+      _checkboxDataGridSource.dataGridRows[4],
+    );
+    _dataGridController.selectedRows.add(
+      _checkboxDataGridSource.dataGridRows[6],
+    );
     return _dataGridController;
   }
 
   List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
 
-    columns = _isWebOrDesktop
-        ? <GridColumn>[
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              columnName: 'id',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Order ID',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : double.nan,
-              columnName: 'customerId',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Customer ID',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              columnName: 'name',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Name',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 110.0
-                  : double.nan,
-              columnName: 'freight',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Freight',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              columnName: 'city',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'City',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-                width: (_isWebOrDesktop && model.isMobileResolution)
-                    ? 120.0
-                    : double.nan,
-                columnName: 'price',
+    columns =
+        _isWebOrDesktop
+            ? <GridColumn>[
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                columnName: 'id',
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerRight,
                   child: const Text(
-                    'Price',
+                    'Order ID',
                     overflow: TextOverflow.ellipsis,
                   ),
-                ))
-          ]
-        : <GridColumn>[
-            GridColumn(
-              columnName: 'id',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Order ID',
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'customerId',
-              width: 110,
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Customer ID',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 150.0
+                        : double.nan,
+                columnName: 'customerId',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text(
+                    'Customer ID',
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'name',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Name',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                columnName: 'name',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: const Text('Name', overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-            GridColumn(
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 110.0
+                        : double.nan,
+                columnName: 'freight',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text('Freight', overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
                 columnName: 'city',
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerLeft,
+                  child: const Text('City', overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                columnName: 'price',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text('Price', overflow: TextOverflow.ellipsis),
+                ),
+              ),
+            ]
+            : <GridColumn>[
+              GridColumn(
+                columnName: 'id',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
                   child: const Text(
-                    'City',
+                    'Order ID',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                columnWidthMode: ColumnWidthMode.lastColumnFill),
-          ];
+              ),
+              GridColumn(
+                columnName: 'customerId',
+                width: 110,
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text(
+                    'Customer ID',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              GridColumn(
+                columnName: 'name',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: const Text('Name', overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                columnName: 'city',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: const Text('City', overflow: TextOverflow.ellipsis),
+                ),
+                columnWidthMode: ColumnWidthMode.lastColumnFill,
+              ),
+            ];
     return columns;
   }
 
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
-      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
-          ? ColumnWidthMode.fill
-          : ColumnWidthMode.none,
+      columnWidthMode:
+          _isWebOrDesktop || _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
       source: _checkboxDataGridSource,
       showCheckboxColumn: true,
       selectionMode: SelectionMode.multiple,
@@ -199,13 +194,16 @@ class _CheckboxSelectionDataGridState extends SampleViewState {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
     _checkboxDataGridSource = OrderInfoDataGridSource(
-        isWebOrDesktop: _isWebOrDesktop, orderDataCount: 100);
+      isWebOrDesktop: _isWebOrDesktop,
+      orderDataCount: 100,
+    );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
