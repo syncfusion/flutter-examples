@@ -83,8 +83,8 @@ class _DefaultTooltipState extends SampleViewState {
         dataSource: _chartData,
         name: 'Mexico',
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.secondSeriesYValue,
         markerSettings: const MarkerSettings(isVisible: true),
       ),
     ];

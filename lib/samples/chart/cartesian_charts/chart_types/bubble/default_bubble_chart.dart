@@ -62,9 +62,7 @@ class _BubbleDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'World countries details',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'World countries details'),
       primaryXAxis: NumericAxis(
         majorGridLines: const MajorGridLines(width: 0),
         title: AxisTitle(text: isCardView ? '' : 'Literacy rate'),

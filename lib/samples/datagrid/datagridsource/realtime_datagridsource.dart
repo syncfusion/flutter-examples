@@ -44,17 +44,30 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
       // Reinitialize the DataGridRow for particular row and call the notify to
       // view the realtime changes in DataGrid.
       void updateDataRow() {
-        _dataGridRows[recNo] = DataGridRow(cells: <DataGridCell>[
-          DataGridCell<String>(
-              columnName: 'symbol', value: _stocks[recNo].symbol),
-          DataGridCell<double>(
-              columnName: 'stock', value: _stocks[recNo].stock),
-          DataGridCell<double>(columnName: 'open', value: _stocks[recNo].open),
-          DataGridCell<double>(
-              columnName: 'previousClose', value: _stocks[recNo].previousClose),
-          DataGridCell<int>(
-              columnName: 'lastTrade', value: _stocks[recNo].lastTrade),
-        ]);
+        _dataGridRows[recNo] = DataGridRow(
+          cells: <DataGridCell>[
+            DataGridCell<String>(
+              columnName: 'symbol',
+              value: _stocks[recNo].symbol,
+            ),
+            DataGridCell<double>(
+              columnName: 'stock',
+              value: _stocks[recNo].stock,
+            ),
+            DataGridCell<double>(
+              columnName: 'open',
+              value: _stocks[recNo].open,
+            ),
+            DataGridCell<double>(
+              columnName: 'previousClose',
+              value: _stocks[recNo].previousClose,
+            ),
+            DataGridCell<int>(
+              columnName: 'lastTrade',
+              value: _stocks[recNo].lastTrade,
+            ),
+          ],
+        );
       }
 
       _stocks[recNo].stock =
@@ -76,16 +89,25 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
 
   /// Building datagrid rows
   void _buildDataGridRows() {
-    _dataGridRows = _stocks.map<DataGridRow>((Stock stock) {
-      return DataGridRow(cells: <DataGridCell>[
-        DataGridCell<String>(columnName: 'symbol', value: stock.symbol),
-        DataGridCell<double>(columnName: 'stock', value: stock.stock),
-        DataGridCell<double>(columnName: 'open', value: stock.open),
-        DataGridCell<double>(
-            columnName: 'previousClose', value: stock.previousClose),
-        DataGridCell<int>(columnName: 'lastTrade', value: stock.lastTrade),
-      ]);
-    }).toList(growable: false);
+    _dataGridRows = _stocks
+        .map<DataGridRow>((Stock stock) {
+          return DataGridRow(
+            cells: <DataGridCell>[
+              DataGridCell<String>(columnName: 'symbol', value: stock.symbol),
+              DataGridCell<double>(columnName: 'stock', value: stock.stock),
+              DataGridCell<double>(columnName: 'open', value: stock.open),
+              DataGridCell<double>(
+                columnName: 'previousClose',
+                value: stock.previousClose,
+              ),
+              DataGridCell<int>(
+                columnName: 'lastTrade',
+                value: stock.lastTrade,
+              ),
+            ],
+          );
+        })
+        .toList(growable: false);
   }
 
   // Building Widget for each cell
@@ -97,16 +119,8 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
   }
 
   final Map<double, Image> _images = <double, Image>{
-    1: Image.asset(
-      'images/Uparrow.png',
-      width: 15,
-      height: 15,
-    ),
-    0: Image.asset(
-      'images/Downarrow.png',
-      width: 15,
-      height: 15,
-    ),
+    1: Image.asset('images/Uparrow.png', width: 15, height: 15),
+    0: Image.asset('images/Downarrow.png', width: 15, height: 15),
   };
 
   Widget _buildWidget(Image image, double stack) {
@@ -116,28 +130,22 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
       alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: isWebOrDesktop
-            ? <Widget>[
-                SizedBox(width: 20, child: image),
-                SizedBox(
-                  width: 50,
-                  child: Text(
-                    '   ' + stack.toString(),
+        children:
+            isWebOrDesktop
+                ? <Widget>[
+                  SizedBox(width: 20, child: image),
+                  SizedBox(width: 50, child: Text('   ' + stack.toString())),
+                ]
+                : <Widget>[
+                  Container(child: image),
+                  const SizedBox(width: 6.0),
+                  Flexible(
+                    child: Text(
+                      stack.toString(),
+                      textScaler: TextScaler.noScaling,
+                    ),
                   ),
-                )
-              ]
-            : <Widget>[
-                Container(child: image),
-                const SizedBox(
-                  width: 6.0,
-                ),
-                Flexible(
-                  child: Text(
-                    stack.toString(),
-                    textScaler: TextScaler.noScaling,
-                  ),
-                )
-              ],
+                ],
       ),
     );
   }
@@ -149,25 +157,27 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(cells: <Widget>[
-      Container(
-        alignment: Alignment.center,
-        child: Text(row.getCells()[0].value.toString()),
-      ),
-      _buildStocks(row.getCells()[1].value),
-      Container(
-        alignment: Alignment.center,
-        child: Text(row.getCells()[2].value.toString()),
-      ),
-      Container(
-        alignment: Alignment.center,
-        child: Text(row.getCells()[3].value.toString()),
-      ),
-      Container(
-        alignment: Alignment.center,
-        child: Text(row.getCells()[4].value.toString()),
-      ),
-    ]);
+    return DataGridRowAdapter(
+      cells: <Widget>[
+        Container(
+          alignment: Alignment.center,
+          child: Text(row.getCells()[0].value.toString()),
+        ),
+        _buildStocks(row.getCells()[1].value),
+        Container(
+          alignment: Alignment.center,
+          child: Text(row.getCells()[2].value.toString()),
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: Text(row.getCells()[3].value.toString()),
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: Text(row.getCells()[4].value.toString()),
+        ),
+      ],
+    );
   }
 
   /// Update DataGrid source.
@@ -194,7 +204,7 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
     0.84 - 0.84,
     0.18,
     -0.71,
-    -0.94
+    -0.94,
   ];
 
   final List<String> _symbols = <String>[
@@ -246,12 +256,15 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
   List<Stock> _fetchStocks(int count) {
     final List<Stock> stockData = <Stock>[];
     for (int i = 1; i < _symbols.length; i++) {
-      stockData.add(Stock(
+      stockData.add(
+        Stock(
           _symbols[i],
           _stocksData[_random.nextInt(_stocksData.length - 1)],
           50.0 + _random.nextInt(40),
           50.0 + _random.nextInt(30),
-          50 + _random.nextInt(20)));
+          50 + _random.nextInt(20),
+        ),
+      );
     }
     return stockData;
   }

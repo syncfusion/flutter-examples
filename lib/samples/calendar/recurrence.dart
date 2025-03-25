@@ -99,7 +99,8 @@ class RecurrenceCalendarState extends SampleViewState {
             /// Creates a new appointment, which is displayed on the tapped
             /// Calendar element, when the editor is opened.
             if (_selectedAppointment == null) {
-              _isAllDay = calendarTapDetails.targetElement ==
+              _isAllDay =
+                  calendarTapDetails.targetElement ==
                   CalendarElement.allDayPanel;
               _selectedColorIndex = 0;
               _subject = '';
@@ -113,10 +114,13 @@ class RecurrenceCalendarState extends SampleViewState {
               );
               appointment.add(newAppointment);
               _dataSource.appointments.add(appointment[0]);
-              SchedulerBinding.instance
-                  .addPostFrameCallback((Duration duration) {
+              SchedulerBinding.instance.addPostFrameCallback((
+                Duration duration,
+              ) {
                 _dataSource.notifyListeners(
-                    CalendarDataSourceAction.add, appointment);
+                  CalendarDataSourceAction.add,
+                  appointment,
+                );
               });
               _selectedAppointment = newAppointment;
             }
@@ -125,8 +129,9 @@ class RecurrenceCalendarState extends SampleViewState {
                 if (newAppointment != null) {
                   /// To remove the created appointment when the pop-up closed
                   /// without saving the appointment.
-                  final int appointmentIndex =
-                      _dataSource.appointments.indexOf(newAppointment);
+                  final int appointmentIndex = _dataSource.appointments.indexOf(
+                    newAppointment,
+                  );
                   if (appointmentIndex <= _dataSource.appointments.length - 1 &&
                       appointmentIndex >= 0) {
                     _dataSource.appointments.removeAt(
@@ -142,12 +147,13 @@ class RecurrenceCalendarState extends SampleViewState {
               child: Center(
                 child: SizedBox(
                   width: isAppointmentTapped ? 400 : 500,
-                  height: isAppointmentTapped
-                      ? (_selectedAppointment!.location == null ||
-                              _selectedAppointment!.location!.isEmpty
-                          ? 150
-                          : 200)
-                      : 400,
+                  height:
+                      isAppointmentTapped
+                          ? (_selectedAppointment!.location == null ||
+                                  _selectedAppointment!.location!.isEmpty
+                              ? 150
+                              : 200)
+                          : 400,
                   child: Theme(
                     data: model.themeData,
                     child: Card(
@@ -156,30 +162,31 @@ class RecurrenceCalendarState extends SampleViewState {
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      child: isAppointmentTapped
-                          ? displayAppointmentDetails(
-                              context,
-                              targetElement,
-                              selectedDate,
-                              model,
-                              _selectedAppointment!,
-                              _colorCollection,
-                              _colorNames,
-                              _dataSource,
-                              _timeZoneCollection,
-                              _visibleDates,
-                            )
-                          : PopUpAppointmentEditor(
-                              model,
-                              newAppointment,
-                              appointment,
-                              _dataSource,
-                              _colorCollection,
-                              _colorNames,
-                              _selectedAppointment!,
-                              _timeZoneCollection,
-                              _visibleDates,
-                            ),
+                      child:
+                          isAppointmentTapped
+                              ? displayAppointmentDetails(
+                                context,
+                                targetElement,
+                                selectedDate,
+                                model,
+                                _selectedAppointment!,
+                                _colorCollection,
+                                _colorNames,
+                                _dataSource,
+                                _timeZoneCollection,
+                                _visibleDates,
+                              )
+                              : PopUpAppointmentEditor(
+                                model,
+                                newAppointment,
+                                appointment,
+                                _dataSource,
+                                _colorCollection,
+                                _colorNames,
+                                _selectedAppointment!,
+                                _timeZoneCollection,
+                                _visibleDates,
+                              ),
                     ),
                   ),
                 ),
@@ -192,16 +199,17 @@ class RecurrenceCalendarState extends SampleViewState {
         Navigator.push<Widget>(
           context,
           MaterialPageRoute<Widget>(
-            builder: (BuildContext context) => AppointmentEditor(
-              model,
-              _selectedAppointment,
-              targetElement,
-              selectedDate,
-              _colorCollection,
-              _colorNames,
-              _dataSource,
-              _timeZoneCollection,
-            ),
+            builder:
+                (BuildContext context) => AppointmentEditor(
+                  model,
+                  _selectedAppointment,
+                  targetElement,
+                  selectedDate,
+                  _colorCollection,
+                  _colorNames,
+                  _dataSource,
+                  _timeZoneCollection,
+                ),
           ),
         );
       }
@@ -215,8 +223,9 @@ class RecurrenceCalendarState extends SampleViewState {
       /// when we change the parent of the widget.
       key: _globalKey,
       data: model.themeData.copyWith(
-        colorScheme:
-            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
       ),
       child: _getRecurrenceCalendar(
         calendarController,
@@ -232,27 +241,28 @@ class RecurrenceCalendarState extends SampleViewState {
       body: Row(
         children: <Widget>[
           Expanded(
-            child: calendarController.view == CalendarView.month &&
-                    model.isWebFullView &&
-                    screenHeight < 800
-                ? Scrollbar(
-                    thumbVisibility: true,
-                    controller: controller,
-                    child: ListView(
+            child:
+                calendarController.view == CalendarView.month &&
+                        model.isWebFullView &&
+                        screenHeight < 800
+                    ? Scrollbar(
+                      thumbVisibility: true,
                       controller: controller,
-                      children: <Widget>[
-                        Container(
-                          color: model.sampleOutputCardColor,
-                          height: 600,
-                          child: calendar,
-                        ),
-                      ],
+                      child: ListView(
+                        controller: controller,
+                        children: <Widget>[
+                          Container(
+                            color: model.sampleOutputCardColor,
+                            height: 600,
+                            child: calendar,
+                          ),
+                        ],
+                      ),
+                    )
+                    : Container(
+                      color: model.sampleOutputCardColor,
+                      child: calendar,
                     ),
-                  )
-                : Container(
-                    color: model.sampleOutputCardColor,
-                    child: calendar,
-                  ),
           ),
         ],
       ),
@@ -412,17 +422,25 @@ class RecurrenceCalendarState extends SampleViewState {
     final Random random = Random();
     final DateTime currentDate = DateTime.now();
 
-    final DateTime startTime =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 9);
-    final DateTime endTime =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 11);
+    final DateTime startTime = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      9,
+    );
+    final DateTime endTime = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      11,
+    );
     final RecurrenceProperties recurrencePropertiesForAlternativeDay =
         RecurrenceProperties(
-      startDate: startTime,
-      interval: 2,
-      recurrenceRange: RecurrenceRange.count,
-      recurrenceCount: 20,
-    );
+          startDate: startTime,
+          interval: 2,
+          recurrenceRange: RecurrenceRange.count,
+          recurrenceCount: 20,
+        );
     final Appointment alternativeDayAppointment = Appointment(
       startTime: startTime,
       endTime: endTime,
@@ -436,18 +454,26 @@ class RecurrenceCalendarState extends SampleViewState {
     );
     appointments.add(alternativeDayAppointment);
 
-    final DateTime startTime1 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 13);
-    final DateTime endTime1 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 15);
+    final DateTime startTime1 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      13,
+    );
+    final DateTime endTime1 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      15,
+    );
     final RecurrenceProperties recurrencePropertiesForWeeklyAppointment =
         RecurrenceProperties(
-      startDate: startTime1,
-      recurrenceType: RecurrenceType.weekly,
-      recurrenceRange: RecurrenceRange.count,
-      weekDays: <WeekDays>[WeekDays.monday],
-      recurrenceCount: 20,
-    );
+          startDate: startTime1,
+          recurrenceType: RecurrenceType.weekly,
+          recurrenceRange: RecurrenceRange.count,
+          weekDays: <WeekDays>[WeekDays.monday],
+          recurrenceCount: 20,
+        );
     final Appointment weeklyAppointment = Appointment(
       startTime: startTime1,
       endTime: endTime1,
@@ -461,17 +487,25 @@ class RecurrenceCalendarState extends SampleViewState {
     );
     appointments.add(weeklyAppointment);
 
-    final DateTime startTime2 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 14);
-    final DateTime endTime2 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 15);
+    final DateTime startTime2 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      14,
+    );
+    final DateTime endTime2 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      15,
+    );
     final RecurrenceProperties recurrencePropertiesForMonthlyAppointment =
         RecurrenceProperties(
-      startDate: startTime2,
-      recurrenceType: RecurrenceType.monthly,
-      recurrenceRange: RecurrenceRange.count,
-      recurrenceCount: 10,
-    );
+          startDate: startTime2,
+          recurrenceType: RecurrenceType.monthly,
+          recurrenceRange: RecurrenceRange.count,
+          recurrenceCount: 10,
+        );
     final Appointment monthlyAppointment = Appointment(
       startTime: startTime2,
       endTime: endTime2,
@@ -485,16 +519,24 @@ class RecurrenceCalendarState extends SampleViewState {
     );
     appointments.add(monthlyAppointment);
 
-    final DateTime startTime3 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 12);
-    final DateTime endTime3 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 14);
+    final DateTime startTime3 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      12,
+    );
+    final DateTime endTime3 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      14,
+    );
     final RecurrenceProperties recurrencePropertiesForYearlyAppointment =
         RecurrenceProperties(
-      startDate: startTime3,
-      recurrenceType: RecurrenceType.yearly,
-      dayOfMonth: 5,
-    );
+          startDate: startTime3,
+          recurrenceType: RecurrenceType.yearly,
+          dayOfMonth: 5,
+        );
     final Appointment yearlyAppointment = Appointment(
       startTime: startTime3,
       endTime: endTime3,
@@ -509,10 +551,18 @@ class RecurrenceCalendarState extends SampleViewState {
     );
     appointments.add(yearlyAppointment);
 
-    final DateTime startTime4 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 17);
-    final DateTime endTime4 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 18);
+    final DateTime startTime4 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      17,
+    );
+    final DateTime endTime4 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      18,
+    );
     final RecurrenceProperties recurrencePropertiesForCustomDailyAppointment =
         RecurrenceProperties(startDate: startTime4);
     final Appointment customDailyAppointment = Appointment(
@@ -528,18 +578,26 @@ class RecurrenceCalendarState extends SampleViewState {
     );
     appointments.add(customDailyAppointment);
 
-    final DateTime startTime5 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 12);
-    final DateTime endTime5 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 13);
+    final DateTime startTime5 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      12,
+    );
+    final DateTime endTime5 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      13,
+    );
     final RecurrenceProperties recurrencePropertiesForCustomWeeklyAppointment =
         RecurrenceProperties(
-      startDate: startTime5,
-      recurrenceType: RecurrenceType.weekly,
-      recurrenceRange: RecurrenceRange.endDate,
-      weekDays: <WeekDays>[WeekDays.monday, WeekDays.friday],
-      endDate: DateTime.now().add(const Duration(days: 14)),
-    );
+          startDate: startTime5,
+          recurrenceType: RecurrenceType.weekly,
+          recurrenceRange: RecurrenceRange.endDate,
+          weekDays: <WeekDays>[WeekDays.monday, WeekDays.friday],
+          endDate: DateTime.now().add(const Duration(days: 14)),
+        );
     final Appointment customWeeklyAppointment = Appointment(
       startTime: startTime5,
       endTime: endTime5,
@@ -553,19 +611,27 @@ class RecurrenceCalendarState extends SampleViewState {
     );
     appointments.add(customWeeklyAppointment);
 
-    final DateTime startTime6 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 16);
-    final DateTime endTime6 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 18);
+    final DateTime startTime6 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      16,
+    );
+    final DateTime endTime6 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      18,
+    );
     final RecurrenceProperties recurrencePropertiesForCustomMonthlyAppointment =
         RecurrenceProperties(
-      startDate: startTime6,
-      recurrenceType: RecurrenceType.monthly,
-      recurrenceRange: RecurrenceRange.count,
-      dayOfWeek: DateTime.friday,
-      week: 4,
-      recurrenceCount: 12,
-    );
+          startDate: startTime6,
+          recurrenceType: RecurrenceType.monthly,
+          recurrenceRange: RecurrenceRange.count,
+          dayOfWeek: DateTime.friday,
+          week: 4,
+          recurrenceCount: 12,
+        );
     final Appointment customMonthlyAppointment = Appointment(
       startTime: startTime6,
       endTime: endTime6,
@@ -579,21 +645,29 @@ class RecurrenceCalendarState extends SampleViewState {
     );
     appointments.add(customMonthlyAppointment);
 
-    final DateTime startTime7 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 14);
-    final DateTime endTime7 =
-        DateTime(currentDate.year, currentDate.month, currentDate.day, 15);
+    final DateTime startTime7 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      14,
+    );
+    final DateTime endTime7 = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day,
+      15,
+    );
     final RecurrenceProperties recurrencePropertiesForCustomYearlyAppointment =
         RecurrenceProperties(
-      startDate: startTime7,
-      recurrenceType: RecurrenceType.yearly,
-      recurrenceRange: RecurrenceRange.count,
-      interval: 2,
-      month: DateTime.february,
-      week: 2,
-      dayOfWeek: DateTime.sunday,
-      recurrenceCount: 10,
-    );
+          startDate: startTime7,
+          recurrenceType: RecurrenceType.yearly,
+          recurrenceRange: RecurrenceRange.count,
+          interval: 2,
+          month: DateTime.february,
+          week: 2,
+          dayOfWeek: DateTime.sunday,
+          recurrenceCount: 10,
+        );
     final Appointment customYearlyAppointment = Appointment(
       startTime: startTime7,
       endTime: endTime7,

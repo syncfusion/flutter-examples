@@ -32,28 +32,30 @@ class _RangePaddingViewState extends SampleViewState {
   void initState() {
     _rangePaddingX = ChartRangePadding.auto;
     _rangePaddingY = ChartRangePadding.auto;
-    _rangePaddingTypeX = <String>[
-      'auto',
-      'none',
-      'additional',
-      'additionalStart',
-      'additionalEnd',
-      'normal',
-      'round',
-      'roundStart',
-      'roundEnd',
-    ].toList();
-    _rangePaddingTypeY = <String>[
-      'auto',
-      'none',
-      'additional',
-      'additionalStart',
-      'additionalEnd',
-      'normal',
-      'round',
-      'roundStart',
-      'roundEnd',
-    ].toList();
+    _rangePaddingTypeX =
+        <String>[
+          'auto',
+          'none',
+          'additional',
+          'additionalStart',
+          'additionalEnd',
+          'normal',
+          'round',
+          'roundStart',
+          'roundEnd',
+        ].toList();
+    _rangePaddingTypeY =
+        <String>[
+          'auto',
+          'none',
+          'additional',
+          'additionalStart',
+          'additionalEnd',
+          'normal',
+          'round',
+          'roundStart',
+          'roundEnd',
+        ].toList();
     _selectedRangeTypeX = 'auto';
     _selectedRangeTypeY = 'auto';
     _salesProductData = <ChartSampleData>[
@@ -95,10 +97,7 @@ class _RangePaddingViewState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Range padding ',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -112,15 +111,16 @@ class _RangePaddingViewState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedRangeTypeX,
-                    items: _rangePaddingTypeX!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'auto',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                    items:
+                        _rangePaddingTypeX!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'auto',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _onRangePaddingChangeX(value.toString());
                       stateSetter(() {});
@@ -145,10 +145,7 @@ class _RangePaddingViewState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Range padding ',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -162,15 +159,16 @@ class _RangePaddingViewState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedRangeTypeY,
-                    items: _rangePaddingTypeY!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'auto',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                    items:
+                        _rangePaddingTypeY!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'auto',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _onRangePaddingChangeY(value.toString());
                       stateSetter(() {});
@@ -194,14 +192,8 @@ class _RangePaddingViewState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       title: ChartTitle(text: isCardView ? '' : 'Product Sales'),
-      primaryXAxis: NumericAxis(
-        rangePadding: _rangePaddingX,
-        interval: 2,
-      ),
-      primaryYAxis: NumericAxis(
-        rangePadding: _rangePaddingY,
-        interval: 1,
-      ),
+      primaryXAxis: NumericAxis(rangePadding: _rangePaddingX, interval: 2),
+      primaryYAxis: NumericAxis(rangePadding: _rangePaddingY, interval: 1),
       series: _buildSplineSeries(),
       tooltipBehavior: _tooltipBehavior,
     );

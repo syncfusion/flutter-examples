@@ -91,37 +91,46 @@ class _VerticalRangeSliderDragModePageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.fromLTRB(0, padding, 0, padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.fromLTRB(0, padding, 0, padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _buildSliderWithDragModeOnThumb()),
-              const Text('On thumbs')
-            ]),
-            Column(children: <Widget>[
+              const Text('On thumbs'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _buildSliderWithDragModeBetweenThumbs()),
               const Text('Between thumbs'),
-            ]),
-            Column(children: <Widget>[
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _buildSliderWithDragModeBoth()),
               const Text('Both'),
-            ]),
-          ],
-        ));
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget rangeSlider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget rangeSlider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? rangeSlider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+      },
+    );
   }
 
   @override

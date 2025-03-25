@@ -30,27 +30,24 @@ class _DefaultSliderPageState extends SampleViewState {
 
   SfSlider _inactiveSlider() {
     //ignore: missing_required_param
-    return SfSlider(
-      max: 100.0,
-      value: _inactiveSliderValue,
-      onChanged: null,
-    );
+    return SfSlider(max: 100.0, value: _inactiveSliderValue, onChanged: null);
   }
 
   SfSliderTheme _activeSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfSlider(
-          max: 100.0,
-          onChanged: (dynamic values) {
-            setState(() {
-              _activeSliderValue = values as double;
-            });
-          },
-          value: _activeSliderValue,
-          enableTooltip: true,
-          numberFormat: NumberFormat('#'),
-        ));
+      data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfSlider(
+        max: 100.0,
+        onChanged: (dynamic values) {
+          setState(() {
+            _activeSliderValue = values as double;
+          });
+        },
+        value: _activeSliderValue,
+        enableTooltip: true,
+        numberFormat: NumberFormat('#'),
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -67,28 +64,32 @@ class _DefaultSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
-        padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            title('Enabled'),
-            _activeSlider(),
-            columnSpacing40,
-            title('Disabled'),
-            _inactiveSlider(),
-          ],
-        ));
+      padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          title('Enabled'),
+          _activeSlider(),
+          columnSpacing40,
+          title('Disabled'),
+          _inactiveSlider(),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget slider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 300
-          ? slider
-          : SingleChildScrollView(child: SizedBox(height: 300, child: slider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget slider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 300
+            ? slider
+            : SingleChildScrollView(
+              child: SizedBox(height: 300, child: slider),
+            );
+      },
+    );
   }
 }

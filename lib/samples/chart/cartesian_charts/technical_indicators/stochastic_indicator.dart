@@ -92,14 +92,15 @@ class _StochasticcIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _period,
-            onChanged: (double val) => setState(() {
-              _period = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _period = val;
+                }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -121,14 +122,15 @@ class _StochasticcIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 100,
             initialValue: _kPeriod,
-            onChanged: (double val) => setState(() {
-              _kPeriod = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _kPeriod = val;
+                }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -150,14 +152,15 @@ class _StochasticcIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _dPeriod,
-            onChanged: (double val) => setState(() {
-              _dPeriod = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _dPeriod = val;
+                }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -179,14 +182,15 @@ class _StochasticcIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 100,
             initialValue: _overBought,
-            onChanged: (double val) => setState(() {
-              _overBought = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _overBought = val;
+                }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -208,14 +212,15 @@ class _StochasticcIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _overSold,
-            onChanged: (double val) => setState(() {
-              _overSold = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _overSold = val;
+                }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
           ),
-        )
+        ),
       ],
     );
   }
@@ -228,10 +233,7 @@ class _StochasticcIndicatorState extends SampleViewState {
         Text(
           model.isWebFullView ? '  Show \n  zones' : '  Show zones',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
         Container(
           padding: EdgeInsets.only(left: 0.05 * screenWidth),

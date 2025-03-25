@@ -33,65 +33,69 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithLabelCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(
-            tooltipBackgroundColor: model.primaryColor,
-            labelOffset: const Offset(8, 0)),
-        child: SfSlider.vertical(
-          showLabels: true,
-          interval: 20,
-          min: 10.0,
-          max: 90.0,
-          isInversed: _isInversed,
-          value: _labelSliderValue,
-          onChanged: (dynamic values) {
-            setState(() {
-              _labelSliderValue = values as double;
-            });
-          },
-          enableTooltip: true,
-          numberFormat: NumberFormat('#'),
-        ));
+      data: SfSliderThemeData(
+        tooltipBackgroundColor: model.primaryColor,
+        labelOffset: const Offset(8, 0),
+      ),
+      child: SfSlider.vertical(
+        showLabels: true,
+        interval: 20,
+        min: 10.0,
+        max: 90.0,
+        isInversed: _isInversed,
+        value: _labelSliderValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _labelSliderValue = values as double;
+          });
+        },
+        enableTooltip: true,
+        numberFormat: NumberFormat('#'),
+      ),
+    );
   }
 
   SfSliderTheme _sliderWithTickCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfSlider.vertical(
-          showLabels: true,
-          showTicks: true,
-          interval: 25,
-          min: -50.0,
-          max: 50.0,
-          isInversed: _isInversed,
-          value: _tickSliderValue,
-          onChanged: (dynamic values) {
-            setState(() {
-              _tickSliderValue = values as double;
-            });
-          },
-          enableTooltip: true,
-          numberFormat: NumberFormat('#'),
-        ));
+      data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfSlider.vertical(
+        showLabels: true,
+        showTicks: true,
+        interval: 25,
+        min: -50.0,
+        max: 50.0,
+        isInversed: _isInversed,
+        value: _tickSliderValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _tickSliderValue = values as double;
+          });
+        },
+        enableTooltip: true,
+        numberFormat: NumberFormat('#'),
+      ),
+    );
   }
 
   SfSliderTheme _sliderWithDividerCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfSlider.vertical(
-          interval: 25,
-          showDividers: true,
-          max: 100.0,
-          isInversed: _isInversed,
-          value: _dividerSliderValue,
-          tooltipPosition: SliderTooltipPosition.right,
-          onChanged: (dynamic values) {
-            setState(() {
-              _dividerSliderValue = values as double;
-            });
-          },
-          enableTooltip: true,
-          numberFormat: NumberFormat('#'),
-        ));
+      data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfSlider.vertical(
+        interval: 25,
+        showDividers: true,
+        max: 100.0,
+        isInversed: _isInversed,
+        value: _dividerSliderValue,
+        tooltipPosition: SliderTooltipPosition.right,
+        onChanged: (dynamic values) {
+          setState(() {
+            _dividerSliderValue = values as double;
+          });
+        },
+        enableTooltip: true,
+        numberFormat: NumberFormat('#'),
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -107,36 +111,46 @@ class _VerticalSliderLabelCustomizationPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.fromLTRB(0, padding, 0, padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.fromLTRB(0, padding, 0, padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithDividerCustomization()),
-              const Text('Dividers')
-            ]),
-            Column(children: <Widget>[
+              const Text('Dividers'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithLabelCustomization()),
               const Text('Labels'),
-            ]),
-            Column(children: <Widget>[
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithTickCustomization()),
-              const Text('Ticks')
-            ]),
-          ],
-        ));
+              const Text('Ticks'),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget slider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? slider
-          : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget slider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? slider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+      },
+    );
   }
 
   @override

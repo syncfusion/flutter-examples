@@ -32,10 +32,7 @@ class _DateTimeCategoryLabelState extends SampleViewState {
       _ServerDownTimeData(DateTime(2020, 12, 19, 04, 43), 35),
       _ServerDownTimeData(DateTime(2020, 12, 24, 18, 35), 41),
     ];
-    _tooltipBehavior = TooltipBehavior(
-      enable: true,
-      header: '',
-    );
+    _tooltipBehavior = TooltipBehavior(enable: true, header: '');
     super.initState();
   }
 
@@ -49,9 +46,7 @@ class _DateTimeCategoryLabelState extends SampleViewState {
       primaryXAxis: DateTimeCategoryAxis(
         majorGridLines: const MajorGridLines(width: 0),
         dateFormat: DateFormat('''MM/dd/yy\nh:mm a'''),
-        title: AxisTitle(
-          text: isCardView ? '' : 'Start time',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Start time'),
       ),
       primaryYAxis: NumericAxis(
         majorTickLines: const MajorTickLines(size: 0),
@@ -60,9 +55,7 @@ class _DateTimeCategoryLabelState extends SampleViewState {
         maximum: 50,
         axisLine: const AxisLine(width: 0),
         labelFormat: '{value}m',
-        title: AxisTitle(
-          text: isCardView ? '' : 'Duration in minutes',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Duration in minutes'),
       ),
       tooltipBehavior: _tooltipBehavior,
       series: <ColumnSeries<_ServerDownTimeData, DateTime>>[
@@ -89,10 +82,7 @@ class _DateTimeCategoryLabelState extends SampleViewState {
 
 /// Sample ordinal data type.
 class _ServerDownTimeData {
-  _ServerDownTimeData(
-    this.year,
-    this.sales,
-  );
+  _ServerDownTimeData(this.year, this.sales);
   final DateTime year;
   final double sales;
 }

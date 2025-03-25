@@ -67,9 +67,7 @@ class _FunnelLegendState extends SampleViewState {
       dataSource: _chartData,
       xValueMapper: (ChartSampleData data, int index) => data.x,
       yValueMapper: (ChartSampleData data, int index) => data.y,
-      dataLabelSettings: DataLabelSettings(
-        isVisible: !isCardView,
-      ),
+      dataLabelSettings: DataLabelSettings(isVisible: !isCardView),
     );
   }
 

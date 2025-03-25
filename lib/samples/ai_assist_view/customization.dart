@@ -19,10 +19,14 @@ class AssistViewCustomizationSample extends SampleView {
 }
 
 class AssistViewState extends SampleViewState {
-  final AssistMessageAuthor _userAuthor =
-      const AssistMessageAuthor(id: 'Emile Kraven', name: 'Emile Kraven');
-  final AssistMessageAuthor _aiAuthor =
-      const AssistMessageAuthor(id: 'AI', name: 'AI');
+  final AssistMessageAuthor _userAuthor = const AssistMessageAuthor(
+    id: 'Emile Kraven',
+    name: 'Emile Kraven',
+  );
+  final AssistMessageAuthor _aiAuthor = const AssistMessageAuthor(
+    id: 'AI',
+    name: 'AI',
+  );
 
   late List<AssistMessage> _messages;
   late List<String> _bubbleAlignments;
@@ -44,7 +48,7 @@ class AssistViewState extends SampleViewState {
 
   Timer? _copyTimer;
   String _selectedAlignment = 'Start';
-  AssistBubbleAlignment _bubbleAlignment = AssistBubbleAlignment.start;
+  AssistMessageAlignment _bubbleAlignment = AssistMessageAlignment.start;
 
   void _handleActionButtonVisibility() {
     setState(() {
@@ -86,31 +90,35 @@ class AssistViewState extends SampleViewState {
           ),
           hintText: 'Ask AI here..',
           hintStyle: TextStyle(color: model.textColor),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 16.0,
+          ),
         ),
       ),
     );
   }
 
   AssistActionButton _buildActionButton() {
-    final Color actionButtonStateColor = _enableActionButton
-        ? const Color.fromARGB(255, 140, 34, 159)
-        : Colors.transparent;
+    final Color actionButtonStateColor =
+        _enableActionButton
+            ? const Color.fromARGB(255, 140, 34, 159)
+            : Colors.transparent;
     return AssistActionButton(
       foregroundColor: !_enableActionButton ? Colors.grey[400] : Colors.white,
       backgroundColor: actionButtonStateColor,
       hoverColor: actionButtonStateColor,
       splashColor: actionButtonStateColor,
       focusColor: actionButtonStateColor,
-      onPressed: _enableActionButton
-          ? (String prompt) {
-              if (_composerTextController.text.isNotEmpty) {
-                _handleSendButtonPressed(_composerTextController.text);
-                _composerTextController.clear();
+      onPressed:
+          _enableActionButton
+              ? (String prompt) {
+                if (_composerTextController.text.isNotEmpty) {
+                  _handleSendButtonPressed(_composerTextController.text);
+                  _composerTextController.clear();
+                }
               }
-            }
-          : null,
+              : null,
     );
   }
 
@@ -120,12 +128,14 @@ class AssistViewState extends SampleViewState {
     if (model.assistApiKey.isEmpty) {
       Timer.periodic(const Duration(milliseconds: 500), (Timer timer) {
         setState(() {
-          _addMessageAndRebuild(AssistMessage.response(
-            data:
-                'Please connect to your preferred AI server for real-time queries.',
-            author: _aiAuthor,
-            toolbarItems: _buildToolbarItems(),
-          ));
+          _addMessageAndRebuild(
+            AssistMessage.response(
+              data:
+                  'Please connect to your preferred AI server for real-time queries.',
+              author: _aiAuthor,
+              toolbarItems: _buildToolbarItems(),
+            ),
+          );
           timer.cancel();
         });
       });
@@ -160,29 +170,31 @@ class AssistViewState extends SampleViewState {
   }
 
   SelectionArea _buildAIAssistView(
-      AssistComposer? composer, AssistActionButton? actionButton) {
+    AssistComposer? composer,
+    AssistActionButton? actionButton,
+  ) {
     return SelectionArea(
       child: SfAIAssistView(
         messages: _messages,
         composer: composer,
         actionButton: actionButton,
         placeholderBuilder: _buildPlaceholder,
-        bubbleAvatarBuilder: _buildAvatar,
-        bubbleContentBuilder: _bubbleContent,
+        messageAvatarBuilder: _buildAvatar,
+        messageContentBuilder: _bubbleContent,
         responseLoadingBuilder: _buildResponseLoader,
-        bubbleFooterBuilder: _buildFeedbackContainer,
-        onBubbleToolbarItemSelected: _handleToolbarItemSelected,
+        messageFooterBuilder: _buildFeedbackContainer,
+        onToolbarItemSelected: _handleToolbarItemSelected,
         placeholderBehavior: AssistPlaceholderBehavior.hideOnMessage,
-        bubbleAlignment: _bubbleAlignment,
-        responseBubbleSettings: AssistBubbleSettings(
+        messageAlignment: _bubbleAlignment,
+        responseMessageSettings: AssistMessageSettings(
           widthFactor: model.isWebFullView ? 0.9 : 1.0,
-          showUserAvatar: true,
+          showAuthorAvatar: true,
         ),
-        requestBubbleSettings: AssistBubbleSettings(
+        requestMessageSettings: AssistMessageSettings(
           widthFactor: model.isWebFullView ? 0.9 : 1.0,
-          showUserAvatar: true,
-          contentPadding: EdgeInsets.zero,
-          contentBackgroundColor: Colors.transparent,
+          showAuthorAvatar: true,
+          padding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
         ),
       ),
     );
@@ -255,8 +267,11 @@ class AssistViewState extends SampleViewState {
               borderSide: BorderSide.none,
             ),
             hintText: 'Ask here..',
-            contentPadding:
-                const EdgeInsets.only(left: 20.0, top: 16, right: 20),
+            contentPadding: const EdgeInsets.only(
+              left: 20.0,
+              top: 16,
+              right: 20,
+            ),
           ),
         ),
         Row(
@@ -280,13 +295,15 @@ class AssistViewState extends SampleViewState {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: IconButton.filled(
-                    onPressed: _placeholderTextController.text.isEmpty
-                        ? null
-                        : () {
-                            _handleSendButtonPressed(
-                                _placeholderTextController.text);
-                            _placeholderTextController.clear();
-                          },
+                    onPressed:
+                        _placeholderTextController.text.isEmpty
+                            ? null
+                            : () {
+                              _handleSendButtonPressed(
+                                _placeholderTextController.text,
+                              );
+                              _placeholderTextController.clear();
+                            },
                     icon: const Icon(Icons.arrow_upward_rounded),
                   ),
                 ),
@@ -354,16 +371,19 @@ class AssistViewState extends SampleViewState {
     });
   }
 
-  Future<void> _generateResponse(String prompt,
-      [String localResponse = '']) async {
+  Future<void> _generateResponse(
+    String prompt, [
+    String localResponse = '',
+  ]) async {
     final GenerativeModel aiModel = GenerativeModel(
       model: 'gemini-1.5-flash-latest',
       apiKey: model.assistApiKey,
     );
 
     try {
-      final GenerateContentResponse response =
-          await aiModel.generateContent([Content.text(prompt)]);
+      final GenerateContentResponse response = await aiModel.generateContent([
+        Content.text(prompt),
+      ]);
       _addResponseMessage(response.text!);
     } catch (err) {
       if (localResponse.isNotEmpty) {
@@ -375,12 +395,14 @@ class AssistViewState extends SampleViewState {
   }
 
   void _addResponseMessage(String response) {
-    _addMessageAndRebuild(AssistMessage.response(
-      data: response,
-      time: DateTime.now(),
-      author: _aiAuthor,
-      toolbarItems: _buildToolbarItems(),
-    ));
+    _addMessageAndRebuild(
+      AssistMessage.response(
+        data: response,
+        time: DateTime.now(),
+        author: _aiAuthor,
+        toolbarItems: _buildToolbarItems(),
+      ),
+    );
   }
 
   void _addMessageAndRebuild(AssistMessage message) {
@@ -394,15 +416,18 @@ class AssistViewState extends SampleViewState {
     return message.isRequested
         ? const CircleAvatar(child: Text('EK', style: TextStyle(fontSize: 12)))
         : Image.asset(
-            _lightTheme
-                ? 'images/ai_avatar_light.png'
-                : 'images/ai_avatar_dark.png',
-            color: model.themeData.colorScheme.primary,
-          );
+          _lightTheme
+              ? 'images/ai_avatar_light.png'
+              : 'images/ai_avatar_dark.png',
+          color: model.themeData.colorScheme.primary,
+        );
   }
 
   Widget _bubbleContent(
-      BuildContext context, int index, AssistMessage message) {
+    BuildContext context,
+    int index,
+    AssistMessage message,
+  ) {
     return message.isRequested
         ? _buildRequestContent(message)
         : _buildResponseContent(message);
@@ -415,18 +440,21 @@ class AssistViewState extends SampleViewState {
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(10.0),
           topRight: const Radius.circular(10.0),
-          bottomLeft: _bubbleAlignment == AssistBubbleAlignment.start
-              ? Radius.zero
-              : const Radius.circular(10.0),
-          bottomRight: _bubbleAlignment != AssistBubbleAlignment.start
-              ? Radius.zero
-              : const Radius.circular(10.0),
+          bottomLeft:
+              _bubbleAlignment == AssistMessageAlignment.start
+                  ? Radius.zero
+                  : const Radius.circular(10.0),
+          bottomRight:
+              _bubbleAlignment != AssistMessageAlignment.start
+                  ? Radius.zero
+                  : const Radius.circular(10.0),
         ),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: _lightTheme
-                ? Colors.black.withValues(alpha: 0.2)
-                : Colors.white.withValues(alpha: 0.2),
+            color:
+                _lightTheme
+                    ? Colors.black.withValues(alpha: 0.2)
+                    : Colors.white.withValues(alpha: 0.2),
             offset: const Offset(2.0, 2.0),
             blurRadius: 5,
           ),
@@ -436,9 +464,7 @@ class AssistViewState extends SampleViewState {
         padding: const EdgeInsets.all(10.0),
         child: MarkdownBody(
           data: message.data,
-          styleSheet: MarkdownStyleSheet(
-            p: TextStyle(color: model.textColor),
-          ),
+          styleSheet: MarkdownStyleSheet(p: TextStyle(color: model.textColor)),
         ),
       ),
     );
@@ -459,14 +485,20 @@ class AssistViewState extends SampleViewState {
   }
 
   Widget _buildResponseLoader(
-      BuildContext context, int index, AssistMessage message) {
+    BuildContext context,
+    int index,
+    AssistMessage message,
+  ) {
     return TypingIndicator(
       dotColor: model.themeData.colorScheme.onSurfaceVariant,
     );
   }
 
   Widget _buildFeedbackContainer(
-      BuildContext context, int index, AssistMessage message) {
+    BuildContext context,
+    int index,
+    AssistMessage message,
+  ) {
     final TextTheme textThemeData = Theme.of(context).textTheme;
     if (_footerMessageIndex == index) {
       final List<String> feedbacks =
@@ -474,8 +506,9 @@ class AssistViewState extends SampleViewState {
       return ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: ColoredBox(
-          color: model.themeData.colorScheme.surfaceContainerLow
-              .withValues(alpha: 0.54),
+          color: model.themeData.colorScheme.surfaceContainerLow.withValues(
+            alpha: 0.54,
+          ),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Column(
@@ -504,15 +537,16 @@ class AssistViewState extends SampleViewState {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   child: FilledButton(
-                    onPressed: _selectedChipFeedbackIndices.isNotEmpty ||
-                            _feedbackTextController.text.isNotEmpty
-                        ? () {
-                            setState(() {
-                              _footerMessageIndex = -1;
-                              _selectedChipFeedbackIndices.clear();
-                            });
-                          }
-                        : null,
+                    onPressed:
+                        _selectedChipFeedbackIndices.isNotEmpty ||
+                                _feedbackTextController.text.isNotEmpty
+                            ? () {
+                              setState(() {
+                                _footerMessageIndex = -1;
+                                _selectedChipFeedbackIndices.clear();
+                              });
+                            }
+                            : null,
                     child: const Text('Submit'),
                   ),
                 ),
@@ -540,8 +574,9 @@ class AssistViewState extends SampleViewState {
                 TextSpan(
                   text: ' (Optional)',
                   style: textThemeData.titleSmall!.copyWith(
-                    color: model.themeData.colorScheme.onSurface
-                        .withValues(alpha: 0.54),
+                    color: model.themeData.colorScheme.onSurface.withValues(
+                      alpha: 0.54,
+                    ),
                   ),
                 ),
               ],
@@ -599,15 +634,27 @@ class AssistViewState extends SampleViewState {
   ) {
     if (toolbarItemIndex == 0) {
       _handleThumbUpClicked(
-          selected, messageIndex, toolbarItem, toolbarItemIndex);
+        selected,
+        messageIndex,
+        toolbarItem,
+        toolbarItemIndex,
+      );
     } else if (toolbarItemIndex == 1) {
       _handleThumbDownClicked(
-          selected, messageIndex, toolbarItem, toolbarItemIndex);
+        selected,
+        messageIndex,
+        toolbarItem,
+        toolbarItemIndex,
+      );
     } else if (toolbarItemIndex == 2) {
       _handleCopyClicked(selected, messageIndex, toolbarItem, toolbarItemIndex);
     } else if (toolbarItemIndex == 3) {
       _handleRegenerateItemClicked(
-          selected, messageIndex, toolbarItem, toolbarItemIndex);
+        selected,
+        messageIndex,
+        toolbarItem,
+        toolbarItemIndex,
+      );
     }
   }
 
@@ -619,9 +666,11 @@ class AssistViewState extends SampleViewState {
   ) {
     setState(() {
       _resetThumbDownIcon(messageIndex, toolbarItemIndex);
-      _messages[messageIndex].toolbarItems![toolbarItemIndex] =
-          toolbarItem.copyWith(
-              content: _toolbarItem(Icons.thumb_up_alt), isSelected: true);
+      _messages[messageIndex].toolbarItems![toolbarItemIndex] = toolbarItem
+          .copyWith(
+            content: _toolbarItem(Icons.thumb_up_alt),
+            isSelected: true,
+          );
       _clearFeedbackCache();
       _isPositiveFeedback = true;
       _footerMessageIndex = messageIndex;
@@ -637,7 +686,9 @@ class AssistViewState extends SampleViewState {
           toolbarItems[thumbDownItemIndex];
       if (thumbDownItem.isSelected) {
         toolbarItems[thumbDownItemIndex] = thumbDownItem.copyWith(
-            content: _toolbarItem(Icons.thumb_down_off_alt), isSelected: false);
+          content: _toolbarItem(Icons.thumb_down_off_alt),
+          isSelected: false,
+        );
       }
     }
   }
@@ -650,9 +701,11 @@ class AssistViewState extends SampleViewState {
   ) {
     setState(() {
       _resetThumbUpIcon(messageIndex, toolbarItemIndex);
-      _messages[messageIndex].toolbarItems![toolbarItemIndex] =
-          toolbarItem.copyWith(
-              content: _toolbarItem(Icons.thumb_down_alt), isSelected: true);
+      _messages[messageIndex].toolbarItems![toolbarItemIndex] = toolbarItem
+          .copyWith(
+            content: _toolbarItem(Icons.thumb_down_alt),
+            isSelected: true,
+          );
       _clearFeedbackCache();
       _isPositiveFeedback = false;
       _footerMessageIndex = messageIndex;
@@ -668,7 +721,9 @@ class AssistViewState extends SampleViewState {
           toolbarItems[thumbUpItemIndex];
       if (thumbUpItem.isSelected) {
         toolbarItems[thumbUpItemIndex] = thumbUpItem.copyWith(
-            content: _toolbarItem(Icons.thumb_up_off_alt), isSelected: false);
+          content: _toolbarItem(Icons.thumb_up_off_alt),
+          isSelected: false,
+        );
       }
     }
   }
@@ -683,14 +738,14 @@ class AssistViewState extends SampleViewState {
       Clipboard.setData(ClipboardData(text: _messages[messageIndex].data));
       // Change the icon to done for a second.
       setState(() {
-        _messages[messageIndex].toolbarItems![toolbarItemIndex] =
-            toolbarItem.copyWith(content: _toolbarItem(Icons.done));
+        _messages[messageIndex].toolbarItems![toolbarItemIndex] = toolbarItem
+            .copyWith(content: _toolbarItem(Icons.done));
       });
       // Reset the icon to copy after a second.
       _copyTimer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
         setState(() {
-          _messages[messageIndex].toolbarItems![toolbarItemIndex] =
-              toolbarItem.copyWith(content: _toolbarItem(Icons.copy));
+          _messages[messageIndex].toolbarItems![toolbarItemIndex] = toolbarItem
+              .copyWith(content: _toolbarItem(Icons.copy));
         });
         timer.cancel();
         _copyTimer = null;
@@ -736,15 +791,16 @@ class AssistViewState extends SampleViewState {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) => WelcomeDialog(
-                  primaryColor: model.primaryColor,
-                  apiKey: model.assistApiKey,
-                  onApiKeySaved: (newApiKey) {
-                    setState(() {
-                      model.assistApiKey = newApiKey;
-                    });
-                  },
-                ),
+                builder:
+                    (context) => WelcomeDialog(
+                      primaryColor: model.primaryColor,
+                      apiKey: model.assistApiKey,
+                      onApiKeySaved: (newApiKey) {
+                        setState(() {
+                          model.assistApiKey = newApiKey;
+                        });
+                      },
+                    ),
               );
             },
           ),
@@ -776,17 +832,19 @@ class AssistViewState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: value,
-            items: List<DropdownMenuItem<String>>.generate(dropDownItems.length,
-                (int index) {
-              return DropdownMenuItem<String>(
-                value: dropDownItems[index],
-                child: Text(
-                  dropDownItems[index],
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: model.textColor),
-                ),
-              );
-            }),
+            items: List<DropdownMenuItem<String>>.generate(
+              dropDownItems.length,
+              (int index) {
+                return DropdownMenuItem<String>(
+                  value: dropDownItems[index],
+                  child: Text(
+                    dropDownItems[index],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: model.textColor),
+                  ),
+                );
+              },
+            ),
             onChanged: onChanged,
           ),
         ],
@@ -799,13 +857,13 @@ class AssistViewState extends SampleViewState {
       _selectedAlignment = value;
       switch (value) {
         case 'Start':
-          _bubbleAlignment = AssistBubbleAlignment.start;
+          _bubbleAlignment = AssistMessageAlignment.start;
           break;
         case 'End':
-          _bubbleAlignment = AssistBubbleAlignment.end;
+          _bubbleAlignment = AssistMessageAlignment.end;
           break;
         case 'Auto':
-          _bubbleAlignment = AssistBubbleAlignment.auto;
+          _bubbleAlignment = AssistMessageAlignment.auto;
           break;
       }
     });
@@ -816,14 +874,14 @@ class AssistViewState extends SampleViewState {
       padding: const EdgeInsets.only(top: 20.0),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return model.themeData.colorScheme.onSurface;
-              }
-              return model.themeData.colorScheme.primary; // Default color
-            },
-          ),
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((
+            Set<WidgetState> states,
+          ) {
+            if (states.contains(WidgetState.pressed)) {
+              return model.themeData.colorScheme.onSurface;
+            }
+            return model.themeData.colorScheme.primary; // Default color
+          }),
         ),
         onPressed: () {
           if (_messages.isNotEmpty) {
@@ -885,8 +943,9 @@ class AssistViewState extends SampleViewState {
 
     _composerTextController.addListener(_handleActionButtonVisibility);
     _feedbackTextController.addListener(_handleSubmitButtonVisibility);
-    _placeholderTextController
-        .addListener(_handlePlaceholderSendButtonVisibility);
+    _placeholderTextController.addListener(
+      _handlePlaceholderSendButtonVisibility,
+    );
     super.initState();
 
     // Show the dialog when the app starts.
@@ -894,15 +953,16 @@ class AssistViewState extends SampleViewState {
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder: (context) => WelcomeDialog(
-            primaryColor: model.primaryColor,
-            apiKey: model.assistApiKey,
-            onApiKeySaved: (newApiKey) {
-              setState(() {
-                model.assistApiKey = newApiKey;
-              });
-            },
-          ),
+          builder:
+              (context) => WelcomeDialog(
+                primaryColor: model.primaryColor,
+                apiKey: model.assistApiKey,
+                onApiKeySaved: (newApiKey) {
+                  setState(() {
+                    model.assistApiKey = newApiKey;
+                  });
+                },
+              ),
         );
         model.isFirstTime = false;
       }
@@ -919,12 +979,14 @@ class AssistViewState extends SampleViewState {
             final double availableWidth = constraints.maxWidth;
             const double maxExpectedWidth = 750.0;
             final bool canCenter = availableWidth > maxExpectedWidth;
-            final EdgeInsets padding = canCenter
-                ? const EdgeInsets.symmetric(vertical: 10.0)
-                : const EdgeInsets.all(10.0);
-            final AssistComposer? composer = _messages.isNotEmpty
-                ? AssistComposer.builder(builder: _buildComposer)
-                : null;
+            final EdgeInsets padding =
+                canCenter
+                    ? const EdgeInsets.symmetric(vertical: 10.0)
+                    : const EdgeInsets.all(10.0);
+            final AssistComposer? composer =
+                _messages.isNotEmpty
+                    ? AssistComposer.builder(builder: _buildComposer)
+                    : null;
             final AssistActionButton? actionButton =
                 _messages.isNotEmpty ? _buildActionButton() : null;
 
@@ -972,7 +1034,7 @@ class AssistViewState extends SampleViewState {
                 stateSetter(() {});
               },
             ),
-            _buildClearChat(stateSetter)
+            _buildClearChat(stateSetter),
           ],
         );
       },
@@ -997,10 +1059,7 @@ class AssistViewState extends SampleViewState {
 }
 
 class TypingIndicator extends StatefulWidget {
-  const TypingIndicator({
-    super.key,
-    required this.dotColor,
-  });
+  const TypingIndicator({super.key, required this.dotColor});
 
   final Color dotColor;
 
@@ -1029,25 +1088,27 @@ class TypingIndicatorState extends State<TypingIndicator>
         crossAxisAlignment: CrossAxisAlignment.end,
         children: List<Widget>.generate(3, (int index) {
           return Padding(
-            padding: index == 0
-                ? const EdgeInsetsDirectional.only(start: 48.0, end: 4.0)
-                : const EdgeInsets.symmetric(horizontal: 4.0),
+            padding:
+                index == 0
+                    ? const EdgeInsetsDirectional.only(start: 48.0, end: 4.0)
+                    : const EdgeInsets.symmetric(horizontal: 4.0),
             child: AnimatedBuilder(
               animation: _controller,
               builder: (BuildContext context, Widget? child) {
                 return Opacity(
-                  opacity: Tween<double>(begin: 0.2, end: 1.0)
-                      .animate(
-                        CurvedAnimation(
-                          parent: _controller,
-                          curve: Interval(
-                            index * 0.2,
-                            0.1 + index * 0.2,
-                            curve: Curves.easeInOut,
-                          ),
-                        ),
-                      )
-                      .value,
+                  opacity:
+                      Tween<double>(begin: 0.2, end: 1.0)
+                          .animate(
+                            CurvedAnimation(
+                              parent: _controller,
+                              curve: Interval(
+                                index * 0.2,
+                                0.1 + index * 0.2,
+                                curve: Curves.easeInOut,
+                              ),
+                            ),
+                          )
+                          .value,
                   child: Container(
                     width: 7.0,
                     height: 7.0,
@@ -1086,13 +1147,11 @@ class _GradientText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-      shaderCallback: (Rect bounds) => gradient.createShader(
-        Rect.fromLTWH(0.0, 0.0, bounds.width, bounds.height),
-      ),
-      child: Text(
-        text,
-        style: style.copyWith(color: Colors.white),
-      ),
+      shaderCallback:
+          (Rect bounds) => gradient.createShader(
+            Rect.fromLTWH(0.0, 0.0, bounds.width, bounds.height),
+          ),
+      child: Text(text, style: style.copyWith(color: Colors.white)),
     );
   }
 }
@@ -1120,7 +1179,9 @@ class _GradientBorder extends SingleChildRenderObjectWidget {
 
   @override
   void updateRenderObject(
-      BuildContext context, _RenderGradientBorder renderObject) {
+    BuildContext context,
+    _RenderGradientBorder renderObject,
+  ) {
     renderObject
       ..gradient = gradient
       ..width = width
@@ -1133,9 +1194,9 @@ class _RenderGradientBorder extends RenderProxyBox {
     required Gradient gradient,
     required double width,
     required Radius borderRadius,
-  })  : _gradient = gradient,
-        _width = width,
-        _borderRadius = borderRadius;
+  }) : _gradient = gradient,
+       _width = width,
+       _borderRadius = borderRadius;
 
   Gradient? get gradient => _gradient;
   Gradient? _gradient;
@@ -1170,10 +1231,11 @@ class _RenderGradientBorder extends RenderProxyBox {
       context.paintChild(child!, offset);
 
       final Rect rect = offset & size;
-      final Paint paint = Paint()
-        ..shader = gradient!.createShader(rect)
-        ..strokeWidth = width
-        ..style = PaintingStyle.stroke;
+      final Paint paint =
+          Paint()
+            ..shader = gradient!.createShader(rect)
+            ..strokeWidth = width
+            ..style = PaintingStyle.stroke;
       final RRect rrect = RRect.fromRectAndRadius(rect, borderRadius);
       context.canvas.drawRRect(rrect, paint);
     }

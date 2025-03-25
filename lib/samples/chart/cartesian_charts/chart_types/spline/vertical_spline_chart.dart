@@ -46,9 +46,7 @@ class _SplineVerticalState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Climate graph - 2012',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Climate graph - 2012'),
       isTransposed: true,
       primaryXAxis: const CategoryAxis(
         majorTickLines: MajorTickLines(size: 0),

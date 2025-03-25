@@ -25,43 +25,46 @@ class _ScaleRangeSliderPageState extends SampleViewState {
 
   SfRangeSlider _sliderWithDivider() {
     return SfRangeSlider(
-        max: 100.0,
-        interval: 20,
-        showDividers: true,
-        values: _divisonSliderValues,
-        onChanged: (SfRangeValues values) {
-          setState(() {
-            _divisonSliderValues = values;
-          });
+      max: 100.0,
+      interval: 20,
+      showDividers: true,
+      values: _divisonSliderValues,
+      onChanged: (SfRangeValues values) {
+        setState(() {
+          _divisonSliderValues = values;
         });
+      },
+    );
   }
 
   SfRangeSlider _sliderWithTick() {
     return SfRangeSlider(
-        max: 100.0,
-        interval: 20,
-        showLabels: true,
-        showTicks: true,
-        minorTicksPerInterval: 1,
-        values: _tickSliderValues,
-        onChanged: (SfRangeValues values) {
-          setState(() {
-            _tickSliderValues = values;
-          });
+      max: 100.0,
+      interval: 20,
+      showLabels: true,
+      showTicks: true,
+      minorTicksPerInterval: 1,
+      values: _tickSliderValues,
+      onChanged: (SfRangeValues values) {
+        setState(() {
+          _tickSliderValues = values;
         });
+      },
+    );
   }
 
   SfRangeSlider _sliderWithLabel() {
     return SfRangeSlider(
-        max: 100.0,
-        interval: 20,
-        showLabels: true,
-        values: _labelSliderValues,
-        onChanged: (SfRangeValues values) {
-          setState(() {
-            _labelSliderValues = values;
-          });
+      max: 100.0,
+      interval: 20,
+      showLabels: true,
+      values: _labelSliderValues,
+      onChanged: (SfRangeValues values) {
+        setState(() {
+          _labelSliderValues = values;
         });
+      },
+    );
   }
 
   Widget _buildWebLayout() {
@@ -78,33 +81,36 @@ class _ScaleRangeSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
-        padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            title('Dividers'),
-            _sliderWithDivider(),
-            columnSpacing40,
-            title('Labels'),
-            _sliderWithLabel(),
-            columnSpacing30,
-            title('Ticks'),
-            _sliderWithTick(),
-            columnSpacing40,
-          ],
-        ));
+      padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          title('Dividers'),
+          _sliderWithDivider(),
+          columnSpacing40,
+          title('Labels'),
+          _sliderWithLabel(),
+          columnSpacing30,
+          title('Ticks'),
+          _sliderWithTick(),
+          columnSpacing40,
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget rangeSlider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 325
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 325, child: rangeSlider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget rangeSlider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 325
+            ? rangeSlider
+            : SingleChildScrollView(
+              child: SizedBox(height: 325, child: rangeSlider),
+            );
+      },
+    );
   }
 }

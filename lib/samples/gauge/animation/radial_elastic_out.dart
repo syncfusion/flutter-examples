@@ -30,41 +30,48 @@ class _RadialElasticOutAnimationState extends SampleViewState {
     return SfRadialGauge(
       axes: <RadialAxis>[
         RadialAxis(
-            startAngle: 180,
-            endAngle: 360,
-            canScaleToFit: true,
-            interval: 10,
-            showLabels: false,
-            radiusFactor: 0.9,
-            majorTickStyle: const MajorTickStyle(
-                length: 0.1, lengthUnit: GaugeSizeUnit.factor),
-            minorTicksPerInterval: 4,
-            pointers: <GaugePointer>[
-              const RangePointer(
-                  gradient: SweepGradient(
-                      colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
-                      stops: <double>[0.25, 0.75]),
-                  value: 70,
-                  width: 5,
-                  animationDuration: 2000,
-                  enableAnimation: true,
-                  animationType: AnimationType.elasticOut,
-                  color: Color(0xFF00A8B5)),
-              NeedlePointer(
-                  value: 70,
-                  needleStartWidth: 0,
-                  needleColor:
-                      model.isWebFullView ? null : const Color(0xFFD481FF),
-                  needleLength: 1,
-                  enableAnimation: true,
-                  animationDuration: 2000,
-                  animationType: AnimationType.elasticOut,
-                  needleEndWidth: 5,
-                  knobStyle: const KnobStyle(knobRadius: 0))
-            ],
-            minorTickStyle: const MinorTickStyle(
-                length: 0.04, lengthUnit: GaugeSizeUnit.factor),
-            axisLineStyle: const AxisLineStyle(color: Colors.transparent))
+          startAngle: 180,
+          endAngle: 360,
+          canScaleToFit: true,
+          interval: 10,
+          showLabels: false,
+          radiusFactor: 0.9,
+          majorTickStyle: const MajorTickStyle(
+            length: 0.1,
+            lengthUnit: GaugeSizeUnit.factor,
+          ),
+          minorTicksPerInterval: 4,
+          pointers: <GaugePointer>[
+            const RangePointer(
+              gradient: SweepGradient(
+                colors: <Color>[Color(0xFFD481FF), Color(0xFF06F0E0)],
+                stops: <double>[0.25, 0.75],
+              ),
+              value: 70,
+              width: 5,
+              animationDuration: 2000,
+              enableAnimation: true,
+              animationType: AnimationType.elasticOut,
+              color: Color(0xFF00A8B5),
+            ),
+            NeedlePointer(
+              value: 70,
+              needleStartWidth: 0,
+              needleColor: model.isWebFullView ? null : const Color(0xFFD481FF),
+              needleLength: 1,
+              enableAnimation: true,
+              animationDuration: 2000,
+              animationType: AnimationType.elasticOut,
+              needleEndWidth: 5,
+              knobStyle: const KnobStyle(knobRadius: 0),
+            ),
+          ],
+          minorTickStyle: const MinorTickStyle(
+            length: 0.04,
+            lengthUnit: GaugeSizeUnit.factor,
+          ),
+          axisLineStyle: const AxisLineStyle(color: Colors.transparent),
+        ),
       ],
     );
   }

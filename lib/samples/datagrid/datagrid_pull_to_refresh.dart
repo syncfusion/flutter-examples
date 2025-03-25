@@ -29,36 +29,31 @@ class _PullToRefreshDataGridState extends SampleViewState {
   List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
-          columnName: 'id',
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 120.0
-              : double.nan,
-          columnWidthMode:
-              !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Order ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'id',
+        width:
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        columnWidthMode:
+            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Order ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
         columnName: 'customerId',
         columnWidthMode:
             !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !_isWebOrDesktop
-            ? 120
-            : (_isWebOrDesktop && model.isMobileResolution)
+        width:
+            !_isWebOrDesktop
+                ? 120
+                : (_isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
-          child: const Text(
-            'Customer ID',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Customer ID', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -68,10 +63,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
-          child: const Text(
-            'Name',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Name', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -81,10 +73,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.center,
-          child: const Text(
-            'Freight',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Freight', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -96,10 +85,7 @@ class _PullToRefreshDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
-          child: const Text(
-            'City',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('City', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -110,12 +96,9 @@ class _PullToRefreshDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
-          child: const Text(
-            'Price',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Price', overflow: TextOverflow.ellipsis),
         ),
-      )
+      ),
     ];
   }
 
@@ -123,23 +106,23 @@ class _PullToRefreshDataGridState extends SampleViewState {
   void initState() {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
-    _employeeDataSource =
-        OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 25);
+    _employeeDataSource = OrderInfoDataGridSource(
+      isWebOrDesktop: true,
+      orderDataCount: 25,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(
-        dragDevices: {
-          PointerDeviceKind.mouse,
-          PointerDeviceKind.touch,
-        },
+        dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch},
       ),
       child: SfDataGrid(
-          source: _employeeDataSource,
-          allowPullToRefresh: true,
-          columns: _obtainColumns()),
+        source: _employeeDataSource,
+        allowPullToRefresh: true,
+        columns: _obtainColumns(),
+      ),
     );
   }
 }

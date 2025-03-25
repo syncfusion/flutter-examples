@@ -35,31 +35,15 @@ class _CategoryDefaultState extends SampleViewState {
         yValue: 20,
         pointColor: const Color.fromRGBO(53, 124, 210, 1),
       ),
-      ChartSampleData(
-        x: 'South\nAfrica',
-        yValue: 61,
-        pointColor: Colors.pink,
-      ),
-      ChartSampleData(
-        x: 'China',
-        yValue: 65,
-        pointColor: Colors.orange,
-      ),
-      ChartSampleData(
-        x: 'France',
-        yValue: 45,
-        pointColor: Colors.green,
-      ),
+      ChartSampleData(x: 'South\nAfrica', yValue: 61, pointColor: Colors.pink),
+      ChartSampleData(x: 'China', yValue: 65, pointColor: Colors.orange),
+      ChartSampleData(x: 'France', yValue: 45, pointColor: Colors.green),
       ChartSampleData(
         x: 'Saudi\nArabia',
         yValue: 10,
         pointColor: Colors.pink[300],
       ),
-      ChartSampleData(
-        x: 'Japan',
-        yValue: 16,
-        pointColor: Colors.purple[300],
-      ),
+      ChartSampleData(x: 'Japan', yValue: 16, pointColor: Colors.purple[300]),
       ChartSampleData(
         x: 'Mexico',
         yValue: 31,
@@ -83,9 +67,7 @@ class _CategoryDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Internet Users - 2016',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Internet Users - 2016'),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
@@ -108,9 +90,7 @@ class _CategoryDefaultState extends SampleViewState {
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.yValue,
         pointColorMapper: (ChartSampleData data, int index) => data.pointColor,
-        dataLabelSettings: const DataLabelSettings(
-          isVisible: true,
-        ),
+        dataLabelSettings: const DataLabelSettings(isVisible: true),
       ),
     ];
   }

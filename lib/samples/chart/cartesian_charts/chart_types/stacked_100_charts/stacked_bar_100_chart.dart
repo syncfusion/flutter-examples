@@ -85,7 +85,7 @@ class _StackedBar100ChartState extends SampleViewState {
         xValueMapper: (_ChartData data, int index) => data.x,
         yValueMapper: (_ChartData data, int index) => data.wastage,
         name: 'Wastage',
-      )
+      ),
     ];
   }
 

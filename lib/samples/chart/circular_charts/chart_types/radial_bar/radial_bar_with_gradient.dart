@@ -29,11 +29,7 @@ class _RadialBarGradientState extends SampleViewState {
 
   @override
   void initState() {
-    _gradientColors = const <Color>[
-      Colors.red,
-      Colors.yellow,
-      Colors.green,
-    ];
+    _gradientColors = const <Color>[Colors.red, Colors.yellow, Colors.green];
     _gradientStops = <double>[0.3, 0.6, 0.9];
     _tooltipBehavior = TooltipBehavior(
       enable: true,
@@ -55,19 +51,16 @@ class _RadialBarGradientState extends SampleViewState {
   /// Returns a circular bar chart filled with a gradient.
   SfCircularChart _buildDefaultRadialBarChart() {
     return SfCircularChart(
-      key: GlobalKey(),
       onCreateShader: (ChartShaderDetails chartShaderDetails) {
         return ui.Gradient.sweep(
-            chartShaderDetails.outerRect.center,
-            _gradientColors!,
-            _gradientStops,
-            TileMode.clamp,
-            _degreeToRadian(0),
-            _degreeToRadian(360),
-            _resolveTransform(
-              chartShaderDetails.outerRect,
-              TextDirection.ltr,
-            ));
+          chartShaderDetails.outerRect.center,
+          _gradientColors!,
+          _gradientStops,
+          TileMode.clamp,
+          _degreeToRadian(0),
+          _degreeToRadian(360),
+          _resolveTransform(chartShaderDetails.outerRect, TextDirection.ltr),
+        );
       },
       legend: Legend(
         isVisible: !isCardView,
@@ -98,7 +91,7 @@ class _RadialBarGradientState extends SampleViewState {
         cornerStyle: CornerStyle.bothCurve,
         gap: '10%',
         radius: '90%',
-      )
+      ),
     ];
   }
 

@@ -46,7 +46,7 @@ class _PlotOffsetState extends SampleViewState {
       _InflationConsumerPriceData(2008, 38, 50),
       _InflationConsumerPriceData(2009, 54, 66),
       _InflationConsumerPriceData(2010, 57, 78),
-      _InflationConsumerPriceData(2011, 70, 84)
+      _InflationConsumerPriceData(2011, 70, 84),
     ];
     super.initState();
   }
@@ -85,10 +85,7 @@ class _PlotOffsetState extends SampleViewState {
             ),
             Row(
               children: <Widget>[
-                Text(
-                  'PlotOffset',
-                  style: textStyle,
-                ),
+                Text('PlotOffset', style: textStyle),
                 Container(
                   padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
                   height: height,
@@ -118,10 +115,7 @@ class _PlotOffsetState extends SampleViewState {
             ),
             Row(
               children: <Widget>[
-                Text(
-                  'PlotOffsetStart',
-                  style: textStyle,
-                ),
+                Text('PlotOffsetStart', style: textStyle),
                 Container(
                   padding: const EdgeInsets.fromLTRB(18, 0, 0, 0),
                   height: height,
@@ -148,10 +142,7 @@ class _PlotOffsetState extends SampleViewState {
             ),
             Row(
               children: <Widget>[
-                Text(
-                  'PlotOffsetEnd',
-                  style: textStyle,
-                ),
+                Text('PlotOffsetEnd', style: textStyle),
                 Container(
                   padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
                   height: height,
@@ -190,10 +181,7 @@ class _PlotOffsetState extends SampleViewState {
             ),
             Row(
               children: <Widget>[
-                Text(
-                  'PlotOffset',
-                  style: textStyle,
-                ),
+                Text('PlotOffset', style: textStyle),
                 Container(
                   padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
                   height: height,
@@ -223,10 +211,7 @@ class _PlotOffsetState extends SampleViewState {
             ),
             Row(
               children: <Widget>[
-                Text(
-                  'PlotOffsetStart',
-                  style: textStyle,
-                ),
+                Text('PlotOffsetStart', style: textStyle),
                 Container(
                   padding: const EdgeInsets.fromLTRB(18, 0, 0, 0),
                   height: height,
@@ -253,10 +238,7 @@ class _PlotOffsetState extends SampleViewState {
             ),
             Row(
               children: <Widget>[
-                Text(
-                  'PlotOffsetEnd',
-                  style: textStyle,
-                ),
+                Text('PlotOffsetEnd', style: textStyle),
                 Container(
                   padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
                   height: height,
@@ -285,10 +267,7 @@ class _PlotOffsetState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Inverse series',
-                  style: TextStyle(
-                    color: model.textColor,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
                 SizedBox(
                   width: 127,
@@ -314,9 +293,7 @@ class _PlotOffsetState extends SampleViewState {
   /// Return the Cartesian Chart with Line series.
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
-      title: ChartTitle(
-        text: isCardView ? '' : 'Inflation - Consumer price',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Inflation - Consumer price'),
       isTransposed: _isTransposed!,
       primaryXAxis: NumericAxis(
         plotOffset: _plotOffsetX,

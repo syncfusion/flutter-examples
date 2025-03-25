@@ -48,7 +48,7 @@ class _NavigationWithEventsState extends SampleViewState {
       ChartSampleData(x: 'Ping An\nFinance Center', y: 599),
       ChartSampleData(x: 'Makkah Clock\nRoyal Tower', y: 601),
       ChartSampleData(x: 'Shanghai\nTower', y: 632),
-      ChartSampleData(x: 'Burj\nKhalifa', y: 828)
+      ChartSampleData(x: 'Burj\nKhalifa', y: 828),
     ];
     _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
     _tooltipBehavior = TooltipBehavior(
@@ -96,9 +96,11 @@ class _NavigationWithEventsState extends SampleViewState {
         constraints: const BoxConstraints(maxWidth: 150, minHeight: 40),
         onPressed: (int index) {
           setState(() {
-            for (int buttonIndex = 0;
-                buttonIndex < _isSelected.length;
-                buttonIndex++) {
+            for (
+              int buttonIndex = 0;
+              buttonIndex < _isSelected.length;
+              buttonIndex++
+            ) {
               _isSelected[buttonIndex] = buttonIndex == index;
               stateSetter(() {
                 _onTypeChange(_typeList[index]);
@@ -110,10 +112,7 @@ class _NavigationWithEventsState extends SampleViewState {
         children: const <Widget>[
           Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Text(
-              'Maximum label \nwidth',
-              textAlign: TextAlign.center,
-            ),
+            child: Text('Maximum label \nwidth', textAlign: TextAlign.center),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -167,10 +166,7 @@ class _NavigationWithEventsState extends SampleViewState {
       visible: _isEnableLabelExtend,
       child: Row(
         children: <Widget>[
-          Text(
-            'Labels extent',
-            style: TextStyle(color: model.textColor),
-          ),
+          Text('Labels extent', style: TextStyle(color: model.textColor)),
           Container(
             padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
             child: CustomDirectionalButtons(
@@ -202,7 +198,8 @@ class _NavigationWithEventsState extends SampleViewState {
         args.text = args.dataPoints[args.pointIndex].y.toString() + ' m';
       },
       onTooltipRender: (TooltipArgs args) {
-        args.text = args.dataPoints![args.pointIndex!.toInt()].x.toString() +
+        args.text =
+            args.dataPoints![args.pointIndex!.toInt()].x.toString() +
             ' : ' +
             args.dataPoints![args.pointIndex!.toInt()].y.toString() +
             ' m';
@@ -210,16 +207,15 @@ class _NavigationWithEventsState extends SampleViewState {
       onDataLabelTapped: (DataLabelTapDetails args) {
         _scaffoldKey.currentState?.showSnackBar(
           SnackBar(
-            width: model.isWebFullView
-                ? _measureText(
-                    'Data label tapped/clicked. Navigating to the link.',
-                  ).width
-                : null,
+            width:
+                model.isWebFullView
+                    ? _measureText(
+                      'Data label tapped/clicked. Navigating to the link.',
+                    ).width
+                    : null,
             behavior: SnackBarBehavior.floating,
             shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(5),
-              ),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
             duration: const Duration(milliseconds: 2000),
             content: const Text(
@@ -232,11 +228,12 @@ class _NavigationWithEventsState extends SampleViewState {
       onAxisLabelTapped: (AxisLabelTapArgs args) {
         _scaffoldKey.currentState?.showSnackBar(
           SnackBar(
-            width: model.isWebFullView
-                ? _measureText(
-                    'Axis label tapped/clicked. Navigating to the link.',
-                  ).width
-                : null,
+            width:
+                model.isWebFullView
+                    ? _measureText(
+                      'Axis label tapped/clicked. Navigating to the link.',
+                    ).width
+                    : null,
             behavior: SnackBarBehavior.floating,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -250,9 +247,10 @@ class _NavigationWithEventsState extends SampleViewState {
         _launchHyperLink(args.value.toString());
       },
       primaryXAxis: CategoryAxis(
-        labelIntersectAction: isCardView
-            ? AxisLabelIntersectAction.multipleRows
-            : AxisLabelIntersectAction.rotate45,
+        labelIntersectAction:
+            isCardView
+                ? AxisLabelIntersectAction.multipleRows
+                : AxisLabelIntersectAction.rotate45,
         majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
@@ -273,32 +271,47 @@ class _NavigationWithEventsState extends SampleViewState {
       case 'Goldin Finance 117':
       case '597 ft':
       case '0':
-        launchUrl(Uri.parse(
-            'https://www.emporis.com/buildings/388229/goldin-finance-117-tianjin-china'));
+        launchUrl(
+          Uri.parse(
+            'https://www.emporis.com/buildings/388229/goldin-finance-117-tianjin-china',
+          ),
+        );
         break;
       case 'Ping An Finance Center':
       case '599 ft':
       case '1':
-        launchUrl(Uri.parse(
-            'https://www.emporis.com/buildings/1189351/ping-an-international-finance-center-shenzhen-china'));
+        launchUrl(
+          Uri.parse(
+            'https://www.emporis.com/buildings/1189351/ping-an-international-finance-center-shenzhen-china',
+          ),
+        );
         break;
       case 'Makkah Clock Royal Tower':
       case '601 ft':
       case '2':
-        launchUrl(Uri.parse(
-            'https://www.emporis.com/buildings/221047/makkah-clock-royal-tower-makkah-saudi-arabia'));
+        launchUrl(
+          Uri.parse(
+            'https://www.emporis.com/buildings/221047/makkah-clock-royal-tower-makkah-saudi-arabia',
+          ),
+        );
         break;
       case 'Shanghai Tower':
       case '632 ft':
       case '3':
-        launchUrl(Uri.parse(
-            'https://www.emporis.com/buildings/323473/shanghai-tower-shanghai-china'));
+        launchUrl(
+          Uri.parse(
+            'https://www.emporis.com/buildings/323473/shanghai-tower-shanghai-china',
+          ),
+        );
         break;
       case 'Burj Khalifa':
       case '828 ft':
       case '4':
-        launchUrl(Uri.parse(
-            'https://www.emporis.com/buildings/182168/burj-khalifa-dubai-united-arab-emirates'));
+        launchUrl(
+          Uri.parse(
+            'https://www.emporis.com/buildings/182168/burj-khalifa-dubai-united-arab-emirates',
+          ),
+        );
         break;
     }
   }
@@ -314,11 +327,12 @@ class _NavigationWithEventsState extends SampleViewState {
         onPointTap: (ChartPointDetails args) {
           _scaffoldKey.currentState?.showSnackBar(
             SnackBar(
-              width: model.isWebFullView
-                  ? _measureText(
-                      'Data point tapped/clicked. Navigating to the link.',
-                    ).width
-                  : null,
+              width:
+                  model.isWebFullView
+                      ? _measureText(
+                        'Data point tapped/clicked. Navigating to the link.',
+                      ).width
+                      : null,
               behavior: SnackBarBehavior.floating,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -331,7 +345,7 @@ class _NavigationWithEventsState extends SampleViewState {
           );
           _launchHyperLink(args.pointIndex.toString());
         },
-      )
+      ),
     ];
   }
 

@@ -29,10 +29,7 @@ class _ChatViewState extends SampleViewState {
 }
 
 class ChatWidgetPage extends StatefulWidget {
-  const ChatWidgetPage({
-    super.key,
-    required this.messages,
-  });
+  const ChatWidgetPage({super.key, required this.messages});
 
   final List<ChatMessage> messages;
 
@@ -77,9 +74,9 @@ class _ChatWidgetPageState extends State<ChatWidgetPage> {
           child: SfChat(
             messages: _messages,
             outgoingUser: 'Cristina',
-            outgoingBubbleSettings: const ChatBubbleSettings(
-              showUserAvatar: false,
-              showUserName: false,
+            outgoingMessageSettings: const ChatMessageSettings(
+              showAuthorAvatar: false,
+              showAuthorName: false,
             ),
             composer: const ChatComposer(
               decoration: InputDecoration(hintText: 'Type a message'),
@@ -87,11 +84,16 @@ class _ChatWidgetPageState extends State<ChatWidgetPage> {
             actionButton: ChatActionButton(
               onPressed: (String newMessage) {
                 setState(() {
-                  _messages.add(ChatMessage(
-                    text: newMessage,
-                    time: DateTime.now(),
-                    author: const ChatAuthor(id: 'Cristina', name: 'Cristina'),
-                  ));
+                  _messages.add(
+                    ChatMessage(
+                      text: newMessage,
+                      time: DateTime.now(),
+                      author: const ChatAuthor(
+                        id: 'Cristina',
+                        name: 'Cristina',
+                      ),
+                    ),
+                  );
                 });
               },
             ),

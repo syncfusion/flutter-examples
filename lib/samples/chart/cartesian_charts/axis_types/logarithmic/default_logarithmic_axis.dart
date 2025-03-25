@@ -76,9 +76,7 @@ class _LogarithmicAxisDefaultState extends SampleViewState {
         dataSource: _productGrowthDataFrom1995To2005,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
         yValueMapper: (ChartSampleData sales, int index) => sales.yValue,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-        ),
+        markerSettings: const MarkerSettings(isVisible: true),
       ),
     ];
   }

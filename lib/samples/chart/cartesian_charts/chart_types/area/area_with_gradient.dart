@@ -52,7 +52,7 @@ class _AreaGradientState extends SampleViewState {
       ChartSampleData(x: DateTime(1942), y: 380),
       ChartSampleData(x: DateTime(1943), y: 404),
       ChartSampleData(x: DateTime(1944), y: 400),
-      ChartSampleData(x: DateTime(1945), y: 500)
+      ChartSampleData(x: DateTime(1945), y: 500),
     ];
     super.initState();
   }
@@ -66,9 +66,7 @@ class _AreaGradientState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Annual rainfall of Paris',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Annual rainfall of Paris'),
       primaryXAxis: DateTimeAxis(
         intervalType: DateTimeIntervalType.years,
         dateFormat: DateFormat.y(),

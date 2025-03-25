@@ -60,17 +60,11 @@ class _EventsState extends SampleViewState {
   Widget _buildVerticalLayout() {
     return Column(
       children: <Widget>[
-        Expanded(
-          flex: 6,
-          child: _buildDefaultColumnChart(),
-        ),
+        Expanded(flex: 6, child: _buildDefaultColumnChart()),
         if (isCardView)
           Container()
         else
-          Expanded(
-            flex: 4,
-            child: _buildEventTrace(),
-          ),
+          Expanded(flex: 4, child: _buildEventTrace()),
       ],
     );
   }
@@ -79,17 +73,11 @@ class _EventsState extends SampleViewState {
   Widget _buildHorizontalLayout() {
     return Row(
       children: <Widget>[
-        Expanded(
-          flex: 6,
-          child: _buildDefaultColumnChart(),
-        ),
+        Expanded(flex: 6, child: _buildDefaultColumnChart()),
         if (isCardView)
           Container()
         else
-          Expanded(
-            flex: 4,
-            child: _buildEventTrace(),
-          ),
+          Expanded(flex: 4, child: _buildEventTrace()),
       ],
     );
   }
@@ -103,9 +91,7 @@ class _EventsState extends SampleViewState {
           child: Container(
             height: 50,
             decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey.withValues(alpha: 0.4),
-              ),
+              border: Border.all(color: Colors.grey.withValues(alpha: 0.4)),
             ),
             child: Row(
               children: <Widget>[
@@ -116,9 +102,7 @@ class _EventsState extends SampleViewState {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Event Trace',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -187,22 +171,18 @@ class _EventsState extends SampleViewState {
         if (!isCardView) {
           _actionsList.insert(0, 'Marker (${args.pointIndex}) was rendered');
           if (args.pointIndex == 5) {
-            SchedulerBinding.instance.addPostFrameCallback(
-              (_) {
-                _consoleKey.currentState?.setState(() {});
-              },
-            );
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              _consoleKey.currentState?.setState(() {});
+            });
           }
         }
       },
       onTooltipRender: (TooltipArgs args) {
         if (!isCardView) {
           _actionsList.insert(0, 'Tooltip (${args.text}) is showing');
-          SchedulerBinding.instance.addPostFrameCallback(
-            (_) {
-              _consoleKey.currentState?.setState(() {});
-            },
-          );
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            _consoleKey.currentState?.setState(() {});
+          });
         }
       },
       onChartTouchInteractionUp: (ChartTouchInteractionArgs args) {
@@ -267,14 +247,11 @@ class _EventsState extends SampleViewState {
         name: 'Population',
         onPointTap: (ChartPointDetails args) {
           if (!isCardView) {
-            _actionsList.insert(
-              0,
-              'Point (${args.pointIndex}) was tapped',
-            );
+            _actionsList.insert(0, 'Point (${args.pointIndex}) was tapped');
             _consoleKey.currentState?.setState(() {});
           }
         },
-      )
+      ),
     ];
   }
 
@@ -301,18 +278,15 @@ class _ConsoleState extends State<Console> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey.withValues(alpha: 0.4),
-        ),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.4)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(5),
         child: ListView.separated(
           controller: _scrollController,
-          separatorBuilder: (BuildContext context, int build) => const Divider(
-            color: Colors.grey,
-            height: 4,
-          ),
+          separatorBuilder:
+              (BuildContext context, int build) =>
+                  const Divider(color: Colors.grey, height: 4),
           itemCount: widget.actionsList.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(

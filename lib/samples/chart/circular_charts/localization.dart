@@ -40,8 +40,9 @@ class _LocalizationCircularChartState extends LocalizationSampleViewState {
   Widget _buildPieChart() {
     _loadChartDataSource();
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: (model.isWeb || model.isDesktop) ? 0 : 70.0),
+      padding: EdgeInsets.only(
+        bottom: (model.isWeb || model.isDesktop) ? 0 : 70.0,
+      ),
       child: SfCircularChart(
         title: ChartTitle(text: _title),
         legend: const Legend(
@@ -66,7 +67,7 @@ class _LocalizationCircularChartState extends LocalizationSampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.y,
         dataLabelMapper: (ChartSampleData data, int index) => data.text,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
-      )
+      ),
     ];
   }
 

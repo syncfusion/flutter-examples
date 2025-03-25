@@ -74,9 +74,7 @@ class _AnimationColumnDefaultState extends SampleViewState {
   void _buildChartData() {
     _chartData = <_ChartData>[];
     for (int i = 1; i < 8; i++) {
-      _chartData!.add(
-        _ChartData(i, _buildRandomInt(0, 100)),
-      );
+      _chartData!.add(_ChartData(i, _buildRandomInt(0, 100)));
     }
     _timer?.cancel();
   }

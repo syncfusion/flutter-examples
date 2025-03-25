@@ -29,16 +29,17 @@ class _ThumbCustomizedSliderState extends SampleViewState {
   SfSliderTheme _thumbCustomizedSlider() {
     return SfSliderTheme(
       data: SfSliderThemeData(
-          inactiveTrackColor: _activeColor.withValues(alpha: 0.40),
-          activeTrackColor: _activeColor,
-          thumbColor: Colors.transparent,
-          tickOffset: const Offset(0, 13),
-          overlayColor: Colors.transparent,
-          tooltipBackgroundColor: _activeColor,
-          activeDividerColor: _activeColor,
-          inactiveDividerColor: _activeColor.withValues(alpha: 0.80),
-          activeDividerRadius: 2.0,
-          inactiveDividerRadius: 2.0),
+        inactiveTrackColor: _activeColor.withValues(alpha: 0.40),
+        activeTrackColor: _activeColor,
+        thumbColor: Colors.transparent,
+        tickOffset: const Offset(0, 13),
+        overlayColor: Colors.transparent,
+        tooltipBackgroundColor: _activeColor,
+        activeDividerColor: _activeColor,
+        inactiveDividerColor: _activeColor.withValues(alpha: 0.80),
+        activeDividerRadius: 2.0,
+        inactiveDividerRadius: 2.0,
+      ),
       child: SfSlider(
         max: 100.0,
         value: _sliderValue,
@@ -58,34 +59,37 @@ class _ThumbCustomizedSliderState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      title('Thumb'),
-      _thumbCustomizedSlider(),
-    ]);
+    return Column(children: <Widget>[title('Thumb'), _thumbCustomizedSlider()]);
   }
 }
 
 class _RectThumbShape extends SfThumbShape {
   @override
-  void paint(PaintingContext context, Offset center,
-      {required RenderBox parentBox,
-      required RenderBox? child,
-      required SfSliderThemeData themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      required Paint? paint,
-      required Animation<double> enableAnimation,
-      required TextDirection textDirection,
-      required SfThumb? thumb}) {
-    super.paint(context, center,
-        parentBox: parentBox,
-        child: child,
-        themeData: themeData,
-        currentValue: currentValue,
-        paint: paint,
-        enableAnimation: enableAnimation,
-        textDirection: textDirection,
-        thumb: thumb);
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required RenderBox parentBox,
+    required RenderBox? child,
+    required SfSliderThemeData themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    required Paint? paint,
+    required Animation<double> enableAnimation,
+    required TextDirection textDirection,
+    required SfThumb? thumb,
+  }) {
+    super.paint(
+      context,
+      center,
+      parentBox: parentBox,
+      child: child,
+      themeData: themeData,
+      currentValue: currentValue,
+      paint: paint,
+      enableAnimation: enableAnimation,
+      textDirection: textDirection,
+      thumb: thumb,
+    );
 
     final Path path = Path();
 
@@ -94,10 +98,11 @@ class _RectThumbShape extends SfThumbShape {
     path.lineTo(center.dx - 10, center.dy - 15);
     path.close();
     context.canvas.drawPath(
-        path,
-        Paint()
-          ..color = themeData.activeTrackColor!
-          ..style = PaintingStyle.fill
-          ..strokeWidth = 2);
+      path,
+      Paint()
+        ..color = themeData.activeTrackColor!
+        ..style = PaintingStyle.fill
+        ..strokeWidth = 2,
+    );
   }
 }

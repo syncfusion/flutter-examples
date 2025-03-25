@@ -26,41 +26,47 @@ class _RangeBarChartState extends SampleViewState {
   void initState() {
     _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'Jul',
-          y: 46,
-          yValue: 63,
-          secondSeriesYValue: 43,
-          thirdSeriesYValue: 57),
+        x: 'Jul',
+        y: 46,
+        yValue: 63,
+        secondSeriesYValue: 43,
+        thirdSeriesYValue: 57,
+      ),
       ChartSampleData(
-          x: 'Aug',
-          y: 48,
-          yValue: 64,
-          secondSeriesYValue: 45,
-          thirdSeriesYValue: 59),
+        x: 'Aug',
+        y: 48,
+        yValue: 64,
+        secondSeriesYValue: 45,
+        thirdSeriesYValue: 59,
+      ),
       ChartSampleData(
-          x: 'Sep',
-          y: 54,
-          yValue: 68,
-          secondSeriesYValue: 48,
-          thirdSeriesYValue: 63),
+        x: 'Sep',
+        y: 54,
+        yValue: 68,
+        secondSeriesYValue: 48,
+        thirdSeriesYValue: 63,
+      ),
       ChartSampleData(
-          x: 'Oct',
-          y: 57,
-          yValue: 72,
-          secondSeriesYValue: 50,
-          thirdSeriesYValue: 68),
+        x: 'Oct',
+        y: 57,
+        yValue: 72,
+        secondSeriesYValue: 50,
+        thirdSeriesYValue: 68,
+      ),
       ChartSampleData(
-          x: 'Nov',
-          y: 61,
-          yValue: 75,
-          secondSeriesYValue: 54,
-          thirdSeriesYValue: 72),
+        x: 'Nov',
+        y: 61,
+        yValue: 75,
+        secondSeriesYValue: 54,
+        thirdSeriesYValue: 72,
+      ),
       ChartSampleData(
-          x: 'Dec',
-          y: 64,
-          yValue: 79,
-          secondSeriesYValue: 57,
-          thirdSeriesYValue: 75),
+        x: 'Dec',
+        y: 64,
+        yValue: 79,
+        secondSeriesYValue: 57,
+        thirdSeriesYValue: 75,
+      ),
     ];
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
@@ -112,10 +118,10 @@ class _RangeBarChartState extends SampleViewState {
       RangeColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        lowValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
-        highValueMapper: (ChartSampleData sales, int index) =>
-            sales.thirdSeriesYValue,
+        lowValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        highValueMapper:
+            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
         name: 'Melbourne',
         dataLabelSettings: DataLabelSettings(
           isVisible: !isCardView,

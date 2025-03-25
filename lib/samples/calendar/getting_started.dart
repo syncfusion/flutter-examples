@@ -29,8 +29,9 @@ class GettingStartedCalendarState extends SampleViewState {
   final List<String> _subjectCollection = <String>[];
   final List<Color> _colorCollection = <Color>[];
   final _MeetingDataSource _events = _MeetingDataSource(<_Meeting>[]);
-  final DateTime _minDate =
-          DateTime.now().subtract(const Duration(days: 365 ~/ 2)),
+  final DateTime _minDate = DateTime.now().subtract(
+        const Duration(days: 365 ~/ 2),
+      ),
       _maxDate = DateTime.now().add(const Duration(days: 365 ~/ 2));
   final List<CalendarView> _allowedViews = <CalendarView>[
     CalendarView.day,
@@ -45,25 +46,27 @@ class GettingStartedCalendarState extends SampleViewState {
 
   final List<String> _viewNavigationModeList =
       <String>['snap', 'none'].toList();
-  final List<String> _numberOfDaysList = <String>[
-    'default',
-    '1 day',
-    '2 days',
-    '3 days',
-    '4 days',
-    '5 days',
-    '6 days',
-    '7 days',
-  ].toList();
+  final List<String> _numberOfDaysList =
+      <String>[
+        'default',
+        '1 day',
+        '2 days',
+        '3 days',
+        '4 days',
+        '5 days',
+        '6 days',
+        '7 days',
+      ].toList();
 
-  final List<String> _numberOfDaysListWorkWeek = <String>[
-    'default',
-    '1 day',
-    '2 days',
-    '3 days',
-    '4 days',
-    '5 days',
-  ].toList();
+  final List<String> _numberOfDaysListWorkWeek =
+      <String>[
+        'default',
+        '1 day',
+        '2 days',
+        '3 days',
+        '4 days',
+        '5 days',
+      ].toList();
 
   /// Global key used to maintain the state,
   /// when we change the parent of the widget.
@@ -96,8 +99,10 @@ class GettingStartedCalendarState extends SampleViewState {
       ///  when we change the parent of the widget.
       key: _globalKey,
       data: model.themeData.copyWith(
-          colorScheme: model.themeData.colorScheme
-              .copyWith(secondary: model.primaryColor)),
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
+      ),
       child: _getGettingStartedCalendar(
         _calendarController,
         _events,
@@ -112,27 +117,28 @@ class GettingStartedCalendarState extends SampleViewState {
       body: Row(
         children: <Widget>[
           Expanded(
-            child: _calendarController.view == CalendarView.month &&
-                    model.isWebFullView &&
-                    screenHeight < 800
-                ? Scrollbar(
-                    thumbVisibility: true,
-                    controller: _controller,
-                    child: ListView(
+            child:
+                _calendarController.view == CalendarView.month &&
+                        model.isWebFullView &&
+                        screenHeight < 800
+                    ? Scrollbar(
+                      thumbVisibility: true,
                       controller: _controller,
-                      children: <Widget>[
-                        Container(
-                          color: model.sampleOutputCardColor,
-                          height: 600,
-                          child: calendar,
-                        ),
-                      ],
+                      child: ListView(
+                        controller: _controller,
+                        children: <Widget>[
+                          Container(
+                            color: model.sampleOutputCardColor,
+                            height: 600,
+                            child: calendar,
+                          ),
+                        ],
+                      ),
+                    )
+                    : Container(
+                      color: model.sampleOutputCardColor,
+                      child: calendar,
                     ),
-                  )
-                : Container(
-                    color: model.sampleOutputCardColor,
-                    child: calendar,
-                  ),
           ),
         ],
       ),
@@ -151,38 +157,35 @@ class GettingStartedCalendarState extends SampleViewState {
         _calendarController.view == CalendarView.timelineMonth) {
       for (int i = 0; i < 5; i++) {
         blockedDates.add(
-          visibleDatesChangedDetails.visibleDates[
-              random.nextInt(visibleDatesChangedDetails.visibleDates.length)],
+          visibleDatesChangedDetails.visibleDates[random.nextInt(
+            visibleDatesChangedDetails.visibleDates.length,
+          )],
         );
       }
     }
-    SchedulerBinding.instance.addPostFrameCallback(
-      (Duration timeStamp) {
-        setState(
-          () {
-            if (_calendarController.view == CalendarView.workWeek) {
-              if (_numberOfDaysString == '6 days' ||
-                  _numberOfDaysString == '7 days') {
-                _numberOfDaysString = '5 days';
-              }
-            }
-            if (_numberOfDays > 5 &&
-                _calendarController.view == CalendarView.workWeek) {
-              _numberOfDays = 5;
-            }
-            if (_calendarController.view == CalendarView.month ||
-                _calendarController.view == CalendarView.timelineMonth) {
-              _blackoutDates = blockedDates;
-            } else {
-              _blackoutDates.clear();
-            }
-          },
-        );
-        if (_setter != null) {
-          _setter!(() {});
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      setState(() {
+        if (_calendarController.view == CalendarView.workWeek) {
+          if (_numberOfDaysString == '6 days' ||
+              _numberOfDaysString == '7 days') {
+            _numberOfDaysString = '5 days';
+          }
         }
-      },
-    );
+        if (_numberOfDays > 5 &&
+            _calendarController.view == CalendarView.workWeek) {
+          _numberOfDays = 5;
+        }
+        if (_calendarController.view == CalendarView.month ||
+            _calendarController.view == CalendarView.timelineMonth) {
+          _blackoutDates = blockedDates;
+        } else {
+          _blackoutDates.clear();
+        }
+      });
+      if (_setter != null) {
+        _setter!(() {});
+      }
+    });
 
     /// Creates new appointment collection based on visible dates in Calendar.
     if (_calendarController.view != CalendarView.schedule) {
@@ -195,8 +198,12 @@ class GettingStartedCalendarState extends SampleViewState {
         }
         final int count = 1 + random.nextInt(model.isWebFullView ? 2 : 3);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate =
-              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
+          final DateTime startDate = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            8 + random.nextInt(8),
+          );
           appointment.add(
             _Meeting(
               _subjectCollection[random.nextInt(7)],
@@ -209,18 +216,26 @@ class GettingStartedCalendarState extends SampleViewState {
         }
       }
     } else {
-      final DateTime rangeStartDate =
-          DateTime.now().add(const Duration(days: -(365 ~/ 2)));
-      final DateTime rangeEndDate =
-          DateTime.now().add(const Duration(days: 365));
-      for (DateTime i = rangeStartDate;
-          i.isBefore(rangeEndDate);
-          i = i.add(const Duration(days: 1))) {
+      final DateTime rangeStartDate = DateTime.now().add(
+        const Duration(days: -(365 ~/ 2)),
+      );
+      final DateTime rangeEndDate = DateTime.now().add(
+        const Duration(days: 365),
+      );
+      for (
+        DateTime i = rangeStartDate;
+        i.isBefore(rangeEndDate);
+        i = i.add(const Duration(days: 1))
+      ) {
         final DateTime date = i;
         final int count = 1 + random.nextInt(3);
         for (int j = 0; j < count; j++) {
-          final DateTime startDate =
-              DateTime(date.year, date.month, date.day, 8 + random.nextInt(8));
+          final DateTime startDate = DateTime(
+            date.year,
+            date.month,
+            date.day,
+            8 + random.nextInt(8),
+          );
           appointment.add(
             _Meeting(
               _subjectCollection[random.nextInt(7)],
@@ -240,10 +255,7 @@ class GettingStartedCalendarState extends SampleViewState {
 
     /// Resets the newly created appointment collection to render
     /// the appointments on the visible dates.
-    _events.notifyListeners(
-      CalendarDataSourceAction.reset,
-      appointment,
-    );
+    _events.notifyListeners(CalendarDataSourceAction.reset, appointment);
   }
 
   /// Creates the required appointment details as a list.
@@ -321,14 +333,12 @@ class GettingStartedCalendarState extends SampleViewState {
                 Text(
                   'Allow view navigation',
                   softWrap: false,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Theme(
-                  data: Theme.of(context)
-                      .copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(
+                    context,
+                  ).copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Container(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
@@ -354,16 +364,14 @@ class GettingStartedCalendarState extends SampleViewState {
                 Text(
                   'Show date picker button',
                   softWrap: false,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(context)
-                        .copyWith(canvasColor: model.drawerBackgroundColor),
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Transform.scale(
@@ -381,7 +389,7 @@ class GettingStartedCalendarState extends SampleViewState {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
             Row(
@@ -393,15 +401,13 @@ class GettingStartedCalendarState extends SampleViewState {
                         ? 'Show trailing and leading \ndates'
                         : 'Show trailing and leading dates',
                     softWrap: false,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor,
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
                 Theme(
-                  data: Theme.of(context)
-                      .copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(
+                    context,
+                  ).copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
@@ -430,15 +436,13 @@ class GettingStartedCalendarState extends SampleViewState {
                         ? 'Show current time \nindicator'
                         : 'Show current time indicator',
                     softWrap: false,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor,
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
                 Theme(
-                  data: Theme.of(context)
-                      .copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(
+                    context,
+                  ).copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
@@ -465,15 +469,13 @@ class GettingStartedCalendarState extends SampleViewState {
                   child: Text(
                     'Show week number',
                     softWrap: false,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor,
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
                 Theme(
-                  data: Theme.of(context)
-                      .copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(
+                    context,
+                  ).copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
@@ -502,10 +504,7 @@ class GettingStartedCalendarState extends SampleViewState {
                         ? 'View navigation \nmode'
                         : 'View navigation mode',
                     softWrap: false,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor,
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
                 Expanded(
@@ -521,23 +520,24 @@ class GettingStartedCalendarState extends SampleViewState {
                         height: 1,
                       ),
                       value: _viewNavigationModeString,
-                      items: _viewNavigationModeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'Snap',
-                          child: Text(
-                            value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
+                      items:
+                          _viewNavigationModeList.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'Snap',
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor),
+                              ),
+                            );
+                          }).toList(),
                       onChanged: (dynamic value) {
                         onViewNavigationModeChange(value);
                         stateSetter(() {});
                       },
                     ),
                   ),
-                )
+                ),
               ],
             ),
             Row(
@@ -547,10 +547,7 @@ class GettingStartedCalendarState extends SampleViewState {
                   child: Text(
                     'Number of days',
                     softWrap: false,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: model.textColor,
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
                 Expanded(
@@ -566,19 +563,21 @@ class GettingStartedCalendarState extends SampleViewState {
                         height: 1,
                       ),
                       value: _numberOfDaysString,
-                      items: (_calendarController.view == CalendarView.workWeek
-                              ? _numberOfDaysListWorkWeek
-                              : _numberOfDaysList)
-                          .map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'default',
-                          child: Text(
-                            value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
+                      items:
+                          (_calendarController.view == CalendarView.workWeek
+                                  ? _numberOfDaysListWorkWeek
+                                  : _numberOfDaysList)
+                              .map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: (value != null) ? value : 'default',
+                                  child: Text(
+                                    value,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: model.textColor),
+                                  ),
+                                );
+                              })
+                              .toList(),
                       onChanged: (dynamic value) {
                         customNumberOfDaysInView(value);
                         stateSetter(() {});
@@ -665,7 +664,9 @@ String _getMonthDate(int month) {
 
 /// Returns the builder for schedule view.
 Widget scheduleViewBuilder(
-    BuildContext buildContext, ScheduleViewMonthHeaderDetails details) {
+  BuildContext buildContext,
+  ScheduleViewMonthHeaderDetails details,
+) {
   final String monthName = _getMonthDate(details.date.month);
   return Stack(
     children: <Widget>[
@@ -727,7 +728,9 @@ class _MeetingDataSource extends CalendarDataSource<_Meeting> {
 
   @override
   _Meeting convertAppointmentToObject(
-      _Meeting eventName, Appointment appointment) {
+    _Meeting eventName,
+    Appointment appointment,
+  ) {
     return _Meeting(
       appointment.subject,
       appointment.startTime,
@@ -741,13 +744,7 @@ class _MeetingDataSource extends CalendarDataSource<_Meeting> {
 /// Custom business object class which contains properties to hold the detailed
 /// information about the event data which will be rendered in Calendar.
 class _Meeting {
-  _Meeting(
-    this.eventName,
-    this.from,
-    this.to,
-    this.background,
-    this.isAllDay,
-  );
+  _Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
 
   String eventName;
   DateTime from;

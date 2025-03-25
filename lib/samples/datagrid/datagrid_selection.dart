@@ -46,19 +46,19 @@ class _SelectionDataGridPageState extends SampleViewState {
   ];
 
   /// Navigation modes for drop down widget
-  final List<String> _navigation = <String>[
-    'cell',
-    'row',
-  ];
+  final List<String> _navigation = <String>['cell', 'row'];
 
   /// DataGridController to do the programmatical selection.
   DataGridController _buildDataGridController() {
-    _dataGridController.selectedRows
-        .add(_selectionDataGridSource.dataGridRows[2]);
-    _dataGridController.selectedRows
-        .add(_selectionDataGridSource.dataGridRows[4]);
-    _dataGridController.selectedRows
-        .add(_selectionDataGridSource.dataGridRows[6]);
+    _dataGridController.selectedRows.add(
+      _selectionDataGridSource.dataGridRows[2],
+    );
+    _dataGridController.selectedRows.add(
+      _selectionDataGridSource.dataGridRows[4],
+    );
+    _dataGridController.selectedRows.add(
+      _selectionDataGridSource.dataGridRows[6],
+    );
     return _dataGridController;
   }
 
@@ -101,148 +101,142 @@ class _SelectionDataGridPageState extends SampleViewState {
   List<GridColumn> _obtainColumns() {
     List<GridColumn> columns;
 
-    columns = _isWebOrDesktop
-        ? <GridColumn>[
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              columnName: 'id',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Order ID',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : double.nan,
-              columnName: 'customerId',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Customer ID',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              columnName: 'name',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Name',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 110.0
-                  : double.nan,
-              columnName: 'freight',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Freight',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-              width: (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
-              columnName: 'city',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'City',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-            GridColumn(
-                width: (_isWebOrDesktop && model.isMobileResolution)
-                    ? 120.0
-                    : double.nan,
-                columnName: 'price',
+    columns =
+        _isWebOrDesktop
+            ? <GridColumn>[
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                columnName: 'id',
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerRight,
                   child: const Text(
-                    'Price',
+                    'Order ID',
                     overflow: TextOverflow.ellipsis,
                   ),
-                ))
-          ]
-        : <GridColumn>[
-            GridColumn(
-              columnName: 'id',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Order ID',
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'customerId',
-              width: 110,
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerRight,
-                child: const Text(
-                  'Customer ID',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 150.0
+                        : double.nan,
+                columnName: 'customerId',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text(
+                    'Customer ID',
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
-            ),
-            GridColumn(
-              columnName: 'name',
-              label: Container(
-                padding: const EdgeInsets.all(8),
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Name',
-                  overflow: TextOverflow.ellipsis,
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                columnName: 'name',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: const Text('Name', overflow: TextOverflow.ellipsis),
                 ),
               ),
-            ),
-            GridColumn(
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 110.0
+                        : double.nan,
+                columnName: 'freight',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text('Freight', overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
                 columnName: 'city',
                 label: Container(
                   padding: const EdgeInsets.all(8),
                   alignment: Alignment.centerLeft,
+                  child: const Text('City', overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                width:
+                    (_isWebOrDesktop && model.isMobileResolution)
+                        ? 120.0
+                        : double.nan,
+                columnName: 'price',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text('Price', overflow: TextOverflow.ellipsis),
+                ),
+              ),
+            ]
+            : <GridColumn>[
+              GridColumn(
+                columnName: 'id',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
                   child: const Text(
-                    'City',
+                    'Order ID',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                columnWidthMode: ColumnWidthMode.lastColumnFill),
-          ];
+              ),
+              GridColumn(
+                columnName: 'customerId',
+                width: 110,
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerRight,
+                  child: const Text(
+                    'Customer ID',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              GridColumn(
+                columnName: 'name',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: const Text('Name', overflow: TextOverflow.ellipsis),
+                ),
+              ),
+              GridColumn(
+                columnName: 'city',
+                label: Container(
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.centerLeft,
+                  child: const Text('City', overflow: TextOverflow.ellipsis),
+                ),
+                columnWidthMode: ColumnWidthMode.lastColumnFill,
+              ),
+            ];
     return columns;
   }
 
   SfDataGrid _buildDataGrid(
-      SelectionMode selectionMode, GridNavigationMode navigationMode) {
+    SelectionMode selectionMode,
+    GridNavigationMode navigationMode,
+  ) {
     return SfDataGrid(
-      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
-          ? ColumnWidthMode.fill
-          : ColumnWidthMode.none,
+      columnWidthMode:
+          _isWebOrDesktop || _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
       source: _selectionDataGridSource,
       selectionMode: selectionMode,
       navigationMode: navigationMode,
@@ -261,61 +255,79 @@ class _SelectionDataGridPageState extends SampleViewState {
     navigationMode =
         _isWebOrDesktop ? GridNavigationMode.cell : GridNavigationMode.row;
     _selectionDataGridSource = OrderInfoDataGridSource(
-        isWebOrDesktop: _isWebOrDesktop, orderDataCount: 100);
+      isWebOrDesktop: _isWebOrDesktop,
+      orderDataCount: 100,
+    );
   }
 
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(shrinkWrap: true, children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-          child: SizedBox(
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: _isWebOrDesktop ? 100 : 175,
-                  child: Text(
-                    model.isWebFullView ? 'Selection \nmode' : 'Selection mode',
-                    softWrap: false,
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: SizedBox(
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: _isWebOrDesktop ? 100 : 175,
+                      child: Text(
+                        model.isWebFullView
+                            ? 'Selection \nmode'
+                            : 'Selection mode',
+                        softWrap: false,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: model.textColor,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        height: 40,
+                        alignment: Alignment.bottomLeft,
+                        child: DropdownButton<String>(
+                          dropdownColor: model.drawerBackgroundColor,
+                          focusColor: Colors.transparent,
+                          underline: Container(
+                            color: const Color(0xFFBDBDBD),
+                            height: 1,
+                          ),
+                          value: _selectionMode,
+                          items:
+                              _encoding.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: (value != null) ? value : 'multiple',
+                                  child: Text(
+                                    value,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: model.textColor),
+                                  ),
+                                );
+                              }).toList(),
+                          onChanged: (dynamic value) {
+                            _onSelectionModeChanged(value);
+                            stateSetter(() {});
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    height: 40,
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                        dropdownColor: model.drawerBackgroundColor,
-                        focusColor: Colors.transparent,
-                        underline: Container(
-                            color: const Color(0xFFBDBDBD), height: 1),
-                        value: _selectionMode,
-                        items: _encoding.map((String value) {
-                          return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'multiple',
-                              child: Text(value,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: model.textColor)));
-                        }).toList(),
-                        onChanged: (dynamic value) {
-                          _onSelectionModeChanged(value);
-                          stateSetter(() {});
-                        }),
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-          child: _selectionDropDown(stateSetter),
-        ),
-      ]);
-    });
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: _selectionDropDown(stateSetter),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _selectionDropDown(StateSetter stateSetter) {
@@ -336,24 +348,28 @@ class _SelectionDataGridPageState extends SampleViewState {
               height: 40,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  focusColor: Colors.transparent,
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: _navigationMode,
-                  items: _navigation.map((String value) {
-                    return DropdownMenuItem<String>(
+                dropdownColor: model.drawerBackgroundColor,
+                focusColor: Colors.transparent,
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+                value: _navigationMode,
+                items:
+                    _navigation.map((String value) {
+                      return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor)));
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    _onNavigationModeChanged(value);
-                    stateSetter(() {});
-                  }),
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                onChanged: (dynamic value) {
+                  _onNavigationModeChanged(value);
+                  stateSetter(() {});
+                },
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -362,7 +378,8 @@ class _SelectionDataGridPageState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 

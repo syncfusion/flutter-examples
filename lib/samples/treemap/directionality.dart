@@ -52,10 +52,11 @@ class _TreemapTextDirectionPageState extends DirectionalitySampleViewState {
 
     _colorMappers = <TreemapColorMapper>[
       const TreemapColorMapper.range(
-          from: 0,
-          to: 50,
-          color: Color.fromRGBO(250, 189, 32, 1),
-          name: '{0},{50}'),
+        from: 0,
+        to: 50,
+        color: Color.fromRGBO(250, 189, 32, 1),
+        name: '{0},{50}',
+      ),
       const TreemapColorMapper.range(
         from: 50,
         to: 100,
@@ -63,20 +64,23 @@ class _TreemapTextDirectionPageState extends DirectionalitySampleViewState {
         name: '100',
       ),
       const TreemapColorMapper.range(
-          from: 100,
-          to: 150,
-          color: Color.fromRGBO(220, 121, 5, 1),
-          name: '150'),
+        from: 100,
+        to: 150,
+        color: Color.fromRGBO(220, 121, 5, 1),
+        name: '150',
+      ),
       const TreemapColorMapper.range(
-          from: 150,
-          to: 300,
-          color: Color.fromRGBO(182, 87, 0, 1),
-          name: '300'),
+        from: 150,
+        to: 300,
+        color: Color.fromRGBO(182, 87, 0, 1),
+        name: '300',
+      ),
       const TreemapColorMapper.range(
-          from: 300,
-          to: 700,
-          color: Color.fromRGBO(173, 60, 44, 1),
-          name: '700'),
+        from: 300,
+        to: 700,
+        color: Color.fromRGBO(173, 60, 44, 1),
+        name: '700',
+      ),
     ];
 
     super.initState();
@@ -93,75 +97,82 @@ class _TreemapTextDirectionPageState extends DirectionalitySampleViewState {
     final ThemeData themeData = Theme.of(context);
     _updateTitleBasedOnLocale();
     _isLightTheme = themeData.colorScheme.brightness == Brightness.light;
-    isDesktop = kIsWeb ||
+    isDesktop =
+        kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
 
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return Center(
-        child: Padding(
-          padding: MediaQuery.of(context).orientation == Orientation.portrait ||
-                  isDesktop
-              ? const EdgeInsets.all(12.5)
-              : const EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                _title,
-                style: Theme.of(context).textTheme.titleMedium,
-                textDirection: TextDirection.rtl,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      bottom: (model.isMobile)
-                          ? (MediaQuery.of(context).orientation ==
-                                  Orientation.portrait
-                              ? 60.0
-                              : 30)
-                          : 0),
-                  child: SfTreemap(
-                    // The number of data in your data source collection.
-                    //
-                    // The callback for the [weightValueMapper] and
-                    // [TreemapLevel.groupMapper] will be called
-                    // the number of times equal to the [dataCount].
-                    dataCount: _statesGRPData.length,
-                    // The value returned in the callback will specify the
-                    // weight of each tile.
-                    weightValueMapper: (int index) {
-                      return _statesGRPData[index].grp;
-                    },
-                    colorMappers: _colorMappers,
-                    tooltipSettings: TreemapTooltipSettings(
-                      color: _isLightTheme
-                          ? const Color.fromRGBO(45, 45, 45, 1)
-                          : const Color.fromRGBO(242, 242, 242, 1),
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Center(
+          child: Padding(
+            padding:
+                MediaQuery.of(context).orientation == Orientation.portrait ||
+                        isDesktop
+                    ? const EdgeInsets.all(12.5)
+                    : const EdgeInsets.all(10.0),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  _title,
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom:
+                          (model.isMobile)
+                              ? (MediaQuery.of(context).orientation ==
+                                      Orientation.portrait
+                                  ? 60.0
+                                  : 30)
+                              : 0,
                     ),
-                    levels: _getTreemapLevels(themeData),
-                    legend: TreemapLegend.bar(
-                      position: model.isWebFullView
-                          ? TreemapLegendPosition.bottom
-                          : TreemapLegendPosition.top,
-                      showPointerOnHover: true,
-                      segmentSize: Size(
-                        (constraints.maxWidth * (isDesktop ? 0.50 : 0.80)) /
-                            _colorMappers.length,
-                        12.0,
+                    child: SfTreemap(
+                      // The number of data in your data source collection.
+                      //
+                      // The callback for the [weightValueMapper] and
+                      // [TreemapLevel.groupMapper] will be called
+                      // the number of times equal to the [dataCount].
+                      dataCount: _statesGRPData.length,
+                      // The value returned in the callback will specify the
+                      // weight of each tile.
+                      weightValueMapper: (int index) {
+                        return _statesGRPData[index].grp;
+                      },
+                      colorMappers: _colorMappers,
+                      tooltipSettings: TreemapTooltipSettings(
+                        color:
+                            _isLightTheme
+                                ? const Color.fromRGBO(45, 45, 45, 1)
+                                : const Color.fromRGBO(242, 242, 242, 1),
+                      ),
+                      levels: _getTreemapLevels(themeData),
+                      legend: TreemapLegend.bar(
+                        position:
+                            model.isWebFullView
+                                ? TreemapLegendPosition.bottom
+                                : TreemapLegendPosition.top,
+                        showPointerOnHover: true,
+                        segmentSize: Size(
+                          (constraints.maxWidth * (isDesktop ? 0.50 : 0.80)) /
+                              _colorMappers.length,
+                          12.0,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   void _updateTitleBasedOnLocale() {
@@ -192,8 +203,9 @@ class _TreemapTextDirectionPageState extends DirectionalitySampleViewState {
         padding: const EdgeInsets.all(1.0),
         // Returns a widget for each tile's data label.
         labelBuilder: (BuildContext context, TreemapTile tile) {
-          final Brightness brightness =
-              ThemeData.estimateBrightnessForColor(tile.color);
+          final Brightness brightness = ThemeData.estimateBrightnessForColor(
+            tile.color,
+          );
           final Color color =
               brightness == Brightness.dark ? Colors.white : Colors.black;
           return Padding(
@@ -204,8 +216,9 @@ class _TreemapTextDirectionPageState extends DirectionalitySampleViewState {
                   : tile.group,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  color: color,
-                  fontSize: Theme.of(context).textTheme.bodySmall!.fontSize),
+                color: color,
+                fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
+              ),
             ),
           );
         },
@@ -221,25 +234,27 @@ class _TreemapTextDirectionPageState extends DirectionalitySampleViewState {
                   children: [
                     RichText(
                       text: TextSpan(
-                        text: model.locale == const Locale('ar', 'AE')
-                            ? _statesGRPData[tile.indices[0]].stateLocale
-                            : tile.group,
+                        text:
+                            model.locale == const Locale('ar', 'AE')
+                                ? _statesGRPData[tile.indices[0]].stateLocale
+                                : tile.group,
                         style: themeData.textTheme.bodySmall!.copyWith(
                           height: 1.5,
-                          color: _isLightTheme
-                              ? const Color.fromRGBO(255, 255, 255, 1)
-                              : const Color.fromRGBO(10, 10, 10, 1),
+                          color:
+                              _isLightTheme
+                                  ? const Color.fromRGBO(255, 255, 255, 1)
+                                  : const Color.fromRGBO(10, 10, 10, 1),
                         ),
                         children: <TextSpan>[
                           TextSpan(
-                              text:
-                                  '\n€' + tile.weight.toStringAsFixed(2) + 'B'),
+                            text: '\n€' + tile.weight.toStringAsFixed(2) + 'B',
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           );
         },

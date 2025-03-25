@@ -61,10 +61,7 @@ class _AnimationScatterDefaultState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (_ChartData sales, int index) => sales.x,
         yValueMapper: (_ChartData sales, int index) => sales.y,
-        markerSettings: const MarkerSettings(
-          height: 15,
-          width: 15,
-        ),
+        markerSettings: const MarkerSettings(height: 15, width: 15),
       ),
     ];
   }
@@ -77,9 +74,7 @@ class _AnimationScatterDefaultState extends SampleViewState {
   void _buildChartData() {
     _chartData = <_ChartData>[];
     for (int i = 1; i <= 10; i++) {
-      _chartData!.add(
-        _ChartData(i, _buildRandomInt(5, 95)),
-      );
+      _chartData!.add(_ChartData(i, _buildRandomInt(5, 95)));
     }
     _timer?.cancel();
   }

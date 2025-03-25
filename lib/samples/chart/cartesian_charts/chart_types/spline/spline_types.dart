@@ -75,36 +75,32 @@ class _SplineTypesState extends SampleViewState {
           children: <Widget>[
             Text(
               'Spline type ',
-              style: TextStyle(
-                color: model.textColor,
-                fontSize: 16,
-              ),
+              style: TextStyle(color: model.textColor, fontSize: 16),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
               height: 50,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  focusColor: Colors.transparent,
-                  underline: Container(
-                    color: const Color(0xFFBDBDBD),
-                    height: 1,
-                  ),
-                  value: _selectedSplineType,
-                  items: _splineList!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'natural',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    _onPositionTypeChange(value.toString());
-                    stateSetter(() {});
-                  }),
+                dropdownColor: model.drawerBackgroundColor,
+                focusColor: Colors.transparent,
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+                value: _selectedSplineType,
+                items:
+                    _splineList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'natural',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                onChanged: (dynamic value) {
+                  _onPositionTypeChange(value.toString());
+                  stateSetter(() {});
+                },
+              ),
             ),
           ],
         );
@@ -116,9 +112,7 @@ class _SplineTypesState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Export growth of Brazil',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Export growth of Brazil'),
       primaryXAxis: const NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
         interval: 1,

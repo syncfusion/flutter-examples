@@ -46,7 +46,8 @@ class _ColumnRoundedState extends SampleViewState {
 
   /// Return the Cartesian Chart with Column series.
   SfCartesianChart _buildCartesianChart() {
-    final bool isM3DarkMode = model.themeData.useMaterial3 &&
+    final bool isM3DarkMode =
+        model.themeData.useMaterial3 &&
         model.themeData.brightness == Brightness.dark;
     return SfCartesianChart(
       plotAreaBorderWidth: 0,

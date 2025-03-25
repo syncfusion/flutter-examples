@@ -41,7 +41,7 @@ class _VerticalGradientState extends SampleViewState {
       _ChartSampleData(x: '2001', y: 25.69),
       _ChartSampleData(x: '2002', y: 24.75),
       _ChartSampleData(x: '2003', y: 27.38),
-      _ChartSampleData(x: '2004', y: 25.31)
+      _ChartSampleData(x: '2004', y: 25.31),
     ];
     _chartData2 = <_ChartSampleData>[
       _ChartSampleData(x: '1997', y: 17.5),
@@ -51,7 +51,7 @@ class _VerticalGradientState extends SampleViewState {
       _ChartSampleData(x: '2001', y: 21.5),
       _ChartSampleData(x: '2002', y: 20.5),
       _ChartSampleData(x: '2003', y: 23.5),
-      _ChartSampleData(x: '2004', y: 19.5)
+      _ChartSampleData(x: '2004', y: 19.5),
     ];
     super.initState();
   }
@@ -94,13 +94,15 @@ class _VerticalGradientState extends SampleViewState {
         borderColor: const Color.fromRGBO(0, 156, 144, 1),
 
         /// To set the gradient colors for series.
-        gradient: const LinearGradient(colors: <Color>[
-          Color.fromRGBO(269, 210, 255, 1),
-          Color.fromRGBO(143, 236, 154, 1)
-        ], stops: <double>[
-          0.2,
-          0.6
-        ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+        gradient: const LinearGradient(
+          colors: <Color>[
+            Color.fromRGBO(269, 210, 255, 1),
+            Color.fromRGBO(143, 236, 154, 1),
+          ],
+          stops: <double>[0.2, 0.6],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+        ),
         name: 'Country 1',
       ),
       SplineAreaSeries<_ChartSampleData, String>(
@@ -111,14 +113,14 @@ class _VerticalGradientState extends SampleViewState {
         gradient: const LinearGradient(
           colors: <Color>[
             Color.fromRGBO(140, 108, 245, 1),
-            Color.fromRGBO(125, 185, 253, 1)
+            Color.fromRGBO(125, 185, 253, 1),
           ],
           stops: <double>[0.3, 0.7],
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
         ),
         name: 'Country 2',
-      )
+      ),
     ];
   }
 

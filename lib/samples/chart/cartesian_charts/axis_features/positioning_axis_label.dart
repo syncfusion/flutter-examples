@@ -92,10 +92,7 @@ class _AxisCrossingState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Label position  ',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -109,15 +106,16 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _ySelectedPositionType,
-                    items: _yPositionType!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'outside',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                    items:
+                        _yPositionType!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'outside',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _onPositionChange(value.toString());
                       stateSetter(() {});
@@ -130,10 +128,7 @@ class _AxisCrossingState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Label alignment',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -147,15 +142,16 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _ySelectedAlignmentType,
-                    items: _yAlignmentType!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'start',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                    items:
+                        _yAlignmentType!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'start',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _onAlignmentChange(value.toString());
                       stateSetter(() {});
@@ -180,10 +176,7 @@ class _AxisCrossingState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Label position  ',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -197,15 +190,16 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _xSelectedPositionType,
-                    items: _xPositionType!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'outside',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                    items:
+                        _xPositionType!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'outside',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _onXPositionChange(value.toString());
                       stateSetter(() {});
@@ -218,10 +212,7 @@ class _AxisCrossingState extends SampleViewState {
               children: <Widget>[
                 Text(
                   'Label alignment',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
                   padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -235,15 +226,16 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _xSelectedAlignmentType,
-                    items: _xAlignmentType!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'center',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                    items:
+                        _xAlignmentType!.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'center',
+                            child: Text(
+                              value,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                     onChanged: (dynamic value) {
                       _onXAlignmentChange(value.toString());
                       stateSetter(() {});
@@ -266,9 +258,7 @@ class _AxisCrossingState extends SampleViewState {
   /// Return the Cartesian Chart with Spline series.
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
-      title: ChartTitle(
-        text: isCardView ? '' : 'New York temperature details',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'New York temperature details'),
       primaryXAxis: CategoryAxis(
         edgeLabelPlacement: EdgeLabelPlacement.shift,
         interval: 1,

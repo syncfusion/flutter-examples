@@ -36,7 +36,7 @@ class _StepLineDefaultState extends SampleViewState {
       ChartSampleData(x: 2008, y: 500, secondSeriesYValue: 300),
       ChartSampleData(x: 2009, y: 473, secondSeriesYValue: 173),
       ChartSampleData(x: 2010, y: 520, secondSeriesYValue: 220),
-      ChartSampleData(x: 2011, y: 509, secondSeriesYValue: 309)
+      ChartSampleData(x: 2011, y: 509, secondSeriesYValue: 309),
     ];
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
@@ -51,9 +51,7 @@ class _StepLineDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Electricity-Production',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Electricity-Production'),
       primaryXAxis: const NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
         interval: 1,
@@ -82,8 +80,8 @@ class _StepLineDefaultState extends SampleViewState {
       StepLineSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         name: 'Non-Renewable',
       ),
     ];

@@ -40,7 +40,7 @@ class _MapSublayerPageState extends SampleViewState {
       'Queensland',
       'South Australia',
       'Western Australia',
-      'Northern Territory'
+      'Northern Territory',
     ];
 
     _mapSource = MapShapeSource.asset(
@@ -93,8 +93,9 @@ class _MapSublayerPageState extends SampleViewState {
         for (int k = 0; k < polylineData.length; k++) {
           final List<MapLatLng> riverPoints = <MapLatLng>[];
           for (int index = 0; index < polylineData[k].length; index++) {
-            riverPoints.add(MapLatLng(
-                polylineData[k][index][1], polylineData[k][index][0]));
+            riverPoints.add(
+              MapLatLng(polylineData[k][index][1], polylineData[k][index][0]),
+            );
           }
           polylines.add(riverPoints);
         }
@@ -107,16 +108,18 @@ class _MapSublayerPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     _themeData = Theme.of(context);
-    _isDesktop = model.isWebFullView ||
+    _isDesktop =
+        model.isWebFullView ||
         _themeData.platform == TargetPlatform.macOS ||
         _themeData.platform == TargetPlatform.windows ||
         _themeData.platform == TargetPlatform.linux;
     return Scaffold(
-        backgroundColor: _isDesktop
-            ? model.sampleOutputCardColor
-            : model.sampleOutputCardColor,
-        body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
+      backgroundColor:
+          _isDesktop
+              ? model.sampleOutputCardColor
+              : model.sampleOutputCardColor,
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
           final bool scrollEnabled = constraints.maxHeight > 400;
           double height = scrollEnabled ? constraints.maxHeight : 400;
           if (model.isWebFullView ||
@@ -136,120 +139,167 @@ class _MapSublayerPageState extends SampleViewState {
               ),
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
   Widget _buildMapsWidget(bool scrollEnabled) {
     final bool isLightTheme =
         _themeData.colorScheme.brightness == Brightness.light;
     return FutureBuilder<dynamic>(
-        future: getJsonData(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapchat) {
-          if (snapchat.hasData) {
-            final List<List<MapLatLng>> polylines =
-                snapchat.data as List<List<MapLatLng>>;
-            return Center(
-                child: Padding(
-              padding: scrollEnabled
-                  ? EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.05,
-                      bottom: MediaQuery.of(context).size.height * 0.05,
-                      right: 10,
-                    )
-                  : const EdgeInsets.only(right: 10, bottom: 15),
+      future: getJsonData(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapchat) {
+        if (snapchat.hasData) {
+          final List<List<MapLatLng>> polylines =
+              snapchat.data as List<List<MapLatLng>>;
+          return Center(
+            child: Padding(
+              padding:
+                  scrollEnabled
+                      ? EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.05,
+                        bottom: MediaQuery.of(context).size.height * 0.05,
+                        right: 10,
+                      )
+                      : const EdgeInsets.only(right: 10, bottom: 15),
               child: SfMapsTheme(
                 data: const SfMapsThemeData(
                   shapeHoverColor: Colors.transparent,
                   shapeHoverStrokeColor: Colors.transparent,
                 ),
-                child: Column(children: <Widget>[
-                  Padding(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
                       padding: const EdgeInsets.only(top: 15, bottom: 30),
                       child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Text('Rivers in Australia',
-                              style: Theme.of(context).textTheme.titleMedium))),
-                  Expanded(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          'Rivers in Australia',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                    ),
+                    Expanded(
                       child: SfMaps(
-                    layers: <MapLayer>[
-                      MapShapeLayer(
-                        source: _mapSource,
-                        color: isLightTheme
-                            ? const Color.fromRGBO(254, 246, 214, 1.0)
-                            : const Color.fromRGBO(142, 197, 128, 1.0),
-                        zoomPanBehavior: _zoomPanBehavior,
-                        strokeWidth: 1.0,
-                        strokeColor: isLightTheme
-                            ? const Color.fromRGBO(205, 195, 152, 0.5)
-                            : const Color.fromRGBO(117, 156, 22, 1.0),
-                        loadingBuilder: (BuildContext context) {
-                          return const SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3,
-                            ),
-                          );
-                        },
-                        tooltipSettings: MapTooltipSettings(
-                          color: isLightTheme
-                              ? const Color.fromRGBO(45, 45, 45, 1)
-                              : const Color.fromRGBO(242, 242, 242, 1),
-                          strokeColor: isLightTheme
-                              ? const Color.fromRGBO(242, 242, 242, 1)
-                              : const Color.fromRGBO(45, 45, 45, 1),
-                        ),
-                        showDataLabels: true,
-                        dataLabelSettings: MapDataLabelSettings(
-                          textStyle: _themeData.textTheme.bodySmall!.copyWith(
-                            color: const Color.fromRGBO(0, 0, 0, 1),
-                          ),
-                        ),
-                        sublayers: <MapSublayer>[
-                          MapPolylineLayer(
-                            polylines: List<MapPolyline>.generate(
-                              polylines.length,
-                              (int index) {
-                                return MapPolyline(
-                                  points: polylines[index],
-                                  color: isLightTheme
-                                      ? const Color.fromRGBO(0, 168, 204, 1.0)
-                                      : const Color.fromRGBO(11, 138, 255, 1.0),
-                                  width: 2.0,
-                                );
-                              },
-                            ).toSet(),
-                            tooltipBuilder: (BuildContext context, int index) {
-                              final String? tooltipText =
-                                  _getTooltipText(index);
-                              if (tooltipText != null) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(tooltipText,
-                                      style: model
-                                          .themeData.textTheme.bodySmall!
-                                          .copyWith(
-                                              color: isLightTheme
-                                                  ? const Color.fromRGBO(
-                                                      255, 255, 255, 1)
-                                                  : const Color.fromRGBO(
-                                                      10, 10, 10, 1))),
-                                );
-                              }
-                              return const SizedBox();
+                        layers: <MapLayer>[
+                          MapShapeLayer(
+                            source: _mapSource,
+                            color:
+                                isLightTheme
+                                    ? const Color.fromRGBO(254, 246, 214, 1.0)
+                                    : const Color.fromRGBO(142, 197, 128, 1.0),
+                            zoomPanBehavior: _zoomPanBehavior,
+                            strokeWidth: 1.0,
+                            strokeColor:
+                                isLightTheme
+                                    ? const Color.fromRGBO(205, 195, 152, 0.5)
+                                    : const Color.fromRGBO(117, 156, 22, 1.0),
+                            loadingBuilder: (BuildContext context) {
+                              return const SizedBox(
+                                height: 25,
+                                width: 25,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 3,
+                                ),
+                              );
                             },
+                            tooltipSettings: MapTooltipSettings(
+                              color:
+                                  isLightTheme
+                                      ? const Color.fromRGBO(45, 45, 45, 1)
+                                      : const Color.fromRGBO(242, 242, 242, 1),
+                              strokeColor:
+                                  isLightTheme
+                                      ? const Color.fromRGBO(242, 242, 242, 1)
+                                      : const Color.fromRGBO(45, 45, 45, 1),
+                            ),
+                            showDataLabels: true,
+                            dataLabelSettings: MapDataLabelSettings(
+                              textStyle: _themeData.textTheme.bodySmall!
+                                  .copyWith(
+                                    color: const Color.fromRGBO(0, 0, 0, 1),
+                                  ),
+                            ),
+                            sublayers: <MapSublayer>[
+                              MapPolylineLayer(
+                                polylines:
+                                    List<MapPolyline>.generate(
+                                      polylines.length,
+                                      (int index) {
+                                        return MapPolyline(
+                                          points: polylines[index],
+                                          color:
+                                              isLightTheme
+                                                  ? const Color.fromRGBO(
+                                                    0,
+                                                    168,
+                                                    204,
+                                                    1.0,
+                                                  )
+                                                  : const Color.fromRGBO(
+                                                    11,
+                                                    138,
+                                                    255,
+                                                    1.0,
+                                                  ),
+                                          width: 2.0,
+                                        );
+                                      },
+                                    ).toSet(),
+                                tooltipBuilder: (
+                                  BuildContext context,
+                                  int index,
+                                ) {
+                                  final String? tooltipText = _getTooltipText(
+                                    index,
+                                  );
+                                  if (tooltipText != null) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        tooltipText,
+                                        style: model
+                                            .themeData
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                              color:
+                                                  isLightTheme
+                                                      ? const Color.fromRGBO(
+                                                        255,
+                                                        255,
+                                                        255,
+                                                        1,
+                                                      )
+                                                      : const Color.fromRGBO(
+                                                        10,
+                                                        10,
+                                                        10,
+                                                        1,
+                                                      ),
+                                            ),
+                                      ),
+                                    );
+                                  }
+                                  return const SizedBox();
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  )),
-                ]),
+                    ),
+                  ],
+                ),
               ),
-            ));
-          } else {
-            return Container();
-          }
-        });
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 
   String? _getTooltipText(int index) {

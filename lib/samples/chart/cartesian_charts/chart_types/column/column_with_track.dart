@@ -48,9 +48,7 @@ class _ColumnTrackerState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Marks of a student',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Marks of a student'),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),

@@ -17,7 +17,7 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 /// Local imports
 import '../../../model/sample_view.dart';
 import '../../pdf/helper/save_file_mobile.dart'
-    if (dart.library.html) '../../pdf/helper/save_file_web.dart';
+    if (dart.library.js_interop) '../../pdf/helper/save_file_web.dart';
 
 ///Renders default column chart sample
 class Export extends SampleView {
@@ -54,69 +54,84 @@ class _ExportState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        body: Column(children: <Widget>[
+      key: scaffoldKey,
+      body: Column(
+        children: <Widget>[
           Expanded(child: _buildDefaultColumnChart()),
           Container(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                children: <Widget>[
-                  const Spacer(),
-                  Container(
-                      decoration: BoxDecoration(boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0, 4.0),
-                          blurRadius: 4.0,
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: <Widget>[
+                const Spacer(),
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(0, 4.0),
+                        blurRadius: 4.0,
+                      ),
+                    ],
+                    shape: BoxShape.circle,
+                    color: model.primaryColor,
+                  ),
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          duration: Duration(milliseconds: 100),
+                          content: Text('Chart has been exported as PNG image'),
                         ),
-                      ], shape: BoxShape.circle, color: model.primaryColor),
-                      alignment: Alignment.center,
-                      child: IconButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
-                            duration: Duration(milliseconds: 100),
-                            content:
-                                Text('Chart has been exported as PNG image'),
-                          ));
-                          _renderImage();
-                        },
-                        icon: const Icon(Icons.image, color: Colors.white),
-                      )),
-                  Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      decoration: BoxDecoration(boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0, 4.0),
-                          blurRadius: 4.0,
+                      );
+                      _renderImage();
+                    },
+                    icon: const Icon(Icons.image, color: Colors.white),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  decoration: BoxDecoration(
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(0, 4.0),
+                        blurRadius: 4.0,
+                      ),
+                    ],
+                    shape: BoxShape.circle,
+                    color: model.primaryColor,
+                  ),
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          duration: Duration(milliseconds: 2000),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          content: Text(
+                            'Chart is being exported as PDF document',
+                          ),
                         ),
-                      ], shape: BoxShape.circle, color: model.primaryColor),
-                      alignment: Alignment.center,
-                      child: IconButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            duration: Duration(milliseconds: 2000),
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
-                            content:
-                                Text('Chart is being exported as PDF document'),
-                          ));
-                          _renderPdf();
-                        },
-                        icon: const Icon(Icons.picture_as_pdf,
-                            color: Colors.white),
-                      )),
-                ],
-              ))
-        ]));
+                      );
+                      _renderPdf();
+                    },
+                    icon: const Icon(Icons.picture_as_pdf, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -134,8 +149,9 @@ class _ExportState extends SampleViewState {
       backgroundColor: model.sampleOutputCardColor,
       plotAreaBorderWidth: 0,
       plotAreaBorderColor: Colors.grey.withValues(alpha: 0.7),
-      title:
-          const ChartTitle(text: 'Average rainfall amount (mm) and rainy days'),
+      title: const ChartTitle(
+        text: 'Average rainfall amount (mm) and rainy days',
+      ),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),
       ),
@@ -147,12 +163,13 @@ class _ExportState extends SampleViewState {
       ),
       axes: const <ChartAxis>[
         NumericAxis(
-            name: 'YAxis',
-            opposedPosition: true,
-            majorGridLines: MajorGridLines(width: 0),
-            minimum: 0,
-            maximum: 30,
-            interval: 5)
+          name: 'YAxis',
+          opposedPosition: true,
+          majorGridLines: MajorGridLines(width: 0),
+          minimum: 0,
+          maximum: 30,
+          interval: 5,
+        ),
       ],
       series: _getDefaultColumnSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
@@ -163,17 +180,19 @@ class _ExportState extends SampleViewState {
   List<CartesianSeries<ChartSampleData, String>> _getDefaultColumnSeries() {
     return <CartesianSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
-          name: 'Rainy days',
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.yValue,
-          yAxisName: 'YAxis'),
+        name: 'Rainy days',
+        dataSource: chartData,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
+        yValueMapper: (ChartSampleData sales, _) => sales.yValue,
+        yAxisName: 'YAxis',
+      ),
       LineSeries<ChartSampleData, String>(
-          name: 'Rainfall amount',
-          dataSource: chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x as String,
-          yValueMapper: (ChartSampleData sales, _) => sales.y,
-          markerSettings: const MarkerSettings(isVisible: true)),
+        name: 'Rainfall amount',
+        dataSource: chartData,
+        xValueMapper: (ChartSampleData sales, _) => sales.x as String,
+        yValueMapper: (ChartSampleData sales, _) => sales.y,
+        markerSettings: const MarkerSettings(isVisible: true),
+      ),
     ];
   }
 
@@ -196,10 +215,7 @@ class _ExportState extends SampleViewState {
             return Scaffold(
               appBar: AppBar(),
               body: Center(
-                child: Container(
-                  color: Colors.white,
-                  child: Image.file(file),
-                ),
+                child: Container(color: Colors.white, child: Image.file(file)),
               ),
             );
           },
@@ -219,31 +235,40 @@ class _ExportState extends SampleViewState {
             ? PdfPageOrientation.landscape
             : PdfPageOrientation.portrait;
     document.pageSettings.margins.all = 0;
-    document.pageSettings.size =
-        Size(bitmap.width.toDouble(), bitmap.height.toDouble());
+    document.pageSettings.size = Size(
+      bitmap.width.toDouble(),
+      bitmap.height.toDouble(),
+    );
     final PdfPage page = document.pages.add();
     final Size pageSize = page.getClientSize();
     page.graphics.drawImage(
-        bitmap, Rect.fromLTWH(0, 0, pageSize.width, pageSize.height));
+      bitmap,
+      Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
+    );
 
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5))),
-      duration: Duration(milliseconds: 200),
-      content: Text('Chart has been exported as PDF document.'),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+        ),
+        duration: Duration(milliseconds: 200),
+        content: Text('Chart has been exported as PDF document.'),
+      ),
+    );
     final List<int> bytes = document.saveSync();
     document.dispose();
     await FileSaveHelper.saveAndLaunchFile(bytes, 'cartesian_chart.pdf');
   }
 
   Future<List<int>> _readImageData() async {
-    final dart_ui.Image? data =
-        await _chartKey.currentState!.toImage(pixelRatio: 3.0);
-    final ByteData? bytes =
-        await data?.toByteData(format: dart_ui.ImageByteFormat.png);
+    final dart_ui.Image? data = await _chartKey.currentState!.toImage(
+      pixelRatio: 3.0,
+    );
+    final ByteData? bytes = await data?.toByteData(
+      format: dart_ui.ImageByteFormat.png,
+    );
     return bytes!.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 }

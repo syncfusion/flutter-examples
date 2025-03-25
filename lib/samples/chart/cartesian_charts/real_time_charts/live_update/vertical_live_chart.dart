@@ -34,7 +34,7 @@ class _LiveUpdateState extends SampleViewState {
       ChartSampleData(x: 7, y: 4),
       ChartSampleData(x: 8, y: 0),
       ChartSampleData(x: 9, y: 0),
-      ChartSampleData(x: 10, y: 0)
+      ChartSampleData(x: 10, y: 0),
     ];
   }
   late int _count;
@@ -46,9 +46,7 @@ class _LiveUpdateState extends SampleViewState {
   @override
   void initState() {
     _count = 0;
-    _chartData = <ChartSampleData>[
-      ChartSampleData(x: 0, y: 0),
-    ];
+    _chartData = <ChartSampleData>[ChartSampleData(x: 0, y: 0)];
     super.initState();
     _timer = Timer.periodic(const Duration(milliseconds: 10), _updateData);
   }
@@ -85,8 +83,9 @@ class _LiveUpdateState extends SampleViewState {
         animationDuration: 0,
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
-        onRendererCreated:
-            (ChartSeriesController<ChartSampleData, num> controller) {
+        onRendererCreated: (
+          ChartSeriesController<ChartSampleData, num> controller,
+        ) {
           _chartSeriesController = controller;
         },
       ),
@@ -116,23 +115,44 @@ class _LiveUpdateState extends SampleViewState {
     if (_count > 350 || _chartData!.length > 350) {
       _timer?.cancel();
     } else if (_count > 300) {
-      _chartData!.add(ChartSampleData(
-          x: _chartData!.length, y: _generateRandomInteger(0, 1)));
+      _chartData!.add(
+        ChartSampleData(x: _chartData!.length, y: _generateRandomInteger(0, 1)),
+      );
     } else if (_count > 250) {
-      _chartData!.add(ChartSampleData(
-          x: _chartData!.length, y: _generateRandomInteger(-2, 1)));
+      _chartData!.add(
+        ChartSampleData(
+          x: _chartData!.length,
+          y: _generateRandomInteger(-2, 1),
+        ),
+      );
     } else if (_count > 180) {
-      _chartData!.add(ChartSampleData(
-          x: _chartData!.length, y: _generateRandomInteger(-3, 2)));
+      _chartData!.add(
+        ChartSampleData(
+          x: _chartData!.length,
+          y: _generateRandomInteger(-3, 2),
+        ),
+      );
     } else if (_count > 100) {
-      _chartData!.add(ChartSampleData(
-          x: _chartData!.length, y: _generateRandomInteger(-7, 6)));
+      _chartData!.add(
+        ChartSampleData(
+          x: _chartData!.length,
+          y: _generateRandomInteger(-7, 6),
+        ),
+      );
     } else if (_count < 50) {
-      _chartData!.add(ChartSampleData(
-          x: _chartData!.length, y: _generateRandomInteger(-3, 3)));
+      _chartData!.add(
+        ChartSampleData(
+          x: _chartData!.length,
+          y: _generateRandomInteger(-3, 3),
+        ),
+      );
     } else {
-      _chartData!.add(ChartSampleData(
-          x: _chartData!.length, y: _generateRandomInteger(-9, 9)));
+      _chartData!.add(
+        ChartSampleData(
+          x: _chartData!.length,
+          y: _generateRandomInteger(-9, 9),
+        ),
+      );
     }
     return _chartData!;
   }

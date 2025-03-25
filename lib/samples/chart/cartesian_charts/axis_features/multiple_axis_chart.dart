@@ -71,7 +71,7 @@ class _MultipleAxisState extends SampleViewState {
           minimum: 40,
           maximum: 100,
           interval: 10,
-        )
+        ),
       ],
       series: _buildMultipleSeries(),
       legend: Legend(isVisible: !isCardView),
@@ -91,8 +91,8 @@ class _MultipleAxisState extends SampleViewState {
         dataSource: temperatureData,
         yAxisName: 'yAxis1',
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         name: 'Washington',
       ),
     ];

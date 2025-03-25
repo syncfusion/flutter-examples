@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 ///Local imports
 import '../../../model/sample_view.dart';
 import '../../common/export/save_file_mobile.dart'
-    if (dart.library.html) '../../common/export/save_file_web.dart';
+    if (dart.library.js_interop) '../../common/export/save_file_web.dart';
 
 /// Render save as CSV
 class SaveAsCSV extends SampleView {
@@ -31,23 +31,33 @@ class _SaveAsCSV extends SampleViewState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-                'This sample shows how to export data to CSV format with text, date time, and numbers with number formatting. This feature also allows exporting the data to CSV format with custom separators instead of the default comma separator.',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
+              'This sample shows how to export data to CSV format with text, date time, and numbers with number formatting. This feature also allows exporting the data to CSV format with custom separators instead of the default comma separator.',
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
             const SizedBox(height: 20, width: 30),
             Align(
-                child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(model.primaryColor),
-                padding: model.isMobile
-                    ? null
-                    : WidgetStateProperty.all(const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15)),
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    model.primaryColor,
+                  ),
+                  padding:
+                      model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
+                            ),
+                          ),
+                ),
+                onPressed: _generateExcel,
+                child: const Text(
+                  'Generate Excel',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              onPressed: _generateExcel,
-              child: const Text('Generate Excel',
-                  style: TextStyle(color: Colors.white)),
-            ))
+            ),
           ],
         ),
       ),

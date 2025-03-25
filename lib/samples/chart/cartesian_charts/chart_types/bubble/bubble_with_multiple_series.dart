@@ -36,13 +36,13 @@ class _BubbleMultiSeriesState extends SampleViewState {
     );
     _chartData1 = <ChartSampleData>[
       ChartSampleData(x: 'US', xValue: 99.4, y: 2.2, size: 0.312),
-      ChartSampleData(x: 'Mexico', xValue: 86.1, y: 4.0, size: 0.115)
+      ChartSampleData(x: 'Mexico', xValue: 86.1, y: 4.0, size: 0.115),
     ];
 
     _chartData2 = <ChartSampleData>[
       ChartSampleData(x: 'Germany', xValue: 99, y: 0.7, size: 0.0818),
       ChartSampleData(x: 'Russia', xValue: 99.6, y: 3.4, size: 0.143),
-      ChartSampleData(x: 'Netherland', xValue: 79.2, y: 3.9, size: 0.162)
+      ChartSampleData(x: 'Netherland', xValue: 79.2, y: 3.9, size: 0.162),
     ];
 
     _chartData3 = <ChartSampleData>[
@@ -74,9 +74,7 @@ class _BubbleMultiSeriesState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'World countries details',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'World countries details'),
       primaryXAxis: NumericAxis(
         majorGridLines: const MajorGridLines(width: 0),
         title: AxisTitle(text: isCardView ? '' : 'Literacy rate'),

@@ -48,10 +48,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'Name',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Name', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -60,10 +57,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Q1',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Q1', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),
@@ -73,10 +67,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Q2',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Q2', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),
@@ -86,10 +77,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Q3',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Q3', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),
@@ -99,10 +87,7 @@ class _ConditionalStylingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Q4',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Q4', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),

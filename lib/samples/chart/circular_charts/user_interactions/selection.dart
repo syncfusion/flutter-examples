@@ -62,7 +62,7 @@ class _CircularSelectionState extends SampleViewState {
         secondSeriesYValue: 68,
         thirdSeriesYValue: 8,
         text: 'BRZ : 68M',
-      )
+      ),
     ];
     _enableMultiSelect = false;
     _toggleSelection = true;
@@ -96,10 +96,7 @@ class _CircularSelectionState extends SampleViewState {
               ? 'Enable multi-\nselection'
               : 'Enable multi-selection',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
         Container(
           padding: EdgeInsets.only(left: 0.01 * screenWidth),
@@ -129,10 +126,7 @@ class _CircularSelectionState extends SampleViewState {
         Text(
           model.isWebFullView ? 'Toggle \nselection' : 'Toggle selection',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
         Container(
           padding: EdgeInsets.only(left: 0.01 * screenWidth),
@@ -180,22 +174,23 @@ class _CircularSelectionState extends SampleViewState {
       PieSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         radius: '70%',
         startAngle: 30,
         endAngle: 30,
         dataLabelMapper: (ChartSampleData sales, int index) => sales.text,
         dataLabelSettings: DataLabelSettings(
           isVisible: true,
-          labelPosition: isCardView
-              ? ChartDataLabelPosition.outside
-              : ChartDataLabelPosition.inside,
+          labelPosition:
+              isCardView
+                  ? ChartDataLabelPosition.outside
+                  : ChartDataLabelPosition.inside,
         ),
 
         /// To enable the selection settings and its functionalities.
         selectionBehavior: _selectionBehavior,
-      )
+      ),
     ];
   }
 

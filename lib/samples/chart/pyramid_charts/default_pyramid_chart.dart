@@ -65,7 +65,10 @@ class _PyramidDefaultState extends SampleViewState {
 
   /// Builds the main row containing all the settings components.
   Widget _buildSettingsRow(
-      double screenWidth, double dropDownWidth, StateSetter stateSetter) {
+    double screenWidth,
+    double dropDownWidth,
+    StateSetter stateSetter,
+  ) {
     return Row(
       children: <Widget>[
         Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
@@ -103,18 +106,22 @@ class _PyramidDefaultState extends SampleViewState {
             isExpanded: true,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedMode,
-            items: _pyramidMode!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
+            items:
+                _pyramidMode!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               _onPyramidModeChange(value.toString());
               stateSetter(() {});
             },
           ),
-        )
+        ),
       ],
     );
   }
@@ -138,9 +145,10 @@ class _PyramidDefaultState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 0.5,
             initialValue: _gapRatio,
-            onChanged: (double val) => setState(() {
-              _gapRatio = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _gapRatio = val;
+                }),
             step: 0.1,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -153,7 +161,10 @@ class _PyramidDefaultState extends SampleViewState {
   /// Builds the row containing the checkbox to
   /// toggle the explode property.
   Widget _buildExplodeRow(
-      double screenWidth, double dropDownWidth, StateSetter stateSetter) {
+    double screenWidth,
+    double dropDownWidth,
+    StateSetter stateSetter,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -210,9 +221,7 @@ class _PyramidDefaultState extends SampleViewState {
       explode: isCardView ? false : _explode,
       gapRatio: isCardView ? 0 : _gapRatio,
       pyramidMode: isCardView ? PyramidMode.linear : _selectedPyramidMode,
-      dataLabelSettings: const DataLabelSettings(
-        isVisible: true,
-      ),
+      dataLabelSettings: const DataLabelSettings(isVisible: true),
     );
   }
 

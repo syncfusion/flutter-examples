@@ -38,8 +38,9 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
   void initState() {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
-    _realTimeUpdateDataGridSource =
-        RealTimeUpdateDataGridSource(isWebOrDesktop: _isWebOrDesktop);
+    _realTimeUpdateDataGridSource = RealTimeUpdateDataGridSource(
+      isWebOrDesktop: _isWebOrDesktop,
+    );
     _timer = Timer.periodic(const Duration(milliseconds: 200), (Timer args) {
       _realTimeUpdateDataGridSource.timerTick(args);
     });
@@ -48,24 +49,28 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
       source: _realTimeUpdateDataGridSource,
-      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
-          ? ColumnWidthMode.fill
-          : ColumnWidthMode.none,
+      columnWidthMode:
+          _isWebOrDesktop || _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
       columns: <GridColumn>[
         GridColumn(
-            columnName: 'symbol',
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
-            label: Container(
-              alignment: Alignment.center,
-              child: const Text('Symbol'),
-            )),
+          columnName: 'symbol',
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 150.0
+                  : double.nan,
+          label: Container(
+            alignment: Alignment.center,
+            child: const Text('Symbol'),
+          ),
+        ),
         GridColumn(
           columnName: 'stock',
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 150.0
-              : double.nan,
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 150.0
+                  : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text('Stock'),
@@ -73,9 +78,10 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
         ),
         GridColumn(
           columnName: 'open',
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 150.0
-              : double.nan,
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 150.0
+                  : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text(' Open'),
@@ -91,9 +97,10 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
         ),
         GridColumn(
           columnName: 'lastTrade',
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 150.0
-              : double.nan,
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 150.0
+                  : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text('Last Trade'),
@@ -106,7 +113,8 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 

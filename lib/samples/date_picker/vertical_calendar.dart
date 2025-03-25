@@ -22,11 +22,8 @@ class _VerticalCalendarPickerState extends SampleViewState {
   DateRangePickerNavigationMode _navigationMode =
       DateRangePickerNavigationMode.scroll;
   String _navigationModeString = 'scroll';
-  final List<String> _navigationModeList = <String>[
-    'none',
-    'snap',
-    'scroll',
-  ].toList();
+  final List<String> _navigationModeList =
+      <String>['none', 'snap', 'scroll'].toList();
 
   @override
   void didChangeDependencies() {
@@ -36,61 +33,64 @@ class _VerticalCalendarPickerState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      final List<Widget> propertyOptions = <Widget>[];
-      propertyOptions.add(SizedBox(
-        height: 50,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 6,
-              child: Text(
-                'Navigation mode',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: model.textColor,
+      builder: (BuildContext context, StateSetter stateSetter) {
+        final List<Widget> propertyOptions = <Widget>[];
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    'Navigation mode',
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              flex: 4,
-              child: Container(
-                padding: EdgeInsets.zero,
-                alignment: Alignment.bottomLeft,
-                child: DropdownButton<String>(
-                    dropdownColor: model.drawerBackgroundColor,
-                    focusColor: Colors.transparent,
-                    underline: Container(
-                      color: const Color(0xFFBDBDBD),
-                      height: 1,
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
+                      dropdownColor: model.drawerBackgroundColor,
+                      focusColor: Colors.transparent,
+                      underline: Container(
+                        color: const Color(0xFFBDBDBD),
+                        height: 1,
+                      ),
+                      value: _navigationModeString,
+                      items:
+                          _navigationModeList.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'scroll',
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor),
+                              ),
+                            );
+                          }).toList(),
+                      onChanged: (dynamic value) {
+                        _onNavigationModeChange(value);
+                        stateSetter(() {});
+                      },
                     ),
-                    value: _navigationModeString,
-                    items: _navigationModeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'scroll',
-                          child: Text(
-                            value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor),
-                          ));
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      _onNavigationModeChange(value);
-                      stateSetter(() {});
-                    }),
-              ),
-            )
-          ],
-        ),
-      ));
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(15, 10, 0, 5),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: propertyOptions,
-        ),
-      );
-    });
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(15, 10, 0, 5),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: propertyOptions,
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -101,41 +101,55 @@ class _VerticalCalendarPickerState extends SampleViewState {
       color: model.sampleOutputCardColor,
       child: Theme(
         data: model.themeData.copyWith(
-            colorScheme: model.themeData.colorScheme
-                .copyWith(secondary: model.primaryColor)),
+          colorScheme: model.themeData.colorScheme.copyWith(
+            secondary: model.primaryColor,
+          ),
+        ),
         child: _buildVerticalCalendar(),
       ),
     );
     final Widget cardView = Card(
-        elevation: 10,
-        margin: model.isWebFullView
-            ? const EdgeInsets.fromLTRB(30, 20, 30, 10)
-            : const EdgeInsets.fromLTRB(30, 30, 30, 10),
-        child: model.isWebFullView
-            ? ListView(children: <Widget>[calendar])
-            : calendar);
+      elevation: 10,
+      margin:
+          model.isWebFullView
+              ? const EdgeInsets.fromLTRB(30, 20, 30, 10)
+              : const EdgeInsets.fromLTRB(30, 30, 30, 10),
+      child:
+          model.isWebFullView
+              ? ListView(children: <Widget>[calendar])
+              : calendar,
+    );
     return Scaffold(
-        backgroundColor: model.themeData == null ||
-                model.themeData.colorScheme.brightness == Brightness.light
-            ? null
-            : const Color(0x00171a21),
-        body: Column(children: <Widget>[
+      backgroundColor:
+          model.themeData == null ||
+                  model.themeData.colorScheme.brightness == Brightness.light
+              ? null
+              : const Color(0x00171a21),
+      body: Column(
+        children: <Widget>[
           Expanded(
-              flex: 9,
-              child: model.isWebFullView
-                  ? Center(
+            flex: 9,
+            child:
+                model.isWebFullView
+                    ? Center(
                       child: SizedBox(
-                      width: 400,
-                      height: 580, // 580 defines 550 height and 30 margin.
-                      child: cardView,
-                    ))
-                  : ListView(children: <Widget>[
-                      SizedBox(
-                        height: 590, // 590 defines 550 height and 40 margin.
+                        width: 400,
+                        height: 580, // 580 defines 550 height and 30 margin.
                         child: cardView,
-                      )
-                    ]))
-        ]));
+                      ),
+                    )
+                    : ListView(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 590, // 590 defines 550 height and 40 margin.
+                          child: cardView,
+                        ),
+                      ],
+                    ),
+          ),
+        ],
+      ),
+    );
   }
 
   void _onNavigationModeChange(String value) {

@@ -29,60 +29,80 @@ class _WidgetPointerState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Container(
-          margin: const EdgeInsets.all(32.0), child: _buildSegmentedView()),
-      Expanded(
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.all(32.0),
+          child: _buildSegmentedView(),
+        ),
+        Expanded(
           child: Center(
-              child: SingleChildScrollView(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-            SizedBox(
-              width: getScreenWidth(context, _isHorizontalOrientation),
-              child: _buildWidgetPointer(context),
-            )
-          ]))))
-    ]);
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    width: getScreenWidth(context, _isHorizontalOrientation),
+                    child: _buildWidgetPointer(context),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   /// Returns the linear gauge widget pointer.
   Widget _buildWidgetPointer(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
-      child: _isHorizontalOrientation
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildHorizontalGauges(
-                    'Text widget', _buildTextWidgetPointer(context)),
-                _buildHorizontalGauges(
-                    'Icon widget', _buildIconWidgetPointer(context)),
-                _buildHorizontalGauges('Multiple widget pointers',
-                    _buildMultipleWidgetPointers(context)),
-              ],
-            )
-          : Column(
-              children: <Widget>[
-                Wrap(
-                  runSpacing: 30,
-                  spacing: 16,
-                  alignment: WrapAlignment.center,
-                  children: <Widget>[
-                    _buildVerticalGauges(
-                        'Text widget', _buildTextWidgetPointer(context)),
-                    _buildVerticalGauges(
-                        'Icon widget', _buildIconWidgetPointer(context)),
-                    _buildVerticalGauges(
+      child:
+          _isHorizontalOrientation
+              ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _buildHorizontalGauges(
+                    'Text widget',
+                    _buildTextWidgetPointer(context),
+                  ),
+                  _buildHorizontalGauges(
+                    'Icon widget',
+                    _buildIconWidgetPointer(context),
+                  ),
+                  _buildHorizontalGauges(
+                    'Multiple widget pointers',
+                    _buildMultipleWidgetPointers(context),
+                  ),
+                ],
+              )
+              : Column(
+                children: <Widget>[
+                  Wrap(
+                    runSpacing: 30,
+                    spacing: 16,
+                    alignment: WrapAlignment.center,
+                    children: <Widget>[
+                      _buildVerticalGauges(
+                        'Text widget',
+                        _buildTextWidgetPointer(context),
+                      ),
+                      _buildVerticalGauges(
+                        'Icon widget',
+                        _buildIconWidgetPointer(context),
+                      ),
+                      _buildVerticalGauges(
                         model.isDesktop
                             ? 'Multiple widgets'
                             : 'Multiple widget pointers',
-                        _buildMultipleWidgetPointers(context)),
-                  ],
-                ),
-              ],
-            ),
+                        _buildMultipleWidgetPointers(context),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
     );
   }
 
@@ -107,7 +127,7 @@ class _WidgetPointerState extends SampleViewState {
         children: <Widget>[
           Text(axisTrackName),
           const SizedBox(height: 16),
-          linearGauge
+          linearGauge,
         ],
       ),
     );
@@ -118,48 +138,59 @@ class _WidgetPointerState extends SampleViewState {
     final Brightness brightness = Theme.of(context).brightness;
 
     return SizedBox(
-        height: _isHorizontalOrientation ? 100 : 300,
-        child: SfLinearGauge(
-            animateAxis: true,
-            axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
-            orientation: _isHorizontalOrientation
+      height: _isHorizontalOrientation ? 100 : 300,
+      child: SfLinearGauge(
+        animateAxis: true,
+        axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
+        orientation:
+            _isHorizontalOrientation
                 ? LinearGaugeOrientation.horizontal
                 : LinearGaugeOrientation.vertical,
-            markerPointers: <LinearMarkerPointer>[
-              LinearWidgetPointer(
-                value: _textWidgetPointerValue,
-                onChanged: (dynamic value) {
-                  setState(() {
-                    _textWidgetPointerValue = value as double;
-                  });
-                },
-                child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                        color: brightness == Brightness.dark
+        markerPointers: <LinearMarkerPointer>[
+          LinearWidgetPointer(
+            value: _textWidgetPointerValue,
+            onChanged: (dynamic value) {
+              setState(() {
+                _textWidgetPointerValue = value as double;
+              });
+            },
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color:
+                    brightness == Brightness.dark
+                        ? const Color(0xFFFFFFFF)
+                        : const Color(0xff06589C),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color:
+                        brightness == Brightness.light
+                            ? Colors.grey
+                            : Colors.black54,
+                    offset: const Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 6.0,
+                  ),
+                ],
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(
+                  _textWidgetPointerValue.toStringAsFixed(0),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color:
+                        brightness == Brightness.light
                             ? const Color(0xFFFFFFFF)
-                            : const Color(0xff06589C),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: brightness == Brightness.light
-                                ? Colors.grey
-                                : Colors.black54,
-                            offset: const Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 6.0,
-                          ),
-                        ],
-                        shape: BoxShape.circle),
-                    child: Center(
-                        child: Text(_textWidgetPointerValue.toStringAsFixed(0),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: brightness == Brightness.light
-                                  ? const Color(0xFFFFFFFF)
-                                  : const Color(0xffF45656),
-                            )))),
-              )
-            ]));
+                            : const Color(0xffF45656),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Returns the icon widget pointer sample.
@@ -167,48 +198,57 @@ class _WidgetPointerState extends SampleViewState {
     final Brightness brightness = Theme.of(context).brightness;
 
     return SizedBox(
-        height: _isHorizontalOrientation ? 100 : 300,
-        child: SfLinearGauge(
-            animateAxis: true,
-            axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
-            orientation: _isHorizontalOrientation
+      height: _isHorizontalOrientation ? 100 : 300,
+      child: SfLinearGauge(
+        animateAxis: true,
+        axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
+        orientation:
+            _isHorizontalOrientation
                 ? LinearGaugeOrientation.horizontal
                 : LinearGaugeOrientation.vertical,
-            markerPointers: <LinearMarkerPointer>[
-              LinearWidgetPointer(
-                value: _iconWidgetPointerValue,
-                onChanged: (dynamic value) {
-                  setState(() {
-                    _iconWidgetPointerValue = value as double;
-                  });
-                },
-                child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                        color: brightness == Brightness.dark
-                            ? const Color(0xFFFFFFFF)
-                            : const Color(0xff06589C),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: brightness == Brightness.light
-                                ? Colors.grey
-                                : Colors.black54,
-                            offset: const Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 6.0,
-                          ),
-                        ],
-                        shape: BoxShape.circle),
-                    child: Center(
-                        child: Icon(
-                      Icons.thumb_up_rounded,
-                      size: 20,
-                      color: brightness == Brightness.light
+        markerPointers: <LinearMarkerPointer>[
+          LinearWidgetPointer(
+            value: _iconWidgetPointerValue,
+            onChanged: (dynamic value) {
+              setState(() {
+                _iconWidgetPointerValue = value as double;
+              });
+            },
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color:
+                    brightness == Brightness.dark
+                        ? const Color(0xFFFFFFFF)
+                        : const Color(0xff06589C),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color:
+                        brightness == Brightness.light
+                            ? Colors.grey
+                            : Colors.black54,
+                    offset: const Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 6.0,
+                  ),
+                ],
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.thumb_up_rounded,
+                  size: 20,
+                  color:
+                      brightness == Brightness.light
                           ? const Color(0xFFFFFFFF)
                           : const Color(0xffF45656),
-                    ))),
-              )
-            ]));
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Returns the multiple widget pointers sample.
@@ -216,112 +256,132 @@ class _WidgetPointerState extends SampleViewState {
     final Brightness brightness = Theme.of(context).brightness;
 
     return SizedBox(
-        height: _isHorizontalOrientation ? 100 : 300,
-        child: SfLinearGauge(
-            animateAxis: true,
-            axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
-            orientation: _isHorizontalOrientation
+      height: _isHorizontalOrientation ? 100 : 300,
+      child: SfLinearGauge(
+        animateAxis: true,
+        axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
+        orientation:
+            _isHorizontalOrientation
                 ? LinearGaugeOrientation.horizontal
                 : LinearGaugeOrientation.vertical,
-            markerPointers: <LinearMarkerPointer>[
-              LinearWidgetPointer(
-                value: _textPointerValue,
-                onChanged: (dynamic value) {
-                  setState(() {
-                    _textPointerValue = value as double;
-                  });
-                },
-                child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                        color: brightness == Brightness.dark
-                            ? const Color(0xFFFFFFFF)
-                            : const Color(0xff06589C),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: brightness == Brightness.light
-                                ? Colors.grey
-                                : Colors.black54,
-                            offset: const Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 6.0,
-                          ),
-                        ],
-                        shape: BoxShape.circle),
-                    child: Center(
-                        child: Text(_textPointerValue.toStringAsFixed(0),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: brightness == Brightness.light
-                                  ? const Color(0xFFFFFFFF)
-                                  : const Color(0xffF45656),
-                            )))),
+        markerPointers: <LinearMarkerPointer>[
+          LinearWidgetPointer(
+            value: _textPointerValue,
+            onChanged: (dynamic value) {
+              setState(() {
+                _textPointerValue = value as double;
+              });
+            },
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color:
+                    brightness == Brightness.dark
+                        ? const Color(0xFFFFFFFF)
+                        : const Color(0xff06589C),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color:
+                        brightness == Brightness.light
+                            ? Colors.grey
+                            : Colors.black54,
+                    offset: const Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 6.0,
+                  ),
+                ],
+                shape: BoxShape.circle,
               ),
-              LinearWidgetPointer(
-                value: _iconPointerValue,
-                onChanged: (dynamic value) {
-                  setState(() {
-                    _iconPointerValue = value as double;
-                  });
-                },
-                child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                        color: brightness == Brightness.dark
+              child: Center(
+                child: Text(
+                  _textPointerValue.toStringAsFixed(0),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color:
+                        brightness == Brightness.light
                             ? const Color(0xFFFFFFFF)
-                            : const Color(0xff06589C),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: brightness == Brightness.light
-                                ? Colors.grey
-                                : Colors.black54,
-                            offset: const Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 6.0,
-                          ),
-                        ],
-                        shape: BoxShape.circle),
-                    child: Center(
-                        child: Icon(
-                      Icons.thumb_up_rounded,
-                      size: 20,
-                      color: brightness == Brightness.light
+                            : const Color(0xffF45656),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          LinearWidgetPointer(
+            value: _iconPointerValue,
+            onChanged: (dynamic value) {
+              setState(() {
+                _iconPointerValue = value as double;
+              });
+            },
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color:
+                    brightness == Brightness.dark
+                        ? const Color(0xFFFFFFFF)
+                        : const Color(0xff06589C),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color:
+                        brightness == Brightness.light
+                            ? Colors.grey
+                            : Colors.black54,
+                    offset: const Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 6.0,
+                  ),
+                ],
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.thumb_up_rounded,
+                  size: 20,
+                  color:
+                      brightness == Brightness.light
                           ? const Color(0xFFFFFFFF)
                           : const Color(0xffF45656),
-                    ))),
-              )
-            ]));
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Returns the segmented view for linear gauge orientation.
   Widget _buildSegmentedView() {
     return Center(
-        child: CupertinoSegmentedControl<bool>(
-            selectedColor: model.primaryColor,
-            borderColor: model.primaryColor,
-            children: <bool, Widget>{
-              true: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'Horizontal',
-                    style: TextStyle(
-                        color: _isHorizontalOrientation
-                            ? Colors.white
-                            : Colors.black),
-                  )),
-              false: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'Vertical',
-                    style: TextStyle(
-                        color: _isHorizontalOrientation
-                            ? Colors.black
-                            : Colors.white),
-                  )),
-            },
-            onValueChanged: (bool value) => setState(() {
-                  _isHorizontalOrientation = value;
-                }),
-            groupValue: _isHorizontalOrientation));
+      child: CupertinoSegmentedControl<bool>(
+        selectedColor: model.primaryColor,
+        borderColor: model.primaryColor,
+        children: <bool, Widget>{
+          true: Container(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Horizontal',
+              style: TextStyle(
+                color: _isHorizontalOrientation ? Colors.white : Colors.black,
+              ),
+            ),
+          ),
+          false: Container(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Vertical',
+              style: TextStyle(
+                color: _isHorizontalOrientation ? Colors.black : Colors.white,
+              ),
+            ),
+          ),
+        },
+        onValueChanged:
+            (bool value) => setState(() {
+              _isHorizontalOrientation = value;
+            }),
+        groupValue: _isHorizontalOrientation,
+      ),
+    );
   }
 }

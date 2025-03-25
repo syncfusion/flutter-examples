@@ -45,9 +45,7 @@ class _LineDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Inflation - Consumer price',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Inflation - Consumer price'),
       primaryXAxis: const NumericAxis(
         edgeLabelPlacement: EdgeLabelPlacement.shift,
         interval: 2,

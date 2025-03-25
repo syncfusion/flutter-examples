@@ -30,13 +30,16 @@ class _TableSummaryDataGridState extends SampleViewState {
   void initState() {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
-    _dataSource =
-        OrderInfoDataGridSource(isWebOrDesktop: true, orderDataCount: 100);
+    _dataSource = OrderInfoDataGridSource(
+      isWebOrDesktop: true,
+      orderDataCount: 100,
+    );
   }
 
   @override
   void didChangeDependencies() {
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
     super.didChangeDependencies();
   }
@@ -47,9 +50,10 @@ class _TableSummaryDataGridState extends SampleViewState {
       source: _dataSource,
       columns: _obtainColumns(),
       tableSummaryRows: _loadTableSummaryRows(),
-      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
-          ? ColumnWidthMode.fill
-          : ColumnWidthMode.auto,
+      columnWidthMode:
+          _isWebOrDesktop || _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.auto,
       columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
     );
   }
@@ -69,29 +73,34 @@ class _TableSummaryDataGridState extends SampleViewState {
     final Color color = _tableSummaryBackgroundColor();
     return <GridTableSummaryRow>[
       GridTableSummaryRow(
-          color: color,
-          title: 'Total Order Count: {count}',
-          columns: <GridSummaryColumn>[
-            const GridSummaryColumn(
-                name: 'count',
-                columnName: 'id',
-                summaryType: GridSummaryType.count),
-          ],
-          position: GridTableSummaryRowPosition.top),
+        color: color,
+        title: 'Total Order Count: {count}',
+        columns: <GridSummaryColumn>[
+          const GridSummaryColumn(
+            name: 'count',
+            columnName: 'id',
+            summaryType: GridSummaryType.count,
+          ),
+        ],
+        position: GridTableSummaryRowPosition.top,
+      ),
       GridTableSummaryRow(
-          color: color,
-          showSummaryInRow: false,
-          columns: <GridSummaryColumn>[
-            const GridSummaryColumn(
-                name: 'freight',
-                columnName: 'freight',
-                summaryType: GridSummaryType.sum),
-            const GridSummaryColumn(
-                name: 'price',
-                columnName: 'price',
-                summaryType: GridSummaryType.sum),
-          ],
-          position: GridTableSummaryRowPosition.bottom),
+        color: color,
+        showSummaryInRow: false,
+        columns: <GridSummaryColumn>[
+          const GridSummaryColumn(
+            name: 'freight',
+            columnName: 'freight',
+            summaryType: GridSummaryType.sum,
+          ),
+          const GridSummaryColumn(
+            name: 'price',
+            columnName: 'price',
+            summaryType: GridSummaryType.sum,
+          ),
+        ],
+        position: GridTableSummaryRowPosition.bottom,
+      ),
     ];
   }
 
@@ -104,10 +113,7 @@ class _TableSummaryDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
-          child: const Text(
-            'Order ID',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Order ID', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -117,10 +123,7 @@ class _TableSummaryDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
-          child: const Text(
-            'Customer ID',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Customer ID', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -131,24 +134,19 @@ class _TableSummaryDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
-          child: const Text(
-            'Name',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Name', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
-        width: (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
-            ? 140.0
-            : double.nan,
+        width:
+            (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
+                ? 140.0
+                : double.nan,
         columnName: 'freight',
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
-          child: const Text(
-            'Freight',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Freight', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -159,26 +157,21 @@ class _TableSummaryDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
-          child: const Text(
-            'City',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('City', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
-          width:
-              (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
-                  ? 120.0
-                  : double.nan,
-          columnName: 'price',
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.centerRight,
-            child: const Text(
-              'Price',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))
+        width:
+            (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
+                ? 120.0
+                : double.nan,
+        columnName: 'price',
+        label: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.centerRight,
+          child: const Text('Price', overflow: TextOverflow.ellipsis),
+        ),
+      ),
     ];
   }
 }

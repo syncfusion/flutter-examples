@@ -32,29 +32,57 @@ class CustomerDataGridSource extends DataGridSource {
 
   /// Building DataGridRows
   void _buildDataGridRows() {
-    dataGridRows = customerInfo.map<DataGridRow>((Customer dataGridRow) {
-      return isWebOrDesktop
-          ? DataGridRow(cells: <DataGridCell>[
-              DataGridCell<Image>(
-                  columnName: 'Dealer', value: dataGridRow.dealer),
-              DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
-              DataGridCell<String>(columnName: 'Name', value: dataGridRow.name),
-              DataGridCell<double>(
-                  columnName: 'Freight', value: dataGridRow.freight),
-              DataGridCell<DateTime>(
-                  columnName: 'Shipped Date', value: dataGridRow.shippedDate),
-              DataGridCell<String>(columnName: 'City', value: dataGridRow.city),
-              DataGridCell<double>(
-                  columnName: 'Price', value: dataGridRow.price),
-            ])
-          : DataGridRow(cells: <DataGridCell>[
-              DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
-              DataGridCell<String>(columnName: 'Name', value: dataGridRow.name),
-              DataGridCell<DateTime>(
-                  columnName: 'Shipped Date', value: dataGridRow.shippedDate),
-              DataGridCell<String>(columnName: 'City', value: dataGridRow.city),
-            ]);
-    }).toList(growable: false);
+    dataGridRows = customerInfo
+        .map<DataGridRow>((Customer dataGridRow) {
+          return isWebOrDesktop
+              ? DataGridRow(
+                cells: <DataGridCell>[
+                  DataGridCell<Image>(
+                    columnName: 'Dealer',
+                    value: dataGridRow.dealer,
+                  ),
+                  DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
+                  DataGridCell<String>(
+                    columnName: 'Name',
+                    value: dataGridRow.name,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'Freight',
+                    value: dataGridRow.freight,
+                  ),
+                  DataGridCell<DateTime>(
+                    columnName: 'Shipped Date',
+                    value: dataGridRow.shippedDate,
+                  ),
+                  DataGridCell<String>(
+                    columnName: 'City',
+                    value: dataGridRow.city,
+                  ),
+                  DataGridCell<double>(
+                    columnName: 'Price',
+                    value: dataGridRow.price,
+                  ),
+                ],
+              )
+              : DataGridRow(
+                cells: <DataGridCell>[
+                  DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
+                  DataGridCell<String>(
+                    columnName: 'Name',
+                    value: dataGridRow.name,
+                  ),
+                  DataGridCell<DateTime>(
+                    columnName: 'Shipped Date',
+                    value: dataGridRow.shippedDate,
+                  ),
+                  DataGridCell<String>(
+                    columnName: 'City',
+                    value: dataGridRow.city,
+                  ),
+                ],
+              );
+        })
+        .toList(growable: false);
   }
 
   // Overrides
@@ -73,7 +101,8 @@ class CustomerDataGridSource extends DataGridSource {
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return isWebOrDesktop
-        ? DataGridRowAdapter(cells: <Widget>[
+        ? DataGridRowAdapter(
+          cells: <Widget>[
             _buildDealer(row.getCells()[0].value),
             Container(
               alignment: Alignment.centerRight,
@@ -96,8 +125,10 @@ class CustomerDataGridSource extends DataGridSource {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 NumberFormat.currency(
-                        locale: 'en_US', symbol: r'$', decimalDigits: 2)
-                    .format(row.getCells()[3].value),
+                  locale: 'en_US',
+                  symbol: r'$',
+                  decimalDigits: 2,
+                ).format(row.getCells()[3].value),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -122,13 +153,17 @@ class CustomerDataGridSource extends DataGridSource {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 NumberFormat.currency(
-                        locale: 'en_US', symbol: r'$', decimalDigits: 2)
-                    .format(row.getCells()[6].value),
+                  locale: 'en_US',
+                  symbol: r'$',
+                  decimalDigits: 2,
+                ).format(row.getCells()[6].value),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-          ])
-        : DataGridRowAdapter(cells: <Widget>[
+          ],
+        )
+        : DataGridRowAdapter(
+          cells: <Widget>[
             Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.all(8.0),
@@ -161,7 +196,8 @@ class CustomerDataGridSource extends DataGridSource {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-          ]);
+          ],
+        );
   }
 
   // CustomerInfo Data set
@@ -207,7 +243,7 @@ class CustomerDataGridSource extends DataGridSource {
     'Balnc',
     'Perry',
     'Lane',
-    'Grimes'
+    'Grimes',
   ];
 
   final List<DateTime> _shippedDates = <DateTime>[
@@ -241,16 +277,19 @@ class CustomerDataGridSource extends DataGridSource {
   List<Customer> _obtainCustomerDetails(int count) {
     final List<Customer> employeeData = <Customer>[];
     for (int i = 0; i < count; i++) {
-      employeeData.add(Customer(
-        _dealers[
-            i < _dealers.length ? i : _random.nextInt(_dealers.length - 1)],
-        1100 + i,
-        _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
-        _random.nextInt(1000) + _random.nextDouble(),
-        _shippedDates[_random.nextInt(_shippedDates.length - 1)],
-        _cities[_random.nextInt(_cities.length - 1)],
-        1500.0 + _random.nextInt(100),
-      ));
+      employeeData.add(
+        Customer(
+          _dealers[i < _dealers.length
+              ? i
+              : _random.nextInt(_dealers.length - 1)],
+          1100 + i,
+          _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
+          _random.nextInt(1000) + _random.nextDouble(),
+          _shippedDates[_random.nextInt(_shippedDates.length - 1)],
+          _cities[_random.nextInt(_cities.length - 1)],
+          1500.0 + _random.nextInt(100),
+        ),
+      );
     }
     return employeeData;
   }

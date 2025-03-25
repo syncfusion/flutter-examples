@@ -29,8 +29,9 @@ class _RadialSliderCustomTextState extends SampleViewState {
       _annotationFontSize = model.isWebFullView ? 25 : 15;
     }
     return Center(
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             axisLineStyle: const AxisLineStyle(
               thickness: 0.07,
               thicknessUnit: GaugeSizeUnit.factor,
@@ -41,11 +42,12 @@ class _RadialSliderCustomTextState extends SampleViewState {
             onAxisTapped: handlePointerValueChanged,
             pointers: <GaugePointer>[
               RangePointer(
-                  color: _rangeColor,
-                  value: _markerValue,
-                  cornerStyle: CornerStyle.startCurve,
-                  width: 0.07,
-                  sizeUnit: GaugeSizeUnit.factor),
+                color: _rangeColor,
+                value: _markerValue,
+                cornerStyle: CornerStyle.startCurve,
+                width: 0.07,
+                sizeUnit: GaugeSizeUnit.factor,
+              ),
               MarkerPointer(
                 value: _markerValue,
                 overlayRadius: 0,
@@ -78,9 +80,11 @@ class _RadialSliderCustomTextState extends SampleViewState {
                     ),
                   ],
                 ),
-              )
-            ])
-      ]),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

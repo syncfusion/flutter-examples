@@ -52,10 +52,11 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
     _orderInfoDataSource = OrderInfoDataGridSource(
-        isWebOrDesktop: true,
-        orderDataCount: 300,
-        model: model,
-        culture: 'English');
+      isWebOrDesktop: true,
+      orderDataCount: 300,
+      model: model,
+      culture: 'English',
+    );
 
     _customerName = 'Name';
     _customerID = 'Customer ID';
@@ -69,163 +70,158 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 
   Widget _buildDataGrid() {
     return SfDataGrid(
-        source: _orderInfoDataSource,
-        rowsPerPage: _rowsPerPage,
-        allowSorting: true,
-        columnWidthMode: (_isWebOrDesktop && !model.isMobileResolution) ||
-                _isLandscapeInMobileView
-            ? ColumnWidthMode.fill
-            : ColumnWidthMode.none,
-        columns: <GridColumn>[
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
-            columnName: 'id',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerRight,
-              child: Text(
-                _orderID,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+      source: _orderInfoDataSource,
+      rowsPerPage: _rowsPerPage,
+      allowSorting: true,
+      columnWidthMode:
+          (_isWebOrDesktop && !model.isMobileResolution) ||
+                  _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
+      columns: <GridColumn>[
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          columnName: 'id',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: Text(_orderID, overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
-            columnWidthMode: (_isWebOrDesktop && model.isMobileResolution)
-                ? ColumnWidthMode.none
-                : ColumnWidthMode.fitByColumnName,
-            autoFitPadding: const EdgeInsets.all(8),
-            columnName: 'customerId',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerRight,
-              child: Text(
-                _customerID,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 150.0
+                  : double.nan,
+          columnWidthMode:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? ColumnWidthMode.none
+                  : ColumnWidthMode.fitByColumnName,
+          autoFitPadding: const EdgeInsets.all(8),
+          columnName: 'customerId',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: Text(_customerID, overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
-            columnName: 'name',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                _customerName,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          columnName: 'name',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerLeft,
+            child: Text(_customerName, overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 110.0
-                : double.nan,
-            columnName: 'freight',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerRight,
-              child: Text(
-                _freight,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 110.0
+                  : double.nan,
+          columnName: 'freight',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: Text(_freight, overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
-            columnName: 'city',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                _city,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          columnName: 'city',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerLeft,
+            child: Text(_city, overflow: TextOverflow.ellipsis),
           ),
-          GridColumn(
-            width: (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
-            columnName: 'price',
-            label: Container(
-              padding: const EdgeInsets.all(8),
-              alignment: Alignment.centerRight,
-              child: Text(
-                _price,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          )
-        ]);
+        ),
+        GridColumn(
+          width:
+              (_isWebOrDesktop && model.isMobileResolution)
+                  ? 120.0
+                  : double.nan,
+          columnName: 'price',
+          label: Container(
+            padding: const EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: Text(_price, overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildDataPager() {
     return SfDataPagerTheme(
-        data: SfDataPagerThemeData(
-          selectedItemColor: model.primaryColor,
-        ),
-        child: ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context)
-              .copyWith(dragDevices: <PointerDeviceKind>{
+      data: SfDataPagerThemeData(selectedItemColor: model.primaryColor),
+      child: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(
+          dragDevices: <PointerDeviceKind>{
             PointerDeviceKind.touch,
             PointerDeviceKind.mouse,
-          }),
-          child: SfDataPager(
-            delegate: _orderInfoDataSource,
-            availableRowsPerPage: const <int>[15, 20, 25],
-            pageCount: _orderInfoDataSource.orders.length / _rowsPerPage,
-            onRowsPerPageChanged: (int? rowsPerPage) {
-              setState(() {
-                _rowsPerPage = rowsPerPage!;
-              });
-            },
-          ),
-        ));
+          },
+        ),
+        child: SfDataPager(
+          delegate: _orderInfoDataSource,
+          availableRowsPerPage: const <int>[15, 20, 25],
+          pageCount: _orderInfoDataSource.orders.length / _rowsPerPage,
+          onRowsPerPageChanged: (int? rowsPerPage) {
+            setState(() {
+              _rowsPerPage = rowsPerPage!;
+            });
+          },
+        ),
+      ),
+    );
   }
 
   Widget _buildLayoutBuilder() {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraint) {
-      return Column(
-        children: <Widget>[
-          SizedBox(
+      builder: (BuildContext context, BoxConstraints constraint) {
+        return Column(
+          children: <Widget>[
+            SizedBox(
               height: constraint.maxHeight - _dataPagerHeight,
               width: constraint.maxWidth,
-              child: _buildDataGrid()),
-          Container(
-            height: _dataPagerHeight,
-            decoration: BoxDecoration(
-                color: Theme.of(context)
-                    .colorScheme
-                    .surface
-                    .withValues(alpha: 0.12),
+              child: _buildDataGrid(),
+            ),
+            Container(
+              height: _dataPagerHeight,
+              decoration: BoxDecoration(
+                color: Theme.of(
+                  context,
+                ).colorScheme.surface.withValues(alpha: 0.12),
                 border: Border(
-                    top: BorderSide(
-                        width: .5,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: 0.12)))),
-            child: Align(child: _buildDataPager()),
-          )
-        ],
-      );
-    });
+                  top: BorderSide(
+                    width: .5,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.12),
+                  ),
+                ),
+              ),
+              child: Align(child: _buildDataPager()),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -242,10 +238,11 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
     switch (_selectedLocale) {
       case 'en_US':
         _orderInfoDataSource = OrderInfoDataGridSource(
-            isWebOrDesktop: true,
-            orderDataCount: 300,
-            model: model,
-            culture: 'English');
+          isWebOrDesktop: true,
+          orderDataCount: 300,
+          model: model,
+          culture: 'English',
+        );
         _customerName = 'Name';
         _customerID = 'Customer ID';
         _orderID = 'Order ID';
@@ -255,10 +252,11 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
         break;
       case 'ar_AE':
         _orderInfoDataSource = OrderInfoDataGridSource(
-            isWebOrDesktop: true,
-            orderDataCount: 300,
-            culture: 'Arabic',
-            model: model);
+          isWebOrDesktop: true,
+          orderDataCount: 300,
+          culture: 'Arabic',
+          model: model,
+        );
         _customerName = 'اسم';
         _customerID = 'هوية الزبون';
         _orderID = 'رقم الطلب';
@@ -268,10 +266,11 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
         break;
       case 'es_ES':
         _orderInfoDataSource = OrderInfoDataGridSource(
-            isWebOrDesktop: true,
-            orderDataCount: 300,
-            culture: 'Spanish',
-            model: model);
+          isWebOrDesktop: true,
+          orderDataCount: 300,
+          culture: 'Spanish',
+          model: model,
+        );
         _customerName = 'Nombre';
         _customerID = 'Clienteb ID';
         _orderID = 'Pedido ID ';
@@ -281,10 +280,11 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
         break;
       case 'fr_FR':
         _orderInfoDataSource = OrderInfoDataGridSource(
-            isWebOrDesktop: true,
-            orderDataCount: 300,
-            culture: 'French',
-            model: model);
+          isWebOrDesktop: true,
+          orderDataCount: 300,
+          culture: 'French',
+          model: model,
+        );
         _customerName = 'Nom';
         _customerID = 'Client ID ';
         _orderID = 'Commande ID ';
@@ -294,10 +294,11 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
         break;
       case 'zh_CN':
         _orderInfoDataSource = OrderInfoDataGridSource(
-            isWebOrDesktop: true,
-            orderDataCount: 300,
-            culture: 'Chinese',
-            model: model);
+          isWebOrDesktop: true,
+          orderDataCount: 300,
+          culture: 'Chinese',
+          model: model,
+        );
         _customerName = '姓名';
         _customerID = '顧客 身份 ';
         _orderID = '訂單編號 ';

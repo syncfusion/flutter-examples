@@ -98,7 +98,7 @@ class _StackedColumn100ChartState extends SampleViewState {
         yValueMapper: (_ChartData data, int index) => data.y4,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
         name: 'Product D',
-      )
+      ),
     ];
   }
 

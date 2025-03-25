@@ -53,24 +53,26 @@ class _PredictiveDataSampleState extends SampleViewState
     )..repeat(reverse: true); // Repeats the animation back and forth
 
     // Define the animation
-    _animation = Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.8,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     // Show the dialog when the app starts.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder: (context) => WelcomeDialog(
-            primaryColor: model.primaryColor,
-            apiKey: model.assistApiKey,
-            onApiKeySaved: (newApiKey) {
-              setState(() {
-                model.assistApiKey = newApiKey;
-              });
-            },
-          ),
+          builder:
+              (context) => WelcomeDialog(
+                primaryColor: model.primaryColor,
+                apiKey: model.assistApiKey,
+                onApiKeySaved: (newApiKey) {
+                  setState(() {
+                    model.assistApiKey = newApiKey;
+                  });
+                },
+              ),
         );
         model.isFirstTime = false;
       }
@@ -91,8 +93,9 @@ class _PredictiveDataSampleState extends SampleViewState
     prompt +=
         '3. `totalGrade` should be assigned based on `totalGPA` following standard grading. Updated the grade based on following details, 0 - 2.5 = F, 2.6 - 2.9 = C, 3.0 - 3.4 = B, 3.5 - 3.9 = B+, 4.0 - 4.4 = A, 4.5 - 5 = A+.\n\n';
 
-    final String studentJson =
-        jsonEncode(_studentDetails.map((student) => student.toJson()).toList());
+    final String studentJson = jsonEncode(
+      _studentDetails.map((student) => student.toJson()).toList(),
+    );
 
     prompt += studentJson;
     prompt += '\nRespond in this JSON format:\n';
@@ -100,7 +103,8 @@ class _PredictiveDataSampleState extends SampleViewState
   }
 
   Future<List<StudentDetails>> _convertAIResponseToStudents(
-      String? data) async {
+    String? data,
+  ) async {
     if (data != null) {
       data = data.replaceAll(RegExp(r'^```json|```$|\s*```\s*$'), '').trim();
 
@@ -120,15 +124,18 @@ class _PredictiveDataSampleState extends SampleViewState
                 student.finalYearGPA = finalYearGPA;
                 _studentDataSource.updateDataRow(rowIndex, student);
                 _studentDataSource.updateDataGridSource(
-                    rowColumnIndex: RowColumnIndex(rowIndex, 5));
+                  rowColumnIndex: RowColumnIndex(rowIndex, 5),
+                );
                 student.totalGPA = totalGPA;
                 _studentDataSource.updateDataRow(rowIndex, student);
                 _studentDataSource.updateDataGridSource(
-                    rowColumnIndex: RowColumnIndex(rowIndex, 6));
+                  rowColumnIndex: RowColumnIndex(rowIndex, 6),
+                );
                 student.totalGrade = totalGrade;
                 _studentDataSource.updateDataRow(rowIndex, student);
                 _studentDataSource.updateDataGridSource(
-                    rowColumnIndex: RowColumnIndex(rowIndex, 7));
+                  rowColumnIndex: RowColumnIndex(rowIndex, 7),
+                );
                 rowIndex++;
                 await Future.delayed(const Duration(milliseconds: 150));
                 break;
@@ -216,10 +223,7 @@ class _PredictiveDataSampleState extends SampleViewState
             columns: _studentDataSource._columns,
             columnWidthMode: ColumnWidthMode.fill,
           ),
-          if (_isLoading)
-            const Center(
-              child: CircularProgressIndicator(),
-            ),
+          if (_isLoading) const Center(child: CircularProgressIndicator()),
         ],
       ),
     );
@@ -227,126 +231,186 @@ class _PredictiveDataSampleState extends SampleViewState
 
   List<StudentDetails> getStudentData() {
     final List<StudentDetails> students = [];
-    students.add(StudentDetails(
+    students.add(
+      StudentDetails(
         studentID: 2001,
         studentName: 'John Smith',
         firstYearGPA: 4.7,
         secondYearGPA: 4.1,
-        thirdYearGPA: 5.0));
-    students.add(StudentDetails(
+        thirdYearGPA: 5.0,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2002,
         studentName: 'Emily Davis',
         firstYearGPA: 3.3,
         secondYearGPA: 3.5,
-        thirdYearGPA: 3.7));
-    students.add(StudentDetails(
+        thirdYearGPA: 3.7,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2003,
         studentName: 'Micheal Lee',
         firstYearGPA: 3.9,
         secondYearGPA: 3.8,
-        thirdYearGPA: 3.9));
-    students.add(StudentDetails(
+        thirdYearGPA: 3.9,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2004,
         studentName: 'Sarah Brown',
         firstYearGPA: 2.0,
         secondYearGPA: 2.7,
-        thirdYearGPA: 2.5));
-    students.add(StudentDetails(
+        thirdYearGPA: 2.5,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2005,
         studentName: 'James Wilson',
         firstYearGPA: 3.0,
         secondYearGPA: 3.5,
-        thirdYearGPA: 3.2));
-    students.add(StudentDetails(
+        thirdYearGPA: 3.2,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2006,
         studentName: 'Sarah Jane',
         firstYearGPA: 3.7,
         secondYearGPA: 3.0,
-        thirdYearGPA: 4.3));
-    students.add(StudentDetails(
+        thirdYearGPA: 4.3,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2007,
         studentName: 'Emily Rose',
         firstYearGPA: 5.0,
         secondYearGPA: 4.9,
-        thirdYearGPA: 4.8));
-    students.add(StudentDetails(
+        thirdYearGPA: 4.8,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2008,
         studentName: 'John Michael',
         firstYearGPA: 4.0,
         secondYearGPA: 4.1,
-        thirdYearGPA: 4.2));
-    students.add(StudentDetails(
+        thirdYearGPA: 4.2,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2009,
         studentName: 'David James',
         firstYearGPA: 1.5,
         secondYearGPA: 2.2,
-        thirdYearGPA: 2.3));
-    students.add(StudentDetails(
+        thirdYearGPA: 2.3,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2010,
         studentName: 'Mary Ann',
         firstYearGPA: 2.7,
         secondYearGPA: 2.1,
-        thirdYearGPA: 3.0));
-    students.add(StudentDetails(
+        thirdYearGPA: 3.0,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2011,
         studentName: 'Robert Paul',
         firstYearGPA: 2.9,
         secondYearGPA: 3.7,
-        thirdYearGPA: 3.9));
-    students.add(StudentDetails(
+        thirdYearGPA: 3.9,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2012,
         studentName: 'Laura Grace',
         firstYearGPA: 4.0,
         secondYearGPA: 3.1,
-        thirdYearGPA: 3.7));
-    students.add(StudentDetails(
+        thirdYearGPA: 3.7,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2013,
         studentName: 'William Henry',
         firstYearGPA: 4.0,
         secondYearGPA: 4.1,
-        thirdYearGPA: 4.2));
-    students.add(StudentDetails(
+        thirdYearGPA: 4.2,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2014,
         studentName: 'Anna Marie',
         firstYearGPA: 4.0,
         secondYearGPA: 4.0,
-        thirdYearGPA: 4.1));
-    students.add(StudentDetails(
+        thirdYearGPA: 4.1,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2015,
         studentName: 'Charles Thomas',
         firstYearGPA: 4.7,
         secondYearGPA: 4.8,
-        thirdYearGPA: 4.9));
-    students.add(StudentDetails(
+        thirdYearGPA: 4.9,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2016,
         studentName: 'Jennifer Lynn',
         firstYearGPA: 3.0,
         secondYearGPA: 3.1,
-        thirdYearGPA: 3.2));
-    students.add(StudentDetails(
+        thirdYearGPA: 3.2,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2017,
         studentName: 'Christopher Lee',
         firstYearGPA: 3.9,
         secondYearGPA: 3.9,
-        thirdYearGPA: 4.2));
-    students.add(StudentDetails(
+        thirdYearGPA: 4.2,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2018,
         studentName: 'Elizabeth Claire',
         firstYearGPA: 2.0,
         secondYearGPA: 2.1,
-        thirdYearGPA: 2.2));
-    students.add(StudentDetails(
+        thirdYearGPA: 2.2,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2019,
         studentName: 'Daniel Scott',
         firstYearGPA: 4.0,
         secondYearGPA: 4.1,
-        thirdYearGPA: 3.3));
-    students.add(StudentDetails(
+        thirdYearGPA: 3.3,
+      ),
+    );
+    students.add(
+      StudentDetails(
         studentID: 2020,
         studentName: 'Megan Louise',
         firstYearGPA: 3.0,
         secondYearGPA: 3.5,
-        thirdYearGPA: 3.5));
+        thirdYearGPA: 3.5,
+      ),
+    );
     return students;
   }
 
@@ -414,10 +478,11 @@ class StudentDetails {
 }
 
 class StudentDataSource extends DataGridSource {
-  StudentDataSource(
-      {required this.student,
-      required this.isWebOrDesktop,
-      required this.model}) {
+  StudentDataSource({
+    required this.student,
+    required this.isWebOrDesktop,
+    required this.model,
+  }) {
     _columns = _obtainColumns();
     _buildDataGridRows();
   }
@@ -438,64 +503,70 @@ class StudentDataSource extends DataGridSource {
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-      cells: row.getCells().map<Widget>((e) {
-        Color? getColor() {
-          final bool isDarkMode = model.themeData.brightness == Brightness.dark;
-          if (e.columnName == 'FinalYearGPA' || e.columnName == 'TotalGPA') {
-            if (isDarkMode) {
-              return const Color(0xFF095C37);
-            } else {
-              return const Color(0xFFAAF0C4);
+      cells:
+          row.getCells().map<Widget>((e) {
+            Color? getColor() {
+              final bool isDarkMode =
+                  model.themeData.brightness == Brightness.dark;
+              if (e.columnName == 'FinalYearGPA' ||
+                  e.columnName == 'TotalGPA') {
+                if (isDarkMode) {
+                  return const Color(0xFF095C37);
+                } else {
+                  return const Color(0xFFAAF0C4);
+                }
+              } else if (e.columnName == 'TotalGrade') {
+                if (e.value == 'A+' || e.value == 'A') {
+                  return isDarkMode
+                      ? const Color(0xFF283618)
+                      : const Color(0xFFD0EF84);
+                } else if (e.value == 'B+' || e.value == 'B') {
+                  return isDarkMode
+                      ? const Color(0xFFA15C07)
+                      : const Color(0xFFFFD6AE);
+                } else {
+                  return isDarkMode
+                      ? const Color(0xFFDF2935)
+                      : const Color(0xFFF08080);
+                }
+              }
+              return null;
             }
-          } else if (e.columnName == 'TotalGrade') {
-            if (e.value == 'A+' || e.value == 'A') {
-              return isDarkMode
-                  ? const Color(0xFF283618)
-                  : const Color(0xFFD0EF84);
-            } else if (e.value == 'B+' || e.value == 'B') {
-              return isDarkMode
-                  ? const Color(0xFFA15C07)
-                  : const Color(0xFFFFD6AE);
-            } else {
-              return isDarkMode
-                  ? const Color(0xFFDF2935)
-                  : const Color(0xFFF08080);
-            }
-          }
-          return null;
-        }
 
-        return Container(
-          color: e.value == null ? null : getColor(),
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(8.0),
-          child: Text(e.value == null ? '' : e.value.toString()),
-        );
-      }).toList(),
+            return Container(
+              color: e.value == null ? null : getColor(),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(e.value == null ? '' : e.value.toString()),
+            );
+          }).toList(),
     );
   }
 
   void _buildDataGridRows() {
-    _employeeData = student.map<DataGridRow>((student) {
-      return DataGridRow(
-        cells: _columns.map<DataGridCell>((column) {
-          return DataGridCell(
-            columnName: column.columnName,
-            value: student[column.columnName],
+    _employeeData =
+        student.map<DataGridRow>((student) {
+          return DataGridRow(
+            cells:
+                _columns.map<DataGridCell>((column) {
+                  return DataGridCell(
+                    columnName: column.columnName,
+                    value: student[column.columnName],
+                  );
+                }).toList(),
           );
-        }).toList(),
-      );
-    }).toList();
+        }).toList();
   }
 
   void updateDataRow(int rowIndex, StudentDetails student) {
     _employeeData[rowIndex] = DataGridRow(
-      cells: _columns.map<DataGridCell>((column) {
-        return DataGridCell(
-          columnName: column.columnName,
-          value: student[column.columnName],
-        );
-      }).toList(),
+      cells:
+          _columns.map<DataGridCell>((column) {
+            return DataGridCell(
+              columnName: column.columnName,
+              value: student[column.columnName],
+            );
+          }).toList(),
     );
   }
 
@@ -504,9 +575,10 @@ class StudentDataSource extends DataGridSource {
       GridColumn(
         columnWidthMode:
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width:
+            !isWebOrDesktop
+                ? 150
+                : (isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         minimumWidth: 150,
@@ -522,9 +594,10 @@ class StudentDataSource extends DataGridSource {
         minimumWidth: 150,
         columnWidthMode:
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width:
+            !isWebOrDesktop
+                ? 150
+                : (isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         label: Container(
@@ -538,9 +611,10 @@ class StudentDataSource extends DataGridSource {
         minimumWidth: 150,
         columnWidthMode:
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width:
+            !isWebOrDesktop
+                ? 150
+                : (isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         label: Container(
@@ -561,9 +635,10 @@ class StudentDataSource extends DataGridSource {
         minimumWidth: 150,
         columnWidthMode:
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 120
-            : (isWebOrDesktop && model.isMobileResolution)
+        width:
+            !isWebOrDesktop
+                ? 120
+                : (isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         label: Container(
@@ -577,9 +652,10 @@ class StudentDataSource extends DataGridSource {
         minimumWidth: 150,
         columnWidthMode:
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width:
+            !isWebOrDesktop
+                ? 150
+                : (isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         label: Container(
@@ -593,9 +669,10 @@ class StudentDataSource extends DataGridSource {
         minimumWidth: 150,
         columnWidthMode:
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width:
+            !isWebOrDesktop
+                ? 150
+                : (isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         label: Container(
@@ -609,9 +686,10 @@ class StudentDataSource extends DataGridSource {
         minimumWidth: 150,
         columnWidthMode:
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width:
+            !isWebOrDesktop
+                ? 150
+                : (isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         label: Container(
@@ -625,9 +703,10 @@ class StudentDataSource extends DataGridSource {
         minimumWidth: 150,
         columnWidthMode:
             !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width:
+            !isWebOrDesktop
+                ? 150
+                : (isWebOrDesktop && model.isMobileResolution)
                 ? 150.0
                 : double.nan,
         label: Container(

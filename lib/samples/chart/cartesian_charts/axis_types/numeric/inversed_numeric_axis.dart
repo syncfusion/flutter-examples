@@ -117,15 +117,11 @@ class _NumericInverseState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Airports count in US',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Airports count in US'),
       primaryXAxis: NumericAxis(
         minimum: 2000,
         maximum: 2010,
-        title: AxisTitle(
-          text: isCardView ? '' : 'Year',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Year'),
         isInversed: _isXInversed ?? true,
         majorGridLines: const MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift,
@@ -134,9 +130,7 @@ class _NumericInverseState extends SampleViewState {
       primaryYAxis: NumericAxis(
         numberFormat: NumberFormat.decimalPattern(),
         axisLine: const AxisLine(width: 0),
-        title: AxisTitle(
-          text: isCardView ? '' : 'Count',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Count'),
         isInversed: _isYInversed ?? true,
         majorTickLines: const MajorTickLines(size: 0),
       ),
@@ -152,9 +146,7 @@ class _NumericInverseState extends SampleViewState {
         dataSource: _airportsCountInUS,
         xValueMapper: (ChartSampleData sales, int index) => sales.xValue,
         yValueMapper: (ChartSampleData sales, int index) => sales.yValue,
-        markerSettings: const MarkerSettings(
-          isVisible: true,
-        ),
+        markerSettings: const MarkerSettings(isVisible: true),
       ),
     ];
   }

@@ -30,65 +30,81 @@ class _VerticalThumbCustomizationSliderPageState extends SampleViewState {
 
   SfSliderTheme _thumbIconSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(
-          thumbRadius: 16,
-          tooltipBackgroundColor: model.primaryColor,
-        ),
-        child: SfSlider.vertical(
-          interval: 2.0,
-          min: _thumbMin,
-          max: _thumbMax,
-          thumbIcon: _thumbView(),
-          minorTicksPerInterval: 1,
-          showTicks: true,
-          value: _thumbValue,
-          onChanged: (dynamic values) {
-            setState(() {
-              _thumbValue = values as double;
-            });
-          },
-        ));
+      data: SfSliderThemeData(
+        thumbRadius: 16,
+        tooltipBackgroundColor: model.primaryColor,
+      ),
+      child: SfSlider.vertical(
+        interval: 2.0,
+        min: _thumbMin,
+        max: _thumbMax,
+        thumbIcon: _thumbView(),
+        minorTicksPerInterval: 1,
+        showTicks: true,
+        value: _thumbValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _thumbValue = values as double;
+          });
+        },
+      ),
+    );
   }
 
   Widget _thumbView() {
     if (_thumbValue == _thumbMin) {
-      return const Icon(Icons.keyboard_arrow_up_outlined,
-          color: Colors.white, size: 12.0);
+      return const Icon(
+        Icons.keyboard_arrow_up_outlined,
+        color: Colors.white,
+        size: 12.0,
+      );
     } else if (_thumbValue == _thumbMax) {
-      return const Icon(Icons.keyboard_arrow_down_outlined,
-          color: Colors.white, size: 12.0);
+      return const Icon(
+        Icons.keyboard_arrow_down_outlined,
+        color: Colors.white,
+        size: 12.0,
+      );
     } else {
       return const Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Icon(Icons.keyboard_arrow_up_outlined,
-                color: Colors.white, size: 16.0),
-            Icon(Icons.keyboard_arrow_down_outlined,
-                color: Colors.white, size: 16.0),
-          ]);
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Icon(
+            Icons.keyboard_arrow_up_outlined,
+            color: Colors.white,
+            size: 16.0,
+          ),
+          Icon(
+            Icons.keyboard_arrow_down_outlined,
+            color: Colors.white,
+            size: 16.0,
+          ),
+        ],
+      );
     }
   }
 
   SfSliderTheme _thumbCustomizationSlider() {
     return SfSliderTheme(
-        data: const SfSliderThemeData(thumbRadius: 14),
-        child: SfSlider.vertical(
-          max: 10.0,
-          stepSize: 1,
-          thumbIcon: Container(
-              alignment: Alignment.center,
-              child: Text(
-                _value.toInt().toString(),
-                style: const TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
-              )),
-          value: _value,
-          onChanged: (dynamic values) {
-            setState(() {
-              _value = values as double;
-            });
-          },
-        ));
+      data: const SfSliderThemeData(thumbRadius: 14),
+      child: SfSlider.vertical(
+        max: 10.0,
+        stepSize: 1,
+        thumbIcon: Container(
+          alignment: Alignment.center,
+          child: Text(
+            _value.toInt().toString(),
+            style: const TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        value: _value,
+        onChanged: (dynamic values) {
+          setState(() {
+            _value = values as double;
+          });
+        },
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -104,31 +120,39 @@ class _VerticalThumbCustomizationSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.all(padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.all(padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _thumbCustomizationSlider()),
-              const Text('Text view')
-            ]),
-            Column(children: <Widget>[
+              const Text('Text view'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _thumbIconSlider()),
               const Text('Icon view'),
-            ]),
-          ],
-        ));
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget slider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? slider
-          : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget slider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? slider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+      },
+    );
   }
 }

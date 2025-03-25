@@ -32,93 +32,77 @@ class _StackedHeaderDataGridState extends SampleViewState {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
-          columnName: 'customerName',
-          width: _isWebOrDesktop ? 180 : 140,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Customer Name',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'customerName',
+        width: _isWebOrDesktop ? 180 : 140,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Customer Name', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'city',
-          width: _isWebOrDesktop ? 140 : 100,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'City',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'city',
+        width: _isWebOrDesktop ? 140 : 100,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('City', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'orderId',
-          width: _isWebOrDesktop ? 140 : 90,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Order ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'orderId',
+        width: _isWebOrDesktop ? 140 : 90,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Order ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'orderDate',
-          width: _isWebOrDesktop ? 140 : 110,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Order Date',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'orderDate',
+        width: _isWebOrDesktop ? 140 : 110,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Order Date', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'product',
-          width: _isWebOrDesktop ? 160 : 100,
-          label: Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Product',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'product',
+        width: _isWebOrDesktop ? 160 : 100,
+        label: Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Product', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'productId',
-          width: _isWebOrDesktop ? 150 : 100,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Product ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'productId',
+        width: _isWebOrDesktop ? 150 : 100,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Product ID', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'quantity',
-          width: _isWebOrDesktop ? 150 : 90,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Quantity',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'quantity',
+        width: _isWebOrDesktop ? 150 : 90,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Quantity', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'unitPrice',
-          width: _isWebOrDesktop ? 140 : 100,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Unit Price',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'unitPrice',
+        width: _isWebOrDesktop ? 140 : 100,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Unit Price', overflow: TextOverflow.ellipsis),
+        ),
+      ),
     ];
     return columns;
   }
@@ -128,36 +112,42 @@ class _StackedHeaderDataGridState extends SampleViewState {
     return isMaterial3
         ? model.themeData.colorScheme.surface.withValues(alpha: 0.0001)
         : model.themeData.colorScheme.brightness == Brightness.light
-            ? const Color(0xFFF1F1F1)
-            : const Color(0xFF3A3A3A);
+        ? const Color(0xFFF1F1F1)
+        : const Color(0xFF3A3A3A);
   }
 
   Widget _buildStackedHeaderWidget(String title) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        alignment: Alignment.centerLeft,
-        child: Text(title));
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      alignment: Alignment.centerLeft,
+      child: Text(title),
+    );
   }
 
   List<StackedHeaderRow> _buildStackedHeaderRows() {
     List<StackedHeaderRow> stackedHeaderRows;
     stackedHeaderRows = <StackedHeaderRow>[
-      StackedHeaderRow(cells: <StackedHeaderCell>[
-        StackedHeaderCell(columnNames: <String>[
-          'customerName',
-          'city',
-        ], child: _buildStackedHeaderWidget('Customer Details')),
-        StackedHeaderCell(columnNames: <String>[
-          'orderId',
-          'orderDate',
-        ], child: _buildStackedHeaderWidget('Order Details')),
-        StackedHeaderCell(columnNames: <String>[
-          'product',
-          'productId',
-          'quantity',
-          'unitPrice'
-        ], child: _buildStackedHeaderWidget('Product Details'))
-      ])
+      StackedHeaderRow(
+        cells: <StackedHeaderCell>[
+          StackedHeaderCell(
+            columnNames: <String>['customerName', 'city'],
+            child: _buildStackedHeaderWidget('Customer Details'),
+          ),
+          StackedHeaderCell(
+            columnNames: <String>['orderId', 'orderDate'],
+            child: _buildStackedHeaderWidget('Order Details'),
+          ),
+          StackedHeaderCell(
+            columnNames: <String>[
+              'product',
+              'productId',
+              'quantity',
+              'unitPrice',
+            ],
+            child: _buildStackedHeaderWidget('Product Details'),
+          ),
+        ],
+      ),
     ];
     return stackedHeaderRows;
   }
@@ -165,24 +155,27 @@ class _StackedHeaderDataGridState extends SampleViewState {
   @override
   void initState() {
     super.initState();
-    _stackedHeaderDataGridSource =
-        ProductDataGridSource('Stacked Header', productDataCount: 30);
+    _stackedHeaderDataGridSource = ProductDataGridSource(
+      'Stacked Header',
+      productDataCount: 30,
+    );
     _isWebOrDesktop = model.isWeb || model.isDesktop;
   }
 
   @override
   Widget build(BuildContext context) {
     return SfDataGridTheme(
-        data: SfDataGridThemeData(
-          headerColor: _headerCellBackgroundColor(),
-          headerHoverColor: Colors.transparent,
-        ),
-        child: SfDataGrid(
-          gridLinesVisibility: GridLinesVisibility.both,
-          headerGridLinesVisibility: GridLinesVisibility.both,
-          source: _stackedHeaderDataGridSource,
-          columns: _obtainColumns(),
-          stackedHeaderRows: _buildStackedHeaderRows(),
-        ));
+      data: SfDataGridThemeData(
+        headerColor: _headerCellBackgroundColor(),
+        headerHoverColor: Colors.transparent,
+      ),
+      child: SfDataGrid(
+        gridLinesVisibility: GridLinesVisibility.both,
+        headerGridLinesVisibility: GridLinesVisibility.both,
+        source: _stackedHeaderDataGridSource,
+        columns: _obtainColumns(),
+        stackedHeaderRows: _buildStackedHeaderRows(),
+      ),
+    );
   }
 }

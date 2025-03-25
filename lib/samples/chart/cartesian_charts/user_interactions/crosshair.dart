@@ -46,8 +46,9 @@ class _DefaultCrossHairState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: model.isWebFullView || !isCardView ? 0 : 60),
+      padding: EdgeInsets.only(
+        bottom: model.isWebFullView || !isCardView ? 0 : 60,
+      ),
       child: _buildDefaultCrossHairChart(),
     );
   }
@@ -80,28 +81,25 @@ class _DefaultCrossHairState extends SampleViewState {
         ),
         Container(
           height: 50.0,
-          padding: !model.isWebFullView
-              ? const EdgeInsets.fromLTRB(65, 0, 0, 0)
-              : const EdgeInsets.fromLTRB(42, 0, 0, 0),
+          padding:
+              !model.isWebFullView
+                  ? const EdgeInsets.fromLTRB(65, 0, 0, 0)
+                  : const EdgeInsets.fromLTRB(42, 0, 0, 0),
           child: DropdownButton<String>(
             dropdownColor: model.drawerBackgroundColor,
             focusColor: Colors.transparent,
-            underline: Container(
-              color: const Color(0xFFBDBDBD),
-              height: 1,
-            ),
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedLineType,
-            items: _lineTypeList.map(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: (value != null) ? value : 'both',
-                  child: Text(
-                    value,
-                    style: TextStyle(color: model.textColor),
-                  ),
-                );
-              },
-            ).toList(),
+            items:
+                _lineTypeList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'both',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               _updateLineType(value);
               stateSetter(() {});
@@ -120,16 +118,14 @@ class _DefaultCrossHairState extends SampleViewState {
         Text(
           model.isWebFullView ? 'Show \nalways' : 'Show always',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
         Container(
           height: 50.0,
-          padding: !model.isWebFullView
-              ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
-              : const EdgeInsets.fromLTRB(55, 0, 0, 0),
+          padding:
+              !model.isWebFullView
+                  ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
+                  : const EdgeInsets.fromLTRB(55, 0, 0, 0),
           child: Checkbox(
             activeColor: model.primaryColor,
             value: _shouldAlwaysShow,
@@ -157,15 +153,17 @@ class _DefaultCrossHairState extends SampleViewState {
         ),
         Container(
           height: 50.0,
-          padding: !model.isWebFullView
-              ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
-              : const EdgeInsets.fromLTRB(10, 0, 0, 0),
+          padding:
+              !model.isWebFullView
+                  ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
+                  : const EdgeInsets.fromLTRB(10, 0, 0, 0),
           child: CustomDirectionalButtons(
             maxValue: 10,
             initialValue: _hideDelayDuration,
-            onChanged: (double val) => setState(() {
-              _hideDelayDuration = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _hideDelayDuration = val;
+                }),
             step: 2,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -185,10 +183,11 @@ class _DefaultCrossHairState extends SampleViewState {
         majorGridLines: const MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift,
         interactiveTooltip: InteractiveTooltip(
-          enable: (_crosshairLineType == CrosshairLineType.both ||
-                  _crosshairLineType == CrosshairLineType.vertical)
-              ? true
-              : false,
+          enable:
+              (_crosshairLineType == CrosshairLineType.both ||
+                      _crosshairLineType == CrosshairLineType.vertical)
+                  ? true
+                  : false,
         ),
       ),
 
@@ -203,10 +202,11 @@ class _DefaultCrossHairState extends SampleViewState {
       primaryYAxis: NumericAxis(
         axisLine: const AxisLine(width: 0),
         interactiveTooltip: InteractiveTooltip(
-          enable: (_crosshairLineType == CrosshairLineType.both ||
-                  _crosshairLineType == CrosshairLineType.horizontal)
-              ? true
-              : false,
+          enable:
+              (_crosshairLineType == CrosshairLineType.both ||
+                      _crosshairLineType == CrosshairLineType.horizontal)
+                  ? true
+                  : false,
         ),
         majorTickLines: const MajorTickLines(width: 0),
       ),
@@ -254,9 +254,7 @@ List<ChartSampleData> _buildChartData() {
     } else {
       value -= rand.nextDouble();
     }
-    randomData.add(
-      ChartSampleData(x: DateTime(1900, i), y: value),
-    );
+    randomData.add(ChartSampleData(x: DateTime(1900, i), y: value));
   }
   return randomData;
 }

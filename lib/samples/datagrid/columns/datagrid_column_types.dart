@@ -29,71 +29,66 @@ class _ColumnTypesDataGridState extends SampleViewState {
 
   SfDataGrid _buildDataGrid(BuildContext context) {
     return SfDataGrid(
-        source: _columnTypesDataGridSource,
-        columnWidthMode: _isWebOrDesktop
-            ? (_isWebOrDesktop && model.isMobileResolution)
-                ? ColumnWidthMode.none
-                : ColumnWidthMode.fill
-            : ColumnWidthMode.none,
-        columns: _obtainColumns());
+      source: _columnTypesDataGridSource,
+      columnWidthMode:
+          _isWebOrDesktop
+              ? (_isWebOrDesktop && model.isMobileResolution)
+                  ? ColumnWidthMode.none
+                  : ColumnWidthMode.fill
+              : ColumnWidthMode.none,
+      columns: _obtainColumns(),
+    );
   }
 
   List<GridColumn> _obtainColumns() {
     return <GridColumn>[
       GridColumn(
-          columnName: 'dealer',
-          width: 90,
-          label: Container(
-            padding: const EdgeInsets.all(8.0),
-            alignment: Alignment.center,
-            child: const Text(
-              'Dealer',
-              overflow: TextOverflow.ellipsis,
-            ),
-          )),
+        columnName: 'dealer',
+        width: 90,
+        label: Container(
+          padding: const EdgeInsets.all(8.0),
+          alignment: Alignment.center,
+          child: const Text('Dealer', overflow: TextOverflow.ellipsis),
+        ),
+      ),
       GridColumn(
-          columnName: 'id',
-          width: !_isWebOrDesktop
-              ? 50
-              : (_isWebOrDesktop && model.isMobileResolution)
-                  ? 110
-                  : double.nan,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'ID',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          columnWidthMode: _isLandscapeInMobileView
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.none),
+        columnName: 'id',
+        width:
+            !_isWebOrDesktop
+                ? 50
+                : (_isWebOrDesktop && model.isMobileResolution)
+                ? 110
+                : double.nan,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('ID', overflow: TextOverflow.ellipsis),
+        ),
+        columnWidthMode:
+            _isLandscapeInMobileView
+                ? ColumnWidthMode.fill
+                : ColumnWidthMode.none,
+      ),
       GridColumn(
         columnName: 'name',
         width: (_isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'Name',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Name', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
         columnName: 'freight',
         width: (_isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
-        columnWidthMode: _isLandscapeInMobileView
-            ? ColumnWidthMode.fill
-            : ColumnWidthMode.none,
+        columnWidthMode:
+            _isLandscapeInMobileView
+                ? ColumnWidthMode.fill
+                : ColumnWidthMode.none,
         label: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'Freight',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Freight', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
@@ -102,10 +97,7 @@ class _ColumnTypesDataGridState extends SampleViewState {
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'Shipped Date',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('Shipped Date', overflow: TextOverflow.ellipsis),
         ),
         //dateFormat: DateFormat.yMd()
       ),
@@ -115,26 +107,20 @@ class _ColumnTypesDataGridState extends SampleViewState {
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'City',
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: const Text('City', overflow: TextOverflow.ellipsis),
         ),
       ),
       GridColumn(
-          columnName: 'price',
-          width: (_isWebOrDesktop && model.isMobileResolution)
-              ? 120.0
-              : double.nan,
-          columnWidthMode: ColumnWidthMode.lastColumnFill,
-          label: Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
-              'Price',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ))
+        columnName: 'price',
+        width:
+            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        columnWidthMode: ColumnWidthMode.lastColumnFill,
+        label: Container(
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: const Text('Price', overflow: TextOverflow.ellipsis),
+        ),
+      ),
     ];
   }
 
@@ -148,7 +134,8 @@ class _ColumnTypesDataGridState extends SampleViewState {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isLandscapeInMobileView = !_isWebOrDesktop &&
+    _isLandscapeInMobileView =
+        !_isWebOrDesktop &&
         MediaQuery.of(context).orientation == Orientation.landscape;
   }
 

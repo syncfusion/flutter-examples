@@ -26,46 +26,49 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
 
   SfRangeSlider _sliderWithDivider() {
     return SfRangeSlider.vertical(
-        max: 100.0,
-        interval: 20,
-        showDividers: true,
-        isInversed: _isInversed,
-        values: _divisonSliderValues,
-        onChanged: (SfRangeValues values) {
-          setState(() {
-            _divisonSliderValues = values;
-          });
+      max: 100.0,
+      interval: 20,
+      showDividers: true,
+      isInversed: _isInversed,
+      values: _divisonSliderValues,
+      onChanged: (SfRangeValues values) {
+        setState(() {
+          _divisonSliderValues = values;
         });
+      },
+    );
   }
 
   SfRangeSlider _sliderWithTick() {
     return SfRangeSlider.vertical(
-        max: 100.0,
-        interval: 20,
-        showLabels: true,
-        showTicks: true,
-        isInversed: _isInversed,
-        minorTicksPerInterval: 1,
-        values: _tickSliderValues,
-        onChanged: (SfRangeValues values) {
-          setState(() {
-            _tickSliderValues = values;
-          });
+      max: 100.0,
+      interval: 20,
+      showLabels: true,
+      showTicks: true,
+      isInversed: _isInversed,
+      minorTicksPerInterval: 1,
+      values: _tickSliderValues,
+      onChanged: (SfRangeValues values) {
+        setState(() {
+          _tickSliderValues = values;
         });
+      },
+    );
   }
 
   SfRangeSlider _sliderWithLabel() {
     return SfRangeSlider.vertical(
-        max: 100.0,
-        interval: 20,
-        showLabels: true,
-        values: _labelSliderValues,
-        isInversed: _isInversed,
-        onChanged: (SfRangeValues values) {
-          setState(() {
-            _labelSliderValues = values;
-          });
+      max: 100.0,
+      interval: 20,
+      showLabels: true,
+      values: _labelSliderValues,
+      isInversed: _isInversed,
+      onChanged: (SfRangeValues values) {
+        setState(() {
+          _labelSliderValues = values;
         });
+      },
+    );
   }
 
   Widget _buildWebLayout() {
@@ -81,37 +84,46 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.fromLTRB(0, padding, 0, padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.fromLTRB(0, padding, 0, padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithDivider()),
-              const Text('Dividers')
-            ]),
-            Column(children: <Widget>[
+              const Text('Dividers'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithLabel()),
               const Text('Labels'),
-            ]),
-            Column(children: <Widget>[
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _sliderWithTick()),
               const Text('Ticks'),
-            ]),
-          ],
-        ));
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget rangeSlider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget rangeSlider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? rangeSlider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: rangeSlider),
+            );
+      },
+    );
   }
 
   @override
@@ -120,10 +132,7 @@ class _VerticalScaleRangeSliderPageState extends SampleViewState {
       builder: (BuildContext context, StateSetter stateSetter) {
         return CheckboxListTile(
           value: _isInversed,
-          title: const Text(
-            'Inversed',
-            softWrap: false,
-          ),
+          title: const Text('Inversed', softWrap: false),
           contentPadding: EdgeInsets.zero,
           activeColor: model.primaryColor,
           onChanged: (bool? value) {

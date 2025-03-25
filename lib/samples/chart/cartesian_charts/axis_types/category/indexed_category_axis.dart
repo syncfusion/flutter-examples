@@ -55,10 +55,7 @@ class _CategoryIndexedState extends SampleViewState {
           children: <Widget>[
             Text(
               'Arrange by index',
-              style: TextStyle(
-                color: model.textColor,
-                fontSize: 16,
-              ),
+              style: TextStyle(color: model.textColor, fontSize: 16),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 2.0),
@@ -70,9 +67,7 @@ class _CategoryIndexedState extends SampleViewState {
                   onChanged: (bool? value) {
                     setState(() {
                       _isIndexed = value;
-                      stateSetter(
-                        () {},
-                      );
+                      stateSetter(() {});
                     });
                   },
                 ),
@@ -88,9 +83,7 @@ class _CategoryIndexedState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Real GDP growth',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Real GDP growth'),
       primaryXAxis: CategoryAxis(
         arrangeByIndex: _isIndexed ?? true,
         majorGridLines: const MajorGridLines(width: 0),
@@ -98,9 +91,7 @@ class _CategoryIndexedState extends SampleViewState {
         edgeLabelPlacement: EdgeLabelPlacement.shift,
       ),
       primaryYAxis: NumericAxis(
-        title: AxisTitle(
-          text: isCardView ? '' : 'GDP growth rate',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'GDP growth rate'),
         labelFormat: '{value}%',
         interval: isCardView ? 2 : 1,
         axisLine: const AxisLine(width: 0),

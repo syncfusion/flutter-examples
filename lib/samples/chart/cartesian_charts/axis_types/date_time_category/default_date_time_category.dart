@@ -56,12 +56,11 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeCategoryAxis(
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction: isCardView
-            ? AxisLabelIntersectAction.multipleRows
-            : AxisLabelIntersectAction.rotate45,
-        title: AxisTitle(
-          text: isCardView ? '' : 'Business days',
-        ),
+        labelIntersectAction:
+            isCardView
+                ? AxisLabelIntersectAction.multipleRows
+                : AxisLabelIntersectAction.rotate45,
+        title: AxisTitle(text: isCardView ? '' : 'Business days'),
         plotBands: <PlotBand>[
           PlotBand(
             start: DateTime(2017, 12, 22),
@@ -70,10 +69,7 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
             verticalTextAlignment: TextAnchor.start,
             verticalTextPadding: '%-5',
             text: 'Christmas Offer \nDec 2017',
-            textStyle: TextStyle(
-              color: labelColor,
-              fontSize: 13,
-            ),
+            textStyle: TextStyle(color: labelColor, fontSize: 13),
             color: const Color.fromRGBO(50, 198, 255, 1).withValues(alpha: 0.3),
           ),
           PlotBand(
@@ -83,10 +79,7 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
             verticalTextAlignment: TextAnchor.start,
             verticalTextPadding: '%-5',
             text: 'New Year Offer \nJan 2018',
-            textStyle: TextStyle(
-              color: labelColor,
-              fontSize: 13,
-            ),
+            textStyle: TextStyle(color: labelColor, fontSize: 13),
             color: Colors.pink.withValues(alpha: 0.2),
           ),
         ],
@@ -102,8 +95,8 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
           dataSource: _productSalesComparisonData,
           name: 'Sales',
           xValueMapper: (_ProductSalesComparisonData x, int index) => x.year,
-          yValueMapper: (_ProductSalesComparisonData sales, int index) =>
-              sales.sales,
+          yValueMapper:
+              (_ProductSalesComparisonData sales, int index) => sales.sales,
         ),
       ],
       tooltipBehavior: _tooltipBehavior,
@@ -119,10 +112,7 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
 
 /// Sample ordinal data type.
 class _ProductSalesComparisonData {
-  _ProductSalesComparisonData(
-    this.year,
-    this.sales,
-  );
+  _ProductSalesComparisonData(this.year, this.sales);
 
   final DateTime year;
   final double sales;

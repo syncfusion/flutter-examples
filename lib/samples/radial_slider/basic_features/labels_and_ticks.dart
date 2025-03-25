@@ -37,8 +37,9 @@ class _RadialSliderLabelsTicksState extends SampleViewState {
     }
 
     return Center(
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             showFirstLabel: false,
             startAngle: 270,
             endAngle: 270,
@@ -46,25 +47,31 @@ class _RadialSliderLabelsTicksState extends SampleViewState {
             maximum: 12,
             interval: 3,
             axisLineStyle: const AxisLineStyle(
-                color: Color.fromRGBO(128, 94, 246, 0.3),
-                thickness: 0.075,
-                thicknessUnit: GaugeSizeUnit.factor),
+              color: Color.fromRGBO(128, 94, 246, 0.3),
+              thickness: 0.075,
+              thicknessUnit: GaugeSizeUnit.factor,
+            ),
             tickOffset: 0.15,
             labelOffset: 0.1,
             offsetUnit: GaugeSizeUnit.factor,
             onAxisTapped: handlePointerValueChanged,
             minorTicksPerInterval: 30,
             minorTickStyle: const MinorTickStyle(
-                length: 0.05, lengthUnit: GaugeSizeUnit.factor),
+              length: 0.05,
+              lengthUnit: GaugeSizeUnit.factor,
+            ),
             majorTickStyle: const MajorTickStyle(
-                length: 0.1, lengthUnit: GaugeSizeUnit.factor),
+              length: 0.1,
+              lengthUnit: GaugeSizeUnit.factor,
+            ),
             pointers: <GaugePointer>[
               RangePointer(
-                  color: const Color.fromRGBO(128, 94, 246, 1),
-                  value: _markerValue,
-                  cornerStyle: CornerStyle.bothCurve,
-                  width: 0.075,
-                  sizeUnit: GaugeSizeUnit.factor),
+                color: const Color.fromRGBO(128, 94, 246, 1),
+                value: _markerValue,
+                cornerStyle: CornerStyle.bothCurve,
+                width: 0.075,
+                sizeUnit: GaugeSizeUnit.factor,
+              ),
               MarkerPointer(
                 value: _value,
                 elevation: 5,
@@ -76,34 +83,37 @@ class _RadialSliderLabelsTicksState extends SampleViewState {
                 onValueChangeEnd: handlePointerValueChanged,
                 onValueChanging: handlePointerValueChanging,
                 color: const Color.fromRGBO(128, 94, 246, 1),
-              )
+              ),
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  widget: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        _annotationValue,
-                        style: TextStyle(
-                          fontSize: _annotationFontSize,
-                          fontFamily: 'Times',
-                          // fontWeight: FontWeight.bold,
-                        ),
+                widget: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      _annotationValue,
+                      style: TextStyle(
+                        fontSize: _annotationFontSize,
+                        fontFamily: 'Times',
+                        // fontWeight: FontWeight.bold,
                       ),
-                      Text(
-                        ' hrs',
-                        style: TextStyle(
-                          fontSize: _annotationFontSize,
-                          fontFamily: 'Times',
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
-                  ),
-                  angle: 90)
-            ]),
-      ]),
+                    ),
+                    Text(
+                      ' hrs',
+                      style: TextStyle(
+                        fontSize: _annotationFontSize,
+                        fontFamily: 'Times',
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                angle: 90,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

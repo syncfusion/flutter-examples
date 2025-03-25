@@ -63,11 +63,12 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                   _buildApiKeyTextField(stateSetter),
                   const SizedBox(height: 10),
                   _buildRichText(
-                      text:
-                          '\n If you prefer to explore this sample without an API key, you may close this pop-up. You can still access samples featuring AI responses that are stored locally',
-                      linkText: '',
-                      url: '',
-                      trailingText: '.\n'),
+                    text:
+                        '\n If you prefer to explore this sample without an API key, you may close this pop-up. You can still access samples featuring AI responses that are stored locally',
+                    linkText: '',
+                    url: '',
+                    trailingText: '.\n',
+                  ),
                   _buildTitle('Disclaimer', widget.primaryColor),
                   const SizedBox(height: 10),
                   const Text(
@@ -78,9 +79,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
               ),
             ),
           ),
-          actions: [
-            _buildCloseButton(context),
-          ],
+          actions: [_buildCloseButton(context)],
         );
       },
     );
@@ -103,7 +102,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
           linkText: 'google_generative_ai',
           url: 'https://pub.dev/packages/google_generative_ai',
           trailingText:
-              ' google_generative_ai package is utilized to interact with Google AI and obtain responses for the requests.',
+              ' package is utilized to interact with Google AI and obtain responses for the requests.',
         ),
         _buildRichText(
           text: '\n To create an API key, visit ',
@@ -124,10 +123,12 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
     return RichText(
       text: TextSpan(
         style: TextStyle(
-            color: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
-            fontSize: 14),
+          color:
+              Theme.of(context).brightness == Brightness.light
+                  ? Colors.black
+                  : Colors.white,
+          fontSize: 14,
+        ),
         children: [
           TextSpan(text: text),
           TextSpan(
@@ -160,45 +161,49 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
 
   Widget _buildSuffixIcons(StateSetter stateSetter) {
     return ValueListenableBuilder(
-        valueListenable: _show,
-        builder: (context, value, child) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Visibility(
-                visible: _isVisible,
-                child: IconButton(
-                  onPressed: () {
-                    _isObscured = !_isObscured;
-                    stateSetter(() {});
-                  },
-                  icon: Icon(
-                      _isObscured ? Icons.visibility : Icons.visibility_off),
+      valueListenable: _show,
+      builder: (context, value, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Visibility(
+              visible: _isVisible,
+              child: IconButton(
+                onPressed: () {
+                  _isObscured = !_isObscured;
+                  stateSetter(() {});
+                },
+                icon: Icon(
+                  _isObscured ? Icons.visibility : Icons.visibility_off,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0),
-                child: IconButton(
-                  onPressed: _apiKeyController.text.isEmpty
-                      ? null
-                      : () {
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 5.0),
+              child: IconButton(
+                onPressed:
+                    _apiKeyController.text.isEmpty
+                        ? null
+                        : () {
                           setState(() {
                             widget.onApiKeySaved(_apiKeyController.text);
                             Navigator.of(context).pop();
                           });
                         },
-                  icon: Icon(
-                    Icons.send,
-                    color: _apiKeyController.text.isEmpty
-                        ? Colors.grey[500]
-                        : widget.primaryColor,
-                  ),
+                icon: Icon(
+                  Icons.send,
+                  color:
+                      _apiKeyController.text.isEmpty
+                          ? Colors.grey[500]
+                          : widget.primaryColor,
                 ),
               ),
-            ],
-          );
-        });
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildCloseButton(BuildContext context) {

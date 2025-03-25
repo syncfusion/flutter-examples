@@ -29,7 +29,7 @@ class _DoughnutRoundedState extends SampleViewState {
       ChartSampleData(x: 'Design', y: 10),
       ChartSampleData(x: 'Development', y: 10),
       ChartSampleData(x: 'Testing & Integration', y: 10),
-      ChartSampleData(x: 'Maintenance', y: 10)
+      ChartSampleData(x: 'Maintenance', y: 10),
     ];
     super.initState();
   }

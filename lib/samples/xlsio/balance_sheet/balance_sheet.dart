@@ -9,7 +9,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 ///Local imports
 import '../../../model/sample_view.dart';
 import '../../common/export/save_file_mobile.dart'
-    if (dart.library.html) '../../common/export/save_file_web.dart';
+    if (dart.library.js_interop) '../../common/export/save_file_web.dart';
 
 /// Render XlsIO of balance sheet
 class BalanceSheetXlsIO extends SampleView {
@@ -32,23 +32,33 @@ class _BalanceSheetXlsIOState extends SampleViewState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-                'This sample showcases on how to create a simple Excel report for balance sheet with data, autofit, image hyperlink, and protection using XlsIO.',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
+              'This sample showcases on how to create a simple Excel report for balance sheet with data, autofit, image hyperlink, and protection using XlsIO.',
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
             const SizedBox(height: 20, width: 30),
             Align(
-                child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(model.primaryColor),
-                padding: model.isMobile
-                    ? null
-                    : WidgetStateProperty.all(const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15)),
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    model.primaryColor,
+                  ),
+                  padding:
+                      model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
+                            ),
+                          ),
+                ),
+                onPressed: _generateExcel,
+                child: const Text(
+                  'Generate Excel',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              onPressed: _generateExcel,
-              child: const Text('Generate Excel',
-                  style: TextStyle(color: Colors.white)),
-            ))
+            ),
           ],
         ),
       ),
@@ -302,26 +312,47 @@ class _BalanceSheetXlsIOState extends SampleViewState {
     sheet.getRangeByIndex(14, 5).formula = '=E12-E13';
 
     // sheet1 Image Hyperlink
-    final Picture picture =
-        sheet.pictures.addStream(2, 2, await _readImageData('assets.png'));
+    final Picture picture = sheet.pictures.addStream(
+      2,
+      2,
+      await _readImageData('assets.png'),
+    );
     picture.height = 30;
     picture.width = 100;
-    sheet.hyperlinks
-        .addImage(picture, HyperlinkType.workbook, 'Assets!B1', 'Assets');
+    sheet.hyperlinks.addImage(
+      picture,
+      HyperlinkType.workbook,
+      'Assets!B1',
+      'Assets',
+    );
 
-    final Picture picture1 =
-        sheet.pictures.addStream(2, 3, await _readImageData('liabilities.png'));
+    final Picture picture1 = sheet.pictures.addStream(
+      2,
+      3,
+      await _readImageData('liabilities.png'),
+    );
     picture1.height = 30;
     picture1.width = 100;
     sheet.hyperlinks.addImage(
-        picture1, HyperlinkType.workbook, 'Liabilities!B1', 'Liabilities');
+      picture1,
+      HyperlinkType.workbook,
+      'Liabilities!B1',
+      'Liabilities',
+    );
 
-    final Picture picture2 =
-        sheet.pictures.addStream(2, 4, await _readImageData('categories.png'));
+    final Picture picture2 = sheet.pictures.addStream(
+      2,
+      4,
+      await _readImageData('categories.png'),
+    );
     picture2.height = 30;
     picture2.width = 100;
     sheet.hyperlinks.addImage(
-        picture2, HyperlinkType.workbook, 'Categories!B1', 'Categories');
+      picture2,
+      HyperlinkType.workbook,
+      'Categories!B1',
+      'Categories',
+    );
 
     sheet.protect('Syncfusion');
     ExcelSheetProtectionOption option = ExcelSheetProtectionOption();
@@ -446,7 +477,7 @@ class _BalanceSheetXlsIOState extends SampleViewState {
       style6,
       style7,
       style8,
-      style9
+      style9,
     ];
   }
 

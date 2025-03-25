@@ -14,10 +14,10 @@ class CustomExpansionTile extends StatefulWidget {
     this.onExpansionChanged,
     List<Widget> this.children = const <Widget>[],
     bool this.initiallyExpanded = false,
-  })  : assert(initiallyExpanded != null),
-        assert(title != null),
-        assert(children != null),
-        super(key: key);
+  }) : assert(initiallyExpanded != null),
+       assert(title != null),
+       assert(children != null),
+       super(key: key);
 
   /// Holds the header name of expansion tile
   final Widget? title;
@@ -84,12 +84,14 @@ class _ExpansionTileState extends State<CustomExpansionTile>
     _heightFactor = _controller.drive(_easeInTween!);
     _iconTurns = _controller.drive(_halfTween!.chain(_easeInTween!));
     _borderColor = _controller.drive(_borderColorTween!.chain(_easeOutTween!));
-    _backgroundColor =
-        _controller.drive(_backgroundColorTween!.chain(_easeOutTween!));
+    _backgroundColor = _controller.drive(
+      _backgroundColorTween!.chain(_easeOutTween!),
+    );
 
-    _isExpanded = PageStorage.of(context).readState(context) == null
-        ? widget.initiallyExpanded!
-        : false;
+    _isExpanded =
+        PageStorage.of(context).readState(context) == null
+            ? widget.initiallyExpanded!
+            : false;
     if (_isExpanded) {
       _controller.value = 1.0;
     }
@@ -156,10 +158,9 @@ class _ExpansionTileState extends State<CustomExpansionTile>
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: DefaultTextStyle(
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: _headerColor),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium!.copyWith(color: _headerColor),
                   child: widget.title!,
                 ),
               ),
@@ -167,19 +168,13 @@ class _ExpansionTileState extends State<CustomExpansionTile>
                 padding: const EdgeInsets.only(bottom: 5),
                 child: RotationTransition(
                   turns: _iconTurns!,
-                  child: Icon(
-                    Icons.expand_more,
-                    color: _headerColor,
-                  ),
+                  child: Icon(Icons.expand_more, color: _headerColor),
                 ),
               ),
             ),
           ),
           ClipRect(
-            child: Align(
-              heightFactor: _heightFactor!.value,
-              child: child,
-            ),
+            child: Align(heightFactor: _heightFactor!.value, child: child),
           ),
         ],
       ),

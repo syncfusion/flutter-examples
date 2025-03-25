@@ -41,9 +41,7 @@ class _AnimationStepLineDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: const NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
-      ),
+      primaryXAxis: const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: const NumericAxis(
         majorTickLines: MajorTickLines(color: Colors.transparent),
         axisLine: AxisLine(width: 0),
@@ -73,9 +71,7 @@ class _AnimationStepLineDefaultState extends SampleViewState {
   void _buildChartData() {
     _chartData = <_ChartData>[];
     for (int i = 0; i <= 10; i++) {
-      _chartData!.add(
-        _ChartData(i, _buildRandomInt(5, 95)),
-      );
+      _chartData!.add(_ChartData(i, _buildRandomInt(5, 95)));
     }
     _chartData![10] = _ChartData(10, _chartData![9].y);
     _timer?.cancel();

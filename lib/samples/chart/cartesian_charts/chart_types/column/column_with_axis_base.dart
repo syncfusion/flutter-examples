@@ -40,33 +40,40 @@ class _AxisCrossingBaseValueState extends SampleViewState {
     );
     _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'Iceland',
-          y: 1.13,
-          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
+        x: 'Iceland',
+        y: 1.13,
+        pointColor: const Color.fromRGBO(107, 189, 98, 1),
+      ),
       ChartSampleData(
-          x: 'Algeria',
-          y: 1.7,
-          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
+        x: 'Algeria',
+        y: 1.7,
+        pointColor: const Color.fromRGBO(107, 189, 98, 1),
+      ),
       ChartSampleData(
-          x: 'Singapore',
-          y: 1.82,
-          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
+        x: 'Singapore',
+        y: 1.82,
+        pointColor: const Color.fromRGBO(107, 189, 98, 1),
+      ),
       ChartSampleData(
-          x: 'Malaysia',
-          y: 1.37,
-          pointColor: const Color.fromRGBO(107, 189, 98, 1)),
+        x: 'Malaysia',
+        y: 1.37,
+        pointColor: const Color.fromRGBO(107, 189, 98, 1),
+      ),
       ChartSampleData(
-          x: 'Moldova',
-          y: -1.05,
-          pointColor: const Color.fromRGBO(199, 86, 86, 1)),
+        x: 'Moldova',
+        y: -1.05,
+        pointColor: const Color.fromRGBO(199, 86, 86, 1),
+      ),
       ChartSampleData(
-          x: 'American Samoa',
-          y: -1.3,
-          pointColor: const Color.fromRGBO(199, 86, 86, 1)),
+        x: 'American Samoa',
+        y: -1.3,
+        pointColor: const Color.fromRGBO(199, 86, 86, 1),
+      ),
       ChartSampleData(
-          x: 'Latvia',
-          y: -1.1,
-          pointColor: const Color.fromRGBO(199, 86, 86, 1)),
+        x: 'Latvia',
+        y: -1.1,
+        pointColor: const Color.fromRGBO(199, 86, 86, 1),
+      ),
     ];
     super.initState();
   }
@@ -84,35 +91,31 @@ class _AxisCrossingBaseValueState extends SampleViewState {
           children: <Widget>[
             Text(
               'Axis base value ',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: model.textColor,
-              ),
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
               height: 50,
               alignment: Alignment.bottomLeft,
               child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  underline: Container(
-                    color: const Color(0xFFBDBDBD),
-                    height: 1,
-                  ),
-                  value: _selectedAxis,
-                  items: _axis!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : '-2 (modified)',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    _onAxisTypeChange(value.toString());
-                    stateSetter(() {});
-                  }),
+                dropdownColor: model.drawerBackgroundColor,
+                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+                value: _selectedAxis,
+                items:
+                    _axis!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : '-2 (modified)',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                onChanged: (dynamic value) {
+                  _onAxisTypeChange(value.toString());
+                  stateSetter(() {});
+                },
+              ),
             ),
           ],
         );
@@ -151,8 +154,8 @@ class _AxisCrossingBaseValueState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
         yValueMapper: (ChartSampleData sales, int index) => sales.y,
-        pointColorMapper: (ChartSampleData sales, int index) =>
-            sales.pointColor,
+        pointColorMapper:
+            (ChartSampleData sales, int index) => sales.pointColor,
         dataLabelSettings: const DataLabelSettings(
           isVisible: true,
           labelAlignment: ChartDataLabelAlignment.middle,

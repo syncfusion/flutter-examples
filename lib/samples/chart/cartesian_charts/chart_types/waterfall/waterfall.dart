@@ -26,43 +26,51 @@ class _WaterFallState extends SampleViewState {
     _tooltipBehavior = TooltipBehavior(enable: true);
     _chartData = <_ChartSampleData>[
       _ChartSampleData(
-          x: 'Income',
-          y: 4700,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Income',
+        y: 4700,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Sales',
-          y: -1100,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Sales',
+        y: -1100,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Development',
-          y: -700,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Development',
+        y: -700,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Revenue',
-          y: 1200,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Revenue',
+        y: 1200,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Balance',
-          intermediateSumPredicate: true,
-          totalSumPredicate: false),
+        x: 'Balance',
+        intermediateSumPredicate: true,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Expense',
-          y: -400,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Expense',
+        y: -400,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Tax',
-          y: -800,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Tax',
+        y: -800,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Net Profit',
-          intermediateSumPredicate: false,
-          totalSumPredicate: true),
+        x: 'Net Profit',
+        intermediateSumPredicate: false,
+        totalSumPredicate: true,
+      ),
     ];
     super.initState();
   }
@@ -79,25 +87,27 @@ class _WaterFallState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Company revenue and profit'),
       primaryXAxis: CategoryAxis(
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction: isCardView
-            ? AxisLabelIntersectAction.wrap
-            : AxisLabelIntersectAction.rotate45,
+        labelIntersectAction:
+            isCardView
+                ? AxisLabelIntersectAction.wrap
+                : AxisLabelIntersectAction.rotate45,
       ),
       primaryYAxis: NumericAxis(
-          name: 'Expenditure',
-          minimum: 0,
-          maximum: 5000,
-          interval: 1000,
-          axisLine: const AxisLine(width: 0),
-          majorTickLines: const MajorTickLines(size: 0),
-          axisLabelFormatter: (AxisLabelRenderDetails details) {
-            return ChartAxisLabel(
-                (details.value ~/ 1000).toString() + 'B', null);
-          }),
+        name: 'Expenditure',
+        minimum: 0,
+        maximum: 5000,
+        interval: 1000,
+        axisLine: const AxisLine(width: 0),
+        majorTickLines: const MajorTickLines(size: 0),
+        axisLabelFormatter: (AxisLabelRenderDetails details) {
+          return ChartAxisLabel((details.value ~/ 1000).toString() + 'B', null);
+        },
+      ),
       series: _buildWaterFallSeries(),
       tooltipBehavior: _tooltipBehavior,
       onTooltipRender: (TooltipArgs args) {
-        args.text = args.dataPoints![args.pointIndex!.toInt()].x.toString() +
+        args.text =
+            args.dataPoints![args.pointIndex!.toInt()].x.toString() +
             ' : ' +
             (args.dataPoints![args.pointIndex!.toInt()].y / 1000).toString() +
             'B';
@@ -135,15 +145,15 @@ class _WaterFallState extends SampleViewState {
         negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
         intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
         totalSumColor: const Color.fromRGBO(79, 129, 188, 1),
-        intermediateSumPredicate: (_ChartSampleData data, int index) =>
-            data.intermediateSumPredicate,
-        totalSumPredicate: (_ChartSampleData data, int index) =>
-            data.totalSumPredicate,
+        intermediateSumPredicate:
+            (_ChartSampleData data, int index) => data.intermediateSumPredicate,
+        totalSumPredicate:
+            (_ChartSampleData data, int index) => data.totalSumPredicate,
         dataLabelSettings: const DataLabelSettings(
           isVisible: true,
           labelAlignment: ChartDataLabelAlignment.middle,
         ),
-      )
+      ),
     ];
   }
 
@@ -155,8 +165,12 @@ class _WaterFallState extends SampleViewState {
 }
 
 class _ChartSampleData {
-  _ChartSampleData(
-      {this.x, this.y, this.intermediateSumPredicate, this.totalSumPredicate});
+  _ChartSampleData({
+    this.x,
+    this.y,
+    this.intermediateSumPredicate,
+    this.totalSumPredicate,
+  });
 
   final String? x;
   final num? y;

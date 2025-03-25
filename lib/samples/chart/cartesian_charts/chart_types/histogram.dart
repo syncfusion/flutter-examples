@@ -127,7 +127,7 @@ class _HistogramDefaultState extends SampleViewState {
       ChartSampleData(x: 98.275),
       ChartSampleData(x: 96.250),
       ChartSampleData(x: 95.750),
-      ChartSampleData(x: 95.250)
+      ChartSampleData(x: 95.250),
     ];
 
     super.initState();
@@ -136,21 +136,18 @@ class _HistogramDefaultState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return Row(
-        children: <Widget>[
-          Text(
-            'Show distribution line ',
-            style: TextStyle(
-              color: model.textColor,
-              fontSize: 16,
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return Row(
+          children: <Widget>[
+            Text(
+              'Show distribution line ',
+              style: TextStyle(color: model.textColor, fontSize: 16),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: 90,
-              child: CheckboxListTile(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: 90,
+                child: CheckboxListTile(
                   activeColor: model.primaryColor,
                   value: _showDistributionCurve,
                   onChanged: (bool? value) {
@@ -158,20 +155,24 @@ class _HistogramDefaultState extends SampleViewState {
                       _showDistributionCurve = value!;
                       stateSetter(() {});
                     });
-                  }),
+                  },
+                ),
+              ),
             ),
-          )
-        ],
-      );
-    });
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(
-            bottom: model.isWebFullView || !isCardView ? 0 : 60),
-        child: _buildDefaultHistogramChart());
+      padding: EdgeInsets.only(
+        bottom: model.isWebFullView || !isCardView ? 0 : 60,
+      ),
+      child: _buildDefaultHistogramChart(),
+    );
   }
 
   /// Returns the cartesian histogram series chart.
@@ -186,11 +187,12 @@ class _HistogramDefaultState extends SampleViewState {
         maximum: 100,
       ),
       primaryYAxis: const NumericAxis(
-          name: 'Number of Students',
-          minimum: 0,
-          maximum: 50,
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+        name: 'Number of Students',
+        minimum: 0,
+        maximum: 50,
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
       series: _buildHistogramSeries(
         themeData.useMaterial3,
         themeData.brightness == Brightness.light,
@@ -201,12 +203,15 @@ class _HistogramDefaultState extends SampleViewState {
 
   /// Returns the list of cartesian histogram series.
   List<HistogramSeries<ChartSampleData, double>> _buildHistogramSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color curveColor = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(99, 85, 199, 1)
-            : const Color.fromRGBO(51, 182, 119, 1))
-        : const Color.fromRGBO(192, 108, 132, 1);
+    bool isMaterial3,
+    bool isLightMode,
+  ) {
+    final Color curveColor =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(99, 85, 199, 1)
+                : const Color.fromRGBO(51, 182, 119, 1))
+            : const Color.fromRGBO(192, 108, 132, 1);
     return <HistogramSeries<ChartSampleData, double>>[
       HistogramSeries<ChartSampleData, double>(
         name: 'Score',
@@ -228,11 +233,9 @@ class _HistogramDefaultState extends SampleViewState {
         dataLabelSettings: const DataLabelSettings(
           isVisible: true,
           labelAlignment: ChartDataLabelAlignment.top,
-          textStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          textStyle: TextStyle(fontWeight: FontWeight.bold),
         ),
-      )
+      ),
     ];
   }
 

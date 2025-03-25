@@ -10,7 +10,7 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 ///Local imports
 import '../../model/sample_view.dart';
 import 'helper/save_file_mobile.dart'
-    if (dart.library.html) 'helper/save_file_web.dart';
+    if (dart.library.js_interop) 'helper/save_file_web.dart';
 
 /// Import and export form data from the PDF document.
 class ImportAndExportFormData extends SampleView {
@@ -72,25 +72,32 @@ class _ImportAndExportFormDataState extends SampleViewState {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  'This sample shows how to import or export form data from the PDF document. It supports XFDF, FDF, XML, and JSON format for import and export.',
-                  style: TextStyle(fontSize: 16, color: model.textColor)),
+                'This sample shows how to import or export form data from the PDF document. It supports XFDF, FDF, XML, and JSON format for import and export.',
+                style: TextStyle(fontSize: 16, color: model.textColor),
+              ),
               const SizedBox(height: 20, width: 30),
-              Text('Choose the data type for import or export:',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: model.textColor,
-                      fontWeight: FontWeight.bold)),
+              Text(
+                'Choose the data type for import or export:',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: model.textColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 10, width: 30),
               if (MediaQuery.of(context).size.width > 800)
                 Row(children: getDataTypeChildWidgets(context))
               else
                 Column(children: getDataTypeChildWidgets(context)),
               const SizedBox(height: 20, width: 30),
-              Text('Select import or export:',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: model.textColor,
-                      fontWeight: FontWeight.bold)),
+              Text(
+                'Select import or export:',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: model.textColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 10, width: 30),
               if (MediaQuery.of(context).size.width > 800)
                 Row(children: getProcessChildWidgets(context))
@@ -103,36 +110,49 @@ class _ImportAndExportFormDataState extends SampleViewState {
                   const SizedBox(height: 10, width: 30),
                   TextButton(
                     style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(model.primaryColor),
-                      padding: model.isMobile
-                          ? null
-                          : WidgetStateProperty.all(const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15)),
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                        model.primaryColor,
+                      ),
+                      padding:
+                          model.isMobile
+                              ? null
+                              : WidgetStateProperty.all(
+                                const EdgeInsets.symmetric(
+                                  vertical: 15,
+                                  horizontal: 15,
+                                ),
+                              ),
                     ),
                     onPressed: _viewTemplate,
-                    child: const Text('View Template',
-                        style: TextStyle(color: Colors.white)),
+                    child: const Text(
+                      'View Template',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                    width: 20,
-                  ),
+                  const SizedBox(height: 10, width: 20),
                   TextButton(
                     style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(model.primaryColor),
-                      padding: model.isMobile
-                          ? null
-                          : WidgetStateProperty.all(const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15)),
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                        model.primaryColor,
+                      ),
+                      padding:
+                          model.isMobile
+                              ? null
+                              : WidgetStateProperty.all(
+                                const EdgeInsets.symmetric(
+                                  vertical: 15,
+                                  horizontal: 15,
+                                ),
+                              ),
                     ),
                     onPressed: _processData,
-                    child: Text(_processText,
-                        style: const TextStyle(color: Colors.white)),
-                  )
+                    child: Text(
+                      _processText,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -142,52 +162,74 @@ class _ImportAndExportFormDataState extends SampleViewState {
 
   List<Widget> getDataTypeChildWidgets(BuildContext context) {
     return <Widget>[
-      Row(children: <Widget>[
-        Radio<int>(
+      Row(
+        children: <Widget>[
+          Radio<int>(
             value: 0,
             groupValue: _groupDataTypeValue,
-            onChanged: _dataTypeChanged),
-        Text('XFDF', style: TextStyle(fontSize: 16, color: model.textColor)),
-      ]),
-      Row(children: <Widget>[
-        Radio<int>(
+            onChanged: _dataTypeChanged,
+          ),
+          Text('XFDF', style: TextStyle(fontSize: 16, color: model.textColor)),
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          Radio<int>(
             value: 1,
             groupValue: _groupDataTypeValue,
-            onChanged: _dataTypeChanged),
-        Text('JSON', style: TextStyle(fontSize: 16, color: model.textColor)),
-      ]),
-      Row(children: <Widget>[
-        Radio<int>(
+            onChanged: _dataTypeChanged,
+          ),
+          Text('JSON', style: TextStyle(fontSize: 16, color: model.textColor)),
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          Radio<int>(
             value: 2,
             groupValue: _groupDataTypeValue,
-            onChanged: _dataTypeChanged),
-        Text('XML', style: TextStyle(fontSize: 16, color: model.textColor)),
-      ])
+            onChanged: _dataTypeChanged,
+          ),
+          Text('XML', style: TextStyle(fontSize: 16, color: model.textColor)),
+        ],
+      ),
     ];
   }
 
   List<Widget> getProcessChildWidgets(BuildContext context) {
     return <Widget>[
-      Row(children: <Widget>[
-        Radio<int>(
+      Row(
+        children: <Widget>[
+          Radio<int>(
             value: 0,
             groupValue: _groupProcessValue,
-            onChanged: _processChanged),
-        Text('Import', style: TextStyle(fontSize: 16, color: model.textColor)),
-      ]),
-      Row(children: <Widget>[
-        Radio<int>(
+            onChanged: _processChanged,
+          ),
+          Text(
+            'Import',
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          Radio<int>(
             value: 1,
             groupValue: _groupProcessValue,
-            onChanged: _processChanged),
-        Text('Export', style: TextStyle(fontSize: 16, color: model.textColor)),
-      ])
+            onChanged: _processChanged,
+          ),
+          Text(
+            'Export',
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
+        ],
+      ),
     ];
   }
 
   Future<void> _viewTemplate() async {
     final List<int> documentBytes = await _readDocumentData(
-        _groupProcessValue == 0 ? 'form_template.pdf' : 'export_template.pdf');
+      _groupProcessValue == 0 ? 'form_template.pdf' : 'export_template.pdf',
+    );
     await FileSaveHelper.saveAndLaunchFile(documentBytes, 'form_template.pdf');
   }
 
@@ -241,26 +283,28 @@ class _ImportAndExportFormDataState extends SampleViewState {
 
   void _showDialog(String text) {
     showDialog<Widget>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(_fileExtension.toUpperCase() + ' Data'),
-            content: Scrollbar(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                child: Text(text),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(_fileExtension.toUpperCase() + ' Data'),
+          content: Scrollbar(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
               ),
+              child: Text(text),
             ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Close'),
-              )
-            ],
-          );
-        });
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

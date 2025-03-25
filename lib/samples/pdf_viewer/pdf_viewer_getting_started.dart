@@ -42,24 +42,24 @@ class _GettingStartedPdfViewerState extends SampleViewState {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: Future<dynamic>.delayed(const Duration(milliseconds: 200))
-              .then((dynamic value) {
+        future: Future<dynamic>.delayed(const Duration(milliseconds: 200)).then(
+          (dynamic value) {
             _canShowPdf = true;
-          }),
-          builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
-            if (_canShowPdf) {
-              return SfPdfViewerTheme(
-                data: const SfPdfViewerThemeData(),
-                child: SfPdfViewer.asset(
-                  'assets/pdf/flutter_succinctly.pdf',
-                ),
-              );
-            } else {
-              return Container(
-                color: SfPdfViewerTheme.of(context)!.backgroundColor,
-              );
-            }
-          }),
+          },
+        ),
+        builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
+          if (_canShowPdf) {
+            return SfPdfViewerTheme(
+              data: const SfPdfViewerThemeData(),
+              child: SfPdfViewer.asset('assets/pdf/flutter_succinctly.pdf'),
+            );
+          } else {
+            return Container(
+              color: SfPdfViewerTheme.of(context)!.backgroundColor,
+            );
+          }
+        },
+      ),
     );
   }
 }

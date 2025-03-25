@@ -306,8 +306,8 @@ class _MapRangeColorMappingPageState extends SampleViewState {
       // the mapping between the data source and the shapes
       // in the .json file is done.
       dataCount: _worldPopulationDensity.length,
-      primaryValueMapper: (int index) =>
-          _worldPopulationDensity[index].countryName,
+      primaryValueMapper:
+          (int index) => _worldPopulationDensity[index].countryName,
       // Used for color mapping.
       //
       // The value of the [MapColorMapper.from]
@@ -315,8 +315,8 @@ class _MapRangeColorMappingPageState extends SampleViewState {
       // will be compared with the value returned in the
       // [shapeColorValueMapper] and the respective
       // [MapColorMapper.color] will be applied to the shape.
-      shapeColorValueMapper: (int index) =>
-          _worldPopulationDensity[index].density,
+      shapeColorValueMapper:
+          (int index) => _worldPopulationDensity[index].density,
       // Group and differentiate the shapes using the color
       // based on [MapColorMapper.from] and
       //[MapColorMapper.to] value.
@@ -332,30 +332,35 @@ class _MapRangeColorMappingPageState extends SampleViewState {
       // the color of the legend icon respectively.
       shapeColorMappers: <MapColorMapper>[
         const MapColorMapper(
-            from: 0,
-            to: 100,
-            color: Color.fromRGBO(128, 159, 255, 1),
-            text: '{0},{100}'),
+          from: 0,
+          to: 100,
+          color: Color.fromRGBO(128, 159, 255, 1),
+          text: '{0},{100}',
+        ),
         const MapColorMapper(
-            from: 100,
-            to: 500,
-            color: Color.fromRGBO(51, 102, 255, 1),
-            text: '500'),
+          from: 100,
+          to: 500,
+          color: Color.fromRGBO(51, 102, 255, 1),
+          text: '500',
+        ),
         const MapColorMapper(
-            from: 500,
-            to: 1000,
-            color: Color.fromRGBO(0, 57, 230, 1),
-            text: '1k'),
+          from: 500,
+          to: 1000,
+          color: Color.fromRGBO(0, 57, 230, 1),
+          text: '1k',
+        ),
         const MapColorMapper(
-            from: 1000,
-            to: 5000,
-            color: Color.fromRGBO(0, 45, 179, 1),
-            text: '5k'),
+          from: 1000,
+          to: 5000,
+          color: Color.fromRGBO(0, 45, 179, 1),
+          text: '5k',
+        ),
         const MapColorMapper(
-            from: 5000,
-            to: 50000,
-            color: Color.fromRGBO(0, 26, 102, 1),
-            text: '50k'),
+          from: 5000,
+          to: 50000,
+          color: Color.fromRGBO(0, 26, 102, 1),
+          text: '50k',
+        ),
       ],
     );
   }
@@ -369,101 +374,116 @@ class _MapRangeColorMappingPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final bool scrollEnabled = constraints.maxHeight > 400;
-      double height = scrollEnabled ? constraints.maxHeight : 400;
-      if (model.isWebFullView ||
-          (model.isMobile &&
-              MediaQuery.of(context).orientation == Orientation.landscape)) {
-        final double refHeight = height * 0.6;
-        height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
-      }
-      return Center(
-        child: SingleChildScrollView(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final bool scrollEnabled = constraints.maxHeight > 400;
+        double height = scrollEnabled ? constraints.maxHeight : 400;
+        if (model.isWebFullView ||
+            (model.isMobile &&
+                MediaQuery.of(context).orientation == Orientation.landscape)) {
+          final double refHeight = height * 0.6;
+          height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+        }
+        return Center(
+          child: SingleChildScrollView(
             child: SizedBox(
-          width: constraints.maxWidth,
-          height: height,
-          child: _buildMapsWidget(scrollEnabled),
-        )),
-      );
-    });
+              width: constraints.maxWidth,
+              height: height,
+              child: _buildMapsWidget(scrollEnabled),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildMapsWidget(bool scrollEnabled) {
     return Center(
-        child: Padding(
-      padding: scrollEnabled
-          ? EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.05,
-              bottom: MediaQuery.of(context).size.height * 0.05,
-              right: 10)
-          : const EdgeInsets.only(right: 10, bottom: 15),
-      child: SfMapsTheme(
-        data: const SfMapsThemeData(
-          shapeHoverColor: Color.fromRGBO(176, 237, 131, 1),
-        ),
-        child: Column(children: <Widget>[
-          Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 30),
-              child: Align(
-                  child: Text('World Population Density (per sq. km.)',
-                      style: Theme.of(context).textTheme.titleMedium))),
-          Expanded(
-            child: SfMaps(
-              layers: <MapLayer>[
-                MapShapeLayer(
-                  loadingBuilder: (BuildContext context) {
-                    return const SizedBox(
-                      height: 25,
-                      width: 25,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                      ),
-                    );
-                  },
-                  source: _mapSource,
-                  // Returns the custom tooltip for each shape.
-                  shapeTooltipBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                          _worldPopulationDensity[index].countryName +
-                              ' : ' +
-                              _numberFormat.format(
-                                  _worldPopulationDensity[index].density) +
-                              ' per sq. km.',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.surface)),
-                    );
-                  },
-                  strokeColor: Colors.white30,
-                  legend: const MapLegend.bar(MapElement.shape,
-                      position: MapLegendPosition.bottom,
-                      overflowMode: MapLegendOverflowMode.wrap,
-                      labelsPlacement: MapLegendLabelsPlacement.betweenItems,
-                      padding: EdgeInsets.only(top: 15),
-                      spacing: 1.0,
-                      segmentSize: Size(55.0, 9.0)),
-                  tooltipSettings: MapTooltipSettings(
-                      color: model.themeData.colorScheme.brightness ==
-                              Brightness.light
-                          ? const Color.fromRGBO(0, 32, 128, 1)
-                          : const Color.fromRGBO(226, 233, 255, 1),
-                      strokeColor: model.themeData.colorScheme.brightness ==
-                              Brightness.light
-                          ? Colors.white
-                          : Colors.black),
+      child: Padding(
+        padding:
+            scrollEnabled
+                ? EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.05,
+                  right: 10,
+                )
+                : const EdgeInsets.only(right: 10, bottom: 15),
+        child: SfMapsTheme(
+          data: const SfMapsThemeData(
+            shapeHoverColor: Color.fromRGBO(176, 237, 131, 1),
+          ),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 15, bottom: 30),
+                child: Align(
+                  child: Text(
+                    'World Population Density (per sq. km.)',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ),
-              ],
-            ),
-          )
-        ]),
+              ),
+              Expanded(
+                child: SfMaps(
+                  layers: <MapLayer>[
+                    MapShapeLayer(
+                      loadingBuilder: (BuildContext context) {
+                        return const SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: CircularProgressIndicator(strokeWidth: 3),
+                        );
+                      },
+                      source: _mapSource,
+                      // Returns the custom tooltip for each shape.
+                      shapeTooltipBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            _worldPopulationDensity[index].countryName +
+                                ' : ' +
+                                _numberFormat.format(
+                                  _worldPopulationDensity[index].density,
+                                ) +
+                                ' per sq. km.',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall!.copyWith(
+                              color: Theme.of(context).colorScheme.surface,
+                            ),
+                          ),
+                        );
+                      },
+                      strokeColor: Colors.white30,
+                      legend: const MapLegend.bar(
+                        MapElement.shape,
+                        position: MapLegendPosition.bottom,
+                        overflowMode: MapLegendOverflowMode.wrap,
+                        labelsPlacement: MapLegendLabelsPlacement.betweenItems,
+                        padding: EdgeInsets.only(top: 15),
+                        spacing: 1.0,
+                        segmentSize: Size(55.0, 9.0),
+                      ),
+                      tooltipSettings: MapTooltipSettings(
+                        color:
+                            model.themeData.colorScheme.brightness ==
+                                    Brightness.light
+                                ? const Color.fromRGBO(0, 32, 128, 1)
+                                : const Color.fromRGBO(226, 233, 255, 1),
+                        strokeColor:
+                            model.themeData.colorScheme.brightness ==
+                                    Brightness.light
+                                ? Colors.white
+                                : Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 }
 

@@ -68,21 +68,25 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
       if (_value == 100) {
         _timer.cancel();
         _pauseImage = Container(
-            height: 40,
-            width: 40,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
+          height: 40,
+          width: 40,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
               image: ExactAssetImage('images/play.png'),
               fit: BoxFit.fill,
-            )));
+            ),
+          ),
+        );
         _downloadImage = Container(
-            height: 40,
-            width: 40,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
+          height: 40,
+          width: 40,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
               image: ExactAssetImage('images/Check.png'),
               fit: BoxFit.fill,
-            )));
+            ),
+          ),
+        );
         Future<dynamic>.delayed(const Duration(milliseconds: 500));
         _startTimer();
       } else {
@@ -95,9 +99,10 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size = model.isWebFullView
-          ? MediaQuery.of(context).size.height / 6.5
-          : MediaQuery.of(context).size.height / 5.5;
+      _size =
+          model.isWebFullView
+              ? MediaQuery.of(context).size.height / 6.5
+              : MediaQuery.of(context).size.height / 5.5;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -135,8 +140,9 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             showLabels: false,
             showTicks: false,
             radiusFactor: 0.8,
@@ -148,24 +154,28 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
             ),
             pointers: <GaugePointer>[
               RangePointer(
-                  value: _value,
-                  cornerStyle: CornerStyle.bothCurve,
-                  width: 0.2,
-                  color: const Color.fromRGBO(3, 218, 198, 1),
-                  sizeUnit: GaugeSizeUnit.factor,
-                  enableAnimation: true,
-                  animationDuration: 20,
-                  animationType: AnimationType.linear)
+                value: _value,
+                cornerStyle: CornerStyle.bothCurve,
+                width: 0.2,
+                color: const Color.fromRGBO(3, 218, 198, 1),
+                sizeUnit: GaugeSizeUnit.factor,
+                enableAnimation: true,
+                animationDuration: 20,
+                animationType: AnimationType.linear,
+              ),
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  angle: 90,
-                  widget: Text(
-                    _value.toStringAsFixed(0) + ' / 100',
-                    style: const TextStyle(fontSize: 11),
-                  ))
-            ])
-      ]),
+                angle: 90,
+                widget: Text(
+                  _value.toStringAsFixed(0) + ' / 100',
+                  style: const TextStyle(fontSize: 11),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -173,8 +183,9 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -187,18 +198,21 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
             ),
             pointers: <GaugePointer>[
               RangePointer(
-                  value: _value,
-                  width: 0.05,
-                  color: const Color.fromRGBO(3, 218, 198, 1),
-                  sizeUnit: GaugeSizeUnit.factor,
-                  enableAnimation: true,
-                  animationDuration: 20,
-                  animationType: AnimationType.linear)
+                value: _value,
+                width: 0.05,
+                color: const Color.fromRGBO(3, 218, 198, 1),
+                sizeUnit: GaugeSizeUnit.factor,
+                enableAnimation: true,
+                animationDuration: 20,
+                animationType: AnimationType.linear,
+              ),
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%'))
-            ])
-      ]),
+              GaugeAnnotation(widget: Text(_value.toStringAsFixed(0) + '%')),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -206,8 +220,9 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -220,18 +235,21 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
             ),
             pointers: <GaugePointer>[
               RangePointer(
-                  value: _value,
-                  width: 0.05,
-                  color: const Color.fromRGBO(3, 218, 198, 1),
-                  sizeUnit: GaugeSizeUnit.factor,
-                  enableAnimation: true,
-                  animationDuration: 20,
-                  animationType: AnimationType.linear)
+                value: _value,
+                width: 0.05,
+                color: const Color.fromRGBO(3, 218, 198, 1),
+                sizeUnit: GaugeSizeUnit.factor,
+                enableAnimation: true,
+                animationDuration: 20,
+                animationType: AnimationType.linear,
+              ),
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(widget: _pauseImage)
-            ])
-      ]),
+              GaugeAnnotation(widget: _pauseImage),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -239,8 +257,9 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
     return SizedBox(
       height: _size,
       width: _size,
-      child: SfRadialGauge(axes: <RadialAxis>[
-        RadialAxis(
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
             showLabels: false,
             showTicks: false,
             startAngle: 270,
@@ -253,18 +272,21 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
             ),
             pointers: <GaugePointer>[
               RangePointer(
-                  value: _value,
-                  width: 0.05,
-                  color: const Color.fromRGBO(3, 218, 198, 1),
-                  sizeUnit: GaugeSizeUnit.factor,
-                  enableAnimation: true,
-                  animationDuration: 20,
-                  animationType: AnimationType.linear)
+                value: _value,
+                width: 0.05,
+                color: const Color.fromRGBO(3, 218, 198, 1),
+                sizeUnit: GaugeSizeUnit.factor,
+                enableAnimation: true,
+                animationDuration: 20,
+                animationType: AnimationType.linear,
+              ),
             ],
             annotations: <GaugeAnnotation>[
-              GaugeAnnotation(widget: _downloadImage)
-            ])
-      ]),
+              GaugeAnnotation(widget: _downloadImage),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

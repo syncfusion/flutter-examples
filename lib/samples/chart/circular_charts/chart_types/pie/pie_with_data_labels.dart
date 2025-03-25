@@ -68,63 +68,73 @@ class _PieDataLabelsState extends SampleViewState {
     final double dropDownWidth = (model.isMobile ? 0.25 : 0.4) * screenWidth;
 
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(
-                flex: 14,
-                child: Column(
-                  children: <Widget>[
-                    _buildLabelPositionDropdown(dropDownWidth, stateSetter),
-                    _buildOverflowModeDropdown(dropDownWidth, stateSetter),
-                    _buildConnectorLineTypeDropdown(dropDownWidth, stateSetter),
-                    _buildZeroValueCheckbox(screenWidth, stateSetter),
-                  ],
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 14,
+                  child: Column(
+                    children: <Widget>[
+                      _buildLabelPositionDropdown(dropDownWidth, stateSetter),
+                      _buildOverflowModeDropdown(dropDownWidth, stateSetter),
+                      _buildConnectorLineTypeDropdown(
+                        dropDownWidth,
+                        stateSetter,
+                      ),
+                      _buildZeroValueCheckbox(screenWidth, stateSetter),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(flex: model.isMobile ? 3 : 1, child: Container()),
-            ],
-          ),
-        ],
-      );
-    });
+                Expanded(flex: model.isMobile ? 3 : 1, child: Container()),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   /// Builds the dropdown for selecting the label position.
   Widget _buildLabelPositionDropdown(
-      double dropDownWidth, StateSetter stateSetter) {
+    double dropDownWidth,
+    StateSetter stateSetter,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Flexible(
-          child: Text('Label position',
-              style: TextStyle(
-                color: model.textColor,
-                fontSize: 16,
-              )),
+          child: Text(
+            'Label position',
+            style: TextStyle(color: model.textColor, fontSize: 16),
+          ),
         ),
         Flexible(
           child: SizedBox(
             width: dropDownWidth,
             child: DropdownButton<String>(
-                dropdownColor: model.drawerBackgroundColor,
-                focusColor: Colors.transparent,
-                isExpanded: true,
-                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-                value: _selectedDataLabelPosition,
-                items: _positionList!.map((String value) {
-                  return DropdownMenuItem<String>(
+              dropdownColor: model.drawerBackgroundColor,
+              focusColor: Colors.transparent,
+              isExpanded: true,
+              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+              value: _selectedDataLabelPosition,
+              items:
+                  _positionList!.map((String value) {
+                    return DropdownMenuItem<String>(
                       value: (value != null) ? value : 'outside',
-                      child: Text(value,
-                          style: TextStyle(color: model.textColor)));
-                }).toList(),
-                onChanged: (dynamic value) {
-                  _updateLabelPosition(value.toString());
-                  stateSetter(() {});
-                }),
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+              onChanged: (dynamic value) {
+                _updateLabelPosition(value.toString());
+                stateSetter(() {});
+              },
+            ),
           ),
         ),
       ],
@@ -133,41 +143,52 @@ class _PieDataLabelsState extends SampleViewState {
 
   /// Builds the dropdown for selecting the overflow mode.
   Widget _buildOverflowModeDropdown(
-      double dropDownWidth, StateSetter stateSetter) {
+    double dropDownWidth,
+    StateSetter stateSetter,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Flexible(
-          child: Text('Overflow mode',
-              softWrap: false,
-              style: TextStyle(
-                  fontSize: 16,
-                  color: _selectedDataLabelPosition != 'inside'
+          child: Text(
+            'Overflow mode',
+            softWrap: false,
+            style: TextStyle(
+              fontSize: 16,
+              color:
+                  _selectedDataLabelPosition != 'inside'
                       ? model.textColor.withValues(alpha: 0.3)
-                      : model.textColor)),
+                      : model.textColor,
+            ),
+          ),
         ),
         Flexible(
           child: SizedBox(
             height: 50,
             width: dropDownWidth,
             child: DropdownButton<String>(
-                dropdownColor: model.drawerBackgroundColor,
-                focusColor: Colors.transparent,
-                isExpanded: true,
-                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-                value: _selectedOverflowMode,
-                items: _selectedDataLabelPosition != 'inside'
-                    ? null
-                    : _overflowModeList!.map((String value) {
+              dropdownColor: model.drawerBackgroundColor,
+              focusColor: Colors.transparent,
+              isExpanded: true,
+              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+              value: _selectedOverflowMode,
+              items:
+                  _selectedDataLabelPosition != 'inside'
+                      ? null
+                      : _overflowModeList!.map((String value) {
                         return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'none',
-                            child: Text(value,
-                                style: TextStyle(color: model.textColor)));
+                          value: (value != null) ? value : 'none',
+                          child: Text(
+                            value,
+                            style: TextStyle(color: model.textColor),
+                          ),
+                        );
                       }).toList(),
-                onChanged: (dynamic value) {
-                  _updateOverflowMode(value.toString());
-                  stateSetter(() {});
-                }),
+              onChanged: (dynamic value) {
+                _updateOverflowMode(value.toString());
+                stateSetter(() {});
+              },
+            ),
           ),
         ),
       ],
@@ -176,36 +197,42 @@ class _PieDataLabelsState extends SampleViewState {
 
   /// Builds the dropdown for selecting the connector line type.
   Widget _buildConnectorLineTypeDropdown(
-      double dropDownWidth, StateSetter stateSetter) {
+    double dropDownWidth,
+    StateSetter stateSetter,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Flexible(
-          child: Text('Connector line type',
-              style: TextStyle(
-                color: model.textColor,
-                fontSize: 16,
-              )),
+          child: Text(
+            'Connector line type',
+            style: TextStyle(color: model.textColor, fontSize: 16),
+          ),
         ),
         Flexible(
           child: SizedBox(
             width: dropDownWidth,
             child: DropdownButton<String>(
-                dropdownColor: model.drawerBackgroundColor,
-                focusColor: Colors.transparent,
-                isExpanded: true,
-                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-                value: _connectorLineType,
-                items: _connectorLineList!.map((String value) {
-                  return DropdownMenuItem<String>(
+              dropdownColor: model.drawerBackgroundColor,
+              focusColor: Colors.transparent,
+              isExpanded: true,
+              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+              value: _connectorLineType,
+              items:
+                  _connectorLineList!.map((String value) {
+                    return DropdownMenuItem<String>(
                       value: (value != null) ? value : 'line',
-                      child: Text(value,
-                          style: TextStyle(color: model.textColor)));
-                }).toList(),
-                onChanged: (dynamic value) {
-                  _updateConnectorLineType(value.toString());
-                  stateSetter(() {});
-                }),
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+              onChanged: (dynamic value) {
+                _updateConnectorLineType(value.toString());
+                stateSetter(() {});
+              },
+            ),
           ),
         ),
       ],
@@ -218,32 +245,32 @@ class _PieDataLabelsState extends SampleViewState {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Flexible(
-          child: Text('Hide label for 0 value',
-              style: TextStyle(
-                color: model.textColor,
-                fontSize: 16,
-              )),
+          child: Text(
+            'Hide label for 0 value',
+            style: TextStyle(color: model.textColor, fontSize: 16),
+          ),
         ),
         Flexible(
           child: Container(
-              padding: EdgeInsets.only(
-                  left: model.isWeb
-                      ? (0.05 * screenWidth)
-                      : (0.13 * screenWidth)),
-              width: 0.5 * screenWidth,
-              child: CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
-                  activeColor: model.primaryColor,
-                  value: _isZeroVisible,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _isZeroVisible = value!;
-                      stateSetter(() {});
-                    });
-                  })),
+            padding: EdgeInsets.only(
+              left: model.isWeb ? (0.05 * screenWidth) : (0.13 * screenWidth),
+            ),
+            width: 0.5 * screenWidth,
+            child: CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              contentPadding: EdgeInsets.zero,
+              activeColor: model.primaryColor,
+              value: _isZeroVisible,
+              onChanged: (bool? value) {
+                setState(() {
+                  _isZeroVisible = value!;
+                  stateSetter(() {});
+                });
+              },
+            ),
+          ),
         ),
-        const SizedBox(width: 10)
+        const SizedBox(width: 10),
       ],
     );
   }
@@ -284,7 +311,7 @@ class _PieDataLabelsState extends SampleViewState {
             type: !isCardView ? _connectorType : ConnectorType.curve,
           ),
         ),
-      )
+      ),
     ];
   }
 

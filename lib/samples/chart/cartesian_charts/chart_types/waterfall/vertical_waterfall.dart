@@ -41,145 +41,172 @@ class _VerticalWaterFallState extends SampleViewState {
   List<_ChartSampleData>? _buildChartData1() {
     return [
       _ChartSampleData(
-          x: 'Income',
-          y: 46,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Income',
+        y: 46,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Sales',
-          y: -14,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Sales',
+        y: -14,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Research',
-          y: -9,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Research',
+        y: -9,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Revenue',
-          y: 15,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Revenue',
+        y: 15,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Balance',
-          intermediateSumPredicate: true,
-          totalSumPredicate: false),
+        x: 'Balance',
+        intermediateSumPredicate: true,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Expense',
-          y: -13,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Expense',
+        y: -13,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Tax',
-          y: -8,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Tax',
+        y: -8,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Profit',
-          intermediateSumPredicate: false,
-          totalSumPredicate: true),
+        x: 'Profit',
+        intermediateSumPredicate: false,
+        totalSumPredicate: true,
+      ),
     ];
   }
 
   List<_ChartSampleData>? _buildChartData2() {
     return [
       _ChartSampleData(
-          x: 'Income',
-          y: 47,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Income',
+        y: 47,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Sales',
-          y: -15,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Sales',
+        y: -15,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Research',
-          y: -8,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Research',
+        y: -8,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Revenue',
-          y: 10,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Revenue',
+        y: 10,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Balance',
-          intermediateSumPredicate: true,
-          totalSumPredicate: false),
+        x: 'Balance',
+        intermediateSumPredicate: true,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Expense',
-          y: -14,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Expense',
+        y: -14,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Tax',
-          y: -9,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Tax',
+        y: -9,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Profit',
-          intermediateSumPredicate: false,
-          totalSumPredicate: true),
+        x: 'Profit',
+        intermediateSumPredicate: false,
+        totalSumPredicate: true,
+      ),
     ];
   }
 
   List<_ChartSampleData>? _buildChartData3() {
     return [
       _ChartSampleData(
-          x: 'Income',
-          y: 51,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Income',
+        y: 51,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Sales',
-          y: -16,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Sales',
+        y: -16,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Research',
-          y: -11,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Research',
+        y: -11,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Revenue',
-          y: 19,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Revenue',
+        y: 19,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Balance',
-          intermediateSumPredicate: true,
-          totalSumPredicate: false),
+        x: 'Balance',
+        intermediateSumPredicate: true,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Expense',
-          y: -15,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Expense',
+        y: -15,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Tax',
-          y: -9,
-          intermediateSumPredicate: false,
-          totalSumPredicate: false),
+        x: 'Tax',
+        y: -9,
+        intermediateSumPredicate: false,
+        totalSumPredicate: false,
+      ),
       _ChartSampleData(
-          x: 'Profit',
-          intermediateSumPredicate: false,
-          totalSumPredicate: true),
+        x: 'Profit',
+        intermediateSumPredicate: false,
+        totalSumPredicate: true,
+      ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Text(
-        isCardView ? '' : 'Company revenue and profit',
-        style: TextStyle(
+    return Column(
+      children: <Widget>[
+        Text(
+          isCardView ? '' : 'Company revenue and profit',
+          style: TextStyle(
             fontSize: isCardView ? 0 : 18.0,
             fontFamily: 'Segoe UI',
             fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.normal),
-      ),
-      Expanded(child: _buildVerticalWaterfallChart())
-    ]);
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        Expanded(child: _buildVerticalWaterfallChart()),
+      ],
+    );
   }
 
   /// Combine all three waterfall charts into one row.
@@ -213,9 +240,10 @@ class _VerticalWaterFallState extends SampleViewState {
       ),
       primaryXAxis: CategoryAxis(
         axisLine: AxisLine(
-          color: model.drawerBackgroundColor == Colors.white
-              ? const Color.fromRGBO(181, 181, 181, 0.5)
-              : const Color.fromRGBO(101, 101, 101, 1),
+          color:
+              model.drawerBackgroundColor == Colors.white
+                  ? const Color.fromRGBO(181, 181, 181, 0.5)
+                  : const Color.fromRGBO(101, 101, 101, 1),
         ),
         majorTickLines: const MajorTickLines(width: 0),
         majorGridLines: const MajorGridLines(width: 0),
@@ -256,15 +284,17 @@ class _VerticalWaterFallState extends SampleViewState {
       primaryXAxis: CategoryAxis(
         name: 'XAxis',
         axisLine: AxisLine(
-          color: model.drawerBackgroundColor == Colors.white
-              ? const Color.fromRGBO(181, 181, 181, 0.5)
-              : const Color.fromRGBO(101, 101, 101, 1),
+          color:
+              model.drawerBackgroundColor == Colors.white
+                  ? const Color.fromRGBO(181, 181, 181, 0.5)
+                  : const Color.fromRGBO(101, 101, 101, 1),
         ),
         majorTickLines: const MajorTickLines(width: 0),
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction: isCardView
-            ? AxisLabelIntersectAction.wrap
-            : AxisLabelIntersectAction.rotate45,
+        labelIntersectAction:
+            isCardView
+                ? AxisLabelIntersectAction.wrap
+                : AxisLabelIntersectAction.rotate45,
         axisLabelFormatter: (AxisLabelRenderDetails details) {
           return ChartAxisLabel('', null);
         },
@@ -308,15 +338,17 @@ class _VerticalWaterFallState extends SampleViewState {
       primaryXAxis: CategoryAxis(
         name: 'XAxis',
         axisLine: AxisLine(
-          color: model.drawerBackgroundColor == Colors.white
-              ? const Color.fromRGBO(181, 181, 181, 0.5)
-              : const Color.fromRGBO(101, 101, 101, 1),
+          color:
+              model.drawerBackgroundColor == Colors.white
+                  ? const Color.fromRGBO(181, 181, 181, 0.5)
+                  : const Color.fromRGBO(101, 101, 101, 1),
         ),
         majorTickLines: const MajorTickLines(width: 0),
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction: isCardView
-            ? AxisLabelIntersectAction.wrap
-            : AxisLabelIntersectAction.rotate45,
+        labelIntersectAction:
+            isCardView
+                ? AxisLabelIntersectAction.wrap
+                : AxisLabelIntersectAction.rotate45,
         axisLabelFormatter: (AxisLabelRenderDetails details) {
           return ChartAxisLabel('', null);
         },
@@ -341,64 +373,69 @@ class _VerticalWaterFallState extends SampleViewState {
   List<WaterfallSeries<_ChartSampleData, dynamic>> _buildWaterFallSeries2015() {
     return <WaterfallSeries<_ChartSampleData, dynamic>>[
       WaterfallSeries<_ChartSampleData, dynamic>(
-          dataSource: _chartData1,
-          xValueMapper: (_ChartSampleData data, int index) => data.x,
-          yValueMapper: (_ChartSampleData data, int index) => data.y,
-          name: '2015',
-          intermediateSumPredicate: (_ChartSampleData data, int index) =>
-              data.intermediateSumPredicate,
-          totalSumPredicate: (_ChartSampleData data, int index) =>
-              data.totalSumPredicate,
-          dataLabelSettings: DataLabelSettings(
-            isVisible: isCardView ? false : true,
-            labelAlignment: ChartDataLabelAlignment.middle,
-          ),
-          color: const Color.fromRGBO(0, 189, 174, 1),
-          negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
-          intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
-          totalSumColor: const Color.fromRGBO(79, 129, 188, 1))
+        dataSource: _chartData1,
+        xValueMapper: (_ChartSampleData data, int index) => data.x,
+        yValueMapper: (_ChartSampleData data, int index) => data.y,
+        name: '2015',
+        intermediateSumPredicate:
+            (_ChartSampleData data, int index) => data.intermediateSumPredicate,
+        totalSumPredicate:
+            (_ChartSampleData data, int index) => data.totalSumPredicate,
+        dataLabelSettings: DataLabelSettings(
+          isVisible: isCardView ? false : true,
+          labelAlignment: ChartDataLabelAlignment.middle,
+        ),
+        color: const Color.fromRGBO(0, 189, 174, 1),
+        negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
+        intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
+        totalSumColor: const Color.fromRGBO(79, 129, 188, 1),
+      ),
     ];
   }
 
   List<WaterfallSeries<_ChartSampleData, dynamic>> _buildWaterFalSeries2016() {
     return <WaterfallSeries<_ChartSampleData, dynamic>>[
       WaterfallSeries<_ChartSampleData, dynamic>(
-          dataSource: _chartData2,
-          name: '2016',
-          xValueMapper: (_ChartSampleData data, int index) => data.x,
-          yValueMapper: (_ChartSampleData data, int index) => data.y,
-          intermediateSumPredicate: (_ChartSampleData data, int index) =>
-              data.intermediateSumPredicate,
-          totalSumPredicate: (_ChartSampleData data, int index) =>
-              data.totalSumPredicate,
-          dataLabelSettings: DataLabelSettings(
-              isVisible: isCardView ? false : true,
-              labelAlignment: ChartDataLabelAlignment.middle),
-          color: const Color.fromRGBO(0, 189, 174, 1),
-          negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
-          intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
-          totalSumColor: const Color.fromRGBO(79, 129, 188, 1))
+        dataSource: _chartData2,
+        name: '2016',
+        xValueMapper: (_ChartSampleData data, int index) => data.x,
+        yValueMapper: (_ChartSampleData data, int index) => data.y,
+        intermediateSumPredicate:
+            (_ChartSampleData data, int index) => data.intermediateSumPredicate,
+        totalSumPredicate:
+            (_ChartSampleData data, int index) => data.totalSumPredicate,
+        dataLabelSettings: DataLabelSettings(
+          isVisible: isCardView ? false : true,
+          labelAlignment: ChartDataLabelAlignment.middle,
+        ),
+        color: const Color.fromRGBO(0, 189, 174, 1),
+        negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
+        intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
+        totalSumColor: const Color.fromRGBO(79, 129, 188, 1),
+      ),
     ];
   }
 
   List<WaterfallSeries<_ChartSampleData, dynamic>> _buildWaterFallSeries2017() {
     return <WaterfallSeries<_ChartSampleData, dynamic>>[
       WaterfallSeries<_ChartSampleData, dynamic>(
-          dataSource: _chartData3,
-          name: '2017',
-          xValueMapper: (_ChartSampleData data, int index) => data.x,
-          yValueMapper: (_ChartSampleData data, int index) => data.y,
-          intermediateSumPredicate: (_ChartSampleData data, int index) =>
-              data.intermediateSumPredicate,
-          totalSumPredicate: (_ChartSampleData data, int index) =>
-              data.totalSumPredicate,
-          dataLabelSettings: DataLabelSettings(
-              isVisible: isCardView ? false : true,
-              labelAlignment: ChartDataLabelAlignment.middle),
-          color: const Color.fromRGBO(0, 189, 174, 1),
-          negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
-          intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
-          totalSumColor: const Color.fromRGBO(79, 129, 188, 1))
+        dataSource: _chartData3,
+        name: '2017',
+        xValueMapper: (_ChartSampleData data, int index) => data.x,
+        yValueMapper: (_ChartSampleData data, int index) => data.y,
+        intermediateSumPredicate:
+            (_ChartSampleData data, int index) => data.intermediateSumPredicate,
+        totalSumPredicate:
+            (_ChartSampleData data, int index) => data.totalSumPredicate,
+        dataLabelSettings: DataLabelSettings(
+          isVisible: isCardView ? false : true,
+          labelAlignment: ChartDataLabelAlignment.middle,
+        ),
+        color: const Color.fromRGBO(0, 189, 174, 1),
+        negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
+        intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
+        totalSumColor: const Color.fromRGBO(79, 129, 188, 1),
+      ),
     ];
   }
 
@@ -412,8 +449,12 @@ class _VerticalWaterFallState extends SampleViewState {
 }
 
 class _ChartSampleData {
-  _ChartSampleData(
-      {this.x, this.y, this.intermediateSumPredicate, this.totalSumPredicate});
+  _ChartSampleData({
+    this.x,
+    this.y,
+    this.intermediateSumPredicate,
+    this.totalSumPredicate,
+  });
 
   final String? x;
   final num? y;

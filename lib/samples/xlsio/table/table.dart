@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 ///Local imports
 import '../../../model/sample_view.dart';
 import '../../common/export/save_file_mobile.dart'
-    if (dart.library.html) '../../common/export/save_file_web.dart';
+    if (dart.library.js_interop) '../../common/export/save_file_web.dart';
 
 /// Render XlsIO of table
 class TableXlsIO extends SampleView {
@@ -31,23 +31,33 @@ class _TableXlsIOState extends SampleViewState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-                'This sample showcases how to create a table in worksheets with header rows, banded rows & columns, total row and built-in styles.',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
+              'This sample showcases how to create a table in worksheets with header rows, banded rows & columns, total row and built-in styles.',
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
             const SizedBox(height: 20, width: 30),
             Align(
-                child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(model.primaryColor),
-                padding: model.isMobile
-                    ? null
-                    : WidgetStateProperty.all(const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15)),
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    model.primaryColor,
+                  ),
+                  padding:
+                      model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
+                            ),
+                          ),
+                ),
+                onPressed: _generateExcel,
+                child: const Text(
+                  'Generate Excel',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              onPressed: _generateExcel,
-              child: const Text('Generate Excel',
-                  style: TextStyle(color: Colors.white)),
-            ))
+            ),
           ],
         ),
       ),
@@ -214,8 +224,10 @@ class _TableXlsIOState extends SampleViewState {
     sheet.getRangeByName('E25').setNumber(447.92);
 
     ///Create a table with the data in a range
-    final ExcelTable table =
-        sheet.tableCollection.create('Table1', sheet.getRangeByName('A1:E25'));
+    final ExcelTable table = sheet.tableCollection.create(
+      'Table1',
+      sheet.getRangeByName('A1:E25'),
+    );
 
     ///Formatting table with a built-in style
     table.builtInTableStyle = ExcelTableBuiltInStyle.tableStyleMedium9;

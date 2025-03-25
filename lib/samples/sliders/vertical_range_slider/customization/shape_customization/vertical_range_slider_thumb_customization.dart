@@ -63,8 +63,12 @@ class _VerticalThumbCustomizedRangeSliderState extends SampleViewState {
   SfRangeSliderTheme _doubleStrokeThumbRangeSlider() {
     return SfRangeSliderTheme(
       data: SfRangeSliderThemeData(
-        inactiveTrackColor:
-            const Color.fromARGB(255, 200, 200, 200).withValues(alpha: 0.5),
+        inactiveTrackColor: const Color.fromARGB(
+          255,
+          200,
+          200,
+          200,
+        ).withValues(alpha: 0.5),
         tooltipBackgroundColor: const Color.fromARGB(255, 0, 178, 206),
       ),
       child: SfRangeSlider.vertical(
@@ -91,13 +95,15 @@ class _VerticalThumbCustomizedRangeSliderState extends SampleViewState {
             ? 80.0
             : 50.0;
     return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          _doubleStrokeThumbRangeSlider(),
-          Padding(
-              padding: EdgeInsets.only(left: padding),
-              child: _strokeThumbRangeSlider())
-        ]);
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        _doubleStrokeThumbRangeSlider(),
+        Padding(
+          padding: EdgeInsets.only(left: padding),
+          child: _strokeThumbRangeSlider(),
+        ),
+      ],
+    );
   }
 }
 
@@ -107,83 +113,99 @@ class _ThumbShape extends SfThumbShape {
   final bool isDoubleStroke;
 
   @override
-  void paint(PaintingContext context, Offset center,
-      {required RenderBox parentBox,
-      required RenderBox? child,
-      required SfSliderThemeData themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      required Paint? paint,
-      required Animation<double> enableAnimation,
-      required TextDirection textDirection,
-      required SfThumb? thumb}) {
-    super.paint(context, center,
-        parentBox: parentBox,
-        child: child,
-        themeData: themeData,
-        currentValues: currentValues,
-        paint: paint,
-        enableAnimation: enableAnimation,
-        textDirection: textDirection,
-        thumb: thumb);
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required RenderBox parentBox,
+    required RenderBox? child,
+    required SfSliderThemeData themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    required Paint? paint,
+    required Animation<double> enableAnimation,
+    required TextDirection textDirection,
+    required SfThumb? thumb,
+  }) {
+    super.paint(
+      context,
+      center,
+      parentBox: parentBox,
+      child: child,
+      themeData: themeData,
+      currentValues: currentValues,
+      paint: paint,
+      enableAnimation: enableAnimation,
+      textDirection: textDirection,
+      thumb: thumb,
+    );
 
     context.canvas.drawCircle(
-        center,
-        getPreferredSize(themeData).width / 2,
-        Paint()
-          ..isAntiAlias = true
-          ..strokeWidth = 2
-          ..style = PaintingStyle.stroke
-          ..color = themeData.activeTrackColor!);
+      center,
+      getPreferredSize(themeData).width / 2,
+      Paint()
+        ..isAntiAlias = true
+        ..strokeWidth = 2
+        ..style = PaintingStyle.stroke
+        ..color = themeData.activeTrackColor!,
+    );
 
     if (isDoubleStroke) {
       context.canvas.drawCircle(
-          center,
-          getPreferredSize(themeData).width / 3,
-          Paint()
-            ..isAntiAlias = true
-            ..strokeWidth = 3
-            ..style = PaintingStyle.stroke
-            ..color = Colors.white);
+        center,
+        getPreferredSize(themeData).width / 3,
+        Paint()
+          ..isAntiAlias = true
+          ..strokeWidth = 3
+          ..style = PaintingStyle.stroke
+          ..color = Colors.white,
+      );
     }
   }
 }
 
 class _RectThumbShape extends SfThumbShape {
   @override
-  void paint(PaintingContext context, Offset center,
-      {required RenderBox parentBox,
-      required RenderBox? child,
-      required SfSliderThemeData themeData,
-      SfRangeValues? currentValues,
-      dynamic currentValue,
-      required Paint? paint,
-      required Animation<double> enableAnimation,
-      required TextDirection textDirection,
-      required SfThumb? thumb}) {
-    super.paint(context, center,
-        parentBox: parentBox,
-        child: child,
-        themeData: themeData,
-        currentValues: currentValues,
-        paint: paint,
-        enableAnimation: enableAnimation,
-        textDirection: textDirection,
-        thumb: thumb);
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required RenderBox parentBox,
+    required RenderBox? child,
+    required SfSliderThemeData themeData,
+    SfRangeValues? currentValues,
+    dynamic currentValue,
+    required Paint? paint,
+    required Animation<double> enableAnimation,
+    required TextDirection textDirection,
+    required SfThumb? thumb,
+  }) {
+    super.paint(
+      context,
+      center,
+      parentBox: parentBox,
+      child: child,
+      themeData: themeData,
+      currentValues: currentValues,
+      paint: paint,
+      enableAnimation: enableAnimation,
+      textDirection: textDirection,
+      thumb: thumb,
+    );
 
     final double width = getPreferredSize(themeData).width;
     final double height = getPreferredSize(themeData).height;
 
     context.canvas.drawRRect(
-        RRect.fromLTRBR(
-            center.dx - width / 2,
-            center.dy - height / 2,
-            center.dx + width / 2,
-            center.dy + height / 2,
-            const Radius.circular(5.0)),
-        Paint()
-          ..isAntiAlias = true
-          ..style = PaintingStyle.fill
-          ..color = themeData.activeTrackColor!);
+      RRect.fromLTRBR(
+        center.dx - width / 2,
+        center.dy - height / 2,
+        center.dx + width / 2,
+        center.dy + height / 2,
+        const Radius.circular(5.0),
+      ),
+      Paint()
+        ..isAntiAlias = true
+        ..style = PaintingStyle.fill
+        ..color = themeData.activeTrackColor!,
+    );
   }
 }

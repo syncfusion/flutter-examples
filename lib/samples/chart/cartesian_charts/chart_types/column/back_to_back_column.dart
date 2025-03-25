@@ -79,8 +79,8 @@ class _ColumnBackState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         name: '2014',
       ),
       ColumnSeries<ChartSampleData, String>(

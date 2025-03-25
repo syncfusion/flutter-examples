@@ -33,58 +33,61 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
 
   SfSliderTheme _numerical() {
     return SfSliderTheme(
-        data: SfSliderThemeData(
-            tooltipBackgroundColor: model.primaryColor,
-            labelOffset: const Offset(-30, 0),
-            tickOffset: const Offset(-15, 0)),
-        child: SfSlider.vertical(
-          showLabels: true,
-          interval: 10,
-          min: 10.0,
-          max: 40.0,
-          showTicks: true,
-          isInversed: _isInversed,
-          tooltipPosition: SliderTooltipPosition.right,
-          value: _sliderValue,
-          onChanged: (dynamic values) {
-            setState(() {
-              _sliderValue = values as double;
-            });
-          },
-          enableTooltip: true,
-          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
-        ));
+      data: SfSliderThemeData(
+        tooltipBackgroundColor: model.primaryColor,
+        labelOffset: const Offset(-30, 0),
+        tickOffset: const Offset(-15, 0),
+      ),
+      child: SfSlider.vertical(
+        showLabels: true,
+        interval: 10,
+        min: 10.0,
+        max: 40.0,
+        showTicks: true,
+        isInversed: _isInversed,
+        tooltipPosition: SliderTooltipPosition.right,
+        value: _sliderValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _sliderValue = values as double;
+          });
+        },
+        enableTooltip: true,
+        shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
+      ),
+    );
   }
 
   SfSliderTheme _dateTimeSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(
-          tooltipBackgroundColor: model.primaryColor,
-        ),
-        child: SfSlider.vertical(
-          min: DateTime(2020, 01, 01, 9),
-          max: DateTime(2020, 01, 01, 21),
-          showLabels: true,
-          interval: 4,
-          showTicks: true,
-          isInversed: _isInversed,
-          minorTicksPerInterval: 3,
-          dateFormat: DateFormat('h a'),
-          dateIntervalType: DateIntervalType.hours,
-          value: _hourValue,
-          onChanged: (dynamic value) {
-            setState(() {
-              _hourValue = value as DateTime;
-            });
-          },
-          enableTooltip: true,
-          shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
-          //tooltipShape: SfPaddleTooltipShape(),
-          tooltipTextFormatterCallback:
-              (dynamic actualLabel, String formattedText) {
-            return DateFormat('h:mm a').format(actualLabel);
-          },
-        ));
+      data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfSlider.vertical(
+        min: DateTime(2020, 01, 01, 9),
+        max: DateTime(2020, 01, 01, 21),
+        showLabels: true,
+        interval: 4,
+        showTicks: true,
+        isInversed: _isInversed,
+        minorTicksPerInterval: 3,
+        dateFormat: DateFormat('h a'),
+        dateIntervalType: DateIntervalType.hours,
+        value: _hourValue,
+        onChanged: (dynamic value) {
+          setState(() {
+            _hourValue = value as DateTime;
+          });
+        },
+        enableTooltip: true,
+        shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
+        //tooltipShape: SfPaddleTooltipShape(),
+        tooltipTextFormatterCallback: (
+          dynamic actualLabel,
+          String formattedText,
+        ) {
+          return DateFormat('h:mm a').format(actualLabel);
+        },
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -100,32 +103,40 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.all(padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.all(padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _numerical()),
-              const Text('Tooltip on the right')
-            ]),
-            Column(children: <Widget>[
+              const Text('Tooltip on the right'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _dateTimeSlider()),
               const Text('Tooltip on the left'),
-            ]),
-          ],
-        ));
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget slider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? slider
-          : SingleChildScrollView(child: SizedBox(height: 400, child: slider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget slider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? slider
+            : SingleChildScrollView(
+              child: SizedBox(height: 400, child: slider),
+            );
+      },
+    );
   }
 
   @override
@@ -136,10 +147,7 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
           children: <Widget>[
             CheckboxListTile(
               value: _isInversed,
-              title: const Text(
-                'Inversed',
-                softWrap: false,
-              ),
+              title: const Text('Inversed', softWrap: false),
               contentPadding: EdgeInsets.zero,
               activeColor: model.primaryColor,
               onChanged: (bool? value) {
@@ -151,10 +159,7 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
             ),
             CheckboxListTile(
               value: _shouldAlwaysShowTooltip,
-              title: const Text(
-                'Show tooltip always',
-                softWrap: false,
-              ),
+              title: const Text('Show tooltip always', softWrap: false),
               activeColor: model.primaryColor,
               contentPadding: EdgeInsets.zero,
               onChanged: (bool? value) {

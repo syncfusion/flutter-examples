@@ -59,9 +59,7 @@ class _LegendCustomizedState extends SampleViewState {
         thirdSeriesYValue: 90,
       ),
     ];
-    _tooltipBehavior = TooltipBehavior(
-      enable: true,
-    );
+    _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
   }
 
@@ -88,8 +86,12 @@ class _LegendCustomizedState extends SampleViewState {
         isVisible: true,
         overflowMode: LegendItemOverflowMode.wrap,
         toggleSeriesVisibility: false,
-        legendItemBuilder:
-            (String name, dynamic series, dynamic point, int index) {
+        legendItemBuilder: (
+          String name,
+          dynamic series,
+          dynamic point,
+          int index,
+        ) {
           return SizedBox(
             height: 30,
             width: 90,
@@ -128,8 +130,8 @@ class _LegendCustomizedState extends SampleViewState {
       LineSeries<ChartSampleData, num>(
         dataSource: automobileProductionData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         name: 'Bike',
         color: const Color.fromRGBO(246, 114, 128, 1),
         markerSettings: const MarkerSettings(isVisible: true),
@@ -137,8 +139,8 @@ class _LegendCustomizedState extends SampleViewState {
       LineSeries<ChartSampleData, num>(
         dataSource: automobileProductionData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
         name: 'Bicycle',
         color: const Color.fromRGBO(248, 177, 149, 1),
         markerSettings: const MarkerSettings(isVisible: true),

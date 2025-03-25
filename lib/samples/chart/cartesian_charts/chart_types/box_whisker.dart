@@ -20,6 +20,7 @@ class _BoxWhiskerState extends SampleViewState {
   _BoxWhiskerState();
   late String _selectMode;
   late bool _mean;
+  Color? _boxWhiskerColor;
 
   List<String>? _modeType;
   List<SalesData>? _salesData;
@@ -36,6 +37,16 @@ class _BoxWhiskerState extends SampleViewState {
     _modeType = <String>['normal', 'exclusive', 'inclusive'].toList();
     _tooltipBehavior = TooltipBehavior(enable: true);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Initialize box and whisker color based on the current theme
+    _boxWhiskerColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black;
   }
 
   List<SalesData> _buildSalesData() {
@@ -60,32 +71,43 @@ class _BoxWhiskerState extends SampleViewState {
         34,
         36,
         35,
-        38
+        38,
       ]),
-      SalesData(
-        'HR',
-        <int>[22, 24, 25, 30, 32, 34, 36, 38, 39, 41, 35, 36, 40, 56],
-      ),
-      SalesData(
-        'Finance  ',
-        <int>[26, 27, 28, 30, 32, 34, 35, 37, 35, 37, 45],
-      ),
-      SalesData(
-        'Inventory',
-        <int>[21, 23, 24, 25, 26, 27, 28, 30, 34, 36, 38],
-      ),
-      SalesData(
-        'Sales',
-        <int>[27, 26, 28, 29, 29, 29, 32, 35, 32, 38, 53],
-      ),
-      SalesData(
-        'R&D',
-        <int>[26, 27, 29, 32, 34, 35, 36, 37, 38, 39, 41, 43, 58],
-      ),
-      SalesData(
-        'Graphics',
-        <int>[26, 28, 29, 30, 32, 33, 35, 36, 52],
-      ),
+      SalesData('HR', <int>[
+        22,
+        24,
+        25,
+        30,
+        32,
+        34,
+        36,
+        38,
+        39,
+        41,
+        35,
+        36,
+        40,
+        56,
+      ]),
+      SalesData('Finance  ', <int>[26, 27, 28, 30, 32, 34, 35, 37, 35, 37, 45]),
+      SalesData('Inventory', <int>[21, 23, 24, 25, 26, 27, 28, 30, 34, 36, 38]),
+      SalesData('Sales', <int>[27, 26, 28, 29, 29, 29, 32, 35, 32, 38, 53]),
+      SalesData('R&D', <int>[
+        26,
+        27,
+        29,
+        32,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        41,
+        43,
+        58,
+      ]),
+      SalesData('Graphics', <int>[26, 28, 29, 30, 32, 33, 35, 36, 52]),
     ];
   }
 
@@ -110,10 +132,7 @@ class _BoxWhiskerState extends SampleViewState {
       children: <Widget>[
         Text(
           'Box plot mode ',
-          style: TextStyle(
-            fontSize: 16.0,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
@@ -122,12 +141,16 @@ class _BoxWhiskerState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectMode,
-            items: _modeType!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'normal',
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
+            items:
+                _modeType!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'normal',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               _onModeChange(value.toString());
               stateSetter(() {});
@@ -142,13 +165,7 @@ class _BoxWhiskerState extends SampleViewState {
   Widget _buildMeanCheckbox(StateSetter stateSetter) {
     return Row(
       children: <Widget>[
-        Text(
-          'Mean',
-          style: TextStyle(
-            color: model.textColor,
-            fontSize: 16,
-          ),
-        ),
+        Text('Mean', style: TextStyle(color: model.textColor, fontSize: 16)),
         Padding(
           padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
           child: SizedBox(
@@ -172,8 +189,9 @@ class _BoxWhiskerState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: model.isWebFullView || !isCardView ? 0 : 50),
+      padding: EdgeInsets.only(
+        bottom: model.isWebFullView || !isCardView ? 0 : 50,
+      ),
       child: _buildDefaultWhiskerChart(),
     );
   }
@@ -212,11 +230,9 @@ class _BoxWhiskerState extends SampleViewState {
         showMean: _mean,
         opacity: 0.9,
         boxPlotMode: _boxMode!,
-        borderColor: model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black,
+        borderColor: _boxWhiskerColor,
         name: 'Department',
-      )
+      ),
     ];
   }
 

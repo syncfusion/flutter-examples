@@ -60,13 +60,14 @@ class _RadialTextAnnotationState extends SampleViewState {
             ),
           ],
           axisLineStyle: const AxisLineStyle(
-              color: Color(0xFF00A8B5),
-              gradient: SweepGradient(
-                colors: <Color>[Color(0xFF06974A), Color(0xFFF2E41F)],
-                stops: <double>[0.25, 0.75],
-              ),
-              thickness: 30,
-              dashArray: <double>[8, 10]),
+            color: Color(0xFF00A8B5),
+            gradient: SweepGradient(
+              colors: <Color>[Color(0xFF06974A), Color(0xFFF2E41F)],
+              stops: <double>[0.25, 0.75],
+            ),
+            thickness: 30,
+            dashArray: <double>[8, 10],
+          ),
         ),
       ],
     );

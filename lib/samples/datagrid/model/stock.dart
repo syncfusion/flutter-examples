@@ -2,13 +2,7 @@
 /// information about the stock which will be rendered in datagrid.
 class Stock {
   /// Creates the stock class with required details.
-  Stock(
-    this.name,
-    this.qs1,
-    this.qs2,
-    this.qs3,
-    this.qs4,
-  );
+  Stock(this.name, this.qs1, this.qs2, this.qs3, this.qs4);
 
   /// Qs1 of the stock.
   final double qs1;

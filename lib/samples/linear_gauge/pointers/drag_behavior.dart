@@ -28,23 +28,25 @@ class _DragBehaviorState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Expanded(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: getScreenWidth(context, _isHorizontalOrientation),
-                  child: _buildWidgetPointer(context),
-                ),
-              ],
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    width: getScreenWidth(context, _isHorizontalOrientation),
+                    child: _buildWidgetPointer(context),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 
   /// Returns the linear gauge widget pointer.
@@ -55,12 +57,17 @@ class _DragBehaviorState extends SampleViewState {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _buildHorizontalGauges('Free',
-              _buildIconWidgetPointer(context, LinearMarkerDragBehavior.free)),
           _buildHorizontalGauges(
-              'Constrained',
-              _buildIconWidgetPointer(
-                  context, LinearMarkerDragBehavior.constrained)),
+            'Free',
+            _buildIconWidgetPointer(context, LinearMarkerDragBehavior.free),
+          ),
+          _buildHorizontalGauges(
+            'Constrained',
+            _buildIconWidgetPointer(
+              context,
+              LinearMarkerDragBehavior.constrained,
+            ),
+          ),
         ],
       ),
     );
@@ -81,7 +88,9 @@ class _DragBehaviorState extends SampleViewState {
 
   /// Returns the icon widget pointer sample.
   Widget _buildIconWidgetPointer(
-      BuildContext context, LinearMarkerDragBehavior dragMode) {
+    BuildContext context,
+    LinearMarkerDragBehavior dragMode,
+  ) {
     return SizedBox(
       height: 100,
       child: SfLinearGauge(
@@ -90,9 +99,10 @@ class _DragBehaviorState extends SampleViewState {
         axisTrackStyle: const LinearAxisTrackStyle(thickness: 3),
         markerPointers: <LinearMarkerPointer>[
           LinearWidgetPointer(
-            value: dragMode == LinearMarkerDragBehavior.free
-                ? _firstLoosePointerValue
-                : _firstLockPointerValue,
+            value:
+                dragMode == LinearMarkerDragBehavior.free
+                    ? _firstLoosePointerValue
+                    : _firstLockPointerValue,
             onChanged: (dynamic value) {
               setState(() {
                 if (dragMode == LinearMarkerDragBehavior.free) {
@@ -102,25 +112,25 @@ class _DragBehaviorState extends SampleViewState {
                 }
               });
             },
-            dragBehavior: dragMode == LinearMarkerDragBehavior.free
-                ? LinearMarkerDragBehavior.free
-                : LinearMarkerDragBehavior.constrained,
+            dragBehavior:
+                dragMode == LinearMarkerDragBehavior.free
+                    ? LinearMarkerDragBehavior.free
+                    : LinearMarkerDragBehavior.constrained,
             position: LinearElementPosition.outside,
             child: RotatedBox(
               quarterTurns: 3,
               child: SizedBox(
                 width: 20,
                 height: 16,
-                child: Image.asset(
-                  'images/rectangle_pointer.png',
-                ),
+                child: Image.asset('images/rectangle_pointer.png'),
               ),
             ),
           ),
           LinearWidgetPointer(
-            value: dragMode == LinearMarkerDragBehavior.free
-                ? _middleLoosePointerValue
-                : _middleLockPointerValue,
+            value:
+                dragMode == LinearMarkerDragBehavior.free
+                    ? _middleLoosePointerValue
+                    : _middleLockPointerValue,
             onChanged: (dynamic value) {
               setState(() {
                 if (dragMode == LinearMarkerDragBehavior.free) {
@@ -130,9 +140,10 @@ class _DragBehaviorState extends SampleViewState {
                 }
               });
             },
-            dragBehavior: dragMode == LinearMarkerDragBehavior.free
-                ? LinearMarkerDragBehavior.free
-                : LinearMarkerDragBehavior.constrained,
+            dragBehavior:
+                dragMode == LinearMarkerDragBehavior.free
+                    ? LinearMarkerDragBehavior.free
+                    : LinearMarkerDragBehavior.constrained,
             position: LinearElementPosition.outside,
             child: RotatedBox(
               quarterTurns: 3,

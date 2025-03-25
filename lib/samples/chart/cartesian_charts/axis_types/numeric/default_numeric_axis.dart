@@ -53,9 +53,7 @@ class _NumericDefaultState extends SampleViewState {
         text: isCardView ? '' : 'Australia vs India ODI - 2019',
       ),
       primaryXAxis: NumericAxis(
-        title: AxisTitle(
-          text: isCardView ? '' : 'Match',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Match'),
         minimum: 0,
         maximum: 6,
         interval: 1,
@@ -64,17 +62,12 @@ class _NumericDefaultState extends SampleViewState {
         edgeLabelPlacement: EdgeLabelPlacement.hide,
       ),
       primaryYAxis: NumericAxis(
-        title: AxisTitle(
-          text: isCardView ? '' : 'Score',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Score'),
         axisLine: const AxisLine(width: 0),
         majorTickLines: const MajorTickLines(size: 0),
       ),
       series: _buildColumnSeries(),
-      legend: Legend(
-        isVisible: !isCardView,
-        position: LegendPosition.top,
-      ),
+      legend: Legend(isVisible: !isCardView, position: LegendPosition.top),
       tooltipBehavior: _tooltipBehavior,
     );
   }
@@ -85,8 +78,8 @@ class _NumericDefaultState extends SampleViewState {
       ColumnSeries<ChartSampleData, num>(
         dataSource: _dataOfAustraliaVSIndiaODI2019,
         xValueMapper: (ChartSampleData sales, int index) => sales.xValue,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         color: const Color.fromRGBO(237, 221, 76, 1),
         name: 'Australia',
       ),

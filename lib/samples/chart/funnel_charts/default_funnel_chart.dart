@@ -33,7 +33,7 @@ class _FunnelDefaultState extends SampleViewState {
       ChartSampleData(x: 'Downloaded trail', y: 600),
       ChartSampleData(x: 'Visit download page', y: 1500),
       ChartSampleData(x: 'Watched demo', y: 2600),
-      ChartSampleData(x: 'Website visitors', y: 3000)
+      ChartSampleData(x: 'Website visitors', y: 3000),
     ];
     _gapRatio = 0;
     _neckWidth = 20;
@@ -81,9 +81,10 @@ class _FunnelDefaultState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 0.5,
             initialValue: _gapRatio,
-            onChanged: (double val) => setState(() {
-              _gapRatio = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _gapRatio = val;
+                }),
             step: 0.1,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -109,9 +110,10 @@ class _FunnelDefaultState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _neckHeight.toDouble(),
-            onChanged: (double val) => setState(() {
-              _neckHeight = val.toInt();
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _neckHeight = val.toInt();
+                }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -137,9 +139,10 @@ class _FunnelDefaultState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _neckWidth.toDouble(),
-            onChanged: (double val) => setState(() {
-              _neckWidth = val.toInt();
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _neckWidth = val.toInt();
+                }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -151,17 +154,17 @@ class _FunnelDefaultState extends SampleViewState {
 
   /// Builds the UI row for enabling or disabling the explode feature.
   Widget _buildExplodeRow(
-      BuildContext context, double screenWidth, StateSetter stateSetter) {
+    BuildContext context,
+    double screenWidth,
+    StateSetter stateSetter,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
           '   Explode',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
         Container(
           padding: EdgeInsets.only(left: 0.06 * screenWidth),

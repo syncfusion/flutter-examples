@@ -52,7 +52,7 @@ class _PieSmartDataLabelsState extends SampleViewState {
       ChartSampleData(x: 'Jamaica', y: 6),
       ChartSampleData(x: 'Croatia', y: 5),
       ChartSampleData(x: 'Cuba', y: 5),
-      ChartSampleData(x: 'New Zealand', y: 4)
+      ChartSampleData(x: 'New Zealand', y: 4),
     ];
     super.initState();
   }
@@ -60,48 +60,50 @@ class _PieSmartDataLabelsState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text(
-                'Label intersect \naction',
-                style: TextStyle(
-                  color: model.textColor,
-                  fontSize: 16,
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  'Label intersect \naction',
+                  style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-              ),
-              const Padding(padding: EdgeInsets.fromLTRB(55, 0, 0, 0)),
-              Container(
+                const Padding(padding: EdgeInsets.fromLTRB(55, 0, 0, 0)),
+                Container(
                   height: 50,
                   alignment: Alignment.center,
                   child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      focusColor: Colors.transparent,
-                      underline:
-                          Container(color: const Color(0xFFBDBDBD), height: 1),
-                      value: _selectedLabelIntersectAction,
-                      items: _labelIntersectActionList!.map((String value) {
-                        return DropdownMenuItem<String>(
+                    dropdownColor: model.drawerBackgroundColor,
+                    focusColor: Colors.transparent,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
+                    ),
+                    value: _selectedLabelIntersectAction,
+                    items:
+                        _labelIntersectActionList!.map((String value) {
+                          return DropdownMenuItem<String>(
                             value: value,
                             child: Text(
                               value,
-                              style: TextStyle(
-                                color: model.textColor,
-                              ),
-                            ));
-                      }).toList(),
-                      onChanged: (String? value) {
-                        _onLabelIntersectActionChange(value);
-                        stateSetter(() {});
-                      })),
-            ],
-          ),
-        ],
-      );
-    });
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
+                    onChanged: (String? value) {
+                      _onLabelIntersectActionChange(value);
+                      stateSetter(() {});
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -127,8 +129,9 @@ class _PieSmartDataLabelsState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
-        dataLabelMapper: (ChartSampleData data, int index) =>
-            data.x + ': ' + data.y.toString(),
+        dataLabelMapper:
+            (ChartSampleData data, int index) =>
+                data.x + ': ' + data.y.toString(),
         name: 'RIO',
         radius: '60%',
         dataLabelSettings: DataLabelSettings(
@@ -141,7 +144,7 @@ class _PieSmartDataLabelsState extends SampleViewState {
           ),
           labelIntersectAction: _labelIntersectAction,
         ),
-      )
+      ),
     ];
   }
 

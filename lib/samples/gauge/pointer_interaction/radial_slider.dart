@@ -36,92 +36,96 @@ class _RadialSliderExampleState extends SampleViewState {
     }
 
     return Scaffold(
-      backgroundColor: model.isWebFullView
-          ? Colors.transparent
-          : model.sampleOutputCardColor,
+      backgroundColor:
+          model.isWebFullView
+              ? Colors.transparent
+              : model.sampleOutputCardColor,
 
       /// Added separate view for sample browser tile view and expanded view.
       /// In tile view, slider widget is removed.
-      body: isCardView
-          ? _buildRadialSliderExample(true)
-          : Padding(
-              padding: model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
-                  : const EdgeInsets.fromLTRB(5, 0, 5, 0),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 7, // takes 70% of available height
-                    child: SfRadialGauge(
-                      axes: <RadialAxis>[
-                        RadialAxis(
-                          axisLineStyle: const AxisLineStyle(
-                            thickness: 0.2,
-                            thicknessUnit: GaugeSizeUnit.factor,
-                          ),
-                          showTicks: false,
-                          showLastLabel: true,
-                          onAxisTapped: handlePointerValueChanged,
-                          pointers: <GaugePointer>[
-                            RangePointer(
-                              value: _currentValue,
-                              color: model.primaryColor,
-                              onValueChanged: handlePointerValueChanged,
-                              onValueChangeEnd: handlePointerValueChanged,
-                              onValueChanging: handlePointerValueChanging,
-                              enableDragging: true,
-                              width: 0.2,
-                              sizeUnit: GaugeSizeUnit.factor,
+      body:
+          isCardView
+              ? _buildRadialSliderExample(true)
+              : Padding(
+                padding:
+                    model.isWebFullView
+                        ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
+                        : const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 7, // takes 70% of available height
+                      child: SfRadialGauge(
+                        axes: <RadialAxis>[
+                          RadialAxis(
+                            axisLineStyle: const AxisLineStyle(
+                              thickness: 0.2,
+                              thicknessUnit: GaugeSizeUnit.factor,
                             ),
-                            MarkerPointer(
-                              value: _markerValue,
-                              color: Colors.white,
-                              markerHeight: _firstMarkerSize,
-                              markerWidth: _firstMarkerSize,
-                              markerType: MarkerType.circle,
-                            ),
-                          ],
-                          annotations: <GaugeAnnotation>[
-                            GaugeAnnotation(
-                              angle: 0,
-                              widget: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                    '$_annotationValue%',
-                                    style: TextStyle(
-                                      fontSize: _annotationFontSize,
-                                      fontFamily: 'Times',
-                                      fontWeight: FontWeight.bold,
-                                      color: model.primaryColor,
-                                    ),
-                                  )
-                                ],
+                            showTicks: false,
+                            showLastLabel: true,
+                            onAxisTapped: handlePointerValueChanged,
+                            pointers: <GaugePointer>[
+                              RangePointer(
+                                value: _currentValue,
+                                color: model.primaryColor,
+                                onValueChanged: handlePointerValueChanged,
+                                onValueChangeEnd: handlePointerValueChanged,
+                                onValueChanging: handlePointerValueChanging,
+                                enableDragging: true,
+                                width: 0.2,
+                                sizeUnit: GaugeSizeUnit.factor,
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: model.isWebFullView ? 2 : 3,
-                    child: SizedBox(
-                      width: width,
-                      child: SfSlider(
-                        activeColor: model.primaryColor,
-                        inactiveColor:
-                            model.primaryColor.withValues(alpha: 0.4),
-                        min: 5,
-                        max: 100,
-                        onChanged: handlePointerValueChanged,
-                        value: _currentValue,
+                              MarkerPointer(
+                                value: _markerValue,
+                                color: Colors.white,
+                                markerHeight: _firstMarkerSize,
+                                markerWidth: _firstMarkerSize,
+                                markerType: MarkerType.circle,
+                              ),
+                            ],
+                            annotations: <GaugeAnnotation>[
+                              GaugeAnnotation(
+                                angle: 0,
+                                widget: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text(
+                                      '$_annotationValue%',
+                                      style: TextStyle(
+                                        fontSize: _annotationFontSize,
+                                        fontFamily: 'Times',
+                                        fontWeight: FontWeight.bold,
+                                        color: model.primaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      flex: model.isWebFullView ? 2 : 3,
+                      child: SizedBox(
+                        width: width,
+                        child: SfSlider(
+                          activeColor: model.primaryColor,
+                          inactiveColor: model.primaryColor.withValues(
+                            alpha: 0.4,
+                          ),
+                          min: 5,
+                          max: 100,
+                          onChanged: handlePointerValueChanged,
+                          value: _currentValue,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
     );
   }
 
@@ -167,23 +171,27 @@ class _RadialSliderExampleState extends SampleViewState {
 
   /// Returns the radial slider gauge
   Widget _buildRadialSliderExample(bool isTileView) {
-    return SfRadialGauge(axes: <RadialAxis>[
-      RadialAxis(
+    return SfRadialGauge(
+      axes: <RadialAxis>[
+        RadialAxis(
           axisLineStyle: const AxisLineStyle(
-              thickness: 0.2, thicknessUnit: GaugeSizeUnit.factor),
+            thickness: 0.2,
+            thicknessUnit: GaugeSizeUnit.factor,
+          ),
           showTicks: false,
           showLabels: false,
           radiusFactor: 1,
           pointers: <GaugePointer>[
             RangePointer(
-                width: 0.2,
-                color: model.primaryColor,
-                value: _cardCurrentValue,
-                onValueChanged: handleCardPointerValueChanged,
-                onValueChangeEnd: handleCardPointerValueChanged,
-                onValueChanging: handleCardPointerValueChanging,
-                enableDragging: true,
-                sizeUnit: GaugeSizeUnit.factor),
+              width: 0.2,
+              color: model.primaryColor,
+              value: _cardCurrentValue,
+              onValueChanged: handleCardPointerValueChanged,
+              onValueChangeEnd: handleCardPointerValueChanged,
+              onValueChanging: handleCardPointerValueChanging,
+              enableDragging: true,
+              sizeUnit: GaugeSizeUnit.factor,
+            ),
             MarkerPointer(
               value: _cardMarkerValue,
               color: Colors.white,
@@ -194,31 +202,36 @@ class _RadialSliderExampleState extends SampleViewState {
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
-                widget: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      _cardAnnotationValue,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Times',
-                          fontWeight: FontWeight.bold,
-                          color: model.primaryColor),
+              widget: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    _cardAnnotationValue,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Times',
+                      fontWeight: FontWeight.bold,
+                      color: model.primaryColor,
                     ),
-                    Text(
-                      '%',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Times',
-                          fontWeight: FontWeight.bold,
-                          color: model.primaryColor),
-                    )
-                  ],
-                ),
-                positionFactor: 0.13,
-                angle: 0)
-          ])
-    ]);
+                  ),
+                  Text(
+                    '%',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Times',
+                      fontWeight: FontWeight.bold,
+                      color: model.primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+              positionFactor: 0.13,
+              angle: 0,
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   double _currentValue = 60;

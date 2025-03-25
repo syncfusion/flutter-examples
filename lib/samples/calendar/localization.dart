@@ -55,41 +55,39 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
       ///  when we change the parent of the widget.
       key: _globalKey,
       data: model.themeData.copyWith(
-        colorScheme:
-            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
       ),
-      child: _getCalendar(
-        _calendarController,
-        _events,
-        _onViewChanged,
-      ),
+      child: _getCalendar(_calendarController, _events, _onViewChanged),
     );
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Row(
         children: <Widget>[
           Expanded(
-            child: _calendarController.view == CalendarView.month &&
-                    model.isWebFullView &&
-                    screenHeight < 800
-                ? Scrollbar(
-                    thumbVisibility: true,
-                    controller: _scrollController,
-                    child: ListView(
+            child:
+                _calendarController.view == CalendarView.month &&
+                        model.isWebFullView &&
+                        screenHeight < 800
+                    ? Scrollbar(
+                      thumbVisibility: true,
                       controller: _scrollController,
-                      children: <Widget>[
-                        Container(
-                          color: model.sampleOutputCardColor,
-                          height: 600,
-                          child: calendar,
-                        ),
-                      ],
+                      child: ListView(
+                        controller: _scrollController,
+                        children: <Widget>[
+                          Container(
+                            color: model.sampleOutputCardColor,
+                            height: 600,
+                            child: calendar,
+                          ),
+                        ],
+                      ),
+                    )
+                    : Container(
+                      color: model.sampleOutputCardColor,
+                      child: calendar,
                     ),
-                  )
-                : Container(
-                    color: model.sampleOutputCardColor,
-                    child: calendar,
-                  ),
           ),
         ],
       ),
@@ -201,12 +199,15 @@ class _CalendarLocalizationState extends LocalizationSampleViewState {
     colorCollection.add(const Color(0xFFE47C73));
     colorCollection.add(const Color(0xFF636363));
     colorCollection.add(const Color(0xFF0A8043));
-    final DateTime rangeStartDate =
-        DateTime.now().add(const Duration(days: -10));
+    final DateTime rangeStartDate = DateTime.now().add(
+      const Duration(days: -10),
+    );
     final DateTime rangeEndDate = DateTime.now().add(const Duration(days: 10));
-    for (DateTime i = rangeStartDate;
-        i.isBefore(rangeEndDate);
-        i = i.add(const Duration(days: 1))) {
+    for (
+      DateTime i = rangeStartDate;
+      i.isBefore(rangeEndDate);
+      i = i.add(const Duration(days: 1))
+    ) {
       final DateTime date = i;
       for (int j = 0; j < 2; j++) {
         final DateTime startDate = DateTime(date.year, date.month, date.day);

@@ -31,10 +31,12 @@ class _CustomgroupingDataGridState extends SampleViewState {
     super.initState();
     _isWebOrDesktop = model.isWeb || model.isDesktop;
     _columns = _obtainColumns();
-    customGroupingDataGridSource =
-        StockInfoDataGridSource(isGroupingSample: true);
-    customGroupingDataGridSource
-        .addColumnGroup(ColumnGroup(name: 'Total Sales', sortGroupRows: true));
+    customGroupingDataGridSource = StockInfoDataGridSource(
+      isGroupingSample: true,
+    );
+    customGroupingDataGridSource.addColumnGroup(
+      ColumnGroup(name: 'Total Sales', sortGroupRows: true),
+    );
   }
 
   @override
@@ -62,10 +64,7 @@ class _CustomgroupingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Name',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Name', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),
@@ -77,10 +76,7 @@ class _CustomgroupingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Q1',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Q1', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),
@@ -92,10 +88,7 @@ class _CustomgroupingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Q2',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Q2', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),
@@ -107,10 +100,7 @@ class _CustomgroupingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Q3',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Q3', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),
@@ -122,10 +112,7 @@ class _CustomgroupingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Q4',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Q4', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),
@@ -137,10 +124,7 @@ class _CustomgroupingDataGridState extends SampleViewState {
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
-            child: Text(
-              'Total Sales',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Text('Total Sales', overflow: TextOverflow.ellipsis),
           ),
         ),
       ),
@@ -150,14 +134,16 @@ class _CustomgroupingDataGridState extends SampleViewState {
   List<GridTableSummaryRow> _loadTableSummaryRows() {
     return <GridTableSummaryRow>[
       GridTableSummaryRow(
-          title: '{Sum}',
-          columns: <GridSummaryColumn>[
-            const GridSummaryColumn(
-                name: 'Sum',
-                columnName: 'Total Sales',
-                summaryType: GridSummaryType.sum),
-          ],
-          position: GridTableSummaryRowPosition.bottom),
+        title: '{Sum}',
+        columns: <GridSummaryColumn>[
+          const GridSummaryColumn(
+            name: 'Sum',
+            columnName: 'Total Sales',
+            summaryType: GridSummaryType.sum,
+          ),
+        ],
+        position: GridTableSummaryRowPosition.bottom,
+      ),
     ];
   }
 }

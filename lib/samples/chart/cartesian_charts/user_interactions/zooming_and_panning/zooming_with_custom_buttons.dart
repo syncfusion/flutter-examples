@@ -80,7 +80,7 @@ class _ButtonZoomingState extends SampleViewState {
       ChartSampleData(x: 60.56, y: 21),
       ChartSampleData(x: 62.87, y: 54),
       ChartSampleData(x: 63.8, y: 23),
-      ChartSampleData(x: 65.5, y: 54)
+      ChartSampleData(x: 65.5, y: 54),
     ];
   }
 
@@ -90,9 +90,7 @@ class _ButtonZoomingState extends SampleViewState {
       backgroundColor: model.sampleOutputCardColor,
       body: Padding(
         padding: EdgeInsets.fromLTRB(5, 0, 5, isCardView ? 0 : 50),
-        child: Container(
-          child: _buildChartContainer(),
-        ),
+        child: Container(child: _buildChartContainer()),
       ),
       floatingActionButton:
           isCardView ? null : _buildFloatingActionButtons(context),
@@ -123,19 +121,38 @@ class _ButtonZoomingState extends SampleViewState {
                     _buildZoomButton(Icons.remove, 'Zoom Out', () {
                       _zoomPan.zoomOut();
                     }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
-                    _buildZoomButton(Icons.keyboard_arrow_up, 'Pan Up', () {
-                      _zoomPan.panToDirection('top');
-                    }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
-                    _buildZoomButton(Icons.keyboard_arrow_down, 'Pan Down', () {
-                      _zoomPan.panToDirection('bottom');
-                    }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
-                    _buildZoomButton(Icons.keyboard_arrow_left, 'Pan Left', () {
-                      _zoomPan.panToDirection('left');
-                    }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
-                    _buildZoomButton(Icons.keyboard_arrow_right, 'Pan Right',
-                        () {
-                      _zoomPan.panToDirection('right');
-                    }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
+                    _buildZoomButton(
+                      Icons.keyboard_arrow_up,
+                      'Pan Up',
+                      () {
+                        _zoomPan.panToDirection('top');
+                      },
+                      const EdgeInsets.fromLTRB(20, 15, 0, 0),
+                    ),
+                    _buildZoomButton(
+                      Icons.keyboard_arrow_down,
+                      'Pan Down',
+                      () {
+                        _zoomPan.panToDirection('bottom');
+                      },
+                      const EdgeInsets.fromLTRB(20, 15, 0, 0),
+                    ),
+                    _buildZoomButton(
+                      Icons.keyboard_arrow_left,
+                      'Pan Left',
+                      () {
+                        _zoomPan.panToDirection('left');
+                      },
+                      const EdgeInsets.fromLTRB(20, 15, 0, 0),
+                    ),
+                    _buildZoomButton(
+                      Icons.keyboard_arrow_right,
+                      'Pan Right',
+                      () {
+                        _zoomPan.panToDirection('right');
+                      },
+                      const EdgeInsets.fromLTRB(20, 15, 0, 0),
+                    ),
                     _buildZoomButton(Icons.refresh, 'Reset', () {
                       _zoomPan.reset();
                     }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
@@ -143,19 +160,24 @@ class _ButtonZoomingState extends SampleViewState {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
   /// Builds a zoom button with an icon, tooltip, action, and padding.
-  Widget _buildZoomButton(IconData icon, String tooltipMessage,
-      VoidCallback onPressed, EdgeInsetsGeometry padding) {
+  Widget _buildZoomButton(
+    IconData icon,
+    String tooltipMessage,
+    VoidCallback onPressed,
+    EdgeInsetsGeometry padding,
+  ) {
     return Container(
-      width: model.isWebFullView
-          ? null
-          : (MediaQuery.of(context).size.width / 7) * 0.9,
+      width:
+          model.isWebFullView
+              ? null
+              : (MediaQuery.of(context).size.width / 7) * 0.9,
       padding: padding,
       child: Tooltip(
         message: tooltipMessage,
@@ -171,9 +193,7 @@ class _ButtonZoomingState extends SampleViewState {
   SfCartesianChart _buildButtonZoomingChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: const NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
-      ),
+      primaryXAxis: const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: const NumericAxis(
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0),

@@ -20,9 +20,11 @@ class PieDefault extends SampleView {
 class _PieDefaultState extends SampleViewState {
   _PieDefaultState();
   late List<ChartSampleData> _chartData;
+  late int _explodeIndex;
 
   @override
   void initState() {
+    _explodeIndex = 0;
     _chartData = <ChartSampleData>[
       ChartSampleData(x: 'David', y: 13, text: 'David \n 13%'),
       ChartSampleData(x: 'Steve', y: 24, text: 'Steve \n 24%'),
@@ -55,10 +57,15 @@ class _PieDefaultState extends SampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.y,
         dataLabelMapper: (ChartSampleData data, int index) => data.text,
         explode: true,
-        explodeIndex: 0,
+        explodeIndex: _explodeIndex,
         startAngle: 90,
         endAngle: 90,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
+        onPointTap: (ChartPointDetails details) {
+          setState(() {
+            _explodeIndex = details.pointIndex!;
+          });
+        },
       ),
     ];
   }

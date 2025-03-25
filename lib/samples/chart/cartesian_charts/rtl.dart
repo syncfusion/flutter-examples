@@ -65,10 +65,7 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
         Text(
           'Inverse \nx-axis',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
         SizedBox(
           width: 110,
@@ -95,10 +92,7 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
         Text(
           'Oppose \ny-axis',
           softWrap: false,
-          style: TextStyle(
-            fontSize: 16,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
         const SizedBox(width: 1),
         SizedBox(
@@ -122,14 +116,13 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
   /// Returns a cartesian column series chart with RTL support.
   Widget _buildDefaultLineChart() {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: (model.isWeb || model.isDesktop) ? 0 : 70.0),
+      padding: EdgeInsets.only(
+        bottom: (model.isWeb || model.isDesktop) ? 0 : 70.0,
+      ),
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
         title: ChartTitle(text: _title!),
-        legend: const Legend(
-          isVisible: true,
-        ),
+        legend: const Legend(isVisible: true),
         primaryXAxis: CategoryAxis(
           labelIntersectAction: AxisLabelIntersectAction.multipleRows,
           isInversed: _isInverseX,
@@ -161,19 +154,19 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.secondSeriesYValue,
         name: _secondSeriesName,
         color: const Color.fromRGBO(177, 183, 188, 1),
       ),
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.thirdSeriesYValue,
         name: _thirdSeriesName,
         color: const Color.fromRGBO(140, 92, 69, 1),
-      )
+      ),
     ];
   }
 
@@ -183,18 +176,35 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
     if (model.locale == const Locale('en', 'US')) {
       _chartData = <ChartSampleData>[
         ChartSampleData(
-            x: 'Norway', y: 16, secondSeriesYValue: 8, thirdSeriesYValue: 13),
+          x: 'Norway',
+          y: 16,
+          secondSeriesYValue: 8,
+          thirdSeriesYValue: 13,
+        ),
         ChartSampleData(
-            x: 'USA', y: 8, secondSeriesYValue: 10, thirdSeriesYValue: 7),
+          x: 'USA',
+          y: 8,
+          secondSeriesYValue: 10,
+          thirdSeriesYValue: 7,
+        ),
         ChartSampleData(
-            x: 'Germany', y: 12, secondSeriesYValue: 10, thirdSeriesYValue: 5),
+          x: 'Germany',
+          y: 12,
+          secondSeriesYValue: 10,
+          thirdSeriesYValue: 5,
+        ),
         ChartSampleData(
-            x: 'Canada', y: 4, secondSeriesYValue: 8, thirdSeriesYValue: 14),
+          x: 'Canada',
+          y: 4,
+          secondSeriesYValue: 8,
+          thirdSeriesYValue: 14,
+        ),
         ChartSampleData(
-            x: 'Netherlands',
-            y: 8,
-            secondSeriesYValue: 5,
-            thirdSeriesYValue: 4),
+          x: 'Netherlands',
+          y: 8,
+          secondSeriesYValue: 5,
+          thirdSeriesYValue: 4,
+        ),
       ];
       _title = 'Winter Olympic medals count - 2022';
       _firstSeriesName = 'Gold';
@@ -203,18 +213,35 @@ class _RTLModeChartState extends DirectionalitySampleViewState {
     } else if (model.locale == const Locale('ar', 'AE')) {
       _chartData = <ChartSampleData>[
         ChartSampleData(
-            x: 'النرويج', y: 16, secondSeriesYValue: 8, thirdSeriesYValue: 13),
+          x: 'النرويج',
+          y: 16,
+          secondSeriesYValue: 8,
+          thirdSeriesYValue: 13,
+        ),
         ChartSampleData(
-            x: 'الولايات المتحدة الأمريكية',
-            y: 8,
-            secondSeriesYValue: 10,
-            thirdSeriesYValue: 7),
+          x: 'الولايات المتحدة الأمريكية',
+          y: 8,
+          secondSeriesYValue: 10,
+          thirdSeriesYValue: 7,
+        ),
         ChartSampleData(
-            x: 'ألمانيا', y: 12, secondSeriesYValue: 10, thirdSeriesYValue: 5),
+          x: 'ألمانيا',
+          y: 12,
+          secondSeriesYValue: 10,
+          thirdSeriesYValue: 5,
+        ),
         ChartSampleData(
-            x: 'كندا', y: 4, secondSeriesYValue: 8, thirdSeriesYValue: 14),
+          x: 'كندا',
+          y: 4,
+          secondSeriesYValue: 8,
+          thirdSeriesYValue: 14,
+        ),
         ChartSampleData(
-            x: 'هولندا', y: 8, secondSeriesYValue: 5, thirdSeriesYValue: 4),
+          x: 'هولندا',
+          y: 8,
+          secondSeriesYValue: 5,
+          thirdSeriesYValue: 4,
+        ),
       ];
       _title = 'عدد الميداليات الأولمبية الشتوية - 2022';
       _firstSeriesName = 'ذهب';

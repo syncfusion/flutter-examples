@@ -64,9 +64,7 @@ class _LineMultiColorState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(
-        text: isCardView ? '' : 'Annual rainfall of Paris',
-      ),
+      title: ChartTitle(text: isCardView ? '' : 'Annual rainfall of Paris'),
       primaryXAxis: DateTimeAxis(
         intervalType: DateTimeIntervalType.years,
         dateFormat: DateFormat.y(),

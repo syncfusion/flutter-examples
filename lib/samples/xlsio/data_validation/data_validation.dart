@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 ///Local imports
 import '../../../model/sample_view.dart';
 import '../../common/export/save_file_mobile.dart'
-    if (dart.library.html) '../../common/export/save_file_web.dart';
+    if (dart.library.js_interop) '../../common/export/save_file_web.dart';
 
 /// Render XlsIO of data validation
 class DataValidationXlsIO extends SampleView {
@@ -31,23 +31,33 @@ class _DataValidationXlsIOState extends SampleViewState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-                'This sample shows how to use the data validation feature in Excel to control the type of data entered into a cell. This feature supports the following data validation rules:\r\n\r\n  * Drop-down list\r\n\r\n  * Number validation\r\n\r\n  * Time validation\r\n\r\n  * Date validation\r\n\r\n  * Text length validation',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
+              'This sample shows how to use the data validation feature in Excel to control the type of data entered into a cell. This feature supports the following data validation rules:\r\n\r\n  * Drop-down list\r\n\r\n  * Number validation\r\n\r\n  * Time validation\r\n\r\n  * Date validation\r\n\r\n  * Text length validation',
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
             const SizedBox(height: 20, width: 30),
             Align(
-                child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(model.primaryColor),
-                padding: model.isMobile
-                    ? null
-                    : WidgetStateProperty.all(const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15)),
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    model.primaryColor,
+                  ),
+                  padding:
+                      model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
+                            ),
+                          ),
+                ),
+                onPressed: _generateExcel,
+                child: const Text(
+                  'Generate Excel',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              onPressed: _generateExcel,
-              child: const Text('Generate Excel',
-                  style: TextStyle(color: Colors.white)),
-            ))
+            ),
           ],
         ),
       ),

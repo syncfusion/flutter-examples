@@ -24,8 +24,10 @@ class AxisAnimationDefault extends SampleView {
 /// the property panel.
 class _AxisAnimationDefaultState extends SampleViewState {
   _AxisAnimationDefaultState() {
-    _timer =
-        Timer.periodic(const Duration(milliseconds: 2000), _buildChartData);
+    _timer = Timer.periodic(
+      const Duration(milliseconds: 2000),
+      _buildChartData,
+    );
   }
 
   Timer? _timer;
@@ -60,10 +62,7 @@ class _AxisAnimationDefaultState extends SampleViewState {
             Text(
               'Enable axis elements\nanimation',
               textAlign: TextAlign.start,
-              style: TextStyle(
-                color: model.textColor,
-                fontSize: 16,
-              ),
+              style: TextStyle(color: model.textColor, fontSize: 16),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -111,7 +110,7 @@ class _AxisAnimationDefaultState extends SampleViewState {
         sortingOrder: SortingOrder.ascending,
         sortFieldValueMapper: (_ChartData sales, _) => sales.x,
         markerSettings: const MarkerSettings(isVisible: true),
-      )
+      ),
     ];
   }
 
@@ -141,10 +140,7 @@ class _AxisAnimationDefaultState extends SampleViewState {
   void _buildData(int count) {
     for (int i = 1; i <= 7; i++) {
       _chartData!.add(
-        _ChartData(
-          2 * (i + count),
-          _createRandomIntData(10, 95),
-        ),
+        _ChartData(2 * (i + count), _createRandomIntData(10, 95)),
       );
     }
   }

@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_pdf/pdf.dart';
 ///Local imports
 import '../../model/sample_view.dart';
 import 'helper/save_file_mobile.dart'
-    if (dart.library.html) 'helper/save_file_web.dart';
+    if (dart.library.js_interop) 'helper/save_file_web.dart';
 
 /// Encrypt PDF document
 class EncryptPdf extends SampleView {
@@ -30,101 +30,151 @@ class _EncryptPdfState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: model.sampleOutputCardColor,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: model.sampleOutputCardColor,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'This sample shows how to encrypt the existing PDF document with encryption standard like 40-bit RC4, 128-bit RC4, 128-bit AES, 256-bit AES, and advanced encryption standard 256-bit AES Revision 6 (PDF 2.0) to protect documents against unauthorized access.',
+                style: TextStyle(fontSize: 16, color: model.textColor),
+              ),
+              const SizedBox(height: 20, width: 30),
+              Text(
+                'Encryption Type',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: model.textColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10, width: 30),
+              if (MediaQuery.of(context).size.width > 800)
+                Row(children: getChildWidgets(context))
+              else
+                Column(children: getChildWidgets(context)),
+              const SizedBox(height: 10, width: 30),
+              Row(
                 children: <Widget>[
                   Text(
-                      'This sample shows how to encrypt the existing PDF document with encryption standard like 40-bit RC4, 128-bit RC4, 128-bit AES, 256-bit AES, and advanced encryption standard 256-bit AES Revision 6 (PDF 2.0) to protect documents against unauthorized access.',
-                      style: TextStyle(fontSize: 16, color: model.textColor)),
-                  const SizedBox(height: 20, width: 30),
-                  Text('Encryption Type',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: model.textColor,
-                          fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 10, width: 30),
-                  if (MediaQuery.of(context).size.width > 800)
-                    Row(children: getChildWidgets(context))
-                  else
-                    Column(children: getChildWidgets(context)),
-                  const SizedBox(height: 10, width: 30),
-                  Row(children: <Widget>[
-                    Text('User Password: ',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: model.textColor,
-                            fontWeight: FontWeight.bold)),
-                    Text('password@123',
-                        style: TextStyle(fontSize: 16, color: model.textColor)),
-                  ]),
-                  const SizedBox(height: 15, width: 30),
-                  Row(children: <Widget>[
-                    Text('Owner Password: ',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: model.textColor,
-                            fontWeight: FontWeight.bold)),
-                    Text('syncfusion',
-                        style: TextStyle(fontSize: 16, color: model.textColor)),
-                  ]),
-                  const SizedBox(height: 15, width: 30),
-                  Align(
-                      child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(model.primaryColor),
-                      padding: model.isMobile
-                          ? null
-                          : WidgetStateProperty.all(const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15)),
+                    'User Password: ',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: model.textColor,
+                      fontWeight: FontWeight.bold,
                     ),
-                    onPressed: _encryptPDF,
-                    child: const Text('Encrypt PDF',
-                        style: TextStyle(color: Colors.white)),
-                  ))
-                ]),
+                  ),
+                  Text(
+                    'password@123',
+                    style: TextStyle(fontSize: 16, color: model.textColor),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15, width: 30),
+              Row(
+                children: <Widget>[
+                  Text(
+                    'Owner Password: ',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: model.textColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'syncfusion',
+                    style: TextStyle(fontSize: 16, color: model.textColor),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15, width: 30),
+              Align(
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      model.primaryColor,
+                    ),
+                    padding:
+                        model.isMobile
+                            ? null
+                            : WidgetStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 15,
+                              ),
+                            ),
+                  ),
+                  onPressed: _encryptPDF,
+                  child: const Text(
+                    'Encrypt PDF',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   List<Widget> getChildWidgets(BuildContext context) {
     return <Widget>[
-      Row(children: <Widget>[
-        Radio<int>(value: 0, groupValue: _groupValue, onChanged: _changed),
-        Text('40-bit RC4',
-            style: TextStyle(fontSize: 16, color: model.textColor)),
-      ]),
-      Row(children: <Widget>[
-        Radio<int>(value: 1, groupValue: _groupValue, onChanged: _changed),
-        Text('128-bit RC4',
-            style: TextStyle(fontSize: 16, color: model.textColor)),
-      ]),
-      Row(children: <Widget>[
-        Radio<int>(value: 2, groupValue: _groupValue, onChanged: _changed),
-        Text('128-bit AES',
-            style: TextStyle(fontSize: 16, color: model.textColor)),
-      ]),
-      Row(children: <Widget>[
-        Radio<int>(value: 3, groupValue: _groupValue, onChanged: _changed),
-        Text('256-bit AES',
-            style: TextStyle(fontSize: 16, color: model.textColor)),
-      ]),
-      Row(children: <Widget>[
-        Radio<int>(value: 4, groupValue: _groupValue, onChanged: _changed),
-        Text('256-bit AES Revision 6',
-            style: TextStyle(fontSize: 16, color: model.textColor))
-      ])
+      Row(
+        children: <Widget>[
+          Radio<int>(value: 0, groupValue: _groupValue, onChanged: _changed),
+          Text(
+            '40-bit RC4',
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          Radio<int>(value: 1, groupValue: _groupValue, onChanged: _changed),
+          Text(
+            '128-bit RC4',
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          Radio<int>(value: 2, groupValue: _groupValue, onChanged: _changed),
+          Text(
+            '128-bit AES',
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          Radio<int>(value: 3, groupValue: _groupValue, onChanged: _changed),
+          Text(
+            '256-bit AES',
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          Radio<int>(value: 4, groupValue: _groupValue, onChanged: _changed),
+          Text(
+            '256-bit AES Revision 6',
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
+        ],
+      ),
     ];
   }
 
   Future<void> _encryptPDF() async {
     //Load the PDF document.
     final PdfDocument document = PdfDocument(
-        inputBytes: await _readDocumentData('credit_card_statement.pdf'));
+      inputBytes: await _readDocumentData('credit_card_statement.pdf'),
+    );
 
     // Get the PDF security.
     final PdfSecurity security = document.security;
@@ -139,7 +189,7 @@ class _EncryptPdfState extends SampleViewState {
     //Set the permissions.
     security.permissions.addAll(<PdfPermissionsFlags>[
       PdfPermissionsFlags.print,
-      PdfPermissionsFlags.fullQualityPrint
+      PdfPermissionsFlags.fullQualityPrint,
     ]);
 
     //Save and launch the document

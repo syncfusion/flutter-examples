@@ -43,9 +43,10 @@ class _DataPreProcessingSampleState extends SampleViewState
     )..repeat(reverse: true); // Repeats the animation back and forth
 
     // Define the animation
-    _animation = Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.8,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _demoData = <_ChartData>[
       _ChartData(DateTime(2024, 07), 150),
@@ -79,15 +80,16 @@ class _DataPreProcessingSampleState extends SampleViewState
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder: (context) => WelcomeDialog(
-            primaryColor: model.primaryColor,
-            apiKey: model.assistApiKey,
-            onApiKeySaved: (newApiKey) {
-              setState(() {
-                model.assistApiKey = newApiKey;
-              });
-            },
-          ),
+          builder:
+              (context) => WelcomeDialog(
+                primaryColor: model.primaryColor,
+                apiKey: model.assistApiKey,
+                onApiKeySaved: (newApiKey) {
+                  setState(() {
+                    model.assistApiKey = newApiKey;
+                  });
+                },
+              ),
         );
         model.isFirstTime = false;
       }
@@ -168,9 +170,7 @@ class _DataPreProcessingSampleState extends SampleViewState
                   children: [
                     _buildCartesianChart(),
                     if (_isLoading)
-                      const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                      const Center(child: CircularProgressIndicator()),
                     // Floating Action Button at the top.
                     _buildAIButton(),
                   ],
@@ -200,9 +200,7 @@ class _DataPreProcessingSampleState extends SampleViewState
                   children: [
                     _buildCartesianChart(),
                     if (_isLoading)
-                      const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                      const Center(child: CircularProgressIndicator()),
                   ],
                 ),
               ),
@@ -267,10 +265,7 @@ class _DataPreProcessingSampleState extends SampleViewState
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      legend: const Legend(
-        isVisible: true,
-        position: LegendPosition.top,
-      ),
+      legend: const Legend(isVisible: true, position: LegendPosition.top),
       primaryXAxis: DateTimeAxis(
         minimum: DateTime(2024, 07),
         maximum: DateTime(2024, 07, 01, 23),
@@ -278,11 +273,7 @@ class _DataPreProcessingSampleState extends SampleViewState
         majorGridLines: const MajorGridLines(width: 0),
         edgeLabelPlacement: EdgeLabelPlacement.shift,
       ),
-      primaryYAxis: const NumericAxis(
-        minimum: 140,
-        maximum: 320,
-        interval: 30,
-      ),
+      primaryYAxis: const NumericAxis(minimum: 140, maximum: 320, interval: 30),
       series: _buildLineSeries(),
     );
   }
@@ -304,11 +295,13 @@ class _DataPreProcessingSampleState extends SampleViewState
   String _generatePrompt() {
     final String prompt =
         'Clean the following e-commerce website traffic data, resolve outliers and fill missing values:\n' +
-            _demoData!
-                .map((d) =>
-                    "${DateFormat('yyyy-MM-dd-HH-m-ss').format(d.date)}: ${d.visitors}")
-                .join('\n') +
-            ' and the output cleaned data should be in the yyyy-MM-dd-HH-m-ss:Value format, no other explanation required\n';
+        _demoData!
+            .map(
+              (d) =>
+                  "${DateFormat('yyyy-MM-dd-HH-m-ss').format(d.date)}: ${d.visitors}",
+            )
+            .join('\n') +
+        ' and the output cleaned data should be in the yyyy-MM-dd-HH-m-ss:Value format, no other explanation required\n';
     return prompt;
   }
 
@@ -328,11 +321,13 @@ class _DataPreProcessingSampleState extends SampleViewState
           final visitors = double.tryParse(parts[1].trim());
           if (visitors != null) {
             final bool isCurrDataNull = _demoData![count].visitors == null;
-            final bool isNextDataNull = count + 1 < _demoData!.length &&
+            final bool isNextDataNull =
+                count + 1 < _demoData!.length &&
                 _demoData![count + 1].visitors == null;
-            color = isCurrDataNull || isNextDataNull
-                ? const Color(0xFFD84227)
-                : Colors.blue;
+            color =
+                isCurrDataNull || isNextDataNull
+                    ? const Color(0xFFD84227)
+                    : Colors.blue;
             aiData.add(_ChartData(date, visitors, color));
             count = count + 1;
           }

@@ -44,46 +44,54 @@ class _PieImageShaderState extends SampleViewState {
     const ImageProvider imageProvider = AssetImage('images/apple.png');
     imageProvider
         .resolve(ImageConfiguration.empty)
-        .addListener(ImageStreamListener((ImageInfo info, bool _) async {
-      completer.complete(info);
-      final ImageInfo imageInfo = await completer.future;
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) async {
+            completer.complete(info);
+            final ImageInfo imageInfo = await completer.future;
 
-      image1 = imageInfo.image;
-    }));
+            image1 = imageInfo.image;
+          }),
+        );
 
     final Completer<ImageInfo> completer1 = Completer<ImageInfo>();
     const ImageProvider imageProvider1 = AssetImage('images/orange.png');
     imageProvider1
         .resolve(ImageConfiguration.empty)
-        .addListener(ImageStreamListener((ImageInfo info, bool _) async {
-      completer1.complete(info);
-      final ImageInfo imageInfo1 = await completer1.future;
-      image2 = imageInfo1.image;
-    }));
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) async {
+            completer1.complete(info);
+            final ImageInfo imageInfo1 = await completer1.future;
+            image2 = imageInfo1.image;
+          }),
+        );
 
     final Completer<ImageInfo> completer2 = Completer<ImageInfo>();
     const ImageProvider imageProvider2 = AssetImage('images/pears.png');
     imageProvider2
         .resolve(ImageConfiguration.empty)
-        .addListener(ImageStreamListener((ImageInfo info, bool _) async {
-      completer2.complete(info);
-      final ImageInfo imageInfo2 = await completer2.future;
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) async {
+            completer2.complete(info);
+            final ImageInfo imageInfo2 = await completer2.future;
 
-      image3 = imageInfo2.image;
-    }));
+            image3 = imageInfo2.image;
+          }),
+        );
 
     final Completer<ImageInfo> completer3 = Completer<ImageInfo>();
     const ImageProvider imageProvider3 = AssetImage('images/other_fruits.png');
     imageProvider3
         .resolve(ImageConfiguration.empty)
-        .addListener(ImageStreamListener((ImageInfo info, bool _) async {
-      completer3.complete(info);
-      final ImageInfo imageInfo4 = await completer3.future;
-      image4 = imageInfo4.image;
-      if (mounted) {
-        setState(() {});
-      }
-    }));
+        .addListener(
+          ImageStreamListener((ImageInfo info, bool _) async {
+            completer3.complete(info);
+            final ImageInfo imageInfo4 = await completer3.future;
+            image4 = imageInfo4.image;
+            if (mounted) {
+              setState(() {});
+            }
+          }),
+        );
   }
 
   @override
@@ -144,9 +152,10 @@ class _PieImageShaderState extends SampleViewState {
             ],
             xValueMapper: (_ChartShaderData data, int index) => data.x,
             yValueMapper: (_ChartShaderData data, int index) => data.y,
-            strokeColor: model.themeData.brightness == Brightness.light
-                ? Colors.black.withValues(alpha: 0.5)
-                : Colors.transparent,
+            strokeColor:
+                model.themeData.brightness == Brightness.light
+                    ? Colors.black.withValues(alpha: 0.5)
+                    : Colors.transparent,
             strokeWidth: 1.5,
             explode: true,
             explodeAll: true,
@@ -160,9 +169,10 @@ class _PieImageShaderState extends SampleViewState {
               isVisible: true,
               labelPosition: ChartDataLabelPosition.outside,
               connectorLineSettings: ConnectorLineSettings(
-                color: model.themeData.brightness == Brightness.light
-                    ? Colors.black.withValues(alpha: 0.5)
-                    : Colors.white,
+                color:
+                    model.themeData.brightness == Brightness.light
+                        ? Colors.black.withValues(alpha: 0.5)
+                        : Colors.white,
                 width: 1.5,
                 length: isCardView ? '10%' : '15%',
                 type: ConnectorType.curve,
@@ -173,9 +183,7 @@ class _PieImageShaderState extends SampleViewState {
       );
     } else {
       _fetchImage();
-      renderWidget = const Center(
-        child: CircularProgressIndicator(),
-      );
+      renderWidget = const Center(child: CircularProgressIndicator());
     }
     return renderWidget!;
   }

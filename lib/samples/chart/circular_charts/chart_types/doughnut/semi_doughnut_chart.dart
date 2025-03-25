@@ -32,7 +32,7 @@ class _SemiDoughnutChartState extends SampleViewState {
       ChartSampleData(x: 'David', y: 45, text: 'David 45%'),
       ChartSampleData(x: 'Steve', y: 15, text: 'Steve 15%'),
       ChartSampleData(x: 'Jack', y: 21, text: 'Jack 21%'),
-      ChartSampleData(x: 'Others', y: 19, text: 'Others 19%')
+      ChartSampleData(x: 'Others', y: 19, text: 'Others 19%'),
     ];
     super.initState();
   }
@@ -42,10 +42,7 @@ class _SemiDoughnutChartState extends SampleViewState {
     // Build a settings view containing angle adjustment controls.
     return ListView(
       shrinkWrap: true,
-      children: <Widget>[
-        _buildStartAngleSetting(),
-        _buildEndAngleSetting(),
-      ],
+      children: <Widget>[_buildStartAngleSetting(), _buildEndAngleSetting()],
     );
   }
 
@@ -55,10 +52,7 @@ class _SemiDoughnutChartState extends SampleViewState {
       children: <Widget>[
         Text(
           'Start angle  ',
-          style: TextStyle(
-            fontSize: 16.0,
-            color: model.textColor,
-          ),
+          style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
@@ -66,9 +60,10 @@ class _SemiDoughnutChartState extends SampleViewState {
             minValue: 90,
             maxValue: 270,
             initialValue: _startAngle.toDouble(),
-            onChanged: (double val) => setState(() {
-              _startAngle = val.toInt();
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _startAngle = val.toInt();
+                }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -87,10 +82,7 @@ class _SemiDoughnutChartState extends SampleViewState {
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
           child: Text(
             'End angle ',
-            style: TextStyle(
-              fontSize: 16.0,
-              color: model.textColor,
-            ),
+            style: TextStyle(fontSize: 16.0, color: model.textColor),
           ),
         ),
         Container(
@@ -99,9 +91,10 @@ class _SemiDoughnutChartState extends SampleViewState {
             minValue: 90,
             maxValue: 270,
             initialValue: _endAngle.toDouble(),
-            onChanged: (double val) => setState(() {
-              _endAngle = val.toInt();
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _endAngle = val.toInt();
+                }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -143,7 +136,7 @@ class _SemiDoughnutChartState extends SampleViewState {
           isVisible: true,
           labelPosition: ChartDataLabelPosition.outside,
         ),
-      )
+      ),
     ];
   }
 

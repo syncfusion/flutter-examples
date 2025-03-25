@@ -40,9 +40,7 @@ class _AnimationSplineDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: const NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
-      ),
+      primaryXAxis: const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: const NumericAxis(
         majorTickLines: MajorTickLines(color: Colors.transparent),
         axisLine: AxisLine(width: 0),
@@ -75,9 +73,7 @@ class _AnimationSplineDefaultState extends SampleViewState {
   void _buildChartData() {
     _chartData = <_ChartData>[];
     for (int i = 0; i < 11; i++) {
-      _chartData!.add(
-        _ChartData(i, _buildRandomInt(15, 85)),
-      );
+      _chartData!.add(_ChartData(i, _buildRandomInt(15, 85)));
     }
     _timer?.cancel();
   }

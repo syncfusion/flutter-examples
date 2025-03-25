@@ -52,8 +52,9 @@ class _StepAreaState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: model.isWebFullView || !isCardView ? 0 : 60),
+      padding: EdgeInsets.only(
+        bottom: model.isWebFullView || !isCardView ? 0 : 60,
+      ),
       child: _buildStepAreaChart(),
     );
   }
@@ -86,17 +87,21 @@ class _StepAreaState extends SampleViewState {
 
   /// Returns the list of cartesian step area series.
   List<CartesianSeries<_StepAreaData, DateTime>> _buildStepAreaSeries(
-      bool isMaterial3, bool isLightMode) {
-    final Color seriesColor1 = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(6, 174, 224, 1)
-            : const Color.fromRGBO(255, 245, 0, 1))
-        : const Color.fromRGBO(75, 135, 185, 1);
-    final Color seriesColor2 = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(99, 85, 199, 1)
-            : const Color.fromRGBO(51, 182, 119, 1))
-        : const Color.fromRGBO(192, 108, 132, 1);
+    bool isMaterial3,
+    bool isLightMode,
+  ) {
+    final Color seriesColor1 =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(6, 174, 224, 1)
+                : const Color.fromRGBO(255, 245, 0, 1))
+            : const Color.fromRGBO(75, 135, 185, 1);
+    final Color seriesColor2 =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(99, 85, 199, 1)
+                : const Color.fromRGBO(51, 182, 119, 1))
+            : const Color.fromRGBO(192, 108, 132, 1);
     return <CartesianSeries<_StepAreaData, DateTime>>[
       StepAreaSeries<_StepAreaData, DateTime>(
         dataSource: chartData,
@@ -113,7 +118,7 @@ class _StepAreaState extends SampleViewState {
         color: seriesColor2.withValues(alpha: 0.6),
         borderColor: seriesColor2,
         name: 'Low',
-      )
+      ),
     ];
   }
 

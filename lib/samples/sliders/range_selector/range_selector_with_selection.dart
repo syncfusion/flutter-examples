@@ -78,7 +78,7 @@ class _RangeSelectorSelectionPageState extends SampleViewState
       _ChartData(DateTime(2019, 04, 27), 0.8),
       _ChartData(DateTime(2019, 04, 28), 0.8),
       _ChartData(DateTime(2019, 04, 29), 0.4),
-      _ChartData(DateTime(2019, 04, 30), 0.2)
+      _ChartData(DateTime(2019, 04, 30), 0.2),
     ];
   }
 
@@ -95,11 +95,13 @@ class _RangeSelectorSelectionPageState extends SampleViewState
     double dataUsage = 0;
     for (int i = 0; i < data.length; i++) {
       if (data[i].date.isAfter(
-              //ignore: avoid_as
-              (values.start as DateTime).subtract(const Duration(hours: 1))) &&
+            //ignore: avoid_as
+            (values.start as DateTime).subtract(const Duration(hours: 1)),
+          ) &&
           data[i].date.isBefore(
-              //ignore: avoid_as
-              (values.end as DateTime).add(const Duration(hours: 1)))) {
+            //ignore: avoid_as
+            (values.end as DateTime).add(const Duration(hours: 1)),
+          )) {
         dataUsage += data[i].runs;
       }
     }
@@ -131,22 +133,27 @@ class _RangeSelectorSelectionPageState extends SampleViewState
             child: Center(
               child: SfRangeSelectorTheme(
                 data: SfRangeSelectorThemeData(
-                    labelOffset: const Offset(0, 2),
-                    thumbColor: Colors.white,
-                    overlayColor: const Color.fromRGBO(0, 178, 206, 0.24),
-                    activeTrackColor: const Color.fromRGBO(0, 178, 206, 1),
-                    thumbStrokeColor: const Color.fromRGBO(0, 178, 206, 1),
-                    thumbStrokeWidth: 2.0,
-                    inactiveTrackColor: const Color.fromRGBO(194, 194, 194, 1),
-                    activeLabelStyle: TextStyle(
-                        fontSize: 12,
-                        color: themeData.textTheme.bodyLarge!.color!
-                            .withValues(alpha: 0.87)),
-                    inactiveLabelStyle: TextStyle(
-                        fontSize: 12,
-                        color: themeData.textTheme.bodyLarge!.color!
-                            .withValues(alpha: 0.87)),
-                    inactiveRegionColor: Colors.transparent),
+                  labelOffset: const Offset(0, 2),
+                  thumbColor: Colors.white,
+                  overlayColor: const Color.fromRGBO(0, 178, 206, 0.24),
+                  activeTrackColor: const Color.fromRGBO(0, 178, 206, 1),
+                  thumbStrokeColor: const Color.fromRGBO(0, 178, 206, 1),
+                  thumbStrokeWidth: 2.0,
+                  inactiveTrackColor: const Color.fromRGBO(194, 194, 194, 1),
+                  activeLabelStyle: TextStyle(
+                    fontSize: 12,
+                    color: themeData.textTheme.bodyLarge!.color!.withValues(
+                      alpha: 0.87,
+                    ),
+                  ),
+                  inactiveLabelStyle: TextStyle(
+                    fontSize: 12,
+                    color: themeData.textTheme.bodyLarge!.color!.withValues(
+                      alpha: 0.87,
+                    ),
+                  ),
+                  inactiveRegionColor: Colors.transparent,
+                ),
                 child: SfRangeSelector(
                   min: min,
                   max: max,
@@ -161,17 +168,19 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                     _setTotalDataUsage(values);
                   },
                   child: SizedBox(
-                    width: mediaQueryData.orientation == Orientation.landscape
-                        ? model.isWebFullView
-                            ? mediaQueryData.size.width * 0.5
-                            : mediaQueryData.size.width
-                        : mediaQueryData.size.width,
+                    width:
+                        mediaQueryData.orientation == Orientation.landscape
+                            ? model.isWebFullView
+                                ? mediaQueryData.size.width * 0.5
+                                : mediaQueryData.size.width
+                            : mediaQueryData.size.width,
                     height: mediaQueryData.size.height * 0.55 - 25,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: SfCartesianChart(
-                        title:
-                            const ChartTitle(text: 'Data Usage For April 2019'),
+                        title: const ChartTitle(
+                          text: 'Data Usage For April 2019',
+                        ),
                         margin: EdgeInsets.zero,
                         primaryXAxis: DateTimeAxis(
                           isVisible: false,
@@ -181,8 +190,10 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                           intervalType: DateTimeIntervalType.days,
                           enableAutoIntervalOnZooming: false,
                         ),
-                        primaryYAxis:
-                            const NumericAxis(isVisible: false, maximum: 26),
+                        primaryYAxis: const NumericAxis(
+                          isVisible: false,
+                          maximum: 26,
+                        ),
                         plotAreaBorderWidth: 0,
                         plotAreaBackgroundColor: Colors.transparent,
                         enableMultiSelection: true,
@@ -191,16 +202,29 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                             width: 0.8,
                             initialSelectedDataIndexes: selectedItems,
                             selectionBehavior: SelectionBehavior(
-                                enable: true,
-                                // unselectedOpacity: 0,
-                                selectedBorderColor:
-                                    const Color.fromRGBO(0, 178, 206, 1),
-                                selectedColor:
-                                    const Color.fromRGBO(0, 178, 206, 1),
-                                unselectedColor: Colors.transparent,
-                                unselectedBorderColor:
-                                    const Color.fromRGBO(194, 194, 194, 1),
-                                selectionController: rangeController),
+                              enable: true,
+                              // unselectedOpacity: 0,
+                              selectedBorderColor: const Color.fromRGBO(
+                                0,
+                                178,
+                                206,
+                                1,
+                              ),
+                              selectedColor: const Color.fromRGBO(
+                                0,
+                                178,
+                                206,
+                                1,
+                              ),
+                              unselectedColor: Colors.transparent,
+                              unselectedBorderColor: const Color.fromRGBO(
+                                194,
+                                194,
+                                194,
+                                1,
+                              ),
+                              selectionController: rangeController,
+                            ),
                             dashArray:
                                 model.isWebFullView ? null : <double>[3, 2],
                             color: const Color.fromRGBO(255, 255, 255, 0),
@@ -210,7 +234,7 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                             dataSource: data,
                             xValueMapper: (_ChartData score, _) => score.date,
                             yValueMapper: (_ChartData score, _) => score.runs,
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -220,10 +244,13 @@ class _RangeSelectorSelectionPageState extends SampleViewState
             ),
           ),
           Padding(
-            padding: mediaQueryData.orientation == Orientation.landscape ||
-                    model.isWebFullView
-                ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.025)
-                : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
+            padding:
+                mediaQueryData.orientation == Orientation.landscape ||
+                        model.isWebFullView
+                    ? EdgeInsets.only(
+                      bottom: mediaQueryData.size.height * 0.025,
+                    )
+                    : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
@@ -238,7 +265,7 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

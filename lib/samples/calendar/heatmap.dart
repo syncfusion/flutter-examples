@@ -43,8 +43,9 @@ class HeatMapCalendarCalendarState extends SampleViewState {
       ///  when we change the parent of the widget.
       key: _globalKey,
       data: model.themeData.copyWith(
-        colorScheme:
-            model.themeData.colorScheme.copyWith(secondary: model.primaryColor),
+        colorScheme: model.themeData.colorScheme.copyWith(
+          secondary: model.primaryColor,
+        ),
       ),
       child: _getHeatMapCalendar(),
     );
@@ -77,10 +78,7 @@ class HeatMapCalendarCalendarState extends SampleViewState {
                 children: <Widget>[
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('Less'),
-                      Text('More'),
-                    ],
+                    children: <Widget>[Text('Less'), Text('More')],
                   ),
                   Container(
                     height: 20,
@@ -128,26 +126,24 @@ class HeatMapCalendarCalendarState extends SampleViewState {
 
   /// Returns the builder for month cell.
   Widget _monthCellBuilder(
-      BuildContext buildContext, MonthCellDetails details) {
+    BuildContext buildContext,
+    MonthCellDetails details,
+  ) {
     final Color backgroundColor = _getMonthCellBackgroundColor(details.date);
-    final Color defaultColor = model.themeData != null &&
-            model.themeData.colorScheme.brightness == Brightness.dark
-        ? Colors.black54
-        : Colors.white;
+    final Color defaultColor =
+        model.themeData != null &&
+                model.themeData.colorScheme.brightness == Brightness.dark
+            ? Colors.black54
+            : Colors.white;
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(
-          color: defaultColor,
-          width: 0.5,
-        ),
+        border: Border.all(color: defaultColor, width: 0.5),
       ),
       child: Center(
         child: Text(
           details.date.day.toString(),
-          style: TextStyle(
-            color: _getCellTextColor(backgroundColor),
-          ),
+          style: TextStyle(color: _getCellTextColor(backgroundColor)),
         ),
       ),
     );

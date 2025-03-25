@@ -42,62 +42,74 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
 
   SfSliderTheme _activeSlider() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfSlider.vertical(
-          max: 100.0,
-          isInversed: _isInversed,
-          onChanged: (dynamic values) {
-            setState(() {
-              _activeSliderValue = values as double;
-            });
-          },
-          value: _activeSliderValue,
-          enableTooltip: true,
-          numberFormat: NumberFormat('#'),
-        ));
+      data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfSlider.vertical(
+        max: 100.0,
+        isInversed: _isInversed,
+        onChanged: (dynamic values) {
+          setState(() {
+            _activeSliderValue = values as double;
+          });
+        },
+        value: _activeSliderValue,
+        enableTooltip: true,
+        numberFormat: NumberFormat('#'),
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
     return Center(
-        child: SizedBox(
-            width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-            child: _buildMobileLayout()));
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
+        child: _buildMobileLayout(),
+      ),
+    );
   }
 
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.height / 10.0;
     return Padding(
-        padding: EdgeInsets.all(padding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(children: <Widget>[
+      padding: EdgeInsets.all(padding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
               Expanded(child: _activeSlider()),
-              const Text('Enabled')
-            ]),
-            Column(children: <Widget>[
+              const Text('Enabled'),
+            ],
+          ),
+          Column(
+            children: <Widget>[
               Expanded(child: _inactiveSlider()),
-              const Text('Disabled')
-            ]),
-          ],
-        ));
+              const Text('Disabled'),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget slider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 350
-          ? slider
-          : SingleChildScrollView(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget slider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 350
+            ? slider
+            : SingleChildScrollView(
               child: SizedBox(
-              height: 400,
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0), child: slider),
-            ));
-    });
+                height: 400,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: slider,
+                ),
+              ),
+            );
+      },
+    );
   }
 
   @override

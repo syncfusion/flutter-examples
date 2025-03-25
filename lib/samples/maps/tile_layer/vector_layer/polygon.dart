@@ -32,47 +32,46 @@ class _MapPolygonPageState extends SampleViewState {
   late bool _isLightTheme;
 
   Widget get _expandableAnimatedButton => Padding(
-        padding: EdgeInsets.all(_isDesktop ? 8.0 : 10.0),
-        child: ExpandableAnimatedButton(
-          dataCount: _polygonData.length,
-          builder: (int index, BuildContext context) {
-            return _ExpandedButton(
-              text: _polygonData[index].name,
-              color: _polygonData[index].color,
-              textStyle: const TextStyle(color: Colors.white),
-              size: 35,
-              isSelected: index == _selectedIndex,
-              opacity: 1.0,
-              onSelectionChanged: (bool isSelected) {
-                setState(() {
-                  _selectedIndex = index;
-                  if (index == 0) {
-                    _boundaryJson = 'assets/maps_france_boundary.json';
-                    // France coordinate.
-                    _zoomPanBehavior
-                      ..zoomLevel = 4
-                      ..focalLatLng = const MapLatLng(46.2276, 2.2137);
-                  } else if (index == 1) {
-                    _boundaryJson = 'assets/maps_brazil_boundary.json';
-                    // Brazil coordinate.
-                    _zoomPanBehavior
-                      ..zoomLevel = 3
-                      ..focalLatLng = const MapLatLng(-14.2350, -51.9253);
-                  } else if (index == 2) {
-                    _boundaryJson = 'assets/maps_uk_boundary.json';
-                    // UK coordinate.
-                    _zoomPanBehavior
-                      ..zoomLevel = 4
-                      ..focalLatLng = const MapLatLng(55.3781, -3.4360);
-                  }
-                });
-              },
-              child:
-                  Image.asset(_polygonData[index].imagePath, fit: BoxFit.cover),
-            );
+    padding: EdgeInsets.all(_isDesktop ? 8.0 : 10.0),
+    child: ExpandableAnimatedButton(
+      dataCount: _polygonData.length,
+      builder: (int index, BuildContext context) {
+        return _ExpandedButton(
+          text: _polygonData[index].name,
+          color: _polygonData[index].color,
+          textStyle: const TextStyle(color: Colors.white),
+          size: 35,
+          isSelected: index == _selectedIndex,
+          opacity: 1.0,
+          onSelectionChanged: (bool isSelected) {
+            setState(() {
+              _selectedIndex = index;
+              if (index == 0) {
+                _boundaryJson = 'assets/maps_france_boundary.json';
+                // France coordinate.
+                _zoomPanBehavior
+                  ..zoomLevel = 4
+                  ..focalLatLng = const MapLatLng(46.2276, 2.2137);
+              } else if (index == 1) {
+                _boundaryJson = 'assets/maps_brazil_boundary.json';
+                // Brazil coordinate.
+                _zoomPanBehavior
+                  ..zoomLevel = 3
+                  ..focalLatLng = const MapLatLng(-14.2350, -51.9253);
+              } else if (index == 2) {
+                _boundaryJson = 'assets/maps_uk_boundary.json';
+                // UK coordinate.
+                _zoomPanBehavior
+                  ..zoomLevel = 4
+                  ..focalLatLng = const MapLatLng(55.3781, -3.4360);
+              }
+            });
           },
-        ),
-      );
+          child: Image.asset(_polygonData[index].imagePath, fit: BoxFit.cover),
+        );
+      },
+    ),
+  );
 
   Widget _toggleButtons(ThemeData themeData) {
     _isLightTheme = themeData.colorScheme.brightness == Brightness.light;
@@ -86,7 +85,7 @@ class _MapPolygonPageState extends SampleViewState {
               color: Color.fromRGBO(0, 0, 0, 0.24),
               blurRadius: 6,
               offset: Offset(0, 2),
-            )
+            ),
           ],
         ),
         child: Row(
@@ -104,11 +103,14 @@ class _MapPolygonPageState extends SampleViewState {
                       _isInvertedPolygon = true;
                     });
                   },
-                  child: _isLightTheme
-                      ? _buildButtonIcons(
-                          'images/maps_inverted_polygon_light.png')
-                      : _buildButtonIcons(
-                          'images/maps_inverted_polygon_dark.png'),
+                  child:
+                      _isLightTheme
+                          ? _buildButtonIcons(
+                            'images/maps_inverted_polygon_light.png',
+                          )
+                          : _buildButtonIcons(
+                            'images/maps_inverted_polygon_dark.png',
+                          ),
                 ),
               ),
             ),
@@ -124,11 +126,14 @@ class _MapPolygonPageState extends SampleViewState {
                       _isInvertedPolygon = false;
                     });
                   },
-                  child: _isLightTheme
-                      ? _buildButtonIcons(
-                          'images/maps_default_polygon_light.png')
-                      : _buildButtonIcons(
-                          'images/maps_default_polygon_dark.png'),
+                  child:
+                      _isLightTheme
+                          ? _buildButtonIcons(
+                            'images/maps_default_polygon_light.png',
+                          )
+                          : _buildButtonIcons(
+                            'images/maps_default_polygon_dark.png',
+                          ),
                 ),
               ),
             ),
@@ -140,41 +145,38 @@ class _MapPolygonPageState extends SampleViewState {
 
   ButtonStyle _getButtonStyle(bool isSelected) {
     return ButtonStyle(
-      backgroundColor: WidgetStateProperty.resolveWith<Color>(
-        (Set<WidgetState> states) {
-          if (states.contains(WidgetState.hovered)) {
-            return _isLightTheme
-                ? const Color.fromRGBO(217, 217, 217, 1.0)
-                : const Color.fromRGBO(102, 102, 102, 1.0);
-          }
-          return isSelected
-              ? (_isLightTheme
-                  ? const Color.fromRGBO(250, 250, 250, 1.0)
-                  : const Color.fromRGBO(66, 66, 66, 1.0))
-              : (_isLightTheme
-                  ? const Color.fromRGBO(230, 230, 230, 1.0)
-                  : const Color.fromRGBO(
-                      88, 88, 88, 1.0)); // Use the component's default.
-        },
-      ),
+      backgroundColor: WidgetStateProperty.resolveWith<Color>((
+        Set<WidgetState> states,
+      ) {
+        if (states.contains(WidgetState.hovered)) {
+          return _isLightTheme
+              ? const Color.fromRGBO(217, 217, 217, 1.0)
+              : const Color.fromRGBO(102, 102, 102, 1.0);
+        }
+        return isSelected
+            ? (_isLightTheme
+                ? const Color.fromRGBO(250, 250, 250, 1.0)
+                : const Color.fromRGBO(66, 66, 66, 1.0))
+            : (_isLightTheme
+                ? const Color.fromRGBO(230, 230, 230, 1.0)
+                : const Color.fromRGBO(
+                  88,
+                  88,
+                  88,
+                  1.0,
+                )); // Use the component's default.
+      }),
       shape: WidgetStateProperty.all<OutlinedBorder>(
         const RoundedRectangleBorder(
           side: BorderSide(color: Colors.transparent),
         ),
       ),
-      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-        EdgeInsets.zero,
-      ),
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.zero),
     );
   }
 
   Widget _buildButtonIcons(String imagePath) {
-    return Center(
-        child: Image.asset(
-      imagePath,
-      height: 20,
-      width: 20,
-    ));
+    return Center(child: Image.asset(imagePath, height: 20, width: 20));
   }
 
   Future<Set<MapPolygon>> _getPolygonPoints() async {
@@ -213,12 +215,9 @@ class _MapPolygonPageState extends SampleViewState {
   }
 
   Set<MapPolygon> _getPolygons(List<List<MapLatLng>> polygonPoints) {
-    return List<MapPolygon>.generate(
-      polygonPoints.length,
-      (int index) {
-        return MapPolygon(points: polygonPoints[index]);
-      },
-    ).toSet();
+    return List<MapPolygon>.generate(polygonPoints.length, (int index) {
+      return MapPolygon(points: polygonPoints[index]);
+    }).toSet();
   }
 
   MapSublayer _getPolygonLayer(Set<MapPolygon> polygons) {
@@ -240,12 +239,21 @@ class _MapPolygonPageState extends SampleViewState {
   @override
   void initState() {
     _polygonData = <PolygonDataModel>[
-      PolygonDataModel('France', 'images/maps_france.png',
-          color: const Color.fromRGBO(237, 41, 57, 1.0)),
-      PolygonDataModel('Brazil', 'images/maps_brazil.png',
-          color: const Color.fromRGBO(7, 154, 73, 1.0)),
-      PolygonDataModel('United Kingdom', 'images/maps_UK.png',
-          color: const Color.fromRGBO(1, 33, 105, 1.0)),
+      PolygonDataModel(
+        'France',
+        'images/maps_france.png',
+        color: const Color.fromRGBO(237, 41, 57, 1.0),
+      ),
+      PolygonDataModel(
+        'Brazil',
+        'images/maps_brazil.png',
+        color: const Color.fromRGBO(7, 154, 73, 1.0),
+      ),
+      PolygonDataModel(
+        'United Kingdom',
+        'images/maps_UK.png',
+        color: const Color.fromRGBO(1, 33, 105, 1.0),
+      ),
     ];
     _zoomPanBehavior = MapZoomPanBehavior(
       zoomLevel: 3,
@@ -268,7 +276,8 @@ class _MapPolygonPageState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    _isDesktop = kIsWeb ||
+    _isDesktop =
+        kIsWeb ||
         themeData.platform == TargetPlatform.macOS ||
         themeData.platform == TargetPlatform.windows ||
         themeData.platform == TargetPlatform.linux;
@@ -303,8 +312,8 @@ class _MapPolygonPageState extends SampleViewState {
 }
 
 /// Builder for expanded button
-typedef ExpandableButtonWidgetBuilder = _ExpandedButton Function(
-    int index, BuildContext context);
+typedef ExpandableButtonWidgetBuilder =
+    _ExpandedButton Function(int index, BuildContext context);
 
 /// Renders the expandable animated button
 class ExpandableAnimatedButton extends StatefulWidget {
@@ -336,8 +345,9 @@ class ExpandableAnimatedButton extends StatefulWidget {
 
 class _ExpandableAnimatedButtonState extends State<ExpandableAnimatedButton> {
   WrapCrossAlignment _getCrossAxisAlignment(BuildContext context) {
-    final Alignment alignment =
-        widget.alignment.resolve(Directionality.of(context));
+    final Alignment alignment = widget.alignment.resolve(
+      Directionality.of(context),
+    );
     return alignment.x == -1
         ? WrapCrossAlignment.start
         : WrapCrossAlignment.end;
@@ -365,9 +375,10 @@ class _ExpandableAnimatedButtonState extends State<ExpandableAnimatedButton> {
 }
 
 class _InheritedExpandableAnimatedButton extends InheritedWidget {
-  const _InheritedExpandableAnimatedButton(
-      {required Widget child, required this.alignment})
-      : super(child: child);
+  const _InheritedExpandableAnimatedButton({
+    required Widget child,
+    required this.alignment,
+  }) : super(child: child);
 
   final WrapCrossAlignment alignment;
 
@@ -382,8 +393,6 @@ class _ExpandedButton extends StatefulWidget {
     required this.text,
     required this.child,
     required this.color,
-    // ignore: unused_element
-    this.padding = const EdgeInsets.symmetric(horizontal: 10.0),
     this.size = 45.0,
     this.opacity = 0.5,
     required this.textStyle,
@@ -394,7 +403,6 @@ class _ExpandedButton extends StatefulWidget {
   final String text;
   final Widget child;
   final Color color;
-  final EdgeInsetsGeometry padding;
   final double size;
   final double opacity;
   final TextStyle textStyle;
@@ -413,25 +421,25 @@ class _ExpandedButtonState extends State<_ExpandedButton>
   late _InheritedExpandableAnimatedButton _ancestor;
 
   Widget get _text => SizeTransition(
-        sizeFactor: _animation,
-        axis: Axis.horizontal,
-        axisAlignment: -1.0,
-        child: Center(
-          child: Padding(
-            padding: widget.padding,
-            child: Text(widget.text, style: widget.textStyle),
-          ),
-        ),
-      );
+    sizeFactor: _animation,
+    axis: Axis.horizontal,
+    axisAlignment: -1.0,
+    child: Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Text(widget.text, style: widget.textStyle),
+      ),
+    ),
+  );
 
   Widget get _image => ClipRRect(
-        borderRadius: BorderRadius.circular(widget.size / 2),
-        child: SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: widget.child,
-        ),
-      );
+    borderRadius: BorderRadius.circular(widget.size / 2),
+    child: SizedBox(
+      width: widget.size,
+      height: widget.size,
+      child: widget.child,
+    ),
+  );
 
   void _forward() {
     if (!widget.isSelected) {
@@ -457,8 +465,11 @@ class _ExpandedButtonState extends State<_ExpandedButton>
 
   @override
   void didChangeDependencies() {
-    _ancestor = context.dependOnInheritedWidgetOfExactType<
-        _InheritedExpandableAnimatedButton>()!;
+    _ancestor =
+        context
+            .dependOnInheritedWidgetOfExactType<
+              _InheritedExpandableAnimatedButton
+            >()!;
     super.didChangeDependencies();
   }
 
@@ -500,9 +511,10 @@ class _ExpandedButtonState extends State<_ExpandedButton>
               height: widget.size,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: _ancestor.alignment == WrapCrossAlignment.end
-                    ? <Widget>[_text, _image]
-                    : <Widget>[_image, _text],
+                children:
+                    _ancestor.alignment == WrapCrossAlignment.end
+                        ? <Widget>[_text, _image]
+                        : <Widget>[_image, _text],
               ),
             ),
           ),

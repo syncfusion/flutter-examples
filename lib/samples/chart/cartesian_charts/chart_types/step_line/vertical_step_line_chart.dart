@@ -59,10 +59,7 @@ class _StepLineVerticalState extends SampleViewState {
         dateFormat: DateFormat.y(),
         interval: 5,
       ),
-      primaryYAxis: const NumericAxis(
-        labelFormat: '{value}%',
-        interval: 5,
-      ),
+      primaryYAxis: const NumericAxis(labelFormat: '{value}%', interval: 5),
       series: _buildStepLineSeries(),
       legend: Legend(isVisible: !isCardView),
       tooltipBehavior: _tooltipBehavior,
@@ -82,8 +79,8 @@ class _StepLineVerticalState extends SampleViewState {
       StepLineSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper: (ChartSampleData sales, int index) =>
-            sales.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
         name: 'Australia',
         markerSettings: _markerSettings,
       ),

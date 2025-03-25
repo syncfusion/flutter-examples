@@ -57,7 +57,7 @@ class _LiveVerticalState extends SampleViewState {
       ChartSampleData(x: 2, y: 20),
       ChartSampleData(x: 3, y: 10),
       ChartSampleData(x: 4, y: 32),
-      ChartSampleData(x: 5, y: 19)
+      ChartSampleData(x: 5, y: 19),
     ];
   }
 
@@ -68,7 +68,7 @@ class _LiveVerticalState extends SampleViewState {
       ChartSampleData(x: 2, y: 53),
       ChartSampleData(x: 3, y: 28),
       ChartSampleData(x: 4, y: 39),
-      ChartSampleData(x: 5, y: 48)
+      ChartSampleData(x: 5, y: 48),
     ];
   }
 
@@ -87,54 +87,63 @@ class _LiveVerticalState extends SampleViewState {
 
   /// Builds the floating action button for adding and removing series.
   Widget _buildFloatingActionButton() {
-    return Stack(children: <Widget>[
-      Align(
-        alignment: Alignment.bottomRight,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
-          child: SizedBox(
-            height: 45,
-            width: model.isWebFullView ? 140 : 110,
-            child: InkWell(
-              splashColor: Colors.transparent,
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: model.isWebFullView ? 65 : 45,
-                    height: 50,
-                    child: IconButton(
-                      splashColor: Colors.transparent,
-                      icon: Icon(Icons.add_circle,
-                          size: 50, color: model.primaryColor),
-                      onPressed: () {
-                        setState(() {
-                          _addSeries();
-                        });
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    child: SizedBox(
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
+            child: SizedBox(
+              height: 45,
+              width: model.isWebFullView ? 140 : 110,
+              child: InkWell(
+                splashColor: Colors.transparent,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
                       width: model.isWebFullView ? 65 : 45,
                       height: 50,
                       child: IconButton(
                         splashColor: Colors.transparent,
-                        icon: Icon(Icons.remove_circle,
-                            size: 50, color: model.primaryColor),
-                        onPressed: () => setState(() {
-                          _removeSeries();
-                        }),
+                        icon: Icon(
+                          Icons.add_circle,
+                          size: 50,
+                          color: model.primaryColor,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _addSeries();
+                          });
+                        },
                       ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: SizedBox(
+                        width: model.isWebFullView ? 65 : 45,
+                        height: 50,
+                        child: IconButton(
+                          splashColor: Colors.transparent,
+                          icon: Icon(
+                            Icons.remove_circle,
+                            size: 50,
+                            color: model.primaryColor,
+                          ),
+                          onPressed:
+                              () => setState(() {
+                                _removeSeries();
+                              }),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 
   /// Returns the chart with add and remove series options.
@@ -142,11 +151,13 @@ class _LiveVerticalState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       primaryXAxis: const NumericAxis(
-          majorGridLines: MajorGridLines(width: 0),
-          edgeLabelPlacement: EdgeLabelPlacement.shift),
+        majorGridLines: MajorGridLines(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+      ),
       primaryYAxis: const NumericAxis(
-          axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(size: 0)),
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
+      ),
       series: _series,
     );
   }
@@ -171,12 +182,14 @@ class _LiveVerticalState extends SampleViewState {
     for (int i = 0; i <= 6; i++) {
       chartData1.add(ChartSampleData(x: i, y: _generateRandomInteger(10, 50)));
     }
-    _series.add(LineSeries<ChartSampleData, int>(
-      key: ValueKey<String>('${_series.length}'),
-      dataSource: chartData1,
-      xValueMapper: (ChartSampleData data, int index) => data.x,
-      yValueMapper: (ChartSampleData data, int index) => data.y,
-    ));
+    _series.add(
+      LineSeries<ChartSampleData, int>(
+        key: ValueKey<String>('${_series.length}'),
+        dataSource: chartData1,
+        xValueMapper: (ChartSampleData data, int index) => data.x,
+        yValueMapper: (ChartSampleData data, int index) => data.y,
+      ),
+    );
     count++;
     if (count == 8) {
       count = 0;

@@ -90,24 +90,31 @@ class _LegendDefaultState extends SampleViewState {
   @override
   Widget buildSettings(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter stateSetter) {
-      return ListView(shrinkWrap: true, children: <Widget>[
-        Row(
+      builder: (BuildContext context, StateSetter stateSetter) {
+        return ListView(
+          shrinkWrap: true,
           children: <Widget>[
-            Expanded(
-                flex: 14,
-                child: Column(children: <Widget>[
-                  _buildPositionDropdown(stateSetter),
-                  const SizedBox(height: 4),
-                  _buildOverflowModeDropdown(stateSetter),
-                  const SizedBox(height: 6),
-                  _buildScrollbarCheckbox(stateSetter),
-                ])),
-            Expanded(flex: model.isMobile ? 7 : 1, child: Container()),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 14,
+                  child: Column(
+                    children: <Widget>[
+                      _buildPositionDropdown(stateSetter),
+                      const SizedBox(height: 4),
+                      _buildOverflowModeDropdown(stateSetter),
+                      const SizedBox(height: 6),
+                      _buildScrollbarCheckbox(stateSetter),
+                    ],
+                  ),
+                ),
+                Expanded(flex: model.isMobile ? 7 : 1, child: Container()),
+              ],
+            ),
           ],
-        ),
-      ]);
-    });
+        );
+      },
+    );
   }
 
   /// Builds the dropdown for selecting the position.
@@ -116,34 +123,38 @@ class _LegendDefaultState extends SampleViewState {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Flexible(
-          child: Text('Position',
-              softWrap: false,
-              style: TextStyle(
-                fontSize: 16,
-                color: model.textColor,
-              )),
+          child: Text(
+            'Position',
+            softWrap: false,
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
         ),
         Flexible(
           child: SizedBox(
-              width: 80,
-              child: DropdownButton<String>(
-                  dropdownColor: model.drawerBackgroundColor,
-                  focusColor: Colors.transparent,
-                  isExpanded: true,
-                  underline:
-                      Container(color: const Color(0xFFBDBDBD), height: 1),
-                  value: _selectedPosition,
-                  items: _positionList!.map((String value) {
+            width: 80,
+            child: DropdownButton<String>(
+              dropdownColor: model.drawerBackgroundColor,
+              focusColor: Colors.transparent,
+              isExpanded: true,
+              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+              value: _selectedPosition,
+              items:
+                  _positionList!.map((String value) {
                     return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'auto',
-                        child: Text(value,
-                            style: TextStyle(color: model.textColor)));
+                      value: (value != null) ? value : 'auto',
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
                   }).toList(),
-                  onChanged: (dynamic value) {
-                    _updateLegendPosition(value.toString());
-                    stateSetter(() {});
-                  })),
-        )
+              onChanged: (dynamic value) {
+                _updateLegendPosition(value.toString());
+                stateSetter(() {});
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -154,34 +165,38 @@ class _LegendDefaultState extends SampleViewState {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Flexible(
-          child: Text(model.isWebFullView ? 'Overflow \nmode' : 'Overflow mode',
-              softWrap: false,
-              style: TextStyle(
-                fontSize: 16,
-                color: model.textColor,
-              )),
+          child: Text(
+            model.isWebFullView ? 'Overflow \nmode' : 'Overflow mode',
+            softWrap: false,
+            style: TextStyle(fontSize: 16, color: model.textColor),
+          ),
         ),
         Flexible(
           child: SizedBox(
             width: 80,
             child: DropdownButton<String>(
-                dropdownColor: model.drawerBackgroundColor,
-                focusColor: Colors.transparent,
-                isExpanded: true,
-                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-                value: _selectedMode,
-                items: _modeList!.map((String value) {
-                  return DropdownMenuItem<String>(
+              dropdownColor: model.drawerBackgroundColor,
+              focusColor: Colors.transparent,
+              isExpanded: true,
+              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+              value: _selectedMode,
+              items:
+                  _modeList!.map((String value) {
+                    return DropdownMenuItem<String>(
                       value: (value != null) ? value : 'wrap',
-                      child: Text(value,
-                          style: TextStyle(color: model.textColor)));
-                }).toList(),
-                onChanged: (dynamic value) {
-                  _updateLegendOverflowMode(value);
-                  stateSetter(() {});
-                }),
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+              onChanged: (dynamic value) {
+                _updateLegendOverflowMode(value);
+                stateSetter(() {});
+              },
+            ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -194,27 +209,28 @@ class _LegendDefaultState extends SampleViewState {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Flexible(
-            child: Text('Show scrollbar \nalways',
-                softWrap: false,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: model.textColor,
-                )),
+            child: Text(
+              'Show scrollbar \nalways',
+              softWrap: false,
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
           ),
           Flexible(
             child: Container(
-                width: 90,
-                alignment: Alignment.centerLeft,
-                child: Checkbox(
-                    activeColor: model.primaryColor,
-                    value: _shouldAlwaysShowScrollbar,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _shouldAlwaysShowScrollbar = value!;
-                        stateSetter(() {});
-                      });
-                    })),
-          )
+              width: 90,
+              alignment: Alignment.centerLeft,
+              child: Checkbox(
+                activeColor: model.primaryColor,
+                value: _shouldAlwaysShowScrollbar,
+                onChanged: (bool? value) {
+                  setState(() {
+                    _shouldAlwaysShowScrollbar = value!;
+                    stateSetter(() {});
+                  });
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -71,9 +71,7 @@ class _LiveLineChartState extends SampleViewState {
   SfCartesianChart _buildLiveLineChart() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      primaryXAxis: const NumericAxis(
-        majorGridLines: MajorGridLines(width: 0),
-      ),
+      primaryXAxis: const NumericAxis(majorGridLines: MajorGridLines(width: 0)),
       primaryYAxis: const NumericAxis(
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(size: 0),
@@ -85,11 +83,12 @@ class _LiveLineChartState extends SampleViewState {
           yValueMapper: (_ChartSampleData data, int index) => data.sales,
           color: const Color.fromRGBO(192, 108, 132, 1),
           animationDuration: 0,
-          onRendererCreated:
-              (ChartSeriesController<_ChartSampleData, int> controller) {
+          onRendererCreated: (
+            ChartSeriesController<_ChartSampleData, int> controller,
+          ) {
             _chartSeriesController = controller;
           },
-        )
+        ),
       ],
     );
   }

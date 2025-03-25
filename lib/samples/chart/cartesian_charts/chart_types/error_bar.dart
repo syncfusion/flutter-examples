@@ -35,6 +35,7 @@ class _ErrorBarDefaultState extends SampleViewState {
   RenderingMode? _selectedErrorBarMode;
   ErrorBarType? _selectedErrorBarType;
   Direction? _selectedErrorBarDirection;
+  Color? _errorBarColor;
   List<SalesData>? _chartData;
   TooltipBehavior? _tooltipBehavior;
 
@@ -55,13 +56,14 @@ class _ErrorBarDefaultState extends SampleViewState {
     _selectedErrorBarMode = RenderingMode.vertical;
     _selectedErrorBarType = ErrorBarType.fixed;
     _errorBarDirections = <String>['plus', 'minus', 'both'].toList();
-    _errorBarTypes = <String>[
-      'fixed',
-      'percentage',
-      'standardError',
-      'standardDeviation',
-      'custom',
-    ].toList();
+    _errorBarTypes =
+        <String>[
+          'fixed',
+          'percentage',
+          'standardError',
+          'standardDeviation',
+          'custom',
+        ].toList();
     _errorBarModes = <String>['vertical', 'horizontal', 'both'];
     _chartData = <SalesData>[
       SalesData('IND', 24, Colors.blueAccent),
@@ -73,6 +75,16 @@ class _ErrorBarDefaultState extends SampleViewState {
       SalesData('RUS', 26, Colors.greenAccent),
     ];
     _tooltipBehavior = TooltipBehavior(enable: true);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Initialize error bar color based on the current theme
+    _errorBarColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black;
   }
 
   void _updateErrorBarType(String value) {
@@ -136,10 +148,7 @@ class _ErrorBarDefaultState extends SampleViewState {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Expanded(
-                  flex: model.isMobile ? 2 : 1,
-                  child: Container(),
-                ),
+                Expanded(flex: model.isMobile ? 2 : 1, child: Container()),
                 Expanded(
                   flex: 14,
                   child: Column(
@@ -169,18 +178,19 @@ class _ErrorBarDefaultState extends SampleViewState {
                                   height: 1,
                                 ),
                                 value: _errorBarType,
-                                items: _errorBarTypes!.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      softWrap: false,
-                                      style: TextStyle(
-                                        color: model.textColor,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
+                                items:
+                                    _errorBarTypes!.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          softWrap: false,
+                                          style: TextStyle(
+                                            color: model.textColor,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
                                 onChanged: (String? value) {
                                   _updateErrorBarType(value!);
                                   if (_errorBarType != 'custom') {
@@ -190,7 +200,7 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 },
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                       Row(
@@ -218,25 +228,26 @@ class _ErrorBarDefaultState extends SampleViewState {
                                   height: 1,
                                 ),
                                 value: _errorBarDirection,
-                                items: _errorBarDirections!.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      softWrap: false,
-                                      style: TextStyle(
-                                        color: model.textColor,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
+                                items:
+                                    _errorBarDirections!.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          softWrap: false,
+                                          style: TextStyle(
+                                            color: model.textColor,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
                                 onChanged: (String? value) {
                                   _updateDirection(value!);
                                   stateSetter(() {});
                                 },
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                       Row(
@@ -264,25 +275,26 @@ class _ErrorBarDefaultState extends SampleViewState {
                                   height: 1,
                                 ),
                                 value: _errorBarMode,
-                                items: _errorBarModes!.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      softWrap: false,
-                                      style: TextStyle(
-                                        color: model.textColor,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
+                                items:
+                                    _errorBarModes!.map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          softWrap: false,
+                                          style: TextStyle(
+                                            color: model.textColor,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
                                 onChanged: (String? value) {
                                   _updateErrorBarMode(value!);
                                   stateSetter(() {});
                                 },
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                       SizedBox(height: model.isMobile ? 0.0 : 10.0),
@@ -308,34 +320,38 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 minValue: 2,
                                 maxValue: 10,
                                 initialValue: _verticalErrorValue,
-                                onChanged: (double val) => setState(() {
-                                  _verticalErrorValue =
+                                onChanged:
+                                    (double val) => setState(() {
+                                      _verticalErrorValue =
+                                          (_errorBarMode == 'vertical' ||
+                                                  _errorBarMode == 'both')
+                                              ? val
+                                              : 0;
+                                    }),
+                                step:
+                                    (_errorBarMode == 'vertical' ||
+                                            _errorBarMode == 'both')
+                                        ? 1
+                                        : 0,
+                                iconColor: model.textColor.withValues(
+                                  alpha:
                                       (_errorBarMode == 'vertical' ||
                                               _errorBarMode == 'both')
-                                          ? val
-                                          : 0;
-                                }),
-                                step: (_errorBarMode == 'vertical' ||
-                                        _errorBarMode == 'both')
-                                    ? 1
-                                    : 0,
-                                iconColor: model.textColor.withValues(
-                                  alpha: (_errorBarMode == 'vertical' ||
-                                          _errorBarMode == 'both')
-                                      ? 1
-                                      : 0.5,
+                                          ? 1
+                                          : 0.5,
                                 ),
                                 style: TextStyle(
                                   fontSize: 20.0,
                                   color: model.textColor.withValues(
-                                    alpha: (_errorBarMode == 'vertical' ||
-                                            _errorBarMode == 'both')
-                                        ? 1
-                                        : 0.5,
+                                    alpha:
+                                        (_errorBarMode == 'vertical' ||
+                                                _errorBarMode == 'both')
+                                            ? 1
+                                            : 0.5,
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -362,35 +378,39 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 minValue: 1,
                                 maxValue: 10,
                                 initialValue: _horizontalErrorValue,
-                                onChanged: (double val) => setState(() {
-                                  _horizontalErrorValue =
+                                onChanged:
+                                    (double val) => setState(() {
+                                      _horizontalErrorValue =
+                                          (_errorBarMode == 'horizontal' ||
+                                                  _errorBarMode == 'both')
+                                              ? val
+                                              : 0;
+                                    }),
+                                step:
+                                    (_errorBarMode == 'horizontal' ||
+                                            _errorBarMode == 'both')
+                                        ? 1
+                                        : 0,
+                                iconColor: model.textColor.withValues(
+                                  alpha:
                                       (_errorBarMode == 'horizontal' ||
                                               _errorBarMode == 'both')
-                                          ? val
-                                          : 0;
-                                }),
-                                step: (_errorBarMode == 'horizontal' ||
-                                        _errorBarMode == 'both')
-                                    ? 1
-                                    : 0,
-                                iconColor: model.textColor.withValues(
-                                  alpha: (_errorBarMode == 'horizontal' ||
-                                          _errorBarMode == 'both')
-                                      ? 1
-                                      : 0.5,
+                                          ? 1
+                                          : 0.5,
                                 ),
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.normal,
                                   color: model.textColor.withValues(
-                                    alpha: (_errorBarMode == 'horizontal' ||
-                                            _errorBarMode == 'both')
-                                        ? 1
-                                        : 0.5,
+                                    alpha:
+                                        (_errorBarMode == 'horizontal' ||
+                                                _errorBarMode == 'both')
+                                            ? 1
+                                            : 0.5,
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -417,42 +437,50 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 minValue: 1,
                                 maxValue: 10,
                                 initialValue: _horizontalPositiveErrorValue,
-                                onChanged: (double val) => setState(() {
-                                  _horizontalPositiveErrorValue =
-                                      ((_errorBarMode == 'horizontal' ||
-                                                  _errorBarMode == 'both') &&
-                                              (_errorBarDirection == 'plus' ||
-                                                  _errorBarDirection == 'both'))
-                                          ? val
-                                          : 0;
-                                }),
-                                step: ((_errorBarMode == 'horizontal' ||
-                                            _errorBarMode == 'both') &&
-                                        (_errorBarDirection == 'plus' ||
-                                            _errorBarDirection == 'both'))
-                                    ? 1
-                                    : 0,
-                                iconColor: model.textColor.withValues(
-                                  alpha: ((_errorBarMode == 'horizontal' ||
-                                              _errorBarMode == 'both') &&
-                                          (_errorBarDirection == 'plus' ||
-                                              _errorBarDirection == 'both'))
-                                      ? 1
-                                      : 0.5,
-                                ),
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: model.textColor.withValues(
-                                    alpha: ((_errorBarMode == 'horizontal' ||
+                                onChanged:
+                                    (double val) => setState(() {
+                                      _horizontalPositiveErrorValue =
+                                          ((_errorBarMode == 'horizontal' ||
+                                                      _errorBarMode ==
+                                                          'both') &&
+                                                  (_errorBarDirection ==
+                                                          'plus' ||
+                                                      _errorBarDirection ==
+                                                          'both'))
+                                              ? val
+                                              : 0;
+                                    }),
+                                step:
+                                    ((_errorBarMode == 'horizontal' ||
                                                 _errorBarMode == 'both') &&
                                             (_errorBarDirection == 'plus' ||
                                                 _errorBarDirection == 'both'))
                                         ? 1
-                                        : 0.5,
+                                        : 0,
+                                iconColor: model.textColor.withValues(
+                                  alpha:
+                                      ((_errorBarMode == 'horizontal' ||
+                                                  _errorBarMode == 'both') &&
+                                              (_errorBarDirection == 'plus' ||
+                                                  _errorBarDirection == 'both'))
+                                          ? 1
+                                          : 0.5,
+                                ),
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: model.textColor.withValues(
+                                    alpha:
+                                        ((_errorBarMode == 'horizontal' ||
+                                                    _errorBarMode == 'both') &&
+                                                (_errorBarDirection == 'plus' ||
+                                                    _errorBarDirection ==
+                                                        'both'))
+                                            ? 1
+                                            : 0.5,
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -479,42 +507,51 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 minValue: 1,
                                 maxValue: 10,
                                 initialValue: _horizontalNegativeErrorValue,
-                                onChanged: (double val) => setState(() {
-                                  _horizontalNegativeErrorValue =
-                                      ((_errorBarMode == 'horizontal' ||
-                                                  _errorBarMode == 'both') &&
-                                              (_errorBarDirection == 'minus' ||
-                                                  _errorBarDirection == 'both'))
-                                          ? val
-                                          : 0;
-                                }),
-                                step: ((_errorBarMode == 'horizontal' ||
-                                            _errorBarMode == 'both') &&
-                                        (_errorBarDirection == 'minus' ||
-                                            _errorBarDirection == 'both'))
-                                    ? 1
-                                    : 0,
-                                iconColor: model.textColor.withValues(
-                                  alpha: ((_errorBarMode == 'horizontal' ||
-                                              _errorBarMode == 'both') &&
-                                          (_errorBarDirection == 'minus' ||
-                                              _errorBarDirection == 'both'))
-                                      ? 1
-                                      : 0.5,
-                                ),
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: model.textColor.withValues(
-                                    alpha: ((_errorBarMode == 'horizontal' ||
+                                onChanged:
+                                    (double val) => setState(() {
+                                      _horizontalNegativeErrorValue =
+                                          ((_errorBarMode == 'horizontal' ||
+                                                      _errorBarMode ==
+                                                          'both') &&
+                                                  (_errorBarDirection ==
+                                                          'minus' ||
+                                                      _errorBarDirection ==
+                                                          'both'))
+                                              ? val
+                                              : 0;
+                                    }),
+                                step:
+                                    ((_errorBarMode == 'horizontal' ||
                                                 _errorBarMode == 'both') &&
                                             (_errorBarDirection == 'minus' ||
                                                 _errorBarDirection == 'both'))
                                         ? 1
-                                        : 0.5,
+                                        : 0,
+                                iconColor: model.textColor.withValues(
+                                  alpha:
+                                      ((_errorBarMode == 'horizontal' ||
+                                                  _errorBarMode == 'both') &&
+                                              (_errorBarDirection == 'minus' ||
+                                                  _errorBarDirection == 'both'))
+                                          ? 1
+                                          : 0.5,
+                                ),
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: model.textColor.withValues(
+                                    alpha:
+                                        ((_errorBarMode == 'horizontal' ||
+                                                    _errorBarMode == 'both') &&
+                                                (_errorBarDirection ==
+                                                        'minus' ||
+                                                    _errorBarDirection ==
+                                                        'both'))
+                                            ? 1
+                                            : 0.5,
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -541,42 +578,51 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 minValue: 2,
                                 maxValue: 10,
                                 initialValue: _verticalNegativeErrorValue,
-                                onChanged: (double val) => setState(() {
-                                  _verticalNegativeErrorValue =
-                                      ((_errorBarMode == 'vertical' ||
-                                                  _errorBarMode == 'both') &&
-                                              (_errorBarDirection == 'minus' ||
-                                                  _errorBarDirection == 'both'))
-                                          ? val
-                                          : 0;
-                                }),
-                                step: ((_errorBarMode == 'vertical' ||
-                                            _errorBarMode == 'both') &&
-                                        (_errorBarDirection == 'minus' ||
-                                            _errorBarDirection == 'both'))
-                                    ? 1
-                                    : 0,
-                                iconColor: model.textColor.withValues(
-                                  alpha: ((_errorBarMode == 'vertical' ||
-                                              _errorBarMode == 'both') &&
-                                          (_errorBarDirection == 'minus' ||
-                                              _errorBarDirection == 'both'))
-                                      ? 1
-                                      : 0.5,
-                                ),
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: model.textColor.withValues(
-                                    alpha: ((_errorBarMode == 'vertical' ||
+                                onChanged:
+                                    (double val) => setState(() {
+                                      _verticalNegativeErrorValue =
+                                          ((_errorBarMode == 'vertical' ||
+                                                      _errorBarMode ==
+                                                          'both') &&
+                                                  (_errorBarDirection ==
+                                                          'minus' ||
+                                                      _errorBarDirection ==
+                                                          'both'))
+                                              ? val
+                                              : 0;
+                                    }),
+                                step:
+                                    ((_errorBarMode == 'vertical' ||
                                                 _errorBarMode == 'both') &&
                                             (_errorBarDirection == 'minus' ||
                                                 _errorBarDirection == 'both'))
                                         ? 1
-                                        : 0.5,
+                                        : 0,
+                                iconColor: model.textColor.withValues(
+                                  alpha:
+                                      ((_errorBarMode == 'vertical' ||
+                                                  _errorBarMode == 'both') &&
+                                              (_errorBarDirection == 'minus' ||
+                                                  _errorBarDirection == 'both'))
+                                          ? 1
+                                          : 0.5,
+                                ),
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: model.textColor.withValues(
+                                    alpha:
+                                        ((_errorBarMode == 'vertical' ||
+                                                    _errorBarMode == 'both') &&
+                                                (_errorBarDirection ==
+                                                        'minus' ||
+                                                    _errorBarDirection ==
+                                                        'both'))
+                                            ? 1
+                                            : 0.5,
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -603,52 +649,57 @@ class _ErrorBarDefaultState extends SampleViewState {
                                 minValue: 2,
                                 maxValue: 50,
                                 initialValue: _verticalPositiveErrorValue,
-                                onChanged: (double val) => setState(() {
-                                  _verticalPositiveErrorValue =
-                                      ((_errorBarMode == 'vertical' ||
-                                                  _errorBarMode == 'both') &&
-                                              (_errorBarDirection == 'plus' ||
-                                                  _errorBarDirection == 'both'))
-                                          ? val
-                                          : 0;
-                                }),
-                                step: ((_errorBarMode == 'vertical' ||
-                                            _errorBarMode == 'both') &&
-                                        (_errorBarDirection == 'plus' ||
-                                            _errorBarDirection == 'both'))
-                                    ? 1
-                                    : 0,
-                                iconColor: model.textColor.withValues(
-                                  alpha: ((_errorBarMode == 'vertical' ||
-                                              _errorBarMode == 'both') &&
-                                          (_errorBarDirection == 'plus' ||
-                                              _errorBarDirection == 'both'))
-                                      ? 1
-                                      : 0.5,
-                                ),
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: model.textColor.withValues(
-                                    alpha: ((_errorBarMode == 'vertical' ||
+                                onChanged:
+                                    (double val) => setState(() {
+                                      _verticalPositiveErrorValue =
+                                          ((_errorBarMode == 'vertical' ||
+                                                      _errorBarMode ==
+                                                          'both') &&
+                                                  (_errorBarDirection ==
+                                                          'plus' ||
+                                                      _errorBarDirection ==
+                                                          'both'))
+                                              ? val
+                                              : 0;
+                                    }),
+                                step:
+                                    ((_errorBarMode == 'vertical' ||
                                                 _errorBarMode == 'both') &&
                                             (_errorBarDirection == 'plus' ||
                                                 _errorBarDirection == 'both'))
                                         ? 1
-                                        : 0.5,
+                                        : 0,
+                                iconColor: model.textColor.withValues(
+                                  alpha:
+                                      ((_errorBarMode == 'vertical' ||
+                                                  _errorBarMode == 'both') &&
+                                              (_errorBarDirection == 'plus' ||
+                                                  _errorBarDirection == 'both'))
+                                          ? 1
+                                          : 0.5,
+                                ),
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color: model.textColor.withValues(
+                                    alpha:
+                                        ((_errorBarMode == 'vertical' ||
+                                                    _errorBarMode == 'both') &&
+                                                (_errorBarDirection == 'plus' ||
+                                                    _errorBarDirection ==
+                                                        'both'))
+                                            ? 1
+                                            : 0.5,
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                Expanded(
-                  flex: model.isMobile ? 3 : 1,
-                  child: Container(),
-                ),
+                Expanded(flex: model.isMobile ? 3 : 1, child: Container()),
               ],
             ),
           ],
@@ -665,9 +716,7 @@ class _ErrorBarDefaultState extends SampleViewState {
       ),
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
-        title: const ChartTitle(
-          text: 'Sales distribution of cars by region',
-        ),
+        title: const ChartTitle(text: 'Sales distribution of cars by region'),
         primaryXAxis: CategoryAxis(
           interval: 1,
           majorGridLines: const MajorGridLines(width: 0),
@@ -710,9 +759,7 @@ class _ErrorBarDefaultState extends SampleViewState {
             yValueMapper: (SalesData sales, int index) => sales.salesCount,
             animationDuration: 1000,
             animationDelay: 1000,
-            color: model.themeData.colorScheme.brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
+            color: _errorBarColor,
             type: _selectedErrorBarType,
             verticalErrorValue: _verticalErrorValue,
             horizontalErrorValue: _horizontalErrorValue,

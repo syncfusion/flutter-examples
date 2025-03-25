@@ -97,9 +97,10 @@ class _AnnotationDefaultState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-        text: isCardView
-            ? ''
-            : 'Euro to USD monthly exchange rate - 2015 to 2018',
+        text:
+            isCardView
+                ? ''
+                : 'Euro to USD monthly exchange rate - 2015 to 2018',
       ),
       primaryXAxis: const DateTimeAxis(
         majorGridLines: MajorGridLines(width: 0),
@@ -121,14 +122,15 @@ class _AnnotationDefaultState extends SampleViewState {
           widget: const Text(
             r'€ - $ ',
             style: TextStyle(
-                color: Color.fromRGBO(216, 225, 227, 0.6),
-                fontWeight: FontWeight.bold,
-                fontSize: 80),
+              color: Color.fromRGBO(216, 225, 227, 0.6),
+              fontWeight: FontWeight.bold,
+              fontSize: 80,
+            ),
           ),
           coordinateUnit: CoordinateUnit.point,
           x: DateTime(2016, 11),
           y: 1.12,
-        )
+        ),
       ],
     );
   }
@@ -141,7 +143,7 @@ class _AnnotationDefaultState extends SampleViewState {
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
         color: const Color.fromRGBO(242, 117, 7, 1),
-      )
+      ),
     ];
   }
 

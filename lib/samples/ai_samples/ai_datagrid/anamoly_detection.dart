@@ -53,24 +53,26 @@ class _AnamolyDetectionSampleState extends SampleViewState
     )..repeat(reverse: true); // Repeats the animation back and forth
 
     // Define the animation
-    _animation = Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0.8,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     // Show the dialog when the app starts.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder: (context) => WelcomeDialog(
-            primaryColor: model.primaryColor,
-            apiKey: model.assistApiKey,
-            onApiKeySaved: (newApiKey) {
-              setState(() {
-                model.assistApiKey = newApiKey;
-              });
-            },
-          ),
+          builder:
+              (context) => WelcomeDialog(
+                primaryColor: model.primaryColor,
+                apiKey: model.assistApiKey,
+                onApiKeySaved: (newApiKey) {
+                  setState(() {
+                    model.assistApiKey = newApiKey;
+                  });
+                },
+              ),
         );
         model.isFirstTime = false;
       }
@@ -94,8 +96,9 @@ class _AnamolyDetectionSampleState extends SampleViewState
     prompt +=
         '5. Add a short description in the anomalyDescription field explaining why the data was marked as an anomaly (e.g., "Since the mentioned temperature is too high than expected, it is marked as anomaly data").\n\n';
 
-    final String machineJson =
-        jsonEncode(_machineDetails.map((machine) => machine.toJson()).toList());
+    final String machineJson = jsonEncode(
+      _machineDetails.map((machine) => machine.toJson()).toList(),
+    );
 
     prompt += machineJson;
     prompt += '\n\nOutput Format (strict JSON):\n';
@@ -203,10 +206,7 @@ class _AnamolyDetectionSampleState extends SampleViewState
             source: _machineDataSource,
             columns: _machineDataSource._columns,
           ),
-          if (_isLoading)
-            const Center(
-              child: CircularProgressIndicator(),
-            ),
+          if (_isLoading) const Center(child: CircularProgressIndicator()),
         ],
       ),
     );
@@ -295,10 +295,11 @@ class MachineData {
 }
 
 class MachineDataSource extends DataGridSource {
-  MachineDataSource(
-      {required this.machine,
-      required this.isWebOrDesktop,
-      required this.model}) {
+  MachineDataSource({
+    required this.machine,
+    required this.isWebOrDesktop,
+    required this.model,
+  }) {
     _columns = _obtainColumns();
     _buildDataGridRows();
   }
@@ -328,52 +329,57 @@ class MachineDataSource extends DataGridSource {
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-      cells: row.getCells().map<Widget>((e) {
-        Color? getColor() {
-          final bool isDarkMode = model.themeData.brightness == Brightness.dark;
-          if (e.columnName == 'AnomalyDescription') {
-            return _anomalyData.contains(e.value)
-                ? (isDarkMode
-                    ? const Color(0xFFA15C07)
-                    : const Color(0xFFFFD6AE))
-                : (isDarkMode
-                    ? const Color(0xFF4F7A21)
-                    : const Color(0xFFD0F8AB));
-          }
+      cells:
+          row.getCells().map<Widget>((e) {
+            Color? getColor() {
+              final bool isDarkMode =
+                  model.themeData.brightness == Brightness.dark;
+              if (e.columnName == 'AnomalyDescription') {
+                return _anomalyData.contains(e.value)
+                    ? (isDarkMode
+                        ? const Color(0xFFA15C07)
+                        : const Color(0xFFFFD6AE))
+                    : (isDarkMode
+                        ? const Color(0xFF4F7A21)
+                        : const Color(0xFFD0F8AB));
+              }
 
-          final String? keyword = conditions[e.columnName];
-          if (keyword != null && _anomalyData.isNotEmpty) {
-            final cell = row.getCells()[6];
-            if (cell.value != null && cell.value.toString().contains(keyword)) {
-              return isDarkMode
-                  ? const Color(0xFFA15C07)
-                  : const Color(0xFFFFD6AE);
+              final String? keyword = conditions[e.columnName];
+              if (keyword != null && _anomalyData.isNotEmpty) {
+                final cell = row.getCells()[6];
+                if (cell.value != null &&
+                    cell.value.toString().contains(keyword)) {
+                  return isDarkMode
+                      ? const Color(0xFFA15C07)
+                      : const Color(0xFFFFD6AE);
+                }
+              }
+              return null;
             }
-          }
-          return null;
-        }
 
-        return Container(
-          color: getColor(),
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(8.0),
-          child: Text(e.value.toString()),
-        );
-      }).toList(),
+            return Container(
+              color: getColor(),
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(e.value.toString()),
+            );
+          }).toList(),
     );
   }
 
   void _buildDataGridRows() {
-    _employeeData = machine.map<DataGridRow>((machine) {
-      return DataGridRow(
-        cells: _columns.map<DataGridCell>((column) {
-          return DataGridCell(
-            columnName: column.columnName,
-            value: machine[column.columnName],
+    _employeeData =
+        machine.map<DataGridRow>((machine) {
+          return DataGridRow(
+            cells:
+                _columns.map<DataGridCell>((column) {
+                  return DataGridCell(
+                    columnName: column.columnName,
+                    value: machine[column.columnName],
+                  );
+                }).toList(),
           );
-        }).toList(),
-      );
-    }).toList();
+        }).toList();
   }
 
   void addColumns() {

@@ -51,18 +51,16 @@ class _ATRIndicatorState extends SampleViewState {
   Widget buildSettings(BuildContext context) {
     return Row(
       children: <Widget>[
-        Text(
-          'Period',
-          style: TextStyle(color: model.textColor),
-        ),
+        Text('Period', style: TextStyle(color: model.textColor)),
         Container(
           padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _period,
-            onChanged: (double val) => setState(() {
-              _period = val;
-            }),
+            onChanged:
+                (double val) => setState(() {
+                  _period = val;
+                }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 16.0, color: model.textColor),

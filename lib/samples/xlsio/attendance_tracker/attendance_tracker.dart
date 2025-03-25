@@ -10,7 +10,7 @@ import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
 ///Local imports
 import '../../../model/sample_view.dart';
 import '../../common/export/save_file_mobile.dart'
-    if (dart.library.html) '../../common/export/save_file_web.dart';
+    if (dart.library.js_interop) '../../common/export/save_file_web.dart';
 
 /// Render XlsIO of balance sheet
 class AttendanceTrackerXlsIO extends SampleView {
@@ -33,23 +33,33 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-                'Attendance tracker or attendance sheet is essential to any organization. This attendance tracker is designed to keep one month data. In this application, employee name, supervisor, present count, absent count, leave count, unplanned%, planned% and dates for a particular month are available.\r\n\r\nThis sample demonstrates following features:\r\n\r\n   * Import data from a collection objects to Excel worksheet\r\n\r\n   * Advanced options of conditional formatting in Excel such as, color scales, data bars',
-                style: TextStyle(fontSize: 16, color: model.textColor)),
+              'Attendance tracker or attendance sheet is essential to any organization. This attendance tracker is designed to keep one month data. In this application, employee name, supervisor, present count, absent count, leave count, unplanned%, planned% and dates for a particular month are available.\r\n\r\nThis sample demonstrates following features:\r\n\r\n   * Import data from a collection objects to Excel worksheet\r\n\r\n   * Advanced options of conditional formatting in Excel such as, color scales, data bars',
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
             const SizedBox(height: 20, width: 30),
             Align(
-                child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    WidgetStateProperty.all<Color>(model.primaryColor),
-                padding: model.isMobile
-                    ? null
-                    : WidgetStateProperty.all(const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15)),
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    model.primaryColor,
+                  ),
+                  padding:
+                      model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
+                            ),
+                          ),
+                ),
+                onPressed: _generateExcel,
+                child: const Text(
+                  'Generate Excel',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              onPressed: _generateExcel,
-              child: const Text('Generate Excel',
-                  style: TextStyle(color: Colors.white)),
-            ))
+            ),
           ],
         ),
       ),
@@ -252,10 +262,14 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
 
     sheet.getRangeByName('A1:AL10').cellStyle = style;
 
-    sheet.getRangeByName('A1:AL1').cellStyle.backColorRgb =
-        const Color.fromARGB(255, 58, 56, 56);
-    sheet.getRangeByName('A1:AL1').cellStyle.fontColorRgb =
-        const Color.fromARGB(255, 255, 255, 255);
+    sheet
+        .getRangeByName('A1:AL1')
+        .cellStyle
+        .backColorRgb = const Color.fromARGB(255, 58, 56, 56);
+    sheet
+        .getRangeByName('A1:AL1')
+        .cellStyle
+        .fontColorRgb = const Color.fromARGB(255, 255, 255, 255);
 
     sheet.getRangeByName('C2:AL10').cellStyle.hAlign = HAlignType.center;
     sheet.getRangeByName('H1:AL1').cellStyle.hAlign = HAlignType.center;
@@ -263,8 +277,12 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     sheet.getRangeByName('A2:B10').cellStyle.indent = 1;
     sheet.getRangeByName('A1:G1').cellStyle.indent = 1;
 
-    sheet.getRangeByName('H2:AL10').cellStyle.borders.all.colorRgb =
-        const Color.fromARGB(255, 255, 255, 255);
+    sheet
+        .getRangeByName('H2:AL10')
+        .cellStyle
+        .borders
+        .all
+        .colorRgb = const Color.fromARGB(255, 255, 255, 255);
 
     sheet.getRangeByName('F2:G10').numberFormat = '.00%';
 
@@ -284,51 +302,60 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     List<ExcelDataRow> excelDataRows = <ExcelDataRow>[];
     final List<_Attendance> reports = _getAttendanceReports();
 
-    excelDataRows = reports.map<ExcelDataRow>((_Attendance dataRow) {
-      return ExcelDataRow(cells: <ExcelDataCell>[
-        ExcelDataCell(
-            columnHeader: 'Employee Name', value: dataRow.employeeName),
-        ExcelDataCell(columnHeader: 'Supervisor', value: dataRow.supervisor),
-        ExcelDataCell(columnHeader: 1, value: dataRow.day1),
-        ExcelDataCell(columnHeader: 2, value: dataRow.day2),
-        ExcelDataCell(columnHeader: 3, value: dataRow.day3),
-        ExcelDataCell(columnHeader: 4, value: dataRow.day4),
-        ExcelDataCell(columnHeader: 5, value: dataRow.day5),
-        ExcelDataCell(columnHeader: 6, value: dataRow.day6),
-        ExcelDataCell(columnHeader: 7, value: dataRow.day7),
-        ExcelDataCell(columnHeader: 8, value: dataRow.day8),
-        ExcelDataCell(columnHeader: 9, value: dataRow.day9),
-        ExcelDataCell(columnHeader: 10, value: dataRow.day10),
-        ExcelDataCell(columnHeader: 11, value: dataRow.day11),
-        ExcelDataCell(columnHeader: 12, value: dataRow.day12),
-        ExcelDataCell(columnHeader: 13, value: dataRow.day13),
-        ExcelDataCell(columnHeader: 14, value: dataRow.day14),
-        ExcelDataCell(columnHeader: 15, value: dataRow.day15),
-        ExcelDataCell(columnHeader: 16, value: dataRow.day16),
-        ExcelDataCell(columnHeader: 17, value: dataRow.day17),
-        ExcelDataCell(columnHeader: 18, value: dataRow.day18),
-        ExcelDataCell(columnHeader: 19, value: dataRow.day19),
-        ExcelDataCell(columnHeader: 20, value: dataRow.day20),
-        ExcelDataCell(columnHeader: 21, value: dataRow.day21),
-        ExcelDataCell(columnHeader: 22, value: dataRow.day22),
-        ExcelDataCell(columnHeader: 23, value: dataRow.day23),
-        ExcelDataCell(columnHeader: 24, value: dataRow.day24),
-        ExcelDataCell(columnHeader: 25, value: dataRow.day25),
-        ExcelDataCell(columnHeader: 26, value: dataRow.day26),
-        ExcelDataCell(columnHeader: 27, value: dataRow.day27),
-        ExcelDataCell(columnHeader: 28, value: dataRow.day28),
-        ExcelDataCell(columnHeader: 29, value: dataRow.day29),
-        ExcelDataCell(columnHeader: 30, value: dataRow.day30),
-        ExcelDataCell(columnHeader: 31, value: dataRow.day31),
-      ]);
-    }).toList();
+    excelDataRows =
+        reports.map<ExcelDataRow>((_Attendance dataRow) {
+          return ExcelDataRow(
+            cells: <ExcelDataCell>[
+              ExcelDataCell(
+                columnHeader: 'Employee Name',
+                value: dataRow.employeeName,
+              ),
+              ExcelDataCell(
+                columnHeader: 'Supervisor',
+                value: dataRow.supervisor,
+              ),
+              ExcelDataCell(columnHeader: 1, value: dataRow.day1),
+              ExcelDataCell(columnHeader: 2, value: dataRow.day2),
+              ExcelDataCell(columnHeader: 3, value: dataRow.day3),
+              ExcelDataCell(columnHeader: 4, value: dataRow.day4),
+              ExcelDataCell(columnHeader: 5, value: dataRow.day5),
+              ExcelDataCell(columnHeader: 6, value: dataRow.day6),
+              ExcelDataCell(columnHeader: 7, value: dataRow.day7),
+              ExcelDataCell(columnHeader: 8, value: dataRow.day8),
+              ExcelDataCell(columnHeader: 9, value: dataRow.day9),
+              ExcelDataCell(columnHeader: 10, value: dataRow.day10),
+              ExcelDataCell(columnHeader: 11, value: dataRow.day11),
+              ExcelDataCell(columnHeader: 12, value: dataRow.day12),
+              ExcelDataCell(columnHeader: 13, value: dataRow.day13),
+              ExcelDataCell(columnHeader: 14, value: dataRow.day14),
+              ExcelDataCell(columnHeader: 15, value: dataRow.day15),
+              ExcelDataCell(columnHeader: 16, value: dataRow.day16),
+              ExcelDataCell(columnHeader: 17, value: dataRow.day17),
+              ExcelDataCell(columnHeader: 18, value: dataRow.day18),
+              ExcelDataCell(columnHeader: 19, value: dataRow.day19),
+              ExcelDataCell(columnHeader: 20, value: dataRow.day20),
+              ExcelDataCell(columnHeader: 21, value: dataRow.day21),
+              ExcelDataCell(columnHeader: 22, value: dataRow.day22),
+              ExcelDataCell(columnHeader: 23, value: dataRow.day23),
+              ExcelDataCell(columnHeader: 24, value: dataRow.day24),
+              ExcelDataCell(columnHeader: 25, value: dataRow.day25),
+              ExcelDataCell(columnHeader: 26, value: dataRow.day26),
+              ExcelDataCell(columnHeader: 27, value: dataRow.day27),
+              ExcelDataCell(columnHeader: 28, value: dataRow.day28),
+              ExcelDataCell(columnHeader: 29, value: dataRow.day29),
+              ExcelDataCell(columnHeader: 30, value: dataRow.day30),
+              ExcelDataCell(columnHeader: 31, value: dataRow.day31),
+            ],
+          );
+        }).toList();
 
     return excelDataRows;
   }
 
   List<_Attendance> _getAttendanceReports() {
     final List<_Attendance> reports = <_Attendance>[];
-    reports.add(_Attendance(
+    reports.add(
+      _Attendance(
         'Maria Anders',
         'Michael Holz',
         'P',
@@ -361,8 +388,11 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
         'P',
         'P',
         'A',
-        'L'));
-    reports.add(_Attendance(
+        'L',
+      ),
+    );
+    reports.add(
+      _Attendance(
         'Ana Trujillo',
         'Michael Holz',
         'P',
@@ -395,8 +425,11 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
         'P',
         'P',
         'L',
-        'P'));
-    reports.add(_Attendance(
+        'P',
+      ),
+    );
+    reports.add(
+      _Attendance(
         'Antonio Moreno',
         'Liz Nixon',
         'A',
@@ -429,8 +462,11 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
         'L',
         'P',
         'A',
-        'A'));
-    reports.add(_Attendance(
+        'A',
+      ),
+    );
+    reports.add(
+      _Attendance(
         'Thomas Hardy',
         'Liu Wong',
         'L',
@@ -463,8 +499,11 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
         'L',
         'A',
         'P',
-        'P'));
-    reports.add(_Attendance(
+        'P',
+      ),
+    );
+    reports.add(
+      _Attendance(
         'Christina Berglund',
         'Mary Saveley',
         'P',
@@ -497,8 +536,11 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
         'A',
         'A',
         'P',
-        'P'));
-    reports.add(_Attendance(
+        'P',
+      ),
+    );
+    reports.add(
+      _Attendance(
         'Hanna Moos',
         'Liu Wong',
         'L',
@@ -531,8 +573,11 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
         'P',
         'L',
         'L',
-        'P'));
-    reports.add(_Attendance(
+        'P',
+      ),
+    );
+    reports.add(
+      _Attendance(
         'Frederique Citeaux',
         'Mary Saveley',
         'A',
@@ -565,8 +610,11 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
         'L',
         'P',
         'A',
-        'A'));
-    reports.add(_Attendance(
+        'A',
+      ),
+    );
+    reports.add(
+      _Attendance(
         'Martin Sommer',
         'Michael Holz',
         'L',
@@ -599,8 +647,11 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
         'A',
         'L',
         'L',
-        'L'));
-    reports.add(_Attendance(
+        'L',
+      ),
+    );
+    reports.add(
+      _Attendance(
         'Laurence Lebihan',
         'Mary Saveley',
         'P',
@@ -633,46 +684,49 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
         'L',
         'P',
         'P',
-        'P'));
+        'P',
+      ),
+    );
     return reports;
   }
 }
 
 class _Attendance {
   _Attendance(
-      this.employeeName,
-      this.supervisor,
-      this.day1,
-      this.day2,
-      this.day3,
-      this.day4,
-      this.day5,
-      this.day6,
-      this.day7,
-      this.day8,
-      this.day9,
-      this.day10,
-      this.day11,
-      this.day12,
-      this.day13,
-      this.day14,
-      this.day15,
-      this.day16,
-      this.day17,
-      this.day18,
-      this.day19,
-      this.day20,
-      this.day21,
-      this.day22,
-      this.day23,
-      this.day24,
-      this.day25,
-      this.day26,
-      this.day27,
-      this.day28,
-      this.day29,
-      this.day30,
-      this.day31);
+    this.employeeName,
+    this.supervisor,
+    this.day1,
+    this.day2,
+    this.day3,
+    this.day4,
+    this.day5,
+    this.day6,
+    this.day7,
+    this.day8,
+    this.day9,
+    this.day10,
+    this.day11,
+    this.day12,
+    this.day13,
+    this.day14,
+    this.day15,
+    this.day16,
+    this.day17,
+    this.day18,
+    this.day19,
+    this.day20,
+    this.day21,
+    this.day22,
+    this.day23,
+    this.day24,
+    this.day25,
+    this.day26,
+    this.day27,
+    this.day28,
+    this.day29,
+    this.day30,
+    this.day31,
+  );
   late String employeeName;
   late String supervisor;
   late String day1;

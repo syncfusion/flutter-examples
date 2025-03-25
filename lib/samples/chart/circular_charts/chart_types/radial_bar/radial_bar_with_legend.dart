@@ -24,10 +24,7 @@ class _RadialBarAngleState extends SampleViewState {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(
-      enable: true,
-      format: 'point.x',
-    );
+    _tooltipBehavior = TooltipBehavior(enable: true, format: 'point.x');
     _chartData = <ChartSampleData>[
       ChartSampleData(
         x: 'Move 65%\n338/520 CAL',
@@ -77,21 +74,22 @@ class _RadialBarAngleState extends SampleViewState {
   List<RadialBarSeries<ChartSampleData, String>> _buildRadialBarSeries() {
     final List<RadialBarSeries<ChartSampleData, String>> list =
         <RadialBarSeries<ChartSampleData, String>>[
-      RadialBarSeries<ChartSampleData, String>(
-        dataSource: _chartData,
-        xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) => data.y,
-        pointColorMapper: (ChartSampleData data, int index) => data.pointColor,
-        dataLabelMapper: (ChartSampleData data, int index) => data.text,
-        dataLabelSettings: const DataLabelSettings(isVisible: true),
-        animationDuration: 0,
-        maximumValue: 100,
-        radius: '100%',
-        gap: '2%',
-        innerRadius: '30%',
-        cornerStyle: CornerStyle.bothCurve,
-      )
-    ];
+          RadialBarSeries<ChartSampleData, String>(
+            dataSource: _chartData,
+            xValueMapper: (ChartSampleData data, int index) => data.x,
+            yValueMapper: (ChartSampleData data, int index) => data.y,
+            pointColorMapper:
+                (ChartSampleData data, int index) => data.pointColor,
+            dataLabelMapper: (ChartSampleData data, int index) => data.text,
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
+            animationDuration: 0,
+            maximumValue: 100,
+            radius: '100%',
+            gap: '2%',
+            innerRadius: '30%',
+            cornerStyle: CornerStyle.bothCurve,
+          ),
+        ];
     return list;
   }
 

@@ -96,32 +96,25 @@ class _DefaultSelectionState extends SampleViewState {
       children: <Widget>[
         Text(
           'Series index',
-          style: TextStyle(
-            color: model.textColor,
-            fontSize: 16,
-          ),
+          style: TextStyle(color: model.textColor, fontSize: 16),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(78, 0, 0, 0),
           child: DropdownButton<String>(
             dropdownColor: model.drawerBackgroundColor,
             focusColor: Colors.transparent,
-            underline: Container(
-              color: const Color(0xFFBDBDBD),
-              height: 1,
-            ),
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _seriesIndex.toString(),
-            items: _seriesIndexList.map(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(color: model.textColor),
-                  ),
-                );
-              },
-            ).toList(),
+            items:
+                _seriesIndexList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               _updateSeriesIndex(value);
               stateSetter(() {});
@@ -138,32 +131,25 @@ class _DefaultSelectionState extends SampleViewState {
       children: <Widget>[
         Text(
           'Point index ',
-          style: TextStyle(
-            color: model.textColor,
-            fontSize: 16,
-          ),
+          style: TextStyle(color: model.textColor, fontSize: 16),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(80, 0, 0, 0),
           child: DropdownButton<String>(
             dropdownColor: model.drawerBackgroundColor,
             focusColor: Colors.transparent,
-            underline: Container(
-              color: const Color(0xFFBDBDBD),
-              height: 1,
-            ),
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _pointIndex.toString(),
-            items: _pointIndexList.map(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(color: model.textColor),
-                  ),
-                );
-              },
-            ).toList(),
+            items:
+                _pointIndexList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
             onChanged: (dynamic value) {
               _updatePointIndex(value);
               stateSetter(() {});
@@ -190,10 +176,7 @@ class _DefaultSelectionState extends SampleViewState {
             onPressed: () {
               _selectDataPoint(_seriesIndex, _pointIndex);
             },
-            child: const Text(
-              'Select',
-              style: TextStyle(color: Colors.white),
-            ),
+            child: const Text('Select', style: TextStyle(color: Colors.white)),
           ),
         ),
       ],
@@ -236,16 +219,16 @@ class _DefaultSelectionState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.secondSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.secondSeriesYValue,
         selectionBehavior: _selectionBehavior,
         name: '2016',
       ),
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper: (ChartSampleData data, int index) =>
-            data.thirdSeriesYValue,
+        yValueMapper:
+            (ChartSampleData data, int index) => data.thirdSeriesYValue,
         selectionBehavior: _selectionBehavior,
         name: '2017',
       ),
@@ -261,11 +244,9 @@ class _DefaultSelectionState extends SampleViewState {
 
   void _updatePointIndex(String pointIndex) {
     _pointIndex = int.parse(pointIndex);
-    setState(
-      () {
-        /// Update the selection type changes.
-      },
-    );
+    setState(() {
+      /// Update the selection type changes.
+    });
   }
 
   void _selectDataPoint(int seriesIndex, int pointIndex) {

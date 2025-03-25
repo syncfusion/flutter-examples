@@ -56,15 +56,17 @@ class _LocalizationChartState extends LocalizationSampleViewState {
 
           // Formatted the axis labels based on the selected culture
           numberFormat: NumberFormat.compactSimpleCurrency(
-              locale: model.locale == const Locale('ar', 'AE')
-                  ? const Locale('ar', 'AE').toString()
-                  : model.locale == const Locale('en', 'US')
-                      ? const Locale('en', 'US').toString()
-                      : model.locale == const Locale('es', 'ES')
-                          ? const Locale('es', 'ES').toString()
-                          : model.locale == const Locale('fr', 'FR')
-                              ? const Locale('fr', 'FR').toString()
-                              : const Locale('zh', 'CN').toString()),
+            locale:
+                model.locale == const Locale('ar', 'AE')
+                    ? const Locale('ar', 'AE').toString()
+                    : model.locale == const Locale('en', 'US')
+                    ? const Locale('en', 'US').toString()
+                    : model.locale == const Locale('es', 'ES')
+                    ? const Locale('es', 'ES').toString()
+                    : model.locale == const Locale('fr', 'FR')
+                    ? const Locale('fr', 'FR').toString()
+                    : const Locale('zh', 'CN').toString(),
+          ),
           maximum: 2500,
           minimum: 500,
           interval: 500,
@@ -90,7 +92,7 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.yValue,
         name: _secondSeriesName,
-      )
+      ),
     ];
   }
 
@@ -103,7 +105,7 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: 'Tuesday', y: 1655, yValue: 1892),
         ChartSampleData(x: 'Wednesday', y: 1423, yValue: 1790),
         ChartSampleData(x: 'Thursday', y: 2100, yValue: 2150),
-        ChartSampleData(x: 'Friday', y: 1794, yValue: 1694)
+        ChartSampleData(x: 'Friday', y: 1794, yValue: 1694),
       ];
       _title = 'Sales price comparison of products in a week';
       _firstSeriesName = 'Product A';
@@ -114,7 +116,7 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: 'يوم الثلاثاء', y: 1655, yValue: 1892),
         ChartSampleData(x: 'الأربعاء', y: 1423, yValue: 1790),
         ChartSampleData(x: 'يوم الخميس', y: 2100, yValue: 2150),
-        ChartSampleData(x: 'يوم الجمعة', y: 1794, yValue: 1694)
+        ChartSampleData(x: 'يوم الجمعة', y: 1794, yValue: 1694),
       ];
       _title = 'مقارنة أسعار مبيعات المنتجات في الأسبوع';
       _firstSeriesName = 'المنتج أ';
@@ -125,7 +127,7 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: 'mardi', y: 1655, yValue: 1892),
         ChartSampleData(x: 'Mercredi', y: 1423, yValue: 1790),
         ChartSampleData(x: 'jeudi', y: 2100, yValue: 2150),
-        ChartSampleData(x: 'vendredi', y: 1794, yValue: 1694)
+        ChartSampleData(x: 'vendredi', y: 1794, yValue: 1694),
       ];
       _title = 'Comparaison des prix de vente des produits en une semaine';
       _firstSeriesName = 'Produit A';
@@ -136,7 +138,7 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: '周二', y: 1655, yValue: 1892),
         ChartSampleData(x: '周三', y: 1423, yValue: 1790),
         ChartSampleData(x: '周四', y: 2100, yValue: 2150),
-        ChartSampleData(x: '星期五', y: 1794, yValue: 1694)
+        ChartSampleData(x: '星期五', y: 1794, yValue: 1694),
       ];
       _title = '一周内产品销售价格比较';
       _firstSeriesName = '产品A';
@@ -147,7 +149,7 @@ class _LocalizationChartState extends LocalizationSampleViewState {
         ChartSampleData(x: 'martes', y: 1655, yValue: 1892),
         ChartSampleData(x: 'miércoles', y: 1423, yValue: 1790),
         ChartSampleData(x: 'jueves', y: 2100, yValue: 2150),
-        ChartSampleData(x: 'viernes', y: 1794, yValue: 1694)
+        ChartSampleData(x: 'viernes', y: 1794, yValue: 1694),
       ];
       _title = 'Comparación de precios de venta de productos en una semana';
       _firstSeriesName = 'Producto A';

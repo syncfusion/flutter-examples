@@ -30,47 +30,52 @@ class _StepSliderPageState extends SampleViewState {
 
   SfSliderTheme _sliderWithStepDurationCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfSlider(
-          min: DateTime(2010),
-          max: DateTime(2018),
-          showLabels: true,
-          interval: 2,
-          stepDuration: const SliderStepDuration(years: 2),
-          dateFormat: DateFormat.y(),
-          dateIntervalType: DateIntervalType.years,
-          showTicks: true,
-          value: _yearValue,
-          onChanged: (dynamic values) {
-            setState(() {
-              _yearValue = values as DateTime;
-            });
-          },
-          enableTooltip: true,
-          tooltipTextFormatterCallback:
-              (dynamic actualLabel, String formattedText) {
-            return DateFormat.y().format(actualLabel);
-          },
-        ));
+      data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfSlider(
+        min: DateTime(2010),
+        max: DateTime(2018),
+        showLabels: true,
+        interval: 2,
+        stepDuration: const SliderStepDuration(years: 2),
+        dateFormat: DateFormat.y(),
+        dateIntervalType: DateIntervalType.years,
+        showTicks: true,
+        value: _yearValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _yearValue = values as DateTime;
+          });
+        },
+        enableTooltip: true,
+        tooltipTextFormatterCallback: (
+          dynamic actualLabel,
+          String formattedText,
+        ) {
+          return DateFormat.y().format(actualLabel);
+        },
+      ),
+    );
   }
 
   SfSliderTheme _sliderWithStepCustomization() {
     return SfSliderTheme(
-        data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfSlider(
-            showLabels: true,
-            interval: 5,
-            min: -10.0,
-            max: 10.0,
-            stepSize: 5,
-            showTicks: true,
-            value: _stepSliderValue,
-            onChanged: (dynamic values) {
-              setState(() {
-                _stepSliderValue = values as double;
-              });
-            },
-            enableTooltip: true));
+      data: SfSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfSlider(
+        showLabels: true,
+        interval: 5,
+        min: -10.0,
+        max: 10.0,
+        stepSize: 5,
+        showTicks: true,
+        value: _stepSliderValue,
+        onChanged: (dynamic values) {
+          setState(() {
+            _stepSliderValue = values as double;
+          });
+        },
+        enableTooltip: true,
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -87,31 +92,35 @@ class _StepSliderPageState extends SampleViewState {
   Widget _buildMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
-        padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            title('Numeric'),
-            columnSpacing10,
-            _sliderWithStepCustomization(),
-            columnSpacing40,
-            title('Date'),
-            columnSpacing10,
-            _sliderWithStepDurationCustomization(),
-            columnSpacing40
-          ],
-        ));
+      padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          title('Numeric'),
+          columnSpacing10,
+          _sliderWithStepCustomization(),
+          columnSpacing40,
+          title('Date'),
+          columnSpacing10,
+          _sliderWithStepDurationCustomization(),
+          columnSpacing40,
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget slider =
-          model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
-      return constraints.maxHeight > 300
-          ? slider
-          : SingleChildScrollView(child: SizedBox(height: 300, child: slider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget slider =
+            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        return constraints.maxHeight > 300
+            ? slider
+            : SingleChildScrollView(
+              child: SizedBox(height: 300, child: slider),
+            );
+      },
+    );
   }
 }

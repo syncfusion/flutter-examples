@@ -59,9 +59,7 @@ class _TrendLineForecastState extends SampleViewState {
       1.12,
     ];
     for (int i = 1999; i <= 2019; i++) {
-      _trendLineData.add(
-        ChartSampleData(x: i, y: yValue![j]),
-      );
+      _trendLineData.add(ChartSampleData(x: i, y: yValue![j]));
       j++;
     }
     super.initState();
@@ -85,25 +83,20 @@ class _TrendLineForecastState extends SampleViewState {
           children: <Widget>[
             Text(
               'Forward forecast',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: model.textColor,
-              ),
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(30, 0, 20, 0),
               child: CustomDirectionalButtons(
                 maxValue: 50,
                 initialValue: _forwardForecastValue,
-                onChanged: (double val) => setState(() {
-                  _forwardForecastValue = val;
-                }),
+                onChanged:
+                    (double val) => setState(() {
+                      _forwardForecastValue = val;
+                    }),
                 loop: true,
                 iconColor: model.textColor,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: model.textColor,
-                ),
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
               ),
             ),
           ],
@@ -112,25 +105,20 @@ class _TrendLineForecastState extends SampleViewState {
           children: <Widget>[
             Text(
               'Backward forecast',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: model.textColor,
-              ),
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: CustomDirectionalButtons(
                 maxValue: 50,
                 initialValue: _backwardForecastValue,
-                onChanged: (double val) => setState(() {
-                  _backwardForecastValue = val;
-                }),
+                onChanged:
+                    (double val) => setState(() {
+                      _backwardForecastValue = val;
+                    }),
                 loop: true,
                 iconColor: model.textColor,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: model.textColor,
-                ),
+                style: TextStyle(fontSize: 20.0, color: model.textColor),
               ),
             ),
           ],
@@ -140,15 +128,13 @@ class _TrendLineForecastState extends SampleViewState {
   }
 
   /// Return the Cartesian Chart with Spline series.
-  SfCartesianChart _buildCartesianChart(
-    bool isMaterial3,
-    bool isLightMode,
-  ) {
-    final Color color = isMaterial3
-        ? (isLightMode
-            ? const Color.fromRGBO(99, 85, 199, 1)
-            : const Color.fromRGBO(51, 182, 119, 1))
-        : const Color.fromRGBO(192, 108, 132, 1);
+  SfCartesianChart _buildCartesianChart(bool isMaterial3, bool isLightMode) {
+    final Color color =
+        isMaterial3
+            ? (isLightMode
+                ? const Color.fromRGBO(99, 85, 199, 1)
+                : const Color.fromRGBO(51, 182, 119, 1))
+            : const Color.fromRGBO(192, 108, 132, 1);
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
@@ -160,9 +146,7 @@ class _TrendLineForecastState extends SampleViewState {
         interval: 2,
       ),
       primaryYAxis: NumericAxis(
-        title: AxisTitle(
-          text: isCardView ? '' : 'Dollars',
-        ),
+        title: AxisTitle(text: isCardView ? '' : 'Dollars'),
         axisLine: const AxisLine(width: 0),
         majorTickLines: const MajorTickLines(width: 0),
         minimum: 0.8,

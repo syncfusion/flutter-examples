@@ -30,25 +30,30 @@ class _ColumnVerticalState extends SampleViewState {
     );
     _chartData = <ChartSampleData>[
       ChartSampleData(
-          x: 'HP Inc',
-          y: 12.54,
-          pointColor: const Color.fromARGB(53, 92, 125, 1)),
+        x: 'HP Inc',
+        y: 12.54,
+        pointColor: const Color.fromARGB(53, 92, 125, 1),
+      ),
       ChartSampleData(
-          x: 'Lenovo',
-          y: 13.46,
-          pointColor: const Color.fromARGB(192, 108, 132, 1)),
+        x: 'Lenovo',
+        y: 13.46,
+        pointColor: const Color.fromARGB(192, 108, 132, 1),
+      ),
       ChartSampleData(
-          x: 'Dell',
-          y: 9.18,
-          pointColor: const Color.fromARGB(246, 114, 128, 1)),
+        x: 'Dell',
+        y: 9.18,
+        pointColor: const Color.fromARGB(246, 114, 128, 1),
+      ),
       ChartSampleData(
-          x: 'Apple',
-          y: 4.56,
-          pointColor: const Color.fromARGB(248, 177, 149, 1)),
+        x: 'Apple',
+        y: 4.56,
+        pointColor: const Color.fromARGB(248, 177, 149, 1),
+      ),
       ChartSampleData(
-          x: 'Asus',
-          y: 5.29,
-          pointColor: const Color.fromARGB(116, 180, 155, 1)),
+        x: 'Asus',
+        y: 5.29,
+        pointColor: const Color.fromARGB(116, 180, 155, 1),
+      ),
     ];
     super.initState();
   }
@@ -78,8 +83,8 @@ class _ColumnVerticalState extends SampleViewState {
           dataSource: _chartData,
           xValueMapper: (ChartSampleData sales, int index) => sales.x,
           yValueMapper: (ChartSampleData sales, int index) => sales.y,
-          pointColorMapper: (ChartSampleData sales, int index) =>
-              sales.pointColor,
+          pointColorMapper:
+              (ChartSampleData sales, int index) => sales.pointColor,
           width: 0.8,
           onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
             return _CustomColumnSeriesRenderer(model.themeData);
@@ -142,11 +147,12 @@ class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
   @override
   Paint getFillPaint() {
     final Paint customerFillPaint = Paint();
-    colorList = themeData.useMaterial3
-        ? (themeData.brightness == Brightness.light
-            ? colorListM3Light
-            : colorListM3Dark)
-        : colorList;
+    colorList =
+        themeData.useMaterial3
+            ? (themeData.brightness == Brightness.light
+                ? colorListM3Light
+                : colorListM3Dark)
+            : colorList;
     customerFillPaint.isAntiAlias = false;
     customerFillPaint.color = colorList[currentSegmentIndex];
     customerFillPaint.style = PaintingStyle.fill;

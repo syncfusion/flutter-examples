@@ -25,8 +25,10 @@ class DefaultRangeSliderPage extends SampleView {
 
 class _DefaultRangeSliderPageState extends SampleViewState {
   _DefaultRangeSliderPageState();
-  final SfRangeValues _inactiveRangeSliderValue =
-      const SfRangeValues(20.0, 80.0);
+  final SfRangeValues _inactiveRangeSliderValue = const SfRangeValues(
+    20.0,
+    80.0,
+  );
   SfRangeValues _activeRangeSliderValue = const SfRangeValues(20.0, 80.0);
 
   SfRangeSlider _inactiveRangeSlider() {
@@ -40,19 +42,19 @@ class _DefaultRangeSliderPageState extends SampleViewState {
 
   SfRangeSliderTheme _activeRangeSliderSlider() {
     return SfRangeSliderTheme(
-        data:
-            SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
-        child: SfRangeSlider(
-          max: 100.0,
-          onChanged: (dynamic values) {
-            setState(() {
-              _activeRangeSliderValue = values as SfRangeValues;
-            });
-          },
-          values: _activeRangeSliderValue,
-          enableTooltip: true,
-          numberFormat: NumberFormat('#'),
-        ));
+      data: SfRangeSliderThemeData(tooltipBackgroundColor: model.primaryColor),
+      child: SfRangeSlider(
+        max: 100.0,
+        onChanged: (dynamic values) {
+          setState(() {
+            _activeRangeSliderValue = values as SfRangeValues;
+          });
+        },
+        values: _activeRangeSliderValue,
+        enableTooltip: true,
+        numberFormat: NumberFormat('#'),
+      ),
+    );
   }
 
   Widget _buildWebLayout() {
@@ -69,29 +71,32 @@ class _DefaultRangeSliderPageState extends SampleViewState {
   Widget _getMobileLayout() {
     final double padding = MediaQuery.of(context).size.width / 20.0;
     return Container(
-        padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            title('Enabled'),
-            _activeRangeSliderSlider(),
-            columnSpacing40,
-            title('Disabled'),
-            _inactiveRangeSlider(),
-          ],
-        ));
+      padding: EdgeInsets.fromLTRB(padding, 0, padding, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          title('Enabled'),
+          _activeRangeSliderSlider(),
+          columnSpacing40,
+          title('Disabled'),
+          _inactiveRangeSlider(),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final Widget rangeSlider =
-          model.isWebFullView ? _buildWebLayout() : _getMobileLayout();
-      return constraints.maxHeight > 300
-          ? rangeSlider
-          : SingleChildScrollView(
-              child: SizedBox(height: 300, child: rangeSlider));
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final Widget rangeSlider =
+            model.isWebFullView ? _buildWebLayout() : _getMobileLayout();
+        return constraints.maxHeight > 300
+            ? rangeSlider
+            : SingleChildScrollView(
+              child: SizedBox(height: 300, child: rangeSlider),
+            );
+      },
+    );
   }
 }
