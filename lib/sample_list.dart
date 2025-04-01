@@ -8,7 +8,7 @@ import 'samples/ai_samples/ai_charts/data_pre_processing.dart';
 import 'samples/ai_samples/ai_charts/stock_forecasting.dart';
 import 'samples/ai_samples/ai_datagrid/anamoly_detection.dart';
 import 'samples/ai_samples/ai_datagrid/predictive_data_entry.dart';
-import 'samples/ai_samples/ai_map/location_finder.dart';
+import 'samples/ai_samples/ai_maps/location_finder.dart';
 import 'samples/ai_samples/ai_pdf_viewer/ai_document_summarization.dart';
 import 'samples/ai_samples/ai_pdf_viewer/ai_form_filling.dart';
 import 'samples/barcodes/data_matrix.dart';
