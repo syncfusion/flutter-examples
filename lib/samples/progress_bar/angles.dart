@@ -51,27 +51,24 @@ class _ProgressBarAnglesState extends SampleViewState {
     _progressBarColor = ProgressBarColor(model);
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size =
-          model.isWebFullView
-              ? MediaQuery.of(context).size.height / 6
-              : MediaQuery.of(context).size.height / 5.5;
+      _size = model.isWebFullView
+          ? MediaQuery.of(context).size.height / 6
+          : MediaQuery.of(context).size.height / 5.5;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _getFirstProgressBar(),
             Align(
-              alignment:
-                  !model.isWebFullView
-                      ? const Alignment(-0.3, 0)
-                      : Alignment.center,
+              alignment: !model.isWebFullView
+                  ? const Alignment(-0.3, 0)
+                  : Alignment.center,
               child: _getSecondProgressBar(),
             ),
             Align(
-              alignment:
-                  !model.isWebFullView
-                      ? const Alignment(0.3, 0)
-                      : Alignment.center,
+              alignment: !model.isWebFullView
+                  ? const Alignment(0.3, 0)
+                  : Alignment.center,
               child: _getThirdProgressBar(),
             ),
             _getFourthProgressBar(),
@@ -88,10 +85,9 @@ class _ProgressBarAnglesState extends SampleViewState {
             _getSecondProgressBar(),
             _getThirdProgressBar(),
             Align(
-              alignment:
-                  model.isWebFullView
-                      ? const Alignment(0, -0.5)
-                      : Alignment.center,
+              alignment: model.isWebFullView
+                  ? const Alignment(0, -0.5)
+                  : Alignment.center,
               child: _getFourthProgressBar(),
             ),
           ],

@@ -55,12 +55,10 @@ class _TooltipRangeSliderPageState extends SampleViewState {
         },
         enableTooltip: true,
         shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
-        tooltipTextFormatterCallback: (
-          dynamic actualLabel,
-          String formattedText,
-        ) {
-          return DateFormat.yMMM().format(actualLabel);
-        },
+        tooltipTextFormatterCallback:
+            (dynamic actualLabel, String formattedText) {
+              return DateFormat.yMMM().format(actualLabel);
+            },
       ),
     );
   }
@@ -86,12 +84,10 @@ class _TooltipRangeSliderPageState extends SampleViewState {
         enableTooltip: true,
         shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
         tooltipShape: const SfPaddleTooltipShape(),
-        tooltipTextFormatterCallback: (
-          dynamic actualLabel,
-          String formattedText,
-        ) {
-          return DateFormat('h:mm a').format(actualLabel);
-        },
+        tooltipTextFormatterCallback:
+            (dynamic actualLabel, String formattedText) {
+              return DateFormat('h:mm a').format(actualLabel);
+            },
       ),
     );
   }
@@ -131,13 +127,14 @@ class _TooltipRangeSliderPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget rangeSlider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget rangeSlider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 300
             ? rangeSlider
             : SingleChildScrollView(
-              child: SizedBox(height: 300, child: rangeSlider),
-            );
+                child: SizedBox(height: 300, child: rangeSlider),
+              );
       },
     );
   }

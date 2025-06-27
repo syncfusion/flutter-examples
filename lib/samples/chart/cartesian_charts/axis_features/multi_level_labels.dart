@@ -94,98 +94,30 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
       builder: (BuildContext context, StateSetter stateSetter) {
         return model.isWebFullView
             ? ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        'Border type',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: model.textColor,
+                shrinkWrap: true,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Border type',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: model.textColor,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: 35,
-                  padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      DropdownButton<String>(
-                        dropdownColor: model.drawerBackgroundColor,
-                        focusColor: Colors.transparent,
-                        underline: Container(
-                          color: const Color(0xFFBDBDBD),
-                          height: 1,
-                        ),
-                        value: _selectedBorderType,
-                        items:
-                            _multilevelBorderTypes!.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: (value != null) ? value : 'X',
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: model.textColor),
-                                ),
-                              );
-                            }).toList(),
-                        onChanged: (dynamic value) {
-                          _onMultilevelBorderTypeChanged(value.toString());
-                          stateSetter(() {});
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        'Axis label border',
-                        style: TextStyle(color: model.textColor, fontSize: 16),
-                      ),
-                      SizedBox(
-                        width: 75,
-                        child: CheckboxListTile(
-                          activeColor: model.primaryColor,
-                          value: _isAxisBorderEnabled,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _isAxisBorderEnabled = value;
-                              stateSetter(() {});
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-            : ListView(
-              shrinkWrap: true,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        'Border type   ',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: model.textColor,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                        child: DropdownButton<String>(
+                  Container(
+                    height: 35,
+                    padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        DropdownButton<String>(
                           dropdownColor: model.drawerBackgroundColor,
                           focusColor: Colors.transparent,
                           underline: Container(
@@ -193,38 +125,38 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                             height: 1,
                           ),
                           value: _selectedBorderType,
-                          items:
-                              _multilevelBorderTypes!.map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'X',
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(color: model.textColor),
-                                  ),
-                                );
-                              }).toList(),
+                          items: _multilevelBorderTypes!.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'X',
+                              child: Text(
+                                value,
+                                style: TextStyle(color: model.textColor),
+                              ),
+                            );
+                          }).toList(),
                           onChanged: (dynamic value) {
                             _onMultilevelBorderTypeChanged(value.toString());
                             stateSetter(() {});
                           },
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        'Axis label \nborder',
-                        style: TextStyle(color: model.textColor, fontSize: 16),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                        child: SizedBox(
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Axis label border',
+                          style: TextStyle(
+                            color: model.textColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(
                           width: 75,
                           child: CheckboxListTile(
+                            contentPadding: EdgeInsets.zero,
                             activeColor: model.primaryColor,
                             value: _isAxisBorderEnabled,
                             onChanged: (bool? value) {
@@ -235,12 +167,86 @@ class _MultiLevelLabelsSampleState extends SampleViewState {
                             },
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            );
+                ],
+              )
+            : ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Border type   ',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: model.textColor,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+                          child: DropdownButton<String>(
+                            dropdownColor: model.drawerBackgroundColor,
+                            focusColor: Colors.transparent,
+                            underline: Container(
+                              color: const Color(0xFFBDBDBD),
+                              height: 1,
+                            ),
+                            value: _selectedBorderType,
+                            items: _multilevelBorderTypes!.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: (value != null) ? value : 'X',
+                                child: Text(
+                                  value,
+                                  style: TextStyle(color: model.textColor),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (dynamic value) {
+                              _onMultilevelBorderTypeChanged(value.toString());
+                              stateSetter(() {});
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Axis label \nborder',
+                          style: TextStyle(
+                            color: model.textColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                          child: SizedBox(
+                            width: 75,
+                            child: CheckboxListTile(
+                              contentPadding: EdgeInsets.zero,
+                              activeColor: model.primaryColor,
+                              value: _isAxisBorderEnabled,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _isAxisBorderEnabled = value;
+                                  stateSetter(() {});
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
       },
     );
   }

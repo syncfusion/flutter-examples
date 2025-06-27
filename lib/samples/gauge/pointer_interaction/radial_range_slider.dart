@@ -35,15 +35,13 @@ class _RadialRangeSliderExampleState extends SampleViewState {
       _borderWidth = 4;
     }
     return Scaffold(
-      backgroundColor:
-          model.isWebFullView
-              ? Colors.transparent
-              : model.sampleOutputCardColor,
+      backgroundColor: model.isWebFullView
+          ? Colors.transparent
+          : model.sampleOutputCardColor,
       body: Padding(
-        padding:
-            model.isWebFullView
-                ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
-                : const EdgeInsets.fromLTRB(5, 0, 5, 50),
+        padding: model.isWebFullView
+            ? const EdgeInsets.fromLTRB(5, 20, 5, 20)
+            : const EdgeInsets.fromLTRB(5, 0, 5, 50),
         child: SfRadialGauge(
           axes: <RadialAxis>[
             RadialAxis(
@@ -51,12 +49,11 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                 thickness: model.isWebFullView ? 0.06 : _thickness,
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
-              radiusFactor:
-                  isCardView
-                      ? 0.95
-                      : model.isWebFullView
-                      ? 0.8
-                      : 0.85,
+              radiusFactor: isCardView
+                  ? 0.95
+                  : model.isWebFullView
+                  ? 0.8
+                  : 0.85,
               minorTicksPerInterval: 4,
               showFirstLabel: false,
               showLastLabel: true,
@@ -72,10 +69,9 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                   enableDragging: _enableDragging,
                   borderColor: const Color(0xFFFFCD60),
                   borderWidth: isCardView ? 3 : _borderWidth,
-                  color:
-                      model.themeData.brightness == Brightness.light
-                          ? Colors.white
-                          : Colors.black.withValues(alpha: 0.8),
+                  color: model.themeData.brightness == Brightness.light
+                      ? Colors.white
+                      : Colors.black.withValues(alpha: 0.8),
                   markerHeight: isCardView ? 15 : _markerSize,
                   markerWidth: isCardView ? 15 : _markerSize,
                   markerType: MarkerType.circle,
@@ -86,10 +82,9 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                   value: _secondMarkerValue,
                   onValueChanged: _handleSecondPointerValueChanged,
                   onValueChanging: _handleSecondPointerValueChanging,
-                  color:
-                      model.themeData.brightness == Brightness.light
-                          ? Colors.white
-                          : Colors.black.withValues(alpha: 0.8),
+                  color: model.themeData.brightness == Brightness.light
+                      ? Colors.white
+                      : Colors.black.withValues(alpha: 0.8),
                   enableDragging: _enableDragging,
                   borderColor: const Color(0xFFFFCD60),
                   markerHeight: isCardView ? 15 : _markerSize,
@@ -149,6 +144,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                   SizedBox(
                     width: 75,
                     child: CheckboxListTile(
+                      contentPadding: EdgeInsets.zero,
                       activeColor: model.primaryColor,
                       value: _enableDragging,
                       onChanged: (bool? value) {
@@ -171,10 +167,9 @@ class _RadialRangeSliderExampleState extends SampleViewState {
                     style: TextStyle(color: model.textColor),
                   ),
                   Container(
-                    padding:
-                        !model.isWebFullView
-                            ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
-                            : const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                    padding: !model.isWebFullView
+                        ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
+                        : const EdgeInsets.fromLTRB(50, 0, 0, 0),
                     child: CustomDirectionalButtons(
                       maxValue: 35,
                       minValue: 15,
@@ -202,8 +197,9 @@ class _RadialRangeSliderExampleState extends SampleViewState {
   void _handleFirstPointerValueChanged(double value) {
     setState(() {
       _firstMarkerValue = value;
-      final int firstMarkerValue =
-          (_firstMarkerValue - _secondMarkerValue).abs().toInt();
+      final int firstMarkerValue = (_firstMarkerValue - _secondMarkerValue)
+          .abs()
+          .toInt();
       final String hourValue = '$firstMarkerValue';
       _annotationValue = hourValue.length == 1 ? '0' + hourValue : hourValue;
       _calculateMinutes(firstMarkerValue);
@@ -232,8 +228,9 @@ class _RadialRangeSliderExampleState extends SampleViewState {
   void _handleSecondPointerValueChanged(double value) {
     setState(() {
       _secondMarkerValue = value;
-      final int secondMarkerValue =
-          (_firstMarkerValue - _secondMarkerValue).abs().toInt();
+      final int secondMarkerValue = (_firstMarkerValue - _secondMarkerValue)
+          .abs()
+          .toInt();
       final String hourValue = '$secondMarkerValue';
       _annotationValue = hourValue.length == 1 ? '0' + hourValue : hourValue;
       _calculateMinutes(secondMarkerValue);

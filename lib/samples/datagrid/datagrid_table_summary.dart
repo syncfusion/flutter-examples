@@ -50,10 +50,9 @@ class _TableSummaryDataGridState extends SampleViewState {
       source: _dataSource,
       columns: _obtainColumns(),
       tableSummaryRows: _loadTableSummaryRows(),
-      columnWidthMode:
-          _isWebOrDesktop || _isLandscapeInMobileView
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.auto,
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.auto,
       columnWidthCalculationRange: ColumnWidthCalculationRange.allRows,
     );
   }
@@ -128,8 +127,9 @@ class _TableSummaryDataGridState extends SampleViewState {
       ),
       GridColumn(
         autoFitPadding: const EdgeInsets.all(8.0),
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         columnName: 'name',
         label: Container(
           padding: const EdgeInsets.all(8),
@@ -138,10 +138,9 @@ class _TableSummaryDataGridState extends SampleViewState {
         ),
       ),
       GridColumn(
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
-                ? 140.0
-                : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
+            ? 140.0
+            : double.nan,
         columnName: 'freight',
         label: Container(
           padding: const EdgeInsets.all(8),
@@ -151,8 +150,9 @@ class _TableSummaryDataGridState extends SampleViewState {
       ),
       GridColumn(
         autoFitPadding: const EdgeInsets.all(8.0),
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         columnName: 'city',
         label: Container(
           padding: const EdgeInsets.all(8),
@@ -161,10 +161,9 @@ class _TableSummaryDataGridState extends SampleViewState {
         ),
       ),
       GridColumn(
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
-                ? 120.0
-                : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution) || !_isWebOrDesktop
+            ? 120.0
+            : double.nan,
         columnName: 'price',
         label: Container(
           padding: const EdgeInsets.all(8),

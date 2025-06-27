@@ -28,10 +28,9 @@ class _RadialSliderThumbState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size =
-          model.isWebFullView
-              ? MediaQuery.of(context).size.height / 3.5
-              : MediaQuery.of(context).size.height / 5;
+      _size = model.isWebFullView
+          ? MediaQuery.of(context).size.height / 3.5
+          : MediaQuery.of(context).size.height / 5;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -100,10 +99,9 @@ class _RadialSliderThumbState extends SampleViewState {
                 value: _progressValue1,
                 width: 0.1,
                 sizeUnit: GaugeSizeUnit.factor,
-                color:
-                    model.isWebFullView
-                        ? const Color.fromRGBO(197, 91, 226, 1)
-                        : null,
+                color: model.isWebFullView
+                    ? const Color.fromRGBO(197, 91, 226, 1)
+                    : null,
                 gradient: const SweepGradient(
                   colors: <Color>[
                     Color.fromRGBO(197, 91, 226, 1),
@@ -158,10 +156,9 @@ class _RadialSliderThumbState extends SampleViewState {
                 value: _progressValue2,
                 width: 0.1,
                 sizeUnit: GaugeSizeUnit.factor,
-                color:
-                    model.isWebFullView
-                        ? const Color.fromRGBO(197, 91, 226, 1)
-                        : null,
+                color: model.isWebFullView
+                    ? const Color.fromRGBO(197, 91, 226, 1)
+                    : null,
                 gradient: const SweepGradient(
                   colors: <Color>[
                     Color.fromRGBO(197, 91, 226, 1),

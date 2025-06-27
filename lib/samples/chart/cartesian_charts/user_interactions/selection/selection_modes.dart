@@ -169,13 +169,12 @@ class _DefaultSelectionState extends SampleViewState {
       focusColor: Colors.transparent,
       underline: Container(color: const Color(0xFFBDBDBD), height: 1),
       value: _selectedMode,
-      items:
-          _modeList.map((String value) {
-            return DropdownMenuItem<String>(
-              value: (value != null) ? value : 'point',
-              child: Text(value, style: TextStyle(color: model.textColor)),
-            );
-          }).toList(),
+      items: _modeList.map((String value) {
+        return DropdownMenuItem<String>(
+          value: (value != null) ? value : 'point',
+          child: Text(value, style: TextStyle(color: model.textColor)),
+        );
+      }).toList(),
       onChanged: (dynamic value) {
         _updateSelectionMode(value);
         stateSetter(() {});
@@ -229,16 +228,16 @@ class _DefaultSelectionState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index_) => data.secondSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index_) =>
+            data.secondSeriesYValue,
         selectionBehavior: _selectionBehavior,
         name: 'Age 15-64',
       ),
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.thirdSeriesYValue,
         selectionBehavior: _selectionBehavior,
         name: 'Age 65 & Above',
       ),

@@ -51,10 +51,9 @@ class _CalendarColorPickerState extends State<CalendarColorPicker> {
       data: widget.model.themeData,
       child: AlertDialog(
         content: SizedBox(
-          width:
-              kIsWeb || widget.model.isWindows || widget.model.isMacOS
-                  ? 500
-                  : double.maxFinite,
+          width: kIsWeb || widget.model.isWindows || widget.model.isMacOS
+              ? 500
+              : double.maxFinite,
           height: (widget.colorCollection.length * 50).toDouble(),
           child: ListView.builder(
             padding: EdgeInsets.zero,
@@ -133,10 +132,9 @@ class _ResourcePickerState extends State<ResourcePicker> {
                   leading: CircleAvatar(
                     backgroundColor: widget.model.primaryColor,
                     backgroundImage: resource.image,
-                    child:
-                        resource.image == null
-                            ? Text(resource.displayName[0])
-                            : null,
+                    child: resource.image == null
+                        ? Text(resource.displayName[0])
+                        : null,
                   ),
                   title: Text(resource.displayName),
                   onTap: () {

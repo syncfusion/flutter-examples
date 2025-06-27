@@ -55,63 +55,62 @@ class _AxisTrackState extends SampleViewState {
   Widget _buildAxisTrack(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
-      child:
-          _isHorizontalOrientation
-              ? Column(
-                children: <Widget>[
-                  _buildHorizontalGauges(
-                    'Default axis',
-                    _buildDefaultAxis(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Edge style',
-                    _buildEdgeStyleAxis(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Inversed axis',
-                    _buildInversedAxis(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Range color for axis',
-                    _buildRangeColorAxis(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Axis extent',
-                    _buildAxisExtent(context),
-                  ),
-                ],
-              )
-              : Column(
-                children: <Widget>[
-                  Wrap(
-                    runSpacing: 30,
-                    spacing: 16,
-                    alignment: WrapAlignment.center,
-                    children: <Widget>[
-                      _buildVerticalGauges(
-                        'Default axis',
-                        _buildDefaultAxis(context),
-                      ),
-                      _buildVerticalGauges(
-                        'Edge style',
-                        _buildEdgeStyleAxis(context),
-                      ),
-                      _buildVerticalGauges(
-                        'Axis extent',
-                        _buildAxisExtent(context),
-                      ),
-                      _buildVerticalGauges(
-                        'Range color for axis',
-                        _buildRangeColorAxis(context),
-                      ),
-                      _buildVerticalGauges(
-                        'Inversed axis',
-                        _buildInversedAxis(context),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      child: _isHorizontalOrientation
+          ? Column(
+              children: <Widget>[
+                _buildHorizontalGauges(
+                  'Default axis',
+                  _buildDefaultAxis(context),
+                ),
+                _buildHorizontalGauges(
+                  'Edge style',
+                  _buildEdgeStyleAxis(context),
+                ),
+                _buildHorizontalGauges(
+                  'Inversed axis',
+                  _buildInversedAxis(context),
+                ),
+                _buildHorizontalGauges(
+                  'Range color for axis',
+                  _buildRangeColorAxis(context),
+                ),
+                _buildHorizontalGauges(
+                  'Axis extent',
+                  _buildAxisExtent(context),
+                ),
+              ],
+            )
+          : Column(
+              children: <Widget>[
+                Wrap(
+                  runSpacing: 30,
+                  spacing: 16,
+                  alignment: WrapAlignment.center,
+                  children: <Widget>[
+                    _buildVerticalGauges(
+                      'Default axis',
+                      _buildDefaultAxis(context),
+                    ),
+                    _buildVerticalGauges(
+                      'Edge style',
+                      _buildEdgeStyleAxis(context),
+                    ),
+                    _buildVerticalGauges(
+                      'Axis extent',
+                      _buildAxisExtent(context),
+                    ),
+                    _buildVerticalGauges(
+                      'Range color for axis',
+                      _buildRangeColorAxis(context),
+                    ),
+                    _buildVerticalGauges(
+                      'Inversed axis',
+                      _buildInversedAxis(context),
+                    ),
+                  ],
+                ),
+              ],
+            ),
     );
   }
 
@@ -147,10 +146,9 @@ class _AxisTrackState extends SampleViewState {
     return SizedBox(
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
       ),
     );
   }
@@ -161,10 +159,9 @@ class _AxisTrackState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         axisTrackExtent: 8,
         axisTrackStyle: const LinearAxisTrackStyle(
           thickness: 24,
@@ -181,10 +178,9 @@ class _AxisTrackState extends SampleViewState {
       child: SfLinearGauge(
         isAxisInversed: true,
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         barPointers: <LinearBarPointer>[LinearBarPointer(value: _pointerValue)],
         markerPointers: <LinearMarkerPointer>[
           LinearShapePointer(
@@ -210,18 +206,16 @@ class _AxisTrackState extends SampleViewState {
         minorTicksPerInterval: 4,
         useRangeColorForAxis: true,
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         axisTrackStyle: const LinearAxisTrackStyle(thickness: 1),
         ranges: <LinearGaugeRange>[
           LinearGaugeRange(
             endValue: 33,
-            color:
-                brightness == Brightness.light
-                    ? const Color(0xffF45656)
-                    : const Color(0xffFF7B7B),
+            color: brightness == Brightness.light
+                ? const Color(0xffF45656)
+                : const Color(0xffFF7B7B),
           ),
           const LinearGaugeRange(
             startValue: 33,
@@ -240,10 +234,9 @@ class _AxisTrackState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         axisTrackExtent: 20,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         labelOffset: 10,
         minorTicksPerInterval: 0,
         animateAxis: true,
@@ -277,10 +270,9 @@ class _AxisTrackState extends SampleViewState {
             ),
           ),
         },
-        onValueChanged:
-            (bool value) => setState(() {
-              _isHorizontalOrientation = value;
-            }),
+        onValueChanged: (bool value) => setState(() {
+          _isHorizontalOrientation = value;
+        }),
         groupValue: _isHorizontalOrientation,
       ),
     );

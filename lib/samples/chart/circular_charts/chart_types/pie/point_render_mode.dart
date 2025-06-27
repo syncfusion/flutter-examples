@@ -51,8 +51,9 @@ class _PiePointRenderModeState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
 
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
@@ -109,13 +110,12 @@ class _PiePointRenderModeState extends SampleViewState {
         focusColor: Colors.transparent,
         underline: Container(color: const Color(0xFFBDBDBD), height: 1),
         value: _selectedMode,
-        items:
-            _modeList!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'Render mode',
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
+        items: _modeList!.map((String value) {
+          return DropdownMenuItem<String>(
+            value: (value != null) ? value : 'Render mode',
+            child: Text(value, style: TextStyle(color: model.textColor)),
+          );
+        }).toList(),
         onChanged: (dynamic value) {
           setState(() {
             _onPointRenderModeChange(value);

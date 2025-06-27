@@ -152,22 +152,20 @@ mixin AISampleMixin on SampleViewState {
             Padding(
               padding: const EdgeInsets.only(right: 5.0),
               child: IconButton(
-                onPressed:
-                    assistApiKeyController.text.isEmpty
-                        ? null
-                        : () {
-                          setState(() {
-                            model.assistApiKey = assistApiKeyController.text;
-                            assistApiKeyController.clear();
-                            Navigator.of(context).pop();
-                          });
-                        },
+                onPressed: assistApiKeyController.text.isEmpty
+                    ? null
+                    : () {
+                        setState(() {
+                          model.assistApiKey = assistApiKeyController.text;
+                          assistApiKeyController.clear();
+                          Navigator.of(context).pop();
+                        });
+                      },
                 icon: Icon(
                   Icons.send,
-                  color:
-                      assistApiKeyController.text.isEmpty
-                          ? Colors.grey[500]
-                          : model.primaryColor,
+                  color: assistApiKeyController.text.isEmpty
+                      ? Colors.grey[500]
+                      : model.primaryColor,
                 ),
               ),
             ),

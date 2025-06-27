@@ -53,59 +53,55 @@ class _RangeCustomizationState extends SampleViewState {
   Widget _buildRange(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
-      child:
-          _isHorizontalOrientation
-              ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildHorizontalGauges('Default', _buildDefaultRange()),
-                  _buildHorizontalGauges(
-                    'Exponential',
-                    _buildExponentialRange(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Concave',
-                    _buildConcaveRange(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Gradient shader',
-                    _buildRangeShader(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Multiple ranges',
-                    _buildMultipleRanges(context),
-                  ),
-                ],
-              )
-              : Column(
-                children: <Widget>[
-                  Wrap(
-                    runSpacing: 30,
-                    spacing: 16,
-                    alignment: WrapAlignment.center,
-                    children: <Widget>[
-                      _buildVerticalGauges('Default', _buildDefaultRange()),
-                      _buildVerticalGauges(
-                        'Exponential',
-                        _buildExponentialRange(context),
-                      ),
-                      _buildVerticalGauges(
-                        'Concave',
-                        _buildConcaveRange(context),
-                      ),
-                      _buildVerticalGauges(
-                        'Gradient shader',
-                        _buildRangeShader(context),
-                      ),
-                      _buildVerticalGauges(
-                        'Multiple ranges',
-                        _buildMultipleRanges(context),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      child: _isHorizontalOrientation
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildHorizontalGauges('Default', _buildDefaultRange()),
+                _buildHorizontalGauges(
+                  'Exponential',
+                  _buildExponentialRange(context),
+                ),
+                _buildHorizontalGauges('Concave', _buildConcaveRange(context)),
+                _buildHorizontalGauges(
+                  'Gradient shader',
+                  _buildRangeShader(context),
+                ),
+                _buildHorizontalGauges(
+                  'Multiple ranges',
+                  _buildMultipleRanges(context),
+                ),
+              ],
+            )
+          : Column(
+              children: <Widget>[
+                Wrap(
+                  runSpacing: 30,
+                  spacing: 16,
+                  alignment: WrapAlignment.center,
+                  children: <Widget>[
+                    _buildVerticalGauges('Default', _buildDefaultRange()),
+                    _buildVerticalGauges(
+                      'Exponential',
+                      _buildExponentialRange(context),
+                    ),
+                    _buildVerticalGauges(
+                      'Concave',
+                      _buildConcaveRange(context),
+                    ),
+                    _buildVerticalGauges(
+                      'Gradient shader',
+                      _buildRangeShader(context),
+                    ),
+                    _buildVerticalGauges(
+                      'Multiple ranges',
+                      _buildMultipleRanges(context),
+                    ),
+                  ],
+                ),
+              ],
+            ),
     );
   }
 
@@ -143,10 +139,9 @@ class _RangeCustomizationState extends SampleViewState {
       child: SfLinearGauge(
         animateAxis: true,
         animateRange: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         ranges: const <LinearGaugeRange>[LinearGaugeRange()],
       ),
     );
@@ -159,10 +154,9 @@ class _RangeCustomizationState extends SampleViewState {
       child: SfLinearGauge(
         animateAxis: true,
         animateRange: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         ranges: const <LinearGaugeRange>[
           LinearGaugeRange(
             midValue: 50.0,
@@ -182,10 +176,9 @@ class _RangeCustomizationState extends SampleViewState {
       child: SfLinearGauge(
         animateAxis: true,
         animateRange: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         ranges: const <LinearGaugeRange>[
           LinearGaugeRange(
             midValue: 50.0,
@@ -206,10 +199,9 @@ class _RangeCustomizationState extends SampleViewState {
       child: SfLinearGauge(
         animateAxis: true,
         animateRange: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         ranges: <LinearGaugeRange>[
           LinearGaugeRange(
             midValue: 50.0,
@@ -218,14 +210,12 @@ class _RangeCustomizationState extends SampleViewState {
             endWidth: 40,
             shaderCallback: (Rect bounds) {
               return LinearGradient(
-                begin:
-                    _isHorizontalOrientation
-                        ? Alignment.centerLeft
-                        : Alignment.topCenter,
-                end:
-                    _isHorizontalOrientation
-                        ? Alignment.centerRight
-                        : Alignment.bottomCenter,
+                begin: _isHorizontalOrientation
+                    ? Alignment.centerLeft
+                    : Alignment.topCenter,
+                end: _isHorizontalOrientation
+                    ? Alignment.centerRight
+                    : Alignment.bottomCenter,
                 colors: const <Color>[
                   Color(0xff42C09A),
                   Color(0xffE8DA5D),
@@ -249,10 +239,9 @@ class _RangeCustomizationState extends SampleViewState {
       child: SfLinearGauge(
         animateAxis: true,
         animateRange: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         ranges: <LinearGaugeRange>[
           LinearGaugeRange(
             endValue: 30,
@@ -260,10 +249,9 @@ class _RangeCustomizationState extends SampleViewState {
             midWidth: 40,
             endWidth: 40,
             child: Container(
-              color:
-                  brightness == Brightness.light
-                      ? const Color(0xffF45656)
-                      : const Color(0xffFF7B7B),
+              color: brightness == Brightness.light
+                  ? const Color(0xffF45656)
+                  : const Color(0xffFF7B7B),
             ),
           ),
           LinearGaugeRange(
@@ -273,10 +261,9 @@ class _RangeCustomizationState extends SampleViewState {
             midWidth: 40,
             endWidth: 40,
             child: Container(
-              color:
-                  brightness == Brightness.light
-                      ? const Color(0xffFFC93E)
-                      : const Color(0xffFFC93E),
+              color: brightness == Brightness.light
+                  ? const Color(0xffFFC93E)
+                  : const Color(0xffFFC93E),
             ),
           ),
           LinearGaugeRange(
@@ -285,10 +272,9 @@ class _RangeCustomizationState extends SampleViewState {
             midWidth: 40,
             endWidth: 40,
             child: Container(
-              color:
-                  brightness == Brightness.light
-                      ? const Color(0xff0DC9AB)
-                      : const Color(0xff0DC9AB),
+              color: brightness == Brightness.light
+                  ? const Color(0xff0DC9AB)
+                  : const Color(0xff0DC9AB),
             ),
           ),
           LinearGaugeRange(
@@ -386,10 +372,9 @@ class _RangeCustomizationState extends SampleViewState {
             ),
           ),
         },
-        onValueChanged:
-            (bool value) => setState(() {
-              _isHorizontalOrientation = value;
-            }),
+        onValueChanged: (bool value) => setState(() {
+          _isHorizontalOrientation = value;
+        }),
         groupValue: _isHorizontalOrientation,
       ),
     );

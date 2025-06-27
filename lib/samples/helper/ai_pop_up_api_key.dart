@@ -64,7 +64,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
                   const SizedBox(height: 10),
                   _buildRichText(
                     text:
-                        '\n If you prefer to explore this sample without an API key, you may close this pop-up. You can still access samples featuring AI responses that are stored locally',
+                        '\nIf you prefer to explore this sample without an API key, you may close this pop-up. You can still access samples featuring AI responses that are stored locally',
                     linkText: '',
                     url: '',
                     trailingText: '.\n',
@@ -105,7 +105,7 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
               ' package is utilized to interact with Google AI and obtain responses for the requests.',
         ),
         _buildRichText(
-          text: '\n To create an API key, visit ',
+          text: '\nTo create an API key, visit ',
           linkText: 'here',
           url: 'https://ai.google.dev/tutorials/setup',
           trailingText: ' and share it below. \n',
@@ -123,11 +123,11 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
     return RichText(
       text: TextSpan(
         style: TextStyle(
-          color:
-              Theme.of(context).brightness == Brightness.light
-                  ? Colors.black
-                  : Colors.white,
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.black
+              : Colors.white,
           fontSize: 14,
+          height: 1.5,
         ),
         children: [
           TextSpan(text: text),
@@ -182,21 +182,19 @@ class _WelcomeDialogState extends State<WelcomeDialog> {
             Padding(
               padding: const EdgeInsets.only(right: 5.0),
               child: IconButton(
-                onPressed:
-                    _apiKeyController.text.isEmpty
-                        ? null
-                        : () {
-                          setState(() {
-                            widget.onApiKeySaved(_apiKeyController.text);
-                            Navigator.of(context).pop();
-                          });
-                        },
+                onPressed: _apiKeyController.text.isEmpty
+                    ? null
+                    : () {
+                        setState(() {
+                          widget.onApiKeySaved(_apiKeyController.text);
+                          Navigator.of(context).pop();
+                        });
+                      },
                 icon: Icon(
                   Icons.send,
-                  color:
-                      _apiKeyController.text.isEmpty
-                          ? Colors.grey[500]
-                          : widget.primaryColor,
+                  color: _apiKeyController.text.isEmpty
+                      ? Colors.grey[500]
+                      : widget.primaryColor,
                 ),
               ),
             ),

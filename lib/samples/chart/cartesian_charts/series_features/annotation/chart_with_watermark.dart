@@ -97,10 +97,9 @@ class _AnnotationDefaultState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-        text:
-            isCardView
-                ? ''
-                : 'Euro to USD monthly exchange rate - 2015 to 2018',
+        text: isCardView
+            ? ''
+            : 'Euro to USD monthly exchange rate - 2015 to 2018',
       ),
       primaryXAxis: const DateTimeAxis(
         majorGridLines: MajorGridLines(width: 0),

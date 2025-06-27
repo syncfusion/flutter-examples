@@ -57,16 +57,16 @@ class _AgendaViewCalendarState extends SampleViewState {
     return model.isMobileResolution &&
             _deviceOrientation == Orientation.landscape
         ? Scrollbar(
-          child: ListView(
-            children: <Widget>[
-              Container(
-                color: model.sampleOutputCardColor,
-                height: 600,
-                child: calendar,
-              ),
-            ],
-          ),
-        )
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  color: model.sampleOutputCardColor,
+                  height: 600,
+                  child: calendar,
+                ),
+              ],
+            ),
+          )
         : Container(color: model.sampleOutputCardColor, child: calendar);
   }
 
@@ -160,11 +160,8 @@ class _AgendaViewCalendarState extends SampleViewState {
   /// first date of the month for rest of the months.
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      final DateTime currentViewDate =
-          visibleDatesChangedDetails.visibleDates[visibleDatesChangedDetails
-                  .visibleDates
-                  .length ~/
-              2];
+      final DateTime currentViewDate = visibleDatesChangedDetails
+          .visibleDates[visibleDatesChangedDetails.visibleDates.length ~/ 2];
       if (model.isWebFullView) {
         if (DateTime.now().isAfter(
               visibleDatesChangedDetails.visibleDates[0],

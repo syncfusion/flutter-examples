@@ -41,14 +41,13 @@ class _GaugeLabelCustomizationState extends SampleViewState {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    width:
-                        isWebOrDesktop
-                            ? MediaQuery.of(context).size.width >= 1000
-                                ? _isHorizontalOrientation
+                    width: isWebOrDesktop
+                        ? MediaQuery.of(context).size.width >= 1000
+                              ? _isHorizontalOrientation
                                     ? MediaQuery.of(context).size.width / 3
                                     : MediaQuery.of(context).size.width
-                                : 440
-                            : MediaQuery.of(context).size.width,
+                              : 440
+                        : MediaQuery.of(context).size.width,
                     child: _buildLabelCustomization(context),
                   ),
                 ],
@@ -64,54 +63,50 @@ class _GaugeLabelCustomizationState extends SampleViewState {
   Widget _buildLabelCustomization(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
-      child:
-          _isHorizontalOrientation
-              ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildHorizontalGauges('Custom labels', _buildCustomLabels()),
-                  _buildHorizontalGauges(
-                    'Label offset',
-                    _buildLabelsWithOffset(),
-                  ),
-                  _buildHorizontalGauges(
-                    'Text labels',
-                    _buildTextLabels(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Label style customization',
-                    _buildLabelStyleCustomization(context),
-                  ),
-                ],
-              )
-              : Column(
-                children: <Widget>[
-                  Wrap(
-                    runSpacing: 30,
-                    spacing: 16,
-                    alignment: WrapAlignment.center,
-                    children: <Widget>[
-                      _buildVerticalGauges(
-                        'Custom labels',
-                        _buildCustomLabels(),
-                      ),
-                      _buildVerticalGauges(
-                        'Text labels',
-                        _buildTextLabels(context),
-                      ),
-                      _buildVerticalGauges(
-                        'Label offset',
-                        _buildLabelsWithOffset(),
-                      ),
-                      _buildVerticalGauges(
-                        'Label style customization',
-                        _buildLabelStyleCustomization(context),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      child: _isHorizontalOrientation
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildHorizontalGauges('Custom labels', _buildCustomLabels()),
+                _buildHorizontalGauges(
+                  'Label offset',
+                  _buildLabelsWithOffset(),
+                ),
+                _buildHorizontalGauges(
+                  'Text labels',
+                  _buildTextLabels(context),
+                ),
+                _buildHorizontalGauges(
+                  'Label style customization',
+                  _buildLabelStyleCustomization(context),
+                ),
+              ],
+            )
+          : Column(
+              children: <Widget>[
+                Wrap(
+                  runSpacing: 30,
+                  spacing: 16,
+                  alignment: WrapAlignment.center,
+                  children: <Widget>[
+                    _buildVerticalGauges('Custom labels', _buildCustomLabels()),
+                    _buildVerticalGauges(
+                      'Text labels',
+                      _buildTextLabels(context),
+                    ),
+                    _buildVerticalGauges(
+                      'Label offset',
+                      _buildLabelsWithOffset(),
+                    ),
+                    _buildVerticalGauges(
+                      'Label style customization',
+                      _buildLabelStyleCustomization(context),
+                    ),
+                  ],
+                ),
+              ],
+            ),
     );
   }
 
@@ -157,10 +152,9 @@ class _GaugeLabelCustomizationState extends SampleViewState {
         },
         maximum: 30,
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
       ),
     );
   }
@@ -173,20 +167,19 @@ class _GaugeLabelCustomizationState extends SampleViewState {
     const double packedState = 10;
     const double shippedState = 20;
     const double deliveredState = 30;
-    const Color activeColor =
-        deliveryStatus > orderState ? Color(0xff0DC9AB) : Color(0xffD1D9DD);
-    final Color inactiveColor =
-        brightness == Brightness.dark
-            ? const Color(0xff62686A)
-            : const Color(0xFFD1D9DD);
+    const Color activeColor = deliveryStatus > orderState
+        ? Color(0xff0DC9AB)
+        : Color(0xffD1D9DD);
+    final Color inactiveColor = brightness == Brightness.dark
+        ? const Color(0xff62686A)
+        : const Color(0xFFD1D9DD);
 
     return SizedBox(
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         maximum: 30,
         labelOffset: 24,
         isAxisInversed: !_isHorizontalOrientation,
@@ -277,10 +270,9 @@ class _GaugeLabelCustomizationState extends SampleViewState {
       child: SfLinearGauge(
         animateAxis: true,
         labelOffset: 16,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
       ),
     );
   }
@@ -292,17 +284,15 @@ class _GaugeLabelCustomizationState extends SampleViewState {
     return SizedBox(
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         axisLabelStyle: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 10,
-          color:
-              brightness == Brightness.dark
-                  ? const Color(0xff8580FF)
-                  : const Color(0xff6F20F0),
+          color: brightness == Brightness.dark
+              ? const Color(0xff8580FF)
+              : const Color(0xff6F20F0),
         ),
       ),
     );
@@ -334,10 +324,9 @@ class _GaugeLabelCustomizationState extends SampleViewState {
             ),
           ),
         },
-        onValueChanged:
-            (bool value) => setState(() {
-              _isHorizontalOrientation = value;
-            }),
+        onValueChanged: (bool value) => setState(() {
+          _isHorizontalOrientation = value;
+        }),
         groupValue: _isHorizontalOrientation,
       ),
     );

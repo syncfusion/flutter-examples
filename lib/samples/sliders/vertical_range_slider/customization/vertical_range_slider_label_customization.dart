@@ -55,6 +55,7 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
         labelPlacement: _labelPlacement,
         showLabels: true,
         interval: 5,
+        stepDuration: const SliderStepDuration(years: 5),
         dateFormat: DateFormat.y(),
         dateIntervalType: DateIntervalType.years,
         showTicks: true,
@@ -64,13 +65,31 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
             _yearValues = values;
           });
         },
+        onLabelCreated:
+            (dynamic actualValue, String formattedText, TextStyle textStyle) {
+              final DateTime valueDate = actualValue;
+              final DateTime startDate = _yearValues.start;
+              final DateTime endDate = _yearValues.end;
+              final int value = valueDate.year;
+              final int start = startDate.year;
+              final int end = endDate.year;
+              final bool isStartIndex = value == start;
+              final bool isEndIndex = value == end;
+              return RangeSliderLabel(
+                text: formattedText,
+                textStyle: (isEndIndex || isStartIndex)
+                    ? Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: model.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      )
+                    : textStyle,
+              );
+            },
         enableTooltip: true,
-        tooltipTextFormatterCallback: (
-          dynamic actualLabel,
-          String formattedText,
-        ) {
-          return DateFormat.yMMM().format(actualLabel);
-        },
+        tooltipTextFormatterCallback:
+            (dynamic actualLabel, String formattedText) {
+              return DateFormat.yMMM().format(actualLabel);
+            },
       ),
     );
   }
@@ -83,6 +102,7 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
         labelPlacement: _labelPlacement,
         showLabels: true,
         interval: 25,
+        stepSize: 25,
         min: -50.0,
         max: 50.0,
         showTicks: true,
@@ -92,6 +112,25 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
             _values = values;
           });
         },
+        onLabelCreated:
+            (dynamic actualValue, String formattedText, TextStyle textStyle) {
+              final int value = actualValue.toInt();
+              final int start = _values.start.toInt();
+              final int end = _values.end.toInt();
+              final bool isStartIndex = value == start;
+              final bool isEndIndex = value == end;
+              return RangeSliderLabel(
+                text: (isStartIndex || isEndIndex)
+                    ? formattedText
+                    : '$actualValue',
+                textStyle: (isStartIndex || isEndIndex)
+                    ? Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: model.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      )
+                    : textStyle,
+              );
+            },
         enableTooltip: true,
       ),
     );
@@ -135,13 +174,14 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget rangeSlider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget rangeSlider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 350
             ? rangeSlider
             : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider),
-            );
+                child: SizedBox(height: 400, child: rangeSlider),
+              );
       },
     );
   }
@@ -171,16 +211,15 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedLabelPlacementType,
-                    items:
-                        _labelpositionList.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'on ticks',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _labelpositionList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'on ticks',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onLabelPositionTypeChange(value.toString());
                       stateSetter(() {});
@@ -212,16 +251,15 @@ class _VerticalRangeSliderCustomizationState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedType,
-                    items:
-                        _edgeList!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'inside',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _edgeList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'inside',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onPositionTypeChange(value.toString());
                       stateSetter(() {});

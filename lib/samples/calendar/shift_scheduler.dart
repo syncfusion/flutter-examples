@@ -156,13 +156,12 @@ class _ShiftSchedulerState extends SampleViewState {
               child: Center(
                 child: SizedBox(
                   width: isAppointmentTapped ? 400 : 500,
-                  height:
-                      isAppointmentTapped
-                          ? (_selectedAppointment!.location == null ||
-                                  _selectedAppointment!.location!.isEmpty
-                              ? 200
-                              : 250)
-                          : 450,
+                  height: isAppointmentTapped
+                      ? (_selectedAppointment!.location == null ||
+                                _selectedAppointment!.location!.isEmpty
+                            ? 200
+                            : 250)
+                      : 450,
                   child: Theme(
                     data: model.themeData,
                     child: Card(
@@ -171,31 +170,30 @@ class _ShiftSchedulerState extends SampleViewState {
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      child:
-                          isAppointmentTapped
-                              ? displayAppointmentDetails(
-                                context,
-                                targetElement,
-                                selectedDate,
-                                model,
-                                _selectedAppointment!,
-                                _colorCollection,
-                                _colorNames,
-                                _events,
-                                _timeZoneCollection,
-                                _visibleDates,
-                              )
-                              : PopUpAppointmentEditor(
-                                model,
-                                newAppointment,
-                                appointment,
-                                _events,
-                                _colorCollection,
-                                _colorNames,
-                                _selectedAppointment!,
-                                _timeZoneCollection,
-                                _visibleDates,
-                              ),
+                      child: isAppointmentTapped
+                          ? displayAppointmentDetails(
+                              context,
+                              targetElement,
+                              selectedDate,
+                              model,
+                              _selectedAppointment!,
+                              _colorCollection,
+                              _colorNames,
+                              _events,
+                              _timeZoneCollection,
+                              _visibleDates,
+                            )
+                          : PopUpAppointmentEditor(
+                              model,
+                              newAppointment,
+                              appointment,
+                              _events,
+                              _colorCollection,
+                              _colorNames,
+                              _selectedAppointment!,
+                              _timeZoneCollection,
+                              _visibleDates,
+                            ),
                     ),
                   ),
                 ),
@@ -208,18 +206,17 @@ class _ShiftSchedulerState extends SampleViewState {
         Navigator.push<Widget>(
           context,
           MaterialPageRoute<Widget>(
-            builder:
-                (BuildContext context) => AppointmentEditor(
-                  model,
-                  _selectedAppointment,
-                  targetElement,
-                  selectedDate,
-                  _colorCollection,
-                  _colorNames,
-                  _events,
-                  _timeZoneCollection,
-                  calendarTapDetails.resource,
-                ),
+            builder: (BuildContext context) => AppointmentEditor(
+              model,
+              _selectedAppointment,
+              targetElement,
+              selectedDate,
+              _colorCollection,
+              _colorNames,
+              _events,
+              _timeZoneCollection,
+              calendarTapDetails.resource,
+            ),
           ),
         );
       }
@@ -432,8 +429,9 @@ class _ShiftSchedulerState extends SampleViewState {
             random.nextInt(255),
             1,
           ),
-          image:
-              i < _userImages.length ? ExactAssetImage(_userImages[i]) : null,
+          image: i < _userImages.length
+              ? ExactAssetImage(_userImages[i])
+              : null,
         ),
       );
     }
@@ -498,8 +496,9 @@ class _ShiftSchedulerState extends SampleViewState {
         for (int j = 0; j < 2; j++) {
           final DateTime date = DateTime.now().add(Duration(days: k + j));
           int startHour = 9 + random.nextInt(6);
-          startHour =
-              startHour >= 13 && startHour <= 14 ? startHour + 1 : startHour;
+          startHour = startHour >= 13 && startHour <= 14
+              ? startHour + 1
+              : startHour;
           final DateTime shiftStartTime = DateTime(
             date.year,
             date.month,

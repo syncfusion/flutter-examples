@@ -134,12 +134,11 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
       final OverlayState overlayState = Overlay.of(context, rootOverlay: true);
       if (overlayState != null) {
         overlayEntry = OverlayEntry(
-          builder:
-              (BuildContext context) => Positioned(
-                top: position.dy + 40.0, // y position of zoom percentage menu
-                left: left,
-                child: _dropDownOverlayContainer(constraints, dropDownItems),
-              ),
+          builder: (BuildContext context) => Positioned(
+            top: position.dy + 40.0, // y position of zoom percentage menu
+            left: left,
+            child: _dropDownOverlayContainer(constraints, dropDownItems),
+          ),
         );
 
         overlayState.insert(overlayEntry);
@@ -164,17 +163,17 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
 
     return Container(
       decoration: BoxDecoration(
-        color:
-            _useMaterial3
-                ? _isLight
-                    ? const Color.fromRGBO(238, 232, 244, 1)
-                    : const Color.fromRGBO(48, 45, 56, 1)
-                : _isLight
-                ? const Color(0xFFFFFFFF)
-                : const Color(0xFF424242),
+        color: _useMaterial3
+            ? _isLight
+                  ? const Color.fromRGBO(238, 232, 244, 1)
+                  : const Color.fromRGBO(48, 45, 56, 1)
+            : _isLight
+            ? const Color(0xFFFFFFFF)
+            : const Color(0xFF424242),
         boxShadow: boxShadows,
-        borderRadius:
-            _useMaterial3 ? const BorderRadius.all(Radius.circular(4.0)) : null,
+        borderRadius: _useMaterial3
+            ? const BorderRadius.all(Radius.circular(4.0))
+            : null,
       ),
       constraints: constraints,
       child: dropDownItems,
@@ -194,11 +193,9 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
           context,
           rootOverlay: true,
         );
-        final double left =
-            model.textDirection == TextDirection.rtl
-                ? position.dx
-                : ((MediaQuery.of(context).size.width - 8) -
-                    _kSearchOverlayWidth);
+        final double left = model.textDirection == TextDirection.rtl
+            ? position.dx
+            : ((MediaQuery.of(context).size.width - 8) - _kSearchOverlayWidth);
         overlayState.insert(
           _textSearchOverlayEntry = OverlayEntry(
             builder: (BuildContext context) {
@@ -258,13 +255,13 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
         162,
         _useMaterial3
             ? BoxConstraints.tightFor(
-              width: 205,
-              height: child.children.length * 40.0,
-            )
+                width: 205,
+                height: child.children.length * 40.0,
+              )
             : BoxConstraints.tightFor(
-              width: 202,
-              height: child.children.length * 35.0,
-            ),
+                width: 202,
+                height: child.children.length * 35.0,
+              ),
         child,
       );
     }
@@ -290,42 +287,34 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
             _documentPath = path;
           });
         },
-        shape:
-            _useMaterial3
-                ? const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                )
-                : const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                ),
-        hoverColor:
-            _useMaterial3
-                ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
-                : null,
+        shape: _useMaterial3
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+              )
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
+            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 8.01),
             child: Text(
               fileName,
-              style:
-                  _useMaterial3
-                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      )
-                      : TextStyle(
-                        color:
-                            _isLight
-                                ? const Color(
-                                  0x00000000,
-                                ).withValues(alpha: 0.87)
-                                : const Color(
-                                  0x00ffffff,
-                                ).withValues(alpha: 0.87),
-                        fontSize: 14,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                      ),
+              style: _useMaterial3
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    )
+                  : TextStyle(
+                      color: _isLight
+                          ? const Color(0x00000000).withValues(alpha: 0.87)
+                          : const Color(0x00ffffff).withValues(alpha: 0.87),
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400,
+                    ),
             ),
           ),
         ),
@@ -383,42 +372,35 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
                 _toolbarKey.currentState!._zoomLevel = zoomLevel;
           });
         },
-        shape:
-            _useMaterial3
-                ? const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                )
-                : const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                ),
-        hoverColor:
-            _useMaterial3
-                ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
-                : null,
+        shape: _useMaterial3
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+              )
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
+            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding:
-                _useMaterial3
-                    ? const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 10.0,
-                    )
-                    : const EdgeInsets.only(left: 16.0, top: 8.0),
+            padding: _useMaterial3
+                ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0)
+                : const EdgeInsets.only(left: 16.0, top: 8.0),
             child: Text(
               percentage,
-              style:
-                  _useMaterial3
-                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      )
-                      : TextStyle(
-                        color: _toolbarKey.currentState?._textColor,
-                        fontSize: 14,
-                        fontFamily: 'Roboto',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                      ),
+              style: _useMaterial3
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    )
+                  : TextStyle(
+                      color: _toolbarKey.currentState?._textColor,
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400,
+                    ),
             ),
           ),
         ),
@@ -429,14 +411,13 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
   @override
   Widget buildSample(BuildContext context) {
     if (isDesktop) {
-      final bool? isDrawerOpened =
-          model
-              .webOutputContainerState
-              .widget
-              .webLayoutPageState
-              ?.scaffoldKey
-              .currentState
-              ?.isDrawerOpen;
+      final bool? isDrawerOpened = model
+          .webOutputContainerState
+          .widget
+          .webLayoutPageState
+          ?.scaffoldKey
+          .currentState
+          ?.isDrawerOpen;
       if (isDrawerOpened != null && isDrawerOpened) {
         _closeOverlays();
       }
@@ -448,25 +429,23 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
     }
 
     PreferredSizeWidget appBar = AppBar(
-      bottom:
-          _useMaterial3
-              ? PreferredSize(
-                preferredSize: const Size.fromHeight(0),
-                child: Container(
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                  height: 1,
-                ),
-              )
-              : null,
+      bottom: _useMaterial3
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(
+                color: Theme.of(context).colorScheme.outlineVariant,
+                height: 1,
+              ),
+            )
+          : null,
       flexibleSpace: Semantics(
         label: 'Custom toolbar',
         child: KeyboardListener(
           focusNode: _focusNode,
           onKeyEvent: (KeyEvent event) {
-            final bool isPrimaryKeyPressed =
-                kIsMacOS
-                    ? HardwareKeyboard.instance.isMetaPressed
-                    : HardwareKeyboard.instance.isControlPressed;
+            final bool isPrimaryKeyPressed = kIsMacOS
+                ? HardwareKeyboard.instance.isMetaPressed
+                : HardwareKeyboard.instance.isControlPressed;
             if (isPrimaryKeyPressed &&
                 event.logicalKey == LogicalKeyboardKey.keyF) {
               _showTextSearchMenu();
@@ -555,81 +534,74 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
         ),
       ),
       automaticallyImplyLeading: false,
-      backgroundColor:
-          _useMaterial3
-              ? Theme.of(context).colorScheme.brightness == Brightness.light
-                  ? const Color.fromRGBO(247, 242, 251, 1)
-                  : const Color.fromRGBO(37, 35, 42, 1)
-              : Theme.of(context).colorScheme.brightness == Brightness.light
-              ? const Color(0xFFFAFAFA)
-              : const Color(0xFF424242),
+      backgroundColor: _useMaterial3
+          ? Theme.of(context).colorScheme.brightness == Brightness.light
+                ? const Color.fromRGBO(247, 242, 251, 1)
+                : const Color.fromRGBO(37, 35, 42, 1)
+          : Theme.of(context).colorScheme.brightness == Brightness.light
+          ? const Color(0xFFFAFAFA)
+          : const Color(0xFF424242),
     );
     if (!_isDesktopWeb) {
-      appBar =
-          _canShowToolbar
-              ? appBar
-              : !_pdfViewerKey.currentState!.isBookmarkViewOpen
-              ? AppBar(
-                flexibleSpace: Directionality(
+      appBar = _canShowToolbar
+          ? appBar
+          : !_pdfViewerKey.currentState!.isBookmarkViewOpen
+          ? AppBar(
+              flexibleSpace: Directionality(
+                textDirection: model.textDirection,
+                child: SearchToolbar(
+                  key: _textSearchKey,
+                  controller: _pdfViewerController,
+                  brightness: model.themeData.colorScheme.brightness,
+                  primaryColor: model.primaryColor,
                   textDirection: model.textDirection,
-                  child: SearchToolbar(
-                    key: _textSearchKey,
-                    controller: _pdfViewerController,
-                    brightness: model.themeData.colorScheme.brightness,
-                    primaryColor: model.primaryColor,
-                    textDirection: model.textDirection,
-                    languageCode: model.locale!.languageCode,
-                    onTap: (Object toolbarItem) async {
-                      if (toolbarItem.toString() == 'Cancel Search') {
-                        setState(() {
-                          _canShowToolbar = true;
-                          if (Navigator.canPop(context)) {
-                            Navigator.of(context).maybePop();
-                          }
-                        });
-                      }
-                      if (toolbarItem.toString() == 'Previous Instance') {
-                        setState(() {
-                          _canShowToolbar = false;
-                        });
-                      }
-                      if (toolbarItem.toString() == 'Next Instance') {
-                        setState(() {
-                          _canShowToolbar = false;
-                        });
-                      }
-                      if (toolbarItem.toString() == 'Clear Text') {
-                        setState(() {
-                          _canShowToolbar = false;
-                        });
-                      }
-                      if (toolbarItem.toString() == 'noResultFound') {
-                        setState(() {
-                          _textSearchKey.currentState?.canShowToast = true;
-                        });
-                        await Future<dynamic>.delayed(
-                          const Duration(seconds: 1),
-                        );
-                        setState(() {
-                          _textSearchKey.currentState?.canShowToast = false;
-                        });
-                      }
-                    },
-                  ),
+                  languageCode: model.locale!.languageCode,
+                  onTap: (Object toolbarItem) async {
+                    if (toolbarItem.toString() == 'Cancel Search') {
+                      setState(() {
+                        _canShowToolbar = true;
+                        if (Navigator.canPop(context)) {
+                          Navigator.of(context).maybePop();
+                        }
+                      });
+                    }
+                    if (toolbarItem.toString() == 'Previous Instance') {
+                      setState(() {
+                        _canShowToolbar = false;
+                      });
+                    }
+                    if (toolbarItem.toString() == 'Next Instance') {
+                      setState(() {
+                        _canShowToolbar = false;
+                      });
+                    }
+                    if (toolbarItem.toString() == 'Clear Text') {
+                      setState(() {
+                        _canShowToolbar = false;
+                      });
+                    }
+                    if (toolbarItem.toString() == 'noResultFound') {
+                      setState(() {
+                        _textSearchKey.currentState?.canShowToast = true;
+                      });
+                      await Future<dynamic>.delayed(const Duration(seconds: 1));
+                      setState(() {
+                        _textSearchKey.currentState?.canShowToast = false;
+                      });
+                    }
+                  },
                 ),
-                automaticallyImplyLeading: false,
-                backgroundColor:
-                    _useMaterial3
-                        ? Theme.of(context).colorScheme.brightness ==
-                                Brightness.light
-                            ? const Color.fromRGBO(247, 242, 251, 1)
-                            : const Color.fromRGBO(37, 35, 42, 1)
-                        : Theme.of(context).colorScheme.brightness ==
-                            Brightness.light
-                        ? const Color(0xFFFAFAFA)
-                        : const Color(0xFF424242),
-              )
-              : PreferredSize(preferredSize: Size.zero, child: Container());
+              ),
+              automaticallyImplyLeading: false,
+              backgroundColor: _useMaterial3
+                  ? Theme.of(context).colorScheme.brightness == Brightness.light
+                        ? const Color.fromRGBO(247, 242, 251, 1)
+                        : const Color.fromRGBO(37, 35, 42, 1)
+                  : Theme.of(context).colorScheme.brightness == Brightness.light
+                  ? const Color(0xFFFAFAFA)
+                  : const Color(0xFF424242),
+            )
+          : PreferredSize(preferredSize: Size.zero, child: Container());
     }
     return Scaffold(
       appBar: appBar,
@@ -664,10 +636,9 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
               return KeyboardListener(
                 focusNode: _focusNode,
                 onKeyEvent: (KeyEvent event) {
-                  final bool isPrimaryKeyPressed =
-                      kIsMacOS
-                          ? HardwareKeyboard.instance.isMetaPressed
-                          : HardwareKeyboard.instance.isControlPressed;
+                  final bool isPrimaryKeyPressed = kIsMacOS
+                      ? HardwareKeyboard.instance.isMetaPressed
+                      : HardwareKeyboard.instance.isControlPressed;
                   if (isPrimaryKeyPressed &&
                       event.logicalKey == LogicalKeyboardKey.keyF) {
                     _showTextSearchMenu();
@@ -803,32 +774,28 @@ class ToolbarState extends State<Toolbar> {
   void didChangeDependencies() {
     _isLight = Theme.of(context).brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _color =
-        _useMaterial3
-            ? Theme.of(context).brightness == Brightness.light
-                ? const Color.fromRGBO(73, 69, 79, 1)
-                : const Color.fromRGBO(202, 196, 208, 1)
-            : Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withValues(alpha: 0.54)
-            : Colors.white.withValues(alpha: 0.65);
-    _disabledColor =
-        _useMaterial3
-            ? Theme.of(context).brightness == Brightness.light
-                ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
-                : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
-            : Theme.of(context).brightness == Brightness.light
-            ? Colors.black12
-            : Colors.white12;
-    _textColor =
-        _isLight
-            ? const Color(0x00000000).withValues(alpha: 0.87)
-            : const Color(0x00ffffff).withValues(alpha: 0.87);
-    _fillColor =
-        _useMaterial3
-            ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
-            : _isLight
-            ? const Color(0xFFD2D2D2)
-            : const Color(0xFF525252);
+    _color = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+              ? const Color.fromRGBO(73, 69, 79, 1)
+              : const Color.fromRGBO(202, 196, 208, 1)
+        : Theme.of(context).brightness == Brightness.light
+        ? Colors.black.withValues(alpha: 0.54)
+        : Colors.white.withValues(alpha: 0.65);
+    _disabledColor = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+              ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+              : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
+        : Theme.of(context).brightness == Brightness.light
+        ? Colors.black12
+        : Colors.white12;
+    _textColor = _isLight
+        ? const Color(0x00000000).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.87);
+    _fillColor = _useMaterial3
+        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
+        : _isLight
+        ? const Color(0xFFD2D2D2)
+        : const Color(0xFF525252);
     _isWeb =
         isDesktop && widget.model != null && !widget.model!.isMobileResolution;
     super.didChangeDependencies();
@@ -839,20 +806,19 @@ class ToolbarState extends State<Toolbar> {
     return Padding(
       padding:
           toolTip == 'Bookmark' ||
-                  toolTip == 'Search' ||
-                  toolTip == 'المرجعية' ||
-                  toolTip == 'بحث'
-              ? const EdgeInsets.only(right: 8)
-              : const EdgeInsets.only(left: 8),
+              toolTip == 'Search' ||
+              toolTip == 'المرجعية' ||
+              toolTip == 'بحث'
+          ? const EdgeInsets.only(right: 8)
+          : const EdgeInsets.only(left: 8),
       child: Tooltip(
         message: toolTip,
         child: SizedBox(
           key: key,
           height: 36,
-          width:
-              toolTip == 'Choose file' || toolTip == 'اختر ملفًا'
-                  ? (_useMaterial3 ? 56 : 50)
-                  : 40,
+          width: toolTip == 'Choose file' || toolTip == 'اختر ملفًا'
+              ? (_useMaterial3 ? 56 : 50)
+              : 40,
           child: child,
         ),
       ),
@@ -882,11 +848,11 @@ class ToolbarState extends State<Toolbar> {
           shape ??
           (_useMaterial3
               ? const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-              )
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                )
               : const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2)),
-              )),
+                  borderRadius: BorderRadius.all(Radius.circular(2)),
+                )),
       fillColor: fillColor,
       child: child,
     );
@@ -895,10 +861,9 @@ class ToolbarState extends State<Toolbar> {
   /// Constructs the web toolbar divider.
   Widget _groupDivider(bool isPaddingLeft) {
     return Padding(
-      padding:
-          isPaddingLeft
-              ? const EdgeInsets.only(left: 8)
-              : const EdgeInsets.only(right: 8),
+      padding: isPaddingLeft
+          ? const EdgeInsets.only(left: 8)
+          : const EdgeInsets.only(right: 8),
       child: VerticalDivider(
         width: 1.0,
         // width of vertical divider
@@ -908,10 +873,9 @@ class ToolbarState extends State<Toolbar> {
         // top indent of vertical divider
         endIndent: 12.0,
         // bottom indent of vertical divider
-        color:
-            _isLight
-                ? Colors.black.withValues(alpha: 0.24)
-                : const Color.fromRGBO(255, 255, 255, 0.26),
+        color: _isLight
+            ? Colors.black.withValues(alpha: 0.24)
+            : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
   }
@@ -939,8 +903,8 @@ class ToolbarState extends State<Toolbar> {
                         Padding(
                           padding:
                               widget.model!.textDirection == TextDirection.rtl
-                                  ? const EdgeInsets.only(right: 4.0)
-                                  : const EdgeInsets.only(left: 4.0),
+                              ? const EdgeInsets.only(right: 4.0)
+                              : const EdgeInsets.only(left: 4.0),
                           child: Icon(
                             Icons.folder_open,
                             color: _color,
@@ -950,8 +914,8 @@ class ToolbarState extends State<Toolbar> {
                         Padding(
                           padding:
                               widget.model!.textDirection == TextDirection.rtl
-                                  ? const EdgeInsets.only(right: 8.0)
-                                  : const EdgeInsets.only(left: 8.0),
+                              ? const EdgeInsets.only(right: 8.0)
+                              : const EdgeInsets.only(left: 8.0),
                           child: Icon(
                             Icons.keyboard_arrow_down,
                             color: _color,
@@ -972,10 +936,9 @@ class ToolbarState extends State<Toolbar> {
               children: <Widget>[
                 // Text field for page number
                 Padding(
-                  padding:
-                      _useMaterial3
-                          ? const EdgeInsets.only(top: 4, left: 5)
-                          : const EdgeInsets.only(top: 4.0),
+                  padding: _useMaterial3
+                      ? const EdgeInsets.only(top: 4, left: 5)
+                      : const EdgeInsets.only(top: 4.0),
                   child: SizedBox(
                     height: _useMaterial3 ? 40 : 20, // height of text field
                     width: _useMaterial3 ? 54 : 48, // / width of text field
@@ -994,10 +957,9 @@ class ToolbarState extends State<Toolbar> {
                 ),
                 // Total page count
                 Padding(
-                  padding:
-                      widget.model!.textDirection == TextDirection.rtl
-                          ? const EdgeInsets.only(right: 5)
-                          : const EdgeInsets.only(left: 5),
+                  padding: widget.model!.textDirection == TextDirection.rtl
+                      ? const EdgeInsets.only(right: 5)
+                      : const EdgeInsets.only(left: 5),
                   child: Text(
                     ' ${widget.controller!.pageCount}',
                     style: TextStyle(
@@ -1024,13 +986,12 @@ class ToolbarState extends State<Toolbar> {
                         color: canJumpToPreviousPage ? _color : _disabledColor,
                         size: _useMaterial3 ? 24 : 20,
                       ),
-                      onPressed:
-                          canJumpToPreviousPage
-                              ? () {
-                                widget.onTap?.call('Previous Page');
-                                widget.controller?.previousPage();
-                              }
-                              : null,
+                      onPressed: canJumpToPreviousPage
+                          ? () {
+                              widget.onTap?.call('Previous Page');
+                              widget.controller?.previousPage();
+                            }
+                          : null,
                     ),
                   ),
                 ),
@@ -1047,13 +1008,12 @@ class ToolbarState extends State<Toolbar> {
                       color: canJumpToNextPage ? _color : _disabledColor,
                       size: _useMaterial3 ? 24 : 20,
                     ),
-                    onPressed:
-                        canJumpToNextPage
-                            ? () {
-                              widget.onTap?.call('Next Page');
-                              widget.controller?.nextPage();
-                            }
-                            : null,
+                    onPressed: canJumpToNextPage
+                        ? () {
+                            widget.onTap?.call('Next Page');
+                            widget.controller?.nextPage();
+                          }
+                        : null,
                   ),
                 ),
                 // Group divider
@@ -1066,12 +1026,11 @@ class ToolbarState extends State<Toolbar> {
                     height: 36, // height of zoom percentage menu
                     width: 72, // width of zoom percentage menu
                     child: _webToolbarButton(
-                      onPressed:
-                          widget.controller!.pageNumber != 0
-                              ? () {
-                                widget.onTap?.call('Zoom Percentage');
-                              }
-                              : null,
+                      onPressed: widget.controller!.pageNumber != 0
+                          ? () {
+                              widget.onTap?.call('Zoom Percentage');
+                            }
+                          : null,
                       child: Row(
                         children: <Widget>[
                           Padding(
@@ -1093,10 +1052,9 @@ class ToolbarState extends State<Toolbar> {
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Icon(
                               Icons.keyboard_arrow_down,
-                              color:
-                                  widget.controller!.pageNumber != 0
-                                      ? _color
-                                      : _disabledColor,
+                              color: widget.controller!.pageNumber != 0
+                                  ? _color
+                                  : _disabledColor,
                               size: 18,
                             ),
                           ),
@@ -1113,32 +1071,31 @@ class ToolbarState extends State<Toolbar> {
                   _webToolbarButton(
                     onPressed:
                         widget.controller!.pageCount != 0 && _zoomLevel > 1
-                            ? () {
-                              widget.onTap?.call('Zoom Out');
-                              setState(() {
-                                if (_zoomLevel > 1.0 && _zoomLevel <= 1.25) {
-                                  _zoomLevel = 1.0;
-                                } else if (_zoomLevel > 1.25 &&
-                                    _zoomLevel <= 1.50) {
-                                  _zoomLevel = 1.25;
-                                } else if (_zoomLevel > 1.50 &&
-                                    _zoomLevel <= 2.0) {
-                                  _zoomLevel = 1.50;
-                                } else {
-                                  _zoomLevel = 2.0;
-                                }
-                                widget.controller!.zoomLevel = _zoomLevel;
-                              });
-                            }
-                            : null,
+                        ? () {
+                            widget.onTap?.call('Zoom Out');
+                            setState(() {
+                              if (_zoomLevel > 1.0 && _zoomLevel <= 1.25) {
+                                _zoomLevel = 1.0;
+                              } else if (_zoomLevel > 1.25 &&
+                                  _zoomLevel <= 1.50) {
+                                _zoomLevel = 1.25;
+                              } else if (_zoomLevel > 1.50 &&
+                                  _zoomLevel <= 2.0) {
+                                _zoomLevel = 1.50;
+                              } else {
+                                _zoomLevel = 2.0;
+                              }
+                              widget.controller!.zoomLevel = _zoomLevel;
+                            });
+                          }
+                        : null,
                     child: Icon(
                       _useMaterial3
                           ? Icons.zoom_out
                           : Icons.remove_circle_outline,
-                      color:
-                          widget.controller!.pageCount != 0 && _zoomLevel > 1
-                              ? _color
-                              : _disabledColor,
+                      color: widget.controller!.pageCount != 0 && _zoomLevel > 1
+                          ? _color
+                          : _disabledColor,
                       size: _useMaterial3 ? 24 : 20,
                     ),
                   ),
@@ -1151,30 +1108,29 @@ class ToolbarState extends State<Toolbar> {
                   _webToolbarButton(
                     onPressed:
                         widget.controller!.pageCount != 0 && _zoomLevel < 3
-                            ? () {
-                              widget.onTap?.call('Zoom In');
-                              setState(() {
-                                if (_zoomLevel >= 1.0 && _zoomLevel < 1.25) {
-                                  _zoomLevel = 1.25;
-                                } else if (_zoomLevel >= 1.25 &&
-                                    _zoomLevel < 1.50) {
-                                  _zoomLevel = 1.50;
-                                } else if (_zoomLevel >= 1.50 &&
-                                    _zoomLevel < 2.0) {
-                                  _zoomLevel = 2.0;
-                                } else {
-                                  _zoomLevel = 3.0;
-                                }
-                                widget.controller!.zoomLevel = _zoomLevel;
-                              });
-                            }
-                            : null,
+                        ? () {
+                            widget.onTap?.call('Zoom In');
+                            setState(() {
+                              if (_zoomLevel >= 1.0 && _zoomLevel < 1.25) {
+                                _zoomLevel = 1.25;
+                              } else if (_zoomLevel >= 1.25 &&
+                                  _zoomLevel < 1.50) {
+                                _zoomLevel = 1.50;
+                              } else if (_zoomLevel >= 1.50 &&
+                                  _zoomLevel < 2.0) {
+                                _zoomLevel = 2.0;
+                              } else {
+                                _zoomLevel = 3.0;
+                              }
+                              widget.controller!.zoomLevel = _zoomLevel;
+                            });
+                          }
+                        : null,
                     child: Icon(
                       _useMaterial3 ? Icons.zoom_in : Icons.add_circle_outline,
-                      color:
-                          widget.controller!.pageCount != 0 && _zoomLevel < 3
-                              ? _color
-                              : _disabledColor,
+                      color: widget.controller!.pageCount != 0 && _zoomLevel < 3
+                          ? _color
+                          : _disabledColor,
                       size: _useMaterial3 ? 24 : 20,
                     ),
                   ),
@@ -1187,30 +1143,28 @@ class ToolbarState extends State<Toolbar> {
                       ? 'وضع عموم'
                       : 'Pan mode',
                   _webToolbarButton(
-                    onPressed:
-                        widget.controller!.pageNumber != 0
-                            ? () {
-                              setState(() {
-                                if (_panFillColor == const Color(0xFFD2D2D2) ||
-                                    _panFillColor == const Color(0xFF525252) ||
-                                    _panFillColor ==
-                                        Theme.of(context).colorScheme.onSurface
-                                            .withValues(alpha: 0.08)) {
-                                  _panFillColor = null;
-                                } else {
-                                  _panFillColor = _fillColor;
-                                }
-                              });
-                              widget.onTap?.call('Pan mode');
-                            }
-                            : null,
+                    onPressed: widget.controller!.pageNumber != 0
+                        ? () {
+                            setState(() {
+                              if (_panFillColor == const Color(0xFFD2D2D2) ||
+                                  _panFillColor == const Color(0xFF525252) ||
+                                  _panFillColor ==
+                                      Theme.of(context).colorScheme.onSurface
+                                          .withValues(alpha: 0.08)) {
+                                _panFillColor = null;
+                              } else {
+                                _panFillColor = _fillColor;
+                              }
+                            });
+                            widget.onTap?.call('Pan mode');
+                          }
+                        : null,
                     fillColor: _panFillColor,
                     child: Icon(
                       Icons.pan_tool_rounded,
-                      color:
-                          widget.controller!.pageCount != 0
-                              ? _color
-                              : _disabledColor,
+                      color: widget.controller!.pageCount != 0
+                          ? _color
+                          : _disabledColor,
                       size: _useMaterial3 ? 24 : 20,
                     ),
                   ),
@@ -1224,18 +1178,16 @@ class ToolbarState extends State<Toolbar> {
                       ? 'إشارة مرجعية'
                       : 'Bookmark',
                   _webToolbarButton(
-                    onPressed:
-                        widget.controller!.pageNumber != 0
-                            ? () {
-                              widget.onTap?.call('Bookmarks');
-                            }
-                            : null,
+                    onPressed: widget.controller!.pageNumber != 0
+                        ? () {
+                            widget.onTap?.call('Bookmarks');
+                          }
+                        : null,
                     child: Icon(
                       Icons.bookmark_border,
-                      color:
-                          widget.controller!.pageCount != 0
-                              ? _color
-                              : _disabledColor,
+                      color: widget.controller!.pageCount != 0
+                          ? _color
+                          : _disabledColor,
                       size: _useMaterial3 ? 24 : 20,
                     ),
                   ),
@@ -1246,19 +1198,17 @@ class ToolbarState extends State<Toolbar> {
                 _webToolbarItem(
                   widget.model?.locale!.languageCode == 'ar' ? 'بحث' : 'Search',
                   _webToolbarButton(
-                    onPressed:
-                        widget.controller!.pageNumber != 0
-                            ? () {
-                              widget.controller!.clearSelection();
-                              widget.onTap?.call('Search');
-                            }
-                            : null,
+                    onPressed: widget.controller!.pageNumber != 0
+                        ? () {
+                            widget.controller!.clearSelection();
+                            widget.onTap?.call('Search');
+                          }
+                        : null,
                     child: Icon(
                       Icons.search,
-                      color:
-                          widget.controller!.pageCount != 0
-                              ? _color
-                              : _disabledColor,
+                      color: widget.controller!.pageCount != 0
+                          ? _color
+                          : _disabledColor,
                       size: _useMaterial3 ? 24 : 20,
                     ),
                   ),
@@ -1275,16 +1225,15 @@ class ToolbarState extends State<Toolbar> {
   /// Pagination text field widget.
   Widget paginationTextField(BuildContext context) {
     return TextField(
-      style:
-          _isWeb
-              ? TextStyle(
-                color: _textColor,
-                fontWeight: FontWeight.w400,
-                fontStyle: FontStyle.normal,
-                fontFamily: 'Roboto',
-                fontSize: _useMaterial3 ? 16 : 14,
-              )
-              : TextStyle(color: _color),
+      style: _isWeb
+          ? TextStyle(
+              color: _textColor,
+              fontWeight: FontWeight.w400,
+              fontStyle: FontStyle.normal,
+              fontFamily: 'Roboto',
+              fontSize: _useMaterial3 ? 16 : 14,
+            )
+          : TextStyle(color: _color),
       enableInteractiveSelection: false,
       keyboardType: TextInputType.number,
       controller: _textEditingController,
@@ -1293,14 +1242,13 @@ class ToolbarState extends State<Toolbar> {
       focusNode: _focusNode,
       decoration: InputDecoration(
         counterText: '',
-        contentPadding:
-            _isWeb
-                ? const EdgeInsets.only(bottom: 22)
-                : isDesktop
-                ? (const EdgeInsets.only(bottom: 20))
-                : _useMaterial3
-                ? EdgeInsets.zero
-                : null,
+        contentPadding: _isWeb
+            ? const EdgeInsets.only(bottom: 22)
+            : isDesktop
+            ? (const EdgeInsets.only(bottom: 20))
+            : _useMaterial3
+            ? EdgeInsets.zero
+            : null,
         border: _paginationTextFieldInputBorder(context),
         enabledBorder: _paginationTextFieldEnableBorder(context),
         focusedBorder: _paginationTextFieldFocusedBorder(context),
@@ -1316,12 +1264,12 @@ class ToolbarState extends State<Toolbar> {
   InputBorder _paginationTextFieldInputBorder(BuildContext context) {
     return _useMaterial3
         ? OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Theme.of(
-              context,
-            ).colorScheme.outline.withValues(alpha: 0.38),
-          ),
-        )
+            borderSide: BorderSide(
+              color: Theme.of(
+                context,
+              ).colorScheme.outline.withValues(alpha: 0.38),
+            ),
+          )
         : const UnderlineInputBorder();
   }
 
@@ -1329,12 +1277,12 @@ class ToolbarState extends State<Toolbar> {
   InputBorder? _paginationTextFieldEnableBorder(BuildContext context) {
     return _useMaterial3
         ? OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Theme.of(
-              context,
-            ).colorScheme.outline.withValues(alpha: 0.38),
-          ),
-        )
+            borderSide: BorderSide(
+              color: Theme.of(
+                context,
+              ).colorScheme.outline.withValues(alpha: 0.38),
+            ),
+          )
         : null;
   }
 
@@ -1342,18 +1290,18 @@ class ToolbarState extends State<Toolbar> {
   InputBorder _paginationTextFieldFocusedBorder(BuildContext context) {
     return _useMaterial3
         ? OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Theme.of(
-              context,
-            ).colorScheme.outline.withValues(alpha: 0.38),
-          ),
-        )
+            borderSide: BorderSide(
+              color: Theme.of(
+                context,
+              ).colorScheme.outline.withValues(alpha: 0.38),
+            ),
+          )
         : UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Theme.of(context).primaryColor,
-            width: 2.0,
-          ),
-        );
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 2.0,
+            ),
+          );
   }
 
   /// Pagination text field on tap function.
@@ -1379,8 +1327,8 @@ class ToolbarState extends State<Toolbar> {
           FocusScope.of(context).requestFocus(FocusNode());
           widget.onTap?.call('Navigated');
         } else {
-          _textEditingController!.text =
-              widget.controller!.pageNumber.toString();
+          _textEditingController!.text = widget.controller!.pageNumber
+              .toString();
           _showErrorDialog(context, widget.model);
         }
       } catch (exception) {
@@ -1417,25 +1365,23 @@ class ToolbarState extends State<Toolbar> {
                   child: Material(
                     color: Colors.transparent,
                     child: Tooltip(
-                      message:
-                          widget.showTooltip
-                              ? widget.model?.locale!.languageCode == 'ar'
-                                  ? 'اختر ملفًا'
-                                  : 'Choose file'
-                              : null,
+                      message: widget.showTooltip
+                          ? widget.model?.locale!.languageCode == 'ar'
+                                ? 'اختر ملفًا'
+                                : 'Choose file'
+                          : null,
                       child: RawMaterialButton(
-                        shape:
-                            _useMaterial3
-                                ? const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(4),
-                                  ),
-                                )
-                                : const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(2),
-                                  ),
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(4),
                                 ),
+                              )
+                            : const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(2),
+                                ),
+                              ),
                         onPressed: () async {
                           widget.onTap?.call('File Explorer');
                           widget.controller!.clearSelection();
@@ -1447,18 +1393,17 @@ class ToolbarState extends State<Toolbar> {
                           }
                           await Navigator.of(context).push<dynamic>(
                             MaterialPageRoute<dynamic>(
-                              builder:
-                                  (BuildContext context) => FileExplorer(
-                                    brightness: Theme.of(context).brightness,
-                                    isRtlTab: true,
-                                    onDocumentTap: (Document document) {
-                                      widget.onTap?.call(document);
-                                      Navigator.of(
-                                        context,
-                                        rootNavigator: true,
-                                      ).pop(context);
-                                    },
-                                  ),
+                              builder: (BuildContext context) => FileExplorer(
+                                brightness: Theme.of(context).brightness,
+                                isRtlTab: true,
+                                onDocumentTap: (Document document) {
+                                  widget.onTap?.call(document);
+                                  Navigator.of(
+                                    context,
+                                    rootNavigator: true,
+                                  ).pop(context);
+                                },
+                              ),
                             ),
                           );
                         },
@@ -1498,36 +1443,34 @@ class ToolbarState extends State<Toolbar> {
                     child: Material(
                       color: Colors.transparent,
                       child: Tooltip(
-                        message:
-                            widget.showTooltip
-                                ? widget.model?.locale!.languageCode == 'ar'
-                                    ? 'الصفحة السابقة'
-                                    : 'Previous page'
-                                : null,
+                        message: widget.showTooltip
+                            ? widget.model?.locale!.languageCode == 'ar'
+                                  ? 'الصفحة السابقة'
+                                  : 'Previous page'
+                            : null,
                         child: RawMaterialButton(
-                          shape:
-                              _useMaterial3
-                                  ? const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(4),
-                                    ),
-                                  )
-                                  : const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(2),
-                                    ),
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4),
                                   ),
-                          onPressed:
-                              canJumpToPreviousPage
-                                  ? () {
-                                    widget.onTap?.call('Previous page');
-                                    widget.controller?.previousPage();
-                                  }
-                                  : null,
+                                )
+                              : const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(2),
+                                  ),
+                                ),
+                          onPressed: canJumpToPreviousPage
+                              ? () {
+                                  widget.onTap?.call('Previous page');
+                                  widget.controller?.previousPage();
+                                }
+                              : null,
                           child: Icon(
                             Icons.keyboard_arrow_up,
-                            color:
-                                canJumpToPreviousPage ? _color : _disabledColor,
+                            color: canJumpToPreviousPage
+                                ? _color
+                                : _disabledColor,
                             size: 24,
                           ),
                         ),
@@ -1544,32 +1487,29 @@ class ToolbarState extends State<Toolbar> {
                     child: Material(
                       color: Colors.transparent,
                       child: Tooltip(
-                        message:
-                            widget.showTooltip
-                                ? widget.model?.locale!.languageCode == 'ar'
-                                    ? 'الصفحة التالية'
-                                    : 'Next page'
-                                : null,
+                        message: widget.showTooltip
+                            ? widget.model?.locale!.languageCode == 'ar'
+                                  ? 'الصفحة التالية'
+                                  : 'Next page'
+                            : null,
                         child: RawMaterialButton(
-                          shape:
-                              _useMaterial3
-                                  ? const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(4),
-                                    ),
-                                  )
-                                  : const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(2),
-                                    ),
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4),
                                   ),
-                          onPressed:
-                              canJumpToNextPage
-                                  ? () {
-                                    widget.onTap?.call('Next page');
-                                    widget.controller?.nextPage();
-                                  }
-                                  : null,
+                                )
+                              : const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(2),
+                                  ),
+                                ),
+                          onPressed: canJumpToNextPage
+                              ? () {
+                                  widget.onTap?.call('Next page');
+                                  widget.controller?.nextPage();
+                                }
+                              : null,
                           child: Icon(
                             Icons.keyboard_arrow_down,
                             color: canJumpToNextPage ? _color : _disabledColor,
@@ -1587,42 +1527,38 @@ class ToolbarState extends State<Toolbar> {
                   child: Material(
                     color: Colors.transparent,
                     child: Tooltip(
-                      message:
-                          widget.showTooltip
-                              ? widget.model?.locale!.languageCode == 'ar'
-                                  ? 'إشارة مرجعية'
-                                  : 'Bookmarks'
-                              : null,
+                      message: widget.showTooltip
+                          ? widget.model?.locale!.languageCode == 'ar'
+                                ? 'إشارة مرجعية'
+                                : 'Bookmarks'
+                          : null,
                       child: RawMaterialButton(
-                        shape:
-                            _useMaterial3
-                                ? const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(4),
-                                  ),
-                                )
-                                : const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(2),
-                                  ),
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(4),
                                 ),
-                        onPressed:
-                            widget.controller!.pageNumber == 0
-                                ? null
-                                : () {
-                                  _textEditingController!
-                                      .selection = const TextSelection(
-                                    baseOffset: -1,
-                                    extentOffset: -1,
-                                  );
-                                  widget.onTap?.call('Bookmarks');
-                                },
+                              )
+                            : const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(2),
+                                ),
+                              ),
+                        onPressed: widget.controller!.pageNumber == 0
+                            ? null
+                            : () {
+                                _textEditingController!.selection =
+                                    const TextSelection(
+                                      baseOffset: -1,
+                                      extentOffset: -1,
+                                    );
+                                widget.onTap?.call('Bookmarks');
+                              },
                         child: Icon(
                           Icons.bookmark,
-                          color:
-                              widget.controller!.pageNumber == 0
-                                  ? Colors.black12
-                                  : _color,
+                          color: widget.controller!.pageNumber == 0
+                              ? Colors.black12
+                              : _color,
                           size: 24,
                         ),
                       ),
@@ -1636,38 +1572,34 @@ class ToolbarState extends State<Toolbar> {
                   child: Material(
                     color: Colors.transparent,
                     child: Tooltip(
-                      message:
-                          widget.showTooltip
-                              ? widget.model?.locale!.languageCode == 'ar'
-                                  ? 'بحث'
-                                  : 'Search'
-                              : null,
+                      message: widget.showTooltip
+                          ? widget.model?.locale!.languageCode == 'ar'
+                                ? 'بحث'
+                                : 'Search'
+                          : null,
                       child: RawMaterialButton(
-                        shape:
-                            _useMaterial3
-                                ? const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(4),
-                                  ),
-                                )
-                                : const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(2),
-                                  ),
+                        shape: _useMaterial3
+                            ? const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(4),
                                 ),
-                        onPressed:
-                            widget.controller!.pageNumber == 0
-                                ? null
-                                : () {
-                                  widget.controller!.clearSelection();
-                                  widget.onTap?.call('Search');
-                                },
+                              )
+                            : const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(2),
+                                ),
+                              ),
+                        onPressed: widget.controller!.pageNumber == 0
+                            ? null
+                            : () {
+                                widget.controller!.clearSelection();
+                                widget.onTap?.call('Search');
+                              },
                         child: Icon(
                           Icons.search,
-                          color:
-                              widget.controller!.pageNumber == 0
-                                  ? Colors.black12
-                                  : _color,
+                          color: widget.controller!.pageNumber == 0
+                              ? Colors.black12
+                              : _color,
                           size: 24,
                         ),
                       ),
@@ -1686,10 +1618,9 @@ class ToolbarState extends State<Toolbar> {
 /// Displays the error message.
 void _showErrorDialog(BuildContext context, SampleModel? model) {
   final String error = model?.locale?.languageCode == 'ar' ? 'خطأ' : 'Error';
-  final String description =
-      model?.locale?.languageCode == 'ar'
-          ? 'الرجاء إدخال رقم صفحة صحيح.'
-          : 'Please enter a valid page number.';
+  final String description = model?.locale?.languageCode == 'ar'
+      ? 'الرجاء إدخال رقم صفحة صحيح.'
+      : 'Please enter a valid page number.';
   final String okLabel = model?.locale?.languageCode == 'ar' ? 'حسنًا' : 'OK';
   final bool useMaterial3 = Theme.of(context).useMaterial3;
 
@@ -1703,8 +1634,9 @@ void _showErrorDialog(BuildContext context, SampleModel? model) {
           title: _errorDialogTitle(context, error, useMaterial3),
           content: SizedBox(width: 328.0, child: Text(description)),
           actions: <Widget>[_errorDialogButton(context, okLabel, useMaterial3)],
-          actionsPadding:
-              useMaterial3 ? null : const EdgeInsets.only(bottom: 10),
+          actionsPadding: useMaterial3
+              ? null
+              : const EdgeInsets.only(bottom: 10),
         ),
       );
     },
@@ -1724,10 +1656,9 @@ Row _errorDialogTitle(BuildContext context, String error, bool useMaterial3) {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          shape:
-              useMaterial3
-                  ? const CircleBorder()
-                  : const RoundedRectangleBorder(),
+          shape: useMaterial3
+              ? const CircleBorder()
+              : const RoundedRectangleBorder(),
           child: const Icon(Icons.clear, size: 20),
         ),
       ),
@@ -1745,13 +1676,12 @@ TextButton _errorDialogButton(
     onPressed: () {
       Navigator.of(context, rootNavigator: true).pop();
     },
-    style:
-        useMaterial3
-            ? TextButton.styleFrom(
-              fixedSize: const Size(double.infinity, 40),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            )
-            : null,
+    style: useMaterial3
+        ? TextButton.styleFrom(
+            fixedSize: const Size(double.infinity, 40),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          )
+        : null,
     child: Text(okLabel),
   );
 }

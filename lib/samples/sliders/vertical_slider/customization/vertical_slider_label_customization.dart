@@ -55,6 +55,7 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
         labelPlacement: _labelPlacement,
         showLabels: true,
         interval: 2,
+        stepDuration: const SliderStepDuration(years: 2),
         dateFormat: DateFormat.y(),
         dateIntervalType: DateIntervalType.years,
         showTicks: true,
@@ -64,13 +65,24 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
             _yearValue = values as DateTime;
           });
         },
+        onLabelCreated:
+            (dynamic actualValue, String formattedText, TextStyle textStyle) {
+              final bool currentDateIndex = actualValue == _yearValue;
+              return SliderLabel(
+                text: formattedText,
+                textStyle: currentDateIndex
+                    ? Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: model.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      )
+                    : textStyle,
+              );
+            },
         enableTooltip: true,
-        tooltipTextFormatterCallback: (
-          dynamic actualLabel,
-          String formattedText,
-        ) {
-          return DateFormat.y().format(actualLabel);
-        },
+        tooltipTextFormatterCallback:
+            (dynamic actualLabel, String formattedText) {
+              return DateFormat.y().format(actualLabel);
+            },
       ),
     );
   }
@@ -83,6 +95,7 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
         edgeLabelPlacement: _edgeLabelPlacement,
         labelPlacement: _labelPlacement,
         interval: 5,
+        stepSize: 5,
         min: -10.0,
         max: 10.0,
         showTicks: true,
@@ -92,6 +105,19 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
             _stepSliderValue = values as double;
           });
         },
+        onLabelCreated:
+            (dynamic actualValue, String formattedText, TextStyle textStyle) {
+              final bool currentIndex = actualValue == _stepSliderValue;
+              return SliderLabel(
+                text: currentIndex ? formattedText : '$actualValue',
+                textStyle: currentIndex
+                    ? Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: model.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      )
+                    : textStyle,
+              );
+            },
         enableTooltip: true,
       ),
     );
@@ -135,13 +161,14 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget slider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget slider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 350
             ? slider
             : SingleChildScrollView(
-              child: SizedBox(height: 400, child: slider),
-            );
+                child: SizedBox(height: 400, child: slider),
+              );
       },
     );
   }
@@ -171,16 +198,15 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedLabelPlacementType,
-                    items:
-                        _labelpositionList.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'on ticks',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _labelpositionList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'on ticks',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onLabelPositionTypeChange(value.toString());
                       stateSetter(() {});
@@ -211,16 +237,15 @@ class _VerticalSliderLabelCustomizationState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedType,
-                    items:
-                        _edgeList!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'inside',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _edgeList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'inside',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onPositionTypeChange(value.toString());
                       stateSetter(() {});

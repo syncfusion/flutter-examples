@@ -33,10 +33,22 @@ class _SparklineCustomizationState extends SampleViewState {
     _axisCrossingValue = 0;
     _startValue = 0;
     _endValue = 0;
-    _markerDisplayModeList =
-        <String>['none', 'all', 'high', 'low', 'first', 'last'].toList();
-    _datalabelDisplayModeList =
-        <String>['none', 'all', 'high', 'low', 'first', 'last'].toList();
+    _markerDisplayModeList = <String>[
+      'none',
+      'all',
+      'high',
+      'low',
+      'first',
+      'last',
+    ].toList();
+    _datalabelDisplayModeList = <String>[
+      'none',
+      'all',
+      'high',
+      'low',
+      'first',
+      'last',
+    ].toList();
     _enableTrackLine = false;
     _dataLabelDisplayMode = SparkChartLabelDisplayMode.none;
     _enablePlotband = false;
@@ -58,9 +70,9 @@ class _SparklineCustomizationState extends SampleViewState {
         height: MediaQuery.of(context).size.height / 3,
         width:
             model.isWebFullView ||
-                    MediaQuery.of(context).orientation == Orientation.landscape
-                ? MediaQuery.of(context).size.width / 2.5
-                : MediaQuery.of(context).size.width / 1.2,
+                MediaQuery.of(context).orientation == Orientation.landscape
+            ? MediaQuery.of(context).size.width / 2.5
+            : MediaQuery.of(context).size.width / 1.2,
         child: _buildSparkBarCustomizationChart(),
       ),
     );
@@ -97,18 +109,16 @@ class _SparklineCustomizationState extends SampleViewState {
       labelDisplayMode: _dataLabelDisplayMode,
       axisCrossesAt: _axisCrossingValue,
       axisLineWidth: 1,
-      axisLineColor:
-          model.themeData.colorScheme.brightness == Brightness.dark
-              ? const Color.fromRGBO(101, 101, 101, 1)
-              : const Color.fromRGBO(181, 181, 181, 1),
+      axisLineColor: model.themeData.colorScheme.brightness == Brightness.dark
+          ? const Color.fromRGBO(101, 101, 101, 1)
+          : const Color.fromRGBO(181, 181, 181, 1),
       marker: SparkChartMarker(displayMode: _markerDisplayMode),
       plotBand: SparkChartPlotBand(
         start: _startValue,
         end: _endValue,
-        color:
-            _enablePlotband
-                ? const Color.fromRGBO(191, 212, 252, 1)
-                : Colors.transparent,
+        color: _enablePlotband
+            ? const Color.fromRGBO(191, 212, 252, 1)
+            : Colors.transparent,
       ),
       trackball: _enableTrackLine ? const SparkChartTrackball() : null,
     );
@@ -139,16 +149,15 @@ class _SparklineCustomizationState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedMarkerDisplayMode,
-                    items:
-                        _markerDisplayModeList.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'none',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _markerDisplayModeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'none',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (String? value) {
                       _onMarkerDisplayModeChange(value.toString());
                       stateSetter(() {});
@@ -175,16 +184,15 @@ class _SparklineCustomizationState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedDatalabelDisplayMode,
-                    items:
-                        _datalabelDisplayModeList.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'none',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _datalabelDisplayModeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'none',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (String? value) {
                       _onDatalabelDisplayModeChange(value.toString());
                       stateSetter(() {});
@@ -297,10 +305,9 @@ class _SparklineCustomizationState extends SampleViewState {
                           maxValue: 13,
                           minValue: -10,
                           initialValue: _startValue,
-                          onChanged:
-                              (double val) => setState(() {
-                                _startValue = val;
-                              }),
+                          onChanged: (double val) => setState(() {
+                            _startValue = val;
+                          }),
                           loop: true,
                           iconColor: model.textColor,
                           style: TextStyle(
@@ -340,10 +347,9 @@ class _SparklineCustomizationState extends SampleViewState {
                           maxValue: 13,
                           minValue: -10,
                           initialValue: _endValue,
-                          onChanged:
-                              (double val) => setState(() {
-                                _endValue = val;
-                              }),
+                          onChanged: (double val) => setState(() {
+                            _endValue = val;
+                          }),
                           loop: true,
                           iconColor: model.textColor,
                           style: TextStyle(

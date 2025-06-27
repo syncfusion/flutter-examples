@@ -173,16 +173,15 @@ class _TileLayerSampleState extends SampleViewState {
       _zoomPanBehavior.zoomLevel = _isDesktop ? 5 : 4;
       _canUpdateZoomLevel = false;
     }
-    _cardHeight =
-        (MediaQuery.of(context).orientation == Orientation.landscape)
-            ? (_isDesktop ? 120 : 90)
-            : 110;
+    _cardHeight = (MediaQuery.of(context).orientation == Orientation.landscape)
+        ? (_isDesktop ? 120 : 90)
+        : 110;
     _pageViewController = PageController(
       initialPage: _currentSelectedIndex,
       viewportFraction:
           (MediaQuery.of(context).orientation == Orientation.landscape)
-              ? (_isDesktop ? 0.5 : 0.7)
-              : 0.8,
+          ? (_isDesktop ? 0.5 : 0.7)
+          : 0.8,
     );
     return Stack(
       children: <Widget>[
@@ -267,8 +266,9 @@ class _TileLayerSampleState extends SampleViewState {
                 return const SizedBox();
               },
               markerBuilder: (BuildContext context, int index) {
-                final double markerSize =
-                    _currentSelectedIndex == index ? 40 : 25;
+                final double markerSize = _currentSelectedIndex == index
+                    ? 40
+                    : 25;
                 return MapMarker(
                   latitude: _worldWonders[index].latitude,
                   longitude: _worldWonders[index].longitude,
@@ -292,10 +292,9 @@ class _TileLayerSampleState extends SampleViewState {
                       child: FittedBox(
                         child: Icon(
                           Icons.location_on,
-                          color:
-                              _currentSelectedIndex == index
-                                  ? Colors.blue
-                                  : Colors.red,
+                          color: _currentSelectedIndex == index
+                              ? Colors.blue
+                              : Colors.red,
                           size: markerSize,
                         ),
                       ),
@@ -328,8 +327,8 @@ class _TileLayerSampleState extends SampleViewState {
                         decoration: BoxDecoration(
                           color:
                               Theme.of(context).brightness == Brightness.light
-                                  ? const Color.fromRGBO(255, 255, 255, 1)
-                                  : const Color.fromRGBO(66, 66, 66, 1),
+                              ? const Color.fromRGBO(255, 255, 255, 1)
+                              : const Color.fromRGBO(66, 66, 66, 1),
                           border: Border.all(
                             color: const Color.fromRGBO(153, 153, 153, 1),
                             width: 0.5,
@@ -364,8 +363,9 @@ class _TileLayerSampleState extends SampleViewState {
                                           fontSize: _isDesktop ? 14 : 11,
                                         ),
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines:
-                                            (index == 2 || index == 6) ? 2 : 4,
+                                        maxLines: (index == 2 || index == 6)
+                                            ? 2
+                                            : 4,
                                       ),
                                     ),
                                   ],

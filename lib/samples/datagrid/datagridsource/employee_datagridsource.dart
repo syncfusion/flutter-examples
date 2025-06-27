@@ -40,8 +40,9 @@ class EmployeeDataGridSource extends DataGridSource {
     final String responseBody = await rootBundle.loadString(
       'assets/product_data.json',
     );
-    final dynamic list =
-        await json.decode(responseBody).cast<Map<String, dynamic>>();
+    final dynamic list = await json
+        .decode(responseBody)
+        .cast<Map<String, dynamic>>();
     employees =
         await list
                 .map<Employee>((dynamic json) => Employee.fromJson(json))
@@ -51,76 +52,75 @@ class EmployeeDataGridSource extends DataGridSource {
 
   /// Building DataGridRows
   void _buildDataGridRow(String sampleType) {
-    _dataGridRows =
-        employees.map<DataGridRow>((Employee employee) {
-          if (sampleType == 'JSON') {
-            return DataGridRow(
-              cells: <DataGridCell<String>>[
-                DataGridCell<String>(columnName: 'id', value: employee.id),
-                DataGridCell<String>(
-                  columnName: 'contactName',
-                  value: employee.contactName,
-                ),
-                DataGridCell<String>(
-                  columnName: 'companyName',
-                  value: employee.companyName,
-                ),
-                DataGridCell<String>(columnName: 'city', value: employee.city),
-                DataGridCell<String>(
-                  columnName: 'country',
-                  value: employee.country,
-                ),
-                DataGridCell<String>(
-                  columnName: 'designation',
-                  value: employee.designation,
-                ),
-                DataGridCell<String>(
-                  columnName: 'postalCode',
-                  value: employee.postalCode,
-                ),
-                DataGridCell<String>(
-                  columnName: 'phoneNumber',
-                  value: employee.phoneNumber,
-                ),
-              ],
-            );
-          } else {
-            return DataGridRow(
-              cells: <DataGridCell<String>>[
-                DataGridCell<String>(columnName: 'id', value: employee.id),
-                DataGridCell<String>(
-                  columnName: 'contactName',
-                  value: employee.contactName,
-                ),
-                DataGridCell<String>(
-                  columnName: 'companyName',
-                  value: employee.companyName,
-                ),
-                DataGridCell<String>(
-                  columnName: 'address',
-                  value: employee.address,
-                ),
-                DataGridCell<String>(columnName: 'city', value: employee.city),
-                DataGridCell<String>(
-                  columnName: 'country',
-                  value: employee.country,
-                ),
-                DataGridCell<String>(
-                  columnName: 'designation',
-                  value: employee.designation,
-                ),
-                DataGridCell<String>(
-                  columnName: 'postalCode',
-                  value: employee.postalCode,
-                ),
-                DataGridCell<String>(
-                  columnName: 'phoneNumber',
-                  value: employee.phoneNumber,
-                ),
-              ],
-            );
-          }
-        }).toList();
+    _dataGridRows = employees.map<DataGridRow>((Employee employee) {
+      if (sampleType == 'JSON') {
+        return DataGridRow(
+          cells: <DataGridCell<String>>[
+            DataGridCell<String>(columnName: 'id', value: employee.id),
+            DataGridCell<String>(
+              columnName: 'contactName',
+              value: employee.contactName,
+            ),
+            DataGridCell<String>(
+              columnName: 'companyName',
+              value: employee.companyName,
+            ),
+            DataGridCell<String>(columnName: 'city', value: employee.city),
+            DataGridCell<String>(
+              columnName: 'country',
+              value: employee.country,
+            ),
+            DataGridCell<String>(
+              columnName: 'designation',
+              value: employee.designation,
+            ),
+            DataGridCell<String>(
+              columnName: 'postalCode',
+              value: employee.postalCode,
+            ),
+            DataGridCell<String>(
+              columnName: 'phoneNumber',
+              value: employee.phoneNumber,
+            ),
+          ],
+        );
+      } else {
+        return DataGridRow(
+          cells: <DataGridCell<String>>[
+            DataGridCell<String>(columnName: 'id', value: employee.id),
+            DataGridCell<String>(
+              columnName: 'contactName',
+              value: employee.contactName,
+            ),
+            DataGridCell<String>(
+              columnName: 'companyName',
+              value: employee.companyName,
+            ),
+            DataGridCell<String>(
+              columnName: 'address',
+              value: employee.address,
+            ),
+            DataGridCell<String>(columnName: 'city', value: employee.city),
+            DataGridCell<String>(
+              columnName: 'country',
+              value: employee.country,
+            ),
+            DataGridCell<String>(
+              columnName: 'designation',
+              value: employee.designation,
+            ),
+            DataGridCell<String>(
+              columnName: 'postalCode',
+              value: employee.postalCode,
+            ),
+            DataGridCell<String>(
+              columnName: 'phoneNumber',
+              value: employee.phoneNumber,
+            ),
+          ],
+        );
+      }
+    }).toList();
   }
 
   // Overrides
@@ -130,17 +130,13 @@ class EmployeeDataGridSource extends DataGridSource {
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-      cells:
-          row.getCells().map<Widget>((DataGridCell dataCell) {
-            return Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 6.0,
-                horizontal: 16,
-              ),
-              alignment: Alignment.centerLeft,
-              child: Text(dataCell.value.toString()),
-            );
-          }).toList(),
+      cells: row.getCells().map<Widget>((DataGridCell dataCell) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16),
+          alignment: Alignment.centerLeft,
+          child: Text(dataCell.value.toString()),
+        );
+      }).toList(),
     );
   }
 

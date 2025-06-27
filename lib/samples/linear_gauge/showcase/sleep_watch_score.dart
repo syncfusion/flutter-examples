@@ -41,9 +41,9 @@ class _SleepWatchState extends SampleViewState {
               SizedBox(
                 width:
                     (defaultTargetPlatform == TargetPlatform.macOS ||
-                            defaultTargetPlatform == TargetPlatform.iOS)
-                        ? 54
-                        : null,
+                        defaultTargetPlatform == TargetPlatform.iOS)
+                    ? 54
+                    : null,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -58,14 +58,13 @@ class _SleepWatchState extends SampleViewState {
                       _todayValue.toStringAsFixed(0),
                       style: TextStyle(
                         fontSize: 26,
-                        color:
-                            _todayValue < 200
-                                ? Colors.red
-                                : _todayValue < 300
-                                ? Colors.amber
-                                : _todayValue < 400
-                                ? const Color(0xffFB7D55)
-                                : const Color(0xff0DC9AB),
+                        color: _todayValue < 200
+                            ? Colors.red
+                            : _todayValue < 300
+                            ? Colors.amber
+                            : _todayValue < 400
+                            ? const Color(0xffFB7D55)
+                            : const Color(0xff0DC9AB),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -73,12 +72,11 @@ class _SleepWatchState extends SampleViewState {
                 ),
               ),
               SizedBox(
-                width:
-                    isWebOrDesktop
-                        ? MediaQuery.of(context).size.width >= 550
-                            ? 450
-                            : MediaQuery.of(context).size.width * 0.68
-                        : MediaQuery.of(context).size.width * 0.70,
+                width: isWebOrDesktop
+                    ? MediaQuery.of(context).size.width >= 550
+                          ? 450
+                          : MediaQuery.of(context).size.width * 0.68
+                    : MediaQuery.of(context).size.width * 0.70,
                 child: SfLinearGauge(
                   minimum: 100.0,
                   maximum: 500.0,
@@ -90,10 +88,9 @@ class _SleepWatchState extends SampleViewState {
                   minorTicksPerInterval: 0,
                   axisTrackStyle: LinearAxisTrackStyle(
                     thickness: 15,
-                    color:
-                        brightness == Brightness.dark
-                            ? Colors.transparent
-                            : Colors.grey[350],
+                    color: brightness == Brightness.dark
+                        ? Colors.transparent
+                        : Colors.grey[350],
                   ),
                   markerPointers: <LinearMarkerPointer>[
                     LinearShapePointer(
@@ -105,14 +102,13 @@ class _SleepWatchState extends SampleViewState {
                       },
                       height: 20,
                       width: 20,
-                      color:
-                          _todayValue < 200
-                              ? Colors.red
-                              : _todayValue < 300
-                              ? Colors.amber
-                              : _todayValue < 400
-                              ? const Color(0xffFB7D55)
-                              : const Color(0xff0DC9AB),
+                      color: _todayValue < 200
+                          ? Colors.red
+                          : _todayValue < 300
+                          ? Colors.amber
+                          : _todayValue < 400
+                          ? const Color(0xffFB7D55)
+                          : const Color(0xff0DC9AB),
                       position: LinearElementPosition.cross,
                       shapeType: LinearShapePointerType.circle,
                     ),
@@ -194,9 +190,9 @@ class _SleepWatchState extends SampleViewState {
               SizedBox(
                 width:
                     (defaultTargetPlatform == TargetPlatform.macOS ||
-                            defaultTargetPlatform == TargetPlatform.iOS)
-                        ? 54
-                        : null,
+                        defaultTargetPlatform == TargetPlatform.iOS)
+                    ? 54
+                    : null,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -211,14 +207,13 @@ class _SleepWatchState extends SampleViewState {
                       _overallValue.toStringAsFixed(0),
                       style: TextStyle(
                         fontSize: 26,
-                        color:
-                            _overallValue < 200
-                                ? Colors.red
-                                : _overallValue < 300
-                                ? Colors.amber
-                                : _overallValue < 400
-                                ? const Color(0xffFB7D55)
-                                : const Color(0xff0DC9AB),
+                        color: _overallValue < 200
+                            ? Colors.red
+                            : _overallValue < 300
+                            ? Colors.amber
+                            : _overallValue < 400
+                            ? const Color(0xffFB7D55)
+                            : const Color(0xff0DC9AB),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -226,12 +221,11 @@ class _SleepWatchState extends SampleViewState {
                 ),
               ),
               SizedBox(
-                width:
-                    isWebOrDesktop
-                        ? MediaQuery.of(context).size.width >= 550
-                            ? 450
-                            : MediaQuery.of(context).size.width * 0.68
-                        : MediaQuery.of(context).size.width * 0.70,
+                width: isWebOrDesktop
+                    ? MediaQuery.of(context).size.width >= 550
+                          ? 450
+                          : MediaQuery.of(context).size.width * 0.68
+                    : MediaQuery.of(context).size.width * 0.70,
                 child: SfLinearGauge(
                   minimum: 100.0,
                   maximum: 500.0,
@@ -243,10 +237,9 @@ class _SleepWatchState extends SampleViewState {
                   minorTicksPerInterval: 0,
                   axisTrackStyle: LinearAxisTrackStyle(
                     thickness: 15,
-                    color:
-                        brightness == Brightness.dark
-                            ? Colors.transparent
-                            : Colors.grey[350],
+                    color: brightness == Brightness.dark
+                        ? Colors.transparent
+                        : Colors.grey[350],
                   ),
                   markerPointers: <LinearMarkerPointer>[
                     LinearShapePointer(
@@ -258,14 +251,13 @@ class _SleepWatchState extends SampleViewState {
                       },
                       height: 20,
                       width: 20,
-                      color:
-                          _overallValue < 200
-                              ? Colors.red
-                              : _overallValue < 300
-                              ? Colors.amber
-                              : _overallValue < 400
-                              ? const Color(0xffFB7D55)
-                              : const Color(0xff0DC9AB),
+                      color: _overallValue < 200
+                          ? Colors.red
+                          : _overallValue < 300
+                          ? Colors.amber
+                          : _overallValue < 400
+                          ? const Color(0xffFB7D55)
+                          : const Color(0xff0DC9AB),
                       position: LinearElementPosition.cross,
                       shapeType: LinearShapePointerType.circle,
                     ),

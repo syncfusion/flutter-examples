@@ -91,19 +91,17 @@ class _RadialEaseExampleState extends SampleViewState {
               markerType: MarkerType.image,
               enableAnimation: true,
               imageUrl: 'images/ball_progressbar.png',
-              markerHeight:
-                  isCardView
-                      ? 30
-                      : model.isWebFullView
-                      ? 45
-                      : 40,
+              markerHeight: isCardView
+                  ? 30
+                  : model.isWebFullView
+                  ? 45
+                  : 40,
               markerOffset: 4,
-              markerWidth:
-                  isCardView
-                      ? 30
-                      : model.isWebFullView
-                      ? 45
-                      : 40,
+              markerWidth: isCardView
+                  ? 30
+                  : model.isWebFullView
+                  ? 45
+                  : 40,
             ),
           ],
         ),

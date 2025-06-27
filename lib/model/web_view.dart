@@ -150,13 +150,12 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
               if (MediaQuery.of(context).size.width > 768)
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.17,
-                  child:
-                      inputContainer = _SampleInputContainer(
-                        sampleModel: model,
-                        category: category,
-                        key: sampleInputKey,
-                        webLayoutPageState: this,
-                      ),
+                  child: inputContainer = _SampleInputContainer(
+                    sampleModel: model,
+                    category: category,
+                    key: sampleInputKey,
+                    webLayoutPageState: this,
+                  ),
                 ),
               outputContainer = _SampleOutputContainer(
                 sampleModel: model,
@@ -190,10 +189,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
           ],
         ),
         child: AppBar(
-          leading:
-              (MediaQuery.of(context).size.width > 768)
-                  ? Container()
-                  : _buildSideDrawer(context),
+          leading: (MediaQuery.of(context).size.width > 768)
+              ? Container()
+              : _buildSideDrawer(context),
           automaticallyImplyLeading: MediaQuery.of(context).size.width <= 768,
           elevation: 0.0,
           backgroundColor: primary,
@@ -335,10 +333,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                       child: Text(
                         'DOWNLOAD NOW',
                         style: TextStyle(
-                          color:
-                              _isDownloadButtonHover
-                                  ? model.themeData.colorScheme.primary
-                                  : model.baseAppBarItemColor,
+                          color: _isDownloadButtonHover
+                              ? model.themeData.colorScheme.primary
+                              : model.baseAppBarItemColor,
                           fontSize: 12,
                           fontFamily: 'Roboto-Medium',
                         ),
@@ -395,10 +392,9 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
                         Text(
                           'Get Packages',
                           style: TextStyle(
-                            color:
-                                _isGetPackageButtonHover
-                                    ? model.themeData.colorScheme.primary
-                                    : model.baseAppBarItemColor,
+                            color: _isGetPackageButtonHover
+                                ? model.themeData.colorScheme.primary
+                                : model.baseAppBarItemColor,
                             fontSize: 12,
                             fontFamily: 'Roboto-Medium',
                           ),
@@ -574,8 +570,9 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                   item.subItems![0].title!;
 
               widget.webLayoutPageState!.selectSample = item.title;
-              widget.webLayoutPageState!.sample =
-                  item.subItems != null ? item.subItems![0] as SubItem : item;
+              widget.webLayoutPageState!.sample = item.subItems != null
+                  ? item.subItems![0] as SubItem
+                  : item;
               if (model.currentSampleKey == null ||
                   (item.key != null
                       ? model.currentSampleKey != item.key
@@ -585,15 +582,15 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
               }
             },
             child: Container(
-              color:
-                  isNeedSelect
-                      ? Colors.grey.withValues(alpha: 0.2)
-                      : Colors.transparent,
+              color: isNeedSelect
+                  ? Colors.grey.withValues(alpha: 0.2)
+                  : Colors.transparent,
               child: Row(
                 children: <Widget>[
                   Container(
-                    color:
-                        isNeedSelect ? model.primaryColor : Colors.transparent,
+                    color: isNeedSelect
+                        ? model.primaryColor
+                        : Colors.transparent,
                     width: 5,
                     height: 40,
                     padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
@@ -614,10 +611,9 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                         style: TextStyle(
                           fontSize: 13,
                           fontFamily: 'Roboto-Medium',
-                          color:
-                              isNeedSelect
-                                  ? model.primaryColor
-                                  : model.textColor,
+                          color: isNeedSelect
+                              ? model.primaryColor
+                              : model.textColor,
                         ),
                       ),
                     ),
@@ -626,18 +622,16 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                       item.subItems![0].status != '')
                     Container(
                       decoration: BoxDecoration(
-                        color:
-                            item.subItems![0].status == 'New'
-                                ? const Color.fromRGBO(55, 153, 30, 1)
-                                : const Color.fromRGBO(246, 117, 0, 1),
+                        color: item.subItems![0].status == 'New'
+                            ? const Color.fromRGBO(55, 153, 30, 1)
+                            : const Color.fromRGBO(246, 117, 0, 1),
                         borderRadius: const BorderRadius.all(
                           Radius.circular(10.0),
                         ),
                       ),
-                      padding:
-                          model.isWeb && model.isMobileResolution
-                              ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
-                              : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
+                      padding: model.isWeb && model.isMobileResolution
+                          ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
+                          : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
                       child: Text(
                         item.subItems![0].status,
                         style: const TextStyle(
@@ -717,127 +711,120 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
         widget.webLayoutPageState!.sample.control!.subItems! as List<SubItem>;
     final List<Widget> children = <Widget>[];
     for (int i = 0; i < list.length; i++) {
-      final bool isNeedSelect =
-          widget.webLayoutPageState!.selectSample == null
-              ? widget.webLayoutPageState!.sample.breadCrumbText ==
-                  list[i].breadCrumbText
-              : widget.webLayoutPageState!.selectSample == list[i].title;
+      final bool isNeedSelect = widget.webLayoutPageState!.selectSample == null
+          ? widget.webLayoutPageState!.sample.breadCrumbText ==
+                list[i].breadCrumbText
+          : widget.webLayoutPageState!.selectSample == list[i].title;
       children.add(
         list[i].type != 'parent' && list[i].type != 'child'
             ? Material(
-              color: Colors.transparent,
-              child: InkWell(
-                hoverColor: model.hoverColor,
-                highlightColor: model.splashColor,
-                splashColor: model.splashColor,
-                onTap: () {
-                  final _SampleInputContainerState sampleInputContainerState =
-                      widget.webLayoutPageState!.sampleInputKey.currentState!
-                          as _SampleInputContainerState;
-                  final GlobalKey globalKey =
-                      widget.webLayoutPageState!.outputContainer.key!
-                          as GlobalKey;
-                  final SampleOutputContainerState outputContainerState =
-                      globalKey.currentState! as SampleOutputContainerState;
-                  if (outputContainerState
-                          .outputScaffoldKey
-                          .currentState!
-                          .isEndDrawerOpen ||
-                      widget
-                          .webLayoutPageState!
-                          .scaffoldKey
-                          .currentState!
-                          .isDrawerOpen) {
-                    Navigator.pop(context);
-                  }
-                  outputContainerState.sample = list[i];
-                  outputContainerState.needTabs = false;
-                  outputContainerState.orginText =
-                      widget.webLayoutPageState!.sample.control!.title! +
-                      ' > ' +
-                      list[i].title!;
-                  widget.webLayoutPageState!.selectSample = list[i].title;
-                  resetLocaleValue(model, outputContainerState.sample);
-                  if (model.currentSampleKey == null ||
-                      (list[i].key != null
-                          ? model.currentSampleKey != list[i].key
-                          : model.currentSampleKey !=
-                              list[i].subItems![0].key)) {
-                    sampleInputContainerState.refresh();
-                    outputContainerState.refresh();
-                  }
-                },
-                child: Container(
-                  color:
-                      isNeedSelect
-                          ? Colors.grey.withValues(alpha: 0.2)
-                          : Colors.transparent,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        color:
-                            isNeedSelect
-                                ? model.primaryColor
-                                : Colors.transparent,
-                        width: 5,
-                        padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-                        alignment: Alignment.centerLeft,
-                        child: const Opacity(opacity: 0.0, child: Text('1')),
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
+                color: Colors.transparent,
+                child: InkWell(
+                  hoverColor: model.hoverColor,
+                  highlightColor: model.splashColor,
+                  splashColor: model.splashColor,
+                  onTap: () {
+                    final _SampleInputContainerState sampleInputContainerState =
+                        widget.webLayoutPageState!.sampleInputKey.currentState!
+                            as _SampleInputContainerState;
+                    final GlobalKey globalKey =
+                        widget.webLayoutPageState!.outputContainer.key!
+                            as GlobalKey;
+                    final SampleOutputContainerState outputContainerState =
+                        globalKey.currentState! as SampleOutputContainerState;
+                    if (outputContainerState
+                            .outputScaffoldKey
+                            .currentState!
+                            .isEndDrawerOpen ||
+                        widget
+                            .webLayoutPageState!
+                            .scaffoldKey
+                            .currentState!
+                            .isDrawerOpen) {
+                      Navigator.pop(context);
+                    }
+                    outputContainerState.sample = list[i];
+                    outputContainerState.needTabs = false;
+                    outputContainerState.orginText =
+                        widget.webLayoutPageState!.sample.control!.title! +
+                        ' > ' +
+                        list[i].title!;
+                    widget.webLayoutPageState!.selectSample = list[i].title;
+                    resetLocaleValue(model, outputContainerState.sample);
+                    if (model.currentSampleKey == null ||
+                        (list[i].key != null
+                            ? model.currentSampleKey != list[i].key
+                            : model.currentSampleKey !=
+                                  list[i].subItems![0].key)) {
+                      sampleInputContainerState.refresh();
+                      outputContainerState.refresh();
+                    }
+                  },
+                  child: Container(
+                    color: isNeedSelect
+                        ? Colors.grey.withValues(alpha: 0.2)
+                        : Colors.transparent,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          color: isNeedSelect
+                              ? model.primaryColor
+                              : Colors.transparent,
+                          width: 5,
+                          padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            list[i].title!,
-                            style: TextStyle(
-                              color:
-                                  isNeedSelect
-                                      ? model.primaryColor
-                                      : model.textColor,
+                          child: const Opacity(opacity: 0.0, child: Text('1')),
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              list[i].title!,
+                              style: TextStyle(
+                                color: isNeedSelect
+                                    ? model.primaryColor
+                                    : model.textColor,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      if (list[i].status != null &&
-                          _sampleStatus(model, list[i], context))
-                        Container(
-                          decoration: BoxDecoration(
-                            color:
-                                list[i].status!.toLowerCase() == 'new'
-                                    ? const Color.fromRGBO(55, 153, 30, 1)
-                                    : (list[i].status!.toLowerCase() ==
-                                        'updated')
-                                    ? const Color.fromRGBO(246, 117, 0, 1)
-                                    : Colors.transparent,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
+                        if (list[i].status != null &&
+                            _sampleStatus(model, list[i], context))
+                          Container(
+                            decoration: BoxDecoration(
+                              color: list[i].status!.toLowerCase() == 'new'
+                                  ? const Color.fromRGBO(55, 153, 30, 1)
+                                  : (list[i].status!.toLowerCase() == 'updated')
+                                  ? const Color.fromRGBO(246, 117, 0, 1)
+                                  : Colors.transparent,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
                             ),
-                          ),
-                          padding:
-                              (model.isWeb && model.isMobileResolution)
-                                  ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
-                                  : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
-                          child: Text(
-                            list[i].status!,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10.5,
+                            padding: (model.isWeb && model.isMobileResolution)
+                                ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
+                                : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
+                            child: Text(
+                              list[i].status!,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.5,
+                              ),
                             ),
-                          ),
-                        )
-                      else
-                        Container(),
-                      if (list[i].status != null &&
-                          _sampleStatus(model, list[i], context))
-                        const Padding(padding: EdgeInsets.only(right: 5))
-                      else
-                        Container(),
-                    ],
+                          )
+                        else
+                          Container(),
+                        if (list[i].status != null &&
+                            _sampleStatus(model, list[i], context))
+                          const Padding(padding: EdgeInsets.only(right: 5))
+                        else
+                          Container(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
+              )
             : _expandedChildren(model, list[i], category, i),
       );
     }
@@ -1021,9 +1008,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     orginText = widget.orginText!;
     _prevCategory =
         widget.webLayoutPageState != null &&
-                widget.webLayoutPageState!.selectSample != null
-            ? widget.webLayoutPageState!.selectSample
-            : 'Line';
+            widget.webLayoutPageState!.selectSample != null
+        ? widget.webLayoutPageState!.selectSample
+        : 'Line';
     super.initState();
   }
 
@@ -1113,9 +1100,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     if (_currentCategory == null) {
       _currentCategory =
           widget.webLayoutPageState != null &&
-                  widget.webLayoutPageState!.selectSample != null
-              ? widget.webLayoutPageState!.selectSample
-              : 'Line';
+              widget.webLayoutPageState!.selectSample != null
+          ? widget.webLayoutPageState!.selectSample
+          : 'Line';
     } else {
       if (widget.webLayoutPageState != null &&
           widget.webLayoutPageState!.selectSample != null &&
@@ -1124,17 +1111,17 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
         _currentCategory = widget.webLayoutPageState!.selectSample;
       }
     }
-    final SubItem sampleSubItem =
-        (_initialRender ? widget.initialSample : sample)!;
+    final SubItem sampleSubItem = (_initialRender
+        ? widget.initialSample
+        : sample)!;
     _propertiesPanel = _PropertiesPanel(
       sampleModel: model,
       key: _propertiesPanelKey,
     );
     _tabTextWidth = 0;
-    final List<Widget>? tabs =
-        (needTabs ?? false) && subItems.length > 1
-            ? _buildTabs(subItems)
-            : null;
+    final List<Widget>? tabs = (needTabs ?? false) && subItems.length > 1
+        ? _buildTabs(subItems)
+        : null;
     double percent;
     if (model.isMobileResolution && width > 600) {
       percent = 0.75;
@@ -1251,46 +1238,34 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
         endDrawerEnableOpenDragGesture: false,
         endDrawer:
             _checkPropertyPanelIsEnabled(
-                  model,
-                  sampleSubItem,
-                  _propertiesPanel,
-                  context,
-                )
-                ? _propertiesPanel
-                : null,
-        body:
-            (needTabs != null && needTabs!)
-                ? _buildTabController(
-                  model,
-                  width,
-                  tabs,
-                  sampleSubItem,
-                  isSelected,
-                )
-                : DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: model.sampleOutputCardColor,
-                    border: Border.all(
-                      color:
-                          (model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey[300]
-                              : Colors.transparent)!,
-                    ),
-                    borderRadius: BorderRadius.circular(3),
+              model,
+              sampleSubItem,
+              _propertiesPanel,
+              context,
+            )
+            ? _propertiesPanel
+            : null,
+        body: (needTabs != null && needTabs!)
+            ? _buildTabController(model, width, tabs, sampleSubItem, isSelected)
+            : DecoratedBox(
+                decoration: BoxDecoration(
+                  color: model.sampleOutputCardColor,
+                  border: Border.all(
+                    color:
+                        (model.themeData.colorScheme.brightness ==
+                            Brightness.light
+                        ? Colors.grey[300]
+                        : Colors.transparent)!,
                   ),
-                  child: Column(
-                    children: <Widget>[
-                      _buildSampleAppBar(
-                        model,
-                        sampleSubItem,
-                        width,
-                        isSelected,
-                      ),
-                      _buildOutputContainer(model, sampleSubItem),
-                    ],
-                  ),
+                  borderRadius: BorderRadius.circular(3),
                 ),
+                child: Column(
+                  children: <Widget>[
+                    _buildSampleAppBar(model, sampleSubItem, width, isSelected),
+                    _buildOutputContainer(model, sampleSubItem),
+                  ],
+                ),
+              ),
       ),
     );
   }
@@ -1316,10 +1291,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
           _buildMaximize(model, sampleSubItem),
           Padding(padding: EdgeInsets.only(left: width < 500 ? 3 : 6)),
           Flexible(
-            child:
-                _needsPropertyPanel
-                    ? _buildPropertyPanel(model, isSelected)
-                    : SizedBox.fromSize(size: Size.zero),
+            child: _needsPropertyPanel
+                ? _buildPropertyPanel(model, isSelected)
+                : SizedBox.fromSize(size: Size.zero),
           ),
         ],
       ),
@@ -1362,9 +1336,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
             icon: Icon(Icons.menu, color: model.drawerIconColor),
             tooltip:
                 MediaQuery.of(context).size.width <= 720 ||
-                        !model.isPropertyPanelOpened
-                    ? 'Open Property Panel'
-                    : 'Close Property Panel',
+                    !model.isPropertyPanelOpened
+                ? 'Open Property Panel'
+                : 'Close Property Panel',
             onPressed: () {
               isSelected[0] = !isSelected[0];
               if (MediaQuery.of(context).size.width > 720) {
@@ -1477,10 +1451,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
         decoration: BoxDecoration(
           color: model.backgroundColor,
           border: Border.all(
-            color:
-                (model.themeData.colorScheme.brightness == Brightness.light
-                    ? Colors.grey[300]
-                    : Colors.transparent)!,
+            color: (model.themeData.colorScheme.brightness == Brightness.light
+                ? Colors.grey[300]
+                : Colors.transparent)!,
           ),
           borderRadius: BorderRadius.circular(3),
         ),
@@ -1492,10 +1465,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                 color: model.subSamplesTabBarColor,
                 border: Border.all(color: model.dividerColor, width: 0.8),
               ),
-              padding:
-                  width < 500
-                      ? const EdgeInsets.fromLTRB(2, 5, 2, 0)
-                      : const EdgeInsets.fromLTRB(5, 0, 10, 0),
+              padding: width < 500
+                  ? const EdgeInsets.fromLTRB(2, 5, 2, 0)
+                  : const EdgeInsets.fromLTRB(5, 0, 10, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -1513,10 +1485,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                           padding: EdgeInsets.only(left: width < 500 ? 3 : 6),
                         ),
                         Flexible(
-                          child:
-                              _needsPropertyPanel
-                                  ? _buildProperPanel(model, isSelected)
-                                  : SizedBox.fromSize(size: Size.zero),
+                          child: _needsPropertyPanel
+                              ? _buildProperPanel(model, isSelected)
+                              : SizedBox.fromSize(size: Size.zero),
                         ),
                       ],
                     ),
@@ -1582,9 +1553,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
               Tooltip(
                 message:
                     MediaQuery.of(context).size.width <= 720 ||
-                            !model.isPropertyPanelOpened
-                        ? 'Open Property Panel'
-                        : 'Close Property Panel',
+                        !model.isPropertyPanelOpened
+                    ? 'Open Property Panel'
+                    : 'Close Property Panel',
                 child: Icon(Icons.menu, color: model.drawerIconColor),
               ),
             ],
@@ -1760,10 +1731,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
               width: 18,
               child: Image.asset(
                 'images/scroll-arrow-left.png',
-                color:
-                    _isLeftScrolled
-                        ? model.textColor
-                        : model.textColor.withValues(alpha: 0.5),
+                color: _isLeftScrolled
+                    ? model.textColor
+                    : model.textColor.withValues(alpha: 0.5),
                 fit: BoxFit.contain,
               ),
             ),
@@ -1782,8 +1752,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
           shape: const CircleBorder(),
           clipBehavior: Clip.hardEdge,
           child: InkWell(
-            hoverColor:
-                _isRightScrolled ? model.hoverColor : Colors.transparent,
+            hoverColor: _isRightScrolled
+                ? model.hoverColor
+                : Colors.transparent,
             highlightColor: _isRightScrolled ? model.splashColor : null,
             splashColor: _isRightScrolled ? model.splashColor : null,
             focusColor: _isRightScrolled ? model.focusedColor : null,
@@ -1809,10 +1780,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                 width: 18,
                 child: Image.asset(
                   'images/scroll_arrow.png',
-                  color:
-                      _isRightScrolled
-                          ? model.textColor
-                          : model.textColor.withValues(alpha: 0.5),
+                  color: _isRightScrolled
+                      ? model.textColor
+                      : model.textColor.withValues(alpha: 0.5),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -1847,10 +1817,9 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
             hoverColor: model.hoverColor,
             highlightColor: model.splashColor,
             splashColor: model.splashColor,
-            child:
-                subItems.length == 1
-                    ? Container()
-                    : _buildSubTabBar(model, tabs),
+            child: subItems.length == 1
+                ? Container()
+                : _buildSubTabBar(model, tabs),
           ),
         ),
       ),
@@ -1883,8 +1852,8 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
         labelColor: model.primaryColor,
         unselectedLabelColor:
             model.themeData.colorScheme.brightness == Brightness.dark
-                ? Colors.white
-                : const Color.fromRGBO(89, 89, 89, 1),
+            ? Colors.white
+            : const Color.fromRGBO(89, 89, 89, 1),
         isScrollable: true,
         tabs: tabs!,
       ),
@@ -2007,12 +1976,11 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
                     height: 20,
                     width: 20,
                     decoration: BoxDecoration(
-                      color:
-                          status == 'New'
-                              ? const Color.fromRGBO(55, 153, 30, 1)
-                              : status == 'Updated'
-                              ? const Color.fromRGBO(246, 117, 0, 1)
-                              : Colors.transparent,
+                      color: status == 'New'
+                          ? const Color.fromRGBO(55, 153, 30, 1)
+                          : status == 'Updated'
+                          ? const Color.fromRGBO(246, 117, 0, 1)
+                          : Colors.transparent,
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
@@ -2140,8 +2108,8 @@ class _OutputContainerState extends State<_OutputContainer> {
     widget.sampleOutputContainerState!._outputKey = widget.key! as GlobalKey;
     widget.sampleModel!.oldWindowSize =
         widget.sampleModel!.oldWindowSize == null
-            ? MediaQuery.of(context).size
-            : widget.sampleModel!.currentWindowSize;
+        ? MediaQuery.of(context).size
+        : widget.sampleModel!.currentWindowSize;
 
     widget.sampleModel!.currentWindowSize = MediaQuery.of(context).size;
     if (widget.sampleModel!.oldWindowSize!.width !=
@@ -2152,40 +2120,40 @@ class _OutputContainerState extends State<_OutputContainer> {
       return widget.sampleModel!.needToMaximize
           ? Container()
           : StatefulBuilder(
-            builder: (BuildContext context, StateSetter stateSetter) {
-              propertyPanelStateChange = stateSetter;
-              return Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[
-                        Expanded(
-                          child: widget.sampleModel!.currentRenderSample,
-                        ),
-                        if (widget.subItem!.sourceLink != null &&
-                            widget.subItem!.sourceLink != '')
-                          _buildSourceLink()
-                        else
-                          Container(),
-                      ],
+              builder: (BuildContext context, StateSetter stateSetter) {
+                propertyPanelStateChange = stateSetter;
+                return Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: widget.sampleModel!.currentRenderSample,
+                          ),
+                          if (widget.subItem!.sourceLink != null &&
+                              widget.subItem!.sourceLink != '')
+                            _buildSourceLink()
+                          else
+                            Container(),
+                        ],
+                      ),
                     ),
-                  ),
-                  if (_needsPropertyPanel &&
-                      MediaQuery.of(context).size.width > 720 &&
-                      (widget.sampleModel!.isPropertyPanelOpened ||
-                          (!widget.sampleModel!.isPropertyPanelOpened &&
-                              widget.sampleModel!.isPropertyPanelTapped)))
-                    _PropertiesPanel(
-                      sampleModel: widget.sampleModel,
-                      key: propertyPanelWidgetKey,
-                      openState: true,
-                    )
-                  else
-                    Container(),
-                ],
-              );
-            },
-          );
+                    if (_needsPropertyPanel &&
+                        MediaQuery.of(context).size.width > 720 &&
+                        (widget.sampleModel!.isPropertyPanelOpened ||
+                            (!widget.sampleModel!.isPropertyPanelOpened &&
+                                widget.sampleModel!.isPropertyPanelTapped)))
+                      _PropertiesPanel(
+                        sampleModel: widget.sampleModel,
+                        key: propertyPanelWidgetKey,
+                        openState: true,
+                      )
+                    else
+                      Container(),
+                  ],
+                );
+              },
+            );
     } else {
       widget.sampleModel!.currentRenderSample =
           renderWidget ?? widget.sampleView!(GlobalKey<State>());
@@ -2205,62 +2173,52 @@ class _OutputContainerState extends State<_OutputContainer> {
           theme: widget.sampleModel!.themeData,
           initialRoute: widget.subItem!.breadCrumbText,
           routes: <String, WidgetBuilder>{
-            widget.subItem!.breadCrumbText!:
-                (BuildContext cotext) => Scaffold(
-                  backgroundColor: widget.sampleModel!.sampleOutputCardColor,
-                  body:
-                      widget.sampleModel!.needToMaximize
-                          ? Container()
-                          : StatefulBuilder(
-                            builder: (
-                              BuildContext context,
-                              StateSetter stateSetter,
-                            ) {
-                              propertyPanelStateChange = stateSetter;
-                              return Row(
+            widget.subItem!.breadCrumbText!: (BuildContext cotext) => Scaffold(
+              backgroundColor: widget.sampleModel!.sampleOutputCardColor,
+              body: widget.sampleModel!.needToMaximize
+                  ? Container()
+                  : StatefulBuilder(
+                      builder: (BuildContext context, StateSetter stateSetter) {
+                        propertyPanelStateChange = stateSetter;
+                        return Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
                                 children: <Widget>[
                                   Expanded(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Expanded(
-                                          child:
-                                              widget
-                                                  .sampleModel!
-                                                  .currentRenderSample,
-                                        ),
-                                        if (widget.subItem!.sourceLink !=
-                                                null &&
-                                            widget.subItem!.sourceLink != '')
-                                          _buildSourceLink()
-                                        else
-                                          Container(),
-                                      ],
-                                    ),
+                                    child:
+                                        widget.sampleModel!.currentRenderSample,
                                   ),
-                                  if (_needsPropertyPanel &&
-                                      MediaQuery.of(context).size.width > 720 &&
-                                      (widget
-                                              .sampleModel!
-                                              .isPropertyPanelOpened ||
-                                          (!widget
-                                                  .sampleModel!
-                                                  .isPropertyPanelOpened &&
-                                              widget
-                                                  .sampleModel!
-                                                  .isPropertyPanelTapped)))
-                                    _PropertiesPanel(
-                                      sampleModel: widget.sampleModel,
-                                      subItem: widget.subItem,
-                                      key: propertyPanelWidgetKey,
-                                      openState: true,
-                                    )
+                                  if (widget.subItem!.sourceLink != null &&
+                                      widget.subItem!.sourceLink != '')
+                                    _buildSourceLink()
                                   else
                                     Container(),
                                 ],
-                              );
-                            },
-                          ),
-                ),
+                              ),
+                            ),
+                            if (_needsPropertyPanel &&
+                                MediaQuery.of(context).size.width > 720 &&
+                                (widget.sampleModel!.isPropertyPanelOpened ||
+                                    (!widget
+                                            .sampleModel!
+                                            .isPropertyPanelOpened &&
+                                        widget
+                                            .sampleModel!
+                                            .isPropertyPanelTapped)))
+                              _PropertiesPanel(
+                                sampleModel: widget.sampleModel,
+                                subItem: widget.subItem,
+                                key: propertyPanelWidgetKey,
+                                openState: true,
+                              )
+                            else
+                              Container(),
+                          ],
+                        );
+                      },
+                    ),
+            ),
           },
         ),
       );
@@ -2370,27 +2328,25 @@ class _PropertiesPanelState extends State<_PropertiesPanel>
         animation: animation,
         builder: (BuildContext context, Widget? child) {
           return SizedBox(
-            width:
-                (widget.openState ?? false)
-                    ? animation.value * 275
-                    : (animation.value * 275),
+            width: (widget.openState ?? false)
+                ? animation.value * 275
+                : (animation.value * 275),
             child: Drawer(
               elevation: 3,
               child: Container(
                 decoration: BoxDecoration(
                   color: widget.sampleModel!.drawerBackgroundColor,
-                  border:
-                      (widget.openState ?? false)
-                          ? Border.all(
-                            color: widget.sampleModel!.textColor.withValues(
-                              alpha: 0.3,
-                            ),
-                            width: 0.5,
-                          )
-                          : Border.all(
-                            color: const Color.fromRGBO(0, 0, 0, 0.12),
-                            width: 2,
+                  border: (widget.openState ?? false)
+                      ? Border.all(
+                          color: widget.sampleModel!.textColor.withValues(
+                            alpha: 0.3,
                           ),
+                          width: 0.5,
+                        )
+                      : Border.all(
+                          color: const Color.fromRGBO(0, 0, 0, 0.12),
+                          width: 2,
+                        ),
                 ),
                 padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
                 child: Container(
@@ -2516,10 +2472,9 @@ class _TileContainerState extends State<_TileContainer> {
   ) {
     final List<Widget> nextLevelChildren = <Widget>[];
     final SubItem currentSample = widget.webLayoutPageState!.sample;
-    final Color selectedColor =
-        model.themeData.useMaterial3
-            ? model.themeData.colorScheme.secondaryContainer
-            : Colors.grey.withValues(alpha: 0.2);
+    final Color selectedColor = model.themeData.useMaterial3
+        ? model.themeData.colorScheme.secondaryContainer
+        : Colors.grey.withValues(alpha: 0.2);
     if (list != null && list.isNotEmpty) {
       for (int i = 0; i < list.length; i++) {
         final String status = statusTag(list[i]);
@@ -2540,239 +2495,112 @@ class _TileContainerState extends State<_TileContainer> {
         nextLevelChildren.add(
           list[i].type == 'sample'
               ? Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    final _SampleInputContainerState sampleInputContainerState =
-                        widget.webLayoutPageState!.sampleInputKey.currentState!
-                            as _SampleInputContainerState;
-                    final GlobalKey globalKey =
-                        widget.webLayoutPageState!.outputContainer.key!
-                            as GlobalKey;
-                    final SampleOutputContainerState outputContainerState =
-                        globalKey.currentState! as SampleOutputContainerState;
-                    if (outputContainerState
-                            .outputScaffoldKey
-                            .currentState!
-                            .isEndDrawerOpen ||
-                        widget
-                            .webLayoutPageState!
-                            .scaffoldKey
-                            .currentState!
-                            .isDrawerOpen) {
-                      Navigator.pop(context);
-                    }
-                    outputContainerState.sample = list[i];
-                    outputContainerState.needTabs = false;
-                    final String prevBreadCrumbText =
-                        outputContainerState.orginText;
-                    outputContainerState.orginText =
-                        widget.webLayoutPageState!.sample.control!.title! +
-                        ' > ' +
-                        text +
-                        ' > ' +
-                        list[i].title!;
-
-                    widget.webLayoutPageState!.selectSample = list[i].title;
-                    widget.webLayoutPageState!.sample =
-                        list[i].subItems != null
-                            ? list[i].subItems![0] as SubItem
-                            : list[i];
-                    if (model.currentSampleKey == null ||
-                        (list[i].key != null
-                            ? (model.currentSampleKey != list[i].key ||
-                                (model.currentSampleKey == list[i].key &&
-                                    prevBreadCrumbText !=
-                                        list[i].breadCrumbText))
-                            : model.currentSampleKey !=
-                                list[i].subItems![0].key)) {
-                      model.isPropertyPanelOpened = true;
-                      sampleInputContainerState.refresh();
-                      outputContainerState.refresh();
-                    }
-                  },
-                  child: ColoredBox(
-                    color: isNeedSelect ? selectedColor : Colors.transparent,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 5,
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.fromLTRB(1, 10, 10, 10),
-                          color:
-                              isNeedSelect
-                                  ? model.primaryColor
-                                  : Colors.transparent,
-                          child: const Opacity(opacity: 0.0, child: Text('1')),
-                        ),
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-                            child: Text(
-                              list[i].title!,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: 'Roboto-Regular',
-                                color:
-                                    isNeedSelect
-                                        ? model.primaryColor
-                                        : model.textColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color:
-                                (status != null && status != '')
-                                    ? (status == 'New'
-                                        ? const Color.fromRGBO(55, 153, 30, 1)
-                                        : const Color.fromRGBO(246, 117, 0, 1))
-                                    : Colors.transparent,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          padding:
-                              model.isWeb && model.isMobileResolution
-                                  ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
-                                  : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
-                          child: Text(
-                            status,
-                            style: const TextStyle(
-                              fontSize: 10.5,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        if (status != null && status != '')
-                          const Padding(padding: EdgeInsets.only(right: 5))
-                        else
-                          Container(),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-              : Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    model.isPropertyPanelOpened = true;
-                    final _SampleInputContainerState sampleInputContainerState =
-                        widget.webLayoutPageState!.sampleInputKey.currentState!
-                            as _SampleInputContainerState;
-                    final GlobalKey globalKey =
-                        widget.webLayoutPageState!.outputContainer.key!
-                            as GlobalKey;
-                    final SampleOutputContainerState outputContainerState =
-                        globalKey.currentState! as SampleOutputContainerState;
-                    final String prevBreadCrumbText =
-                        outputContainerState.orginText;
-                    if (list[i].subItems != null &&
-                        list[i].subItems!.isNotEmpty) {
-                      outputContainerState.subItems =
-                          list[i].subItems! as List<SubItem>;
-                      outputContainerState.sample =
-                          list[i].subItems![0] as SubItem;
-                      outputContainerState.tabIndex = 0;
-                      outputContainerState.needTabs = true;
-                    } else {
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      final _SampleInputContainerState
+                      sampleInputContainerState =
+                          widget
+                                  .webLayoutPageState!
+                                  .sampleInputKey
+                                  .currentState!
+                              as _SampleInputContainerState;
+                      final GlobalKey globalKey =
+                          widget.webLayoutPageState!.outputContainer.key!
+                              as GlobalKey;
+                      final SampleOutputContainerState outputContainerState =
+                          globalKey.currentState! as SampleOutputContainerState;
+                      if (outputContainerState
+                              .outputScaffoldKey
+                              .currentState!
+                              .isEndDrawerOpen ||
+                          widget
+                              .webLayoutPageState!
+                              .scaffoldKey
+                              .currentState!
+                              .isDrawerOpen) {
+                        Navigator.pop(context);
+                      }
                       outputContainerState.sample = list[i];
                       outputContainerState.needTabs = false;
-                    }
-                    resetLocaleValue(model, currentSample);
+                      final String prevBreadCrumbText =
+                          outputContainerState.orginText;
+                      outputContainerState.orginText =
+                          widget.webLayoutPageState!.sample.control!.title! +
+                          ' > ' +
+                          text +
+                          ' > ' +
+                          list[i].title!;
 
-                    if (outputContainerState
-                            .outputScaffoldKey
-                            .currentState!
-                            .isEndDrawerOpen ||
-                        widget
-                            .webLayoutPageState!
-                            .scaffoldKey
-                            .currentState!
-                            .isDrawerOpen) {
-                      Navigator.pop(context);
-                    }
-                    outputContainerState.orginText =
-                        widget.webLayoutPageState!.sample.control!.title! +
-                        ' > ' +
-                        text +
-                        ' > ' +
-                        list[i].title!;
-
-                    widget.webLayoutPageState!.selectSample = list[i].title;
-                    widget.webLayoutPageState!.sample =
-                        list[i].subItems != null
-                            ? list[i].subItems![0] as SubItem
-                            : list[i];
-                    if (model.currentSampleKey == null ||
-                        (list[i].key != null
-                            ? (model.currentSampleKey != list[i].key ||
-                                (model.currentSampleKey == list[i].key &&
-                                    prevBreadCrumbText !=
-                                        list[i].breadCrumbText))
-                            : model.currentSampleKey !=
-                                list[i].subItems![0].key)) {
-                      sampleInputContainerState.refresh();
-                      outputContainerState.refresh();
-                    }
-                  },
-                  child: Container(
-                    color: isNeedSelect ? selectedColor : Colors.transparent,
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 5,
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.only(
-                            left: 1,
-                            top: 7,
-                            bottom: 7,
-                          ),
-                          color:
-                              isNeedSelect
-                                  ? model.primaryColor
-                                  : Colors.transparent,
-                          child: const Opacity(opacity: 0.0, child: Text('1')),
-                        ),
-                        Expanded(
-                          child: Container(
+                      widget.webLayoutPageState!.selectSample = list[i].title;
+                      widget.webLayoutPageState!.sample =
+                          list[i].subItems != null
+                          ? list[i].subItems![0] as SubItem
+                          : list[i];
+                      if (model.currentSampleKey == null ||
+                          (list[i].key != null
+                              ? (model.currentSampleKey != list[i].key ||
+                                    (model.currentSampleKey == list[i].key &&
+                                        prevBreadCrumbText !=
+                                            list[i].breadCrumbText))
+                              : model.currentSampleKey !=
+                                    list[i].subItems![0].key)) {
+                        model.isPropertyPanelOpened = true;
+                        sampleInputContainerState.refresh();
+                        outputContainerState.refresh();
+                      }
+                    },
+                    child: ColoredBox(
+                      color: isNeedSelect ? selectedColor : Colors.transparent,
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 5,
                             alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(
-                              left: 18,
-                              top: 7,
-                              bottom: 7,
+                            padding: const EdgeInsets.fromLTRB(1, 10, 10, 10),
+                            color: isNeedSelect
+                                ? model.primaryColor
+                                : Colors.transparent,
+                            child: const Opacity(
+                              opacity: 0.0,
+                              child: Text('1'),
                             ),
-                            child: Text(
-                              list[i].title!,
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: 'Roboto-Regular',
-                                color:
-                                    isNeedSelect
-                                        ? model.primaryColor
-                                        : model.textColor,
+                          ),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              padding: const EdgeInsets.fromLTRB(
+                                20,
+                                10,
+                                10,
+                                10,
+                              ),
+                              child: Text(
+                                list[i].title!,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: 'Roboto-Regular',
+                                  color: isNeedSelect
+                                      ? model.primaryColor
+                                      : model.textColor,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        if (status != null && status != '')
                           Container(
                             decoration: BoxDecoration(
-                              color:
-                                  status == 'New'
-                                      ? const Color.fromRGBO(55, 153, 30, 1)
-                                      : const Color.fromRGBO(246, 117, 0, 1),
+                              color: (status != null && status != '')
+                                  ? (status == 'New'
+                                        ? const Color.fromRGBO(55, 153, 30, 1)
+                                        : const Color.fromRGBO(246, 117, 0, 1))
+                                  : Colors.transparent,
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(10.0),
                               ),
                             ),
-                            padding:
-                                model.isWeb && model.isMobileResolution
-                                    ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
-                                    : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
+                            padding: model.isWeb && model.isMobileResolution
+                                ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
+                                : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
                             child: Text(
                               status,
                               style: const TextStyle(
@@ -2780,18 +2608,156 @@ class _TileContainerState extends State<_TileContainer> {
                                 color: Colors.white,
                               ),
                             ),
-                          )
-                        else
-                          Container(),
-                        if (status != null && status != '')
-                          const Padding(padding: EdgeInsets.only(right: 5))
-                        else
-                          Container(),
-                      ],
+                          ),
+                          if (status != null && status != '')
+                            const Padding(padding: EdgeInsets.only(right: 5))
+                          else
+                            Container(),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      model.isPropertyPanelOpened = true;
+                      final _SampleInputContainerState
+                      sampleInputContainerState =
+                          widget
+                                  .webLayoutPageState!
+                                  .sampleInputKey
+                                  .currentState!
+                              as _SampleInputContainerState;
+                      final GlobalKey globalKey =
+                          widget.webLayoutPageState!.outputContainer.key!
+                              as GlobalKey;
+                      final SampleOutputContainerState outputContainerState =
+                          globalKey.currentState! as SampleOutputContainerState;
+                      final String prevBreadCrumbText =
+                          outputContainerState.orginText;
+                      if (list[i].subItems != null &&
+                          list[i].subItems!.isNotEmpty) {
+                        outputContainerState.subItems =
+                            list[i].subItems! as List<SubItem>;
+                        outputContainerState.sample =
+                            list[i].subItems![0] as SubItem;
+                        outputContainerState.tabIndex = 0;
+                        outputContainerState.needTabs = true;
+                      } else {
+                        outputContainerState.sample = list[i];
+                        outputContainerState.needTabs = false;
+                      }
+                      resetLocaleValue(model, currentSample);
+
+                      if (outputContainerState
+                              .outputScaffoldKey
+                              .currentState!
+                              .isEndDrawerOpen ||
+                          widget
+                              .webLayoutPageState!
+                              .scaffoldKey
+                              .currentState!
+                              .isDrawerOpen) {
+                        Navigator.pop(context);
+                      }
+                      outputContainerState.orginText =
+                          widget.webLayoutPageState!.sample.control!.title! +
+                          ' > ' +
+                          text +
+                          ' > ' +
+                          list[i].title!;
+
+                      widget.webLayoutPageState!.selectSample = list[i].title;
+                      widget.webLayoutPageState!.sample =
+                          list[i].subItems != null
+                          ? list[i].subItems![0] as SubItem
+                          : list[i];
+                      if (model.currentSampleKey == null ||
+                          (list[i].key != null
+                              ? (model.currentSampleKey != list[i].key ||
+                                    (model.currentSampleKey == list[i].key &&
+                                        prevBreadCrumbText !=
+                                            list[i].breadCrumbText))
+                              : model.currentSampleKey !=
+                                    list[i].subItems![0].key)) {
+                        sampleInputContainerState.refresh();
+                        outputContainerState.refresh();
+                      }
+                    },
+                    child: Container(
+                      color: isNeedSelect ? selectedColor : Colors.transparent,
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 5,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(
+                              left: 1,
+                              top: 7,
+                              bottom: 7,
+                            ),
+                            color: isNeedSelect
+                                ? model.primaryColor
+                                : Colors.transparent,
+                            child: const Opacity(
+                              opacity: 0.0,
+                              child: Text('1'),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              padding: const EdgeInsets.only(
+                                left: 18,
+                                top: 7,
+                                bottom: 7,
+                              ),
+                              child: Text(
+                                list[i].title!,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: 'Roboto-Regular',
+                                  color: isNeedSelect
+                                      ? model.primaryColor
+                                      : model.textColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (status != null && status != '')
+                            Container(
+                              decoration: BoxDecoration(
+                                color: status == 'New'
+                                    ? const Color.fromRGBO(55, 153, 30, 1)
+                                    : const Color.fromRGBO(246, 117, 0, 1),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0),
+                                ),
+                              ),
+                              padding: model.isWeb && model.isMobileResolution
+                                  ? const EdgeInsets.fromLTRB(3, 1, 3, 5.5)
+                                  : const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
+                              child: Text(
+                                status,
+                                style: const TextStyle(
+                                  fontSize: 10.5,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          else
+                            Container(),
+                          if (status != null && status != '')
+                            const Padding(padding: EdgeInsets.only(right: 5))
+                          else
+                            Container(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
         );
       }
     }
@@ -2869,56 +2835,27 @@ class _PopupState extends State<_Popup> {
         width: MediaQuery.of(context).size.width,
         child: Opacity(
           opacity: _show ? 1.0 : 0.0,
-          child:
-              _sampleDetails != null
-                  ? Scaffold(
-                    key: scaffoldKey,
-                    endDrawerEnableOpenDragGesture: false,
-                    backgroundColor: model!.sampleOutputCardColor,
-                    endDrawer: _propertiesPanel,
-                    appBar: PreferredSize(
-                      preferredSize: const Size.fromHeight(40),
-                      child: AppBar(
-                        title: Text(
-                          _sampleDetails!.title!,
-                          style: TextStyle(
-                            fontFamily: 'Roboto-Medium',
-                            fontSize: 16,
-                            color: model!.textColor,
-                          ),
+          child: _sampleDetails != null
+              ? Scaffold(
+                  key: scaffoldKey,
+                  endDrawerEnableOpenDragGesture: false,
+                  backgroundColor: model!.sampleOutputCardColor,
+                  endDrawer: _propertiesPanel,
+                  appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(40),
+                    child: AppBar(
+                      title: Text(
+                        _sampleDetails!.title!,
+                        style: TextStyle(
+                          fontFamily: 'Roboto-Medium',
+                          fontSize: 16,
+                          color: model!.textColor,
                         ),
-                        automaticallyImplyLeading: false,
-                        backgroundColor: model!.backgroundColor,
-                        actions: <Widget>[
-                          if (_checkPropertyPanelIsEnabled(context))
-                            SizedBox(
-                              height: 40,
-                              width: 40,
-                              child: Material(
-                                color: model!.backgroundColor,
-                                shape: const CircleBorder(),
-                                clipBehavior: Clip.hardEdge,
-                                child: Tooltip(
-                                  message: 'Options',
-                                  child: IconButton(
-                                    hoverColor: Colors.grey.withValues(
-                                      alpha: 0.3,
-                                    ),
-                                    icon: Icon(
-                                      Icons.menu,
-                                      color: model!.drawerIconColor,
-                                    ),
-                                    onPressed: () {
-                                      model!.propertyPanelKey =
-                                          _currentWidgetKey!;
-                                      scaffoldKey.currentState!.openEndDrawer();
-                                    },
-                                  ),
-                                ),
-                              ),
-                            )
-                          else
-                            Container(),
+                      ),
+                      automaticallyImplyLeading: false,
+                      backgroundColor: model!.backgroundColor,
+                      actions: <Widget>[
+                        if (_checkPropertyPanelIsEnabled(context))
                           SizedBox(
                             height: 40,
                             width: 40,
@@ -2926,34 +2863,62 @@ class _PopupState extends State<_Popup> {
                               color: model!.backgroundColor,
                               shape: const CircleBorder(),
                               clipBehavior: Clip.hardEdge,
-                              child: IconButton(
-                                hoverColor: Colors.grey.withValues(alpha: 0.3),
-                                icon: Icon(
-                                  Icons.close,
-                                  color: model!.drawerIconColor,
+                              child: Tooltip(
+                                message: 'Options',
+                                child: IconButton(
+                                  hoverColor: Colors.grey.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  icon: Icon(
+                                    Icons.menu,
+                                    color: model!.drawerIconColor,
+                                  ),
+                                  onPressed: () {
+                                    model!.propertyPanelKey =
+                                        _currentWidgetKey!;
+                                    scaffoldKey.currentState!.openEndDrawer();
+                                  },
                                 ),
-                                onPressed: () {
-                                  model!.needToMaximize = false;
-                                  final _OutputContainerState
-                                  outputContainerState =
-                                      model!.outputContainerState
-                                          as _OutputContainerState;
-                                  outputContainerState.setState(() {
-                                    outputContainerState.renderWidget =
-                                        _currentWidgetKey?.currentWidget;
-                                  });
-                                  _sampleDetails = null;
-                                  refresh(false);
-                                },
                               ),
                             ),
+                          )
+                        else
+                          Container(),
+                        SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: Material(
+                            color: model!.backgroundColor,
+                            shape: const CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                              hoverColor: Colors.grey.withValues(alpha: 0.3),
+                              icon: Icon(
+                                Icons.close,
+                                color: model!.drawerIconColor,
+                              ),
+                              onPressed: () {
+                                model!.needToMaximize = false;
+                                final _OutputContainerState
+                                outputContainerState =
+                                    model!.outputContainerState
+                                        as _OutputContainerState;
+                                outputContainerState.setState(() {
+                                  outputContainerState.renderWidget =
+                                      _currentWidgetKey?.currentWidget;
+                                });
+                                _sampleDetails = null;
+                                refresh(false);
+                              },
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    body: _currentWidgetKey?.currentWidget,
-                  )
-                  : Container(),
+                  ),
+                  body: _currentWidgetKey?.currentWidget,
+                )
+              : Container(),
         ),
       ),
     );

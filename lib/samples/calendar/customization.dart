@@ -79,26 +79,26 @@ class _CustomizationCalendarState extends SampleViewState {
           Expanded(
             child:
                 _calendarController.view == CalendarView.month &&
-                        model.isWebFullView &&
-                        screenHeight < 800
-                    ? Scrollbar(
-                      thumbVisibility: true,
+                    model.isWebFullView &&
+                    screenHeight < 800
+                ? Scrollbar(
+                    thumbVisibility: true,
+                    controller: _controller,
+                    child: ListView(
                       controller: _controller,
-                      child: ListView(
-                        controller: _controller,
-                        children: <Widget>[
-                          Container(
-                            color: model.sampleOutputCardColor,
-                            height: 600,
-                            child: calendar,
-                          ),
-                        ],
-                      ),
-                    )
-                    : Container(
-                      color: model.sampleOutputCardColor,
-                      child: calendar,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
                     ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
           ),
         ],
       ),
@@ -183,10 +183,9 @@ class _CustomizationCalendarState extends SampleViewState {
     else if (_currentView != CalendarView.schedule) {
       for (int i = 0; i < visibleDatesChangedDetails.visibleDates.length; i++) {
         final DateTime date = visibleDatesChangedDetails.visibleDates[i];
-        final int count =
-            _currentView != CalendarView.month
-                ? 1
-                : 1 + random.nextInt(model.isWebFullView ? 2 : 3);
+        final int count = _currentView != CalendarView.month
+            ? 1
+            : 1 + random.nextInt(model.isWebFullView ? 2 : 3);
         for (int j = 0; j < count; j++) {
           final DateTime startDate = DateTime(
             date.year,
@@ -311,9 +310,9 @@ class _CustomizationCalendarState extends SampleViewState {
     }
     final Color textColor =
         model.themeData == null ||
-                model.themeData.colorScheme.brightness == Brightness.light
-            ? Colors.black
-            : Colors.white;
+            model.themeData.colorScheme.brightness == Brightness.light
+        ? Colors.black
+        : Colors.white;
     if (_calendarController.view == CalendarView.timelineDay ||
         _calendarController.view == CalendarView.timelineWeek ||
         _calendarController.view == CalendarView.timelineWorkWeek ||
@@ -366,10 +365,9 @@ class _CustomizationCalendarState extends SampleViewState {
           Container(
             padding: const EdgeInsets.all(3),
             height: 50,
-            alignment:
-                model.isMobileResolution
-                    ? Alignment.topLeft
-                    : Alignment.centerLeft,
+            alignment: model.isMobileResolution
+                ? Alignment.topLeft
+                : Alignment.centerLeft,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(5),
@@ -445,94 +443,84 @@ class _CustomizationCalendarState extends SampleViewState {
         ],
       );
     } else if (_calendarController.view == CalendarView.month) {
-      final double fontSize =
-          details.bounds.height > 11 ? 10 : details.bounds.height - 1;
+      final double fontSize = details.bounds.height > 11
+          ? 10
+          : details.bounds.height - 1;
       return Container(
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 2),
-        child:
-            details.isMoreAppointmentRegion
-                ? Padding(
-                  padding: const EdgeInsets.only(left: 2),
-                  child: Text(
-                    '+ More',
-                    style: TextStyle(color: textColor, fontSize: fontSize),
-                    maxLines: 1,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )
-                : model.isMobileResolution
-                ? Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.circle,
-                      color: meeting.background,
-                      size: fontSize,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 2),
-                        child: Text(
-                          meeting.eventName,
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: fontSize,
-                          ),
-                          maxLines: 1,
-                          softWrap: false,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-                : Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.circle,
-                      color: meeting.background,
-                      size: fontSize,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 2),
+        child: details.isMoreAppointmentRegion
+            ? Padding(
+                padding: const EdgeInsets.only(left: 2),
+                child: Text(
+                  '+ More',
+                  style: TextStyle(color: textColor, fontSize: fontSize),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            : model.isMobileResolution
+            ? Row(
+                children: <Widget>[
+                  Icon(Icons.circle, color: meeting.background, size: fontSize),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 2),
                       child: Text(
-                        meeting.isAllDay
-                            ? 'All'
-                            : DateFormat('h a').format(meeting.from),
+                        meeting.eventName,
                         style: TextStyle(color: textColor, fontSize: fontSize),
                         maxLines: 1,
                         softWrap: false,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        meeting.eventName,
-                        style: TextStyle(color: textColor, fontSize: fontSize),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                  ),
+                ],
+              )
+            : Row(
+                children: <Widget>[
+                  Icon(Icons.circle, color: meeting.background, size: fontSize),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: Text(
+                      meeting.isAllDay
+                          ? 'All'
+                          : DateFormat('h a').format(meeting.from),
+                      style: TextStyle(color: textColor, fontSize: fontSize),
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      meeting.eventName,
+                      style: TextStyle(color: textColor, fontSize: fontSize),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
       );
     }
-    final String format =
-        (meeting.to.difference(meeting.from).inHours < 24) ? 'HH:mm' : 'dd MMM';
+    final String format = (meeting.to.difference(meeting.from).inHours < 24)
+        ? 'HH:mm'
+        : 'dd MMM';
     final Color iconColor =
         model.themeData == null ||
-                model.themeData.colorScheme.brightness == Brightness.light
-            ? Colors.black87
-            : Colors.white;
+            model.themeData.colorScheme.brightness == Brightness.light
+        ? Colors.black87
+        : Colors.white;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
       color:
           model.themeData == null ||
-                  model.themeData.colorScheme.brightness == Brightness.light
-              ? model.backgroundColor
-              : model.homeCardColor,
+              model.themeData.colorScheme.brightness == Brightness.light
+          ? model.backgroundColor
+          : model.homeCardColor,
       child: Row(
         children: <Widget>[
           Container(

@@ -82,39 +82,38 @@ class _SparklineLiveUpdateState extends SampleViewState {
     _isVertical =
         MediaQuery.of(context).size.height > MediaQuery.of(context).size.width;
     if (_isVertical) {
-      _size =
-          model.isWebFullView
-              ? MediaQuery.of(context).size.height / 6.5
-              : MediaQuery.of(context).size.height / 6;
+      _size = model.isWebFullView
+          ? MediaQuery.of(context).size.height / 6.5
+          : MediaQuery.of(context).size.height / 6;
       return model.isWebFullView && model.isMobileResolution
           ? SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                _buildCPUDataChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
-                _buildDiskDataChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
-                _buildMemoryDataChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
-                _buildEthernetDataChart(),
-              ],
-            ),
-          )
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  _buildCPUDataChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
+                  _buildDiskDataChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
+                  _buildMemoryDataChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
+                  _buildEthernetDataChart(),
+                ],
+              ),
+            )
           : Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _buildCPUDataChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
-                _buildDiskDataChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
-                _buildMemoryDataChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
-                _buildEthernetDataChart(),
-              ],
-            ),
-          );
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildCPUDataChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
+                  _buildDiskDataChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
+                  _buildMemoryDataChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(10, 0, 0, 10)),
+                  _buildEthernetDataChart(),
+                ],
+              ),
+            );
     } else {
       _size = MediaQuery.of(context).size.width / 5.5;
       return Center(
@@ -169,9 +168,9 @@ class _SparklineLiveUpdateState extends SampleViewState {
                     fontSize: 12,
                     color:
                         model.themeData.colorScheme.brightness ==
-                                Brightness.dark
-                            ? const Color.fromRGBO(212, 135, 215, 1)
-                            : const Color.fromRGBO(110, 43, 113, 1),
+                            Brightness.dark
+                        ? const Color.fromRGBO(212, 135, 215, 1)
+                        : const Color.fromRGBO(110, 43, 113, 1),
                   ),
                 ),
               ),
@@ -224,9 +223,9 @@ class _SparklineLiveUpdateState extends SampleViewState {
                     fontSize: 12,
                     color:
                         model.themeData.colorScheme.brightness ==
-                                Brightness.dark
-                            ? const Color.fromRGBO(169, 144, 253, 1)
-                            : const Color.fromRGBO(34, 15, 132, 1),
+                            Brightness.dark
+                        ? const Color.fromRGBO(169, 144, 253, 1)
+                        : const Color.fromRGBO(34, 15, 132, 1),
                   ),
                 ),
               ),
@@ -284,9 +283,9 @@ class _SparklineLiveUpdateState extends SampleViewState {
                     fontSize: 12,
                     color:
                         model.themeData.colorScheme.brightness ==
-                                Brightness.dark
-                            ? const Color.fromRGBO(89, 176, 227, 1)
-                            : const Color.fromRGBO(23, 118, 217, 1),
+                            Brightness.dark
+                        ? const Color.fromRGBO(89, 176, 227, 1)
+                        : const Color.fromRGBO(23, 118, 217, 1),
                   ),
                 ),
               ),
@@ -340,9 +339,9 @@ class _SparklineLiveUpdateState extends SampleViewState {
                     fontSize: 12,
                     color:
                         model.themeData.colorScheme.brightness ==
-                                Brightness.dark
-                            ? const Color.fromRGBO(89, 190, 103, 1)
-                            : const Color.fromRGBO(40, 144, 90, 1),
+                            Brightness.dark
+                        ? const Color.fromRGBO(89, 190, 103, 1)
+                        : const Color.fromRGBO(40, 144, 90, 1),
                   ),
                 ),
               ),
@@ -391,8 +390,9 @@ class _SparklineLiveUpdateState extends SampleViewState {
       _cpuValue = _cpuData[_cpuData.length - 1].round().toString();
       _diskValue = _diskData[_diskData.length - 1].round().toString();
       _memoryValue = _memoryData[_memoryData.length - 1].round().toString();
-      _ethernetValue =
-          _ethernetData[_ethernetData.length - 1].round().toString();
+      _ethernetValue = _ethernetData[_ethernetData.length - 1]
+          .round()
+          .toString();
     });
   }
 

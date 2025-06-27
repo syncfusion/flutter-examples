@@ -84,16 +84,15 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedAxis,
-                    items:
-                        _axis!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'X',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _axis!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'X',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onAxisTypeChange(value.toString());
                       stateSetter(() {});
@@ -114,10 +113,9 @@ class _AxisCrossingState extends SampleViewState {
                     minValue: -8,
                     maxValue: 8,
                     initialValue: _crossAt,
-                    onChanged:
-                        (double val) => setState(() {
-                          _crossAt = val;
-                        }),
+                    onChanged: (double val) => setState(() {
+                      _crossAt = val;
+                    }),
                     step: 2,
                     iconColor: model.textColor,
                     style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -134,6 +132,7 @@ class _AxisCrossingState extends SampleViewState {
                 SizedBox(
                   width: 75,
                   child: CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
                     activeColor: model.primaryColor,
                     value: _isPlaceLabelsNearAxisLine,
                     onChanged: (bool? value) {
@@ -161,12 +160,11 @@ class _AxisCrossingState extends SampleViewState {
         minimum: -8,
         maximum: 8,
         interval: 2,
-        placeLabelsNearAxisLine:
-            isCardView
-                ? true
-                : _selectedAxisType == 'x'
-                ? _isPlaceLabelsNearAxisLine ?? true
-                : true,
+        placeLabelsNearAxisLine: isCardView
+            ? true
+            : _selectedAxisType == 'x'
+            ? _isPlaceLabelsNearAxisLine ?? true
+            : true,
         crossesAt: _selectedAxisType == 'x' ? _crossAt : 0,
         minorTicksPerInterval: 3,
       ),
@@ -174,12 +172,11 @@ class _AxisCrossingState extends SampleViewState {
         minimum: -8,
         maximum: 8,
         interval: 2,
-        placeLabelsNearAxisLine:
-            isCardView
-                ? true
-                : _selectedAxisType == 'y'
-                ? _isPlaceLabelsNearAxisLine ?? true
-                : true,
+        placeLabelsNearAxisLine: isCardView
+            ? true
+            : _selectedAxisType == 'y'
+            ? _isPlaceLabelsNearAxisLine ?? true
+            : true,
         crossesAt: _selectedAxisType == 'y' ? _crossAt : 0,
         minorTicksPerInterval: 3,
       ),

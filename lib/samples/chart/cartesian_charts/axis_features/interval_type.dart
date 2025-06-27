@@ -37,16 +37,15 @@ class _IntervalTypeState extends SampleViewState {
   @override
   void initState() {
     _chartIntervalType = DateTimeIntervalType.years;
-    _intervalType =
-        <String>[
-          'years',
-          'months',
-          'days',
-          'hours',
-          'minutes',
-          'seconds',
-          'milliseconds',
-        ].toList();
+    _intervalType = <String>[
+      'years',
+      'months',
+      'days',
+      'hours',
+      'minutes',
+      'seconds',
+      'milliseconds',
+    ].toList();
     _year = <ChartSampleData>[
       ChartSampleData(x: DateTime(2015), yValue: _buildRandomIntData(15, 95)),
       ChartSampleData(x: DateTime(2016), yValue: _buildRandomIntData(5, 75)),
@@ -219,17 +218,16 @@ class _IntervalTypeState extends SampleViewState {
                 focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedIntervalType,
-                items:
-                    _intervalType!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'left',
-                        child: Text(
-                          value,
-                          softWrap: false,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: _intervalType!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'left',
+                    child: Text(
+                      value,
+                      softWrap: false,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (dynamic value) {
                   onIntervalTypeChanged(value);
                   stateSetter(() {});
@@ -248,19 +246,16 @@ class _IntervalTypeState extends SampleViewState {
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeAxis(
         title: AxisTitle(
-          text:
-              isCardView
-                  ? ''
-                  : '${_selectedIntervalType[0].toUpperCase()}${_selectedIntervalType.substring(1).toLowerCase()}',
+          text: isCardView
+              ? ''
+              : '${_selectedIntervalType[0].toUpperCase()}${_selectedIntervalType.substring(1).toLowerCase()}',
         ),
-        labelIntersectAction:
-            _selectedIntervalType == 'hours'
-                ? AxisLabelIntersectAction.rotate45
-                : AxisLabelIntersectAction.multipleRows,
-        labelAlignment:
-            _selectedIntervalType == 'hours'
-                ? LabelAlignment.start
-                : LabelAlignment.center,
+        labelIntersectAction: _selectedIntervalType == 'hours'
+            ? AxisLabelIntersectAction.rotate45
+            : AxisLabelIntersectAction.multipleRows,
+        labelAlignment: _selectedIntervalType == 'hours'
+            ? LabelAlignment.start
+            : LabelAlignment.center,
         intervalType: _chartIntervalType!,
         edgeLabelPlacement: EdgeLabelPlacement.shift,
         majorGridLines: const MajorGridLines(width: 0),

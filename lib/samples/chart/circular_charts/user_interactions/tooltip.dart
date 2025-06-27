@@ -77,16 +77,12 @@ class _PieTooltipPositionState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedTooltipPosition,
-            items:
-                _tooltipPositionList!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'auto',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _tooltipPositionList!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'auto',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               setState(() {
                 _updateTooltipPosition(value.toString());
@@ -113,10 +109,9 @@ class _PieTooltipPositionState extends SampleViewState {
             minValue: 1,
             maxValue: 10,
             initialValue: _duration,
-            onChanged:
-                (double val) => setState(() {
-                  _duration = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _duration = val;
+            }),
             step: 2,
             loop: true,
             iconColor: model.textColor,

@@ -119,10 +119,9 @@ class _CustomDropdownState extends State<CustomDropdown> {
               text: TextSpan(
                 text: widget.hintText,
                 style: themeData.textTheme.bodyMedium!.copyWith(
-                  color:
-                      isFocused
-                          ? themeData.colorScheme.primary
-                          : themeData.colorScheme.onSurfaceVariant,
+                  color: isFocused
+                      ? themeData.colorScheme.primary
+                      : themeData.colorScheme.onSurfaceVariant,
                 ),
                 children: <InlineSpan>[
                   if (widget.isRequired)
@@ -139,35 +138,34 @@ class _CustomDropdownState extends State<CustomDropdown> {
             dropdownMenuEntries: List.generate(
               widget.items.isEmpty ? 1 : widget.items.length,
               (int index) {
-                final bool isSelected =
-                    widget.items.isEmpty
-                        ? false
-                        : widget.items[index] == widget.selectedValue;
+                final bool isSelected = widget.items.isEmpty
+                    ? false
+                    : widget.items[index] == widget.selectedValue;
                 return widget.items.isEmpty
                     ? DropdownMenuEntry<String>(
-                      enabled: false,
-                      style: ButtonStyle(
-                        overlayColor: WidgetStatePropertyAll(
-                          themeData.colorScheme.primaryContainer,
+                        enabled: false,
+                        style: ButtonStyle(
+                          overlayColor: WidgetStatePropertyAll(
+                            themeData.colorScheme.primaryContainer,
+                          ),
                         ),
-                      ),
-                      value: 'No Records Found',
-                      label: 'No Records Found',
-                    )
+                        value: 'No Records Found',
+                        label: 'No Records Found',
+                      )
                     : DropdownMenuEntry<String>(
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(
-                          isSelected
-                              ? themeData.colorScheme.primaryContainer
-                              : null,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                            isSelected
+                                ? themeData.colorScheme.primaryContainer
+                                : null,
+                          ),
+                          overlayColor: WidgetStatePropertyAll(
+                            themeData.colorScheme.primaryContainer,
+                          ),
                         ),
-                        overlayColor: WidgetStatePropertyAll(
-                          themeData.colorScheme.primaryContainer,
-                        ),
-                      ),
-                      value: widget.items[index],
-                      label: widget.items[index],
-                    );
+                        value: widget.items[index],
+                        label: widget.items[index],
+                      );
               },
             ),
           ),

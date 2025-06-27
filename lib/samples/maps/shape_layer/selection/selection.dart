@@ -614,8 +614,8 @@ class _MapSelectionPageState extends SampleViewState {
       // [shapeColorValueMapper] and the respective [MapColorMapper.color]
       // will be applied to the shape.
       shapeColorMappers: _colorMappers,
-      dataLabelMapper:
-          (int index) => _stateWiseElectionResult[index].stateCode!,
+      dataLabelMapper: (int index) =>
+          _stateWiseElectionResult[index].stateCode!,
     );
     super.initState();
   }
@@ -636,10 +636,9 @@ class _MapSelectionPageState extends SampleViewState {
         themeData.platform == TargetPlatform.linux ||
         themeData.platform == TargetPlatform.windows;
     return Scaffold(
-      backgroundColor:
-          model.isWebFullView
-              ? model.sampleOutputCardColor
-              : model.sampleOutputCardColor,
+      backgroundColor: model.isWebFullView
+          ? model.sampleOutputCardColor
+          : model.sampleOutputCardColor,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final bool scrollEnabled = constraints.maxHeight > 400;
@@ -649,8 +648,9 @@ class _MapSelectionPageState extends SampleViewState {
                   MediaQuery.of(context).orientation ==
                       Orientation.landscape)) {
             final double refHeight = height * 0.6;
-            height =
-                height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+            height = height > 500
+                ? (refHeight < 500 ? 500 : refHeight)
+                : height;
           }
 
           final Size size = Size(constraints.maxWidth, height);
@@ -671,14 +671,13 @@ class _MapSelectionPageState extends SampleViewState {
   Widget _buildMapsWidget(bool scrollEnabled, Size size, ThemeData themeData) {
     return Center(
       child: Padding(
-        padding:
-            scrollEnabled
-                ? EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.05,
-                  right: 10,
-                )
-                : const EdgeInsets.only(right: 10, bottom: 15),
+        padding: scrollEnabled
+            ? EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
+                bottom: MediaQuery.of(context).size.height * 0.05,
+                right: 10,
+              )
+            : const EdgeInsets.only(right: 10, bottom: 15),
         child: Column(
           children: <Widget>[
             Padding(
@@ -713,13 +712,12 @@ class _MapSelectionPageState extends SampleViewState {
                     strokeColor: Colors.white30,
                     legend: MapLegend.bar(
                       MapElement.shape,
-                      segmentSize:
-                          isDesktop
-                              ? const Size(25, 12)
-                              : Size(
-                                (size.width * 0.80) / _colorMappers.length,
-                                12.0,
-                              ),
+                      segmentSize: isDesktop
+                          ? const Size(25, 12)
+                          : Size(
+                              (size.width * 0.80) / _colorMappers.length,
+                              12.0,
+                            ),
                       position: MapLegendPosition.bottom,
                       padding: const EdgeInsets.only(top: 15),
                       spacing: 0.0,
@@ -738,9 +736,9 @@ class _MapSelectionPageState extends SampleViewState {
                           SnackBar(
                             backgroundColor:
                                 _stateWiseElectionResult[index].party ==
-                                        'Republican'
-                                    ? Colors.red
-                                    : Colors.blue,
+                                    'Republican'
+                                ? Colors.red
+                                : Colors.blue,
                             content: Container(
                               height: 100,
                               padding: const EdgeInsets.only(top: 8),
@@ -752,12 +750,13 @@ class _MapSelectionPageState extends SampleViewState {
                                         Text(
                                           _stateWiseElectionResult[index]
                                               .state!,
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.titleLarge!.copyWith(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge!
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                         ),
                                         Expanded(
                                           child: Align(
@@ -782,12 +781,13 @@ class _MapSelectionPageState extends SampleViewState {
                                       children: <Widget>[
                                         Text(
                                           'Won candidate :   ',
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium!.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
                                         ),
                                         Text(
                                           _stateWiseElectionResult[index]
@@ -795,12 +795,13 @@ class _MapSelectionPageState extends SampleViewState {
                                                   'Republican'
                                               ? 'Donald Trump'
                                               : 'Hillary Clinton',
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium!.copyWith(
-                                            fontStyle: FontStyle.italic,
-                                            color: Colors.white,
-                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                fontStyle: FontStyle.italic,
+                                                color: Colors.white,
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -809,24 +810,26 @@ class _MapSelectionPageState extends SampleViewState {
                                       children: <Widget>[
                                         Text(
                                           'Percentage :         ',
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium!.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
                                         ),
                                         Text(
                                           _stateWiseElectionResult[index]
                                                   .percentage
                                                   .toString() +
                                               '%',
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium!.copyWith(
-                                            fontStyle: FontStyle.italic,
-                                            color: Colors.white,
-                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                fontStyle: FontStyle.italic,
+                                                color: Colors.white,
+                                              ),
                                         ),
                                       ],
                                     ),

@@ -54,12 +54,11 @@ class _CustomSortingDataGridState extends SampleViewState {
       source: _customSortingDataGridSource,
       columns: _columns,
       allowSorting: true,
-      columnWidthMode:
-          _isWebOrDesktop
-              ? (_isWebOrDesktop && model.isMobileResolution)
-                  ? ColumnWidthMode.none
-                  : ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+      columnWidthMode: _isWebOrDesktop
+          ? (_isWebOrDesktop && model.isMobileResolution)
+                ? ColumnWidthMode.none
+                : ColumnWidthMode.fill
+          : ColumnWidthMode.none,
     );
   }
 

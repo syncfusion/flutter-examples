@@ -60,72 +60,40 @@ class OrderInfoDataGridSource extends DataGridSource {
 
   /// Building DataGridRows.
   void buildDataGridRows(bool isGrouping) {
-    dataGridRows =
-        isWebOrDesktop
-            ? orders.map<DataGridRow>((OrderInfo order) {
-              if (isGrouping) {
-                {
-                  return DataGridRow(
-                    cells: <DataGridCell>[
-                      DataGridCell<int>(
-                        columnName: _fetchColumnName('ID'),
-                        value: order.id,
-                      ),
-                      DataGridCell<int>(
-                        columnName: _fetchColumnName('CustomerId'),
-                        value: order.customerId,
-                      ),
-                      DataGridCell<String>(
-                        columnName: _fetchColumnName('Name'),
-                        value: order.name,
-                      ),
-                      DataGridCell<double>(
-                        columnName: _fetchColumnName('Freight'),
-                        value: order.freight,
-                      ),
-                      DataGridCell<String>(
-                        columnName: _fetchColumnName('City'),
-                        value: order.city,
-                      ),
-                      DataGridCell<double>(
-                        columnName: _fetchColumnName('Price'),
-                        value: order.price,
-                      ),
-                    ],
-                  );
-                }
-              } else {
+    dataGridRows = isWebOrDesktop
+        ? orders.map<DataGridRow>((OrderInfo order) {
+            if (isGrouping) {
+              {
                 return DataGridRow(
                   cells: <DataGridCell>[
                     DataGridCell<int>(
-                      columnName: _fetchColumnName('id'),
+                      columnName: _fetchColumnName('ID'),
                       value: order.id,
                     ),
                     DataGridCell<int>(
-                      columnName: _fetchColumnName('customerId'),
+                      columnName: _fetchColumnName('CustomerId'),
                       value: order.customerId,
                     ),
                     DataGridCell<String>(
-                      columnName: _fetchColumnName('name'),
+                      columnName: _fetchColumnName('Name'),
                       value: order.name,
                     ),
                     DataGridCell<double>(
-                      columnName: _fetchColumnName('freight'),
+                      columnName: _fetchColumnName('Freight'),
                       value: order.freight,
                     ),
                     DataGridCell<String>(
-                      columnName: _fetchColumnName('city'),
+                      columnName: _fetchColumnName('City'),
                       value: order.city,
                     ),
                     DataGridCell<double>(
-                      columnName: _fetchColumnName('price'),
+                      columnName: _fetchColumnName('Price'),
                       value: order.price,
                     ),
                   ],
                 );
               }
-            }).toList()
-            : orders.map<DataGridRow>((OrderInfo order) {
+            } else {
               return DataGridRow(
                 cells: <DataGridCell>[
                   DataGridCell<int>(
@@ -140,13 +108,44 @@ class OrderInfoDataGridSource extends DataGridSource {
                     columnName: _fetchColumnName('name'),
                     value: order.name,
                   ),
+                  DataGridCell<double>(
+                    columnName: _fetchColumnName('freight'),
+                    value: order.freight,
+                  ),
                   DataGridCell<String>(
                     columnName: _fetchColumnName('city'),
                     value: order.city,
                   ),
+                  DataGridCell<double>(
+                    columnName: _fetchColumnName('price'),
+                    value: order.price,
+                  ),
                 ],
               );
-            }).toList();
+            }
+          }).toList()
+        : orders.map<DataGridRow>((OrderInfo order) {
+            return DataGridRow(
+              cells: <DataGridCell>[
+                DataGridCell<int>(
+                  columnName: _fetchColumnName('id'),
+                  value: order.id,
+                ),
+                DataGridCell<int>(
+                  columnName: _fetchColumnName('customerId'),
+                  value: order.customerId,
+                ),
+                DataGridCell<String>(
+                  columnName: _fetchColumnName('name'),
+                  value: order.name,
+                ),
+                DataGridCell<String>(
+                  columnName: _fetchColumnName('city'),
+                  value: order.city,
+                ),
+              ],
+            );
+          }).toList();
   }
 
   // Overrides

@@ -18,6 +18,7 @@ import 'package:syncfusion_flutter_core/theme.dart';
 
 ///Slider import
 import 'package:syncfusion_flutter_sliders/sliders.dart' as slider;
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 ///Local import
 import '../../../model/sample_view.dart';
@@ -38,6 +39,7 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
 
   final DateTime min = DateTime(2017), max = DateTime(2018);
   final List<ChartSampleData> chartData = <ChartSampleData>[];
+  late DateTime _startDate, _endDate;
   late RangeController rangeController;
   late SfCartesianChart columnChart, splineChart;
   late List<ChartSampleData> columnData, splineSeriesData;
@@ -61,6 +63,8 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
       start: DateTime.fromMillisecondsSinceEpoch(1498608000000),
       end: DateTime.fromMillisecondsSinceEpoch(1508112000000),
     );
+    _startDate = rangeController.start;
+    _endDate = rangeController.end;
     for (int i = 0; i < 366; i++) {
       chartData.add(
         ChartSampleData(
@@ -1193,21 +1197,19 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
     final Widget page = Container(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
-      color:
-          model.isWebFullView
-              ? model.sampleOutputCardColor
-              : model.sampleOutputCardColor,
+      color: model.isWebFullView
+          ? model.sampleOutputCardColor
+          : model.sampleOutputCardColor,
       child: Center(
         child: Column(
           children: <Widget>[
             Expanded(
               child: Container(
-                width:
-                    mediaQueryData.orientation == Orientation.landscape
-                        ? model.isWebFullView
-                            ? mediaQueryData.size.width * 0.7
-                            : mediaQueryData.size.width
-                        : mediaQueryData.size.width,
+                width: mediaQueryData.orientation == Orientation.landscape
+                    ? model.isWebFullView
+                          ? mediaQueryData.size.width * 0.7
+                          : mediaQueryData.size.width
+                    : mediaQueryData.size.width,
                 padding: const EdgeInsets.fromLTRB(5, 20, 15, 25),
                 child: splineChart,
               ),
@@ -1220,10 +1222,9 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
                 ),
                 inactiveLabelStyle: TextStyle(
                   fontSize: 10,
-                  color:
-                      isLightTheme
-                          ? Colors.black
-                          : const Color.fromRGBO(170, 170, 170, 1),
+                  color: isLightTheme
+                      ? Colors.black
+                      : const Color.fromRGBO(170, 170, 170, 1),
                 ),
                 activeTrackColor: const Color.fromRGBO(255, 125, 30, 1),
                 inactiveRegionColor: model.sampleOutputCardColor.withValues(
@@ -1238,12 +1239,11 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
               child: Container(
                 margin: EdgeInsets.zero,
                 padding: EdgeInsets.zero,
-                width:
-                    mediaQueryData.orientation == Orientation.landscape
-                        ? model.isWebFullView
-                            ? mediaQueryData.size.width * 0.7
-                            : mediaQueryData.size.width
-                        : mediaQueryData.size.width,
+                width: mediaQueryData.orientation == Orientation.landscape
+                    ? model.isWebFullView
+                          ? mediaQueryData.size.width * 0.7
+                          : mediaQueryData.size.width
+                    : mediaQueryData.size.width,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(14, 0, 15, 15),
@@ -1259,19 +1259,58 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
                       showTicks: true,
                       showLabels: true,
                       dragMode: slider.SliderDragMode.both,
-                      labelFormatterCallback: (
-                        dynamic actualLabel,
-                        String formattedText,
-                      ) {
-                        String label = DateFormat.MMM().format(actualLabel);
-                        label =
-                            (model.isWebFullView &&
+                      labelFormatterCallback:
+                          (dynamic actualLabel, String formattedText) {
+                            String label = DateFormat.MMM().format(actualLabel);
+                            label =
+                                (model.isWebFullView &&
                                     mediaQueryData.size.width <= 1000)
                                 ? label[0]
                                 : label;
-                        return label;
+                            return label;
+                          },
+                      onLabelCreated:
+                          (
+                            dynamic actualValue,
+                            String formattedText,
+                            TextStyle textStyle,
+                          ) {
+                            final String labelStyleText = DateFormat.MMM()
+                                .format(actualValue);
+                            final DateTime valueDate = actualValue;
+                            final DateTime startDate = _startDate;
+                            final DateTime endDate = _endDate;
+                            int value = valueDate.month;
+                            if (valueDate.year == 2018) {
+                              value += 12;
+                            }
+                            final int start = startDate.month;
+                            final int end = endDate.month;
+                            final bool isStartIndex = value == start;
+                            final bool isEndIndex = value == end;
+                            return RangeSelectorLabel(
+                              text: labelStyleText,
+                              textStyle: (isStartIndex || isEndIndex)
+                                  ? Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall!.copyWith(
+                                      color: const Color.fromRGBO(
+                                        255,
+                                        125,
+                                        30,
+                                        1,
+                                      ),
+                                      fontWeight: FontWeight.bold,
+                                    )
+                                  : textStyle,
+                            );
+                          },
+                      onChanged: (slider.SfRangeValues values) {
+                        setState(() {
+                          _startDate = rangeController.start;
+                          _endDate = rangeController.end;
+                        });
                       },
-                      onChanged: (slider.SfRangeValues values) {},
                       child: Container(
                         height: 75,
                         padding: EdgeInsets.zero,
@@ -1290,13 +1329,13 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
     return Scaffold(
       body:
           mediaQueryData.orientation == Orientation.landscape &&
-                  !model.isWebFullView
-              ? Center(
-                child: SingleChildScrollView(
-                  child: SizedBox(height: 400, child: page),
-                ),
-              )
-              : page,
+              !model.isWebFullView
+          ? Center(
+              child: SingleChildScrollView(
+                child: SizedBox(height: 400, child: page),
+              ),
+            )
+          : page,
     );
   }
 
@@ -1325,16 +1364,15 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
                       height: 1,
                     ),
                     value: _selectedLabelPlacementType,
-                    items:
-                        _labelpositionList.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'onTicks',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _labelpositionList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'onTicks',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onLabelPositionTypeChange(value.toString());
                       stateSetter(() {});
@@ -1365,16 +1403,15 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
                       height: 1,
                     ),
                     value: _selectedType,
-                    items:
-                        _edgeList!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'auto',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _edgeList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'auto',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onPositionTypeChange(value.toString());
                       setState(() {});

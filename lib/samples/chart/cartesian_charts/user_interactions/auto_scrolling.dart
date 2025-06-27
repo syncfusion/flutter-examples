@@ -108,10 +108,9 @@ class _AutoScrollingChartState extends SampleViewState {
   /// Returns the cartesian column chart with auto scrolling.
   SfCartesianChart _buildAutoScrollingLineChart() {
     final ThemeData themeData = model.themeData;
-    _palette1 =
-        themeData.useMaterial3
-            ? (themeData.brightness == Brightness.light ? _palette2 : _palette3)
-            : _palette1;
+    _palette1 = themeData.useMaterial3
+        ? (themeData.brightness == Brightness.light ? _palette2 : _palette3)
+        : _palette1;
     return SfCartesianChart(
       zoomPanBehavior: ZoomPanBehavior(enablePanning: true),
       onChartTouchInteractionMove: (ChartTouchInteractionArgs args) {
@@ -138,8 +137,8 @@ class _AutoScrollingChartState extends SampleViewState {
           xValueMapper: (_ChartData data, int index) => data.x,
           yValueMapper: (_ChartData data, int index) => data.y,
           color: const Color.fromRGBO(192, 108, 132, 1),
-          pointColorMapper:
-              (_ChartData data, int index) => _palette1[index % 10],
+          pointColorMapper: (_ChartData data, int index) =>
+              _palette1[index % 10],
           animationDuration: 0,
         ),
       ],
@@ -163,10 +162,9 @@ class _AutoScrollingChartState extends SampleViewState {
 
   List<_ChartData> _updateTempDataSource() {
     // Determine the x value based on whether _chartDataTemp is empty
-    final newXValue =
-        _chartDataTemp.isEmpty
-            ? _chartData.last.x.add(const Duration(seconds: 1))
-            : _chartDataTemp.last.x.add(const Duration(seconds: 1));
+    final newXValue = _chartDataTemp.isEmpty
+        ? _chartData.last.x.add(const Duration(seconds: 1))
+        : _chartDataTemp.last.x.add(const Duration(seconds: 1));
 
     // Create and add the new data point to _chartDataTemp
     _chartDataTemp.add(_ChartData(newXValue, _generateRandomInt(30, 60)));

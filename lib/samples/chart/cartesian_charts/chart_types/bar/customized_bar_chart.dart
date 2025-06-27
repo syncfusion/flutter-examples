@@ -127,27 +127,24 @@ class _CustomBarSeriesRenderer<T, D> extends BarSeriesRenderer<T, D> {
 class BarCustomPainter<T, D> extends BarSegment<T, D> {
   @override
   void onPaint(Canvas canvas) {
-    final Float64List deviceTransform =
-        Float64List(16)
-          ..[0] = 0.05
-          ..[5] = 0.05
-          ..[10] = 1.0
-          ..[15] = 2.0;
+    final Float64List deviceTransform = Float64List(16)
+      ..[0] = 0.05
+      ..[5] = 0.05
+      ..[10] = 1.0
+      ..[15] = 2.0;
 
-    final Paint linePaint =
-        Paint()
-          ..color = Colors.black
-          ..style = PaintingStyle.fill
-          ..strokeWidth = 40
-          ..shader =
-              image == null
-                  ? null
-                  : ImageShader(
-                    image!,
-                    TileMode.repeated,
-                    TileMode.repeated,
-                    deviceTransform,
-                  );
+    final Paint linePaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.fill
+      ..strokeWidth = 40
+      ..shader = image == null
+          ? null
+          : ImageShader(
+              image!,
+              TileMode.repeated,
+              TileMode.repeated,
+              deviceTransform,
+            );
 
     final double devicePixelRatio =
         ui.PlatformDispatcher.instance.implicitView!.devicePixelRatio;

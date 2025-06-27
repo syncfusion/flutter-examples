@@ -4,6 +4,8 @@ class Budget {
     required this.target,
     required this.createdDate,
     required this.expense,
+    required this.category,
+    this.isCompleted = false,
     this.notes,
   });
 
@@ -11,10 +13,12 @@ class Budget {
   String? notes;
   double target;
   double expense;
+  bool isCompleted;
   DateTime createdDate;
+  String category;
 
   @override
   String toString() {
-    return 'Budget: $name, Amount: $target, Date: $createdDate';
+    return 'Budget: $name, Amount: $target, Date: $createdDate, Category: $category';
   }
 }

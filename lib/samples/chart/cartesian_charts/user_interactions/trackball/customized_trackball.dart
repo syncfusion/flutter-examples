@@ -34,8 +34,11 @@ class _TrackballBuilderState extends SampleViewState {
 
   @override
   void initState() {
-    _trackballDisplayModeList =
-        <String>['floatAllPoints', 'groupAllPoints', 'nearestPoint'].toList();
+    _trackballDisplayModeList = <String>[
+      'floatAllPoints',
+      'groupAllPoints',
+      'nearestPoint',
+    ].toList();
     _selectedMode = 'floatAllPoints';
     _trackballDisplayMode = TrackballDisplayMode.floatAllPoints;
     _isBuilder = true;
@@ -251,16 +254,15 @@ class _TrackballBuilderState extends SampleViewState {
                 isExpanded: true,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedMode,
-                items:
-                    _trackballDisplayModeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'floatAllPoints',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: _trackballDisplayModeList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'floatAllPoints',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (String? value) {
                   setState(() {
                     _updateTrackballDisplayMode(value!);
@@ -333,104 +335,101 @@ class _TrackballBuilderState extends SampleViewState {
           width: 10,
           borderWidth: 1,
         ),
-        tooltipDisplayMode:
-            isCardView
-                ? TrackballDisplayMode.floatAllPoints
-                : _trackballDisplayMode,
-        builder:
-            _isBuilder
-                ? (BuildContext context, TrackballDetails trackballDetails) {
-                  final TextStyle textStyle = _buildTrackballTextStyle();
-                  double imageWidth = 0.0;
-                  double imageHeight = 0.0;
-                  double width = 0.0;
-                  double height = 0.0;
-                  if (_trackballDisplayMode ==
-                      TrackballDisplayMode.groupAllPoints) {
-                    height = 1.0; // Divider width.
-                    imageWidth = 40;
-                    imageHeight = 40;
-                    final String header =
-                        trackballDetails.groupingModeInfo!.points[0].x
-                            .toString();
-                    final Size headerSize = measureText(header, textStyle);
-                    width = max(width, headerSize.width);
-                    height += headerSize.height;
-                    final int length =
-                        trackballDetails
-                            .groupingModeInfo!
-                            .visibleSeriesIndices
-                            .length;
-                    for (int i = 0; i < length; i++) {
-                      final String text =
-                          '${trackballDetails.groupingModeInfo!.visibleSeriesList[i].name} : \$${trackballDetails.groupingModeInfo!.points[i].y}';
-                      final Size size = measureText(text, textStyle);
-                      width = max(width, size.width);
-                      height += size.height;
-                    }
-                    width = max(width, 80);
-                    width += imageWidth + 25;
-                    height += imageHeight;
-                  } else {
-                    imageWidth = 35;
-                    imageHeight = 35;
-                    final String xText = trackballDetails.point!.x.toString();
-                    final String yText = '\$${trackballDetails.point!.y}';
-                    final Size xTextSize = measureText(xText, textStyle);
-                    final Size yTextSize = measureText(yText, textStyle);
-                    width = imageWidth + 5 + xTextSize.width + yTextSize.width;
-                    final double maxHeight = max(
-                      xTextSize.height,
-                      yTextSize.height,
-                    );
-                    height = imageHeight + maxHeight;
+        tooltipDisplayMode: isCardView
+            ? TrackballDisplayMode.floatAllPoints
+            : _trackballDisplayMode,
+        builder: _isBuilder
+            ? (BuildContext context, TrackballDetails trackballDetails) {
+                final TextStyle textStyle = _buildTrackballTextStyle();
+                double imageWidth = 0.0;
+                double imageHeight = 0.0;
+                double width = 0.0;
+                double height = 0.0;
+                if (_trackballDisplayMode ==
+                    TrackballDisplayMode.groupAllPoints) {
+                  height = 1.0; // Divider width.
+                  imageWidth = 40;
+                  imageHeight = 40;
+                  final String header = trackballDetails
+                      .groupingModeInfo!
+                      .points[0]
+                      .x
+                      .toString();
+                  final Size headerSize = measureText(header, textStyle);
+                  width = max(width, headerSize.width);
+                  height += headerSize.height;
+                  final int length = trackballDetails
+                      .groupingModeInfo!
+                      .visibleSeriesIndices
+                      .length;
+                  for (int i = 0; i < length; i++) {
+                    final String text =
+                        '${trackballDetails.groupingModeInfo!.visibleSeriesList[i].name} : \$${trackballDetails.groupingModeInfo!.points[i].y}';
+                    final Size size = measureText(text, textStyle);
+                    width = max(width, size.width);
+                    height += size.height;
                   }
-
-                  return Container(
-                    padding: const EdgeInsets.all(5.0),
-                    height: height,
-                    width: width,
-                    decoration: BoxDecoration(
-                      color:
-                          model.themeData.colorScheme.brightness ==
-                                  Brightness.dark
-                              ? const Color.fromRGBO(255, 255, 255, 1)
-                              : const Color.fromRGBO(0, 8, 22, 0.75),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(6.0),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(
-                              width: imageWidth,
-                              height: imageHeight,
-                              child: Image.asset(
-                                _buildImageBuilder(trackballDetails),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 5),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: _buildGroupingBuilderWidgets(
-                                trackballDetails,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  width = max(width, 80);
+                  width += imageWidth + 25;
+                  height += imageHeight;
+                } else {
+                  imageWidth = 35;
+                  imageHeight = 35;
+                  final String xText = trackballDetails.point!.x.toString();
+                  final String yText = '\$${trackballDetails.point!.y}';
+                  final Size xTextSize = measureText(xText, textStyle);
+                  final Size yTextSize = measureText(yText, textStyle);
+                  width = imageWidth + 5 + xTextSize.width + yTextSize.width;
+                  final double maxHeight = max(
+                    xTextSize.height,
+                    yTextSize.height,
                   );
+                  height = imageHeight + maxHeight;
                 }
-                : null,
+
+                return Container(
+                  padding: const EdgeInsets.all(5.0),
+                  height: height,
+                  width: width,
+                  decoration: BoxDecoration(
+                    color:
+                        model.themeData.colorScheme.brightness ==
+                            Brightness.dark
+                        ? const Color.fromRGBO(255, 255, 255, 1)
+                        : const Color.fromRGBO(0, 8, 22, 0.75),
+                    borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            width: imageWidth,
+                            height: imageHeight,
+                            child: Image.asset(
+                              _buildImageBuilder(trackballDetails),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 5),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: _buildGroupingBuilderWidgets(
+                              trackballDetails,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }
+            : null,
       ),
     );
   }
@@ -461,10 +460,9 @@ class _TrackballBuilderState extends SampleViewState {
         child: Text(
           trackballDetails.groupingModeInfo!.points[0].x.toString(),
           style: TextStyle(
-            color:
-                model.themeData.colorScheme.brightness == Brightness.dark
-                    ? const Color.fromRGBO(0, 0, 0, 1)
-                    : const Color.fromRGBO(255, 255, 255, 1),
+            color: model.themeData.colorScheme.brightness == Brightness.dark
+                ? const Color.fromRGBO(0, 0, 0, 1)
+                : const Color.fromRGBO(255, 255, 255, 1),
           ),
         ),
       ),
@@ -475,10 +473,9 @@ class _TrackballBuilderState extends SampleViewState {
         child: Container(
           height: 1,
           width: 80,
-          color:
-              model.themeData.colorScheme.brightness == Brightness.dark
-                  ? const Color.fromRGBO(61, 61, 61, 1)
-                  : const Color.fromRGBO(238, 238, 238, 1),
+          color: model.themeData.colorScheme.brightness == Brightness.dark
+              ? const Color.fromRGBO(61, 61, 61, 1)
+              : const Color.fromRGBO(238, 238, 238, 1),
         ),
       ),
     );
@@ -520,10 +517,9 @@ class _TrackballBuilderState extends SampleViewState {
         '\$${trackballDetails.point!.y}',
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          color:
-              model.themeData.colorScheme.brightness == Brightness.dark
-                  ? const Color.fromRGBO(0, 0, 0, 1)
-                  : const Color.fromRGBO(255, 255, 255, 1),
+          color: model.themeData.colorScheme.brightness == Brightness.dark
+              ? const Color.fromRGBO(0, 0, 0, 1)
+              : const Color.fromRGBO(255, 255, 255, 1),
         ),
       ),
     );
@@ -531,10 +527,9 @@ class _TrackballBuilderState extends SampleViewState {
 
   TextStyle _buildTrackballTextStyle() {
     return TextStyle(
-      color:
-          model.themeData.colorScheme.brightness == Brightness.dark
-              ? const Color.fromRGBO(0, 0, 0, 1)
-              : const Color.fromRGBO(255, 255, 255, 1),
+      color: model.themeData.colorScheme.brightness == Brightness.dark
+          ? const Color.fromRGBO(0, 0, 0, 1)
+          : const Color.fromRGBO(255, 255, 255, 1),
     );
   }
 
@@ -560,8 +555,8 @@ class _TrackballBuilderState extends SampleViewState {
       StackedLineSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.secondSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'Martin',
         enableTrackball: _enableTrackball3,
@@ -569,8 +564,8 @@ class _TrackballBuilderState extends SampleViewState {
       StackedLineSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.thirdSeriesYValue,
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'Jessica',
         enableTrackball: _enableTrackball4,

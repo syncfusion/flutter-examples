@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import '../custom_widgets/custom_buttons.dart';
 import '../custom_widgets/custom_drop_down_menu.dart';
 import '../custom_widgets/text_field.dart';
-import '../data_processing/saving_handler.dart'
-    if (dart.library.html) '../data_processing/saving_web_handler.dart';
+// import '../data_processing/saving_handler.dart'
+//     if (dart.library.html) '../data_processing/saving_web_handler.dart';
 import '../enum.dart';
 import '../models/saving.dart';
 import '../models/user.dart';
@@ -137,8 +137,8 @@ class _SavingsCenterDialogState extends State<SavingsCenterDialog> {
     if (isEdit &&
         _amountController.text == '' &&
         widget.notifier.savingsTextFieldDetails != null) {
-      _amountController.text =
-          widget.notifier.savingsTextFieldDetails!.amount.toString();
+      _amountController.text = widget.notifier.savingsTextFieldDetails!.amount
+          .toString();
     }
     return CustomTextField(
       controller: _amountController,
@@ -251,10 +251,9 @@ class _SavingsCenterDialogState extends State<SavingsCenterDialog> {
 
   Widget _buildSavingsAddCenterDialog() {
     return CommonCenterDialog(
-      dialogHeader:
-          widget.userInteraction == UserInteractions.edit
-              ? 'Edit Saving'
-              : 'Create Saving',
+      dialogHeader: widget.userInteraction == UserInteractions.edit
+          ? 'Edit Saving'
+          : 'Create Saving',
       onCloseIconPressed: () {
         widget.validNotifier.isTextButtonValid(false);
         widget.selectedCountNotifier.countChecking(0);
@@ -270,55 +269,48 @@ class _SavingsCenterDialogState extends State<SavingsCenterDialog> {
                 widget.validNotifier.isTextButtonValid(false);
                 Navigator.pop(context);
               },
-              onAddOrEditAction:
-                  isValid
-                      ? () async {
-                        final Saving saving = Saving(
-                          name: _nameController.text,
-                          savedAmount: parseCurrency(
-                            _amountController.text,
-                            widget.userDetails.userProfile,
-                          ),
-                          type: _typeController.text,
-                          remark: _remarkController.text,
-                          savingDate: DateFormat(
-                            widget.userDetails.userProfile.dateFormat,
-                          ).parse(_dateController.text),
+              onAddOrEditAction: isValid
+                  ? () async {
+                      final Saving saving = Saving(
+                        name: _nameController.text,
+                        savedAmount: parseCurrency(
+                          _amountController.text,
+                          widget.userDetails.userProfile,
+                        ),
+                        type: _typeController.text,
+                        remark: _remarkController.text,
+                        savingDate: DateFormat(
+                          widget.userDetails.userProfile.dateFormat,
+                        ).parse(_dateController.text),
+                      );
+                      final List<Saving> savings =
+                          widget.userDetails.transactionalData.data.savings;
+                      if (widget.userInteraction == UserInteractions.edit) {
+                        widget.notifier.editSavings(
+                          widget.selectedIndex,
+                          saving,
                         );
-                        final List<Saving> savings =
-                            widget
-                                .userDetails
-                                .transactionalData
-                                .data[0]
-                                .savings;
-                        if (widget.userInteraction == UserInteractions.edit) {
-                          widget.notifier.editSavings(
-                            widget.selectedIndex,
-                            saving,
-                          );
-                          widget.selectedCountNotifier.countChecking(0);
-                          updateSavings(
-                            context,
-                            widget.userDetails,
-                            saving,
-                            widget.userInteraction,
-                            widget.notifier.selectedIndexes,
-                          );
-                        } else {
-                          savings.add(saving);
-                          widget.notifier.updateSavings(savings);
-                          updateSavings(
-                            context,
-                            widget.userDetails,
-                            saving,
-                            widget.userInteraction,
-                            <int>[],
-                          );
-                        }
-                        widget.validNotifier.isTextButtonValid(false);
-                        Navigator.pop(context);
+                        widget.selectedCountNotifier.countChecking(0);
+                        // updateSavings(
+                        //   widget.userDetails,
+                        //   saving,
+                        //   widget.userInteraction,
+                        //   widget.notifier.selectedIndexes,
+                        // );
+                      } else {
+                        savings.add(saving);
+                        widget.notifier.updateSavings(savings);
+                        // updateSavings(
+                        //   widget.userDetails,
+                        //   saving,
+                        //   widget.userInteraction,
+                        //   <int>[],
+                        // );
                       }
-                      : null,
+                      widget.validNotifier.isTextButtonValid(false);
+                      Navigator.pop(context);
+                    }
+                  : null,
               showEditButton: widget.userInteraction == UserInteractions.edit,
             );
           },

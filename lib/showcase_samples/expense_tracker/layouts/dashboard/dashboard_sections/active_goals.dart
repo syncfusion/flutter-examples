@@ -8,11 +8,12 @@ class ActiveGoals extends StatelessWidget {
   const ActiveGoals({
     required this.userDetails,
     required this.goals,
+    this.cardAvatarColors,
     super.key,
   });
 
   final List<Goal> goals;
-
+  final List<Color>? cardAvatarColors;
   final UserDetails userDetails;
 
   @override

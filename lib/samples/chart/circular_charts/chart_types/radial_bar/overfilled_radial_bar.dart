@@ -89,23 +89,21 @@ class _OverfilledRadialBarState extends SampleViewState {
   /// Builds the annotation for the goal.
   CircularChartAnnotation _buildGoalAnnotation(Orientation orientation) {
     return CircularChartAnnotation(
-      height:
-          isCardView
-              ? '45%'
-              : model.isWeb
-              ? '30%'
-              : '35%',
+      height: isCardView
+          ? '45%'
+          : model.isWeb
+          ? '30%'
+          : '35%',
       width: isCardView || orientation == Orientation.landscape ? '65%' : '55%',
       widget: Column(
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(
-              top:
-                  model.isWeb || model.isDesktop
-                      ? 5
-                      : model.isWebFullView
-                      ? 15
-                      : 0,
+              top: model.isWeb || model.isDesktop
+                  ? 5
+                  : model.isWebFullView
+                  ? 15
+                  : 0,
             ),
             child: Text(
               'Goal -',
@@ -119,12 +117,12 @@ class _OverfilledRadialBarState extends SampleViewState {
             padding: EdgeInsets.only(
               top:
                   model.isAndroid &&
-                          !isCardView &&
-                          orientation == Orientation.landscape
-                      ? 0
-                      : isCardView || orientation == Orientation.landscape
-                      ? 0
-                      : 10,
+                      !isCardView &&
+                      orientation == Orientation.landscape
+                  ? 0
+                  : isCardView || orientation == Orientation.landscape
+                  ? 0
+                  : 10,
             ),
           ),
           Text(
@@ -132,8 +130,9 @@ class _OverfilledRadialBarState extends SampleViewState {
             softWrap: false,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize:
-                  isCardView || orientation == Orientation.landscape ? 10 : 14,
+              fontSize: isCardView || orientation == Orientation.landscape
+                  ? 10
+                  : 14,
             ),
           ),
         ],

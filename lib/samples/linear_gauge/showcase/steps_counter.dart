@@ -33,12 +33,12 @@ class _StepsCounterState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            child: _buildStepsCounter(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              child: _buildStepsCounter(context),
+            ),
+          )
         : _buildStepsCounter(context);
   }
 
@@ -52,12 +52,11 @@ class _StepsCounterState extends SampleViewState {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(
-            width:
-                isWebOrDesktop
-                    ? MediaQuery.of(context).size.width >= 550
-                        ? 450
-                        : MediaQuery.of(context).size.width * 0.68
-                    : MediaQuery.of(context).size.width * 0.68,
+            width: isWebOrDesktop
+                ? MediaQuery.of(context).size.width >= 550
+                      ? 450
+                      : MediaQuery.of(context).size.width * 0.68
+                : MediaQuery.of(context).size.width * 0.68,
             child: SfLinearGauge(
               maximum: 12000.0,
               interval: 12000.0,
@@ -66,14 +65,12 @@ class _StepsCounterState extends SampleViewState {
               axisTrackStyle: LinearAxisTrackStyle(
                 thickness: 32,
                 borderWidth: 1,
-                borderColor:
-                    brightness == Brightness.dark
-                        ? const Color(0xff898989)
-                        : Colors.grey[350],
-                color:
-                    brightness == Brightness.light
-                        ? const Color(0xffE8EAEB)
-                        : const Color(0xff62686A),
+                borderColor: brightness == Brightness.dark
+                    ? const Color(0xff898989)
+                    : Colors.grey[350],
+                color: brightness == Brightness.light
+                    ? const Color(0xffE8EAEB)
+                    : const Color(0xff62686A),
               ),
               barPointers: <LinearBarPointer>[
                 LinearBarPointer(
@@ -86,10 +83,9 @@ class _StepsCounterState extends SampleViewState {
                   value: 12000,
                   enableAnimation: false,
                   thickness: 25,
-                  offset:
-                      isWebOrDesktop
-                          ? (MediaQuery.of(context).size.height >= 50 ? 60 : 0)
-                          : 60,
+                  offset: isWebOrDesktop
+                      ? (MediaQuery.of(context).size.height >= 50 ? 60 : 0)
+                      : 60,
                   color: Colors.transparent,
                   position: LinearElementPosition.outside,
                   child: const Text(

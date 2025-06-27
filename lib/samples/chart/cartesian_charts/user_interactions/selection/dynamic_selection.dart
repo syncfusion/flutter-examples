@@ -105,16 +105,12 @@ class _DefaultSelectionState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _seriesIndex.toString(),
-            items:
-                _seriesIndexList.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _seriesIndexList.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               _updateSeriesIndex(value);
               stateSetter(() {});
@@ -140,16 +136,12 @@ class _DefaultSelectionState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _pointIndex.toString(),
-            items:
-                _pointIndexList.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _pointIndexList.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               _updatePointIndex(value);
               stateSetter(() {});
@@ -219,16 +211,16 @@ class _DefaultSelectionState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.secondSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
         selectionBehavior: _selectionBehavior,
         name: '2016',
       ),
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.thirdSeriesYValue,
         selectionBehavior: _selectionBehavior,
         name: '2017',
       ),

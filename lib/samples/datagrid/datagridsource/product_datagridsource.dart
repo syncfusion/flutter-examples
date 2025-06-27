@@ -41,66 +41,53 @@ class ProductDataGridSource extends DataGridSource {
 
   /// Build DataGridRows
   void _buildDataGridRows(String sampleType) {
-    _dataGridRows =
-        _products.map<DataGridRow>((Product product) {
-          if (sampleType == 'Stacked Header') {
-            return DataGridRow(
-              cells: <DataGridCell<dynamic>>[
-                DataGridCell<String>(columnName: 'name', value: product.name),
-                DataGridCell<String>(columnName: 'city', value: product.city),
-                DataGridCell<int>(columnName: 'id', value: product.id),
-                DataGridCell<DateTime>(
-                  columnName: 'orderDate',
-                  value: product.orderDate,
-                ),
-                DataGridCell<String>(
-                  columnName: 'product',
-                  value: product.product,
-                ),
-                DataGridCell<int>(
-                  columnName: 'productId',
-                  value: product.productId,
-                ),
-                DataGridCell<int>(
-                  columnName: 'quantity',
-                  value: product.quantity,
-                ),
-                DataGridCell<double>(
-                  columnName: 'unitPrice',
-                  value: product.unitPrice,
-                ),
-              ],
-            );
-          } else {
-            return DataGridRow(
-              cells: <DataGridCell<dynamic>>[
-                DataGridCell<int>(columnName: 'id', value: product.id),
-                DataGridCell<int>(
-                  columnName: 'productId',
-                  value: product.productId,
-                ),
-                DataGridCell<String>(columnName: 'name', value: product.name),
-                DataGridCell<String>(
-                  columnName: 'product',
-                  value: product.product,
-                ),
-                DataGridCell<DateTime>(
-                  columnName: 'orderDate',
-                  value: product.orderDate,
-                ),
-                DataGridCell<int>(
-                  columnName: 'quantity',
-                  value: product.quantity,
-                ),
-                DataGridCell<String>(columnName: 'city', value: product.city),
-                DataGridCell<double>(
-                  columnName: 'unitPrice',
-                  value: product.unitPrice,
-                ),
-              ],
-            );
-          }
-        }).toList();
+    _dataGridRows = _products.map<DataGridRow>((Product product) {
+      if (sampleType == 'Stacked Header') {
+        return DataGridRow(
+          cells: <DataGridCell<dynamic>>[
+            DataGridCell<String>(columnName: 'name', value: product.name),
+            DataGridCell<String>(columnName: 'city', value: product.city),
+            DataGridCell<int>(columnName: 'id', value: product.id),
+            DataGridCell<DateTime>(
+              columnName: 'orderDate',
+              value: product.orderDate,
+            ),
+            DataGridCell<String>(columnName: 'product', value: product.product),
+            DataGridCell<int>(
+              columnName: 'productId',
+              value: product.productId,
+            ),
+            DataGridCell<int>(columnName: 'quantity', value: product.quantity),
+            DataGridCell<double>(
+              columnName: 'unitPrice',
+              value: product.unitPrice,
+            ),
+          ],
+        );
+      } else {
+        return DataGridRow(
+          cells: <DataGridCell<dynamic>>[
+            DataGridCell<int>(columnName: 'id', value: product.id),
+            DataGridCell<int>(
+              columnName: 'productId',
+              value: product.productId,
+            ),
+            DataGridCell<String>(columnName: 'name', value: product.name),
+            DataGridCell<String>(columnName: 'product', value: product.product),
+            DataGridCell<DateTime>(
+              columnName: 'orderDate',
+              value: product.orderDate,
+            ),
+            DataGridCell<int>(columnName: 'quantity', value: product.quantity),
+            DataGridCell<String>(columnName: 'city', value: product.city),
+            DataGridCell<double>(
+              columnName: 'unitPrice',
+              value: product.unitPrice,
+            ),
+          ],
+        );
+      }
+    }).toList();
   }
 
   @override
@@ -182,29 +169,27 @@ class ProductDataGridSource extends DataGridSource {
       );
     } else if (_sampleName == 'Column Drag and Drop') {
       return DataGridRowAdapter(
-        cells:
-            _columns.map<Widget>((e) {
-              final DataGridCell cell = row.getCells().firstWhere(
-                (cell) => cell.columnName == e.columnName,
-              );
+        cells: _columns.map<Widget>((e) {
+          final DataGridCell cell = row.getCells().firstWhere(
+            (cell) => cell.columnName == e.columnName,
+          );
 
-              return Container(
-                alignment:
-                    (cell.columnName == 'name' ||
-                            cell.columnName == 'product' ||
-                            cell.columnName == 'city')
-                        ? Alignment.centerLeft
-                        : Alignment.centerRight,
-                padding: const EdgeInsets.all(8.0),
-                child:
-                    cell.columnName == 'orderDate'
-                        ? Text(
-                          DateFormat('MM/dd/yyyy').format(cell.value),
-                          overflow: TextOverflow.ellipsis,
-                        )
-                        : Text(cell.value.toString()),
-              );
-            }).toList(),
+          return Container(
+            alignment:
+                (cell.columnName == 'name' ||
+                    cell.columnName == 'product' ||
+                    cell.columnName == 'city')
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
+            padding: const EdgeInsets.all(8.0),
+            child: cell.columnName == 'orderDate'
+                ? Text(
+                    DateFormat('MM/dd/yyyy').format(cell.value),
+                    overflow: TextOverflow.ellipsis,
+                  )
+                : Text(cell.value.toString()),
+          );
+        }).toList(),
       );
     } else {
       return DataGridRowAdapter(
@@ -433,22 +418,20 @@ class ProductDataGridSource extends DataGridSource {
   @override
   int compare(DataGridRow? a, DataGridRow? b, SortColumnDetails sortColumn) {
     if (_sampleName == 'Custom Sorting' && sortColumn.name == 'name') {
-      final String? value1 =
-          a
-              ?.getCells()
-              .firstWhereOrNull(
-                (dynamic element) => element.columnName == sortColumn.name,
-              )
-              ?.value
-              ?.toString();
-      final String? value2 =
-          b
-              ?.getCells()
-              .firstWhereOrNull(
-                (dynamic element) => element.columnName == sortColumn.name,
-              )
-              ?.value
-              ?.toString();
+      final String? value1 = a
+          ?.getCells()
+          .firstWhereOrNull(
+            (dynamic element) => element.columnName == sortColumn.name,
+          )
+          ?.value
+          ?.toString();
+      final String? value2 = b
+          ?.getCells()
+          .firstWhereOrNull(
+            (dynamic element) => element.columnName == sortColumn.name,
+          )
+          ?.value
+          ?.toString();
 
       final int? aLength = value1?.length;
       final int? bLength = value2?.length;

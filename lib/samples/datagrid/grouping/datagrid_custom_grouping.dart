@@ -59,8 +59,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'Name',
         width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -71,8 +72,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'Qs1',
         width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -83,8 +85,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'Qs2',
         width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -95,8 +98,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'Qs3',
         width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -107,8 +111,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'Qs4',
         width: (_isWebOrDesktop && model.isMobileResolution) ? 150 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(
@@ -119,8 +124,9 @@ class _CustomgroupingDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'Total Sales',
         width: 0,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8.0),
           child: const Center(

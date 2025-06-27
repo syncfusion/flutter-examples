@@ -63,10 +63,9 @@ class _QRCodeGeneratorState extends SampleViewState {
     }
 
     return Scaffold(
-      backgroundColor:
-          model.isWebFullView
-              ? Colors.transparent
-              : model.sampleOutputCardColor,
+      backgroundColor: model.isWebFullView
+          ? Colors.transparent
+          : model.sampleOutputCardColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         child: Container(
@@ -168,17 +167,16 @@ class _QRCodeGeneratorState extends SampleViewState {
                             height: 1,
                           ),
                           value: _selectedInputMode,
-                          items:
-                              _encoding.map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'binary',
-                                  child: Text(
-                                    value,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: model.textColor),
-                                  ),
-                                );
-                              }).toList(),
+                          items: _encoding.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'binary',
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor),
+                              ),
+                            );
+                          }).toList(),
                           onChanged: (String? value) {
                             _onInputModeChanged(value.toString());
                             stateSetter(() {});
@@ -221,17 +219,16 @@ class _QRCodeGeneratorState extends SampleViewState {
                             height: 1,
                           ),
                           value: _selectedErrorCorrectionLevel,
-                          items:
-                              _errorCorrectionLevels.map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'quartile',
-                                  child: Text(
-                                    value,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: model.textColor),
-                                  ),
-                                );
-                              }).toList(),
+                          items: _errorCorrectionLevels.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'quartile',
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor),
+                              ),
+                            );
+                          }).toList(),
                           onChanged: (String? value) {
                             _onErrorCorrectionLevelChanged(value.toString());
                             stateSetter(() {});

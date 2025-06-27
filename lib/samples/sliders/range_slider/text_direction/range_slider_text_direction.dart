@@ -154,13 +154,14 @@ class _RangeSliderTextDirectionPageState extends DirectionalitySampleViewState {
     _updateTitleBasedOnLocale();
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget rangeSlider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget rangeSlider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 300
             ? rangeSlider
             : SingleChildScrollView(
-              child: SizedBox(height: 300, child: rangeSlider),
-            );
+                child: SizedBox(height: 300, child: rangeSlider),
+              );
       },
     );
   }

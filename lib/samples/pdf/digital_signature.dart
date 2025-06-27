@@ -83,15 +83,14 @@ class _SignPdfState extends SampleViewState {
                     backgroundColor: WidgetStateProperty.all<Color>(
                       model.primaryColor,
                     ),
-                    padding:
-                        model.isMobile
-                            ? null
-                            : WidgetStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                vertical: 15,
-                                horizontal: 15,
-                              ),
+                    padding: model.isMobile
+                        ? null
+                        : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
                             ),
+                          ),
                   ),
                   onPressed: _signPDF,
                   child: const Text(
@@ -209,10 +208,9 @@ class _SignPdfState extends SampleViewState {
       locationInfo: 'Honolulu, Hawaii',
       reason: 'I am author of this document.',
       digestAlgorithm: _getDigestAlgorithm(),
-      cryptographicStandard:
-          _cryptoGroupValue == 1
-              ? CryptographicStandard.cades
-              : CryptographicStandard.cms,
+      cryptographicStandard: _cryptoGroupValue == 1
+          ? CryptographicStandard.cades
+          : CryptographicStandard.cms,
     );
 
     //Get the signatue field bounds.

@@ -103,13 +103,14 @@ class _ScaleRangeSliderPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget rangeSlider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget rangeSlider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 325
             ? rangeSlider
             : SingleChildScrollView(
-              child: SizedBox(height: 325, child: rangeSlider),
-            );
+                child: SizedBox(height: 325, child: rangeSlider),
+              );
       },
     );
   }

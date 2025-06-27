@@ -28,35 +28,19 @@ class ConditionalStyleDataGridSource extends DataGridSource {
   /// Rows are generated once and for CRUD operation we have to refresh
   /// the data row.
   void _buildDataGridRows() {
-    _dataGridRows =
-        _stocks
-            .map<DataGridRow>(
-              (Stock dataGridRow) => DataGridRow(
-                cells: <DataGridCell<dynamic>>[
-                  DataGridCell<String>(
-                    columnName: 'name',
-                    value: dataGridRow.name,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'qs1',
-                    value: dataGridRow.qs1,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'qs2',
-                    value: dataGridRow.qs2,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'qs3',
-                    value: dataGridRow.qs3,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'qs4',
-                    value: dataGridRow.qs4,
-                  ),
-                ],
-              ),
-            )
-            .toList();
+    _dataGridRows = _stocks
+        .map<DataGridRow>(
+          (Stock dataGridRow) => DataGridRow(
+            cells: <DataGridCell<dynamic>>[
+              DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
+              DataGridCell<double>(columnName: 'qs1', value: dataGridRow.qs1),
+              DataGridCell<double>(columnName: 'qs2', value: dataGridRow.qs2),
+              DataGridCell<double>(columnName: 'qs3', value: dataGridRow.qs3),
+              DataGridCell<double>(columnName: 'qs4', value: dataGridRow.qs4),
+            ],
+          ),
+        )
+        .toList();
   }
 
   // Building the Widget for each data cells

@@ -49,11 +49,10 @@ class _LiveVerticalState extends SampleViewState {
         child: Container(child: _buildUpdateDataSourceChart()),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed:
-            () => setState(() {
-              _chartData = <ChartSampleData>[];
-              _chartData = _buildChartData();
-            }),
+        onPressed: () => setState(() {
+          _chartData = <ChartSampleData>[];
+          _chartData = _buildChartData();
+        }),
         backgroundColor: model.primaryColor,
         child: const Icon(Icons.refresh, color: Colors.white),
       ),

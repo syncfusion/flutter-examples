@@ -94,11 +94,10 @@ class _StockForecastingSampleState extends SampleViewState
       closeValueMapper: (_ChartData data, _) => data.close,
       animationDuration: 0,
       enableSolidCandles: true,
-      onRendererCreated: (
-        ChartSeriesController<_ChartData, DateTime> controller,
-      ) {
-        _chartSeriesController = controller;
-      },
+      onRendererCreated:
+          (ChartSeriesController<_ChartData, DateTime> controller) {
+            _chartSeriesController = controller;
+          },
     );
 
     // Show the dialog when the app starts.
@@ -106,16 +105,15 @@ class _StockForecastingSampleState extends SampleViewState
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder:
-              (context) => WelcomeDialog(
-                primaryColor: model.primaryColor,
-                apiKey: model.assistApiKey,
-                onApiKeySaved: (newApiKey) {
-                  setState(() {
-                    model.assistApiKey = newApiKey;
-                  });
-                },
-              ),
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+            },
+          ),
         );
         model.isFirstTime = false;
       }
@@ -338,10 +336,9 @@ class _StockForecastingSampleState extends SampleViewState
                           child: Text(
                             'AI-Powered Stock Forecasting',
                             style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width > 600
-                                      ? 25 // Dynamic scaling
-                                      : 18, // Default font size for smaller screens
+                              fontSize: MediaQuery.of(context).size.width > 600
+                                  ? 25 // Dynamic scaling
+                                  : 18, // Default font size for smaller screens
                             ),
                           ),
                         ),
@@ -388,21 +385,20 @@ class _StockForecastingSampleState extends SampleViewState
         focusColor: Colors.transparent,
         value: _selectedDataSource,
         underline: Container(height: 1),
-        items:
-            _dataSorce!.map((String value) {
-              // Map each value to an image
-              final String iconPath = _getIconForValue(value);
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Row(
-                  children: [
-                    Image.asset(iconPath, height: 20, width: 20),
-                    const SizedBox(width: 8),
-                    Text(value, style: TextStyle(color: model.textColor)),
-                  ],
-                ),
-              );
-            }).toList(),
+        items: _dataSorce!.map((String value) {
+          // Map each value to an image
+          final String iconPath = _getIconForValue(value);
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Row(
+              children: [
+                Image.asset(iconPath, height: 20, width: 20),
+                const SizedBox(width: 8),
+                Text(value, style: TextStyle(color: model.textColor)),
+              ],
+            ),
+          );
+        }).toList(),
         onChanged: (dynamic value) {
           _onAxisRangeChange(value.toString());
         },
@@ -421,14 +417,12 @@ class _StockForecastingSampleState extends SampleViewState
           ])
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor:
-                    _autoscrollingDelta == item['value']
-                        ? model.primaryColor.withValues(alpha: 0.2)
-                        : null, // Default to white
-                foregroundColor:
-                    _autoscrollingDelta == item['value']
-                        ? model.primaryColor.withValues(alpha: 0.8)
-                        : model.textColor.withValues(alpha: 0.7),
+                backgroundColor: _autoscrollingDelta == item['value']
+                    ? model.primaryColor.withValues(alpha: 0.2)
+                    : null, // Default to white
+                foregroundColor: _autoscrollingDelta == item['value']
+                    ? model.primaryColor.withValues(alpha: 0.8)
+                    : model.textColor.withValues(alpha: 0.7),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -518,13 +512,12 @@ class _StockForecastingSampleState extends SampleViewState
         focusColor: Colors.transparent,
         underline: Container(height: 1),
         value: _selectedSeriesType,
-        items:
-            _seriesType!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'Candle',
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
+        items: _seriesType!.map((String value) {
+          return DropdownMenuItem<String>(
+            value: (value != null) ? value : 'Candle',
+            child: Text(value, style: TextStyle(color: model.textColor)),
+          );
+        }).toList(),
         onChanged: (dynamic value) {
           _onSeriesChange(value.toString());
         },
@@ -544,13 +537,12 @@ class _StockForecastingSampleState extends SampleViewState
             child: FloatingActionButton(
               mini: true,
               backgroundColor: model.primaryColor,
-              onPressed:
-                  _isRunning
-                      ? null
-                      : () {
-                        _isButtonClicked = true;
-                        _loadNewData();
-                      },
+              onPressed: _isRunning
+                  ? null
+                  : () {
+                      _isButtonClicked = true;
+                      _loadNewData();
+                    },
               child: Image.asset(
                 'images/ai_assist_view.png',
                 height: 30,
@@ -606,10 +598,9 @@ class _StockForecastingSampleState extends SampleViewState
         zoomMode: ZoomMode.x,
       ),
       onTrackballPositionChanging: (TrackballArgs args) {
-        args.chartPointInfo.label =
-            _selectedSeriesType == 'Line'
-                ? ' $_tooltipCompanyName: ${args.chartPointInfo.chartPoint!.y!.toStringAsFixed(2)}'
-                : '$_tooltipCompanyName \nHigh: ${args.chartPointInfo.chartPoint!.high!.toStringAsFixed(2)} \nLow: ${args.chartPointInfo.chartPoint!.low!.toStringAsFixed(2)} \nOpen: ${args.chartPointInfo.chartPoint!.open!.toStringAsFixed(2)} \nClose: ${args.chartPointInfo.chartPoint!.close!.toStringAsFixed(2)}  ';
+        args.chartPointInfo.label = _selectedSeriesType == 'Line'
+            ? ' $_tooltipCompanyName: ${args.chartPointInfo.chartPoint!.y!.toStringAsFixed(2)}'
+            : '$_tooltipCompanyName \nHigh: ${args.chartPointInfo.chartPoint!.high!.toStringAsFixed(2)} \nLow: ${args.chartPointInfo.chartPoint!.low!.toStringAsFixed(2)} \nOpen: ${args.chartPointInfo.chartPoint!.open!.toStringAsFixed(2)} \nClose: ${args.chartPointInfo.chartPoint!.close!.toStringAsFixed(2)}  ';
       },
       trackballBehavior: TrackballBehavior(
         enable: true,
@@ -627,10 +618,9 @@ class _StockForecastingSampleState extends SampleViewState
         plotBands: <PlotBand>[
           PlotBand(
             start: DateTime(2024, 6, 29),
-            color:
-                Theme.of(context).brightness == Brightness.light
-                    ? const Color.fromRGBO(231, 224, 236, 0.4)
-                    : const Color.fromRGBO(54, 50, 59, 0.4),
+            color: Theme.of(context).brightness == Brightness.light
+                ? const Color.fromRGBO(231, 224, 236, 0.4)
+                : const Color.fromRGBO(54, 50, 59, 0.4),
           ),
         ],
       ),
@@ -706,11 +696,10 @@ class _StockForecastingSampleState extends SampleViewState
           openValueMapper: (_ChartData data, _) => data.open,
           closeValueMapper: (_ChartData data, _) => data.close,
           animationDuration: 0,
-          onRendererCreated: (
-            ChartSeriesController<_ChartData, DateTime> controller,
-          ) {
-            _chartSeriesController = controller;
-          },
+          onRendererCreated:
+              (ChartSeriesController<_ChartData, DateTime> controller) {
+                _chartSeriesController = controller;
+              },
         );
         break;
       case 'Candle':
@@ -723,11 +712,10 @@ class _StockForecastingSampleState extends SampleViewState
           closeValueMapper: (_ChartData data, _) => data.close,
           animationDuration: 0,
           enableSolidCandles: true,
-          onRendererCreated: (
-            ChartSeriesController<_ChartData, DateTime> controller,
-          ) {
-            _chartSeriesController = controller;
-          },
+          onRendererCreated:
+              (ChartSeriesController<_ChartData, DateTime> controller) {
+                _chartSeriesController = controller;
+              },
         );
         break;
       case 'Line':
@@ -736,11 +724,10 @@ class _StockForecastingSampleState extends SampleViewState
           xValueMapper: (_ChartData data, _) => data.date,
           yValueMapper: (_ChartData data, _) => data.close,
           animationDuration: 0,
-          onRendererCreated: (
-            ChartSeriesController<_ChartData, DateTime> controller,
-          ) {
-            _chartSeriesController = controller;
-          },
+          onRendererCreated:
+              (ChartSeriesController<_ChartData, DateTime> controller) {
+                _chartSeriesController = controller;
+              },
         );
         break;
     }
@@ -844,11 +831,10 @@ class _StockForecastingSampleState extends SampleViewState
 
   // Method to send the message and process AI response.
   List<_ChartData> _generateCollection(String dataSource) {
-    final List<String> alphabetRows =
-        dataSource
-            .split(RegExp(r'[\r\n]+'))
-            .where((row) => row.isNotEmpty)
-            .toList();
+    final List<String> alphabetRows = dataSource
+        .split(RegExp(r'[\r\n]+'))
+        .where((row) => row.isNotEmpty)
+        .toList();
     final List<_ChartData> alphabetCollection = [];
 
     for (final String row in alphabetRows) {
@@ -883,8 +869,9 @@ class _StockForecastingSampleState extends SampleViewState
     DateTime nextDay = lastDate.add(const Duration(days: 1));
 
     // Get the close value of the last data as the starting open value
-    double? initialOpen =
-        stockData.firstWhere((data) => data.date == lastDate).close;
+    double? initialOpen = stockData
+        .firstWhere((data) => data.date == lastDate)
+        .close;
 
     // Generate 45 new data points
     for (int i = 1; i <= 45; i++) {

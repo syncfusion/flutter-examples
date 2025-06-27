@@ -121,8 +121,8 @@ class _SplineDashedState extends SampleViewState {
       SplineSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         dashArray: const <double>[12, 3, 3, 3],
         name: 'Sweden',
         markerSettings: const MarkerSettings(isVisible: true),
@@ -130,8 +130,8 @@ class _SplineDashedState extends SampleViewState {
       SplineSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
         dashArray: const <double>[12, 3, 3, 3],
         name: 'Greece',
         markerSettings: const MarkerSettings(isVisible: true),

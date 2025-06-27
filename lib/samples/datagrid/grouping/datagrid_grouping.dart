@@ -59,10 +59,12 @@ class _GroupingDataGridState extends SampleViewState {
     return <GridColumn>[
       GridColumn(
         columnName: 'ID',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
@@ -71,14 +73,14 @@ class _GroupingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'CustomerId',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !_isWebOrDesktop
-                ? 120
-                : (_isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : 160,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !_isWebOrDesktop
+            ? 120
+            : (_isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : 160,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
@@ -87,10 +89,12 @@ class _GroupingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'Name',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
@@ -98,11 +102,13 @@ class _GroupingDataGridState extends SampleViewState {
         ),
       ),
       GridColumn(
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         columnName: 'Freight',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
@@ -110,11 +116,13 @@ class _GroupingDataGridState extends SampleViewState {
         ),
       ),
       GridColumn(
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         columnName: 'City',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
@@ -123,10 +131,12 @@ class _GroupingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'Price',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),

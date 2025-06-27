@@ -284,9 +284,8 @@ class _ConsoleState extends State<Console> {
         padding: const EdgeInsets.all(5),
         child: ListView.separated(
           controller: _scrollController,
-          separatorBuilder:
-              (BuildContext context, int build) =>
-                  const Divider(color: Colors.grey, height: 4),
+          separatorBuilder: (BuildContext context, int build) =>
+              const Divider(color: Colors.grey, height: 4),
           itemCount: widget.actionsList.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(

@@ -55,10 +55,9 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
     _progressBarColor = ProgressBarColor(model);
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size =
-          model.isWebFullView
-              ? MediaQuery.of(context).size.height / 4.5
-              : MediaQuery.of(context).size.height / 4;
+      _size = model.isWebFullView
+          ? MediaQuery.of(context).size.height / 4.5
+          : MediaQuery.of(context).size.height / 4;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -145,10 +144,9 @@ class _ProgressBarSegmentStyleState extends SampleViewState {
               length: 0.3,
               thickness: 3,
               lengthUnit: GaugeSizeUnit.factor,
-              color:
-                  model.themeData.brightness == Brightness.light
-                      ? Colors.white
-                      : const Color.fromRGBO(33, 33, 33, 1),
+              color: model.themeData.brightness == Brightness.light
+                  ? Colors.white
+                  : const Color.fromRGBO(33, 33, 33, 1),
             ),
           ),
         ],

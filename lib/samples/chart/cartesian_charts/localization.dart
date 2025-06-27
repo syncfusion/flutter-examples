@@ -56,16 +56,15 @@ class _LocalizationChartState extends LocalizationSampleViewState {
 
           // Formatted the axis labels based on the selected culture
           numberFormat: NumberFormat.compactSimpleCurrency(
-            locale:
-                model.locale == const Locale('ar', 'AE')
-                    ? const Locale('ar', 'AE').toString()
-                    : model.locale == const Locale('en', 'US')
-                    ? const Locale('en', 'US').toString()
-                    : model.locale == const Locale('es', 'ES')
-                    ? const Locale('es', 'ES').toString()
-                    : model.locale == const Locale('fr', 'FR')
-                    ? const Locale('fr', 'FR').toString()
-                    : const Locale('zh', 'CN').toString(),
+            locale: model.locale == const Locale('ar', 'AE')
+                ? const Locale('ar', 'AE').toString()
+                : model.locale == const Locale('en', 'US')
+                ? const Locale('en', 'US').toString()
+                : model.locale == const Locale('es', 'ES')
+                ? const Locale('es', 'ES').toString()
+                : model.locale == const Locale('fr', 'FR')
+                ? const Locale('fr', 'FR').toString()
+                : const Locale('zh', 'CN').toString(),
           ),
           maximum: 2500,
           minimum: 500,

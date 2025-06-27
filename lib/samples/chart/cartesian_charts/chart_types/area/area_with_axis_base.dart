@@ -64,16 +64,15 @@ class _AxisCrossingBaseValueState extends SampleViewState {
                 focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedAxis,
-                items:
-                    _axis!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : '-2 (modified)',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: _axis!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : '-2 (modified)',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (dynamic value) {
                   _onAxisTypeChange(value.toString());
                   stateSetter(() {});
@@ -98,14 +97,12 @@ class _AxisCrossingBaseValueState extends SampleViewState {
       primaryXAxis: CategoryAxis(
         labelPlacement: LabelPlacement.onTicks,
         majorGridLines: const MajorGridLines(width: 0),
-        edgeLabelPlacement:
-            model.isWebFullView
-                ? EdgeLabelPlacement.shift
-                : EdgeLabelPlacement.none,
-        labelIntersectAction:
-            !isCardView
-                ? AxisLabelIntersectAction.rotate45
-                : AxisLabelIntersectAction.wrap,
+        edgeLabelPlacement: model.isWebFullView
+            ? EdgeLabelPlacement.shift
+            : EdgeLabelPlacement.none,
+        labelIntersectAction: !isCardView
+            ? AxisLabelIntersectAction.rotate45
+            : AxisLabelIntersectAction.wrap,
         crossesAt: _crossAt,
         placeLabelsNearAxisLine: false,
       ),
@@ -128,12 +125,11 @@ class _AxisCrossingBaseValueState extends SampleViewState {
     bool isMaterial3,
     bool isLightMode,
   ) {
-    final Color color =
-        isMaterial3
-            ? (isLightMode
-                ? const Color.fromRGBO(6, 174, 224, 1)
-                : const Color.fromRGBO(255, 245, 0, 1))
-            : const Color.fromRGBO(75, 135, 185, 1);
+    final Color color = isMaterial3
+        ? (isLightMode
+              ? const Color.fromRGBO(6, 174, 224, 1)
+              : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
     return <CartesianSeries<ChartSampleData, String>>[
       AreaSeries<ChartSampleData, String>(
         dataSource: <ChartSampleData>[

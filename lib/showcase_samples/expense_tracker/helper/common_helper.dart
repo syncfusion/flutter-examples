@@ -1,12 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
-import '../import_export/export.dart';
+// import '../import_export/export.dart';
 import '../models/transactional_data.dart';
 import '../models/transactional_details.dart';
 import '../models/user.dart';
 import '../models/user_profile.dart';
+import '../notifiers/theme_notifier.dart';
 
 Widget buildNoRecordsFound(BuildContext context) {
   final ThemeData themeData = Theme.of(context);
@@ -39,6 +42,34 @@ double measureTextWidth(String text, TextStyle style) {
   )..layout();
 
   return textPainter.size.width;
+}
+
+List<Color> randomColors(BuildContext context) {
+  final ThemeNotifier themeNotifier = Provider.of<ThemeNotifier>(
+    context,
+    listen: false,
+  );
+  final Random random = Random();
+  final List<Color> cardAvatarColors = _cardAvatarColors(themeNotifier);
+
+  return List.generate(10, (int index) {
+    return _randomColor(cardAvatarColors, random);
+  });
+}
+
+List<Color> _cardAvatarColors(ThemeNotifier themeNotifier) {
+  return themeNotifier.isDarkTheme ? Colors.primaries : _darkPrimaries();
+}
+
+Color _randomColor(List<Color> colors, Random random) {
+  return colors[random.nextInt(colors.length)];
+}
+
+List<MaterialColor> _darkPrimaries() {
+  const double luminanceThreshold = 0.7;
+  return Colors.primaries.where((Color color) {
+    return color.computeLuminance() < luminanceThreshold;
+  }).toList();
 }
 
 class SelectedCountsTag extends StatelessWidget {
@@ -136,35 +167,42 @@ class SelectedCountsTag extends StatelessWidget {
   }
 }
 
-List<Widget> _buildActionButtons(BuildContext context) {
-  final ColorScheme colorScheme = Theme.of(context).colorScheme;
-  final TextTheme textTheme = Theme.of(context).textTheme;
-  final ButtonStyle actionButtonStyle = TextButton.styleFrom(
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-  );
-  final TextStyle? actionButtonTextStyle = textTheme.labelLarge?.copyWith(
-    color: colorScheme.primary,
-  );
-  return <Widget>[
-    TextButton(
-      style: actionButtonStyle,
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-      child: Text('Cancel', style: actionButtonTextStyle),
-    ),
-    TextButton(
-      style: actionButtonStyle,
-      onPressed: () => Navigator.pop(context),
-      child: Text('OK', style: actionButtonTextStyle),
-    ),
-  ];
-}
+// List<Widget> _buildActionButtons(BuildContext context) {
+//   final ColorScheme colorScheme = Theme.of(context).colorScheme;
+//   final TextTheme textTheme = Theme.of(context).textTheme;
+//   final ButtonStyle actionButtonStyle = TextButton.styleFrom(
+//     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+//   );
+//   final TextStyle? actionButtonTextStyle = textTheme.labelLarge?.copyWith(
+//     color: colorScheme.primary,
+//   );
+//   return <Widget>[
+//     TextButton(
+//       style: actionButtonStyle,
+//       onPressed: () {
+//         Navigator.of(context).pop();
+//       },
+//       child: Text('Cancel', style: actionButtonTextStyle),
+//     ),
+//     TextButton(
+//       style: actionButtonStyle,
+//       onPressed: () => Navigator.pop(context),
+//       child: Text('OK', style: actionButtonTextStyle),
+//     ),
+//   ];
+// }
 
 UserDetails setDefaultUserDetails(Profile userProfile) {
   return UserDetails(
     userProfile: userProfile,
-    transactionalData: TransactionalData(data: <TransactionalDetails>[]),
+    transactionalData: TransactionalData(
+      data: TransactionalDetails(
+        transactions: [],
+        budgets: [],
+        goals: [],
+        savings: [],
+      ),
+    ),
   );
 }
 
@@ -174,9 +212,9 @@ Future<void> handleOnTapExportLogic(
   String? pageName,
 ]) async {
   // This function will be used as the onTap callback for the export button
-  final ExportService exportService = ExportService();
-  final ColorScheme colorScheme = Theme.of(context).colorScheme;
-  final TextTheme textTheme = Theme.of(context).textTheme;
+  // final ExportService exportService = ExportService();
+  // final ColorScheme colorScheme = Theme.of(context).colorScheme;
+  // final TextTheme textTheme = Theme.of(context).textTheme;
 
   // Show the loading dialog
   showDialog<Widget>(
@@ -185,98 +223,95 @@ Future<void> handleOnTapExportLogic(
     builder: (BuildContext context) {
       Future.delayed(const Duration(seconds: 1), () async {
         // Export data
-        if (context.mounted) {
-          final String? path = await exportService.exportSettingsToExcel(
-            context,
-            sheetsToExport: data != null ? <String>[data] : null,
-          );
-          if (context.mounted) {
-            // After delay, close loading dialog
-            Navigator.pop(context);
+        // if (context.mounted) {
+        //   final String? path = await exportService.exportSettingsToExcel(
+        //     context,
+        //     sheetsToExport: data != null ? <String>[data] : null,
+        //   );
+        //   if (context.mounted) {
+        //     // After delay, close loading dialog
+        //     Navigator.pop(context);
 
-            // Once export is complete, show the result dialog
-            showDialog<Widget>(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  titlePadding: const EdgeInsets.all(24),
-                  contentPadding: const EdgeInsetsDirectional.only(
-                    start: 24,
-                    top: 16,
-                    end: 24,
-                    bottom: 16,
-                  ),
-                  actionsPadding: const EdgeInsets.all(24),
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        path != null ? 'Exported' : 'Export Failed',
-                        style: textTheme.headlineSmall?.copyWith(
-                          color: colorScheme.onSurface,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            IconData(0xe721, fontFamily: fontIconFamily),
-                            size: 24,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  content:
-                      path != null
-                          ? Row(
-                            spacing: 8.0,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Expanded(
-                                child: Text(
-                                  '$pageName data exported to:\n$path',
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
-                                  style: textTheme.bodyLarge?.copyWith(
-                                    color: colorScheme.onSurface,
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.copy),
-                                onPressed: () {
-                                  // Copy path to clipboard
-                                  Clipboard.setData(ClipboardData(text: path));
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Path copied to clipboard!',
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          )
-                          : Text(
-                            'No $pageName data found to export.',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                            style: textTheme.bodyLarge?.copyWith(
-                              color: colorScheme.onSurface,
-                            ),
-                          ),
-                  actions: _buildActionButtons(context),
-                );
-              },
-            );
-          }
-        }
+        //     // Once export is complete, show the result dialog
+        //     showDialog<Widget>(
+        //       context: context,
+        //       builder: (BuildContext context) {
+        //         return AlertDialog(
+        //           titlePadding: const EdgeInsets.all(24),
+        //           contentPadding: const EdgeInsetsDirectional.only(
+        //             start: 24,
+        //             top: 16,
+        //             end: 24,
+        //             bottom: 16,
+        //           ),
+        //           actionsPadding: const EdgeInsets.all(24),
+        //           title: Row(
+        //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //             mainAxisSize: MainAxisSize.min,
+        //             children: [
+        //               Text(
+        //                 path != null ? 'Exported' : 'Export Failed',
+        //                 style: textTheme.headlineSmall?.copyWith(
+        //                   color: colorScheme.onSurface,
+        //                 ),
+        //               ),
+        //               Padding(
+        //                 padding: const EdgeInsets.only(top: 5),
+        //                 child: IconButton(
+        //                   onPressed: () {
+        //                     Navigator.pop(context);
+        //                   },
+        //                   icon: const Icon(
+        //                     IconData(0xe721, fontFamily: fontIconFamily),
+        //                     size: 24,
+        //                   ),
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //           content: path != null
+        //               ? Row(
+        //                   spacing: 8.0,
+        //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                   children: <Widget>[
+        //                     Expanded(
+        //                       child: Text(
+        //                         '$pageName data exported to:\n$path',
+        //                         overflow: TextOverflow.ellipsis,
+        //                         maxLines: 3,
+        //                         style: textTheme.bodyLarge?.copyWith(
+        //                           color: colorScheme.onSurface,
+        //                         ),
+        //                       ),
+        //                     ),
+        //                     IconButton(
+        //                       icon: const Icon(Icons.copy),
+        //                       onPressed: () {
+        //                         // Copy path to clipboard
+        //                         Clipboard.setData(ClipboardData(text: path));
+        //                         ScaffoldMessenger.of(context).showSnackBar(
+        //                           const SnackBar(
+        //                             content: Text('Path copied to clipboard!'),
+        //                           ),
+        //                         );
+        //                       },
+        //                     ),
+        //                   ],
+        //                 )
+        //               : Text(
+        //                   'No $pageName data found to export.',
+        //                   overflow: TextOverflow.ellipsis,
+        //                   maxLines: 3,
+        //                   style: textTheme.bodyLarge?.copyWith(
+        //                     color: colorScheme.onSurface,
+        //                   ),
+        //                 ),
+        //           actions: _buildActionButtons(context),
+        //         );
+        //       },
+        //     );
+        //   }
+        // }
       });
 
       // Return a loading indicator while waiting

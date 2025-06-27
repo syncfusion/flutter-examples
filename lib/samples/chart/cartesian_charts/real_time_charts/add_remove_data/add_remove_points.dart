@@ -78,12 +78,11 @@ class _LiveVerticalState extends SampleViewState {
             padding: const EdgeInsets.fromLTRB(30, 50, 0, 0),
             child: SizedBox(
               height: isCardView ? 40 : 45,
-              width:
-                  model.isWebFullView
-                      ? 140
-                      : isCardView
-                      ? 100
-                      : 110,
+              width: model.isWebFullView
+                  ? 140
+                  : isCardView
+                  ? 100
+                  : 110,
               child: InkWell(
                 splashColor: Colors.transparent,
                 child: Row(
@@ -170,11 +169,10 @@ class _LiveVerticalState extends SampleViewState {
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
         animationDuration: 0,
-        onRendererCreated: (
-          ChartSeriesController<ChartSampleData, num> controller,
-        ) {
-          _chartSeriesController = controller;
-        },
+        onRendererCreated:
+            (ChartSeriesController<ChartSampleData, num> controller) {
+              _chartSeriesController = controller;
+            },
       ),
     ];
   }

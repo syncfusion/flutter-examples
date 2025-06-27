@@ -82,16 +82,15 @@ class _CategoryTicksState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedType,
-                    items:
-                        _labelPosition!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'betweenTicks',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _labelPosition!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'betweenTicks',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onPositionTypeChange(value.toString());
                       stateSetter(() {});

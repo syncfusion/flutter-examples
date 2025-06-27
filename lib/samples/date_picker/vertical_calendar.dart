@@ -22,8 +22,11 @@ class _VerticalCalendarPickerState extends SampleViewState {
   DateRangePickerNavigationMode _navigationMode =
       DateRangePickerNavigationMode.scroll;
   String _navigationModeString = 'scroll';
-  final List<String> _navigationModeList =
-      <String>['none', 'snap', 'scroll'].toList();
+  final List<String> _navigationModeList = <String>[
+    'none',
+    'snap',
+    'scroll',
+  ].toList();
 
   @override
   void didChangeDependencies() {
@@ -60,17 +63,16 @@ class _VerticalCalendarPickerState extends SampleViewState {
                         height: 1,
                       ),
                       value: _navigationModeString,
-                      items:
-                          _navigationModeList.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'scroll',
-                              child: Text(
-                                value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor),
-                              ),
-                            );
-                          }).toList(),
+                      items: _navigationModeList.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'scroll',
+                          child: Text(
+                            value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: model.textColor),
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (dynamic value) {
                         _onNavigationModeChange(value);
                         stateSetter(() {});
@@ -110,42 +112,39 @@ class _VerticalCalendarPickerState extends SampleViewState {
     );
     final Widget cardView = Card(
       elevation: 10,
-      margin:
-          model.isWebFullView
-              ? const EdgeInsets.fromLTRB(30, 20, 30, 10)
-              : const EdgeInsets.fromLTRB(30, 30, 30, 10),
-      child:
-          model.isWebFullView
-              ? ListView(children: <Widget>[calendar])
-              : calendar,
+      margin: model.isWebFullView
+          ? const EdgeInsets.fromLTRB(30, 20, 30, 10)
+          : const EdgeInsets.fromLTRB(30, 30, 30, 10),
+      child: model.isWebFullView
+          ? ListView(children: <Widget>[calendar])
+          : calendar,
     );
     return Scaffold(
       backgroundColor:
           model.themeData == null ||
-                  model.themeData.colorScheme.brightness == Brightness.light
-              ? null
-              : const Color(0x00171a21),
+              model.themeData.colorScheme.brightness == Brightness.light
+          ? null
+          : const Color(0x00171a21),
       body: Column(
         children: <Widget>[
           Expanded(
             flex: 9,
-            child:
-                model.isWebFullView
-                    ? Center(
-                      child: SizedBox(
-                        width: 400,
-                        height: 580, // 580 defines 550 height and 30 margin.
+            child: model.isWebFullView
+                ? Center(
+                    child: SizedBox(
+                      width: 400,
+                      height: 580, // 580 defines 550 height and 30 margin.
+                      child: cardView,
+                    ),
+                  )
+                : ListView(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 590, // 590 defines 550 height and 40 margin.
                         child: cardView,
                       ),
-                    )
-                    : ListView(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 590, // 590 defines 550 height and 40 margin.
-                          child: cardView,
-                        ),
-                      ],
-                    ),
+                    ],
+                  ),
           ),
         ],
       ),

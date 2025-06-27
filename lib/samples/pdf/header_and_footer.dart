@@ -42,15 +42,14 @@ class _HeaderAndFooterPdfState extends SampleViewState {
                     backgroundColor: WidgetStateProperty.all<Color>(
                       model.primaryColor,
                     ),
-                    padding:
-                        model.isMobile
-                            ? null
-                            : WidgetStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                vertical: 15,
-                                horizontal: 15,
-                              ),
+                    padding: model.isMobile
+                        ? null
+                        : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
                             ),
+                          ),
                   ),
                   onPressed: _generatePDF,
                   child: const Text(
@@ -465,16 +464,16 @@ class _HeaderAndFooterPdfState extends SampleViewState {
         PdfFontFamily.helvetica,
         isTitle
             ? mainTitle
-                ? 24
-                : 18
+                  ? 24
+                  : 18
             : 13,
-        style:
-            (isTitle && !mainTitle) ? PdfFontStyle.bold : PdfFontStyle.regular,
+        style: (isTitle && !mainTitle)
+            ? PdfFontStyle.bold
+            : PdfFontStyle.regular,
       ),
-      format:
-          mainTitle
-              ? PdfStringFormat(alignment: PdfTextAlignment.center)
-              : PdfStringFormat(alignment: PdfTextAlignment.justify),
+      format: mainTitle
+          ? PdfStringFormat(alignment: PdfTextAlignment.center)
+          : PdfStringFormat(alignment: PdfTextAlignment.justify),
     ).draw(
       page: page,
       bounds: Rect.fromLTWH(
@@ -538,10 +537,9 @@ class _HeaderAndFooterPdfState extends SampleViewState {
     annotation.border.width = 0;
     page.annotations.add(annotation);
     String str = text + ' ';
-    final num value =
-        isTitle
-            ? font.measureString(text).width.round() + 20
-            : font.measureString(text).width.round() + 40;
+    final num value = isTitle
+        ? font.measureString(text).width.round() + 20
+        : font.measureString(text).width.round() + 40;
     for (num i = value; i < 470;) {
       str = str + '.';
       i = i + 3.6140000000000003;

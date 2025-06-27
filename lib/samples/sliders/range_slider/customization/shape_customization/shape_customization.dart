@@ -58,19 +58,20 @@ class _ShapeCustomizedRangeSliderPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget rangeSlider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget rangeSlider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 400
             ? rangeSlider
             : SingleChildScrollView(
-              child: SizedBox(
-                height: 500,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                  child: rangeSlider,
+                child: SizedBox(
+                  height: 500,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                    child: rangeSlider,
+                  ),
                 ),
-              ),
-            );
+              );
       },
     );
   }

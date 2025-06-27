@@ -69,16 +69,15 @@ class _TooltipPositionState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedTooltipPosition,
-                    items:
-                        _tooltipPositionList.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'auto',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _tooltipPositionList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'auto',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _updateTooltipPosition(value.toString());
                       stateSetter(() {});

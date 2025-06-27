@@ -42,10 +42,9 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
           RadialAxis(
             radiusFactor: 0.8,
             axisLineStyle: AxisLineStyle(
-              color:
-                  model.themeData.colorScheme.brightness == Brightness.light
-                      ? const Color.fromRGBO(191, 214, 245, 1)
-                      : const Color.fromRGBO(36, 58, 89, 1),
+              color: model.themeData.colorScheme.brightness == Brightness.light
+                  ? const Color.fromRGBO(191, 214, 245, 1)
+                  : const Color.fromRGBO(36, 58, 89, 1),
               thickness: 0.05,
               thicknessUnit: GaugeSizeUnit.factor,
             ),
@@ -58,10 +57,9 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
                 endValue: _secondMarkerValue,
                 startValue: _firstMarkerValue,
                 sizeUnit: GaugeSizeUnit.factor,
-                color:
-                    _enableDragging
-                        ? const Color.fromRGBO(44, 117, 220, 1)
-                        : const Color(0xFF888888),
+                color: _enableDragging
+                    ? const Color.fromRGBO(44, 117, 220, 1)
+                    : const Color(0xFF888888),
                 endWidth: 0.05,
                 startWidth: 0.05,
               ),
@@ -73,10 +71,9 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
                 onValueChanged: handleFirstPointerValueChanged,
                 onValueChanging: handleFirstPointerValueChanging,
                 enableDragging: _enableDragging,
-                color:
-                    _enableDragging
-                        ? const Color.fromRGBO(44, 117, 220, 1)
-                        : const Color(0xFF888888),
+                color: _enableDragging
+                    ? const Color.fromRGBO(44, 117, 220, 1)
+                    : const Color(0xFF888888),
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,
@@ -87,10 +84,9 @@ class _RadialRangeSliderStateTypesState extends SampleViewState {
                 onValueChanged: handleSecondPointerValueChanged,
                 onValueChanging: handleSecondPointerValueChanging,
                 enableDragging: _enableDragging,
-                color:
-                    _enableDragging
-                        ? const Color.fromRGBO(44, 117, 220, 1)
-                        : const Color(0xFF888888),
+                color: _enableDragging
+                    ? const Color.fromRGBO(44, 117, 220, 1)
+                    : const Color(0xFF888888),
                 markerHeight: _markerSize,
                 markerWidth: _markerSize,
                 markerType: MarkerType.circle,

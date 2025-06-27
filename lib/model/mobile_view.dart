@@ -66,30 +66,27 @@ class _LayoutPageState extends State<LayoutPage> {
                 'card');
     currentSample =
         _category.controlList![_category.selectedIndex!].subItems[0].type ==
-                'sample'
-            ? _category.controlList![_category.selectedIndex!].subItems[0]
-                as SubItem
-            : (_category
-                        .controlList![_category.selectedIndex!]
-                        .subItems[0]
-                        .type !=
-                    'parent' &&
-                _category
-                        .controlList![_category.selectedIndex!]
-                        .subItems[0]
-                        .displayType !=
-                    'card' &&
-                _category
-                        .controlList![_category.selectedIndex!]
-                        .subItems[0]
-                        .subItems !=
-                    null)
-            ? _category
-                    .controlList![_category.selectedIndex!]
-                    .subItems[0]
-                    .subItems[0]
-                as SubItem
-            : null;
+            'sample'
+        ? _category.controlList![_category.selectedIndex!].subItems[0]
+              as SubItem
+        : (_category.controlList![_category.selectedIndex!].subItems[0].type !=
+                  'parent' &&
+              _category
+                      .controlList![_category.selectedIndex!]
+                      .subItems[0]
+                      .displayType !=
+                  'card' &&
+              _category
+                      .controlList![_category.selectedIndex!]
+                      .subItems[0]
+                      .subItems !=
+                  null)
+        ? _category
+                  .controlList![_category.selectedIndex!]
+                  .subItems[0]
+                  .subItems[0]
+              as SubItem
+        : null;
 
     return SafeArea(
       child: DefaultTabController(
@@ -107,129 +104,125 @@ class _LayoutPageState extends State<LayoutPage> {
             backgroundColor: _model.primaryColor,
             bottom:
                 (_category.controlList![_category.selectedIndex!].sampleList !=
-                                null &&
-                            _category
-                                    .controlList![_category.selectedIndex!]
-                                    .displayType ==
-                                'card') ||
+                            null &&
                         _category
                                 .controlList![_category.selectedIndex!]
-                                .subItems
-                                .length ==
-                            1
-                    ? null
-                    : TabBar(
-                      onTap: (int index) {
-                        if (index != _primaryTabIndex) {
-                          _primaryTabIndex = index;
-                          _secondaryTabIndex = 0;
-                          if (codeIconChangeSetState != null) {
-                            codeIconChangeSetState!(() {
-                              currentSample =
-                                  _category
-                                              .controlList![_category
-                                                  .selectedIndex!]
-                                              .subItems[index]
-                                              .type ==
-                                          'sample'
-                                      ? _category
-                                              .controlList![_category
-                                                  .selectedIndex!]
-                                              .subItems[index]
-                                          as SubItem
-                                      : ((_category
-                                                      .controlList![_category
-                                                          .selectedIndex!]
-                                                      .subItems[index]
-                                                      .type !=
-                                                  'parent' &&
-                                              _category
-                                                      .controlList![_category
-                                                          .selectedIndex!]
-                                                      .subItems[index]
-                                                      .displayType !=
-                                                  'card' &&
-                                              _category
-                                                      .controlList![_category
-                                                          .selectedIndex!]
-                                                      .subItems[index]
-                                                      .subItems
-                                                      .length ==
-                                                  1)
-                                          ? _category
-                                                  .controlList![_category
-                                                      .selectedIndex!]
-                                                  .subItems[index]
-                                                  .subItems[0]
-                                              as SubItem
-                                          : _category
-                                                  .controlList![_category
-                                                      .selectedIndex!]
-                                                  .subItems[index]
-                                                  .subItems[0]
-                                              as SubItem);
-
-                              if (currentSample != null &&
-                                  currentSample!.subItems != null &&
-                                  currentSample!.subItems!.length == 1) {
-                                currentSample =
-                                    currentSample!.subItems![0] as SubItem;
-                              }
-
-                              resetLocaleValue(_model, currentSample!);
-
-                              _showIcon =
-                                  _category
+                                .displayType ==
+                            'card') ||
+                    _category
+                            .controlList![_category.selectedIndex!]
+                            .subItems
+                            .length ==
+                        1
+                ? null
+                : TabBar(
+                    onTap: (int index) {
+                      if (index != _primaryTabIndex) {
+                        _primaryTabIndex = index;
+                        _secondaryTabIndex = 0;
+                        if (codeIconChangeSetState != null) {
+                          codeIconChangeSetState!(() {
+                            currentSample =
+                                _category
+                                        .controlList![_category.selectedIndex!]
+                                        .subItems[index]
+                                        .type ==
+                                    'sample'
+                                ? _category
                                           .controlList![_category
                                               .selectedIndex!]
                                           .subItems[index]
-                                          .type ==
-                                      'sample' ||
-                                  (_category
-                                              .controlList![_category
-                                                  .selectedIndex!]
-                                              .subItems[index]
-                                              .type !=
-                                          'parent' &&
-                                      _category
-                                              .controlList![_category
-                                                  .selectedIndex!]
-                                              .subItems[index]
-                                              .displayType !=
-                                          'card') ||
-                                  (_category
-                                              .controlList![_category
-                                                  .selectedIndex!]
-                                              .subItems[index]
-                                              .type ==
-                                          'parent' &&
-                                      _category
-                                              .controlList![_category
-                                                  .selectedIndex!]
-                                              .subItems[index]
-                                              .subItems[0]
-                                              .displayType ==
-                                          'tab');
-                              infoIconChangeSetState!(() {});
-                            });
-                          }
+                                      as SubItem
+                                : ((_category
+                                                  .controlList![_category
+                                                      .selectedIndex!]
+                                                  .subItems[index]
+                                                  .type !=
+                                              'parent' &&
+                                          _category
+                                                  .controlList![_category
+                                                      .selectedIndex!]
+                                                  .subItems[index]
+                                                  .displayType !=
+                                              'card' &&
+                                          _category
+                                                  .controlList![_category
+                                                      .selectedIndex!]
+                                                  .subItems[index]
+                                                  .subItems
+                                                  .length ==
+                                              1)
+                                      ? _category
+                                                .controlList![_category
+                                                    .selectedIndex!]
+                                                .subItems[index]
+                                                .subItems[0]
+                                            as SubItem
+                                      : _category
+                                                .controlList![_category
+                                                    .selectedIndex!]
+                                                .subItems[index]
+                                                .subItems[0]
+                                            as SubItem);
+
+                            if (currentSample != null &&
+                                currentSample!.subItems != null &&
+                                currentSample!.subItems!.length == 1) {
+                              currentSample =
+                                  currentSample!.subItems![0] as SubItem;
+                            }
+
+                            resetLocaleValue(_model, currentSample!);
+
+                            _showIcon =
+                                _category
+                                        .controlList![_category.selectedIndex!]
+                                        .subItems[index]
+                                        .type ==
+                                    'sample' ||
+                                (_category
+                                            .controlList![_category
+                                                .selectedIndex!]
+                                            .subItems[index]
+                                            .type !=
+                                        'parent' &&
+                                    _category
+                                            .controlList![_category
+                                                .selectedIndex!]
+                                            .subItems[index]
+                                            .displayType !=
+                                        'card') ||
+                                (_category
+                                            .controlList![_category
+                                                .selectedIndex!]
+                                            .subItems[index]
+                                            .type ==
+                                        'parent' &&
+                                    _category
+                                            .controlList![_category
+                                                .selectedIndex!]
+                                            .subItems[index]
+                                            .subItems[0]
+                                            .displayType ==
+                                        'tab');
+                            infoIconChangeSetState!(() {});
+                          });
                         }
-                      },
-                      dividerColor: widget.sampleModel!.primaryColor,
-                      indicator: const UnderlineTabIndicator(
-                        borderSide: BorderSide(
-                          width: 5.0,
-                          color: Color.fromRGBO(252, 220, 0, 1),
-                        ),
-                      ),
-                      isScrollable: true,
-                      tabs: _buildTabs(
-                        _category
-                            .controlList![_category.selectedIndex!]
-                            .subItems,
-                        'parent',
+                      }
+                    },
+                    dividerColor: widget.sampleModel!.primaryColor,
+                    indicator: const UnderlineTabIndicator(
+                      borderSide: BorderSide(
+                        width: 5.0,
+                        color: Color.fromRGBO(252, 220, 0, 1),
                       ),
                     ),
+                    isScrollable: true,
+                    tabs: _buildTabs(
+                      _category.controlList![_category.selectedIndex!].subItems,
+                      'parent',
+                    ),
+                  ),
             title: Text(
               '${_category.controlList![_category.selectedIndex!].title}',
               style: TextStyle(
@@ -241,128 +234,120 @@ class _LayoutPageState extends State<LayoutPage> {
             ),
             actions:
                 ((_category.controlList![_category.selectedIndex!].sampleList !=
-                                null &&
-                            _category
-                                    .controlList![_category.selectedIndex!]
-                                    .displayType !=
-                                'card') ||
-                        (_category
-                                    .controlList![_category.selectedIndex!]
-                                    .childList !=
-                                null &&
-                            _category
-                                    .controlList![_category.selectedIndex!]
-                                    .childList[_primaryTabIndex]
-                                    .displayType !=
-                                'card') ||
-                        isInitState)
-                    ? <Widget>[
-                      StatefulBuilder(
-                        builder: (
-                          BuildContext buildContext,
-                          StateSetter setState,
-                        ) {
-                          codeIconChangeSetState = setState;
-                          return Visibility(
-                            visible: _showIcon && currentSample != null,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                              child: SizedBox(
-                                height: 37,
-                                width: 37,
-                                child: IconButton(
-                                  icon: Image.asset(
-                                    'images/git_hub_mobile.png',
-                                    color:
-                                        widget.sampleModel!.baseAppBarItemColor,
+                            null &&
+                        _category
+                                .controlList![_category.selectedIndex!]
+                                .displayType !=
+                            'card') ||
+                    (_category
+                                .controlList![_category.selectedIndex!]
+                                .childList !=
+                            null &&
+                        _category
+                                .controlList![_category.selectedIndex!]
+                                .childList[_primaryTabIndex]
+                                .displayType !=
+                            'card') ||
+                    isInitState)
+                ? <Widget>[
+                    StatefulBuilder(
+                      builder:
+                          (BuildContext buildContext, StateSetter setState) {
+                            codeIconChangeSetState = setState;
+                            return Visibility(
+                              visible: _showIcon && currentSample != null,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                child: SizedBox(
+                                  height: 37,
+                                  width: 37,
+                                  child: IconButton(
+                                    icon: Image.asset(
+                                      'images/git_hub_mobile.png',
+                                      color: widget
+                                          .sampleModel!
+                                          .baseAppBarItemColor,
+                                    ),
+                                    onPressed: () {
+                                      launchUrl(
+                                        Uri.parse(currentSample!.codeLink!),
+                                      );
+                                    },
                                   ),
-                                  onPressed: () {
-                                    launchUrl(
-                                      Uri.parse(currentSample!.codeLink!),
-                                    );
-                                  },
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                      StatefulBuilder(
-                        builder: (
-                          BuildContext buildContext,
-                          StateSetter setState,
-                        ) {
-                          infoIconChangeSetState = setState;
-                          return Visibility(
-                            visible:
-                                _showIcon &&
-                                currentSample != null &&
-                                currentSample!.description != null &&
-                                currentSample!.description != '',
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                              child: SizedBox(
-                                height: 40,
-                                width: 40,
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.info_outline,
-                                    color:
-                                        widget.sampleModel!.baseAppBarItemColor,
+                            );
+                          },
+                    ),
+                    StatefulBuilder(
+                      builder:
+                          (BuildContext buildContext, StateSetter setState) {
+                            infoIconChangeSetState = setState;
+                            return Visibility(
+                              visible:
+                                  _showIcon &&
+                                  currentSample != null &&
+                                  currentSample!.description != null &&
+                                  currentSample!.description != '',
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                child: SizedBox(
+                                  height: 40,
+                                  width: 40,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.info_outline,
+                                      color: widget
+                                          .sampleModel!
+                                          .baseAppBarItemColor,
+                                    ),
+                                    onPressed: () {
+                                      showBottomInfo(
+                                        context,
+                                        currentSample!.description!,
+                                      );
+                                    },
                                   ),
-                                  onPressed: () {
-                                    showBottomInfo(
-                                      context,
-                                      currentSample!.description!,
-                                    );
-                                  },
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    ]
-                    : null,
+                            );
+                          },
+                    ),
+                  ]
+                : null,
           ),
           body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children:
                 (_category.controlList![_category.selectedIndex!].sampleList !=
-                            null) ||
+                        null) ||
+                    _category
+                            .controlList![_category.selectedIndex!]
+                            .subItems
+                            .length ==
+                        1
+                ? _buildSamples(
+                    _model,
+                    _category.controlList![_category.selectedIndex!].sampleList,
+                    _category
+                        .controlList![_category.selectedIndex!]
+                        .displayType,
+                  )
+                : (_category.controlList![_category.selectedIndex!].childList !=
+                          null &&
+                      _checkSubItemsType(
                         _category
-                                .controlList![_category.selectedIndex!]
-                                .subItems
-                                .length ==
-                            1
-                    ? _buildSamples(
-                      _model,
-                      _category
-                          .controlList![_category.selectedIndex!]
-                          .sampleList,
-                      _category
-                          .controlList![_category.selectedIndex!]
-                          .displayType,
-                    )
-                    : (_category
-                                .controlList![_category.selectedIndex!]
-                                .childList !=
-                            null &&
-                        _checkSubItemsType(
-                          _category
-                              .controlList![_category.selectedIndex!]
-                              .subItems,
-                        ))
-                    ? _buildChildTabViewChildren(
-                      _model,
-                      _category
-                          .controlList![_category.selectedIndex!]
-                          .childList,
-                    )
-                    : _buildParentTabViewChildren(
-                      _model,
-                      _category.controlList![_category.selectedIndex!].subItems,
-                    ),
+                            .controlList![_category.selectedIndex!]
+                            .subItems,
+                      ))
+                ? _buildChildTabViewChildren(
+                    _model,
+                    _category.controlList![_category.selectedIndex!].childList,
+                  )
+                : _buildParentTabViewChildren(
+                    _model,
+                    _category.controlList![_category.selectedIndex!].subItems,
+                  ),
           ),
         ),
       ),
@@ -385,10 +370,9 @@ class _LayoutPageState extends State<LayoutPage> {
     SampleModel model,
     List<SubItem> list,
     String? displayType,
-  ) =>
-      displayType == 'card'
-          ? _buildCardViewSamples(model, list)
-          : _buildFullViewSamples(model, list);
+  ) => displayType == 'card'
+      ? _buildCardViewSamples(model, list)
+      : _buildFullViewSamples(model, list);
 
   /// Get tabs which length is equal to list length.
   List<Widget> _buildTabs(List<SubItem> list, [String? tabView]) {
@@ -403,16 +387,15 @@ class _LayoutPageState extends State<LayoutPage> {
               children: <Widget>[
                 Text(
                   list[i].title.toString() + (status != '' ? '  ' : ''),
-                  style:
-                      tabView != 'parent'
-                          ? const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                          )
-                          : TextStyle(
-                            fontSize: 15,
-                            color: widget.sampleModel!.baseAppBarItemColor,
-                          ),
+                  style: tabView != 'parent'
+                      ? const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        )
+                      : TextStyle(
+                          fontSize: 15,
+                          color: widget.sampleModel!.baseAppBarItemColor,
+                        ),
                 ),
                 if (status == '')
                   Container()
@@ -421,12 +404,11 @@ class _LayoutPageState extends State<LayoutPage> {
                     height: tabView != 'parent' ? 17 : 20,
                     width: tabView != 'parent' ? 17 : 20,
                     decoration: BoxDecoration(
-                      color:
-                          status == 'N'
-                              ? const Color.fromRGBO(55, 153, 30, 1)
-                              : status == 'U'
-                              ? const Color.fromRGBO(246, 117, 0, 1)
-                              : Colors.transparent,
+                      color: status == 'N'
+                          ? const Color.fromRGBO(55, 153, 30, 1)
+                          : status == 'U'
+                          ? const Color.fromRGBO(246, 117, 0, 1)
+                          : Colors.transparent,
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
@@ -467,75 +449,74 @@ class _LayoutPageState extends State<LayoutPage> {
         Scaffold(
           backgroundColor: model.sampleOutputCardColor,
           body: sampleView,
-          floatingActionButton:
-              needsFloatingBotton
-                  ? Stack(
-                    children: <Widget>[
-                      if (sampleDetail.sourceLink != null &&
-                          sampleDetail.sourceLink != '')
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-                            child: SizedBox(
-                              height: 30,
-                              width: 230,
-                              child: InkWell(
-                                onTap:
-                                    () => launchUrl(
-                                      Uri.parse(sampleDetail.sourceLink!),
+          floatingActionButton: needsFloatingBotton
+              ? Stack(
+                  children: <Widget>[
+                    if (sampleDetail.sourceLink != null &&
+                        sampleDetail.sourceLink != '')
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          child: SizedBox(
+                            height: 30,
+                            width: 230,
+                            child: InkWell(
+                              onTap: () => launchUrl(
+                                Uri.parse(sampleDetail.sourceLink!),
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    'Source: ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: model.textColor,
                                     ),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      'Source: ',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: model.textColor,
-                                      ),
+                                  ),
+                                  Text(
+                                    sampleDetail.sourceText!,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.blue,
                                     ),
-                                    Text(
-                                      sampleDetail.sourceText!,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        )
-                      else
-                        Container(),
-                      if (sampleDetail.needsPropertyPanel != true)
-                        Container()
-                      else
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: FloatingActionButton(
-                            heroTag: null,
-                            onPressed: () {
-                              final GlobalKey sampleKey =
-                                  sampleView.key! as GlobalKey;
-                              final Widget settingsContent =
-                                  _buildSettingsView(sampleKey)!;
-                              showBottomPropertySettingsPanel(
-                                context,
-                                settingsContent,
-                              );
-                            },
-                            backgroundColor: model.primaryColor,
-                            child: const Icon(
-                              Icons.graphic_eq,
-                              color: Colors.white,
-                            ),
+                        ),
+                      )
+                    else
+                      Container(),
+                    if (sampleDetail.needsPropertyPanel != true)
+                      Container()
+                    else
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {
+                            final GlobalKey sampleKey =
+                                sampleView.key! as GlobalKey;
+                            final Widget settingsContent = _buildSettingsView(
+                              sampleKey,
+                            )!;
+                            showBottomPropertySettingsPanel(
+                              context,
+                              settingsContent,
+                            );
+                          },
+                          backgroundColor: model.primaryColor,
+                          child: const Icon(
+                            Icons.graphic_eq,
+                            color: Colors.white,
                           ),
                         ),
-                    ],
-                  )
-                  : null,
+                      ),
+                  ],
+                )
+              : null,
         ),
       );
     }
@@ -585,10 +566,9 @@ class _LayoutPageState extends State<LayoutPage> {
             sampleView = sampleWidget(GlobalKey<State>()) as SampleView;
 
             return Container(
-              color:
-                  model.themeData.colorScheme.brightness == Brightness.dark
-                      ? Colors.black
-                      : const Color.fromRGBO(250, 250, 250, 1),
+              color: model.themeData.colorScheme.brightness == Brightness.dark
+                  ? Colors.black
+                  : const Color.fromRGBO(250, 250, 250, 1),
               padding: const EdgeInsets.all(5.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -632,23 +612,22 @@ class _LayoutPageState extends State<LayoutPage> {
                                   children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
-                                        color:
-                                            (status != null && status != '')
-                                                ? (status == 'New' ||
-                                                        status == 'new'
-                                                    ? const Color.fromRGBO(
+                                        color: (status != null && status != '')
+                                            ? (status == 'New' ||
+                                                      status == 'new'
+                                                  ? const Color.fromRGBO(
                                                       55,
                                                       153,
                                                       30,
                                                       1,
                                                     )
-                                                    : const Color.fromRGBO(
+                                                  : const Color.fromRGBO(
                                                       246,
                                                       117,
                                                       0,
                                                       1,
                                                     ))
-                                                : Colors.transparent,
+                                            : Colors.transparent,
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(10.0),
                                         ),
@@ -663,7 +642,7 @@ class _LayoutPageState extends State<LayoutPage> {
                                         (status == 'New' || status == 'new')
                                             ? 'New'
                                             : (status == 'Updated' ||
-                                                status == 'updated')
+                                                  status == 'updated')
                                             ? 'Updated'
                                             : '',
                                         style: const TextStyle(
@@ -739,44 +718,44 @@ class _LayoutPageState extends State<LayoutPage> {
               child: Scaffold(
                 appBar:
                     list[i].displayType == 'card' ||
-                            (list[i].displayType != 'card' &&
-                                list[i].subItems!.length == 1)
-                        ? null
-                        : PreferredSize(
-                          preferredSize: const Size.fromHeight(46.1),
-                          child: AppBar(
-                            backgroundColor: const Color.fromRGBO(
-                              241,
-                              241,
-                              241,
-                              1,
-                            ),
-                            bottom: TabBar(
-                              onTap: (int index) {
-                                if (_secondaryTabIndex != index &&
-                                    codeIconChangeSetState != null) {
-                                  codeIconChangeSetState!(() {
-                                    _secondaryTabIndex = index;
-                                    currentSample =
-                                        list[i].subItems![index] as SubItem;
-                                    infoIconChangeSetState!(() {});
-                                  });
-                                }
-                              },
-                              unselectedLabelColor: Colors.black,
-                              labelColor:
-                                  model.baseAppBarItemColor != Colors.white
-                                      ? model.baseAppBarItemColor
-                                      : model.primaryColor,
-                              indicatorColor: Colors.transparent,
-                              indicatorWeight: 0.1,
-                              isScrollable: true,
-                              tabs: _buildTabs(
-                                list[i].subItems! as List<SubItem>,
-                              ),
+                        (list[i].displayType != 'card' &&
+                            list[i].subItems!.length == 1)
+                    ? null
+                    : PreferredSize(
+                        preferredSize: const Size.fromHeight(46.1),
+                        child: AppBar(
+                          backgroundColor: const Color.fromRGBO(
+                            241,
+                            241,
+                            241,
+                            1,
+                          ),
+                          bottom: TabBar(
+                            onTap: (int index) {
+                              if (_secondaryTabIndex != index &&
+                                  codeIconChangeSetState != null) {
+                                codeIconChangeSetState!(() {
+                                  _secondaryTabIndex = index;
+                                  currentSample =
+                                      list[i].subItems![index] as SubItem;
+                                  infoIconChangeSetState!(() {});
+                                });
+                              }
+                            },
+                            unselectedLabelColor: Colors.black,
+                            labelColor:
+                                model.baseAppBarItemColor != Colors.white
+                                ? model.baseAppBarItemColor
+                                : model.primaryColor,
+                            indicatorColor: Colors.transparent,
+                            indicatorWeight: 0.1,
+                            isScrollable: true,
+                            tabs: _buildTabs(
+                              list[i].subItems! as List<SubItem>,
                             ),
                           ),
                         ),
+                      ),
                 body: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
                   children: _buildSamples(
@@ -810,71 +789,67 @@ class _LayoutPageState extends State<LayoutPage> {
               child: Scaffold(
                 appBar:
                     (list[i].type == 'child' &&
-                                list[i].displayType == 'card') ||
-                            (list[i].type == 'child' &&
-                                list[i].displayType != 'card' &&
-                                list[i].subItems!.length == 1)
-                        ? null
-                        : PreferredSize(
-                          preferredSize: const Size.fromHeight(46.1),
-                          child: AppBar(
-                            backgroundColor: const Color.fromRGBO(
-                              241,
-                              241,
-                              241,
-                              1,
-                            ),
-                            bottom: TabBar(
-                              onTap: (int index) {
-                                if (_secondaryTabIndex != index) {
-                                  _secondaryTabIndex = index;
-                                  codeIconChangeSetState!(() {
-                                    _showIcon =
-                                        list[i].subItems![index].displayType !=
-                                            'card' ||
-                                        list[i]
-                                                .subItems![index]
-                                                .subItems
-                                                .length ==
-                                            1;
-                                    currentSample =
-                                        _showIcon
-                                            ? list[i]
-                                                    .subItems![index]
-                                                    .subItems[0]
-                                                as SubItem
-                                            : null;
-                                    infoIconChangeSetState!(() {});
-                                  });
-                                }
-                              },
-                              unselectedLabelColor: Colors.black,
-                              labelColor:
-                                  model.baseAppBarItemColor != Colors.white
-                                      ? model.baseAppBarItemColor
-                                      : model.primaryColor,
-                              indicatorColor: Colors.transparent,
-                              indicatorWeight: 0.1,
-                              isScrollable: true,
-                              tabs: _buildTabs(
-                                list[i].subItems! as List<SubItem>,
-                              ),
+                            list[i].displayType == 'card') ||
+                        (list[i].type == 'child' &&
+                            list[i].displayType != 'card' &&
+                            list[i].subItems!.length == 1)
+                    ? null
+                    : PreferredSize(
+                        preferredSize: const Size.fromHeight(46.1),
+                        child: AppBar(
+                          backgroundColor: const Color.fromRGBO(
+                            241,
+                            241,
+                            241,
+                            1,
+                          ),
+                          bottom: TabBar(
+                            onTap: (int index) {
+                              if (_secondaryTabIndex != index) {
+                                _secondaryTabIndex = index;
+                                codeIconChangeSetState!(() {
+                                  _showIcon =
+                                      list[i].subItems![index].displayType !=
+                                          'card' ||
+                                      list[i]
+                                              .subItems![index]
+                                              .subItems
+                                              .length ==
+                                          1;
+                                  currentSample = _showIcon
+                                      ? list[i].subItems![index].subItems[0]
+                                            as SubItem
+                                      : null;
+                                  infoIconChangeSetState!(() {});
+                                });
+                              }
+                            },
+                            unselectedLabelColor: Colors.black,
+                            labelColor:
+                                model.baseAppBarItemColor != Colors.white
+                                ? model.baseAppBarItemColor
+                                : model.primaryColor,
+                            indicatorColor: Colors.transparent,
+                            indicatorWeight: 0.1,
+                            isScrollable: true,
+                            tabs: _buildTabs(
+                              list[i].subItems! as List<SubItem>,
                             ),
                           ),
                         ),
+                      ),
                 body: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
-                  children:
-                      list[i].type == 'child'
-                          ? _buildSamples(
-                            model,
-                            list[i].subItems! as List<SubItem>,
-                            list[i].displayType,
-                          )
-                          : _buildChildTabViewChildren(
-                            model,
-                            list[i].subItems! as List<SubItem>,
-                          ),
+                  children: list[i].type == 'child'
+                      ? _buildSamples(
+                          model,
+                          list[i].subItems! as List<SubItem>,
+                          list[i].displayType,
+                        )
+                      : _buildChildTabViewChildren(
+                          model,
+                          list[i].subItems! as List<SubItem>,
+                        ),
                 ),
               ),
             ),

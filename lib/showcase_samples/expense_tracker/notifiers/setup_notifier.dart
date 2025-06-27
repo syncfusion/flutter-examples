@@ -15,18 +15,8 @@ class SetupNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool enableNextButton(
-    String firstName,
-    String lastName,
-    String dob,
-    String gender,
-    String currency,
-  ) {
-    return firstName.isNotEmpty &&
-        lastName.isNotEmpty &&
-        dob.isNotEmpty &&
-        gender.isNotEmpty &&
-        currency.isNotEmpty;
+  bool enableNextButton(String firstName, String lastName, String currency) {
+    return firstName.isNotEmpty && lastName.isNotEmpty && currency.isNotEmpty;
   }
 
   void validateNextButton() {

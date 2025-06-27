@@ -60,10 +60,9 @@ class _LogarithmicAxisInversedState extends SampleViewState {
         text: isCardView ? '' : 'Population of various countries',
       ),
       primaryXAxis: CategoryAxis(
-        labelIntersectAction:
-            isCardView
-                ? AxisLabelIntersectAction.hide
-                : AxisLabelIntersectAction.none,
+        labelIntersectAction: isCardView
+            ? AxisLabelIntersectAction.hide
+            : AxisLabelIntersectAction.none,
         labelRotation: isCardView ? 0 : -45,
       ),
       primaryYAxis: LogarithmicAxis(

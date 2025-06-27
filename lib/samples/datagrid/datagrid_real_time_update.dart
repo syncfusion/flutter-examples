@@ -49,17 +49,15 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
       source: _realTimeUpdateDataGridSource,
-      columnWidthMode:
-          _isWebOrDesktop || _isLandscapeInMobileView
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.none,
       columns: <GridColumn>[
         GridColumn(
           columnName: 'symbol',
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 150.0
+              : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text('Symbol'),
@@ -67,10 +65,9 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
         ),
         GridColumn(
           columnName: 'stock',
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 150.0
+              : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text('Stock'),
@@ -78,10 +75,9 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
         ),
         GridColumn(
           columnName: 'open',
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 150.0
+              : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text(' Open'),
@@ -97,10 +93,9 @@ class _RealTimeUpdateDataGridPageState extends SampleViewState {
         ),
         GridColumn(
           columnName: 'lastTrade',
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 150.0
+              : double.nan,
           label: Container(
             alignment: Alignment.center,
             child: const Text('Last Trade'),

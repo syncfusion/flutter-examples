@@ -95,19 +95,20 @@ class _DefaultVerticalSliderPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget slider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget slider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 350
             ? slider
             : SingleChildScrollView(
-              child: SizedBox(
-                height: 400,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: slider,
+                child: SizedBox(
+                  height: 400,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: slider,
+                  ),
                 ),
-              ),
-            );
+              );
       },
     );
   }

@@ -54,42 +54,38 @@ class _TickCustomizationState extends SampleViewState {
   Widget _buildLinearTickCustomization(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
-      child:
-          _isHorizontalOrientation
-              ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildHorizontalGauges('Outside ticks', _buildOutsideTicks()),
-                  _buildHorizontalGauges('Cross ticks', _buildCrossTicks()),
-                  _buildHorizontalGauges('Inside ticks', _buildInsideTicks()),
-                  _buildHorizontalGauges(
-                    'Ticks with offset',
-                    _buildTicksWithOffset(),
-                  ),
-                ],
-              )
-              : Column(
-                children: <Widget>[
-                  Wrap(
-                    runSpacing: 30,
-                    spacing: 16,
-                    alignment: WrapAlignment.center,
-                    children: <Widget>[
-                      _buildVerticalGauges(
-                        'Outside ticks',
-                        _buildOutsideTicks(),
-                      ),
-                      _buildVerticalGauges('Cross ticks', _buildCrossTicks()),
-                      _buildVerticalGauges('Inside ticks', _buildInsideTicks()),
-                      _buildVerticalGauges(
-                        'Ticks with offset',
-                        _buildTicksWithOffset(),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      child: _isHorizontalOrientation
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildHorizontalGauges('Outside ticks', _buildOutsideTicks()),
+                _buildHorizontalGauges('Cross ticks', _buildCrossTicks()),
+                _buildHorizontalGauges('Inside ticks', _buildInsideTicks()),
+                _buildHorizontalGauges(
+                  'Ticks with offset',
+                  _buildTicksWithOffset(),
+                ),
+              ],
+            )
+          : Column(
+              children: <Widget>[
+                Wrap(
+                  runSpacing: 30,
+                  spacing: 16,
+                  alignment: WrapAlignment.center,
+                  children: <Widget>[
+                    _buildVerticalGauges('Outside ticks', _buildOutsideTicks()),
+                    _buildVerticalGauges('Cross ticks', _buildCrossTicks()),
+                    _buildVerticalGauges('Inside ticks', _buildInsideTicks()),
+                    _buildVerticalGauges(
+                      'Ticks with offset',
+                      _buildTicksWithOffset(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
     );
   }
 
@@ -128,10 +124,9 @@ class _TickCustomizationState extends SampleViewState {
         animateAxis: true,
         labelPosition: LinearLabelPosition.outside,
         tickPosition: LinearElementPosition.outside,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
       ),
     );
   }
@@ -144,10 +139,9 @@ class _TickCustomizationState extends SampleViewState {
         tickPosition: LinearElementPosition.cross,
         labelPosition: LinearLabelPosition.outside,
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
       ),
     );
   }
@@ -158,10 +152,9 @@ class _TickCustomizationState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
       ),
     );
   }
@@ -174,10 +167,9 @@ class _TickCustomizationState extends SampleViewState {
         animateAxis: true,
         tickOffset: 20,
         labelOffset: 20,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
       ),
     );
   }
@@ -208,10 +200,9 @@ class _TickCustomizationState extends SampleViewState {
             ),
           ),
         },
-        onValueChanged:
-            (bool value) => setState(() {
-              _isHorizontalOrientation = value;
-            }),
+        onValueChanged: (bool value) => setState(() {
+          _isHorizontalOrientation = value;
+        }),
         groupValue: _isHorizontalOrientation,
       ),
     );

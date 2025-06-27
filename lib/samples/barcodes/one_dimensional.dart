@@ -32,10 +32,9 @@ class _OneDimensionalBarcodesState extends SampleViewState {
       padding = EdgeInsets.fromLTRB(margin, 20, margin, 0);
     }
     return Scaffold(
-      backgroundColor:
-          model.isWebFullView
-              ? Colors.transparent
-              : model.sampleOutputCardColor,
+      backgroundColor: model.isWebFullView
+          ? Colors.transparent
+          : model.sampleOutputCardColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
         child: Padding(
@@ -59,10 +58,9 @@ class _OneDimensionalBarcodesState extends SampleViewState {
   /// Returns the one dimensional barcodes for web view.
   List<Widget> _buildWidgetForWeb(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final Color color =
-        themeData.colorScheme.brightness == Brightness.dark
-            ? const Color(0xFF666666)
-            : const Color(0xFFC4C4C4);
+    final Color color = themeData.colorScheme.brightness == Brightness.dark
+        ? const Color(0xFF666666)
+        : const Color(0xFFC4C4C4);
     return <Widget>[
       SizedBox(
         height: 125,
@@ -669,10 +667,9 @@ class _OneDimensionalBarcodesState extends SampleViewState {
   /// Returns the one dimensional barcodes for mobile view.
   List<Widget> _buildWidgetForMobile(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
-    final Color color =
-        themeData.colorScheme.brightness == Brightness.dark
-            ? const Color(0xFF666666)
-            : const Color(0xFFC4C4C4);
+    final Color color = themeData.colorScheme.brightness == Brightness.dark
+        ? const Color(0xFF666666)
+        : const Color(0xFFC4C4C4);
     return <Widget>[
       SizedBox(
         height: 125,

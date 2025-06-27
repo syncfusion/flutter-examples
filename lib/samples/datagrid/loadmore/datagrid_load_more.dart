@@ -79,68 +79,68 @@ class _LoadMoreDataGridState extends SampleViewState {
         return showIndicator
             ? _buildProgressIndicator(isLight)
             : Container(
-              height: 60.0,
-              width: double.infinity,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: _loadMoreBackgroundColor(),
-                border: BorderDirectional(
-                  top: BorderSide(color: _topBorderColor()),
-                ),
-              ),
-              child: Container(
-                width: _isWebOrDesktop ? 350.0 : 142.0,
-                height: 36,
+                height: 60.0,
+                width: double.infinity,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: model.primaryColor,
-                  borderRadius: BorderRadius.circular(4.0),
+                  color: _loadMoreBackgroundColor(),
+                  border: BorderDirectional(
+                    top: BorderSide(color: _topBorderColor()),
+                  ),
                 ),
-                child: TextButton(
-                  onPressed: () async {
-                    // To avoid the "Error: setState() called after dispose():"
-                    // while scrolling the datagrid vertically and displaying the
-                    // load more view, current load more view is checked whether
-                    // loaded widget is mounted or not.
-                    if (context is StatefulElement &&
-                        // Need to check whether the widget is available or not
-                        // in the current widget tree.
-                        context.renderObject != null &&
-                        context.state != null &&
-                        context.state.mounted) {
-                      setState(() {
-                        showIndicator = true;
-                      });
-                    }
-                    // Call the loadMoreRows function to call the
-                    // DataGridSource.handleLoadMoreRows method. So, additional
-                    // rows can be added from handleLoadMoreRows method.
-                    await loadMoreRows();
-                    // To avoid the "Error: setState() called after dispose():"
-                    // while scrolling the datagrid vertically and displaying the
-                    // load more view, current load more view is checked whether
-                    // loaded widget is mounted or not.
-                    if (context is StatefulElement &&
-                        // Need to check whether the widget is available or not
-                        // in the current widget tree.
-                        context.renderObject != null &&
-                        context.state != null &&
-                        context.state.mounted) {
-                      setState(() {
-                        showIndicator = false;
-                      });
-                    }
-                  },
-                  child: Text(
-                    'LOAD MORE',
-                    style: TextStyle(
-                      letterSpacing: _isWebOrDesktop ? 1.35 : 0.35,
-                      fontSize: 14,
-                      color: Colors.white,
+                child: Container(
+                  width: _isWebOrDesktop ? 350.0 : 142.0,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: model.primaryColor,
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: TextButton(
+                    onPressed: () async {
+                      // To avoid the "Error: setState() called after dispose():"
+                      // while scrolling the datagrid vertically and displaying the
+                      // load more view, current load more view is checked whether
+                      // loaded widget is mounted or not.
+                      if (context is StatefulElement &&
+                          // Need to check whether the widget is available or not
+                          // in the current widget tree.
+                          context.renderObject != null &&
+                          context.state != null &&
+                          context.state.mounted) {
+                        setState(() {
+                          showIndicator = true;
+                        });
+                      }
+                      // Call the loadMoreRows function to call the
+                      // DataGridSource.handleLoadMoreRows method. So, additional
+                      // rows can be added from handleLoadMoreRows method.
+                      await loadMoreRows();
+                      // To avoid the "Error: setState() called after dispose():"
+                      // while scrolling the datagrid vertically and displaying the
+                      // load more view, current load more view is checked whether
+                      // loaded widget is mounted or not.
+                      if (context is StatefulElement &&
+                          // Need to check whether the widget is available or not
+                          // in the current widget tree.
+                          context.renderObject != null &&
+                          context.state != null &&
+                          context.state.mounted) {
+                        setState(() {
+                          showIndicator = false;
+                        });
+                      }
+                    },
+                    child: Text(
+                      'LOAD MORE',
+                      style: TextStyle(
+                        letterSpacing: _isWebOrDesktop ? 1.35 : 0.35,
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
+              );
       },
     );
   }
@@ -149,10 +149,12 @@ class _LoadMoreDataGridState extends SampleViewState {
     return <GridColumn>[
       GridColumn(
         columnName: 'id',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
@@ -161,14 +163,14 @@ class _LoadMoreDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'customerId',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !_isWebOrDesktop
-                ? 120
-                : (_isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !_isWebOrDesktop
+            ? 120
+            : (_isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
@@ -177,8 +179,9 @@ class _LoadMoreDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'name',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
@@ -187,8 +190,9 @@ class _LoadMoreDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'freight',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 110.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 110.0
+            : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
@@ -197,10 +201,12 @@ class _LoadMoreDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'city',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
@@ -209,8 +215,9 @@ class _LoadMoreDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'price',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         columnWidthMode: ColumnWidthMode.lastColumnFill,
         label: Container(
           alignment: Alignment.centerRight,

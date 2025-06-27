@@ -47,8 +47,9 @@ class _PyramidDefaultState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
     final double dropDownWidth = 0.7 * screenWidth;
 
     return StatefulBuilder(
@@ -106,16 +107,12 @@ class _PyramidDefaultState extends SampleViewState {
             isExpanded: true,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedMode,
-            items:
-                _pyramidMode!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _pyramidMode!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               _onPyramidModeChange(value.toString());
               stateSetter(() {});
@@ -145,10 +142,9 @@ class _PyramidDefaultState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 0.5,
             initialValue: _gapRatio,
-            onChanged:
-                (double val) => setState(() {
-                  _gapRatio = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _gapRatio = val;
+            }),
             step: 0.1,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),

@@ -25,22 +25,18 @@ class TeamDataGridSource extends DataGridSource {
 
   /// Building DataGridRows
   void _buildDataGridRows() {
-    _dataGridRows =
-        _teams.map<DataGridRow>((Team team) {
-          return DataGridRow(
-            cells: <DataGridCell>[
-              DataGridCell<Image>(columnName: 'image', value: team.image),
-              DataGridCell<String>(columnName: 'team', value: team.team),
-              DataGridCell<int>(columnName: 'wins', value: team.wins),
-              DataGridCell<int>(columnName: 'losses', value: team.losses),
-              DataGridCell<double>(
-                columnName: 'pct',
-                value: team.winPercentage,
-              ),
-              DataGridCell<double>(columnName: 'gb', value: team.gamesBehind),
-            ],
-          );
-        }).toList();
+    _dataGridRows = _teams.map<DataGridRow>((Team team) {
+      return DataGridRow(
+        cells: <DataGridCell>[
+          DataGridCell<Image>(columnName: 'image', value: team.image),
+          DataGridCell<String>(columnName: 'team', value: team.team),
+          DataGridCell<int>(columnName: 'wins', value: team.wins),
+          DataGridCell<int>(columnName: 'losses', value: team.losses),
+          DataGridCell<double>(columnName: 'pct', value: team.winPercentage),
+          DataGridCell<double>(columnName: 'gb', value: team.gamesBehind),
+        ],
+      );
+    }).toList();
   }
 
   // Overrides
@@ -239,43 +235,36 @@ class EmployeeDataGridSource extends DataGridSource {
 
   /// Building DataGridRows
   void _buildDataGridRows() {
-    _dataGridRows =
-        _employees.map<DataGridRow>((Employee employee) {
-          return DataGridRow(
-            cells: <DataGridCell>[
-              DataGridCell<String>(
-                columnName: 'employeeName',
-                value: employee.employeeName,
-              ),
-              DataGridCell<String>(
-                columnName: 'designation',
-                value: employee.designation,
-              ),
-              DataGridCell<String>(columnName: 'mail', value: employee.mail),
-              DataGridCell<String>(
-                columnName: 'location',
-                value: employee.location,
-              ),
-              DataGridCell<String>(
-                columnName: 'status',
-                value: employee.status,
-              ),
-              DataGridCell<String>(
-                columnName: 'trustworthiness',
-                value: employee.trustworthiness,
-              ),
-              DataGridCell<int>(
-                columnName: 'softwareProficiency',
-                value: employee.softwareProficiency,
-              ),
-              DataGridCell<int>(columnName: 'salary', value: employee.salary),
-              DataGridCell<String>(
-                columnName: 'address',
-                value: employee.address,
-              ),
-            ],
-          );
-        }).toList();
+    _dataGridRows = _employees.map<DataGridRow>((Employee employee) {
+      return DataGridRow(
+        cells: <DataGridCell>[
+          DataGridCell<String>(
+            columnName: 'employeeName',
+            value: employee.employeeName,
+          ),
+          DataGridCell<String>(
+            columnName: 'designation',
+            value: employee.designation,
+          ),
+          DataGridCell<String>(columnName: 'mail', value: employee.mail),
+          DataGridCell<String>(
+            columnName: 'location',
+            value: employee.location,
+          ),
+          DataGridCell<String>(columnName: 'status', value: employee.status),
+          DataGridCell<String>(
+            columnName: 'trustworthiness',
+            value: employee.trustworthiness,
+          ),
+          DataGridCell<int>(
+            columnName: 'softwareProficiency',
+            value: employee.softwareProficiency,
+          ),
+          DataGridCell<int>(columnName: 'salary', value: employee.salary),
+          DataGridCell<String>(columnName: 'address', value: employee.address),
+        ],
+      );
+    }).toList();
   }
 
   // Overrides
@@ -333,8 +322,9 @@ class EmployeeDataGridSource extends DataGridSource {
                 valueColor: AlwaysStoppedAnimation<Color>(
                   progressValue < 50 ? Colors.red : Colors.green,
                 ),
-                backgroundColor:
-                    progressValue < 50 ? Colors.red[100] : Colors.green[100],
+                backgroundColor: progressValue < 50
+                    ? Colors.red[100]
+                    : Colors.green[100],
               ),
             ),
             Text(' ' + (progressValue.toString() + '%')),

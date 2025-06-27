@@ -43,15 +43,14 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
                   backgroundColor: WidgetStateProperty.all<Color>(
                     model.primaryColor,
                   ),
-                  padding:
-                      model.isMobile
-                          ? null
-                          : WidgetStateProperty.all(
-                            const EdgeInsets.symmetric(
-                              vertical: 15,
-                              horizontal: 15,
-                            ),
+                  padding: model.isMobile
+                      ? null
+                      : WidgetStateProperty.all(
+                          const EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 15,
                           ),
+                        ),
                 ),
                 onPressed: _generateExcel,
                 child: const Text(
@@ -86,37 +85,37 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     sheet.insertColumn(3, 5);
 
     sheet.getRangeByName('C1').setText('Present Count');
-    sheet.getRangeByName('C2').setFormula("=COUNTIFS(H2:AL2,'P')");
-    sheet.getRangeByName('C3').setFormula("=COUNTIFS(H3:AL3,'P')");
-    sheet.getRangeByName('C4').setFormula("=COUNTIFS(H4:AL4,'P')");
-    sheet.getRangeByName('C5').setFormula("=COUNTIFS(H5:AL5,'P')");
-    sheet.getRangeByName('C6').setFormula("=COUNTIFS(H6:AL6,'P')");
-    sheet.getRangeByName('C7').setFormula("=COUNTIFS(H7:AL7,'P')");
-    sheet.getRangeByName('C8').setFormula("=COUNTIFS(H8:AL8,'P')");
-    sheet.getRangeByName('C9').setFormula("=COUNTIFS(H9:AL9,'P')");
-    sheet.getRangeByName('C10').setFormula("=COUNTIFS(H10:AL10,'P')");
+    sheet.getRangeByName('C2').setFormula('=COUNTIFS(H2:AL2,"P")');
+    sheet.getRangeByName('C3').setFormula('=COUNTIFS(H3:AL3,"P")');
+    sheet.getRangeByName('C4').setFormula('=COUNTIFS(H4:AL4,"P")');
+    sheet.getRangeByName('C5').setFormula('=COUNTIFS(H5:AL5,"P")');
+    sheet.getRangeByName('C6').setFormula('=COUNTIFS(H6:AL6,"P")');
+    sheet.getRangeByName('C7').setFormula('=COUNTIFS(H7:AL7,"P")');
+    sheet.getRangeByName('C8').setFormula('=COUNTIFS(H8:AL8,"P")');
+    sheet.getRangeByName('C9').setFormula('=COUNTIFS(H9:AL9,"P")');
+    sheet.getRangeByName('C10').setFormula('=COUNTIFS(H10:AL10,"P")');
 
     sheet.getRangeByName('D1').setText('Leave Count');
-    sheet.getRangeByName('D2').setFormula("=COUNTIFS(H2:AL2,'L')");
-    sheet.getRangeByName('D3').setFormula("=COUNTIFS(H3:AL3,'L')");
-    sheet.getRangeByName('D4').setFormula("=COUNTIFS(H4:AL4,'L')");
-    sheet.getRangeByName('D5').setFormula("=COUNTIFS(H5:AL5,'L')");
-    sheet.getRangeByName('D6').setFormula("=COUNTIFS(H6:AL6,'L')");
-    sheet.getRangeByName('D7').setFormula("=COUNTIFS(H7:AL7,'L')");
-    sheet.getRangeByName('D8').setFormula("=COUNTIFS(H8:AL8,'L')");
-    sheet.getRangeByName('D9').setFormula("=COUNTIFS(H9:AL9,'L')");
-    sheet.getRangeByName('D10').setFormula("=COUNTIFS(H10:AL10,'L')");
+    sheet.getRangeByName('D2').setFormula('=COUNTIFS(H2:AL2,"L")');
+    sheet.getRangeByName('D3').setFormula('=COUNTIFS(H3:AL3,"L")');
+    sheet.getRangeByName('D4').setFormula('=COUNTIFS(H4:AL4,"L")');
+    sheet.getRangeByName('D5').setFormula('=COUNTIFS(H5:AL5,"L")');
+    sheet.getRangeByName('D6').setFormula('=COUNTIFS(H6:AL6,"L")');
+    sheet.getRangeByName('D7').setFormula('=COUNTIFS(H7:AL7,"L")');
+    sheet.getRangeByName('D8').setFormula('=COUNTIFS(H8:AL8,"L")');
+    sheet.getRangeByName('D9').setFormula('=COUNTIFS(H9:AL9,"L")');
+    sheet.getRangeByName('D10').setFormula('=COUNTIFS(H10:AL10,"L")');
 
     sheet.getRangeByName('E1').setText('Absent Count');
-    sheet.getRangeByName('E2').setFormula("=COUNTIFS(H2:AL2,'A')");
-    sheet.getRangeByName('E3').setFormula("=COUNTIFS(H3:AL3,'A')");
-    sheet.getRangeByName('E4').setFormula("=COUNTIFS(H4:AL4,'A')");
-    sheet.getRangeByName('E5').setFormula("=COUNTIFS(H5:AL5,'A')");
-    sheet.getRangeByName('E6').setFormula("=COUNTIFS(H6:AL6,'A')");
-    sheet.getRangeByName('E7').setFormula("=COUNTIFS(H7:AL7,'A')");
-    sheet.getRangeByName('E8').setFormula("=COUNTIFS(H8:AL8,'A')");
-    sheet.getRangeByName('E9').setFormula("=COUNTIFS(H9:AL9,'A')");
-    sheet.getRangeByName('E10').setFormula("=COUNTIFS(H10:AL10,'A')");
+    sheet.getRangeByName('E2').setFormula('=COUNTIFS(H2:AL2,"A")');
+    sheet.getRangeByName('E3').setFormula('=COUNTIFS(H3:AL3,"A")');
+    sheet.getRangeByName('E4').setFormula('=COUNTIFS(H4:AL4,"A")');
+    sheet.getRangeByName('E5').setFormula('=COUNTIFS(H5:AL5,"A")');
+    sheet.getRangeByName('E6').setFormula('=COUNTIFS(H6:AL6,"A")');
+    sheet.getRangeByName('E7').setFormula('=COUNTIFS(H7:AL7,"A")');
+    sheet.getRangeByName('E8').setFormula('=COUNTIFS(H8:AL8,"A")');
+    sheet.getRangeByName('E9').setFormula('=COUNTIFS(H9:AL9,"A")');
+    sheet.getRangeByName('E10').setFormula('=COUNTIFS(H10:AL10,"A")');
 
     sheet.getRangeByName('F1').setText('Unplanned %');
     sheet.getRangeByName('F2').setFormula('=E2/(C2+D2+E2)');
@@ -141,8 +140,9 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     sheet.getRangeByName('G10').setFormula('=D10/(C10+D10+E10)');
 
     //Apply conditional Formatting.
-    ConditionalFormats statusCondition =
-        sheet.getRangeByName('H2:AL10').conditionalFormats;
+    ConditionalFormats statusCondition = sheet
+        .getRangeByName('H2:AL10')
+        .conditionalFormats;
 
     ConditionalFormat leaveCondition = statusCondition.addCondition();
     leaveCondition.formatType = ExcelCFType.cellValue;
@@ -168,38 +168,43 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     weekendCondition.firstFormula = '"WE"';
     weekendCondition.backColorRgb = const Color.fromARGB(255, 240, 240, 240);
 
-    final ConditionalFormats presentSummaryCF =
-        sheet.getRangeByName('C2:C10').conditionalFormats;
+    final ConditionalFormats presentSummaryCF = sheet
+        .getRangeByName('C2:C10')
+        .conditionalFormats;
     final ConditionalFormat presentCountCF = presentSummaryCF.addCondition();
     presentCountCF.formatType = ExcelCFType.dataBar;
     DataBar dataBar = presentCountCF.dataBar!;
     dataBar.barColorRgb = const Color.fromARGB(255, 61, 242, 142);
 
-    final ConditionalFormats leaveSummaryCF =
-        sheet.getRangeByName('D2:D10').conditionalFormats;
+    final ConditionalFormats leaveSummaryCF = sheet
+        .getRangeByName('D2:D10')
+        .conditionalFormats;
     final ConditionalFormat leaveCountCF = leaveSummaryCF.addCondition();
     leaveCountCF.formatType = ExcelCFType.dataBar;
     dataBar = leaveCountCF.dataBar!;
     dataBar.barColorRgb = const Color.fromARGB(255, 242, 71, 23);
 
-    final ConditionalFormats absentSummaryCF =
-        sheet.getRangeByName('E2:E10').conditionalFormats;
+    final ConditionalFormats absentSummaryCF = sheet
+        .getRangeByName('E2:E10')
+        .conditionalFormats;
     final ConditionalFormat absentCountCF = absentSummaryCF.addCondition();
     absentCountCF.formatType = ExcelCFType.dataBar;
     dataBar = absentCountCF.dataBar!;
     dataBar.barColorRgb = const Color.fromARGB(255, 255, 10, 69);
 
-    final ConditionalFormats unplannedSummaryCF =
-        sheet.getRangeByName('F2:F10').conditionalFormats;
-    final ConditionalFormat unplannedCountCF =
-        unplannedSummaryCF.addCondition();
+    final ConditionalFormats unplannedSummaryCF = sheet
+        .getRangeByName('F2:F10')
+        .conditionalFormats;
+    final ConditionalFormat unplannedCountCF = unplannedSummaryCF
+        .addCondition();
     unplannedCountCF.formatType = ExcelCFType.dataBar;
     dataBar = unplannedCountCF.dataBar!;
     dataBar.maxPoint.type = ConditionValueType.highestValue;
     dataBar.barColorRgb = const Color.fromARGB(255, 142, 142, 142);
 
-    final ConditionalFormats plannedSummaryCF =
-        sheet.getRangeByName('G2:G10').conditionalFormats;
+    final ConditionalFormats plannedSummaryCF = sheet
+        .getRangeByName('G2:G10')
+        .conditionalFormats;
     final ConditionalFormat plannedCountCF = plannedSummaryCF.addCondition();
     plannedCountCF.formatType = ExcelCFType.dataBar;
     dataBar = plannedCountCF.dataBar!;
@@ -262,14 +267,10 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
 
     sheet.getRangeByName('A1:AL10').cellStyle = style;
 
-    sheet
-        .getRangeByName('A1:AL1')
-        .cellStyle
-        .backColorRgb = const Color.fromARGB(255, 58, 56, 56);
-    sheet
-        .getRangeByName('A1:AL1')
-        .cellStyle
-        .fontColorRgb = const Color.fromARGB(255, 255, 255, 255);
+    sheet.getRangeByName('A1:AL1').cellStyle.backColorRgb =
+        const Color.fromARGB(255, 58, 56, 56);
+    sheet.getRangeByName('A1:AL1').cellStyle.fontColorRgb =
+        const Color.fromARGB(255, 255, 255, 255);
 
     sheet.getRangeByName('C2:AL10').cellStyle.hAlign = HAlignType.center;
     sheet.getRangeByName('H1:AL1').cellStyle.hAlign = HAlignType.center;
@@ -277,12 +278,8 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     sheet.getRangeByName('A2:B10').cellStyle.indent = 1;
     sheet.getRangeByName('A1:G1').cellStyle.indent = 1;
 
-    sheet
-        .getRangeByName('H2:AL10')
-        .cellStyle
-        .borders
-        .all
-        .colorRgb = const Color.fromARGB(255, 255, 255, 255);
+    sheet.getRangeByName('H2:AL10').cellStyle.borders.all.colorRgb =
+        const Color.fromARGB(255, 255, 255, 255);
 
     sheet.getRangeByName('F2:G10').numberFormat = '.00%';
 
@@ -302,52 +299,48 @@ class _AttendanceTrackerXlsIOState extends SampleViewState {
     List<ExcelDataRow> excelDataRows = <ExcelDataRow>[];
     final List<_Attendance> reports = _getAttendanceReports();
 
-    excelDataRows =
-        reports.map<ExcelDataRow>((_Attendance dataRow) {
-          return ExcelDataRow(
-            cells: <ExcelDataCell>[
-              ExcelDataCell(
-                columnHeader: 'Employee Name',
-                value: dataRow.employeeName,
-              ),
-              ExcelDataCell(
-                columnHeader: 'Supervisor',
-                value: dataRow.supervisor,
-              ),
-              ExcelDataCell(columnHeader: 1, value: dataRow.day1),
-              ExcelDataCell(columnHeader: 2, value: dataRow.day2),
-              ExcelDataCell(columnHeader: 3, value: dataRow.day3),
-              ExcelDataCell(columnHeader: 4, value: dataRow.day4),
-              ExcelDataCell(columnHeader: 5, value: dataRow.day5),
-              ExcelDataCell(columnHeader: 6, value: dataRow.day6),
-              ExcelDataCell(columnHeader: 7, value: dataRow.day7),
-              ExcelDataCell(columnHeader: 8, value: dataRow.day8),
-              ExcelDataCell(columnHeader: 9, value: dataRow.day9),
-              ExcelDataCell(columnHeader: 10, value: dataRow.day10),
-              ExcelDataCell(columnHeader: 11, value: dataRow.day11),
-              ExcelDataCell(columnHeader: 12, value: dataRow.day12),
-              ExcelDataCell(columnHeader: 13, value: dataRow.day13),
-              ExcelDataCell(columnHeader: 14, value: dataRow.day14),
-              ExcelDataCell(columnHeader: 15, value: dataRow.day15),
-              ExcelDataCell(columnHeader: 16, value: dataRow.day16),
-              ExcelDataCell(columnHeader: 17, value: dataRow.day17),
-              ExcelDataCell(columnHeader: 18, value: dataRow.day18),
-              ExcelDataCell(columnHeader: 19, value: dataRow.day19),
-              ExcelDataCell(columnHeader: 20, value: dataRow.day20),
-              ExcelDataCell(columnHeader: 21, value: dataRow.day21),
-              ExcelDataCell(columnHeader: 22, value: dataRow.day22),
-              ExcelDataCell(columnHeader: 23, value: dataRow.day23),
-              ExcelDataCell(columnHeader: 24, value: dataRow.day24),
-              ExcelDataCell(columnHeader: 25, value: dataRow.day25),
-              ExcelDataCell(columnHeader: 26, value: dataRow.day26),
-              ExcelDataCell(columnHeader: 27, value: dataRow.day27),
-              ExcelDataCell(columnHeader: 28, value: dataRow.day28),
-              ExcelDataCell(columnHeader: 29, value: dataRow.day29),
-              ExcelDataCell(columnHeader: 30, value: dataRow.day30),
-              ExcelDataCell(columnHeader: 31, value: dataRow.day31),
-            ],
-          );
-        }).toList();
+    excelDataRows = reports.map<ExcelDataRow>((_Attendance dataRow) {
+      return ExcelDataRow(
+        cells: <ExcelDataCell>[
+          ExcelDataCell(
+            columnHeader: 'Employee Name',
+            value: dataRow.employeeName,
+          ),
+          ExcelDataCell(columnHeader: 'Supervisor', value: dataRow.supervisor),
+          ExcelDataCell(columnHeader: 1, value: dataRow.day1),
+          ExcelDataCell(columnHeader: 2, value: dataRow.day2),
+          ExcelDataCell(columnHeader: 3, value: dataRow.day3),
+          ExcelDataCell(columnHeader: 4, value: dataRow.day4),
+          ExcelDataCell(columnHeader: 5, value: dataRow.day5),
+          ExcelDataCell(columnHeader: 6, value: dataRow.day6),
+          ExcelDataCell(columnHeader: 7, value: dataRow.day7),
+          ExcelDataCell(columnHeader: 8, value: dataRow.day8),
+          ExcelDataCell(columnHeader: 9, value: dataRow.day9),
+          ExcelDataCell(columnHeader: 10, value: dataRow.day10),
+          ExcelDataCell(columnHeader: 11, value: dataRow.day11),
+          ExcelDataCell(columnHeader: 12, value: dataRow.day12),
+          ExcelDataCell(columnHeader: 13, value: dataRow.day13),
+          ExcelDataCell(columnHeader: 14, value: dataRow.day14),
+          ExcelDataCell(columnHeader: 15, value: dataRow.day15),
+          ExcelDataCell(columnHeader: 16, value: dataRow.day16),
+          ExcelDataCell(columnHeader: 17, value: dataRow.day17),
+          ExcelDataCell(columnHeader: 18, value: dataRow.day18),
+          ExcelDataCell(columnHeader: 19, value: dataRow.day19),
+          ExcelDataCell(columnHeader: 20, value: dataRow.day20),
+          ExcelDataCell(columnHeader: 21, value: dataRow.day21),
+          ExcelDataCell(columnHeader: 22, value: dataRow.day22),
+          ExcelDataCell(columnHeader: 23, value: dataRow.day23),
+          ExcelDataCell(columnHeader: 24, value: dataRow.day24),
+          ExcelDataCell(columnHeader: 25, value: dataRow.day25),
+          ExcelDataCell(columnHeader: 26, value: dataRow.day26),
+          ExcelDataCell(columnHeader: 27, value: dataRow.day27),
+          ExcelDataCell(columnHeader: 28, value: dataRow.day28),
+          ExcelDataCell(columnHeader: 29, value: dataRow.day29),
+          ExcelDataCell(columnHeader: 30, value: dataRow.day30),
+          ExcelDataCell(columnHeader: 31, value: dataRow.day31),
+        ],
+      );
+    }).toList();
 
     return excelDataRows;
   }

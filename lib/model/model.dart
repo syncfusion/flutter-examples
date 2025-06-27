@@ -249,6 +249,7 @@ class SampleModel extends Listenable {
   SampleModel() {
     isInitialRender = true;
     isFirstTime = true;
+    isFirstTimeChartInfo = true;
     // ignore: unnecessary_statements
     assistApiKey;
     searchControlItems = <Control>[];
@@ -514,6 +515,8 @@ class SampleModel extends Listenable {
 
   late bool isFirstTime;
 
+  late bool isFirstTimeChartInfo;
+
   String assistApiKey = '';
 
   /// Switching between light, dark, system themes.
@@ -568,10 +571,9 @@ class SampleModel extends Listenable {
         drawerIconColor = const Color.fromRGBO(255, 255, 255, 0.65);
         subSamplesTabBarColor = const Color.fromRGBO(44, 44, 44, 1);
         drawerTextIconColor = Colors.white;
-        drawerBackgroundColor =
-            isMobile
-                ? const Color.fromRGBO(34, 39, 51, 1)
-                : leftNavigationBarBackgroundColor;
+        drawerBackgroundColor = isMobile
+            ? const Color.fromRGBO(34, 39, 51, 1)
+            : leftNavigationBarBackgroundColor;
         footerColor = const Color.fromRGBO(33, 33, 33, 1);
 
         // baseNavigationBarTextColor = Colors.white;
@@ -743,11 +745,14 @@ Future<void> updateControlItems() async {
                       );
                     }
                     thirdLevelSubItems[thirdLevelSubItems.length - 1]
-                        .parentIndex = j;
+                            .parentIndex =
+                        j;
                     thirdLevelSubItems[thirdLevelSubItems.length - 1]
-                        .childIndex = k;
+                            .childIndex =
+                        k;
                     thirdLevelSubItems[thirdLevelSubItems.length - 1]
-                        .sampleIndex ??= thirdLevelSubItems.length - 1;
+                            .sampleIndex ??=
+                        thirdLevelSubItems.length - 1;
                     thirdLevelSubItems[thirdLevelSubItems.length - 1].control =
                         controlList[i];
                     final String breadCrumbText =
@@ -767,14 +772,15 @@ Future<void> updateControlItems() async {
                                         1
                                     ? ''
                                     : ('/' +
-                                        thirdLevelSubItems[thirdLevelSubItems
-                                                    .length -
-                                                1]
-                                            .title!)))
+                                          thirdLevelSubItems[thirdLevelSubItems
+                                                      .length -
+                                                  1]
+                                              .title!)))
                             .replaceAll(' ', '-')
                             .toLowerCase();
                     thirdLevelSubItems[thirdLevelSubItems.length - 1]
-                        .breadCrumbText = breadCrumbText;
+                            .breadCrumbText =
+                        breadCrumbText;
                     thirdLevelSubItems[thirdLevelSubItems.length - 1]
                             .categoryName =
                         SampleModel._categoryList[index].categoryName;
@@ -815,11 +821,14 @@ Future<void> updateControlItems() async {
                       SubItem.fromJson(firstLevelSubItems[j].subItems![k]),
                     );
                     secondLevelSubItems[secondLevelSubItems.length - 1]
-                        .childIndex = j;
+                            .childIndex =
+                        j;
                     secondLevelSubItems[secondLevelSubItems.length - 1]
-                        .sampleIndex ??= k;
+                            .sampleIndex ??=
+                        k;
                     secondLevelSubItems[secondLevelSubItems.length - 1]
-                        .control = controlList[i];
+                            .control =
+                        controlList[i];
                     String breadCrumbText;
                     if (firstLevelSubItems[j].subItems!.length == 1 &&
                         secondLevelSubItems.length == 1) {
@@ -849,7 +858,8 @@ Future<void> updateControlItems() async {
                     }
 
                     secondLevelSubItems[secondLevelSubItems.length - 1]
-                        .breadCrumbText = breadCrumbText;
+                            .breadCrumbText =
+                        breadCrumbText;
                     secondLevelSubItems[secondLevelSubItems.length - 1]
                             .categoryName =
                         SampleModel._categoryList[index].categoryName;

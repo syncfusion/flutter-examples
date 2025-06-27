@@ -83,11 +83,10 @@ class _LiveLineChartState extends SampleViewState {
           yValueMapper: (_ChartSampleData data, int index) => data.sales,
           color: const Color.fromRGBO(192, 108, 132, 1),
           animationDuration: 0,
-          onRendererCreated: (
-            ChartSeriesController<_ChartSampleData, int> controller,
-          ) {
-            _chartSeriesController = controller;
-          },
+          onRendererCreated:
+              (ChartSeriesController<_ChartSampleData, int> controller) {
+                _chartSeriesController = controller;
+              },
         ),
       ],
     );

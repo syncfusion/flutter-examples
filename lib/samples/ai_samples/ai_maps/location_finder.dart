@@ -39,10 +39,9 @@ class _MapLocationFinderState extends SampleViewState
     final ThemeData themeData = Theme.of(context);
     final bool isLightTheme =
         themeData.colorScheme.brightness == Brightness.light;
-    final Color surfaceColor =
-        isLightTheme
-            ? const Color.fromARGB(255, 82, 80, 80)
-            : const Color.fromRGBO(242, 242, 242, 1);
+    final Color surfaceColor = isLightTheme
+        ? const Color.fromARGB(255, 82, 80, 80)
+        : const Color.fromRGBO(242, 242, 242, 1);
 
     return SfMaps(
       layers: <MapLayer>[
@@ -52,10 +51,9 @@ class _MapLocationFinderState extends SampleViewState
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           tooltipSettings: MapTooltipSettings(color: surfaceColor),
           markerTooltipBuilder: (BuildContext context, int index) {
-            final Color textColor =
-                isLightTheme
-                    ? const Color.fromRGBO(255, 255, 255, 1)
-                    : const Color.fromRGBO(10, 10, 10, 1);
+            final Color textColor = isLightTheme
+                ? const Color.fromRGBO(255, 255, 255, 1)
+                : const Color.fromRGBO(10, 10, 10, 1);
             return Container(
               width: 200,
               padding: const EdgeInsets.all(8.0),
@@ -112,19 +110,18 @@ class _MapLocationFinderState extends SampleViewState
   Widget _buildSearchBar(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     return Column(
-      crossAxisAlignment:
-          model.isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      crossAxisAlignment: model.isMobile
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       children: [
         Padding(
-          padding:
-              model.isMobile
-                  ? EdgeInsets.only(top: 5, right: width * 0.1)
-                  : const EdgeInsets.only(left: 5.0),
+          padding: model.isMobile
+              ? EdgeInsets.only(top: 5, right: width * 0.1)
+              : const EdgeInsets.only(left: 5.0),
           child: Row(
-            mainAxisAlignment:
-                model.isMobile
-                    ? MainAxisAlignment.center
-                    : MainAxisAlignment.start,
+            mainAxisAlignment: model.isMobile
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.start,
             children: [
               SizedBox(
                 width: model.isMobile ? width * 0.8 : 250,
@@ -134,14 +131,13 @@ class _MapLocationFinderState extends SampleViewState
                     if (textEditingValue.text.isEmpty || validApiKey) {
                       return const Iterable<String>.empty();
                     }
-                    final List<String> matches =
-                        _validSentences
-                            .where(
-                              (option) => option.toLowerCase().contains(
-                                textEditingValue.text.toLowerCase(),
-                              ),
-                            )
-                            .toList();
+                    final List<String> matches = _validSentences
+                        .where(
+                          (option) => option.toLowerCase().contains(
+                            textEditingValue.text.toLowerCase(),
+                          ),
+                        )
+                        .toList();
                     if (matches.isEmpty &&
                         (model.assistApiKey.isEmpty && !validApiKey)) {
                       return [_textFieldController.text];
@@ -159,147 +155,140 @@ class _MapLocationFinderState extends SampleViewState
                     );
                     _handleSearch(selection);
                   },
-                  fieldViewBuilder: (
-                    context,
-                    controller,
-                    focusNode,
-                    onEditingComplete,
-                  ) {
-                    _textFieldController.addListener(() {
-                      controller.text = _textFieldController.text;
-                      _updateSuggestions();
-                    });
-                    return TextField(
-                      controller: _textFieldController,
-                      focusNode: focusNode,
-                      onEditingComplete: onEditingComplete,
-                      onSubmitted: (String value) {
-                        _handleSearch(value);
-                      },
-                      decoration: InputDecoration(
-                        hintText:
-                            model.assistApiKey != ''
+                  fieldViewBuilder:
+                      (context, controller, focusNode, onEditingComplete) {
+                        _textFieldController.addListener(() {
+                          controller.text = _textFieldController.text;
+                          _updateSuggestions();
+                        });
+                        return TextField(
+                          controller: _textFieldController,
+                          focusNode: focusNode,
+                          onEditingComplete: onEditingComplete,
+                          onSubmitted: (String value) {
+                            _handleSearch(value);
+                          },
+                          decoration: InputDecoration(
+                            hintText: model.assistApiKey != ''
                                 ? 'Search location'
                                 : 'Hospital in New York',
-                        hintStyle: TextStyle(
-                          color: model.themeData.colorScheme.primary.withValues(
-                            alpha: 0.6,
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: model.themeData.colorScheme.primaryContainer,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 20,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius:
-                              model.isMobile
-                                  ? BorderRadius.circular(32)
-                                  : BorderRadius.circular(0),
-                          borderSide: BorderSide(
-                            color: model.themeData.colorScheme.primary,
-                            width: 0.5,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius:
-                              model.isMobile
-                                  ? BorderRadius.circular(32)
-                                  : BorderRadius.circular(0),
-                          borderSide: BorderSide(
-                            color: model.themeData.colorScheme.primary,
-                            width: 0.5,
-                          ),
-                        ),
-                        suffixIcon:
-                            model.isMobile
-                                ? AnimatedOpacity(
-                                  opacity: _isButtonVisible ? 1.0 : 0.0,
-                                  duration: const Duration(milliseconds: 100),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.search,
-                                      color:
-                                          model.themeData.colorScheme.primary,
-                                    ),
-                                    onPressed:
-                                        () =>
-                                            _isButtonVisible
-                                                ? _handleSearch(
-                                                  _textFieldController.text,
-                                                )
-                                                : null,
-                                  ),
-                                )
-                                : null,
-                      ),
-                    );
-                  },
-                  optionsViewBuilder: (
-                    BuildContext context,
-                    void Function(String) onSelected,
-                    Iterable<String> options,
-                  ) {
-                    return Align(
-                      alignment: Alignment.topLeft,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: SizeTransition(
-                          sizeFactor: _sizeAnimation,
-                          axisAlignment: -1.0,
-                          child: Container(
-                            width: model.isMobile ? width * 0.8 : 250,
-                            decoration: BoxDecoration(
-                              color:
-                                  model
-                                      .themeData
-                                      .colorScheme
-                                      .secondaryContainer,
+                            hintStyle: TextStyle(
+                              color: model.themeData.colorScheme.primary
+                                  .withValues(alpha: 0.6),
                             ),
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(maxHeight: 200),
-                              child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                itemCount: options.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final String option = options.elementAt(
-                                    index,
-                                  );
-                                  if (!_validSentences.contains(option)) {
-                                    return ListTile(
-                                      title: Text(
-                                        'Offline search provides results for "Hospitals in New York" and "Hotels in Denver". To get more results, connect to the internet and gemini',
-                                        style: TextStyle(
-                                          color:
-                                              model
-                                                  .themeData
-                                                  .colorScheme
-                                                  .onPrimaryContainer,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  return ListTile(
-                                    title: Text(
-                                      option,
-                                      style: TextStyle(
+                            filled: true,
+                            fillColor:
+                                model.themeData.colorScheme.primaryContainer,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 20,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: model.isMobile
+                                  ? BorderRadius.circular(32)
+                                  : BorderRadius.circular(0),
+                              borderSide: BorderSide(
+                                color: model.themeData.colorScheme.primary,
+                                width: 0.5,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: model.isMobile
+                                  ? BorderRadius.circular(32)
+                                  : BorderRadius.circular(0),
+                              borderSide: BorderSide(
+                                color: model.themeData.colorScheme.primary,
+                                width: 0.5,
+                              ),
+                            ),
+                            suffixIcon: model.isMobile
+                                ? AnimatedOpacity(
+                                    opacity: _isButtonVisible ? 1.0 : 0.0,
+                                    duration: const Duration(milliseconds: 100),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.search,
                                         color:
                                             model.themeData.colorScheme.primary,
                                       ),
+                                      onPressed: () => _isButtonVisible
+                                          ? _handleSearch(
+                                              _textFieldController.text,
+                                            )
+                                          : null,
                                     ),
-                                    onTap: () => onSelected(option),
-                                  );
-                                },
+                                  )
+                                : null,
+                          ),
+                        );
+                      },
+                  optionsViewBuilder:
+                      (
+                        BuildContext context,
+                        void Function(String) onSelected,
+                        Iterable<String> options,
+                      ) {
+                        return Align(
+                          alignment: Alignment.topLeft,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: SizeTransition(
+                              sizeFactor: _sizeAnimation,
+                              axisAlignment: -1.0,
+                              child: Container(
+                                width: model.isMobile ? width * 0.8 : 250,
+                                decoration: BoxDecoration(
+                                  color: model
+                                      .themeData
+                                      .colorScheme
+                                      .secondaryContainer,
+                                ),
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    maxHeight: 200,
+                                  ),
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    itemCount: options.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      final String option = options.elementAt(
+                                        index,
+                                      );
+                                      if (!_validSentences.contains(option)) {
+                                        return ListTile(
+                                          title: Text(
+                                            'Offline search provides results for "Hospitals in New York" and "Hotels in Denver". To get more results, connect to the internet and gemini',
+                                            style: TextStyle(
+                                              color: model
+                                                  .themeData
+                                                  .colorScheme
+                                                  .onPrimaryContainer,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      return ListTile(
+                                        title: Text(
+                                          option,
+                                          style: TextStyle(
+                                            color: model
+                                                .themeData
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ),
+                                        onTap: () => onSelected(option),
+                                      );
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
                 ),
               ),
               if (!model.isMobile)
@@ -331,11 +320,9 @@ class _MapLocationFinderState extends SampleViewState
                           Icons.search,
                           color: model.themeData.colorScheme.primary,
                         ),
-                        onPressed:
-                            () =>
-                                _isButtonVisible
-                                    ? _handleSearch(_textFieldController.text)
-                                    : null,
+                        onPressed: () => _isButtonVisible
+                            ? _handleSearch(_textFieldController.text)
+                            : null,
                       ),
                     ),
                   ),
@@ -357,8 +344,8 @@ class _MapLocationFinderState extends SampleViewState
               child: Text(
                 model.assistApiKey != ''
                     ? validApiKey
-                        ? 'No results found on, try searching for something else or in a different area.'
-                        : 'No results found on, given API key is invalid.'
+                          ? 'No results found on, try searching for something else or in a different area.'
+                          : 'No results found on, given API key is invalid.'
                     : 'Offline search shows results for "Hospitals in New York" and "Hotels in Denver". For more results, connect to the internet and provide Google Generative AI\'s API key.',
                 style: const TextStyle(
                   color: Colors.white, // White text for contrast
@@ -466,7 +453,7 @@ class _MapLocationFinderState extends SampleViewState
         );
       }
       final List<MapLocation> requested = parseJsonString(formattedResponse);
-      _updateSuggestionsom(requested);
+      _updateSuggestionZoom(requested);
       setState(() {
         _isLoading = false;
         if (requested.isEmpty) {
@@ -478,13 +465,12 @@ class _MapLocationFinderState extends SampleViewState
       if (model.assistApiKey == '' || err.runtimeType == InvalidApiKey) {
         final String input = prompt.toLowerCase();
         zoomValue = 12;
-        final List<MapLocation> offlineData =
-            input == 'hospitals in new york'
-                ? hospitalNewYork
-                : input == 'hotels in denver'
-                ? hotelsDenver
-                : [];
-        _updateSuggestionsom(offlineData);
+        final List<MapLocation> offlineData = input == 'hospitals in new york'
+            ? hospitalNewYork
+            : input == 'hotels in denver'
+            ? hotelsDenver
+            : [];
+        _updateSuggestionZoom(offlineData);
         setState(() {
           _isLoading = false;
           if (offlineData.isEmpty) {
@@ -519,7 +505,7 @@ class _MapLocationFinderState extends SampleViewState
     }).toList();
   }
 
-  void _updateSuggestionsom(List<MapLocation> requestedData) {
+  void _updateSuggestionZoom(List<MapLocation> requestedData) {
     if (requestedData.isEmpty) {
       return;
     }
@@ -606,17 +592,16 @@ class _MapLocationFinderState extends SampleViewState
             onPressed: () {
               showDialog(
                 context: context,
-                builder:
-                    (context) => WelcomeDialog(
-                      primaryColor: model.primaryColor,
-                      apiKey: model.assistApiKey,
-                      onApiKeySaved: (newApiKey) {
-                        setState(() {
-                          model.assistApiKey = newApiKey;
-                          checkApiKey();
-                        });
-                      },
-                    ),
+                builder: (context) => WelcomeDialog(
+                  primaryColor: model.primaryColor,
+                  apiKey: model.assistApiKey,
+                  onApiKeySaved: (newApiKey) {
+                    setState(() {
+                      model.assistApiKey = newApiKey;
+                      checkApiKey();
+                    });
+                  },
+                ),
               );
             },
           ),

@@ -54,10 +54,9 @@ class _FilteringDataGridState extends SampleViewState {
       columns: _obtainColumns(),
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
-      columnWidthMode:
-          _isWebOrDesktop || _isLandscapeInMobileView
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.none,
     );
   }
 
@@ -67,8 +66,9 @@ class _FilteringDataGridState extends SampleViewState {
     return <GridColumn>[
       GridColumn(
         columnName: 'Order ID',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         width: isMobileView ? 120.0 : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
@@ -78,8 +78,9 @@ class _FilteringDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'Customer ID',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         width: isMobileView ? 150.0 : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
@@ -108,8 +109,9 @@ class _FilteringDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'City',
         width: isMobileView ? 120.0 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),

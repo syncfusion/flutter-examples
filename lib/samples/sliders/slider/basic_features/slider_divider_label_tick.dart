@@ -125,13 +125,14 @@ class _SliderLabelCustomizationPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget slider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget slider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 325
             ? slider
             : SingleChildScrollView(
-              child: SizedBox(height: 325, child: slider),
-            );
+                child: SizedBox(height: 325, child: slider),
+              );
       },
     );
   }

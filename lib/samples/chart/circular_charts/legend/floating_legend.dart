@@ -51,8 +51,9 @@ class _CircularFloatingLegendState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
 
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
@@ -83,13 +84,12 @@ class _CircularFloatingLegendState extends SampleViewState {
           isExpanded: true,
           underline: Container(color: const Color(0xFFBDBDBD), height: 1),
           value: _selectedPosition,
-          items:
-              _position!.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: (value != null) ? value : 'left',
-                  child: Text(value, style: TextStyle(color: model.textColor)),
-                );
-              }).toList(),
+          items: _position!.map((String value) {
+            return DropdownMenuItem<String>(
+              value: (value != null) ? value : 'left',
+              child: Text(value, style: TextStyle(color: model.textColor)),
+            );
+          }).toList(),
           onChanged: (dynamic value) {
             _selectedPosition = value.toString();
             stateSetter(() {});
@@ -109,10 +109,9 @@ class _CircularFloatingLegendState extends SampleViewState {
           minValue: 100,
           maxValue: 300,
           initialValue: _xValue,
-          onChanged:
-              (double val) => setState(() {
-                _xValue = val;
-              }),
+          onChanged: (double val) => setState(() {
+            _xValue = val;
+          }),
           step: 10,
           iconColor: model.textColor,
           style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -131,10 +130,9 @@ class _CircularFloatingLegendState extends SampleViewState {
           minValue: 100,
           maxValue: 300,
           initialValue: _yValue,
-          onChanged:
-              (double val) => setState(() {
-                _yValue = val;
-              }),
+          onChanged: (double val) => setState(() {
+            _yValue = val;
+          }),
           step: 10,
           iconColor: model.textColor,
           style: TextStyle(fontSize: 20.0, color: model.textColor),

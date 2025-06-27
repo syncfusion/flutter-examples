@@ -81,24 +81,19 @@ class _TickShape extends SfTickShape {
     TextDirection? textDirection,
   }) {
     final Size tickSize = getPreferredSize(themeData!);
-    final bool isTickRightOfThumb =
-        endThumbCenter == null
-            ? offset.dy < thumbCenter!.dy
-            : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
-    final Color begin =
-        isTickRightOfThumb
-            ? themeData.disabledInactiveTickColor!
-            : themeData.disabledActiveTickColor!;
-    final Color end =
-        isTickRightOfThumb
-            ? themeData.inactiveTickColor!
-            : themeData.activeTickColor!;
-    final Paint paint =
-        Paint()
-          ..isAntiAlias = true
-          ..strokeWidth = tickSize.height
-          ..color =
-              ColorTween(begin: begin, end: end).evaluate(enableAnimation!)!;
+    final bool isTickRightOfThumb = endThumbCenter == null
+        ? offset.dy < thumbCenter!.dy
+        : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
+    final Color begin = isTickRightOfThumb
+        ? themeData.disabledInactiveTickColor!
+        : themeData.disabledActiveTickColor!;
+    final Color end = isTickRightOfThumb
+        ? themeData.inactiveTickColor!
+        : themeData.activeTickColor!;
+    final Paint paint = Paint()
+      ..isAntiAlias = true
+      ..strokeWidth = tickSize.height
+      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation!)!;
     context.canvas.drawLine(
       offset,
       Offset(offset.dx + tickSize.width, offset.dy),
@@ -146,24 +141,19 @@ class _MinorTickShape extends SfTickShape {
     bool? isVertical,
   }) {
     final Size minorTickSize = getPreferredSize(themeData!);
-    final bool isMinorTickRightOfThumb =
-        endThumbCenter == null
-            ? offset.dy < thumbCenter!.dy
-            : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
-    final Color begin =
-        isMinorTickRightOfThumb
-            ? themeData.disabledInactiveMinorTickColor!
-            : themeData.disabledActiveMinorTickColor!;
-    final Color end =
-        isMinorTickRightOfThumb
-            ? themeData.inactiveMinorTickColor!
-            : themeData.activeMinorTickColor!;
-    final Paint paint =
-        Paint()
-          ..isAntiAlias = true
-          ..strokeWidth = minorTickSize.height
-          ..color =
-              ColorTween(begin: begin, end: end).evaluate(enableAnimation!)!;
+    final bool isMinorTickRightOfThumb = endThumbCenter == null
+        ? offset.dy < thumbCenter!.dy
+        : offset.dy > startThumbCenter!.dy || offset.dy < endThumbCenter.dy;
+    final Color begin = isMinorTickRightOfThumb
+        ? themeData.disabledInactiveMinorTickColor!
+        : themeData.disabledActiveMinorTickColor!;
+    final Color end = isMinorTickRightOfThumb
+        ? themeData.inactiveMinorTickColor!
+        : themeData.activeMinorTickColor!;
+    final Paint paint = Paint()
+      ..isAntiAlias = true
+      ..strokeWidth = minorTickSize.height
+      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation!)!;
     context.canvas.drawLine(
       offset,
       Offset(offset.dx + minorTickSize.width, offset.dy),

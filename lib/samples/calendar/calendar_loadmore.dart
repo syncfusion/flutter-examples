@@ -77,26 +77,26 @@ class _LoadMoreCalendarState extends SampleViewState {
           Expanded(
             child:
                 _calendarController.view == CalendarView.month &&
-                        model.isWebFullView &&
-                        screenHeight < 800
-                    ? Scrollbar(
-                      thumbVisibility: true,
+                    model.isWebFullView &&
+                    screenHeight < 800
+                ? Scrollbar(
+                    thumbVisibility: true,
+                    controller: _controller,
+                    child: ListView(
                       controller: _controller,
-                      child: ListView(
-                        controller: _controller,
-                        children: <Widget>[
-                          Container(
-                            color: model.sampleOutputCardColor,
-                            height: 600,
-                            child: calendar,
-                          ),
-                        ],
-                      ),
-                    )
-                    : Container(
-                      color: model.sampleOutputCardColor,
-                      child: calendar,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
                     ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
           ),
         ],
       ),
@@ -213,27 +213,26 @@ class _LoadMoreCalendarState extends SampleViewState {
         decoration: model.isWebFullView ? null : TextDecoration.lineThrough,
         color: Colors.red,
       ),
-      loadMoreWidgetBuilder: (
-        BuildContext context,
-        LoadMoreCallback loadMoreAppointments,
-      ) {
-        return FutureBuilder<void>(
-          future: loadMoreAppointments(),
-          builder: (BuildContext context, AsyncSnapshot<void> snapShot) {
-            return Container(
-              height:
-                  _calendarController.view == CalendarView.schedule
+      loadMoreWidgetBuilder:
+          (BuildContext context, LoadMoreCallback loadMoreAppointments) {
+            return FutureBuilder<void>(
+              future: loadMoreAppointments(),
+              builder: (BuildContext context, AsyncSnapshot<void> snapShot) {
+                return Container(
+                  height: _calendarController.view == CalendarView.schedule
                       ? 50
                       : double.infinity,
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color?>(model.primaryColor),
-              ),
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color?>(
+                      model.primaryColor,
+                    ),
+                  ),
+                );
+              },
             );
           },
-        );
-      },
       monthViewSettings: const MonthViewSettings(
         appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
       ),

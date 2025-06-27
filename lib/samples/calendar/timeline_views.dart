@@ -105,8 +105,9 @@ class _TimelineViewsCalendarState extends SampleViewState {
           blockedDates.contains(date)) {
         continue;
       }
-      final int count =
-          model.isWebFullView ? 1 + random.nextInt(2) : 1 + random.nextInt(3);
+      final int count = model.isWebFullView
+          ? 1 + random.nextInt(2)
+          : 1 + random.nextInt(3);
       for (int j = 0; j < count; j++) {
         final DateTime startDate = DateTime(
           date.year,

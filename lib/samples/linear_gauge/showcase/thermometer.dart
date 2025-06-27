@@ -26,14 +26,14 @@ class _ThermometerState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-            height: 300,
-            child: _buildThermometer(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
+              height: 300,
+              child: _buildThermometer(context),
+            ),
+          )
         : _buildThermometer(context);
   }
 
@@ -44,12 +44,11 @@ class _ThermometerState extends SampleViewState {
 
     return Center(
       child: SizedBox(
-        height:
-            isCardView
-                ? MediaQuery.of(context).size.height
-                : orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.height / 2
-                : MediaQuery.of(context).size.height * 3 / 4,
+        height: isCardView
+            ? MediaQuery.of(context).size.height
+            : orientation == Orientation.portrait
+            ? MediaQuery.of(context).size.height / 2
+            : MediaQuery.of(context).size.height * 3 / 4,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Padding(
@@ -97,10 +96,9 @@ class _ThermometerState extends SampleViewState {
                       markerAlignment: LinearMarkerAlignment.start,
                       shapeType: LinearShapePointerType.circle,
                       borderWidth: 1,
-                      borderColor:
-                          brightness == Brightness.dark
-                              ? Colors.white30
-                              : Colors.black26,
+                      borderColor: brightness == Brightness.dark
+                          ? Colors.white30
+                          : Colors.black26,
                       color: model.sampleOutputCardColor,
                       position: LinearElementPosition.cross,
                       width: 24,
@@ -112,10 +110,9 @@ class _ThermometerState extends SampleViewState {
                       shapeType: LinearShapePointerType.circle,
                       borderWidth: 6,
                       borderColor: Colors.transparent,
-                      color:
-                          _meterValue > _temperatureValue
-                              ? const Color(0xffFF7B7B)
-                              : const Color(0xff0074E3),
+                      color: _meterValue > _temperatureValue
+                          ? const Color(0xffFF7B7B)
+                          : const Color(0xff0074E3),
                       position: LinearElementPosition.cross,
                       width: 24,
                       height: 24,
@@ -137,10 +134,9 @@ class _ThermometerState extends SampleViewState {
                               color: model.sampleOutputCardColor,
                             ),
                           ),
-                          color:
-                              _meterValue > _temperatureValue
-                                  ? const Color(0xffFF7B7B)
-                                  : const Color(0xff0074E3),
+                          color: _meterValue > _temperatureValue
+                              ? const Color(0xffFF7B7B)
+                              : const Color(0xff0074E3),
                         ),
                       ),
                     ),
@@ -159,10 +155,9 @@ class _ThermometerState extends SampleViewState {
                         transform: Matrix4.translationValues(4, 0, 0.0),
                         child: Image.asset(
                           'images/triangle_pointer.png',
-                          color:
-                              _meterValue > _temperatureValue
-                                  ? const Color(0xffFF7B7B)
-                                  : const Color(0xff0074E3),
+                          color: _meterValue > _temperatureValue
+                              ? const Color(0xffFF7B7B)
+                              : const Color(0xff0074E3),
                         ),
                       ),
                     ),
@@ -186,10 +181,9 @@ class _ThermometerState extends SampleViewState {
                       enableAnimation: false,
                       thickness: 6,
                       edgeStyle: LinearEdgeStyle.endCurve,
-                      color:
-                          _meterValue > _temperatureValue
-                              ? const Color(0xffFF7B7B)
-                              : const Color(0xff0074E3),
+                      color: _meterValue > _temperatureValue
+                          ? const Color(0xffFF7B7B)
+                          : const Color(0xff0074E3),
                     ),
                   ],
                 ),

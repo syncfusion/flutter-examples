@@ -207,12 +207,11 @@ class _NavigationWithEventsState extends SampleViewState {
       onDataLabelTapped: (DataLabelTapDetails args) {
         _scaffoldKey.currentState?.showSnackBar(
           SnackBar(
-            width:
-                model.isWebFullView
-                    ? _measureText(
-                      'Data label tapped/clicked. Navigating to the link.',
-                    ).width
-                    : null,
+            width: model.isWebFullView
+                ? _measureText(
+                    'Data label tapped/clicked. Navigating to the link.',
+                  ).width
+                : null,
             behavior: SnackBarBehavior.floating,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -228,12 +227,11 @@ class _NavigationWithEventsState extends SampleViewState {
       onAxisLabelTapped: (AxisLabelTapArgs args) {
         _scaffoldKey.currentState?.showSnackBar(
           SnackBar(
-            width:
-                model.isWebFullView
-                    ? _measureText(
-                      'Axis label tapped/clicked. Navigating to the link.',
-                    ).width
-                    : null,
+            width: model.isWebFullView
+                ? _measureText(
+                    'Axis label tapped/clicked. Navigating to the link.',
+                  ).width
+                : null,
             behavior: SnackBarBehavior.floating,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -247,10 +245,9 @@ class _NavigationWithEventsState extends SampleViewState {
         _launchHyperLink(args.value.toString());
       },
       primaryXAxis: CategoryAxis(
-        labelIntersectAction:
-            isCardView
-                ? AxisLabelIntersectAction.multipleRows
-                : AxisLabelIntersectAction.rotate45,
+        labelIntersectAction: isCardView
+            ? AxisLabelIntersectAction.multipleRows
+            : AxisLabelIntersectAction.rotate45,
         majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
@@ -327,12 +324,11 @@ class _NavigationWithEventsState extends SampleViewState {
         onPointTap: (ChartPointDetails args) {
           _scaffoldKey.currentState?.showSnackBar(
             SnackBar(
-              width:
-                  model.isWebFullView
-                      ? _measureText(
-                        'Data point tapped/clicked. Navigating to the link.',
-                      ).width
-                      : null,
+              width: model.isWebFullView
+                  ? _measureText(
+                      'Data point tapped/clicked. Navigating to the link.',
+                    ).width
+                  : null,
               behavior: SnackBarBehavior.floating,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5)),

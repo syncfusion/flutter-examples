@@ -90,10 +90,9 @@ class _TrendLineForecastState extends SampleViewState {
               child: CustomDirectionalButtons(
                 maxValue: 50,
                 initialValue: _forwardForecastValue,
-                onChanged:
-                    (double val) => setState(() {
-                      _forwardForecastValue = val;
-                    }),
+                onChanged: (double val) => setState(() {
+                  _forwardForecastValue = val;
+                }),
                 loop: true,
                 iconColor: model.textColor,
                 style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -112,10 +111,9 @@ class _TrendLineForecastState extends SampleViewState {
               child: CustomDirectionalButtons(
                 maxValue: 50,
                 initialValue: _backwardForecastValue,
-                onChanged:
-                    (double val) => setState(() {
-                      _backwardForecastValue = val;
-                    }),
+                onChanged: (double val) => setState(() {
+                  _backwardForecastValue = val;
+                }),
                 loop: true,
                 iconColor: model.textColor,
                 style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -129,17 +127,17 @@ class _TrendLineForecastState extends SampleViewState {
 
   /// Return the Cartesian Chart with Spline series.
   SfCartesianChart _buildCartesianChart(bool isMaterial3, bool isLightMode) {
-    final Color color =
-        isMaterial3
-            ? (isLightMode
-                ? const Color.fromRGBO(99, 85, 199, 1)
-                : const Color.fromRGBO(51, 182, 119, 1))
-            : const Color.fromRGBO(192, 108, 132, 1);
+    final Color color = isMaterial3
+        ? (isLightMode
+              ? const Color.fromRGBO(99, 85, 199, 1)
+              : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-        text:
-            isCardView ? '' : 'Euro to USD yearly exchange rate - 1999 to 2019',
+        text: isCardView
+            ? ''
+            : 'Euro to USD yearly exchange rate - 1999 to 2019',
       ),
       primaryXAxis: const NumericAxis(
         majorGridLines: MajorGridLines(width: 0),

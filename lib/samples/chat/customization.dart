@@ -25,8 +25,9 @@ class ChatCustomizationSampleState extends SampleViewState {
     int index,
     ChatMessage message,
   ) {
-    final String? previousAuthor =
-        index == 0 ? null : _messages[index - 1].author.id;
+    final String? previousAuthor = index == 0
+        ? null
+        : _messages[index - 1].author.id;
     final String currentAuthor = message.author.id;
     if (previousAuthor == null || previousAuthor != currentAuthor) {
       // Space between two message group.
@@ -167,25 +168,21 @@ class ChatCustomizationSampleState extends SampleViewState {
       return BorderRadius.only(
         topLeft: maxRadius,
         bottomLeft: maxRadius,
-        topRight:
-            isLastMessageFromAuthor || isSameAuthorMessage
-                ? minRadius
-                : maxRadius,
-        bottomRight:
-            isFirstMessageFromAuthor || isSameAuthorMessage
-                ? minRadius
-                : maxRadius,
+        topRight: isLastMessageFromAuthor || isSameAuthorMessage
+            ? minRadius
+            : maxRadius,
+        bottomRight: isFirstMessageFromAuthor || isSameAuthorMessage
+            ? minRadius
+            : maxRadius,
       );
     } else {
       return BorderRadius.only(
-        topLeft:
-            isLastMessageFromAuthor || isSameAuthorMessage
-                ? minRadius
-                : maxRadius,
-        bottomLeft:
-            isFirstMessageFromAuthor || isSameAuthorMessage
-                ? minRadius
-                : maxRadius,
+        topLeft: isLastMessageFromAuthor || isSameAuthorMessage
+            ? minRadius
+            : maxRadius,
+        bottomLeft: isFirstMessageFromAuthor || isSameAuthorMessage
+            ? minRadius
+            : maxRadius,
         topRight: maxRadius,
         bottomRight: maxRadius,
       );
@@ -198,16 +195,18 @@ class ChatCustomizationSampleState extends SampleViewState {
   }
 
   bool _isFirstMessageFromAuthor(int index, ChatMessage message) {
-    final String? previousAuthor =
-        index == 0 ? null : _messages[index - 1].author.id;
+    final String? previousAuthor = index == 0
+        ? null
+        : _messages[index - 1].author.id;
     final String currentAuthor = message.author.id;
     return previousAuthor == null || previousAuthor != currentAuthor;
   }
 
   bool _isLastMessageFromAuthor(int index, ChatMessage message) {
     final String currentAuthor = message.author.id;
-    final String? nextAuthor =
-        index == _messageCount - 1 ? null : _messages[index + 1].author.id;
+    final String? nextAuthor = index == _messageCount - 1
+        ? null
+        : _messages[index + 1].author.id;
     return nextAuthor == null || nextAuthor != currentAuthor;
   }
 
@@ -218,12 +217,11 @@ class ChatCustomizationSampleState extends SampleViewState {
   ) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color:
-            _isOutgoingMessage(message)
-                ? model.themeData.colorScheme.primary
-                : model.themeData.colorScheme.secondaryContainer.withValues(
-                  alpha: 0.5,
-                ),
+        color: _isOutgoingMessage(message)
+            ? model.themeData.colorScheme.primary
+            : model.themeData.colorScheme.secondaryContainer.withValues(
+                alpha: 0.5,
+              ),
         borderRadius: _borderRadius(index, message),
       ),
       child: Padding(
@@ -268,14 +266,11 @@ class ChatCustomizationSampleState extends SampleViewState {
           child: Text(
             formattedTime,
             style: TextStyle(
-              color:
-                  isOutgoingMessage
-                      ? model.themeData.colorScheme.surface.withValues(
-                        alpha: 0.5,
-                      )
-                      : model.themeData.colorScheme.onSurface.withValues(
-                        alpha: 0.5,
-                      ),
+              color: isOutgoingMessage
+                  ? model.themeData.colorScheme.surface.withValues(alpha: 0.5)
+                  : model.themeData.colorScheme.onSurface.withValues(
+                      alpha: 0.5,
+                    ),
               fontSize: 10,
               fontWeight: FontWeight.w400,
             ),
@@ -289,10 +284,9 @@ class ChatCustomizationSampleState extends SampleViewState {
     final ChatMessageExt chatMessage = message as ChatMessageExt;
     final String text = chatMessage.text;
     final TextStyle textStyle = TextStyle(
-      color:
-          isOutgoingMessage
-              ? model.themeData.colorScheme.surface
-              : model.themeData.colorScheme.onSurface,
+      color: isOutgoingMessage
+          ? model.themeData.colorScheme.surface
+          : model.themeData.colorScheme.onSurface,
     );
     Widget result;
     if (chatMessage.link != null) {
@@ -311,14 +305,12 @@ class ChatCustomizationSampleState extends SampleViewState {
                 recognizer: TapGestureRecognizer()..onTap = () => launchURL(),
                 style: TextStyle(
                   decoration: TextDecoration.underline,
-                  decorationColor:
-                      model.themeData.useMaterial3
-                          ? Colors.lightBlue
-                          : Colors.white,
-                  color:
-                      model.themeData.useMaterial3
-                          ? Colors.lightBlue
-                          : Colors.white,
+                  decorationColor: model.themeData.useMaterial3
+                      ? Colors.lightBlue
+                      : Colors.white,
+                  color: model.themeData.useMaterial3
+                      ? Colors.lightBlue
+                      : Colors.white,
                 ),
               ),
             ],

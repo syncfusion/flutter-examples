@@ -114,12 +114,11 @@ class _InfiniteScrollingState extends SampleViewState {
     bool isMaterial3,
     bool isLightMode,
   ) {
-    final Color color =
-        isMaterial3
-            ? (isLightMode
-                ? const Color.fromRGBO(6, 174, 224, 1)
-                : const Color.fromRGBO(255, 245, 0, 1))
-            : const Color.fromRGBO(75, 135, 185, 1);
+    final Color color = isMaterial3
+        ? (isLightMode
+              ? const Color.fromRGBO(6, 174, 224, 1)
+              : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
     return <CartesianSeries<ChartSampleData, num>>[
       SplineAreaSeries<ChartSampleData, num>(
         dataSource: _chartData,
@@ -127,11 +126,10 @@ class _InfiniteScrollingState extends SampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.y,
         color: color.withValues(alpha: 0.6),
         borderColor: color,
-        onRendererCreated: (
-          ChartSeriesController<ChartSampleData, num> controller,
-        ) {
-          _seriesController = controller;
-        },
+        onRendererCreated:
+            (ChartSeriesController<ChartSampleData, num> controller) {
+              _seriesController = controller;
+            },
       ),
     ];
   }
@@ -173,16 +171,15 @@ class _InfiniteScrollingState extends SampleViewState {
           alignment: Alignment.centerRight,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors:
-                  model.themeData.colorScheme.brightness == Brightness.light
-                      ? <Color>[
-                        Colors.white.withValues(alpha: 0.0),
-                        Colors.white.withValues(alpha: 0.74),
-                      ]
-                      : const <Color>[
-                        Color.fromRGBO(33, 33, 33, 0.0),
-                        Color.fromRGBO(33, 33, 33, 0.74),
-                      ],
+              colors: model.themeData.colorScheme.brightness == Brightness.light
+                  ? <Color>[
+                      Colors.white.withValues(alpha: 0.0),
+                      Colors.white.withValues(alpha: 0.74),
+                    ]
+                  : const <Color>[
+                      Color.fromRGBO(33, 33, 33, 0.0),
+                      Color.fromRGBO(33, 33, 33, 0.74),
+                    ],
               stops: const <double>[0.0, 1],
             ),
           ),

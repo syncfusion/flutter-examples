@@ -48,9 +48,9 @@ class _FindTextPdfState extends SampleViewState {
                       labelStyle: TextStyle(
                         color:
                             model.themeData.colorScheme.brightness ==
-                                    Brightness.light
-                                ? Colors.grey
-                                : Colors.lightBlue,
+                                Brightness.light
+                            ? Colors.grey
+                            : Colors.lightBlue,
                       ),
                     ),
                     controller: _nameController,
@@ -67,15 +67,14 @@ class _FindTextPdfState extends SampleViewState {
                       backgroundColor: WidgetStateProperty.all<Color>(
                         model.primaryColor,
                       ),
-                      padding:
-                          model.isMobile
-                              ? null
-                              : WidgetStateProperty.all(
-                                const EdgeInsets.symmetric(
-                                  vertical: 15,
-                                  horizontal: 15,
-                                ),
+                      padding: model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 15,
                               ),
+                            ),
                     ),
                     onPressed: _viewTemplate,
                     child: const Text(
@@ -89,15 +88,14 @@ class _FindTextPdfState extends SampleViewState {
                       backgroundColor: WidgetStateProperty.all<Color>(
                         model.primaryColor,
                       ),
-                      padding:
-                          model.isMobile
-                              ? null
-                              : WidgetStateProperty.all(
-                                const EdgeInsets.symmetric(
-                                  vertical: 15,
-                                  horizontal: 15,
-                                ),
+                      padding: model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 15,
                               ),
+                            ),
                     ),
                     onPressed: _generatePDF,
                     child: const Text(

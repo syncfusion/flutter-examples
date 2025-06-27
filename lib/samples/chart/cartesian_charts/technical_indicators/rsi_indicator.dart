@@ -54,8 +54,9 @@ class _RSIIndicatorState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return ListView(
@@ -87,10 +88,9 @@ class _RSIIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _period,
-            onChanged:
-                (double val) => setState(() {
-                  _period = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _period = val;
+            }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -116,10 +116,9 @@ class _RSIIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 100,
             initialValue: _overBought,
-            onChanged:
-                (double val) => setState(() {
-                  _overBought = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _overBought = val;
+            }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -145,10 +144,9 @@ class _RSIIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _overSold,
-            onChanged:
-                (double val) => setState(() {
-                  _overSold = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _overSold = val;
+            }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),

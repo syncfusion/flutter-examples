@@ -118,10 +118,10 @@ class _RangeBarChartState extends SampleViewState {
       RangeColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        lowValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
-        highValueMapper:
-            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
+        lowValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
+        highValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
         name: 'Melbourne',
         dataLabelSettings: DataLabelSettings(
           isVisible: !isCardView,

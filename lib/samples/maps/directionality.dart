@@ -186,14 +186,13 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
   Widget _buildMapsWidget(bool scrollEnabled) {
     return Center(
       child: Padding(
-        padding:
-            scrollEnabled
-                ? EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.05,
-                  right: 10,
-                )
-                : const EdgeInsets.only(right: 10, bottom: 15),
+        padding: scrollEnabled
+            ? EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
+                bottom: MediaQuery.of(context).size.height * 0.05,
+                right: 10,
+              )
+            : const EdgeInsets.only(right: 10, bottom: 15),
         child: SfMapsTheme(
           data: const SfMapsThemeData(),
           child: Column(
@@ -241,28 +240,26 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
                                     text: TextSpan(
                                       text:
                                           model.locale ==
-                                                  const Locale('ar', 'AE')
-                                              ? _stateWiseGRPDetails[index]
-                                                  .stateLocale
-                                              : _stateWiseGRPDetails[index]
-                                                  .state,
+                                              const Locale('ar', 'AE')
+                                          ? _stateWiseGRPDetails[index]
+                                                .stateLocale
+                                          : _stateWiseGRPDetails[index].state,
                                       style: _themeData.textTheme.bodySmall!
                                           .copyWith(
                                             height: 1.5,
-                                            color:
-                                                _isLightTheme
-                                                    ? const Color.fromRGBO(
-                                                      255,
-                                                      255,
-                                                      255,
-                                                      1,
-                                                    )
-                                                    : const Color.fromRGBO(
-                                                      10,
-                                                      10,
-                                                      10,
-                                                      1,
-                                                    ),
+                                            color: _isLightTheme
+                                                ? const Color.fromRGBO(
+                                                    255,
+                                                    255,
+                                                    255,
+                                                    1,
+                                                  )
+                                                : const Color.fromRGBO(
+                                                    10,
+                                                    10,
+                                                    10,
+                                                    1,
+                                                  ),
                                           ),
                                       children: <TextSpan>[
                                         TextSpan(
@@ -292,10 +289,9 @@ class _MapsWithDirectionalityState extends DirectionalitySampleViewState {
                         segmentSize: Size(55.0, 9.0),
                       ),
                       tooltipSettings: MapTooltipSettings(
-                        color:
-                            _isLightTheme
-                                ? const Color.fromRGBO(45, 45, 45, 1)
-                                : const Color.fromRGBO(242, 242, 242, 1),
+                        color: _isLightTheme
+                            ? const Color.fromRGBO(45, 45, 45, 1)
+                            : const Color.fromRGBO(242, 242, 242, 1),
                       ),
                     ),
                   ],

@@ -60,10 +60,9 @@ class _DataLabelTemplateState extends SampleViewState {
   SfCartesianChart _buildDataLabelTemplateChart() {
     return SfCartesianChart(
       title: ChartTitle(
-        text:
-            isCardView
-                ? ''
-                : 'Percentage of people using social media on a daily basis',
+        text: isCardView
+            ? ''
+            : 'Percentage of people using social media on a daily basis',
       ),
       plotAreaBorderWidth: 0,
       primaryXAxis: const CategoryAxis(
@@ -111,42 +110,45 @@ class _DataLabelTemplateState extends SampleViewState {
   DataLabelSettings _buildDataLabelSettings() {
     return DataLabelSettings(
       isVisible: true,
-      builder: (
-        dynamic data,
-        dynamic point,
-        dynamic series,
-        int pointIndex,
-        int seriesIndex,
-      ) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            SizedBox(
-              height: 35,
-              child: Image.asset(
-                _getImageTemplate(pointIndex),
-                height: 45,
-                width: 30,
-              ),
-            ),
-            Text(data.y.toString() + '%', style: const TextStyle(fontSize: 10)),
-          ],
-        );
-      },
+      builder:
+          (
+            dynamic data,
+            dynamic point,
+            dynamic series,
+            int pointIndex,
+            int seriesIndex,
+          ) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: 35,
+                  child: Image.asset(
+                    _getImageTemplate(pointIndex),
+                    height: 45,
+                    width: 30,
+                  ),
+                ),
+                Text(
+                  data.y.toString() + '%',
+                  style: const TextStyle(fontSize: 10),
+                ),
+              ],
+            );
+          },
     );
   }
 
   String _getImageTemplate(int pointIndex) {
-    final String path =
-        pointIndex == 0
-            ? 'images/youtube.png'
-            : (pointIndex == 1
-                ? 'images/maps_twitter.png'
-                : (pointIndex == 2
+    final String path = pointIndex == 0
+        ? 'images/youtube.png'
+        : (pointIndex == 1
+              ? 'images/maps_twitter.png'
+              : (pointIndex == 2
                     ? 'images/maps_instagram.png'
                     : (pointIndex == 3
-                        ? 'images/maps_snapchat.png'
-                        : 'images/maps_facebook.png')));
+                          ? 'images/maps_snapchat.png'
+                          : 'images/maps_facebook.png')));
     return path;
   }
 

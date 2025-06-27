@@ -30,8 +30,12 @@ class _PlotBandDefaultState extends SampleViewState {
 
   @override
   void initState() {
-    _plotBandType =
-        <String>['vertical', 'horizontal', 'segment', 'line'].toList();
+    _plotBandType = <String>[
+      'vertical',
+      'horizontal',
+      'segment',
+      'line',
+    ].toList();
     isHorizontal = true;
     isVertical = false;
     _selectedType = _plotBandType!.first;
@@ -77,16 +81,15 @@ class _PlotBandDefaultState extends SampleViewState {
                 focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedType,
-                items:
-                    _plotBandType!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'horizontal',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: _plotBandType!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'horizontal',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (dynamic value) {
                   _onPlotBandModeChange(value.toString());
                   stateSetter(() {});
@@ -108,10 +111,10 @@ class _PlotBandDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart() {
     final Color yAxisPlotBandTextColor =
         ((isSegment || isLine) &&
-                model != null &&
-                model.themeData.colorScheme.brightness == Brightness.light)
-            ? Colors.black54
-            : const Color.fromRGBO(255, 255, 255, 1);
+            model != null &&
+            model.themeData.colorScheme.brightness == Brightness.light)
+        ? Colors.black54
+        : const Color.fromRGBO(255, 255, 255, 1);
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: isCardView ? '' : 'Weather report'),
@@ -216,97 +219,94 @@ class _PlotBandDefaultState extends SampleViewState {
             isVisible: isCardView ? false : isVertical,
             start: isLine ? 40 : 30,
             end: isLine ? 40 : 41,
-            horizontalTextAlignment:
-                isLine ? TextAnchor.start : TextAnchor.middle,
-            verticalTextAlignment:
-                isLine ? TextAnchor.start : TextAnchor.middle,
+            horizontalTextAlignment: isLine
+                ? TextAnchor.start
+                : TextAnchor.middle,
+            verticalTextAlignment: isLine
+                ? TextAnchor.start
+                : TextAnchor.middle,
             // Padding for plotBand text.
             verticalTextPadding: isLine ? '-7' : '',
-            borderWidth:
-                isCardView
-                    ? 0
-                    : isLine
-                    ? 2
-                    : 0,
-            borderColor:
-                isCardView
-                    ? Colors.black
-                    : isLine
-                    ? const Color.fromRGBO(207, 85, 7, 1)
-                    : Colors.black,
+            borderWidth: isCardView
+                ? 0
+                : isLine
+                ? 2
+                : 0,
+            borderColor: isCardView
+                ? Colors.black
+                : isLine
+                ? const Color.fromRGBO(207, 85, 7, 1)
+                : Colors.black,
             text: 'High Temperature',
             color: const Color.fromRGBO(207, 85, 7, 1),
             textStyle:
                 ((isSegment || isLine) &&
-                        model != null &&
-                        model.themeData.colorScheme.brightness ==
-                            Brightness.light)
-                    ? const TextStyle(color: Colors.black)
-                    : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+                    model != null &&
+                    model.themeData.colorScheme.brightness == Brightness.light)
+                ? const TextStyle(color: Colors.black)
+                : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
           ),
           PlotBand(
             isVisible: isCardView ? false : isVertical,
             start: isLine ? 30 : 20,
             end: 30,
-            horizontalTextAlignment:
-                isLine ? TextAnchor.start : TextAnchor.middle,
-            verticalTextAlignment:
-                isLine ? TextAnchor.start : TextAnchor.middle,
-            borderWidth:
-                isCardView
-                    ? 0
-                    : isLine
-                    ? 2
-                    : 0,
-            borderColor:
-                isCardView
-                    ? Colors.black
-                    : isLine
-                    ? const Color.fromRGBO(224, 155, 0, 1)
-                    : Colors.black,
+            horizontalTextAlignment: isLine
+                ? TextAnchor.start
+                : TextAnchor.middle,
+            verticalTextAlignment: isLine
+                ? TextAnchor.start
+                : TextAnchor.middle,
+            borderWidth: isCardView
+                ? 0
+                : isLine
+                ? 2
+                : 0,
+            borderColor: isCardView
+                ? Colors.black
+                : isLine
+                ? const Color.fromRGBO(224, 155, 0, 1)
+                : Colors.black,
             text: 'Average Temperature',
             // Padding for plotBand text.
             verticalTextPadding: isLine ? '-7' : '',
             color: const Color.fromRGBO(224, 155, 0, 1),
             textStyle:
                 ((isSegment || isLine) &&
-                        model != null &&
-                        model.themeData.colorScheme.brightness ==
-                            Brightness.light)
-                    ? const TextStyle(color: Colors.black)
-                    : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+                    model != null &&
+                    model.themeData.colorScheme.brightness == Brightness.light)
+                ? const TextStyle(color: Colors.black)
+                : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
           ),
           PlotBand(
             isVisible: isCardView ? false : isVertical,
             start: isLine ? 20 : 10,
             end: 20,
-            horizontalTextAlignment:
-                isLine ? TextAnchor.start : TextAnchor.middle,
-            verticalTextAlignment:
-                isLine ? TextAnchor.start : TextAnchor.middle,
-            borderWidth:
-                isCardView
-                    ? 0
-                    : isLine
-                    ? 2
-                    : 0,
-            borderColor:
-                isCardView
-                    ? Colors.black
-                    : isLine
-                    ? const Color.fromRGBO(237, 195, 12, 1)
-                    : Colors.black,
+            horizontalTextAlignment: isLine
+                ? TextAnchor.start
+                : TextAnchor.middle,
+            verticalTextAlignment: isLine
+                ? TextAnchor.start
+                : TextAnchor.middle,
+            borderWidth: isCardView
+                ? 0
+                : isLine
+                ? 2
+                : 0,
+            borderColor: isCardView
+                ? Colors.black
+                : isLine
+                ? const Color.fromRGBO(237, 195, 12, 1)
+                : Colors.black,
             text: 'Low Temperature',
             // padding for plotBand text.
             verticalTextPadding: isLine ? '-7' : '',
             color: const Color.fromRGBO(237, 195, 12, 1),
             textStyle:
                 ((isSegment || isLine) &&
-                        model != null &&
-                        model.themeData.colorScheme.brightness ==
-                            Brightness.light)
-                    ? const TextStyle(color: Colors.black)
-                    : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
+                    model != null &&
+                    model.themeData.colorScheme.brightness == Brightness.light)
+                ? const TextStyle(color: Colors.black)
+                : const TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
           ),
         ],
       ),
@@ -322,10 +322,10 @@ class _PlotBandDefaultState extends SampleViewState {
   List<LineSeries<ChartSampleData, String>> _buildLineSeries() {
     final Color seriesColor =
         (isSegment || isLine) &&
-                model != null &&
-                model.themeData.colorScheme.brightness == Brightness.light
-            ? Colors.black54
-            : Colors.white;
+            model != null &&
+            model.themeData.colorScheme.brightness == Brightness.light
+        ? Colors.black54
+        : Colors.white;
     return <LineSeries<ChartSampleData, String>>[
       LineSeries<ChartSampleData, String>(
         dataSource: _weatherReport,

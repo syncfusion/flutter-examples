@@ -50,10 +50,9 @@ class _RangeColumnDefaultState extends SampleViewState {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
       title: ChartTitle(
-        text:
-            isCardView
-                ? ''
-                : 'Average half-yearly temperature variation of London, UK',
+        text: isCardView
+            ? ''
+            : 'Average half-yearly temperature variation of London, UK',
       ),
       primaryXAxis: const CategoryAxis(
         majorGridLines: MajorGridLines(width: 0),

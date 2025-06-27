@@ -78,8 +78,8 @@ class _NumericDefaultState extends SampleViewState {
       ColumnSeries<ChartSampleData, num>(
         dataSource: _dataOfAustraliaVSIndiaODI2019,
         xValueMapper: (ChartSampleData sales, int index) => sales.xValue,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         color: const Color.fromRGBO(237, 221, 76, 1),
         name: 'Australia',
       ),

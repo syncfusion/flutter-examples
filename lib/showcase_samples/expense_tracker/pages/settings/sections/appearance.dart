@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
-import '../../../data_processing/utils.dart';
+// import '../../../data_processing/utils.dart';
 import '../../../helper/dashboard.dart';
 import '../../../helper/responsive_layout.dart';
 import '../../../models/user_profile.dart';
@@ -59,7 +59,7 @@ class _AppearancePageState extends State<AppearancePage> {
     }
 
     widget.userProfile.themeFormat = themeNotifier.selectedTheme;
-    updateUserProfile(context, widget.userProfile);
+    // updateUserProfile(context, widget.userProfile);
     pageNavigatorNotifier.value = NavigationPagesSlot.settings;
   }
 
@@ -110,10 +110,8 @@ class _AppearancePageState extends State<AppearancePage> {
                   bottom: 2,
                 ),
                 child: TextButton(
-                  onPressed:
-                      () =>
-                          pageNavigatorNotifier.value =
-                              NavigationPagesSlot.settings,
+                  onPressed: () => pageNavigatorNotifier.value =
+                      NavigationPagesSlot.settings,
                   style: TextButton.styleFrom(overlayColor: Colors.transparent),
                   child: const Text('Discard'),
                 ),
@@ -168,16 +166,15 @@ class _AppearancePageState extends State<AppearancePage> {
         vertical: isMobile(context) ? 24.0 : 24.0,
         horizontal: isMobile(context) ? 24.0 : 24.0,
       ),
-      child:
-          isMobile(context)
-              ? _buildSettingsFields(context)
-              : ExpenseCard(
-                edgeInsets: EdgeInsets.symmetric(
-                  horizontal: isMobile(context) ? 0 : 32.0,
-                  vertical: isMobile(context) ? 0 : 32.0,
-                ),
-                child: _buildSettingsFields(context),
+      child: isMobile(context)
+          ? _buildSettingsFields(context)
+          : ExpenseCard(
+              edgeInsets: EdgeInsets.symmetric(
+                horizontal: isMobile(context) ? 0 : 32.0,
+                vertical: isMobile(context) ? 0 : 32.0,
               ),
+              child: _buildSettingsFields(context),
+            ),
     );
   }
 

@@ -257,10 +257,9 @@ class _ProgressBarTypesState extends SampleViewState {
               length: 0.3,
               thickness: 3,
               lengthUnit: GaugeSizeUnit.factor,
-              color:
-                  model.themeData.brightness == Brightness.light
-                      ? Colors.white
-                      : const Color.fromRGBO(33, 33, 33, 1),
+              color: model.themeData.brightness == Brightness.light
+                  ? Colors.white
+                  : const Color.fromRGBO(33, 33, 33, 1),
             ),
           ),
         ],

@@ -132,9 +132,9 @@ class HeatMapCalendarCalendarState extends SampleViewState {
     final Color backgroundColor = _getMonthCellBackgroundColor(details.date);
     final Color defaultColor =
         model.themeData != null &&
-                model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.black54
-            : Colors.white;
+            model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.black54
+        : Colors.white;
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor,

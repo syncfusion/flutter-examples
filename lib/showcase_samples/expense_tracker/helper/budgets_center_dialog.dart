@@ -3,13 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../custom_widgets/custom_buttons.dart';
+import '../custom_widgets/custom_drop_down_menu.dart';
 import '../custom_widgets/text_field.dart';
-import '../data_processing/budget_handler.dart'
-    if (dart.library.html) '../data_processing/budget_web_handler.dart';
-// import '../data_processing/category_handler.dart';
+// import '../data_processing/budget_handler.dart'
+//     if (dart.library.html) '../data_processing/budget_web_handler.dart';
 import '../enum.dart';
 import '../models/budget.dart';
-// import '../models/category.dart' as cat;
 import '../models/user.dart';
 import '../notifiers/budget_notifier.dart';
 import '../notifiers/text_field_valid_notifier.dart';
@@ -53,6 +52,7 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
 
   late TextEditingController _nameController;
   late TextEditingController _typeController;
+  late TextEditingController _categoryController;
   late TextEditingController _dateController;
   late TextEditingController _remarkController;
   late TextEditingController _amountController;
@@ -68,6 +68,7 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
         remarks: currentBudget.notes ?? '',
         date: currentBudget.createdDate,
         amount: currentBudget.target,
+        category: currentBudget.category,
       );
     } else {
       widget.notifier.budgetTextFieldDetails = BudgetTextFieldDetails(
@@ -75,6 +76,7 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
         remarks: '',
         date: DateTime.now(),
         amount: 0,
+        category: '',
       );
     }
   }
@@ -89,68 +91,69 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
     return _buildContentDialog();
   }
 
-  CustomTextField _buildBudgetTitleTextField({bool isEdit = false}) {
-    final bool isMobileAddExpense = widget.isMobile && widget.isAddExpense;
-    if ((isEdit || isMobileAddExpense) &&
-        widget.selectedIndex > -1 &&
-        widget.notifier.budgetTextFieldDetails != null) {
-      _nameController.text = widget.notifier.budgetTextFieldDetails!.name;
+  bool get _isMobileAddExpense => widget.isMobile && widget.isAddExpense;
+
+  /// Validate the form and update the state.
+  void _validateForm() {
+    final bool isValid = _validateBudgetForm();
+    _budgetFormIsValid.value = isValid;
+    widget.validNotifier.isTextButtonValid(isValid);
+  }
+
+  /// Widget for Budget Title Text Field
+  Widget _buildBudgetTitleTextField() {
+    if (_shouldControllerReceiveValue()) {
+      _setControllerTextValue(
+        _nameController,
+        widget.notifier.budgetTextFieldDetails!.name,
+      );
     }
     return CustomTextField(
       controller: _nameController,
       focusNode: _nameFocusNode,
       hintText: 'Title',
-      readOnly: isMobileAddExpense,
-      canRequestFocus: !isMobileAddExpense,
+      readOnly: _isMobileAddExpense,
+      canRequestFocus: !_isMobileAddExpense,
       onChanged: (String value) {
         widget.notifier.budgetTextFieldDetails!.name = value;
-        final bool isValid = _validateBudgetForm();
-        _budgetFormIsValid.value = isValid;
-        widget.validNotifier.isTextButtonValid(isValid);
+        _validateForm();
       },
     );
   }
 
-  // Widget _buildCategoryDropdown({
-  //   EdgeInsetsGeometry? expandedInsets,
-  //   bool isEdit = false,
-  // }) {
-  //   final bool isMobileAddExpense = widget.isMobile && widget.isAddExpense;
-  //   if ((isEdit || isMobileAddExpense) &&
-  //       widget.selectedIndex > -1 &&
-  //       widget.notifier.budgetTextFieldDetails != null) {
-  //     _typeController.text = widget.notifier.budgetTextFieldDetails!.remarks;
-  //   }
-  //   return CustomDropdown(
-  //     items: widget.userDetails.userProfile.categoryStrings,
-  //     expandedInsets: expandedInsets,
-  //     enable: !isMobileAddExpense,
-  //     hintText: 'Category',
-  //     controller: _typeController,
-  //     focusNode: _typeFocusNode,
-  //     onSelected: (String? value) {
-  //       widget.notifier.budgetTextFieldDetails!.category = value ?? '';
+  /// Widget for Category Dropdown
+  Widget _buildCategoryDropDown({EdgeInsetsGeometry? expandedInsets}) {
+    if (_shouldControllerReceiveValue()) {
+      _setControllerTextValue(
+        _categoryController,
+        widget.notifier.budgetTextFieldDetails!.category,
+      );
+    }
+    return CustomDropdown(
+      items: widget.userDetails.userProfile.categoryStrings,
+      expandedInsets: expandedInsets,
+      enable: !_isMobileAddExpense,
+      hintText: 'Category',
+      controller: _categoryController,
+      focusNode: _typeFocusNode,
+      onSelected: (String? value) {
+        widget.notifier.budgetTextFieldDetails?.category = value ?? '';
+        _validateForm();
+      },
+      selectedValue: widget.notifier.budgetTextFieldDetails?.category,
+    );
+  }
 
-  //       // setState(() {
-  //       //   selectedValue = value;
-  //       // });
-  //       widget.validNotifier.isTextButtonValid(
-  //         _nameController.text,
-  //         _typeController.text,
-  //         _amountController.text,
-  //         _dateController.text,
-  //       );
-  //     },
-  //     selectedValue: selectedValue,
-  //   );
-  // }
-
-  CustomTextField _buildAmountTextField({bool isEdit = false}) {
-    if (isEdit &&
-        widget.selectedIndex > -1 &&
-        widget.notifier.budgetTextFieldDetails != null) {
-      _amountController.text =
-          widget.notifier.budgetTextFieldDetails!.amount.toString();
+  /// Widget for Amount Text Field
+  Widget _buildAmountTextField() {
+    if (_shouldControllerReceiveValue()) {
+      _setControllerTextValue(
+        _amountController,
+        toCurrency(
+          widget.notifier.budgetTextFieldDetails!.amount,
+          widget.userDetails.userProfile,
+        ),
+      );
     }
     return CustomTextField(
       controller: _amountController,
@@ -162,9 +165,7 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
             value,
             widget.userDetails.userProfile,
           );
-          final bool isValid = _validateBudgetForm();
-          _budgetFormIsValid.value = isValid;
-          widget.validNotifier.isTextButtonValid(isValid);
+          _validateForm();
         }
       },
       keyboardType: TextInputType.number,
@@ -175,30 +176,12 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
     );
   }
 
-  bool _validateBudgetForm() {
-    if (widget.userInteraction == UserInteractions.edit) {
-      final Budget currentBudget =
-          widget.notifier.visibleBudgets[widget.selectedIndex];
-      return _nameController.text != currentBudget.name ||
-          _amountController.text != currentBudget.target.toString() ||
-          _dateController.text != formatDate(currentBudget.createdDate) ||
-          _remarkController.text != currentBudget.notes;
-    }
-    if (widget.isAddExpense) {
-      return _amountController.text.isNotEmpty;
-    }
-    return _nameController.text.isNotEmpty &&
-        _amountController.text.isNotEmpty &&
-        _dateController.text.isNotEmpty;
-  }
-
-  Widget _buildDateTextField({bool isEdit = false}) {
-    final bool isMobileAddExpense = widget.isMobile && widget.isAddExpense;
-    if ((isEdit || isMobileAddExpense) &&
-        widget.selectedIndex > -1 &&
-        widget.notifier.budgetTextFieldDetails != null) {
-      _dateController.text = formatDate(
-        widget.notifier.budgetTextFieldDetails!.date,
+  /// Widget for Date Text Field
+  Widget _buildDateTextField() {
+    if (_shouldControllerReceiveValue()) {
+      _setControllerTextValue(
+        _dateController,
+        formatDate(widget.notifier.budgetTextFieldDetails!.date),
       );
     }
     return buildDateTextField(
@@ -207,23 +190,23 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
       dateController: _dateController,
       userDetails: widget.userDetails,
       context: context,
+      canSelectFutureDate: true,
       onChanged: (String value) {
         widget.notifier.budgetTextFieldDetails!.date = DateFormat(
           widget.userDetails.userProfile.dateFormat,
         ).parse(value);
-        final bool isValid = _validateBudgetForm();
-        _budgetFormIsValid.value = isValid;
-        widget.validNotifier.isTextButtonValid(isValid);
+        _validateForm();
       },
     );
   }
 
-  CustomTextField _buildNotesTextField({bool isEdit = false}) {
-    final bool isMobileAddExpense = widget.isMobile && widget.isAddExpense;
-    if ((isEdit || isMobileAddExpense) &&
-        widget.selectedIndex > -1 &&
-        widget.notifier.budgetTextFieldDetails != null) {
-      _remarkController.text = widget.notifier.budgetTextFieldDetails!.remarks;
+  /// Widget for Notes Text Field
+  Widget _buildNotesTextField() {
+    if (_shouldControllerReceiveValue()) {
+      _setControllerTextValue(
+        _remarkController,
+        widget.notifier.budgetTextFieldDetails!.remarks,
+      );
     }
     return CustomTextField(
       maxLines: 4,
@@ -234,91 +217,128 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
       keyboardType: TextInputType.streetAddress,
       onChanged: (String value) {
         widget.notifier.budgetTextFieldDetails!.remarks = value;
-        if (isEdit) {
-          final bool isValid = _validateBudgetForm();
-          _budgetFormIsValid.value = isValid;
-          widget.validNotifier.isTextButtonValid(isValid);
+        if (widget.userInteraction == UserInteractions.edit) {
+          _validateForm();
         }
       },
-      readOnly: isMobileAddExpense,
-      canRequestFocus: !isMobileAddExpense,
+      readOnly: _isMobileAddExpense,
+      canRequestFocus: !_isMobileAddExpense,
     );
+  }
+
+  bool _shouldControllerReceiveValue() {
+    return (widget.userInteraction == UserInteractions.edit ||
+            _isMobileAddExpense) &&
+        widget.selectedIndex > -1 &&
+        widget.notifier.budgetTextFieldDetails != null;
+  }
+
+  void _setControllerTextValue(TextEditingController controller, String value) {
+    controller.text = value;
+  }
+
+  bool _validateBudgetForm() {
+    if (widget.userInteraction == UserInteractions.edit) {
+      final Budget currentBudget =
+          widget.notifier.visibleBudgets[widget.selectedIndex];
+      return _nameController.text != currentBudget.name ||
+          _amountController.text != currentBudget.target.toString() ||
+          _dateController.text != formatDate(currentBudget.createdDate) ||
+          _remarkController.text != currentBudget.notes ||
+          _categoryController.text != currentBudget.category;
+    }
+    if (widget.isAddExpense) {
+      return _amountController.text.isNotEmpty;
+    }
+    return _nameController.text.isNotEmpty &&
+        _amountController.text.isNotEmpty &&
+        _dateController.text.isNotEmpty &&
+        _categoryController.text.isNotEmpty;
   }
 
   Widget _buildBudgetAddCenterDialog() {
     return CommonCenterDialog(
-      dialogHeader:
-          widget.userInteraction == UserInteractions.edit
-              ? 'Edit Budget'
-              : 'Create Budget',
-      onCloseIconPressed: () {
-        widget.validNotifier.isTextButtonValid(false);
-        Navigator.pop(context);
-      },
+      dialogHeader: _dialogHeaderText(),
+      onCloseIconPressed: _onCloseIconPressed,
       content: _buildDialogBox(context),
-      actions: <Widget>[
-        ValueListenableBuilder<bool>(
-          valueListenable: _budgetFormIsValid,
-          builder: (context, isValid, child) {
-            return CustomTextActionButtons(
-              onCancelAction: () {
-                widget.validNotifier.isTextButtonValid(false);
-                Navigator.pop(context);
-              },
-              onAddOrEditAction:
-                  isValid
-                      ? () async {
-                        final Budget budget = Budget(
-                          name: _nameController.text,
-                          target: parseCurrency(
-                            _amountController.text,
-                            widget.userDetails.userProfile,
-                          ),
-                          notes: _remarkController.text,
-                          expense: 0,
-                          createdDate: DateFormat(
-                            widget.userDetails.userProfile.dateFormat,
-                          ).parse(_dateController.text),
-                        );
-                        if (widget.userInteraction == UserInteractions.edit) {
-                          final Budget currentBudget =
-                              widget.notifier.visibleBudgets[widget
-                                  .selectedIndex];
-                          budget.expense = currentBudget.expense;
-                          widget.notifier.editBudget(
-                            currentBudget,
-                            budget,
-                            widget.selectedIndex,
-                          );
-                          updateBudgets(
-                            context,
-                            widget.userDetails,
-                            budget,
-                            widget.userInteraction,
-                            index: widget.notifier.currentIndex,
-                          );
-                        } else {
-                          if (widget.notifier.isFirstTime) {
-                            widget.notifier.read(widget.userDetails);
-                          }
-                          widget.notifier.createBudget(budget);
-                          updateBudgets(
-                            context,
-                            widget.userDetails,
-                            budget,
-                            widget.userInteraction,
-                          );
-                        }
-                        widget.validNotifier.isTextButtonValid(false);
-                        Navigator.pop(context);
-                      }
-                      : null,
-              showEditButton: widget.userInteraction == UserInteractions.edit,
-            );
-          },
-        ),
-      ],
+      actions: _buildActionButtons(),
     );
+  }
+
+  String _dialogHeaderText() {
+    return widget.userInteraction == UserInteractions.edit
+        ? 'Edit Budget'
+        : 'Create Budget';
+  }
+
+  void _onCloseIconPressed() {
+    widget.validNotifier.isTextButtonValid(false);
+    Navigator.pop(context);
+  }
+
+  void _onAddOrEditButtonPressed() {
+    final Budget budget = _createBudget();
+
+    if (widget.userInteraction == UserInteractions.edit) {
+      _editExistingBudget(budget);
+    } else {
+      _createNewBudget(budget);
+    }
+
+    widget.validNotifier.isTextButtonValid(false);
+    Navigator.pop(context);
+  }
+
+  Budget _createBudget() {
+    return Budget(
+      name: _nameController.text,
+      target: parseCurrency(
+        _amountController.text,
+        widget.userDetails.userProfile,
+      ),
+      notes: _remarkController.text,
+      expense: 0,
+      createdDate: DateFormat(
+        widget.userDetails.userProfile.dateFormat,
+      ).parse(_dateController.text),
+      category: _categoryController.text,
+    );
+  }
+
+  void _editExistingBudget(Budget budget) {
+    final Budget currentBudget =
+        widget.notifier.visibleBudgets[widget.selectedIndex];
+    budget.expense = currentBudget.expense;
+    widget.notifier.editBudget(currentBudget, budget, widget.selectedIndex);
+    // updateBudgets(
+    //   widget.userDetails,
+    //   budget,
+    //   widget.userInteraction,
+    //   index: widget.notifier.currentIndex,
+    // );
+  }
+
+  void _createNewBudget(Budget budget) {
+    if (widget.notifier.isFirstTime) {
+      widget.notifier.read(widget.userDetails);
+    }
+    widget.notifier.createBudget(budget);
+    // updateBudgets(widget.userDetails, budget, widget.userInteraction);
+  }
+
+  List<Widget> _buildActionButtons() {
+    return <Widget>[
+      ValueListenableBuilder<bool>(
+        valueListenable: _budgetFormIsValid,
+        builder: (context, isValid, child) {
+          return CustomTextActionButtons(
+            onCancelAction: _onCloseIconPressed,
+            onAddOrEditAction: isValid ? _onAddOrEditButtonPressed : null,
+            showEditButton: widget.userInteraction == UserInteractions.edit,
+          );
+        },
+      ),
+    ];
   }
 
   Widget _buildMobileContentDialog() {
@@ -331,25 +351,14 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(top: 24.0),
-            child: _buildBudgetTitleTextField(
-              isEdit: widget.userInteraction == UserInteractions.edit,
-            ),
+            child: _buildBudgetTitleTextField(),
           ),
-          // _buildCategoryDropdown(
-          //   expandedInsets: EdgeInsets.zero,
-          //   isEdit: widget.userInteraction == UserInteractions.edit,
-          // ),
-          _buildAmountTextField(
-            isEdit: widget.userInteraction == UserInteractions.edit,
-          ),
-          _buildDateTextField(
-            isEdit: widget.userInteraction == UserInteractions.edit,
-          ),
+          _buildCategoryDropDown(expandedInsets: EdgeInsets.zero),
+          _buildAmountTextField(),
+          _buildDateTextField(),
           Padding(
             padding: const EdgeInsets.only(bottom: 24.0),
-            child: _buildNotesTextField(
-              isEdit: widget.userInteraction == UserInteractions.edit,
-            ),
+            child: _buildNotesTextField(),
           ),
         ],
       ),
@@ -363,30 +372,14 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildFieldsAndDropdowns(
-          _buildBudgetTitleTextField(
-            isEdit: widget.userInteraction == UserInteractions.edit,
-          ),
-          // _buildCategoryDropdown(
-          //   expandedInsets: EdgeInsets.zero,
-          //   isEdit: widget.userInteraction == UserInteractions.edit,
-          // ),
-          _buildAmountTextField(
-            isEdit: widget.userInteraction == UserInteractions.edit,
-          ),
+          _buildBudgetTitleTextField(),
+          _buildCategoryDropDown(expandedInsets: EdgeInsets.zero),
         ),
         _buildFieldsAndDropdowns(
-          // _buildAmountTextField(
-          //   isEdit: widget.userInteraction == UserInteractions.edit,
-          // ),
-          _buildDateTextField(
-            isEdit: widget.userInteraction == UserInteractions.edit,
-          ),
+          _buildAmountTextField(),
+          _buildDateTextField(),
         ),
-        _buildFieldsAndDropdowns(
-          _buildNotesTextField(
-            isEdit: widget.userInteraction == UserInteractions.edit,
-          ),
-        ),
+        _buildFieldsAndDropdowns(_buildNotesTextField()),
       ],
     );
   }
@@ -414,6 +407,7 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
 
     _nameController = TextEditingController();
     _typeController = TextEditingController();
+    _categoryController = TextEditingController();
     _dateController = TextEditingController();
     _remarkController = TextEditingController();
     _amountController = TextEditingController();
@@ -433,6 +427,7 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
     _notesFocusNode.dispose();
     _amountFocusNode.dispose();
     _typeController.dispose();
+    _categoryController.dispose();
 
     _dateController.dispose();
     _remarkController.dispose();

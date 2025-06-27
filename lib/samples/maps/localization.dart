@@ -126,14 +126,13 @@ class _MapsWithLocalizationState extends LocalizationSampleViewState {
   Widget _buildMapsWidget(bool scrollEnabled) {
     return Center(
       child: Padding(
-        padding:
-            scrollEnabled
-                ? EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.05,
-                  right: 10,
-                )
-                : const EdgeInsets.only(right: 10, bottom: 15),
+        padding: scrollEnabled
+            ? EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
+                bottom: MediaQuery.of(context).size.height * 0.05,
+                right: 10,
+              )
+            : const EdgeInsets.only(right: 10, bottom: 15),
         child: Column(
           children: <Widget>[
             Padding(
@@ -168,16 +167,14 @@ class _MapsWithLocalizationState extends LocalizationSampleViewState {
                         overflowMode: MapLabelOverflow.ellipsis,
                       ),
                       tooltipSettings: MapTooltipSettings(
-                        color:
-                            _isLightTheme
-                                ? const Color.fromRGBO(45, 45, 45, 1)
-                                : const Color.fromRGBO(242, 242, 242, 1),
+                        color: _isLightTheme
+                            ? const Color.fromRGBO(45, 45, 45, 1)
+                            : const Color.fromRGBO(242, 242, 242, 1),
                       ),
                       shapeTooltipBuilder: (BuildContext context, int index) {
-                        final Color textColor =
-                            _isLightTheme
-                                ? const Color.fromRGBO(255, 255, 255, 1)
-                                : const Color.fromRGBO(10, 10, 10, 1);
+                        final Color textColor = _isLightTheme
+                            ? const Color.fromRGBO(255, 255, 255, 1)
+                            : const Color.fromRGBO(10, 10, 10, 1);
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

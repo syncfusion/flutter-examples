@@ -1,5 +1,4 @@
 /// Package imports
-/// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Barcode import
@@ -47,10 +46,22 @@ class _GettingStartedDataGridState extends SampleViewState {
             child: const Text('Team'),
           ),
         ),
-        GridColumn(columnName: 'wins', label: const Center(child: Text('W'))),
-        GridColumn(columnName: 'losses', label: const Center(child: Text('L'))),
-        GridColumn(columnName: 'pct', label: const Center(child: Text('WPCT'))),
-        GridColumn(columnName: 'gb', label: const Center(child: Text('GB'))),
+        GridColumn(
+          columnName: 'wins',
+          label: const Center(child: Text('W')),
+        ),
+        GridColumn(
+          columnName: 'losses',
+          label: const Center(child: Text('L')),
+        ),
+        GridColumn(
+          columnName: 'pct',
+          label: const Center(child: Text('WPCT')),
+        ),
+        GridColumn(
+          columnName: 'gb',
+          label: const Center(child: Text('GB')),
+        ),
       ],
     );
   }

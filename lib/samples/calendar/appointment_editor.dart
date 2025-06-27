@@ -122,23 +122,23 @@ class _CalendarAppointmentEditorState extends SampleViewState {
       resizeToAvoidBottomInset: false,
       body:
           calendarController.view == CalendarView.month &&
-                  model.isWebFullView &&
-                  screenHeight < 800
-              ? Scrollbar(
-                thumbVisibility: true,
+              model.isWebFullView &&
+              screenHeight < 800
+          ? Scrollbar(
+              thumbVisibility: true,
+              controller: controller,
+              child: ListView(
                 controller: controller,
-                child: ListView(
-                  controller: controller,
-                  children: <Widget>[
-                    Container(
-                      color: model.sampleOutputCardColor,
-                      height: 600,
-                      child: calendar,
-                    ),
-                  ],
-                ),
-              )
-              : Container(color: model.sampleOutputCardColor, child: calendar),
+                children: <Widget>[
+                  Container(
+                    color: model.sampleOutputCardColor,
+                    height: 600,
+                    child: calendar,
+                  ),
+                ],
+              ),
+            )
+          : Container(color: model.sampleOutputCardColor, child: calendar),
     );
   }
 
@@ -254,51 +254,49 @@ class _CalendarAppointmentEditorState extends SampleViewState {
                 child: Container(
                   alignment: Alignment.center,
                   width: isAppointmentTapped ? 400 : 500,
-                  height:
-                      isAppointmentTapped
-                          ? _selectedAppointment!.location == null ||
-                                  _selectedAppointment!.location!.isEmpty
-                              ? 150
-                              : 200
-                          : 390,
+                  height: isAppointmentTapped
+                      ? _selectedAppointment!.location == null ||
+                                _selectedAppointment!.location!.isEmpty
+                            ? 150
+                            : 200
+                      : 390,
                   child: Theme(
                     data: model.themeData,
                     child: Card(
                       margin: EdgeInsets.zero,
                       color:
                           model.themeData != null &&
-                                  model.themeData.colorScheme.brightness ==
-                                      Brightness.dark
-                              ? Colors.grey[850]
-                              : Colors.white,
+                              model.themeData.colorScheme.brightness ==
+                                  Brightness.dark
+                          ? Colors.grey[850]
+                          : Colors.white,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      child:
-                          isAppointmentTapped
-                              ? displayAppointmentDetails(
-                                context,
-                                targetElement,
-                                selectedDate,
-                                model,
-                                _selectedAppointment!,
-                                _colorCollection,
-                                _colorNames,
-                                _events,
-                                _timeZoneCollection,
-                                _visibleDates,
-                              )
-                              : PopUpAppointmentEditor(
-                                model,
-                                newAppointment,
-                                appointment,
-                                _events,
-                                _colorCollection,
-                                _colorNames,
-                                _selectedAppointment!,
-                                _timeZoneCollection,
-                                _visibleDates,
-                              ),
+                      child: isAppointmentTapped
+                          ? displayAppointmentDetails(
+                              context,
+                              targetElement,
+                              selectedDate,
+                              model,
+                              _selectedAppointment!,
+                              _colorCollection,
+                              _colorNames,
+                              _events,
+                              _timeZoneCollection,
+                              _visibleDates,
+                            )
+                          : PopUpAppointmentEditor(
+                              model,
+                              newAppointment,
+                              appointment,
+                              _events,
+                              _colorCollection,
+                              _colorNames,
+                              _selectedAppointment!,
+                              _timeZoneCollection,
+                              _visibleDates,
+                            ),
                     ),
                   ),
                 ),
@@ -311,17 +309,16 @@ class _CalendarAppointmentEditorState extends SampleViewState {
         Navigator.push<Widget>(
           context,
           MaterialPageRoute<Widget>(
-            builder:
-                (BuildContext context) => AppointmentEditor(
-                  model,
-                  _selectedAppointment,
-                  targetElement,
-                  selectedDate,
-                  _colorCollection,
-                  _colorNames,
-                  _events,
-                  _timeZoneCollection,
-                ),
+            builder: (BuildContext context) => AppointmentEditor(
+              model,
+              _selectedAppointment,
+              targetElement,
+              selectedDate,
+              _colorCollection,
+              _colorNames,
+              _events,
+              _timeZoneCollection,
+            ),
           ),
         );
       }
@@ -606,15 +603,15 @@ Widget _deleteRecurrence(
 ) {
   final Color defaultColor =
       model.themeData != null &&
-              model.themeData.colorScheme.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black54;
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black54;
 
   final Color defaultTextColor =
       model.themeData != null &&
-              model.themeData.colorScheme.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black87;
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black87;
 
   return Dialog(
     child: Container(
@@ -698,10 +695,10 @@ Widget _deleteRecurrence(
                     );
                     parentAppointment.recurrenceExceptionDates != null
                         ? parentAppointment.recurrenceExceptionDates!.add(
-                          selectedAppointment.startTime,
-                        )
+                            selectedAppointment.startTime,
+                          )
                         : parentAppointment.recurrenceExceptionDates =
-                            <DateTime>[selectedAppointment.startTime];
+                              <DateTime>[selectedAppointment.startTime];
                     events.appointments!.add(parentAppointment);
                     events.notifyListeners(
                       CalendarDataSourceAction.add,
@@ -793,14 +790,14 @@ Widget _editRecurrence(
 ) {
   final Color defaultColor =
       model.themeData != null &&
-              model.themeData.colorScheme.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black54;
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black54;
   final Color defaultTextColor =
       model.themeData != null &&
-              model.themeData.colorScheme.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black87;
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black87;
   final List<Appointment> appointmentCollection = <Appointment>[];
   final Appointment? parentAppointment =
       events.getPatternAppointment(selectedAppointment, '') as Appointment?;
@@ -868,23 +865,21 @@ Widget _editRecurrence(
                   selectedAppointment.recurrenceId = parentAppointment!.id;
                   selectedAppointment.id =
                       selectedAppointment.appointmentType ==
-                              AppointmentType.changedOccurrence
-                          ? selectedAppointment.id
-                          : null;
+                          AppointmentType.changedOccurrence
+                      ? selectedAppointment.id
+                      : null;
                   selectedAppointment.recurrenceRule = null;
                   Navigator.pop(context);
                   showDialog<Widget>(
                     context: context,
                     builder: (BuildContext context) {
                       return PopScope(
-                        onPopInvokedWithResult: (
-                          bool value,
-                          Object? result,
-                        ) async {
-                          if (value) {
-                            return;
-                          }
-                        },
+                        onPopInvokedWithResult:
+                            (bool value, Object? result) async {
+                              if (value) {
+                                return;
+                              }
+                            },
                         child: Theme(
                           data: model.themeData,
                           child: AppointmentEditorWeb(
@@ -922,14 +917,12 @@ Widget _editRecurrence(
                     context: context,
                     builder: (BuildContext context) {
                       return PopScope(
-                        onPopInvokedWithResult: (
-                          bool value,
-                          Object? result,
-                        ) async {
-                          if (value) {
-                            return;
-                          }
-                        },
+                        onPopInvokedWithResult:
+                            (bool value, Object? result) async {
+                              if (value) {
+                                return;
+                              }
+                            },
                         child: Theme(
                           data: model.themeData,
                           child: AppointmentEditorWeb(
@@ -979,14 +972,14 @@ Widget displayAppointmentDetails(
 ) {
   final Color defaultColor =
       model.themeData != null &&
-              model.themeData.colorScheme.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black54;
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black54;
   final Color defaultTextColor =
       model.themeData != null &&
-              model.themeData.colorScheme.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black87;
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black87;
   final List<Appointment> appointmentCollection = <Appointment>[];
   return ListView(
     padding: EdgeInsets.zero,
@@ -1006,39 +999,37 @@ Widget displayAppointmentDetails(
                   context: context,
                   builder: (BuildContext context) {
                     return PopScope(
-                      onPopInvokedWithResult: (
-                        bool value,
-                        Object? result,
-                      ) async {
-                        if (value) {
-                          return;
-                        }
-                      },
+                      onPopInvokedWithResult:
+                          (bool value, Object? result) async {
+                            if (value) {
+                              return;
+                            }
+                          },
                       child: Theme(
                         data: model.themeData,
                         child:
                             selectedAppointment.appointmentType ==
-                                    AppointmentType.normal
-                                ? AppointmentEditorWeb(
-                                  model,
-                                  selectedAppointment,
-                                  colorCollection,
-                                  colorNames,
-                                  events,
-                                  timeZoneCollection,
-                                  appointmentCollection,
-                                  visibleDates,
-                                )
-                                : _editRecurrence(
-                                  context,
-                                  model,
-                                  selectedAppointment,
-                                  colorCollection,
-                                  colorNames,
-                                  events,
-                                  timeZoneCollection,
-                                  visibleDates,
-                                ),
+                                AppointmentType.normal
+                            ? AppointmentEditorWeb(
+                                model,
+                                selectedAppointment,
+                                colorCollection,
+                                colorNames,
+                                events,
+                                timeZoneCollection,
+                                appointmentCollection,
+                                visibleDates,
+                              )
+                            : _editRecurrence(
+                                context,
+                                model,
+                                selectedAppointment,
+                                colorCollection,
+                                colorNames,
+                                events,
+                                timeZoneCollection,
+                                visibleDates,
+                              ),
                       ),
                     );
                   },
@@ -1065,14 +1056,12 @@ Widget displayAppointmentDetails(
                     context: context,
                     builder: (BuildContext context) {
                       return PopScope(
-                        onPopInvokedWithResult: (
-                          bool value,
-                          Object? result,
-                        ) async {
-                          if (value) {
-                            return;
-                          }
-                        },
+                        onPopInvokedWithResult:
+                            (bool value, Object? result) async {
+                              if (value) {
+                                return;
+                              }
+                            },
                         child: Theme(
                           data: model.themeData,
                           child: _deleteRecurrence(
@@ -1166,12 +1155,11 @@ String _getSelectedResourceText(
 ) {
   String? resourceNames;
   for (int i = 0; i < resourceIds.length; i++) {
-    final String name =
-        resourceCollection
-            .firstWhere(
-              (CalendarResource resource) => resource.id == resourceIds[i],
-            )
-            .displayName;
+    final String name = resourceCollection
+        .firstWhere(
+          (CalendarResource resource) => resource.id == resourceIds[i],
+        )
+        .displayName;
     resourceNames = resourceNames == null ? name : resourceNames + ', ' + name;
   }
   return resourceNames!;
@@ -1300,26 +1288,25 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
       );
       _selectedTimeZoneIndex =
           widget.selectedAppointment!.startTimeZone == null ||
-                  widget.selectedAppointment!.startTimeZone == ''
-              ? 0
-              : widget.timeZoneCollection.indexOf(
-                widget.selectedAppointment!.startTimeZone!,
-              );
-      _subject =
-          widget.selectedAppointment!.subject == '(No title)'
-              ? ''
-              : widget.selectedAppointment!.subject;
+              widget.selectedAppointment!.startTimeZone == ''
+          ? 0
+          : widget.timeZoneCollection.indexOf(
+              widget.selectedAppointment!.startTimeZone!,
+            );
+      _subject = widget.selectedAppointment!.subject == '(No title)'
+          ? ''
+          : widget.selectedAppointment!.subject;
       _notes = widget.selectedAppointment!.notes;
       _location = widget.selectedAppointment!.location;
       _resourceIds = widget.selectedAppointment!.resourceIds?.sublist(0);
       _recurrenceProperties =
           widget.selectedAppointment!.recurrenceRule != null &&
-                  widget.selectedAppointment!.recurrenceRule!.isNotEmpty
-              ? SfCalendar.parseRRule(
-                widget.selectedAppointment!.recurrenceRule!,
-                _startDate,
-              )
-              : null;
+              widget.selectedAppointment!.recurrenceRule!.isNotEmpty
+          ? SfCalendar.parseRRule(
+              widget.selectedAppointment!.recurrenceRule!,
+              _startDate,
+            )
+          : null;
       if (_recurrenceProperties == null) {
         _rule = _SelectRule.doesNotRepeat;
       } else {
@@ -1488,60 +1475,59 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                 ),
                 Expanded(
                   flex: 3,
-                  child:
-                      _isAllDay
-                          ? const Text('')
-                          : GestureDetector(
-                            onTap: () async {
-                              final TimeOfDay? time = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay(
-                                  hour: _startTime.hour,
-                                  minute: _startTime.minute,
-                                ),
-                                builder: (BuildContext context, Widget? child) {
-                                  return Theme(
-                                    data: ThemeData(
-                                      brightness:
-                                          widget
-                                              .model
-                                              .themeData
-                                              .colorScheme
-                                              .brightness,
-                                      colorScheme: getColorScheme(
-                                        widget.model,
-                                        false,
-                                      ),
+                  child: _isAllDay
+                      ? const Text('')
+                      : GestureDetector(
+                          onTap: () async {
+                            final TimeOfDay? time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay(
+                                hour: _startTime.hour,
+                                minute: _startTime.minute,
+                              ),
+                              builder: (BuildContext context, Widget? child) {
+                                return Theme(
+                                  data: ThemeData(
+                                    brightness: widget
+                                        .model
+                                        .themeData
+                                        .colorScheme
+                                        .brightness,
+                                    colorScheme: getColorScheme(
+                                      widget.model,
+                                      false,
                                     ),
-                                    child: child!,
-                                  );
-                                },
-                              );
-                              if (time != null && time != _startTime) {
-                                setState(() {
-                                  _startTime = time;
-                                  final Duration difference = _endDate
-                                      .difference(_startDate);
-                                  _startDate = DateTime(
-                                    _startDate.year,
-                                    _startDate.month,
-                                    _startDate.day,
-                                    _startTime.hour,
-                                    _startTime.minute,
-                                  );
-                                  _endDate = _startDate.add(difference);
-                                  _endTime = TimeOfDay(
-                                    hour: _endDate.hour,
-                                    minute: _endDate.minute,
-                                  );
-                                });
-                              }
-                            },
-                            child: Text(
-                              DateFormat('hh:mm a').format(_startDate),
-                              textAlign: TextAlign.right,
-                            ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                            );
+                            if (time != null && time != _startTime) {
+                              setState(() {
+                                _startTime = time;
+                                final Duration difference = _endDate.difference(
+                                  _startDate,
+                                );
+                                _startDate = DateTime(
+                                  _startDate.year,
+                                  _startDate.month,
+                                  _startDate.day,
+                                  _startTime.hour,
+                                  _startTime.minute,
+                                );
+                                _endDate = _startDate.add(difference);
+                                _endTime = TimeOfDay(
+                                  hour: _endDate.hour,
+                                  minute: _endDate.minute,
+                                );
+                              });
+                            }
+                          },
+                          child: Text(
+                            DateFormat('hh:mm a').format(_startDate),
+                            textAlign: TextAlign.right,
                           ),
+                        ),
                 ),
               ],
             ),
@@ -1601,62 +1587,61 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                 ),
                 Expanded(
                   flex: 3,
-                  child:
-                      _isAllDay
-                          ? const Text('')
-                          : GestureDetector(
-                            onTap: () async {
-                              final TimeOfDay? time = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay(
-                                  hour: _endTime.hour,
-                                  minute: _endTime.minute,
-                                ),
-                                builder: (BuildContext context, Widget? child) {
-                                  return Theme(
-                                    data: ThemeData(
-                                      brightness:
-                                          widget
-                                              .model
-                                              .themeData
-                                              .colorScheme
-                                              .brightness,
-                                      colorScheme: getColorScheme(
-                                        widget.model,
-                                        false,
-                                      ),
+                  child: _isAllDay
+                      ? const Text('')
+                      : GestureDetector(
+                          onTap: () async {
+                            final TimeOfDay? time = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay(
+                                hour: _endTime.hour,
+                                minute: _endTime.minute,
+                              ),
+                              builder: (BuildContext context, Widget? child) {
+                                return Theme(
+                                  data: ThemeData(
+                                    brightness: widget
+                                        .model
+                                        .themeData
+                                        .colorScheme
+                                        .brightness,
+                                    colorScheme: getColorScheme(
+                                      widget.model,
+                                      false,
                                     ),
-                                    child: child!,
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                            );
+                            if (time != null && time != _endTime) {
+                              setState(() {
+                                _endTime = time;
+                                final Duration difference = _endDate.difference(
+                                  _startDate,
+                                );
+                                _endDate = DateTime(
+                                  _endDate.year,
+                                  _endDate.month,
+                                  _endDate.day,
+                                  _endTime.hour,
+                                  _endTime.minute,
+                                );
+                                if (_endDate.isBefore(_startDate)) {
+                                  _startDate = _endDate.subtract(difference);
+                                  _startTime = TimeOfDay(
+                                    hour: _startDate.hour,
+                                    minute: _startDate.minute,
                                   );
-                                },
-                              );
-                              if (time != null && time != _endTime) {
-                                setState(() {
-                                  _endTime = time;
-                                  final Duration difference = _endDate
-                                      .difference(_startDate);
-                                  _endDate = DateTime(
-                                    _endDate.year,
-                                    _endDate.month,
-                                    _endDate.day,
-                                    _endTime.hour,
-                                    _endTime.minute,
-                                  );
-                                  if (_endDate.isBefore(_startDate)) {
-                                    _startDate = _endDate.subtract(difference);
-                                    _startTime = TimeOfDay(
-                                      hour: _startDate.hour,
-                                      minute: _startDate.minute,
-                                    );
-                                  }
-                                });
-                              }
-                            },
-                            child: Text(
-                              DateFormat('hh:mm a').format(_endDate),
-                              textAlign: TextAlign.right,
-                            ),
+                                }
+                              });
+                            }
+                          },
+                          child: Text(
+                            DateFormat('hh:mm a').format(_endDate),
+                            textAlign: TextAlign.right,
                           ),
+                        ),
                 ),
               ],
             ),
@@ -1763,11 +1748,10 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                       _unSelectedResources,
                       widget.model,
                       onChanged: (PickerChangedDetails details) {
-                        _resourceIds =
-                            _resourceIds == null
-                                ? <Object>[details.resourceId!]
-                                : (_resourceIds!.sublist(0)
-                                  ..add(details.resourceId!));
+                        _resourceIds = _resourceIds == null
+                            ? <Object>[details.resourceId!]
+                            : (_resourceIds!.sublist(0)
+                                ..add(details.resourceId!));
                         _selectedResources = getSelectedResources(
                           _resourceIds,
                           widget.events.resources,
@@ -1878,10 +1862,9 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
       child: Scaffold(
         backgroundColor:
             widget.model.themeData != null &&
-                    widget.model.themeData.colorScheme.brightness ==
-                        Brightness.dark
-                ? Colors.grey[850]
-                : Colors.white,
+                widget.model.themeData.colorScheme.brightness == Brightness.dark
+            ? Colors.grey[850]
+            : Colors.white,
         appBar: AppBar(
           backgroundColor: widget.colorCollection[_selectedColorIndex],
           leading: IconButton(
@@ -1902,16 +1885,12 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                       startTime: _startDate,
                       endTime: _endDate,
                       color: widget.colorCollection[_selectedColorIndex],
-                      startTimeZone:
-                          _selectedTimeZoneIndex == 0
-                              ? ''
-                              : widget
-                                  .timeZoneCollection[_selectedTimeZoneIndex],
-                      endTimeZone:
-                          _selectedTimeZoneIndex == 0
-                              ? ''
-                              : widget
-                                  .timeZoneCollection[_selectedTimeZoneIndex],
+                      startTimeZone: _selectedTimeZoneIndex == 0
+                          ? ''
+                          : widget.timeZoneCollection[_selectedTimeZoneIndex],
+                      endTimeZone: _selectedTimeZoneIndex == 0
+                          ? ''
+                          : widget.timeZoneCollection[_selectedTimeZoneIndex],
                       notes: _notes,
                       isAllDay: _isAllDay,
                       subject: _subject == '' ? '(No title)' : _subject,
@@ -1920,27 +1899,24 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                       resourceIds: _resourceIds,
                       id: widget.selectedAppointment!.id,
                       recurrenceId: widget.selectedAppointment!.recurrenceId,
-                      recurrenceRule:
-                          _recurrenceProperties == null
-                              ? null
-                              : SfCalendar.generateRRule(
-                                _recurrenceProperties!,
-                                _startDate,
-                                _endDate,
-                              ),
+                      recurrenceRule: _recurrenceProperties == null
+                          ? null
+                          : SfCalendar.generateRRule(
+                              _recurrenceProperties!,
+                              _startDate,
+                              _endDate,
+                            ),
                     );
                     showDialog<Widget>(
                       context: context,
                       builder: (BuildContext context) {
                         return PopScope(
-                          onPopInvokedWithResult: (
-                            bool value,
-                            Object? result,
-                          ) async {
-                            if (value) {
-                              return;
-                            }
-                          },
+                          onPopInvokedWithResult:
+                              (bool value, Object? result) async {
+                                if (value) {
+                                  return;
+                                }
+                              },
                           child: Theme(
                             data: widget.model.themeData,
                             // ignore: prefer_const_literals_to_create_immutables
@@ -1973,29 +1949,24 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                         startTime: _startDate,
                         endTime: _endDate,
                         color: widget.colorCollection[_selectedColorIndex],
-                        startTimeZone:
-                            _selectedTimeZoneIndex == 0
-                                ? ''
-                                : widget
-                                    .timeZoneCollection[_selectedTimeZoneIndex],
-                        endTimeZone:
-                            _selectedTimeZoneIndex == 0
-                                ? ''
-                                : widget
-                                    .timeZoneCollection[_selectedTimeZoneIndex],
+                        startTimeZone: _selectedTimeZoneIndex == 0
+                            ? ''
+                            : widget.timeZoneCollection[_selectedTimeZoneIndex],
+                        endTimeZone: _selectedTimeZoneIndex == 0
+                            ? ''
+                            : widget.timeZoneCollection[_selectedTimeZoneIndex],
                         notes: _notes,
                         isAllDay: _isAllDay,
                         subject: _subject == '' ? '(No title)' : _subject,
                         resourceIds: _resourceIds,
                         id: widget.selectedAppointment!.id,
-                        recurrenceRule:
-                            _recurrenceProperties == null
-                                ? null
-                                : SfCalendar.generateRRule(
-                                  _recurrenceProperties!,
-                                  _startDate,
-                                  _endDate,
-                                ),
+                        recurrenceRule: _recurrenceProperties == null
+                            ? null
+                            : SfCalendar.generateRRule(
+                                _recurrenceProperties!,
+                                _startDate,
+                                _endDate,
+                              ),
                       ),
                     );
                     widget.events.appointments!.add(appointment[0]);
@@ -2023,29 +1994,25 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
                       startTime: _startDate,
                       endTime: _endDate,
                       color: widget.colorCollection[_selectedColorIndex],
-                      startTimeZone:
-                          _selectedTimeZoneIndex == 0
-                              ? ''
-                              : widget
-                                  .timeZoneCollection[_selectedTimeZoneIndex],
-                      endTimeZone:
-                          _selectedTimeZoneIndex == 0
-                              ? ''
-                              : widget
-                                  .timeZoneCollection[_selectedTimeZoneIndex],
+                      startTimeZone: _selectedTimeZoneIndex == 0
+                          ? ''
+                          : widget.timeZoneCollection[_selectedTimeZoneIndex],
+                      endTimeZone: _selectedTimeZoneIndex == 0
+                          ? ''
+                          : widget.timeZoneCollection[_selectedTimeZoneIndex],
                       notes: _notes,
                       isAllDay: _isAllDay,
                       subject: _subject == '' ? '(No title)' : _subject,
                       resourceIds: _resourceIds,
                       recurrenceRule:
                           _rule == _SelectRule.doesNotRepeat ||
-                                  _recurrenceProperties == null
-                              ? null
-                              : SfCalendar.generateRRule(
-                                _recurrenceProperties!,
-                                _startDate,
-                                _endDate,
-                              ),
+                              _recurrenceProperties == null
+                          ? null
+                          : SfCalendar.generateRRule(
+                              _recurrenceProperties!,
+                              _startDate,
+                              _endDate,
+                            ),
                     ),
                   );
                   widget.events.appointments!.add(appointment[0]);
@@ -2078,57 +2045,54 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
             ],
           ),
         ),
-        floatingActionButton:
-            widget.model.isWebFullView
-                ? null
-                : widget.selectedAppointment == null
-                ? const Text('')
-                : FloatingActionButton(
-                  onPressed: () {
-                    if (widget.selectedAppointment != null) {
-                      if (widget.selectedAppointment!.appointmentType ==
-                          AppointmentType.normal) {
-                        widget.events.appointments!.removeAt(
-                          widget.events.appointments!.indexOf(
-                            widget.selectedAppointment,
-                          ),
-                        );
-                        widget.events.notifyListeners(
-                          CalendarDataSourceAction.remove,
-                          <Appointment>[widget.selectedAppointment!],
-                        );
-                        Navigator.pop(context);
-                      } else {
-                        showDialog<Widget>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return PopScope(
-                              onPopInvokedWithResult: (
-                                bool value,
-                                Object? result,
-                              ) async {
-                                if (value) {
-                                  return;
-                                }
-                              },
-                              child: Theme(
-                                data: widget.model.themeData,
-                                // ignore: prefer_const_literals_to_create_immutables
-                                child: _DeleteDialog(
-                                  widget.model,
-                                  widget.selectedAppointment!,
-                                  widget.events,
-                                ),
+        floatingActionButton: widget.model.isWebFullView
+            ? null
+            : widget.selectedAppointment == null
+            ? const Text('')
+            : FloatingActionButton(
+                onPressed: () {
+                  if (widget.selectedAppointment != null) {
+                    if (widget.selectedAppointment!.appointmentType ==
+                        AppointmentType.normal) {
+                      widget.events.appointments!.removeAt(
+                        widget.events.appointments!.indexOf(
+                          widget.selectedAppointment,
+                        ),
+                      );
+                      widget.events.notifyListeners(
+                        CalendarDataSourceAction.remove,
+                        <Appointment>[widget.selectedAppointment!],
+                      );
+                      Navigator.pop(context);
+                    } else {
+                      showDialog<Widget>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return PopScope(
+                            onPopInvokedWithResult:
+                                (bool value, Object? result) async {
+                                  if (value) {
+                                    return;
+                                  }
+                                },
+                            child: Theme(
+                              data: widget.model.themeData,
+                              // ignore: prefer_const_literals_to_create_immutables
+                              child: _DeleteDialog(
+                                widget.model,
+                                widget.selectedAppointment!,
+                                widget.events,
                               ),
-                            );
-                          },
-                        );
-                      }
+                            ),
+                          );
+                        },
+                      );
                     }
-                  },
-                  backgroundColor: widget.model.primaryColor,
-                  child: const Icon(Icons.delete_outline, color: Colors.white),
-                ),
+                  }
+                },
+                backgroundColor: widget.model.primaryColor,
+                child: const Icon(Icons.delete_outline, color: Colors.white),
+              ),
       ),
     );
   }
@@ -2148,10 +2112,9 @@ class _AppointmentEditorState extends State<AppointmentEditor> {
           avatar: CircleAvatar(
             backgroundColor: widget.model.primaryColor,
             backgroundImage: selectedResource.image,
-            child:
-                selectedResource.image == null
-                    ? Text(selectedResource.displayName[0])
-                    : null,
+            child: selectedResource.image == null
+                ? Text(selectedResource.displayName[0])
+                : null,
           ),
           label: Text(selectedResource.displayName),
           onDeleted: () {
@@ -2389,18 +2352,18 @@ class _SelectRuleDialogState extends State<_SelectRuleDialog> {
                               RecurrenceRange.noEndDate;
                           widget.recurrenceProperties!.weekDays =
                               _startDate.weekday == 1
-                                  ? <WeekDays>[WeekDays.monday]
-                                  : _startDate.weekday == 2
-                                  ? <WeekDays>[WeekDays.tuesday]
-                                  : _startDate.weekday == 3
-                                  ? <WeekDays>[WeekDays.wednesday]
-                                  : _startDate.weekday == 4
-                                  ? <WeekDays>[WeekDays.thursday]
-                                  : _startDate.weekday == 5
-                                  ? <WeekDays>[WeekDays.friday]
-                                  : _startDate.weekday == 6
-                                  ? <WeekDays>[WeekDays.saturday]
-                                  : <WeekDays>[WeekDays.sunday];
+                              ? <WeekDays>[WeekDays.monday]
+                              : _startDate.weekday == 2
+                              ? <WeekDays>[WeekDays.tuesday]
+                              : _startDate.weekday == 3
+                              ? <WeekDays>[WeekDays.wednesday]
+                              : _startDate.weekday == 4
+                              ? <WeekDays>[WeekDays.thursday]
+                              : _startDate.weekday == 5
+                              ? <WeekDays>[WeekDays.friday]
+                              : _startDate.weekday == 6
+                              ? <WeekDays>[WeekDays.saturday]
+                              : <WeekDays>[WeekDays.sunday];
                           widget.onChanged(
                             PickerChangedDetails(selectedRule: _rule),
                           );
@@ -2477,14 +2440,13 @@ class _SelectRuleDialogState extends State<_SelectRuleDialog> {
                       final dynamic properties = await Navigator.push<dynamic>(
                         context,
                         MaterialPageRoute<dynamic>(
-                          builder:
-                              (BuildContext context) => _CustomRule(
-                                widget.model,
-                                widget.selectedAppointment!,
-                                widget.appointmentColor,
-                                widget.events,
-                                widget.recurrenceProperties,
-                              ),
+                          builder: (BuildContext context) => _CustomRule(
+                            widget.model,
+                            widget.selectedAppointment!,
+                            widget.appointmentColor,
+                            widget.events,
+                            widget.recurrenceProperties,
+                          ),
                         ),
                       );
                       if (properties != widget.recurrenceProperties) {
@@ -2536,9 +2498,9 @@ class _DeleteDialogState extends State<_DeleteDialog> {
   Widget build(BuildContext context) {
     final Color defaultTextColor =
         widget.model.themeData != null &&
-                widget.model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black87;
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black87;
     return SimpleDialog(
       children: <Widget>[
         Container(
@@ -2636,12 +2598,12 @@ class _DeleteDialogState extends State<_DeleteDialog> {
                           );
                           parentAppointment.recurrenceExceptionDates != null
                               ? parentAppointment.recurrenceExceptionDates!.add(
-                                widget.selectedAppointment.startTime,
-                              )
-                              : parentAppointment
-                                  .recurrenceExceptionDates = <DateTime>[
-                                widget.selectedAppointment.startTime,
-                              ];
+                                  widget.selectedAppointment.startTime,
+                                )
+                              : parentAppointment.recurrenceExceptionDates =
+                                    <DateTime>[
+                                      widget.selectedAppointment.startTime,
+                                    ];
                           widget.events.appointments!.add(parentAppointment);
                           widget.events.notifyListeners(
                             CalendarDataSourceAction.add,
@@ -2742,9 +2704,9 @@ class _EditDialogState extends State<_EditDialog> {
   Widget build(BuildContext context) {
     final Color defaultTextColor =
         widget.model.themeData != null &&
-                widget.model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black87;
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black87;
     return SimpleDialog(
       children: <Widget>[
         Container(
@@ -2832,21 +2794,21 @@ class _EditDialogState extends State<_EditDialog> {
                             resourceIds: widget.newAppointment.resourceIds,
                             id:
                                 widget.selectedAppointment.appointmentType ==
-                                        AppointmentType.changedOccurrence
-                                    ? widget.selectedAppointment.id
-                                    : null,
+                                    AppointmentType.changedOccurrence
+                                ? widget.selectedAppointment.id
+                                : null,
                             recurrenceId: parentAppointment!.id,
                             startTimeZone: widget.newAppointment.startTimeZone,
                             endTimeZone: widget.newAppointment.endTimeZone,
                           );
                           parentAppointment.recurrenceExceptionDates != null
                               ? parentAppointment.recurrenceExceptionDates!.add(
-                                widget.selectedAppointment.startTime,
-                              )
-                              : parentAppointment
-                                  .recurrenceExceptionDates = <DateTime>[
-                                widget.selectedAppointment.startTime,
-                              ];
+                                  widget.selectedAppointment.startTime,
+                                )
+                              : parentAppointment.recurrenceExceptionDates =
+                                    <DateTime>[
+                                      widget.selectedAppointment.startTime,
+                                    ];
                           widget.events.appointments!.removeAt(
                             widget.events.appointments!.indexOf(
                               parentAppointment,
@@ -2949,14 +2911,13 @@ class _EditDialogState extends State<_EditDialog> {
                             subject: widget.newAppointment.subject,
                             resourceIds: widget.newAppointment.resourceIds,
                             id: parentAppointment.id,
-                            recurrenceRule:
-                                widget.recurrenceProperties == null
-                                    ? null
-                                    : SfCalendar.generateRRule(
-                                      widget.recurrenceProperties!,
-                                      startDate,
-                                      endDate,
-                                    ),
+                            recurrenceRule: widget.recurrenceProperties == null
+                                ? null
+                                : SfCalendar.generateRRule(
+                                    widget.recurrenceProperties!,
+                                    startDate,
+                                    endDate,
+                                  ),
                             startTimeZone: widget.newAppointment.startTimeZone,
                             endTimeZone: widget.newAppointment.endTimeZone,
                           );
@@ -3071,12 +3032,12 @@ class _CustomRuleState extends State<_CustomRule> {
     }
     _recurrenceProperties =
         widget.selectedAppointment.recurrenceRule != null &&
-                widget.selectedAppointment.recurrenceRule!.isNotEmpty
-            ? SfCalendar.parseRRule(
-              widget.selectedAppointment.recurrenceRule!,
-              _firstDate,
-            )
-            : null;
+            widget.selectedAppointment.recurrenceRule!.isNotEmpty
+        ? SfCalendar.parseRRule(
+            widget.selectedAppointment.recurrenceRule!,
+            _firstDate,
+          )
+        : null;
     _recurrenceProperties == null
         ? _recurrenceProperties = RecurrenceProperties(startDate: _firstDate)
         : _updateCustomRecurrenceProperties();
@@ -3085,15 +3046,13 @@ class _CustomRuleState extends State<_CustomRule> {
   void _updateCustomRecurrenceProperties() {
     _recurrenceType = _recurrenceProperties!.recurrenceType;
     _week = _recurrenceProperties!.week;
-    _weekNumber =
-        _recurrenceProperties!.week == 0
-            ? _weekNumber
-            : _recurrenceProperties!.week;
+    _weekNumber = _recurrenceProperties!.week == 0
+        ? _weekNumber
+        : _recurrenceProperties!.week;
     _month = _recurrenceProperties!.month;
-    _dayOfMonth =
-        _recurrenceProperties!.dayOfMonth == 1
-            ? _startDate.day
-            : _recurrenceProperties!.dayOfMonth;
+    _dayOfMonth = _recurrenceProperties!.dayOfMonth == 1
+        ? _startDate.day
+        : _recurrenceProperties!.dayOfMonth;
     _dayOfWeek = _recurrenceProperties!.dayOfWeek;
 
     switch (_recurrenceType) {
@@ -3205,10 +3164,9 @@ class _CustomRuleState extends State<_CustomRule> {
 
   void _rangeCount() {
     _recurrenceProperties!.recurrenceRange = RecurrenceRange.count;
-    _count =
-        _recurrenceProperties!.recurrenceCount == 0
-            ? 1
-            : _recurrenceProperties!.recurrenceCount;
+    _count = _recurrenceProperties!.recurrenceCount == 0
+        ? 1
+        : _recurrenceProperties!.recurrenceCount;
     _recurrenceProperties!.recurrenceCount = _count!;
   }
 
@@ -3361,14 +3319,14 @@ class _CustomRuleState extends State<_CustomRule> {
   ) {
     final Color defaultTextColor =
         widget.model.themeData != null &&
-                widget.model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black87;
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black87;
     final Color defaultButtonColor =
         widget.model.themeData != null &&
-                widget.model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white10
-            : Colors.white;
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white10
+        : Colors.white;
     return Container(
       color: backgroundColor,
       child: ListView(
@@ -3454,13 +3412,12 @@ class _CustomRuleState extends State<_CustomRule> {
                       fontWeight: FontWeight.w400,
                     ),
                     value: _selectedRecurrenceType,
-                    items:
-                        _mobileRecurrence.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(item),
-                          );
-                        }).toList(),
+                    items: _mobileRecurrence.map((String item) {
+                      return DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(item),
+                      );
+                    }).toList(),
                     onChanged: (String? value) {
                       setState(() {
                         if (value == 'day') {
@@ -3506,14 +3463,12 @@ class _CustomRuleState extends State<_CustomRule> {
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(5, 5),
-                          backgroundColor:
-                              _days!.contains(WeekDays.sunday)
-                                  ? widget.model.primaryColor
-                                  : defaultButtonColor,
-                          foregroundColor:
-                              _days!.contains(WeekDays.sunday)
-                                  ? Colors.white
-                                  : defaultTextColor,
+                          backgroundColor: _days!.contains(WeekDays.sunday)
+                              ? widget.model.primaryColor
+                              : defaultButtonColor,
+                          foregroundColor: _days!.contains(WeekDays.sunday)
+                              ? Colors.white
+                              : defaultTextColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(12),
                         ),
@@ -3529,14 +3484,12 @@ class _CustomRuleState extends State<_CustomRule> {
                           minimumSize: const Size(7, 7),
                           disabledForegroundColor: Colors.black26,
                           disabledBackgroundColor: Colors.black26,
-                          backgroundColor:
-                              _days!.contains(WeekDays.monday)
-                                  ? widget.model.primaryColor
-                                  : defaultButtonColor,
-                          foregroundColor:
-                              _days!.contains(WeekDays.monday)
-                                  ? Colors.white
-                                  : defaultTextColor,
+                          backgroundColor: _days!.contains(WeekDays.monday)
+                              ? widget.model.primaryColor
+                              : defaultButtonColor,
+                          foregroundColor: _days!.contains(WeekDays.monday)
+                              ? Colors.white
+                              : defaultTextColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(10),
                         ),
@@ -3552,14 +3505,12 @@ class _CustomRuleState extends State<_CustomRule> {
                           minimumSize: const Size(7, 7),
                           disabledForegroundColor: Colors.black26,
                           disabledBackgroundColor: Colors.black26,
-                          backgroundColor:
-                              _days!.contains(WeekDays.tuesday)
-                                  ? widget.model.primaryColor
-                                  : defaultButtonColor,
-                          foregroundColor:
-                              _days!.contains(WeekDays.tuesday)
-                                  ? Colors.white
-                                  : defaultTextColor,
+                          backgroundColor: _days!.contains(WeekDays.tuesday)
+                              ? widget.model.primaryColor
+                              : defaultButtonColor,
+                          foregroundColor: _days!.contains(WeekDays.tuesday)
+                              ? Colors.white
+                              : defaultTextColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(12),
                         ),
@@ -3575,14 +3526,12 @@ class _CustomRuleState extends State<_CustomRule> {
                           minimumSize: const Size(7, 7),
                           disabledForegroundColor: Colors.black26,
                           disabledBackgroundColor: Colors.black26,
-                          backgroundColor:
-                              _days!.contains(WeekDays.wednesday)
-                                  ? widget.model.primaryColor
-                                  : defaultButtonColor,
-                          foregroundColor:
-                              _days!.contains(WeekDays.wednesday)
-                                  ? Colors.white
-                                  : defaultTextColor,
+                          backgroundColor: _days!.contains(WeekDays.wednesday)
+                              ? widget.model.primaryColor
+                              : defaultButtonColor,
+                          foregroundColor: _days!.contains(WeekDays.wednesday)
+                              ? Colors.white
+                              : defaultTextColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(10),
                         ),
@@ -3598,14 +3547,12 @@ class _CustomRuleState extends State<_CustomRule> {
                           minimumSize: const Size(7, 7),
                           disabledForegroundColor: Colors.black26,
                           disabledBackgroundColor: Colors.black26,
-                          backgroundColor:
-                              _days!.contains(WeekDays.thursday)
-                                  ? widget.model.primaryColor
-                                  : defaultButtonColor,
-                          foregroundColor:
-                              _days!.contains(WeekDays.thursday)
-                                  ? Colors.white
-                                  : defaultTextColor,
+                          backgroundColor: _days!.contains(WeekDays.thursday)
+                              ? widget.model.primaryColor
+                              : defaultButtonColor,
+                          foregroundColor: _days!.contains(WeekDays.thursday)
+                              ? Colors.white
+                              : defaultTextColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(12),
                         ),
@@ -3621,14 +3568,12 @@ class _CustomRuleState extends State<_CustomRule> {
                           minimumSize: const Size(7, 7),
                           disabledForegroundColor: Colors.black26,
                           disabledBackgroundColor: Colors.black26,
-                          backgroundColor:
-                              _days!.contains(WeekDays.friday)
-                                  ? widget.model.primaryColor
-                                  : defaultButtonColor,
-                          foregroundColor:
-                              _days!.contains(WeekDays.friday)
-                                  ? Colors.white
-                                  : defaultTextColor,
+                          backgroundColor: _days!.contains(WeekDays.friday)
+                              ? widget.model.primaryColor
+                              : defaultButtonColor,
+                          foregroundColor: _days!.contains(WeekDays.friday)
+                              ? Colors.white
+                              : defaultTextColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(12),
                         ),
@@ -3644,14 +3589,12 @@ class _CustomRuleState extends State<_CustomRule> {
                           minimumSize: const Size(7, 7),
                           disabledForegroundColor: Colors.black26,
                           disabledBackgroundColor: Colors.black26,
-                          backgroundColor:
-                              _days!.contains(WeekDays.saturday)
-                                  ? widget.model.primaryColor
-                                  : defaultButtonColor,
-                          foregroundColor:
-                              _days!.contains(WeekDays.saturday)
-                                  ? Colors.white
-                                  : defaultTextColor,
+                          backgroundColor: _days!.contains(WeekDays.saturday)
+                              ? widget.model.primaryColor
+                              : defaultButtonColor,
+                          foregroundColor: _days!.contains(WeekDays.saturday)
+                              ? Colors.white
+                              : defaultTextColor,
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(12),
                         ),
@@ -3811,21 +3754,19 @@ class _CustomRuleState extends State<_CustomRule> {
                             final DateTime? pickedDate = await showDatePicker(
                               context: context,
                               initialDate: _selectedDate,
-                              firstDate:
-                                  _startDate.isBefore(_firstDate)
-                                      ? _startDate
-                                      : _firstDate,
+                              firstDate: _startDate.isBefore(_firstDate)
+                                  ? _startDate
+                                  : _firstDate,
                               currentDate: _selectedDate,
                               lastDate: DateTime(2050),
                               builder: (BuildContext context, Widget? child) {
                                 return Theme(
                                   data: ThemeData(
-                                    brightness:
-                                        widget
-                                            .model
-                                            .themeData
-                                            .colorScheme
-                                            .brightness,
+                                    brightness: widget
+                                        .model
+                                        .themeData
+                                        .colorScheme
+                                        .brightness,
                                     colorScheme: getColorScheme(
                                       widget.model,
                                       true,
@@ -3973,10 +3914,9 @@ class _CustomRuleState extends State<_CustomRule> {
       child: Scaffold(
         backgroundColor:
             widget.model.themeData != null &&
-                    widget.model.themeData.colorScheme.brightness ==
-                        Brightness.dark
-                ? Colors.grey[850]
-                : Colors.white,
+                widget.model.themeData.colorScheme.brightness == Brightness.dark
+            ? Colors.grey[850]
+            : Colors.white,
         appBar: AppBar(
           title: const Text('Custom Recurrence'),
           backgroundColor: widget.appointmentColor,

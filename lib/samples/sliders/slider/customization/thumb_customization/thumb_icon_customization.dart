@@ -135,13 +135,14 @@ class _ThumbCustomizationSliderPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget slider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget slider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 300
             ? slider
             : SingleChildScrollView(
-              child: SizedBox(height: 300, child: slider),
-            );
+                child: SizedBox(height: 300, child: slider),
+              );
       },
     );
   }

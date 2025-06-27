@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum MobileDialogs { savings, transactions, budgets }
+enum MobileDialogs { savings, transactions, budgets, goals }
 
 class MobileAppBarUpdate extends ChangeNotifier {
   bool _isDialogOpen = false;

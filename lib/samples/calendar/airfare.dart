@@ -143,25 +143,25 @@ class _AirFareCalendarCalendarState extends SampleViewState {
           Expanded(
             child:
                 (model.isWebFullView && _screenHeight < 800) ||
-                        _deviceOrientation == Orientation.landscape
-                    ? Scrollbar(
-                      thumbVisibility: true,
+                    _deviceOrientation == Orientation.landscape
+                ? Scrollbar(
+                    thumbVisibility: true,
+                    controller: _controller,
+                    child: ListView(
                       controller: _controller,
-                      child: ListView(
-                        controller: _controller,
-                        children: <Widget>[
-                          Container(
-                            color: model.sampleOutputCardColor,
-                            height: 600,
-                            child: calendar,
-                          ),
-                        ],
-                      ),
-                    )
-                    : Container(
-                      color: model.sampleOutputCardColor,
-                      child: calendar,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
                     ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
           ),
         ],
       ),
@@ -189,9 +189,9 @@ class _AirFareCalendarCalendarState extends SampleViewState {
     final AirFare airFare = _airFareDataCollection[random.nextInt(100)];
     final Color defaultColor =
         model.themeData != null &&
-                model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black54;
+            model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black54;
     final bool isBestPrice = airFare.fare == _kBestPrice;
     final bool isDisabledDate =
         details.date.isBefore(_minDate) && !isSameDate(details.date, _minDate);
@@ -201,12 +201,11 @@ class _AirFareCalendarCalendarState extends SampleViewState {
           top: BorderSide(width: 0.1, color: defaultColor),
           left: BorderSide(width: 0.1, color: defaultColor),
         ),
-        color:
-            isDisabledDate
-                ? Colors.grey.withValues(alpha: 0.1)
-                : isBestPrice
-                ? Colors.yellow.withValues(alpha: 0.2)
-                : null,
+        color: isDisabledDate
+            ? Colors.grey.withValues(alpha: 0.1)
+            : isBestPrice
+            ? Colors.yellow.withValues(alpha: 0.2)
+            : null,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -214,23 +213,21 @@ class _AirFareCalendarCalendarState extends SampleViewState {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
-              mainAxisAlignment:
-                  model.isMobileResolution
-                      ? MainAxisAlignment.center
-                      : isBestPrice
-                      ? MainAxisAlignment.spaceBetween
-                      : MainAxisAlignment.start,
+              mainAxisAlignment: model.isMobileResolution
+                  ? MainAxisAlignment.center
+                  : isBestPrice
+                  ? MainAxisAlignment.spaceBetween
+                  : MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   details.date.day.toString(),
                   style: TextStyle(
-                    color:
-                        isToday
-                            ? model.primaryColor
-                            : isDisabledDate
-                            ? Colors.grey
-                            : null,
+                    color: isToday
+                        ? model.primaryColor
+                        : isDisabledDate
+                        ? Colors.grey
+                        : null,
                     fontWeight: isToday ? FontWeight.bold : null,
                   ),
                 ),

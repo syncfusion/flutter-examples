@@ -13,11 +13,11 @@ class UserDetails {
 
   factory UserDetails.fromExcel(
     Profile profile,
-    List<TransactionalDetails> transactionalDetails,
+    TransactionalDetails transactionalDetails,
   ) {
     return UserDetails(
       userProfile: Profile.fromExcel(profile),
-      transactionalData: TransactionalData.fromExcel(transactionalDetails),
+      transactionalData: TransactionalData(data: transactionalDetails),
     );
   }
 

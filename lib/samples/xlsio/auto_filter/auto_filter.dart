@@ -28,15 +28,14 @@ class _AutoFilterXlsIOState extends SampleViewState {
   void initState() {
     _selectMode = 'Text filter';
 
-    _modeType =
-        <String>[
-          'Text filter',
-          'Custom filter',
-          'Date filter',
-          'Dynamic filter',
-          'Font color filter',
-          'Cell color filter',
-        ].toList();
+    _modeType = <String>[
+      'Text filter',
+      'Custom filter',
+      'Date filter',
+      'Dynamic filter',
+      'Font color filter',
+      'Cell color filter',
+    ].toList();
     super.initState();
   }
 
@@ -78,24 +77,21 @@ class _AutoFilterXlsIOState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectMode,
-                    items:
-                        _modeType!.map((String value) {
-                          return material.DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'Text filter',
-                            child: material.Padding(
-                              padding: const material.EdgeInsets.only(
-                                left: 5,
-                                right: 5,
-                              ),
-                              child: material.Text(
-                                value,
-                                style: material.TextStyle(
-                                  color: model.textColor,
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                    items: _modeType!.map((String value) {
+                      return material.DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'Text filter',
+                        child: material.Padding(
+                          padding: const material.EdgeInsets.only(
+                            left: 5,
+                            right: 5,
+                          ),
+                          child: material.Text(
+                            value,
+                            style: material.TextStyle(color: model.textColor),
+                          ),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (String? value) {
                       _onModeChange(value.toString());
                     },
@@ -106,19 +102,18 @@ class _AutoFilterXlsIOState extends SampleViewState {
             material.Align(
               child: material.TextButton(
                 style: material.ButtonStyle(
-                  backgroundColor: material
-                      .WidgetStateProperty.all<material.Color>(
-                    model.primaryColor,
-                  ),
-                  padding:
-                      model.isMobile
-                          ? null
-                          : material.WidgetStateProperty.all(
-                            const material.EdgeInsets.symmetric(
-                              vertical: 15,
-                              horizontal: 15,
-                            ),
+                  backgroundColor:
+                      material.WidgetStateProperty.all<material.Color>(
+                        model.primaryColor,
+                      ),
+                  padding: model.isMobile
+                      ? null
+                      : material.WidgetStateProperty.all(
+                          const material.EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 15,
                           ),
+                        ),
                 ),
                 onPressed: _generateExcel,
                 child: const material.Text(

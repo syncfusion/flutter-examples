@@ -234,20 +234,19 @@ class _ColumnSizingDataGridState extends SampleViewState {
                             height: 1,
                           ),
                           value: _columnWidthMode,
-                          items:
-                              _encoding.map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'none',
-                                  child: Text(
-                                    value,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: model.textColor,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
+                          items: _encoding.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'none',
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: model.textColor,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            );
+                          }).toList(),
                           onChanged: (dynamic value) {
                             _onSelectionModeChanged(value);
                             stateSetter(() {});

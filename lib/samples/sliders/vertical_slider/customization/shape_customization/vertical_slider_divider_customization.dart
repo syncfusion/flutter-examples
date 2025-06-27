@@ -74,10 +74,9 @@ class _DividerShape extends SfDividerShape {
       Paint()
         ..isAntiAlias = true
         ..style = PaintingStyle.fill
-        ..color =
-            isActive
-                ? themeData!.activeTrackColor!
-                : model.themeData.canvasColor,
+        ..color = isActive
+            ? themeData!.activeTrackColor!
+            : model.themeData.canvasColor,
     );
   }
 }

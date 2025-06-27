@@ -179,8 +179,8 @@ class _AreaVerticalState extends SampleViewState {
         dataSource: _chartData,
         opacity: 0.7,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
         name: 'Others',
       ),
     ];

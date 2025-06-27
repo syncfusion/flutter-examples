@@ -1,135 +1,139 @@
-import 'dart:convert';
-import 'dart:typed_data';
+// TODO(Praveen): Replace this excel code with csv or xml format code.
 
-import 'package:excel/excel.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'dart:convert';
+// import 'dart:typed_data';
 
-import '../enum.dart';
-import '../helper/currency_and_data_format/date_format.dart';
-import '../helper/excel_header_row.dart';
-import '../models/budget.dart';
-import '../models/user.dart';
-import '../models/user_profile.dart';
-import 'web_path_file.dart';
+// import 'package:excel/excel.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> updateBudgetExpense(
-  BuildContext context,
-  UserDetails userDetails,
-  Budget budget,
-  UserInteractions userInteraction, {
-  bool isNewUser = false,
-  int index = -1,
-}) async {
-  await _writeBudgetExpense(budget, index: index);
-}
+// import '../enum.dart';
+// import '../helper/currency_and_data_format/date_format.dart';
+// import '../helper/excel_header_row.dart';
+// import '../models/budget.dart';
+// import '../models/user.dart';
+// import '../models/user_profile.dart';
+// import 'web_path_file.dart';
 
-Future<void> _writeBudgetExpense(Budget currentBudget, {int index = -1}) async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
-  final Excel excel = await createOrGetExcelFile();
-  final Sheet budgetsSheet = getSheet(excel, 'Budgets');
+// Future<void> updateBudgetExpense(Budget budget, int index) async {
+//   await _writeBudgetExpense(budget, index);
+// }
 
-  if (index > -1) {
-    final int excelRowNumber = index + 2;
-    budgetsSheet.updateCell(
-      CellIndex.indexByString('E$excelRowNumber'),
-      TextCellValue(currentBudget.expense.toString()),
-    );
-  }
+// Future<void> _writeBudgetExpense(Budget currentBudget, int index) async {
+//   final SharedPreferences preferences = await SharedPreferences.getInstance();
+//   final Excel excel = await createOrGetExcelFile();
+//   final Sheet budgetsSheet = excelSheet(excel, 'Budgets');
 
-  final List<int>? saveBytes = excel.encode();
-  if (saveBytes == null) {
-    throw Exception('Failed to save Excel data.');
-  }
-  // Convert the bytes to a base64 string and save to SharedPreferences
-  final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
-  await preferences.setString(sharedPreferencesKey, base64Data);
-}
+//   if (index > -1) {
+//     final int excelRowNumber = index + 2;
+//     budgetsSheet.updateCell(
+//       CellIndex.indexByString('F$excelRowNumber'),
+//       TextCellValue(currentBudget.expense.toString()),
+//     );
+//   }
 
-Future<void> updateBudgets(
-  BuildContext context,
-  UserDetails userDetails,
-  Budget budget,
-  UserInteractions userInteraction, {
-  bool isNewUser = false,
-  int index = -1,
-}) async {
-  if (userInteraction == UserInteractions.add ||
-      userInteraction == UserInteractions.edit) {
-    await _writeBudgets(
-      userInteraction,
-      userDetails.userProfile,
-      budget,
-      index: index,
-    );
-  } else {
-    await _deleteBudgets(budget, index: index);
-  }
-}
+//   final List<int>? saveBytes = excel.save();
+//   // Convert the bytes to a base64 string and save to SharedPreferences
+//   if (saveBytes != null) {
+//     final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
+//     await preferences.setString(sharedPreferencesKey, base64Data);
+//   }
+// }
 
-Future<void> _deleteBudgets(Budget currentBudget, {int index = -1}) async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
-  final Excel excel = await createOrGetExcelFile();
-  final budgetsSheet = getSheet(excel, 'Budgets');
+// Future<void> updateBudgets(
+//   UserDetails userDetails,
+//   Budget budget,
+//   UserInteractions userInteraction, {
+//   int index = -1,
+// }) async {
+//   switch (userInteraction) {
+//     case UserInteractions.add:
+//     case UserInteractions.edit:
+//       await _writeBudgets(
+//         userInteraction,
+//         userDetails.userProfile,
+//         budget,
+//         index: index,
+//       );
+//       break;
+//     case UserInteractions.delete:
+//       await _deleteBudgets(budget, index: index);
+//   }
+// }
 
-  if (index != -1) {
-    final int excelRowIndex = index + 1;
-    budgetsSheet.removeRow(excelRowIndex);
-  }
+// Future<void> _deleteBudgets(Budget currentBudget, {int index = -1}) async {
+//   final SharedPreferences preferences = await SharedPreferences.getInstance();
+//   final Excel excel = await createOrGetExcelFile();
+//   final Sheet budgetsSheet = excelSheet(excel, 'Budgets');
 
-  final List<int>? saveBytes = excel.encode();
-  if (saveBytes == null) {
-    throw Exception('Failed to save Excel data.');
-  }
-  // Convert the bytes to a base64 string and save to SharedPreferences
-  final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
-  await preferences.setString(sharedPreferencesKey, base64Data);
-}
+//   if (index != -1) {
+//     final int excelRowIndex = index + 1;
+//     budgetsSheet.removeRow(excelRowIndex);
+//   }
 
-Future<void> _writeBudgets(
-  UserInteractions userInteractions,
-  Profile profile,
-  Budget currentBudget, {
-  int index = -1,
-}) async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
-  final Excel excel = await createOrGetExcelFile();
-  final budgetsSheet = getSheet(excel, 'Budgets');
+//   final List<int>? saveBytes = excel.save();
+//   // Convert the bytes to a base64 string and save to SharedPreferences
+//   if (saveBytes != null) {
+//     final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
+//     await preferences.setString(sharedPreferencesKey, base64Data);
+//   }
+// }
 
-  if (userInteractions == UserInteractions.add) {
-    final List<TextCellValue> cellValue = budgetsCellValue(
-      currentBudget,
-      profile,
-    );
-    budgetsSheet.insertRow(1);
-    budgetsSheet.insertRowIterables(cellValue, 1);
-  } else {
-    if (index != -1) {
-      final int excelRowNumber = index + 2;
-      budgetsSheet.updateCell(
-        CellIndex.indexByString('B$excelRowNumber'),
-        TextCellValue(formatDate(currentBudget.createdDate)),
-      );
-      budgetsSheet.updateCell(
-        CellIndex.indexByString('C$excelRowNumber'),
-        TextCellValue(currentBudget.name),
-      );
-      budgetsSheet.updateCell(
-        CellIndex.indexByString('F$excelRowNumber'),
-        TextCellValue(currentBudget.notes ?? ''),
-      );
-      budgetsSheet.updateCell(
-        CellIndex.indexByString('D$excelRowNumber'),
-        TextCellValue(currentBudget.target.toString()),
-      );
-    }
-  }
+// Future<void> _writeBudgets(
+//   UserInteractions userInteractions,
+//   Profile profile,
+//   Budget currentBudget, {
+//   int index = -1,
+// }) async {
+//   final SharedPreferences preferences = await SharedPreferences.getInstance();
+//   final Excel excel = await createOrGetExcelFile();
+//   final Sheet budgetsSheet = excelSheet(excel, 'Budgets');
 
-  final List<int>? saveBytes = excel.encode();
-  if (saveBytes == null) {
-    throw Exception('Failed to save Excel data.');
-  }
-  // Convert the bytes to a base64 string and save to SharedPreferences
-  final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
-  await preferences.setString(sharedPreferencesKey, base64Data);
-}
+//   switch (userInteractions) {
+//     case UserInteractions.add:
+//       _handleAdd(budgetsSheet, currentBudget, profile);
+//       break;
+//     case UserInteractions.edit:
+//       _handleEdit(budgetsSheet, currentBudget, index);
+//       break;
+//     case UserInteractions.delete:
+//       break;
+//   }
+
+//   final List<int>? saveBytes = excel.save();
+//   // Convert the bytes to a base64 string and save to SharedPreferences
+//   if (saveBytes != null) {
+//     final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
+//     await preferences.setString(sharedPreferencesKey, base64Data);
+//   }
+// }
+
+// void _handleAdd(Sheet budgetsSheet, Budget currentBudget, Profile profile) {
+//   final List<TextCellValue> cellValue = budgetsCellValue(
+//     currentBudget,
+//     profile,
+//   );
+//   budgetsSheet.insertRow(1);
+//   budgetsSheet.insertRowIterables(cellValue, 1);
+// }
+
+// void _handleEdit(Sheet budgetsSheet, Budget currentBudget, int index) {
+//   final int excelRowNumber = index + 2;
+
+//   _updateCell(
+//     budgetsSheet,
+//     'B$excelRowNumber',
+//     formatDate(currentBudget.createdDate),
+//   );
+//   _updateCell(budgetsSheet, 'C$excelRowNumber', currentBudget.name);
+//   _updateCell(budgetsSheet, 'D$excelRowNumber', currentBudget.category);
+//   _updateCell(
+//     budgetsSheet,
+//     'E$excelRowNumber',
+//     currentBudget.target.toString(),
+//   );
+//   _updateCell(budgetsSheet, 'G$excelRowNumber', currentBudget.notes ?? '');
+// }
+
+// void _updateCell(Sheet sheet, String cellIndex, String value) {
+//   sheet.updateCell(CellIndex.indexByString(cellIndex), TextCellValue(value));
+// }

@@ -36,79 +36,84 @@ class FinancialOverview extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<String> options = <String>['Income', 'Expense'];
     return Consumer<DashboardNotifier>(
-      builder: (
-        BuildContext context,
-        DashboardNotifier financialNotifier,
-        Widget? child,
-      ) {
-        return ExpenseCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: <Widget>[
-                  Flexible(
-                    child: buildHeaderText(context, 'Financial Overview'),
-                  ),
-                ],
-              ),
-              if (isMobile(context)) ...[
-                verticalSpacer12,
-              ] else ...[
-                verticalSpacer16,
-              ],
-              Row(
-                spacing: 8.0,
+      builder:
+          (
+            BuildContext context,
+            DashboardNotifier financialNotifier,
+            Widget? child,
+          ) {
+            return ExpenseCard(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: SegmentedFilterButtons(
-                      options: options,
-                      icons: const [
-                        IconData(0xe735, fontFamily: fontIconFamily),
-                        IconData(0xe736, fontFamily: fontIconFamily),
-                      ],
-                      onSelectionChanged: (Set<String> selections) {
-                        financialNotifier.updateFinancialView(selections.first);
-                      },
-                      selectedSegment: financialNotifier.financialOverviewType,
-                    ),
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: <Widget>[
+                      Flexible(
+                        child: buildHeaderText(context, 'Financial Overview'),
+                      ),
+                    ],
                   ),
+                  if (isMobile(context)) ...[
+                    verticalSpacer12,
+                  ] else ...[
+                    verticalSpacer16,
+                  ],
+                  Row(
+                    spacing: 8.0,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: SegmentedFilterButtons(
+                          options: options,
+                          icons: const [
+                            IconData(0xe735, fontFamily: fontIconFamily),
+                            IconData(0xe736, fontFamily: fontIconFamily),
+                          ],
+                          onSelectionChanged: (Set<String> selections) {
+                            financialNotifier.updateFinancialView(
+                              selections.first,
+                            );
+                          },
+                          selectedSegment:
+                              financialNotifier.financialOverviewType,
+                        ),
+                      ),
+                      Flexible(
+                        child: ChartsDropdownFilter(
+                          width: 200.0,
+                          intervalFilters: chartTimeFrames,
+                          onTap: (String? value) {
+                            if (value != null) {
+                              financialNotifier.updateTimeFrame(value);
+                            }
+                          },
+                          selectedDuration: financialNotifier.timeFrame,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (isMobile(context)) verticalSpacer32 else verticalSpacer54,
                   Flexible(
-                    child: ChartsDropdownFilter(
-                      width: 200.0,
-                      intervalFilters: chartTimeFrames,
-                      onTap: (String? value) {
-                        if (value != null) {
-                          financialNotifier.updateTimeFrame(value);
-                        }
-                      },
-                      selectedDuration: financialNotifier.timeFrame,
+                    child: FinancialOverviewChart(
+                      key: ValueKey(financialNotifier.financialOverviewType),
+                      expenseDetails: expenseDetails,
+                      incomeDetails: incomeDetails,
+                      userDetails: userDetails,
+                      controller: controller,
+                      financialViewType:
+                          financialNotifier.financialOverviewType,
+                      filteredTimeFrame: financialNotifier.timeFrame,
                     ),
                   ),
                 ],
               ),
-              if (isMobile(context)) verticalSpacer32 else verticalSpacer54,
-              Flexible(
-                child: FinancialOverviewChart(
-                  key: ValueKey(financialNotifier.financialOverviewType),
-                  expenseDetails: expenseDetails,
-                  incomeDetails: incomeDetails,
-                  userDetails: userDetails,
-                  controller: controller,
-                  financialViewType: financialNotifier.financialOverviewType,
-                  filteredTimeFrame: financialNotifier.timeFrame,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+            );
+          },
     );
   }
 }
@@ -203,24 +208,22 @@ class FinancialOverviewChart extends StatelessWidget {
     incomeDetailsReference.clear();
     expenseDetailsReference.clear();
 
-    final List<ExpenseDetails> expenseDetails =
-        expenseMap.entries.map((entry) {
-          return ExpenseDetails(
-            category: entry.key,
-            amount: entry.value,
-            date: DateTime.now(),
-            budgetAmount: 0,
-          );
-        }).toList();
+    final List<ExpenseDetails> expenseDetails = expenseMap.entries.map((entry) {
+      return ExpenseDetails(
+        category: entry.key,
+        amount: entry.value,
+        date: DateTime.now(),
+        budgetAmount: 0,
+      );
+    }).toList();
 
-    final List<IncomeDetails> incomeDetails =
-        incomeMap.entries.map((entry) {
-          return IncomeDetails(
-            category: entry.key,
-            amount: entry.value,
-            date: DateTime.now(),
-          );
-        }).toList();
+    final List<IncomeDetails> incomeDetails = incomeMap.entries.map((entry) {
+      return IncomeDetails(
+        category: entry.key,
+        amount: entry.value,
+        date: DateTime.now(),
+      );
+    }).toList();
 
     expenseDetailsReference.addAll(expenseDetails);
     incomeDetailsReference.addAll(incomeDetails);
@@ -233,8 +236,9 @@ class FinancialOverviewChart extends StatelessWidget {
   ) {
     final now = DateTime.now();
     return items.where((item) {
-      final date =
-          item is ExpenseDetails ? item.date : (item as IncomeDetails).date;
+      final date = item is ExpenseDetails
+          ? item.date
+          : (item as IncomeDetails).date;
       switch (frame) {
         case 'This Year':
           return date.year == now.year;
@@ -289,28 +293,26 @@ class FinancialOverviewChart extends StatelessWidget {
           );
           dataLabelArgs.text =
               '${_amountPercentage(currentDetails, currentAmount).toStringAsFixed(2)}%';
-          dataLabelArgs.textStyle =
-              isMobile(context)
-                  ? textTheme.labelMedium!.copyWith(color: dataLabelArgs.color)
-                  : textTheme.labelLarge!.copyWith(color: dataLabelArgs.color);
+          dataLabelArgs.textStyle = isMobile(context)
+              ? textTheme.labelMedium!.copyWith(color: dataLabelArgs.color)
+              : textTheme.labelLarge!.copyWith(color: dataLabelArgs.color);
         },
         annotations: [
           if (currentDetails.isNotEmpty)
             CircularChartAnnotation(
               widget: Text(
                 financialViewType,
-                style:
-                    isMobile(context)
-                        ? theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onSecondaryContainer,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w500,
-                        )
-                        : theme.textTheme.titleLarge?.copyWith(
-                          color: theme.colorScheme.onSecondaryContainer,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w600,
-                        ),
+                style: isMobile(context)
+                    ? theme.textTheme.titleMedium?.copyWith(
+                        color: theme.colorScheme.onSecondaryContainer,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w500,
+                      )
+                    : theme.textTheme.titleLarge?.copyWith(
+                        color: theme.colorScheme.onSecondaryContainer,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w600,
+                      ),
               ),
             ),
         ],
@@ -319,25 +321,26 @@ class FinancialOverviewChart extends StatelessWidget {
           padding: 0,
           itemPadding: 0,
           isResponsive: true,
-          position:
-              isMobile(context) ? LegendPosition.bottom : LegendPosition.auto,
-          orientation:
-              isMobile(context)
-                  ? LegendItemOrientation.vertical
-                  : LegendItemOrientation.auto,
-          legendItemBuilder: (
-            String legendText,
-            ChartSeries<dynamic, dynamic>? series,
-            ChartPoint<dynamic> point,
-            int seriesIndex,
-          ) {
-            return _buildLegendTemplate(
-              context,
-              legendText,
-              toCurrency(point.y!.toDouble(), userDetails.userProfile),
-              seriesIndex,
-            );
-          },
+          position: isMobile(context)
+              ? LegendPosition.bottom
+              : LegendPosition.auto,
+          orientation: isMobile(context)
+              ? LegendItemOrientation.vertical
+              : LegendItemOrientation.auto,
+          legendItemBuilder:
+              (
+                String legendText,
+                ChartSeries<dynamic, dynamic>? series,
+                ChartPoint<dynamic> point,
+                int seriesIndex,
+              ) {
+                return _buildLegendTemplate(
+                  context,
+                  legendText,
+                  toCurrency(point.y!.toDouble(), userDetails.userProfile),
+                  seriesIndex,
+                );
+              },
         ),
         margin: EdgeInsets.zero,
         series: <CircularSeries<FinancialDetails, String>>[

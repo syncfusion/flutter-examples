@@ -108,9 +108,8 @@ class _PointColorMapperState extends SampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.y,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
         name: 'London',
-        pointColorMapper:
-            (ChartSampleData data, int index) =>
-                _determinePointColorByValue(data.y),
+        pointColorMapper: (ChartSampleData data, int index) =>
+            _determinePointColorByValue(data.y),
       ),
     ];
   }

@@ -101,16 +101,15 @@ class _AxisCrossingBaseValueState extends SampleViewState {
                 dropdownColor: model.drawerBackgroundColor,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedAxis,
-                items:
-                    _axis!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : '-2 (modified)',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: _axis!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : '-2 (modified)',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (dynamic value) {
                   _onAxisTypeChange(value.toString());
                   stateSetter(() {});
@@ -154,8 +153,8 @@ class _AxisCrossingBaseValueState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
         yValueMapper: (ChartSampleData sales, int index) => sales.y,
-        pointColorMapper:
-            (ChartSampleData sales, int index) => sales.pointColor,
+        pointColorMapper: (ChartSampleData sales, int index) =>
+            sales.pointColor,
         dataLabelSettings: const DataLabelSettings(
           isVisible: true,
           labelAlignment: ChartDataLabelAlignment.middle,

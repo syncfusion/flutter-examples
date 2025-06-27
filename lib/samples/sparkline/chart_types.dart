@@ -27,41 +27,40 @@ class _SparklineSeriesTypesState extends SampleViewState {
     _isVertical =
         MediaQuery.of(context).size.height > MediaQuery.of(context).size.width;
     if (_isVertical) {
-      _size =
-          model.isWebFullView
-              ? MediaQuery.of(context).size.height / 6
-              : MediaQuery.of(context).size.height / 6;
+      _size = model.isWebFullView
+          ? MediaQuery.of(context).size.height / 6
+          : MediaQuery.of(context).size.height / 6;
       return model.isWebFullView && model.isMobileResolution
           ? SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const Padding(padding: EdgeInsets.all(5)),
-                _buildSparkLineChart(),
-                const Padding(padding: EdgeInsets.all(5)),
-                _buildSparkAreaChart(),
-                const Padding(padding: EdgeInsets.all(5)),
-                _buildSparkBarChart(),
-                const Padding(padding: EdgeInsets.all(5)),
-                _buildSparkWinlossChart(),
-              ],
-            ),
-          )
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  const Padding(padding: EdgeInsets.all(5)),
+                  _buildSparkLineChart(),
+                  const Padding(padding: EdgeInsets.all(5)),
+                  _buildSparkAreaChart(),
+                  const Padding(padding: EdgeInsets.all(5)),
+                  _buildSparkBarChart(),
+                  const Padding(padding: EdgeInsets.all(5)),
+                  _buildSparkWinlossChart(),
+                ],
+              ),
+            )
           : Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Padding(padding: EdgeInsets.all(5)),
-                Expanded(child: _buildSparkLineChart()),
-                const Padding(padding: EdgeInsets.all(5)),
-                Expanded(child: _buildSparkAreaChart()),
-                const Padding(padding: EdgeInsets.all(5)),
-                Expanded(child: _buildSparkBarChart()),
-                const Padding(padding: EdgeInsets.all(5)),
-                Expanded(child: _buildSparkWinlossChart()),
-              ],
-            ),
-          );
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Padding(padding: EdgeInsets.all(5)),
+                  Expanded(child: _buildSparkLineChart()),
+                  const Padding(padding: EdgeInsets.all(5)),
+                  Expanded(child: _buildSparkAreaChart()),
+                  const Padding(padding: EdgeInsets.all(5)),
+                  Expanded(child: _buildSparkBarChart()),
+                  const Padding(padding: EdgeInsets.all(5)),
+                  Expanded(child: _buildSparkWinlossChart()),
+                ],
+              ),
+            );
     } else {
       _size = MediaQuery.of(context).size.width / 5.5;
       return Center(

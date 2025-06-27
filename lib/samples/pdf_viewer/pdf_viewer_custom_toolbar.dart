@@ -127,16 +127,16 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     super.didChangeDependencies();
     _useMaterial3 = model.themeData.useMaterial3;
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
-    _contextMenuTextColor =
-        _isLight ? const Color(0xFF000000) : const Color(0xFFFFFFFF);
-    _contextMenuColor =
-        _useMaterial3
-            ? _isLight
-                ? const Color(0xFFEEE8F4)
-                : const Color(0xFF302D38)
-            : _isLight
-            ? const Color(0xFFFFFFFF)
-            : const Color(0xFF424242);
+    _contextMenuTextColor = _isLight
+        ? const Color(0xFF000000)
+        : const Color(0xFFFFFFFF);
+    _contextMenuColor = _useMaterial3
+        ? _isLight
+              ? const Color(0xFFEEE8F4)
+              : const Color(0xFF302D38)
+        : _isLight
+        ? const Color(0xFFFFFFFF)
+        : const Color(0xFF424242);
     if (_needToMaximize != model.needToMaximize) {
       _closeOverlays();
       _needToMaximize = model.needToMaximize;
@@ -145,12 +145,11 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         isDesktop &&
         model.isMobileResolution != null &&
         !model.isMobileResolution;
-    _fillColor =
-        _useMaterial3
-            ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
-            : _isLight
-            ? const Color(0xFFE5E5E5)
-            : const Color(0xFF525252);
+    _fillColor = _useMaterial3
+        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
+        : _isLight
+        ? const Color(0xFFE5E5E5)
+        : const Color(0xFF525252);
   }
 
   /// Show the customized password dialog for mobile
@@ -158,10 +157,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        final Orientation orientation =
-            model.isMobile
-                ? MediaQuery.of(context).orientation
-                : Orientation.portrait;
+        final Orientation orientation = model.isMobile
+            ? MediaQuery.of(context).orientation
+            : Orientation.portrait;
         return _buildPasswordDialog(context, orientation);
       },
     );
@@ -175,25 +173,22 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     return AlertDialog(
       scrollable: true,
       insetPadding: EdgeInsets.zero,
-      contentPadding:
-          orientation == Orientation.portrait
-              ? const EdgeInsets.all(24)
-              : const EdgeInsets.only(right: 24, left: 24),
-      buttonPadding:
-          orientation == Orientation.portrait
-              ? const EdgeInsets.all(8)
-              : const EdgeInsets.all(4),
+      contentPadding: orientation == Orientation.portrait
+          ? const EdgeInsets.all(24)
+          : const EdgeInsets.only(right: 24, left: 24),
+      buttonPadding: orientation == Orientation.portrait
+          ? const EdgeInsets.all(8)
+          : const EdgeInsets.all(4),
       backgroundColor:
           Theme.of(context).colorScheme.brightness == Brightness.light
-              ? Colors.white
-              : const Color(0xFF424242),
+          ? Colors.white
+          : const Color(0xFF424242),
       title: _passwordDialogTitle(context),
-      shape:
-          _useMaterial3
-              ? null
-              : const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-              ),
+      shape: _useMaterial3
+          ? null
+          : const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            ),
       content: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return SingleChildScrollView(
@@ -228,14 +223,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           height: 36,
           width: 36,
           child: RawMaterialButton(
-            shape:
-                _useMaterial3
-                    ? const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    )
-                    : const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(2)),
-                    ),
+            shape: _useMaterial3
+                ? const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                  )
+                : const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                  ),
             onPressed: () {
               _closePasswordDialog(context);
             },
@@ -366,16 +360,15 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         onPressed: () {
           _closePasswordDialog(context);
         },
-        style:
-            _useMaterial3
-                ? TextButton.styleFrom(
-                  fixedSize: const Size(double.infinity, 40),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 20,
-                  ),
-                )
-                : null,
+        style: _useMaterial3
+            ? TextButton.styleFrom(
+                fixedSize: const Size(double.infinity, 40),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
+              )
+            : null,
         child: Text(
           'CANCEL',
           style: TextStyle(
@@ -392,16 +385,15 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           onPressed: () {
             _handlePasswordValidation(_textFieldController.text);
           },
-          style:
-              _useMaterial3
-                  ? TextButton.styleFrom(
-                    fixedSize: const Size(double.infinity, 40),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
-                  )
-                  : null,
+          style: _useMaterial3
+              ? TextButton.styleFrom(
+                  fixedSize: const Size(double.infinity, 40),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
+                  ),
+                )
+              : null,
           child: Text(
             'OPEN',
             style: TextStyle(
@@ -437,15 +429,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             width: 500,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(_useMaterial3 ? 16 : 4),
-              color:
-                  _useMaterial3
-                      ? _isLight
-                          ? const Color.fromRGBO(238, 232, 244, 1)
-                          : const Color.fromRGBO(48, 45, 56, 1)
-                      : Theme.of(context).colorScheme.brightness ==
-                          Brightness.light
-                      ? Colors.white
-                      : const Color(0xFF424242),
+              color: _useMaterial3
+                  ? _isLight
+                        ? const Color.fromRGBO(238, 232, 244, 1)
+                        : const Color.fromRGBO(48, 45, 56, 1)
+                  : Theme.of(context).colorScheme.brightness == Brightness.light
+                  ? Colors.white
+                  : const Color(0xFF424242),
             ),
             child: Column(
               children: <Widget>[
@@ -536,26 +526,23 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         obscuringCharacter: '*',
         decoration: InputDecoration(
           isDense: true,
-          border:
-              _useMaterial3
-                  ? OutlineInputBorder(
-                    borderSide: BorderSide(color: model.primaryColor),
-                  )
-                  : UnderlineInputBorder(
-                    borderSide: BorderSide(color: model.primaryColor),
-                  ),
-          focusedBorder:
-              _useMaterial3
-                  ? OutlineInputBorder(
-                    borderSide: BorderSide(color: model.primaryColor),
-                  )
-                  : UnderlineInputBorder(
-                    borderSide: BorderSide(color: model.primaryColor),
-                  ),
-          contentPadding:
-              _useMaterial3
-                  ? const EdgeInsets.only(left: 8, top: 18)
-                  : const EdgeInsets.fromLTRB(0, 18, 0, 0),
+          border: _useMaterial3
+              ? OutlineInputBorder(
+                  borderSide: BorderSide(color: model.primaryColor),
+                )
+              : UnderlineInputBorder(
+                  borderSide: BorderSide(color: model.primaryColor),
+                ),
+          focusedBorder: _useMaterial3
+              ? OutlineInputBorder(
+                  borderSide: BorderSide(color: model.primaryColor),
+                )
+              : UnderlineInputBorder(
+                  borderSide: BorderSide(color: model.primaryColor),
+                ),
+          contentPadding: _useMaterial3
+              ? const EdgeInsets.only(left: 8, top: 18)
+              : const EdgeInsets.fromLTRB(0, 18, 0, 0),
           hintText: 'Password: syncfusion',
           errorText: _errorText.isNotEmpty ? _errorText : null,
           hintStyle: _webPasswordDialogintStyle(),
@@ -618,16 +605,15 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         children: <Widget>[
           TextButton(
             onPressed: _closeWebPasswordDialog,
-            style:
-                _useMaterial3
-                    ? TextButton.styleFrom(
-                      fixedSize: const Size(double.infinity, 40),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 20,
-                      ),
-                    )
-                    : null,
+            style: _useMaterial3
+                ? TextButton.styleFrom(
+                    fixedSize: const Size(double.infinity, 40),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
+                    ),
+                  )
+                : null,
             child: Text(
               'CANCEL',
               style: TextStyle(
@@ -639,18 +625,17 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             ),
           ),
           TextButton(
-            onPressed:
-                () => _handlePasswordValidation(_textFieldController.text),
-            style:
-                _useMaterial3
-                    ? TextButton.styleFrom(
-                      fixedSize: const Size(double.infinity, 40),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 20,
-                      ),
-                    )
-                    : null,
+            onPressed: () =>
+                _handlePasswordValidation(_textFieldController.text),
+            style: _useMaterial3
+                ? TextButton.styleFrom(
+                    fixedSize: const Size(double.infinity, 40),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
+                    ),
+                  )
+                : null,
             child: Text(
               'OPEN',
               style: TextStyle(
@@ -693,10 +678,12 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           offset: Offset(0, 1),
         ),
       ];
-      final double contextMenuHeight =
-          _isDesktopWeb ? _kWebContextMenuHeight : _kMobileContextMenuHeight;
-      final double contextMenuWidth =
-          _isDesktopWeb ? _kWebContextMenuWidth : _kMobileContextMenuWidth;
+      final double contextMenuHeight = _isDesktopWeb
+          ? _kWebContextMenuHeight
+          : _kMobileContextMenuHeight;
+      final double contextMenuWidth = _isDesktopWeb
+          ? _kWebContextMenuWidth
+          : _kMobileContextMenuWidth;
       final Size screenSize = MediaQuery.sizeOf(context);
       final Offset containerOffset = renderBoxContainer.localToGlobal(
         renderBoxContainer.paintBounds.topLeft,
@@ -754,14 +741,12 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           _kContextMenuBottom / 2;
       left = globalSelectedRect.bottomLeft.dx;
     } else {
-      top =
-          globalSelectedRect.height > contextMenuWidth
-              ? globalSelectedRect.center.dy - (contextMenuHeight / 2)
-              : globalSelectedRect.topLeft.dy - _kContextMenuBottom;
-      left =
-          globalSelectedRect.height > contextMenuWidth
-              ? globalSelectedRect.center.dx - (contextMenuWidth / 2)
-              : globalSelectedRect.bottomLeft.dx;
+      top = globalSelectedRect.height > contextMenuWidth
+          ? globalSelectedRect.center.dy - (contextMenuHeight / 2)
+          : globalSelectedRect.topLeft.dy - _kContextMenuBottom;
+      left = globalSelectedRect.height > contextMenuWidth
+          ? globalSelectedRect.center.dx - (contextMenuWidth / 2)
+          : globalSelectedRect.bottomLeft.dx;
     }
     if (left + contextMenuWidth > screenSize.width - _kContextMenuMargin) {
       left = screenSize.width - contextMenuWidth - _kContextMenuMargin;
@@ -782,51 +767,50 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   ) {
     final OverlayState overlayState = Overlay.of(context, rootOverlay: true);
     _selectionOverlayEntry = OverlayEntry(
-      builder:
-          (BuildContext context) => Positioned(
-            top: menuPosition.dy,
-            left: menuPosition.dx,
-            child: Container(
-              decoration: BoxDecoration(
-                color: _contextMenuColor,
-                boxShadow: boxShadows,
-              ),
-              constraints: BoxConstraints.tightFor(
-                width: contextMenuWidth,
-                height: contextMenuHeight,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildCopyAction(),
-                  _buildTextMarkUpAction(
-                    'Highlight',
-                    _isLight
-                        ? 'images/pdf_viewer/highlight_light.png'
-                        : 'images/pdf_viewer/highlight_dark.png',
-                  ),
-                  _buildTextMarkUpAction(
-                    'Underline',
-                    _isLight
-                        ? 'images/pdf_viewer/underline_light.png'
-                        : 'images/pdf_viewer/underline_dark.png',
-                  ),
-                  _buildTextMarkUpAction(
-                    'Strikethrough',
-                    _isLight
-                        ? 'images/pdf_viewer/strikethrough_light.png'
-                        : 'images/pdf_viewer/strikethrough_dark.png',
-                  ),
-                  _buildTextMarkUpAction(
-                    'Squiggly',
-                    _isLight
-                        ? 'images/pdf_viewer/squiggly_light.png'
-                        : 'images/pdf_viewer/squiggly_dark.png',
-                  ),
-                ],
-              ),
-            ),
+      builder: (BuildContext context) => Positioned(
+        top: menuPosition.dy,
+        left: menuPosition.dx,
+        child: Container(
+          decoration: BoxDecoration(
+            color: _contextMenuColor,
+            boxShadow: boxShadows,
           ),
+          constraints: BoxConstraints.tightFor(
+            width: contextMenuWidth,
+            height: contextMenuHeight,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildCopyAction(),
+              _buildTextMarkUpAction(
+                'Highlight',
+                _isLight
+                    ? 'images/pdf_viewer/highlight_light.png'
+                    : 'images/pdf_viewer/highlight_dark.png',
+              ),
+              _buildTextMarkUpAction(
+                'Underline',
+                _isLight
+                    ? 'images/pdf_viewer/underline_light.png'
+                    : 'images/pdf_viewer/underline_dark.png',
+              ),
+              _buildTextMarkUpAction(
+                'Strikethrough',
+                _isLight
+                    ? 'images/pdf_viewer/strikethrough_light.png'
+                    : 'images/pdf_viewer/strikethrough_dark.png',
+              ),
+              _buildTextMarkUpAction(
+                'Squiggly',
+                _isLight
+                    ? 'images/pdf_viewer/squiggly_light.png'
+                    : 'images/pdf_viewer/squiggly_dark.png',
+              ),
+            ],
+          ),
+        ),
+      ),
     );
     overlayState.insert(_selectionOverlayEntry!);
   }
@@ -886,8 +870,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   /// Handles annotations actions for the text selection context menu.
   void _handleAnnotationAction(String actionType) {
     _handleContextMenuClose();
-    final List<PdfTextLine>? selectedTextLines =
-        _pdfViewerKey.currentState?.getSelectedTextLines();
+    final List<PdfTextLine>? selectedTextLines = _pdfViewerKey.currentState
+        ?.getSelectedTextLines();
     if (selectedTextLines != null && selectedTextLines.isNotEmpty) {
       switch (actionType) {
         case 'Highlight':
@@ -971,13 +955,12 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         positionOverride ?? toolbarItemRenderBox.localToGlobal(Offset.zero);
     final OverlayState overlayState = Overlay.of(context, rootOverlay: true);
     overlayEntry = OverlayEntry(
-      builder:
-          (BuildContext context) => _buildDropDownOverlay(
-            position,
-            dropDownItems,
-            constraints,
-            borderRadius,
-          ),
+      builder: (BuildContext context) => _buildDropDownOverlay(
+        position,
+        dropDownItems,
+        constraints,
+        borderRadius,
+      ),
     );
     overlayState.insert(overlayEntry);
     return overlayEntry;
@@ -995,40 +978,35 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       left: _settingsOverlayEntry != null ? position.dx - 151.0 : position.dx,
       child: Container(
         decoration: BoxDecoration(
-          color:
-              _useMaterial3
-                  ? (_isLight
-                      ? const Color.fromRGBO(238, 232, 244, 1)
-                      : const Color.fromRGBO(48, 45, 56, 1))
-                  : (_isLight
-                      ? const Color(0xFFFFFFFF)
-                      : const Color(0xFF424242)),
-          boxShadow:
-              _useMaterial3
-                  ? <BoxShadow>[
-                    const BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.15),
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                      spreadRadius: 2,
-                    ),
-                    const BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.3),
-                      blurRadius: 2,
-                      offset: Offset(0, 1),
-                    ),
-                  ]
-                  : <BoxShadow>[
-                    const BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.26),
-                      blurRadius: 8,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-          borderRadius:
-              _useMaterial3
-                  ? BorderRadius.all(Radius.circular(borderRadius ?? 4.0))
-                  : null,
+          color: _useMaterial3
+              ? (_isLight
+                    ? const Color.fromRGBO(238, 232, 244, 1)
+                    : const Color.fromRGBO(48, 45, 56, 1))
+              : (_isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242)),
+          boxShadow: _useMaterial3
+              ? <BoxShadow>[
+                  const BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.15),
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                    spreadRadius: 2,
+                  ),
+                  const BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.3),
+                    blurRadius: 2,
+                    offset: Offset(0, 1),
+                  ),
+                ]
+              : <BoxShadow>[
+                  const BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.26),
+                    blurRadius: 8,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+          borderRadius: _useMaterial3
+              ? BorderRadius.all(Radius.circular(borderRadius ?? 4.0))
+              : null,
         ),
         constraints: constraints,
         child: dropDownItems,
@@ -1125,13 +1103,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         _chooseFileOverlayEntry,
         _useMaterial3
             ? BoxConstraints.tightFor(
-              width: 205,
-              height: child.children.length * 40.0,
-            )
+                width: 205,
+                height: child.children.length * 40.0,
+              )
             : BoxConstraints.tightFor(
-              width: 202,
-              height: child.children.length * 35.0,
-            ),
+                width: 202,
+                height: child.children.length * 35.0,
+              ),
         child,
       );
     }
@@ -1163,42 +1141,34 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             password = null;
           });
         },
-        shape:
-            _useMaterial3
-                ? const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                )
-                : const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                ),
-        hoverColor:
-            _useMaterial3
-                ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
-                : null,
+        shape: _useMaterial3
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+              )
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
+            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 8.01),
             child: Text(
               fileName,
-              style:
-                  _useMaterial3
-                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      )
-                      : TextStyle(
-                        color:
-                            _isLight
-                                ? const Color(
-                                  0x00000000,
-                                ).withValues(alpha: 0.87)
-                                : const Color(
-                                  0x00ffffff,
-                                ).withValues(alpha: 0.87),
-                        fontSize: 14,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                      ),
+              style: _useMaterial3
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    )
+                  : TextStyle(
+                      color: _isLight
+                          ? const Color(0x00000000).withValues(alpha: 0.87)
+                          : const Color(0x00ffffff).withValues(alpha: 0.87),
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400,
+                    ),
             ),
           ),
         ),
@@ -1257,42 +1227,35 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 _toolbarKey.currentState!._zoomLevel = zoomLevel;
           });
         },
-        shape:
-            _useMaterial3
-                ? const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                )
-                : const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                ),
-        hoverColor:
-            _useMaterial3
-                ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
-                : null,
+        shape: _useMaterial3
+            ? const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+              )
+            : const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
+            : null,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding:
-                _useMaterial3
-                    ? const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 10.0,
-                    )
-                    : const EdgeInsets.only(left: 16.0, top: 8.0),
+            padding: _useMaterial3
+                ? const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0)
+                : const EdgeInsets.only(left: 16.0, top: 8.0),
             child: Text(
               percentage,
-              style:
-                  _useMaterial3
-                      ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      )
-                      : TextStyle(
-                        color: _toolbarKey.currentState?._textColor,
-                        fontSize: 14,
-                        fontFamily: 'Roboto',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                      ),
+              style: _useMaterial3
+                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    )
+                  : TextStyle(
+                      color: _toolbarKey.currentState?._textColor,
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400,
+                    ),
             ),
           ),
         ),
@@ -1318,8 +1281,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     }
     final double totalHeight =
         MediaQuery.of(context).orientation == Orientation.landscape
-            ? landscapeHeight
-            : 191.0;
+        ? landscapeHeight
+        : 191.0;
     if (settingsRenderBox != null) {
       _settingsOverlayEntry = _showDropDownOverlay(
         settingsRenderBox,
@@ -1362,12 +1325,11 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             ),
             Divider(
               thickness: 1,
-              color:
-                  _useMaterial3
-                      ? model.themeData.colorScheme.outlineVariant
-                      : _isLight
-                      ? Colors.black.withValues(alpha: 0.24)
-                      : const Color.fromRGBO(255, 255, 255, 0.26),
+              color: _useMaterial3
+                  ? model.themeData.colorScheme.outlineVariant
+                  : _isLight
+                  ? Colors.black.withValues(alpha: 0.24)
+                  : const Color.fromRGBO(255, 255, 255, 0.26),
             ),
             _buildSettingsMenuScrollingOptions(),
           ],
@@ -1414,10 +1376,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       _isContinuousModeClicked = isContinuous;
       if (_pageLayoutMode != mode) {
         _pageLayoutMode = mode;
-        _scrollDirection =
-            isContinuous
-                ? PdfScrollDirection.vertical
-                : PdfScrollDirection.horizontal;
+        _scrollDirection = isContinuous
+            ? PdfScrollDirection.vertical
+            : PdfScrollDirection.horizontal;
         _isVerticalModeSelected = isContinuous;
       }
     });
@@ -1447,10 +1408,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         hoverElevation: 0.0,
         highlightElevation: 0.0,
         onPressed: onPressed,
-        hoverColor:
-            _useMaterial3
-                ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
-                : null,
+        hoverColor: _useMaterial3
+            ? model.themeData.colorScheme.onSurface.withValues(alpha: 0.08)
+            : null,
         fillColor: canShowFillColor ? _fillColor : null,
         child: _buildSettingsDropDownItem(imagePath, mode),
       ),
@@ -1462,10 +1422,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     return Row(
       children: [
         Padding(
-          padding:
-              _useMaterial3
-                  ? const EdgeInsets.only(left: 16)
-                  : const EdgeInsets.only(left: 19),
+          padding: _useMaterial3
+              ? const EdgeInsets.only(left: 16)
+              : const EdgeInsets.only(left: 19),
           child: ImageIcon(
             AssetImage(imagePath),
             size: 24,
@@ -1473,19 +1432,17 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           ),
         ),
         Padding(
-          padding:
-              _useMaterial3
-                  ? const EdgeInsets.only(left: 12)
-                  : const EdgeInsets.only(left: 10),
+          padding: _useMaterial3
+              ? const EdgeInsets.only(left: 12)
+              : const EdgeInsets.only(left: 10),
           child: Text(
             mode,
             style: TextStyle(
-              color:
-                  _useMaterial3
-                      ? Theme.of(context).colorScheme.onSurfaceVariant
-                      : _isLight
-                      ? const Color(0x00000000).withValues(alpha: 0.87)
-                      : const Color(0x00ffffff).withValues(alpha: 0.87),
+              color: _useMaterial3
+                  ? Theme.of(context).colorScheme.onSurfaceVariant
+                  : _isLight
+                  ? const Color(0x00000000).withValues(alpha: 0.87)
+                  : const Color(0x00ffffff).withValues(alpha: 0.87),
               fontSize: _useMaterial3 ? 16 : 14,
               letterSpacing: _useMaterial3 ? 0.15 : null,
               fontFamily: 'Roboto',
@@ -1730,14 +1687,13 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     if (isDesktop) {
-      final bool? isDrawerOpened =
-          model
-              .webOutputContainerState
-              .widget
-              .webLayoutPageState
-              ?.scaffoldKey
-              .currentState
-              ?.isEndDrawerOpen;
+      final bool? isDrawerOpened = model
+          .webOutputContainerState
+          .widget
+          .webLayoutPageState
+          ?.scaffoldKey
+          .currentState
+          ?.isEndDrawerOpen;
       if (isDrawerOpened != null && isDrawerOpened) {
         _closeOverlays();
       }
@@ -1759,19 +1715,18 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
     PreferredSizeWidget appBar = AppBar(
       toolbarHeight:
           (_canShowDesktopSecondaryToolbar &&
-                  _pdfViewerController.pageCount != 0 &&
-                  _isDesktopWeb)
-              ? 2 * kToolbarHeight
-              : kToolbarHeight,
+              _pdfViewerController.pageCount != 0 &&
+              _isDesktopWeb)
+          ? 2 * kToolbarHeight
+          : kToolbarHeight,
       flexibleSpace: Semantics(
         label: 'Custom toolbar',
         child: KeyboardListener(
           focusNode: _focusNode,
           onKeyEvent: (KeyEvent event) {
-            final bool isPrimaryKeyPressed =
-                kIsMacOS
-                    ? HardwareKeyboard.instance.isMetaPressed
-                    : HardwareKeyboard.instance.isControlPressed;
+            final bool isPrimaryKeyPressed = kIsMacOS
+                ? HardwareKeyboard.instance.isMetaPressed
+                : HardwareKeyboard.instance.isControlPressed;
             if (isPrimaryKeyPressed &&
                 event.logicalKey == LogicalKeyboardKey.keyF) {
               _pdfViewerController.clearSelection();
@@ -2096,99 +2051,94 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
         ),
       ),
       automaticallyImplyLeading: false,
-      backgroundColor:
-          _useMaterial3
-              ? Theme.of(context).colorScheme.brightness == Brightness.light
-                  ? const Color.fromRGBO(247, 242, 251, 1)
-                  : const Color.fromRGBO(37, 35, 42, 1)
-              : Theme.of(context).colorScheme.brightness == Brightness.light
-              ? const Color(0xFFFAFAFA)
-              : const Color(0xFF424242),
+      backgroundColor: _useMaterial3
+          ? Theme.of(context).colorScheme.brightness == Brightness.light
+                ? const Color.fromRGBO(247, 242, 251, 1)
+                : const Color.fromRGBO(37, 35, 42, 1)
+          : Theme.of(context).colorScheme.brightness == Brightness.light
+          ? const Color(0xFFFAFAFA)
+          : const Color(0xFF424242),
     );
     if (!_isDesktopWeb) {
-      appBar =
-          _canShowToolbar
-              ? appBar
-              : !_pdfViewerKey.currentState!.isBookmarkViewOpen
-              ? AppBar(
-                flexibleSpace: Column(
-                  children: [
-                    Expanded(
-                      child: SearchToolbar(
-                        key: _textSearchKey,
-                        controller: _pdfViewerController,
-                        brightness: model.themeData.colorScheme.brightness,
-                        primaryColor: model.primaryColor,
-                        onTap: (Object toolbarItem) async {
-                          if (toolbarItem.toString() == 'Cancel Search') {
-                            setState(() {
-                              _canShowToolbar = true;
-                              _canShowScrollHead = true;
-                              if (Navigator.canPop(context)) {
-                                Navigator.of(context).maybePop();
-                              }
-                            });
-                          }
-                          if (toolbarItem.toString() == 'Previous Instance') {
-                            setState(() {
-                              _canShowToolbar = false;
-                            });
-                          }
-                          if (toolbarItem.toString() == 'Next Instance') {
-                            setState(() {
-                              _canShowToolbar = false;
-                            });
-                          }
-                          if (toolbarItem.toString() == 'Clear Text') {
-                            setState(() {
-                              _canShowToolbar = false;
-                            });
-                          }
-                          if (toolbarItem.toString() == 'Search Completed') {
-                            setState(() {});
-                          }
-                          if (toolbarItem.toString() == 'noResultFound') {
-                            setState(() {
-                              _textSearchKey.currentState?.canShowToast = true;
-                            });
-                            await Future<dynamic>.delayed(
-                              const Duration(seconds: 1),
-                            );
-                            setState(() {
-                              _textSearchKey.currentState?.canShowToast = false;
-                            });
-                          }
-                        },
-                      ),
+      appBar = _canShowToolbar
+          ? appBar
+          : !_pdfViewerKey.currentState!.isBookmarkViewOpen
+          ? AppBar(
+              flexibleSpace: Column(
+                children: [
+                  Expanded(
+                    child: SearchToolbar(
+                      key: _textSearchKey,
+                      controller: _pdfViewerController,
+                      brightness: model.themeData.colorScheme.brightness,
+                      primaryColor: model.primaryColor,
+                      onTap: (Object toolbarItem) async {
+                        if (toolbarItem.toString() == 'Cancel Search') {
+                          setState(() {
+                            _canShowToolbar = true;
+                            _canShowScrollHead = true;
+                            if (Navigator.canPop(context)) {
+                              Navigator.of(context).maybePop();
+                            }
+                          });
+                        }
+                        if (toolbarItem.toString() == 'Previous Instance') {
+                          setState(() {
+                            _canShowToolbar = false;
+                          });
+                        }
+                        if (toolbarItem.toString() == 'Next Instance') {
+                          setState(() {
+                            _canShowToolbar = false;
+                          });
+                        }
+                        if (toolbarItem.toString() == 'Clear Text') {
+                          setState(() {
+                            _canShowToolbar = false;
+                          });
+                        }
+                        if (toolbarItem.toString() == 'Search Completed') {
+                          setState(() {});
+                        }
+                        if (toolbarItem.toString() == 'noResultFound') {
+                          setState(() {
+                            _textSearchKey.currentState?.canShowToast = true;
+                          });
+                          await Future<dynamic>.delayed(
+                            const Duration(seconds: 1),
+                          );
+                          setState(() {
+                            _textSearchKey.currentState?.canShowToast = false;
+                          });
+                        }
+                      },
                     ),
-                    // Progress bar to indicate whether search process is completed or not.
-                    Visibility(
-                      visible:
-                          _textSearchKey.currentState != null &&
-                          !_textSearchKey
-                              .currentState!
-                              .pdfTextSearchResult
-                              .isSearchCompleted &&
-                          _textSearchKey.currentState!.isSearchInitiated,
-                      child: LinearProgressIndicator(
-                        color: Theme.of(context).primaryColor,
-                      ),
+                  ),
+                  // Progress bar to indicate whether search process is completed or not.
+                  Visibility(
+                    visible:
+                        _textSearchKey.currentState != null &&
+                        !_textSearchKey
+                            .currentState!
+                            .pdfTextSearchResult
+                            .isSearchCompleted &&
+                        _textSearchKey.currentState!.isSearchInitiated,
+                    child: LinearProgressIndicator(
+                      color: Theme.of(context).primaryColor,
                     ),
-                  ],
-                ),
-                automaticallyImplyLeading: false,
-                backgroundColor:
-                    _useMaterial3
-                        ? Theme.of(context).colorScheme.brightness ==
-                                Brightness.light
-                            ? const Color.fromRGBO(247, 242, 251, 1)
-                            : const Color.fromRGBO(37, 35, 42, 1)
-                        : Theme.of(context).colorScheme.brightness ==
-                            Brightness.light
-                        ? const Color(0xFFFAFAFA)
-                        : const Color(0xFF424242),
-              )
-              : PreferredSize(preferredSize: Size.zero, child: Container());
+                  ),
+                ],
+              ),
+              automaticallyImplyLeading: false,
+              backgroundColor: _useMaterial3
+                  ? Theme.of(context).colorScheme.brightness == Brightness.light
+                        ? const Color.fromRGBO(247, 242, 251, 1)
+                        : const Color.fromRGBO(37, 35, 42, 1)
+                  : Theme.of(context).colorScheme.brightness == Brightness.light
+                  ? const Color(0xFFFAFAFA)
+                  : const Color(0xFF424242),
+            )
+          : PreferredSize(preferredSize: Size.zero, child: Container());
     }
     return Scaffold(
       appBar: appBar,
@@ -2245,56 +2195,54 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       }
                       _toolbarKey.currentState?.documentChanged();
                     },
-                    onTextSelectionChanged: (
-                      PdfTextSelectionChangedDetails details,
-                    ) async {
-                      if (details.selectedText == null &&
-                          _selectionOverlayEntry != null) {
-                        _textSelectionDetails = null;
-                        _handleContextMenuClose();
-                      } else if (details.selectedText != null &&
-                          _selectionOverlayEntry == null) {
-                        _textSelectionDetails = details;
-                        _showContextMenu(context, null);
-                      }
-                    },
-                    onDocumentLoadFailed: (
-                      PdfDocumentLoadFailedDetails details,
-                    ) {
-                      setState(() {
-                        _canShowDesktopSecondaryToolbar = false;
-                      });
-                      _toolbarKey.currentState?.documentChanged();
-                      if (details.description.contains('password')) {
-                        if (details.description.contains('password') &&
-                            _hasPasswordDialog) {
-                          _errorText = 'Invalid password';
-                          _formKey.currentState?.validate();
-                          _textFieldController.clear();
-                          _passwordDialogFocusNode.requestFocus();
-                        } else {
-                          _errorText = '';
-                          if (model.isMobile) {
-                            _showPasswordDialog();
-                            _passwordDialogFocusNode.requestFocus();
-                            _hasPasswordDialog = true;
-                          } else {
-                            setState(() {
-                              _hasPasswordDialog = true;
-                              if (!_passwordDialogFocusNode.hasFocus) {
-                                _passwordDialogFocusNode.requestFocus();
-                              }
-                            });
+                    onTextSelectionChanged:
+                        (PdfTextSelectionChangedDetails details) async {
+                          if (details.selectedText == null &&
+                              _selectionOverlayEntry != null) {
+                            _textSelectionDetails = null;
+                            _handleContextMenuClose();
+                          } else if (details.selectedText != null &&
+                              _selectionOverlayEntry == null) {
+                            _textSelectionDetails = details;
+                            _showContextMenu(context, null);
                           }
-                        }
-                      } else {
-                        showErrorDialog(
-                          context,
-                          details.error,
-                          details.description,
-                        );
-                      }
-                    },
+                        },
+                    onDocumentLoadFailed:
+                        (PdfDocumentLoadFailedDetails details) {
+                          setState(() {
+                            _canShowDesktopSecondaryToolbar = false;
+                          });
+                          _toolbarKey.currentState?.documentChanged();
+                          if (details.description.contains('password')) {
+                            if (details.description.contains('password') &&
+                                _hasPasswordDialog) {
+                              _errorText = 'Invalid password';
+                              _formKey.currentState?.validate();
+                              _textFieldController.clear();
+                              _passwordDialogFocusNode.requestFocus();
+                            } else {
+                              _errorText = '';
+                              if (model.isMobile) {
+                                _showPasswordDialog();
+                                _passwordDialogFocusNode.requestFocus();
+                                _hasPasswordDialog = true;
+                              } else {
+                                setState(() {
+                                  _hasPasswordDialog = true;
+                                  if (!_passwordDialogFocusNode.hasFocus) {
+                                    _passwordDialogFocusNode.requestFocus();
+                                  }
+                                });
+                              }
+                            }
+                          } else {
+                            showErrorDialog(
+                              context,
+                              details.error,
+                              details.description,
+                            );
+                          }
+                        },
                     onAnnotationEdited: (Annotation annotation) {
                       _selectedColor = annotation.color;
                       _opacity = annotation.opacity;
@@ -2424,9 +2372,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                       showStickyNoteIcon: false,
                       showAddTextMarkupToolbar:
                           _pdfViewerController.annotationMode ==
-                                  PdfAnnotationMode.stickyNote
-                              ? true
-                              : false,
+                              PdfAnnotationMode.stickyNote
+                          ? true
+                          : false,
                       selectedAnnotation: _selectedAnnotation,
                       onBackButtonPressed: () {
                         if (_selectedAnnotation != null) {
@@ -2447,10 +2395,9 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   KeyboardListener(
                     focusNode: _focusNode,
                     onKeyEvent: (KeyEvent event) {
-                      final bool isPrimaryKeyPressed =
-                          kIsMacOS
-                              ? HardwareKeyboard.instance.isMetaPressed
-                              : HardwareKeyboard.instance.isControlPressed;
+                      final bool isPrimaryKeyPressed = kIsMacOS
+                          ? HardwareKeyboard.instance.isMetaPressed
+                          : HardwareKeyboard.instance.isControlPressed;
                       if (isPrimaryKeyPressed &&
                           event.logicalKey == LogicalKeyboardKey.keyF) {
                         _showTextSearchMenu();
@@ -2635,8 +2582,8 @@ class ToolbarState extends State<Toolbar> {
           _textEditingController!.text !=
               widget.controller!.pageNumber.toString()) {
         Future<dynamic>.delayed(Duration.zero, () {
-          _textEditingController!.text =
-              widget.controller!.pageNumber.toString();
+          _textEditingController!.text = widget.controller!.pageNumber
+              .toString();
           setState(() {});
         });
       }
@@ -2648,10 +2595,10 @@ class ToolbarState extends State<Toolbar> {
     setState(() {
       _annotationsIconFillColor =
           widget.controller != null &&
-                  widget.controller!.pageCount != 0 &&
-                  widget.showDesktopSecondaryToolbar
-              ? _fillColor
-              : null;
+              widget.controller!.pageCount != 0 &&
+              widget.showDesktopSecondaryToolbar
+          ? _fillColor
+          : null;
       _textMarkupFillColor = Colors.transparent;
       _colorPaletteFillColor = null;
       _stickyNoteIconMenuFillColor = null;
@@ -2667,32 +2614,28 @@ class ToolbarState extends State<Toolbar> {
   void didChangeDependencies() {
     _isLight = Theme.of(context).brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _color =
-        _useMaterial3
-            ? Theme.of(context).brightness == Brightness.light
-                ? const Color.fromRGBO(73, 69, 79, 1)
-                : const Color.fromRGBO(202, 196, 208, 1)
-            : Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withValues(alpha: 0.54)
-            : Colors.white.withValues(alpha: 0.65);
-    _disabledColor =
-        _useMaterial3
-            ? Theme.of(context).brightness == Brightness.light
-                ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
-                : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
-            : Theme.of(context).brightness == Brightness.light
-            ? Colors.black12
-            : Colors.white12;
-    _textColor =
-        _isLight
-            ? const Color(0x00000000).withValues(alpha: 0.87)
-            : const Color(0x00ffffff).withValues(alpha: 0.87);
-    _fillColor =
-        _useMaterial3
-            ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
-            : _isLight
-            ? const Color(0xFFD2D2D2)
-            : const Color(0xFF525252);
+    _color = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+              ? const Color.fromRGBO(73, 69, 79, 1)
+              : const Color.fromRGBO(202, 196, 208, 1)
+        : Theme.of(context).brightness == Brightness.light
+        ? Colors.black.withValues(alpha: 0.54)
+        : Colors.white.withValues(alpha: 0.65);
+    _disabledColor = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+              ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+              : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
+        : Theme.of(context).brightness == Brightness.light
+        ? Colors.black12
+        : Colors.white12;
+    _textColor = _isLight
+        ? const Color(0x00000000).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.87);
+    _fillColor = _useMaterial3
+        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
+        : _isLight
+        ? const Color(0xFFD2D2D2)
+        : const Color(0xFF525252);
     _isWeb =
         isDesktop && widget.model != null && !widget.model!.isMobileResolution;
     super.didChangeDependencies();
@@ -2716,8 +2659,9 @@ class ToolbarState extends State<Toolbar> {
       } else if (toolbarItem == 'Sticky note icons') {
         _stickyNoteIconMenuFillColor = isFocused ? _fillColor : null;
       } else if (toolbarItem == 'Sticky notes') {
-        _stickyNoteAnnotationFillColor =
-            isFocused ? _fillColor : Colors.transparent;
+        _stickyNoteAnnotationFillColor = isFocused
+            ? _fillColor
+            : Colors.transparent;
       } else if (toolbarItem == 'Annotations') {
         _annotationsIconFillColor = isFocused ? _fillColor : Colors.transparent;
       }
@@ -2751,42 +2695,39 @@ class ToolbarState extends State<Toolbar> {
     return Padding(
       padding:
           toolTip == 'Bookmark' ||
-                  toolTip == 'Search' ||
-                  toolTip == 'View settings' ||
-                  toolTip == 'Lock' ||
-                  toolTip == 'Unlock'
-              ? const EdgeInsets.only(right: 8)
-              : const EdgeInsets.only(left: 8),
+              toolTip == 'Search' ||
+              toolTip == 'View settings' ||
+              toolTip == 'Lock' ||
+              toolTip == 'Unlock'
+          ? const EdgeInsets.only(right: 8)
+          : const EdgeInsets.only(left: 8),
       child: Tooltip(
         message: toolTip,
-        decoration:
-            _useMaterial3
-                ? BoxDecoration(
-                  color: Theme.of(context).colorScheme.inverseSurface,
-                  borderRadius: BorderRadius.circular(4),
-                )
-                : null,
-        textStyle:
-            _useMaterial3
-                ? TextStyle(
-                  color: Theme.of(context).colorScheme.onInverseSurface,
-                  fontSize: 14,
-                )
-                : null,
-        padding:
-            _useMaterial3
-                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
-                : null,
-        height: _useMaterial3 ? 48 : null,
+        decoration: _useMaterial3
+            ? BoxDecoration(
+                color: Theme.of(context).colorScheme.inverseSurface,
+                borderRadius: BorderRadius.circular(4),
+              )
+            : null,
+        textStyle: _useMaterial3
+            ? TextStyle(
+                color: Theme.of(context).colorScheme.onInverseSurface,
+                fontSize: 14,
+              )
+            : null,
+        padding: _useMaterial3
+            ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+            : null,
+        constraints: _useMaterial3 ? const BoxConstraints(maxHeight: 48) : null,
         child: SizedBox(
           key: key,
           height: 40,
           width:
               toolTip == 'Choose file' ||
-                      toolTip == 'Text markup' ||
-                      toolTip == 'Sticky note icons'
-                  ? (_useMaterial3 ? 56 : 50)
-                  : 40,
+                  toolTip == 'Text markup' ||
+                  toolTip == 'Sticky note icons'
+              ? (_useMaterial3 ? 56 : 50)
+              : 40,
           child: child,
         ),
       ),
@@ -2817,14 +2758,13 @@ class ToolbarState extends State<Toolbar> {
           (useMaterial3
               ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
               : null),
-      shape:
-          useMaterial3
-              ? const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-              )
-              : const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2)),
-              ),
+      shape: useMaterial3
+          ? const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            )
+          : const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(2)),
+            ),
       child: child,
     );
   }
@@ -2832,10 +2772,9 @@ class ToolbarState extends State<Toolbar> {
   /// Constructs the toolbar divider
   Widget _groupDivider(bool isPaddingLeft) {
     return Padding(
-      padding:
-          isPaddingLeft
-              ? const EdgeInsets.only(left: 8)
-              : const EdgeInsets.only(right: 8),
+      padding: isPaddingLeft
+          ? const EdgeInsets.only(left: 8)
+          : const EdgeInsets.only(right: 8),
       child: VerticalDivider(
         width: 1.0,
         // width of vertical divider
@@ -2845,12 +2784,11 @@ class ToolbarState extends State<Toolbar> {
         // top indent of vertical divider
         endIndent: _useMaterial3 ? 16 : 12.0,
         // bottom indent of vertical divider
-        color:
-            _useMaterial3
-                ? Theme.of(context).colorScheme.outlineVariant
-                : _isLight
-                ? Colors.black.withValues(alpha: 0.24)
-                : const Color.fromRGBO(255, 255, 255, 0.26),
+        color: _useMaterial3
+            ? Theme.of(context).colorScheme.outlineVariant
+            : _isLight
+            ? Colors.black.withValues(alpha: 0.24)
+            : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
   }
@@ -2890,12 +2828,11 @@ class ToolbarState extends State<Toolbar> {
     return BoxDecoration(
       border: Border(
         bottom: BorderSide(
-          color:
-              _useMaterial3
-                  ? Theme.of(context).colorScheme.outlineVariant
-                  : _isLight
-                  ? Colors.black.withAlpha(0x24)
-                  : const Color.fromRGBO(255, 255, 255, 0.26),
+          color: _useMaterial3
+              ? Theme.of(context).colorScheme.outlineVariant
+              : _isLight
+              ? Colors.black.withAlpha(0x24)
+              : const Color.fromRGBO(255, 255, 255, 0.26),
         ),
       ),
     );
@@ -2938,12 +2875,11 @@ class ToolbarState extends State<Toolbar> {
         context: context,
         useMaterial3: _useMaterial3,
         fillColor: _stickyNoteAnnotationFillColor,
-        onPressed:
-            widget.controller!.pageNumber != 0
-                ? () {
-                  widget.onTap?.call('Sticky notes');
-                }
-                : null,
+        onPressed: widget.controller!.pageNumber != 0
+            ? () {
+                widget.onTap?.call('Sticky notes');
+              }
+            : null,
         child: _stickyNoteIcon(),
       ),
     );
@@ -2960,12 +2896,11 @@ class ToolbarState extends State<Toolbar> {
             size: 17,
             color: _isLight ? Colors.black : const Color(0xFFFFFFFF),
           ),
-          onPressed:
-              widget.controller!.pageNumber != 0
-                  ? () {
-                    widget.onTap?.call('Color Palette');
-                  }
-                  : null,
+          onPressed: widget.controller!.pageNumber != 0
+              ? () {
+                  widget.onTap?.call('Color Palette');
+                }
+              : null,
           fillColor: _colorPaletteFillColor,
           useMaterial3: _useMaterial3,
           context: context,
@@ -2992,12 +2927,11 @@ class ToolbarState extends State<Toolbar> {
             },
             child: _stickyNoteIcon(),
           ),
-          onPressed:
-              widget.controller!.pageNumber != 0
-                  ? () {
-                    widget.onTap?.call('Sticky note icons');
-                  }
-                  : null,
+          onPressed: widget.controller!.pageNumber != 0
+              ? () {
+                  widget.onTap?.call('Sticky note icons');
+                }
+              : null,
           fillColor: _stickyNoteIconMenuFillColor,
           useMaterial3: _useMaterial3,
           context: context,
@@ -3043,17 +2977,15 @@ class ToolbarState extends State<Toolbar> {
                     : 'images/pdf_viewer/locked.png',
               ),
               size: 18,
-              color:
-                  widget.controller!.pageNumber != 0
-                      ? (_isLight ? Colors.black : const Color(0xFFFFFFFF))
-                      : _disabledColor,
+              color: widget.controller!.pageNumber != 0
+                  ? (_isLight ? Colors.black : const Color(0xFFFFFFFF))
+                  : _disabledColor,
             ),
-            onPressed:
-                widget.controller!.pageNumber != 0
-                    ? () {
-                      widget.onTap?.call('Lock');
-                    }
-                    : null,
+            onPressed: widget.controller!.pageNumber != 0
+                ? () {
+                    widget.onTap?.call('Lock');
+                  }
+                : null,
             useMaterial3: _useMaterial3,
             context: context,
           ),
@@ -3096,28 +3028,26 @@ class ToolbarState extends State<Toolbar> {
           elevation: 0,
           toolbarHeight:
               (widget.showDesktopSecondaryToolbar &&
-                      widget.controller?.pageCount != 0)
-                  ? 2 * kToolbarHeight
-                  : kToolbarHeight,
-          backgroundColor:
-              _useMaterial3
-                  ? Theme.of(context).colorScheme.brightness == Brightness.light
-                      ? const Color.fromRGBO(247, 242, 251, 1)
-                      : const Color.fromRGBO(37, 35, 42, 1)
-                  : Theme.of(context).colorScheme.brightness == Brightness.light
-                  ? const Color(0xFFFAFAFA)
-                  : const Color(0xFF424242),
+                  widget.controller?.pageCount != 0)
+              ? 2 * kToolbarHeight
+              : kToolbarHeight,
+          backgroundColor: _useMaterial3
+              ? Theme.of(context).colorScheme.brightness == Brightness.light
+                    ? const Color.fromRGBO(247, 242, 251, 1)
+                    : const Color.fromRGBO(37, 35, 42, 1)
+              : Theme.of(context).colorScheme.brightness == Brightness.light
+              ? const Color(0xFFFAFAFA)
+              : const Color(0xFF424242),
           flexibleSpace: Container(
             height: kToolbarHeight,
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color:
-                      _useMaterial3
-                          ? Theme.of(context).colorScheme.outlineVariant
-                          : _isLight
-                          ? Colors.black.withValues(alpha: 0.24)
-                          : const Color.fromRGBO(255, 255, 255, 0.26),
+                  color: _useMaterial3
+                      ? Theme.of(context).colorScheme.outlineVariant
+                      : _isLight
+                      ? Colors.black.withValues(alpha: 0.24)
+                      : const Color.fromRGBO(255, 255, 255, 0.26),
                 ),
               ),
             ),
@@ -3164,54 +3094,58 @@ class ToolbarState extends State<Toolbar> {
                       'Undo',
                       ValueListenableBuilder<UndoHistoryValue>(
                         valueListenable: widget.undoHistoryController!,
-                        builder: (
-                          BuildContext context,
-                          UndoHistoryValue value,
-                          Widget? child,
-                        ) {
-                          return _webToolbarButton(
-                            child: Icon(
-                              Icons.undo,
-                              color: value.canUndo ? _color : _disabledColor,
-                              size: 20,
-                            ),
-                            onPressed:
-                                value.canUndo
+                        builder:
+                            (
+                              BuildContext context,
+                              UndoHistoryValue value,
+                              Widget? child,
+                            ) {
+                              return _webToolbarButton(
+                                child: Icon(
+                                  Icons.undo,
+                                  color: value.canUndo
+                                      ? _color
+                                      : _disabledColor,
+                                  size: 20,
+                                ),
+                                onPressed: value.canUndo
                                     ? () {
-                                      widget.onTap?.call('Undo');
-                                    }
+                                        widget.onTap?.call('Undo');
+                                      }
                                     : null,
-                            useMaterial3: _useMaterial3,
-                            context: context,
-                          );
-                        },
+                                useMaterial3: _useMaterial3,
+                                context: context,
+                              );
+                            },
                       ),
                     ),
                     _webToolbarItem(
                       'Redo',
                       ValueListenableBuilder<UndoHistoryValue>(
                         valueListenable: widget.undoHistoryController!,
-                        builder: (
-                          BuildContext context,
-                          UndoHistoryValue value,
-                          Widget? child,
-                        ) {
-                          return _webToolbarButton(
-                            child: Icon(
-                              Icons.redo,
-                              color: value.canRedo ? _color : _disabledColor,
-                              size: 20,
-                            ),
-                            onPressed:
-                                value.canRedo
+                        builder:
+                            (
+                              BuildContext context,
+                              UndoHistoryValue value,
+                              Widget? child,
+                            ) {
+                              return _webToolbarButton(
+                                child: Icon(
+                                  Icons.redo,
+                                  color: value.canRedo
+                                      ? _color
+                                      : _disabledColor,
+                                  size: 20,
+                                ),
+                                onPressed: value.canRedo
                                     ? () {
-                                      widget.onTap?.call('Redo');
-                                    }
+                                        widget.onTap?.call('Redo');
+                                      }
                                     : null,
-                            useMaterial3: _useMaterial3,
-                            context: context,
-                          );
-                        },
+                                useMaterial3: _useMaterial3,
+                                context: context,
+                              );
+                            },
                       ),
                     ),
                   ],
@@ -3220,10 +3154,9 @@ class ToolbarState extends State<Toolbar> {
                   children: <Widget>[
                     // Text field for page number
                     Padding(
-                      padding:
-                          _useMaterial3
-                              ? EdgeInsets.zero
-                              : const EdgeInsets.only(top: 4.0),
+                      padding: _useMaterial3
+                          ? EdgeInsets.zero
+                          : const EdgeInsets.only(top: 4.0),
                       child: SizedBox(
                         height: _useMaterial3 ? 40 : 20, // height of text field
                         width: _useMaterial3 ? 54 : 48, // width of text field
@@ -3258,17 +3191,17 @@ class ToolbarState extends State<Toolbar> {
                             _useMaterial3
                                 ? Icons.keyboard_arrow_up
                                 : Icons.keyboard_arrow_left,
-                            color:
-                                canJumpToPreviousPage ? _color : _disabledColor,
+                            color: canJumpToPreviousPage
+                                ? _color
+                                : _disabledColor,
                             size: _useMaterial3 ? 24 : 20,
                           ),
-                          onPressed:
-                              canJumpToPreviousPage
-                                  ? () {
-                                    widget.onTap?.call('Previous Page');
-                                    widget.controller?.previousPage();
-                                  }
-                                  : null,
+                          onPressed: canJumpToPreviousPage
+                              ? () {
+                                  widget.onTap?.call('Previous Page');
+                                  widget.controller?.previousPage();
+                                }
+                              : null,
                           useMaterial3: _useMaterial3,
                           context: context,
                         ),
@@ -3284,13 +3217,12 @@ class ToolbarState extends State<Toolbar> {
                             color: canJumpToNextPage ? _color : _disabledColor,
                             size: _useMaterial3 ? 24 : 21,
                           ),
-                          onPressed:
-                              canJumpToNextPage
-                                  ? () {
-                                    widget.onTap?.call('Next Page');
-                                    widget.controller?.nextPage();
-                                  }
-                                  : null,
+                          onPressed: canJumpToNextPage
+                              ? () {
+                                  widget.onTap?.call('Next Page');
+                                  widget.controller?.nextPage();
+                                }
+                              : null,
                           useMaterial3: _useMaterial3,
                           context: context,
                         ),
@@ -3328,21 +3260,19 @@ class ToolbarState extends State<Toolbar> {
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Icon(
                                     Icons.keyboard_arrow_down,
-                                    color:
-                                        widget.controller!.pageNumber != 0
-                                            ? _color
-                                            : _disabledColor,
+                                    color: widget.controller!.pageNumber != 0
+                                        ? _color
+                                        : _disabledColor,
                                     size: 18,
                                   ),
                                 ),
                               ],
                             ),
-                            onPressed:
-                                widget.controller!.pageNumber != 0
-                                    ? () {
-                                      widget.onTap?.call('Zoom Percentage');
-                                    }
-                                    : null,
+                            onPressed: widget.controller!.pageNumber != 0
+                                ? () {
+                                    widget.onTap?.call('Zoom Percentage');
+                                  }
+                                : null,
                             fillColor: _zoomFillColor,
                             useMaterial3: _useMaterial3,
                             context: context,
@@ -3359,32 +3289,31 @@ class ToolbarState extends State<Toolbar> {
                               : Icons.remove_circle_outline,
                           color:
                               widget.controller!.pageCount != 0 &&
-                                      _zoomLevel > 1
-                                  ? _color
-                                  : _disabledColor,
+                                  _zoomLevel > 1
+                              ? _color
+                              : _disabledColor,
                           size: _useMaterial3 ? 24 : 20,
                         ),
                         onPressed:
                             widget.controller!.pageCount != 0 && _zoomLevel > 1
-                                ? () {
-                                  widget.onTap?.call('Zoom Out');
-                                  setState(() {
-                                    if (_zoomLevel > 1.0 &&
-                                        _zoomLevel <= 1.25) {
-                                      _zoomLevel = 1.0;
-                                    } else if (_zoomLevel > 1.25 &&
-                                        _zoomLevel <= 1.50) {
-                                      _zoomLevel = 1.25;
-                                    } else if (_zoomLevel > 1.50 &&
-                                        _zoomLevel <= 2.0) {
-                                      _zoomLevel = 1.50;
-                                    } else {
-                                      _zoomLevel = 2.0;
-                                    }
-                                    widget.controller!.zoomLevel = _zoomLevel;
-                                  });
-                                }
-                                : null,
+                            ? () {
+                                widget.onTap?.call('Zoom Out');
+                                setState(() {
+                                  if (_zoomLevel > 1.0 && _zoomLevel <= 1.25) {
+                                    _zoomLevel = 1.0;
+                                  } else if (_zoomLevel > 1.25 &&
+                                      _zoomLevel <= 1.50) {
+                                    _zoomLevel = 1.25;
+                                  } else if (_zoomLevel > 1.50 &&
+                                      _zoomLevel <= 2.0) {
+                                    _zoomLevel = 1.50;
+                                  } else {
+                                    _zoomLevel = 2.0;
+                                  }
+                                  widget.controller!.zoomLevel = _zoomLevel;
+                                });
+                              }
+                            : null,
                         useMaterial3: _useMaterial3,
                         context: context,
                       ),
@@ -3399,32 +3328,31 @@ class ToolbarState extends State<Toolbar> {
                               : Icons.add_circle_outline,
                           color:
                               widget.controller!.pageCount != 0 &&
-                                      _zoomLevel < 3
-                                  ? _color
-                                  : _disabledColor,
+                                  _zoomLevel < 3
+                              ? _color
+                              : _disabledColor,
                           size: _useMaterial3 ? 24 : 20,
                         ),
                         onPressed:
                             widget.controller!.pageCount != 0 && _zoomLevel < 3
-                                ? () {
-                                  widget.onTap?.call('Zoom In');
-                                  setState(() {
-                                    if (_zoomLevel >= 1.0 &&
-                                        _zoomLevel < 1.25) {
-                                      _zoomLevel = 1.25;
-                                    } else if (_zoomLevel >= 1.25 &&
-                                        _zoomLevel < 1.50) {
-                                      _zoomLevel = 1.50;
-                                    } else if (_zoomLevel >= 1.50 &&
-                                        _zoomLevel < 2.0) {
-                                      _zoomLevel = 2.0;
-                                    } else {
-                                      _zoomLevel = 3.0;
-                                    }
-                                    widget.controller!.zoomLevel = _zoomLevel;
-                                  });
-                                }
-                                : null,
+                            ? () {
+                                widget.onTap?.call('Zoom In');
+                                setState(() {
+                                  if (_zoomLevel >= 1.0 && _zoomLevel < 1.25) {
+                                    _zoomLevel = 1.25;
+                                  } else if (_zoomLevel >= 1.25 &&
+                                      _zoomLevel < 1.50) {
+                                    _zoomLevel = 1.50;
+                                  } else if (_zoomLevel >= 1.50 &&
+                                      _zoomLevel < 2.0) {
+                                    _zoomLevel = 2.0;
+                                  } else {
+                                    _zoomLevel = 3.0;
+                                  }
+                                  widget.controller!.zoomLevel = _zoomLevel;
+                                });
+                              }
+                            : null,
                         useMaterial3: _useMaterial3,
                         context: context,
                       ),
@@ -3438,33 +3366,31 @@ class ToolbarState extends State<Toolbar> {
                         _webToolbarButton(
                           child: Icon(
                             Icons.pan_tool_rounded,
-                            color:
-                                widget.controller!.pageCount != 0
-                                    ? _color
-                                    : _disabledColor,
+                            color: widget.controller!.pageCount != 0
+                                ? _color
+                                : _disabledColor,
                             size: _useMaterial3 ? 24 : 20,
                           ),
-                          onPressed:
-                              widget.controller!.pageNumber != 0
-                                  ? () {
-                                    setState(() {
-                                      if (_panFillColor ==
-                                              const Color(0xFFD2D2D2) ||
-                                          _panFillColor ==
-                                              const Color(0xFF525252) ||
-                                          _panFillColor ==
-                                              Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurface
-                                                  .withValues(alpha: 0.08)) {
-                                        _panFillColor = null;
-                                      } else {
-                                        _panFillColor = _fillColor;
-                                      }
-                                    });
-                                    widget.onTap?.call('Pan mode');
-                                  }
-                                  : null,
+                          onPressed: widget.controller!.pageNumber != 0
+                              ? () {
+                                  setState(() {
+                                    if (_panFillColor ==
+                                            const Color(0xFFD2D2D2) ||
+                                        _panFillColor ==
+                                            const Color(0xFF525252) ||
+                                        _panFillColor ==
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .onSurface
+                                                .withValues(alpha: 0.08)) {
+                                      _panFillColor = null;
+                                    } else {
+                                      _panFillColor = _fillColor;
+                                    }
+                                  });
+                                  widget.onTap?.call('Pan mode');
+                                }
+                              : null,
                           fillColor: _panFillColor,
                           useMaterial3: _useMaterial3,
                           context: context,
@@ -3475,18 +3401,16 @@ class ToolbarState extends State<Toolbar> {
                       _webToolbarButton(
                         child: Icon(
                           Icons.draw,
-                          color:
-                              widget.controller!.pageCount != 0
-                                  ? _color
-                                  : _disabledColor,
+                          color: widget.controller!.pageCount != 0
+                              ? _color
+                              : _disabledColor,
                           size: _useMaterial3 ? 24 : 20,
                         ),
-                        onPressed:
-                            widget.controller!.pageNumber != 0
-                                ? () {
-                                  widget.onTap?.call('Annotations');
-                                }
-                                : null,
+                        onPressed: widget.controller!.pageNumber != 0
+                            ? () {
+                                widget.onTap?.call('Annotations');
+                              }
+                            : null,
                         fillColor: _annotationsIconFillColor,
                         useMaterial3: _useMaterial3,
                         context: context,
@@ -3502,19 +3426,17 @@ class ToolbarState extends State<Toolbar> {
                       _webToolbarButton(
                         child: Icon(
                           Icons.settings,
-                          color:
-                              widget.controller!.pageCount != 0
-                                  ? _color
-                                  : _disabledColor,
+                          color: widget.controller!.pageCount != 0
+                              ? _color
+                              : _disabledColor,
                           size: 20,
                         ),
-                        onPressed:
-                            widget.controller!.pageNumber != 0
-                                ? () {
-                                  widget.controller!.clearSelection();
-                                  widget.onTap?.call('View settings');
-                                }
-                                : null,
+                        onPressed: widget.controller!.pageNumber != 0
+                            ? () {
+                                widget.controller!.clearSelection();
+                                widget.onTap?.call('View settings');
+                              }
+                            : null,
                         fillColor: _settingsFillColor,
                         useMaterial3: _useMaterial3,
                         context: context,
@@ -3527,18 +3449,16 @@ class ToolbarState extends State<Toolbar> {
                       _webToolbarButton(
                         child: Icon(
                           Icons.bookmark_border,
-                          color:
-                              widget.controller!.pageCount != 0
-                                  ? _color
-                                  : _disabledColor,
+                          color: widget.controller!.pageCount != 0
+                              ? _color
+                              : _disabledColor,
                           size: _useMaterial3 ? 24 : 20,
                         ),
-                        onPressed:
-                            widget.controller!.pageNumber != 0
-                                ? () {
-                                  widget.onTap?.call('Bookmarks');
-                                }
-                                : null,
+                        onPressed: widget.controller!.pageNumber != 0
+                            ? () {
+                                widget.onTap?.call('Bookmarks');
+                              }
+                            : null,
                         useMaterial3: _useMaterial3,
                         context: context,
                       ),
@@ -3551,19 +3471,17 @@ class ToolbarState extends State<Toolbar> {
                       _webToolbarButton(
                         child: Icon(
                           Icons.search,
-                          color:
-                              widget.controller!.pageCount != 0
-                                  ? _color
-                                  : _disabledColor,
+                          color: widget.controller!.pageCount != 0
+                              ? _color
+                              : _disabledColor,
                           size: _useMaterial3 ? 24 : 20,
                         ),
-                        onPressed:
-                            widget.controller!.pageNumber != 0
-                                ? () {
-                                  widget.controller!.clearSelection();
-                                  widget.onTap?.call('Search');
-                                }
-                                : null,
+                        onPressed: widget.controller!.pageNumber != 0
+                            ? () {
+                                widget.controller!.clearSelection();
+                                widget.onTap?.call('Search');
+                              }
+                            : null,
                         fillColor: _searchFillColor,
                         useMaterial3: _useMaterial3,
                         context: context,
@@ -3577,12 +3495,12 @@ class ToolbarState extends State<Toolbar> {
           ),
           bottom:
               widget.showDesktopSecondaryToolbar &&
-                      widget.controller?.pageCount != 0
-                  ? PreferredSize(
-                    preferredSize: const Size.fromHeight(kToolbarHeight),
-                    child: _webSecondaryToolbar(),
-                  )
-                  : null,
+                  widget.controller?.pageCount != 0
+              ? PreferredSize(
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: _webSecondaryToolbar(),
+                )
+              : null,
         );
       },
     );
@@ -3595,38 +3513,33 @@ class ToolbarState extends State<Toolbar> {
     switch (mode) {
       case PdfAnnotationMode.none:
       case PdfAnnotationMode.stickyNote:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/textmarkup_group_light.png'
-                : 'images/pdf_viewer/textmarkup_group_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/textmarkup_group_light.png'
+            : 'images/pdf_viewer/textmarkup_group_dark.png';
         iconSize = isDesktop ? 30 : 18;
         break;
       case PdfAnnotationMode.highlight:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/highlight_light.png'
-                : 'images/pdf_viewer/highlight_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/highlight_light.png'
+            : 'images/pdf_viewer/highlight_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.strikethrough:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/strikethrough_light.png'
-                : 'images/pdf_viewer/strikethrough_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/strikethrough_light.png'
+            : 'images/pdf_viewer/strikethrough_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.underline:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/underline_light.png'
-                : 'images/pdf_viewer/underline_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/underline_light.png'
+            : 'images/pdf_viewer/underline_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.squiggly:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/squiggly_light.png'
-                : 'images/pdf_viewer/squiggly_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/squiggly_light.png'
+            : 'images/pdf_viewer/squiggly_dark.png';
         iconSize = 18;
         break;
     }
@@ -3638,30 +3551,29 @@ class ToolbarState extends State<Toolbar> {
   ImageIcon _stickyNoteIcon() {
     return _isLight
         ? ImageIcon(
-          const AssetImage('images/pdf_viewer/note_light.png'),
-          size: 18,
-          color: _textColor,
-        )
+            const AssetImage('images/pdf_viewer/note_light.png'),
+            size: 18,
+            color: _textColor,
+          )
         : ImageIcon(
-          const AssetImage('images/pdf_viewer/note_dark.png'),
-          size: 18,
-          color: _textColor,
-        );
+            const AssetImage('images/pdf_viewer/note_dark.png'),
+            size: 18,
+            color: _textColor,
+          );
   }
 
   /// Pagination text field widget.
   Widget paginationTextField(BuildContext context) {
     return TextField(
-      style:
-          _isWeb
-              ? TextStyle(
-                color: _textColor,
-                fontWeight: FontWeight.w400,
-                fontStyle: FontStyle.normal,
-                fontFamily: 'Roboto',
-                fontSize: 14,
-              )
-              : TextStyle(color: _color),
+      style: _isWeb
+          ? TextStyle(
+              color: _textColor,
+              fontWeight: FontWeight.w400,
+              fontStyle: FontStyle.normal,
+              fontFamily: 'Roboto',
+              fontSize: 14,
+            )
+          : TextStyle(color: _color),
       enableInteractiveSelection: false,
       keyboardType: TextInputType.number,
       controller: _textEditingController,
@@ -3680,47 +3592,43 @@ class ToolbarState extends State<Toolbar> {
   InputDecoration _paginationTextFieldInputDecoration(BuildContext context) {
     return InputDecoration(
       counterText: '',
-      contentPadding:
-          _isWeb
-              ? const EdgeInsets.only(bottom: 22)
-              : isDesktop
-              ? const EdgeInsets.only(bottom: 20)
-              : null,
-      border:
-          _useMaterial3
-              ? OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.outline.withValues(alpha: 0.38),
-                ),
-              )
-              : const UnderlineInputBorder(),
-      enabledBorder:
-          _useMaterial3
-              ? OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.outline.withValues(alpha: 0.38),
-                ),
-              )
-              : null,
-      focusedBorder:
-          _useMaterial3
-              ? OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.outline.withValues(alpha: 0.38),
-                ),
-              )
-              : UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor,
-                  width: 2.0,
-                ),
+      contentPadding: _isWeb
+          ? const EdgeInsets.only(bottom: 22)
+          : isDesktop
+          ? const EdgeInsets.only(bottom: 20)
+          : null,
+      border: _useMaterial3
+          ? OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Theme.of(
+                  context,
+                ).colorScheme.outline.withValues(alpha: 0.38),
               ),
+            )
+          : const UnderlineInputBorder(),
+      enabledBorder: _useMaterial3
+          ? OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Theme.of(
+                  context,
+                ).colorScheme.outline.withValues(alpha: 0.38),
+              ),
+            )
+          : null,
+      focusedBorder: _useMaterial3
+          ? OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Theme.of(
+                  context,
+                ).colorScheme.outline.withValues(alpha: 0.38),
+              ),
+            )
+          : UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 2.0,
+              ),
+            ),
     );
   }
 
@@ -3747,8 +3655,8 @@ class ToolbarState extends State<Toolbar> {
           FocusScope.of(context).requestFocus(FocusNode());
           widget.onTap?.call('Navigated');
         } else {
-          _textEditingController!.text =
-              widget.controller!.pageNumber.toString();
+          _textEditingController!.text = widget.controller!.pageNumber
+              .toString();
           showErrorDialog(
             context,
             'Error',
@@ -3789,14 +3697,13 @@ class ToolbarState extends State<Toolbar> {
                   child: Tooltip(
                     message: widget.showTooltip ? 'Choose file' : null,
                     child: RawMaterialButton(
-                      shape:
-                          _useMaterial3
-                              ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              )
-                              : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2),
-                              ),
+                      shape: _useMaterial3
+                          ? RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            )
+                          : RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(2),
+                            ),
                       onPressed: () async {
                         widget.onTap?.call('File Explorer');
                         widget.controller!.clearSelection();
@@ -3808,17 +3715,16 @@ class ToolbarState extends State<Toolbar> {
                         }
                         await Navigator.of(context).push<dynamic>(
                           MaterialPageRoute<dynamic>(
-                            builder:
-                                (BuildContext context) => FileExplorer(
-                                  brightness: Theme.of(context).brightness,
-                                  onDocumentTap: (Document document) {
-                                    widget.onTap?.call(document);
-                                    Navigator.of(
-                                      context,
-                                      rootNavigator: true,
-                                    ).pop(context);
-                                  },
-                                ),
+                            builder: (BuildContext context) => FileExplorer(
+                              brightness: Theme.of(context).brightness,
+                              onDocumentTap: (Document document) {
+                                widget.onTap?.call(document);
+                                Navigator.of(
+                                  context,
+                                  rootNavigator: true,
+                                ).pop(context);
+                              },
+                            ),
                           ),
                         );
                       },
@@ -3835,34 +3741,33 @@ class ToolbarState extends State<Toolbar> {
                   message: widget.showTooltip ? 'Undo' : null,
                   child: ValueListenableBuilder<UndoHistoryValue>(
                     valueListenable: widget.undoHistoryController!,
-                    builder: (
-                      BuildContext context,
-                      UndoHistoryValue value,
-                      Widget? child,
-                    ) {
-                      return Material(
-                        color: Colors.transparent,
-                        child: RawMaterialButton(
-                          shape:
-                              _useMaterial3
+                    builder:
+                        (
+                          BuildContext context,
+                          UndoHistoryValue value,
+                          Widget? child,
+                        ) {
+                          return Material(
+                            color: Colors.transparent,
+                            child: RawMaterialButton(
+                              shape: _useMaterial3
                                   ? RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  )
+                                      borderRadius: BorderRadius.circular(4),
+                                    )
                                   : RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                          onPressed:
-                              value.canUndo
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                              onPressed: value.canUndo
                                   ? widget.undoHistoryController!.undo
                                   : null,
-                          child: Icon(
-                            Icons.undo,
-                            color: value.canUndo ? _color : _disabledColor,
-                            size: 20,
-                          ),
-                        ),
-                      );
-                    },
+                              child: Icon(
+                                Icons.undo,
+                                color: value.canUndo ? _color : _disabledColor,
+                                size: 20,
+                              ),
+                            ),
+                          );
+                        },
                   ),
                 ),
               ),
@@ -3873,34 +3778,33 @@ class ToolbarState extends State<Toolbar> {
                   message: widget.showTooltip ? 'Redo' : null,
                   child: ValueListenableBuilder<UndoHistoryValue>(
                     valueListenable: widget.undoHistoryController!,
-                    builder: (
-                      BuildContext context,
-                      UndoHistoryValue value,
-                      Widget? child,
-                    ) {
-                      return Material(
-                        color: Colors.transparent,
-                        child: RawMaterialButton(
-                          shape:
-                              _useMaterial3
+                    builder:
+                        (
+                          BuildContext context,
+                          UndoHistoryValue value,
+                          Widget? child,
+                        ) {
+                          return Material(
+                            color: Colors.transparent,
+                            child: RawMaterialButton(
+                              shape: _useMaterial3
                                   ? RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  )
+                                      borderRadius: BorderRadius.circular(4),
+                                    )
                                   : RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                          onPressed:
-                              value.canRedo
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                              onPressed: value.canRedo
                                   ? widget.undoHistoryController!.redo
                                   : null,
-                          child: Icon(
-                            Icons.redo,
-                            color: value.canRedo ? _color : _disabledColor,
-                            size: 20,
-                          ),
-                        ),
-                      );
-                    },
+                              child: Icon(
+                                Icons.redo,
+                                color: value.canRedo ? _color : _disabledColor,
+                                size: 20,
+                              ),
+                            ),
+                          );
+                        },
                   ),
                 ),
               ),
@@ -3917,22 +3821,21 @@ class ToolbarState extends State<Toolbar> {
                       onPressed: () {
                         widget.onTap?.call('Text markup');
                       },
-                      shape:
-                          _useMaterial3
-                              ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              )
-                              : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2),
-                              ),
+                      shape: _useMaterial3
+                          ? RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            )
+                          : RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(2),
+                            ),
                       child: ImageIcon(
                         _isLight
                             ? const AssetImage(
-                              'images/pdf_viewer/textmarkup_group_light.png',
-                            )
+                                'images/pdf_viewer/textmarkup_group_light.png',
+                              )
                             : const AssetImage(
-                              'images/pdf_viewer/textmarkup_group_dark.png',
-                            ),
+                                'images/pdf_viewer/textmarkup_group_dark.png',
+                              ),
                         color: _textColor,
                         size: 19,
                       ),
@@ -3951,14 +3854,13 @@ class ToolbarState extends State<Toolbar> {
                       onPressed: () {
                         widget.onTap?.call('Sticky notes');
                       },
-                      shape:
-                          _useMaterial3
-                              ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              )
-                              : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2),
-                              ),
+                      shape: _useMaterial3
+                          ? RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            )
+                          : RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(2),
+                            ),
                       child: _stickyNoteIcon(),
                     ),
                   ),
@@ -3972,31 +3874,28 @@ class ToolbarState extends State<Toolbar> {
                   child: Tooltip(
                     message: widget.showTooltip ? 'Bookmarks' : null,
                     child: RawMaterialButton(
-                      shape:
-                          _useMaterial3
-                              ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              )
-                              : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2),
-                              ),
-                      onPressed:
-                          widget.controller!.pageNumber == 0
-                              ? null
-                              : () {
-                                _textEditingController!
-                                    .selection = const TextSelection(
-                                  baseOffset: -1,
-                                  extentOffset: -1,
-                                );
-                                widget.onTap?.call('Bookmarks');
-                              },
+                      shape: _useMaterial3
+                          ? RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            )
+                          : RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                      onPressed: widget.controller!.pageNumber == 0
+                          ? null
+                          : () {
+                              _textEditingController!.selection =
+                                  const TextSelection(
+                                    baseOffset: -1,
+                                    extentOffset: -1,
+                                  );
+                              widget.onTap?.call('Bookmarks');
+                            },
                       child: Icon(
                         Icons.bookmark,
-                        color:
-                            widget.controller!.pageNumber == 0
-                                ? Colors.black12
-                                : _color,
+                        color: widget.controller!.pageNumber == 0
+                            ? Colors.black12
+                            : _color,
                         size: 24,
                       ),
                     ),
@@ -4012,27 +3911,24 @@ class ToolbarState extends State<Toolbar> {
                   child: Tooltip(
                     message: widget.showTooltip ? 'Search' : null,
                     child: RawMaterialButton(
-                      shape:
-                          _useMaterial3
-                              ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              )
-                              : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2),
-                              ),
-                      onPressed:
-                          widget.controller!.pageNumber == 0
-                              ? null
-                              : () {
-                                widget.controller!.clearSelection();
-                                widget.onTap?.call('Search');
-                              },
+                      shape: _useMaterial3
+                          ? RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            )
+                          : RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                      onPressed: widget.controller!.pageNumber == 0
+                          ? null
+                          : () {
+                              widget.controller!.clearSelection();
+                              widget.onTap?.call('Search');
+                            },
                       child: Icon(
                         Icons.search,
-                        color:
-                            widget.controller!.pageNumber == 0
-                                ? Colors.black12
-                                : _color,
+                        color: widget.controller!.pageNumber == 0
+                            ? Colors.black12
+                            : _color,
                         size: 24,
                       ),
                     ),
@@ -4049,27 +3945,24 @@ class ToolbarState extends State<Toolbar> {
                   child: Tooltip(
                     message: widget.showTooltip ? 'View settings' : null,
                     child: RawMaterialButton(
-                      shape:
-                          _useMaterial3
-                              ? RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              )
-                              : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(2),
-                              ),
-                      onPressed:
-                          widget.controller!.pageNumber == 0
-                              ? null
-                              : () {
-                                widget.controller!.clearSelection();
-                                widget.onTap?.call('View settings');
-                              },
+                      shape: _useMaterial3
+                          ? RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            )
+                          : RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                      onPressed: widget.controller!.pageNumber == 0
+                          ? null
+                          : () {
+                              widget.controller!.clearSelection();
+                              widget.onTap?.call('View settings');
+                            },
                       child: Icon(
                         Icons.settings,
-                        color:
-                            widget.controller!.pageNumber == 0
-                                ? Colors.black12
-                                : _color,
+                        color: widget.controller!.pageNumber == 0
+                            ? Colors.black12
+                            : _color,
                         size: 24,
                       ),
                     ),
@@ -4122,12 +4015,11 @@ class _TextMarkupMenuItemState extends State<TextMarkupMenuItem> {
   @override
   void didChangeDependencies() {
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _textColor =
-        _useMaterial3
-            ? widget.model?.themeData.colorScheme.onSurfaceVariant
-            : (widget.model?.themeData.brightness == Brightness.light)
-            ? Colors.black.withValues(alpha: 0.87)
-            : Colors.white;
+    _textColor = _useMaterial3
+        ? widget.model?.themeData.colorScheme.onSurfaceVariant
+        : (widget.model?.themeData.brightness == Brightness.light)
+        ? Colors.black.withValues(alpha: 0.87)
+        : Colors.white;
     super.didChangeDependencies();
   }
 
@@ -4139,27 +4031,26 @@ class _TextMarkupMenuItemState extends State<TextMarkupMenuItem> {
       child: RawMaterialButton(
         onPressed: widget.onPressed,
         padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0),
-        hoverColor:
-            _useMaterial3
-                ? widget.model?.themeData.colorScheme.onSurface.withValues(
-                  alpha: 0.08,
-                )
-                : (widget.model?.themeData.colorScheme.brightness ==
-                    Brightness.light)
-                ? Colors.grey.withValues(alpha: 0.2)
-                : Colors.grey.withValues(alpha: 0.5),
+        hoverColor: _useMaterial3
+            ? widget.model?.themeData.colorScheme.onSurface.withValues(
+                alpha: 0.08,
+              )
+            : (widget.model?.themeData.colorScheme.brightness ==
+                  Brightness.light)
+            ? Colors.grey.withValues(alpha: 0.2)
+            : Colors.grey.withValues(alpha: 0.5),
         child: Row(
           children: <Widget>[
             Image(
               image:
                   widget.model?.themeData.colorScheme.brightness ==
-                          Brightness.light
-                      ? AssetImage(
-                        'images/pdf_viewer/${widget.mode.toLowerCase()}_light.png',
-                      )
-                      : AssetImage(
-                        'images/pdf_viewer/${widget.mode.toLowerCase()}_dark.png',
-                      ),
+                      Brightness.light
+                  ? AssetImage(
+                      'images/pdf_viewer/${widget.mode.toLowerCase()}_light.png',
+                    )
+                  : AssetImage(
+                      'images/pdf_viewer/${widget.mode.toLowerCase()}_dark.png',
+                    ),
               width: 16,
               height: 16,
               color: _textColor,
@@ -4170,9 +4061,9 @@ class _TextMarkupMenuItemState extends State<TextMarkupMenuItem> {
               style: TextStyle(
                 color:
                     (widget.model?.themeData.colorScheme.brightness ==
-                            Brightness.light)
-                        ? Colors.black.withValues(alpha: 0.87)
-                        : Colors.white,
+                        Brightness.light)
+                    ? Colors.black.withValues(alpha: 0.87)
+                    : Colors.white,
                 fontSize: 14,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w400,
@@ -4229,12 +4120,11 @@ class _StickyNoteIconMenuItemState extends State<StickyNoteIconMenuItem> {
   @override
   void didChangeDependencies() {
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _textColor =
-        _useMaterial3
-            ? widget.model?.themeData.colorScheme.onSurfaceVariant
-            : (widget.model?.themeData.brightness == Brightness.light)
-            ? Colors.black.withValues(alpha: 0.87)
-            : Colors.white;
+    _textColor = _useMaterial3
+        ? widget.model?.themeData.colorScheme.onSurfaceVariant
+        : (widget.model?.themeData.brightness == Brightness.light)
+        ? Colors.black.withValues(alpha: 0.87)
+        : Colors.white;
     super.didChangeDependencies();
   }
 
@@ -4246,27 +4136,26 @@ class _StickyNoteIconMenuItemState extends State<StickyNoteIconMenuItem> {
       child: RawMaterialButton(
         onPressed: widget.onPressed,
         padding: const EdgeInsets.only(left: 16.0, top: 10.0, bottom: 10.0),
-        hoverColor:
-            _useMaterial3
-                ? widget.model?.themeData.colorScheme.onSurface.withValues(
-                  alpha: 0.08,
-                )
-                : (widget.model?.themeData.colorScheme.brightness ==
-                    Brightness.light)
-                ? Colors.grey.withValues(alpha: 0.2)
-                : Colors.grey.withValues(alpha: 0.5),
+        hoverColor: _useMaterial3
+            ? widget.model?.themeData.colorScheme.onSurface.withValues(
+                alpha: 0.08,
+              )
+            : (widget.model?.themeData.colorScheme.brightness ==
+                  Brightness.light)
+            ? Colors.grey.withValues(alpha: 0.2)
+            : Colors.grey.withValues(alpha: 0.5),
         child: Row(
           children: <Widget>[
             Image(
               image:
                   widget.model?.themeData.colorScheme.brightness ==
-                          Brightness.light
-                      ? AssetImage(
-                        'images/pdf_viewer/${_stickyNoteIconFileName()}_light.png',
-                      )
-                      : AssetImage(
-                        'images/pdf_viewer/${_stickyNoteIconFileName()}_dark.png',
-                      ),
+                      Brightness.light
+                  ? AssetImage(
+                      'images/pdf_viewer/${_stickyNoteIconFileName()}_light.png',
+                    )
+                  : AssetImage(
+                      'images/pdf_viewer/${_stickyNoteIconFileName()}_dark.png',
+                    ),
               width: 16,
               height: 16,
               color: _textColor,
@@ -4277,9 +4166,9 @@ class _StickyNoteIconMenuItemState extends State<StickyNoteIconMenuItem> {
               style: TextStyle(
                 color:
                     (widget.model?.themeData.colorScheme.brightness ==
-                            Brightness.light)
-                        ? Colors.black.withValues(alpha: 0.87)
-                        : Colors.white,
+                        Brightness.light)
+                    ? Colors.black.withValues(alpha: 0.87)
+                    : Colors.white,
                 fontSize: 15.5,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w400,

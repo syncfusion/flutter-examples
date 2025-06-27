@@ -99,8 +99,9 @@ class _CustomButton extends State<CustomDirectionalButtons> {
           setState(() {
             /// Calculate the correct value if you go over maxValue in a loop
             final num diff = (_counter + widget.step!) - widget.maxValue!;
-            _counter =
-                (diff >= 1 ? widget.minValue! + diff - 1 : widget.minValue)!;
+            _counter = (diff >= 1
+                ? widget.minValue! + diff - 1
+                : widget.minValue)!;
           });
         }
       } else {
@@ -137,19 +138,19 @@ class _CustomButton extends State<CustomDirectionalButtons> {
       child: Text(
         widget.initialValue! % 1 == 0 && widget.step! % 1 == 0
             ? ((_counter.isNaN)
-                ? 'null'
-                : ((widget.needNull!)
-                    ? _counter.toInt().toString()
-                    : _counter.toString().split('.').last.length <= 1 ||
-                        int.parse(_counter.toString().split('.').last) < 0
-                    ? _counter.toStringAsFixed(0)
-                    : _counter.toStringAsFixed(2)))
+                  ? 'null'
+                  : ((widget.needNull!)
+                        ? _counter.toInt().toString()
+                        : _counter.toString().split('.').last.length <= 1 ||
+                              int.parse(_counter.toString().split('.').last) < 0
+                        ? _counter.toStringAsFixed(0)
+                        : _counter.toStringAsFixed(2)))
             : (_counter.isNaN)
             ? 'null'
             : (widget.needNull!)
             ? _counter.toInt().toString()
             : _counter.toString().split('.').last.length <= 1 ||
-                int.parse(_counter.toString().split('.').last) < 0
+                  int.parse(_counter.toString().split('.').last) < 0
             ? _counter.toStringAsFixed(1)
             : _counter.toStringAsFixed(2),
         style: widget.style ?? Theme.of(context).textTheme.headlineSmall,
@@ -162,70 +163,66 @@ class _CustomButton extends State<CustomDirectionalButtons> {
   Widget _buildCustomButton() {
     return (!widget.horizontal!)
         ? Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.arrow_drop_up),
-              padding: EdgeInsets.only(bottom: widget.padding!),
-              alignment: Alignment.bottomCenter,
-              color: widget.iconColor,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed:
-                  _counter >= widget.maxValue!
-                      ? null
-                      : () {
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.arrow_drop_up),
+                padding: EdgeInsets.only(bottom: widget.padding!),
+                alignment: Alignment.bottomCenter,
+                color: widget.iconColor,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: _counter >= widget.maxValue!
+                    ? null
+                    : () {
                         _count(_CountDirection.Up);
                       },
-            ),
-            _getCount(),
-            IconButton(
-              icon: const Icon(Icons.arrow_drop_down),
-              padding: EdgeInsets.only(top: widget.padding!),
-              alignment: Alignment.topCenter,
-              color: widget.iconColor,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed:
-                  _counter <= widget.minValue!
-                      ? null
-                      : () {
+              ),
+              _getCount(),
+              IconButton(
+                icon: const Icon(Icons.arrow_drop_down),
+                padding: EdgeInsets.only(top: widget.padding!),
+                alignment: Alignment.topCenter,
+                color: widget.iconColor,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: _counter <= widget.minValue!
+                    ? null
+                    : () {
                         _count(_CountDirection.Down);
                       },
-            ),
-          ],
-        )
+              ),
+            ],
+          )
         : Row(
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.arrow_left),
-              padding: EdgeInsets.only(right: widget.padding!),
-              color: widget.iconColor,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed:
-                  _counter <= widget.minValue!
-                      ? null
-                      : () {
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.arrow_left),
+                padding: EdgeInsets.only(right: widget.padding!),
+                color: widget.iconColor,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: _counter <= widget.minValue!
+                    ? null
+                    : () {
                         _count(_CountDirection.Down);
                       },
-            ),
-            _getCount(),
-            IconButton(
-              icon: const Icon(Icons.arrow_right),
-              padding: EdgeInsets.only(left: widget.padding!),
-              color: widget.iconColor,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onPressed:
-                  _counter >= widget.maxValue!
-                      ? null
-                      : () {
+              ),
+              _getCount(),
+              IconButton(
+                icon: const Icon(Icons.arrow_right),
+                padding: EdgeInsets.only(left: widget.padding!),
+                color: widget.iconColor,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: _counter >= widget.maxValue!
+                    ? null
+                    : () {
                         _count(_CountDirection.Up);
                       },
-            ),
-          ],
-        );
+              ),
+            ],
+          );
   }
 
   @override

@@ -271,10 +271,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
       child: SingleChildScrollView(
         child: Container(
           color: isLightTheme ? const Color.fromRGBO(250, 250, 250, 1) : null,
-          padding:
-              model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 20.0)
-                  : const EdgeInsets.fromLTRB(10.0, 12.5, 10.0, 10.0),
+          padding: model.isWebFullView
+              ? const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 20.0)
+              : const EdgeInsets.fromLTRB(10.0, 12.5, 10.0, 10.0),
           child: _buildRangeSelector(mediaQueryData, isLightTheme),
         ),
       ),
@@ -284,10 +283,10 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
   Widget _buildRangeSelector(MediaQueryData mediaQueryData, bool isLightTheme) {
     final Axis direction =
         (mediaQueryData.orientation == Orientation.landscape ||
-                    model.isWebFullView) &&
-                mediaQueryData.size.width > mediaQueryData.size.height
-            ? Axis.horizontal
-            : Axis.vertical;
+                model.isWebFullView) &&
+            mediaQueryData.size.width > mediaQueryData.size.height
+        ? Axis.horizontal
+        : Axis.vertical;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -322,10 +321,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.0)),
         child: Padding(
-          padding:
-              model.isWebFullView
-                  ? const EdgeInsets.all(20.0)
-                  : const EdgeInsets.fromLTRB(10, 20, 10, 20),
+          padding: model.isWebFullView
+              ? const EdgeInsets.all(20.0)
+              : const EdgeInsets.fromLTRB(10, 20, 10, 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -353,10 +351,9 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                   thumbStrokeColor: const Color.fromRGBO(0, 179, 134, 1.0),
                   thumbStrokeWidth: 2.0,
                   thumbRadius: 15,
-                  tooltipBackgroundColor:
-                      isLightTheme
-                          ? const Color.fromRGBO(0, 153, 115, 1.0)
-                          : const Color.fromRGBO(0, 204, 153, 1.0),
+                  tooltipBackgroundColor: isLightTheme
+                      ? const Color.fromRGBO(0, 153, 115, 1.0)
+                      : const Color.fromRGBO(0, 204, 153, 1.0),
                   overlayColor: const Color.fromRGBO(0, 179, 134, 0.12),
                   inactiveRegionColor: model.sampleOutputCardColor.withValues(
                     alpha: 0.75,
@@ -375,18 +372,14 @@ class _RangeSelectorHistogramChartPageState extends SampleViewState
                   showLabels: true,
                   enableTooltip: true,
                   initialValues: _values,
-                  tooltipTextFormatterCallback: (
-                    dynamic actualValue,
-                    String formattedText,
-                  ) {
-                    return '\$${actualValue.toInt()}';
-                  },
-                  labelFormatterCallback: (
-                    dynamic actualValue,
-                    String formattedText,
-                  ) {
-                    return '\$$formattedText';
-                  },
+                  tooltipTextFormatterCallback:
+                      (dynamic actualValue, String formattedText) {
+                        return '\$${actualValue.toInt()}';
+                      },
+                  labelFormatterCallback:
+                      (dynamic actualValue, String formattedText) {
+                        return '\$$formattedText';
+                      },
                   onChanged: (SfRangeValues values) {
                     _values = values;
                     setState(() {

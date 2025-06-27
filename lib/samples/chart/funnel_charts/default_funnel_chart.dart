@@ -44,8 +44,9 @@ class _FunnelDefaultState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
 
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
@@ -81,10 +82,9 @@ class _FunnelDefaultState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 0.5,
             initialValue: _gapRatio,
-            onChanged:
-                (double val) => setState(() {
-                  _gapRatio = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _gapRatio = val;
+            }),
             step: 0.1,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -110,10 +110,9 @@ class _FunnelDefaultState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _neckHeight.toDouble(),
-            onChanged:
-                (double val) => setState(() {
-                  _neckHeight = val.toInt();
-                }),
+            onChanged: (double val) => setState(() {
+              _neckHeight = val.toInt();
+            }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -139,10 +138,9 @@ class _FunnelDefaultState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _neckWidth.toDouble(),
-            onChanged:
-                (double val) => setState(() {
-                  _neckWidth = val.toInt();
-                }),
+            onChanged: (double val) => setState(() {
+              _neckWidth = val.toInt();
+            }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),

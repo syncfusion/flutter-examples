@@ -118,8 +118,8 @@ class _MarkerDefaultState extends SampleViewState {
       LineSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.secondSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
         name: 'Bike',
         markerSettings: const MarkerSettings(
           isVisible: true,
@@ -129,8 +129,8 @@ class _MarkerDefaultState extends SampleViewState {
       LineSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.thirdSeriesYValue,
         name: 'Car',
         markerSettings: const MarkerSettings(
           isVisible: true,

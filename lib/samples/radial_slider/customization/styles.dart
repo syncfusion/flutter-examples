@@ -129,10 +129,9 @@ class _RadialSliderStylesState extends SampleViewState {
           RadialAxis(
             radiusFactor: 0.85,
             axisLineStyle: AxisLineStyle(
-              color:
-                  model.themeData.brightness == Brightness.light
-                      ? const Color.fromRGBO(191, 214, 252, 1)
-                      : const Color.fromRGBO(36, 58, 97, 1),
+              color: model.themeData.brightness == Brightness.light
+                  ? const Color.fromRGBO(191, 214, 252, 1)
+                  : const Color.fromRGBO(36, 58, 97, 1),
               thickness: 0.1,
               thicknessUnit: GaugeSizeUnit.factor,
             ),
@@ -145,10 +144,9 @@ class _RadialSliderStylesState extends SampleViewState {
                 width: 0.1,
                 value: _value,
                 cornerStyle: CornerStyle.bothCurve,
-                color:
-                    model.themeData.brightness == Brightness.light
-                        ? const Color.fromRGBO(41, 118, 246, 1)
-                        : const Color.fromRGBO(6, 102, 217, 1),
+                color: model.themeData.brightness == Brightness.light
+                    ? const Color.fromRGBO(41, 118, 246, 1)
+                    : const Color.fromRGBO(6, 102, 217, 1),
                 sizeUnit: GaugeSizeUnit.factor,
               ),
               MarkerPointer(
@@ -159,10 +157,9 @@ class _RadialSliderStylesState extends SampleViewState {
                 onValueChanging: handleFirstPointerValueChanging,
                 enableDragging: true,
                 overlayColor: const Color.fromRGBO(41, 118, 246, 0.125),
-                color:
-                    model.themeData.brightness == Brightness.light
-                        ? Colors.white
-                        : Colors.black,
+                color: model.themeData.brightness == Brightness.light
+                    ? Colors.white
+                    : Colors.black,
                 borderWidth: _borderWidth,
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
@@ -198,10 +195,9 @@ class _RadialSliderStylesState extends SampleViewState {
           RadialAxis(
             radiusFactor: 0.85,
             axisLineStyle: AxisLineStyle(
-              color:
-                  model.themeData.brightness == Brightness.light
-                      ? const Color.fromRGBO(218, 218, 218, 1)
-                      : const Color.fromRGBO(88, 88, 88, 1),
+              color: model.themeData.brightness == Brightness.light
+                  ? const Color.fromRGBO(218, 218, 218, 1)
+                  : const Color.fromRGBO(88, 88, 88, 1),
               thickness: 0.15,
               thicknessUnit: GaugeSizeUnit.factor,
             ),
@@ -272,10 +268,9 @@ class _RadialSliderStylesState extends SampleViewState {
               RangePointer(
                 value: 100,
                 pointerOffset: 0.03,
-                color:
-                    model.themeData.brightness == Brightness.light
-                        ? Colors.white
-                        : const Color.fromRGBO(41, 37, 32, 1),
+                color: model.themeData.brightness == Brightness.light
+                    ? Colors.white
+                    : const Color.fromRGBO(41, 37, 32, 1),
                 width: 0.13,
                 sizeUnit: GaugeSizeUnit.factor,
               ),
@@ -289,10 +284,9 @@ class _RadialSliderStylesState extends SampleViewState {
               MarkerPointer(
                 value: _markerValue2,
                 elevation: 5,
-                color:
-                    model.themeData.brightness == Brightness.light
-                        ? const Color.fromRGBO(255, 255, 255, 1)
-                        : const Color.fromRGBO(33, 33, 33, 1),
+                color: model.themeData.brightness == Brightness.light
+                    ? const Color.fromRGBO(255, 255, 255, 1)
+                    : const Color.fromRGBO(33, 33, 33, 1),
                 borderWidth: _thirdborderwidth,
                 onValueChanged: handleThirdPointerValueChanged,
                 onValueChangeEnd: handleThirdPointerValueChanged,
@@ -333,10 +327,9 @@ class _RadialSliderStylesState extends SampleViewState {
           RadialAxis(
             radiusFactor: 0.85,
             axisLineStyle: AxisLineStyle(
-              color:
-                  model.themeData.brightness == Brightness.light
-                      ? const Color.fromRGBO(201, 201, 201, 1)
-                      : const Color.fromRGBO(97, 97, 97, 1),
+              color: model.themeData.brightness == Brightness.light
+                  ? const Color.fromRGBO(201, 201, 201, 1)
+                  : const Color.fromRGBO(97, 97, 97, 1),
               thickness: 0.24,
               thicknessUnit: GaugeSizeUnit.factor,
             ),
@@ -349,10 +342,9 @@ class _RadialSliderStylesState extends SampleViewState {
                 value: 100,
                 pointerOffset: 0.03,
                 width: 0.18,
-                color:
-                    model.themeData.brightness == Brightness.light
-                        ? Colors.white
-                        : Colors.black,
+                color: model.themeData.brightness == Brightness.light
+                    ? Colors.white
+                    : Colors.black,
                 sizeUnit: GaugeSizeUnit.factor,
               ),
               RangePointer(
@@ -370,10 +362,9 @@ class _RadialSliderStylesState extends SampleViewState {
                 onValueChanged: handleFourthPointerValueChanged,
                 onValueChanging: handleFourthPointerValueChanging,
                 enableDragging: true,
-                color:
-                    model.themeData.brightness == Brightness.light
-                        ? Colors.white
-                        : Colors.black,
+                color: model.themeData.brightness == Brightness.light
+                    ? Colors.white
+                    : Colors.black,
                 borderWidth: 4,
                 markerHeight: 20,
                 markerWidth: 20,
@@ -494,24 +485,21 @@ class _RadialSliderStylesState extends SampleViewState {
             pointers: <GaugePointer>[
               NeedlePointer(
                 value: _markerValue5,
-                needleColor:
-                    model.themeData.brightness == Brightness.light
-                        ? const Color.fromRGBO(65, 65, 65, 1)
-                        : const Color.fromRGBO(191, 191, 191, 1),
+                needleColor: model.themeData.brightness == Brightness.light
+                    ? const Color.fromRGBO(65, 65, 65, 1)
+                    : const Color.fromRGBO(191, 191, 191, 1),
                 needleEndWidth: 1.5,
                 needleStartWidth: 1.5,
                 needleLength: 0.82,
                 knobStyle: KnobStyle(
                   knobRadius: model.isWebFullView ? 0.4 : 0.3,
                   borderWidth: 0.05,
-                  borderColor:
-                      model.themeData.brightness == Brightness.light
-                          ? const Color.fromRGBO(65, 65, 65, 1)
-                          : const Color.fromRGBO(191, 191, 191, 1),
-                  color:
-                      model.themeData.brightness == Brightness.light
-                          ? Colors.white
-                          : const Color.fromRGBO(33, 33, 33, 1),
+                  borderColor: model.themeData.brightness == Brightness.light
+                      ? const Color.fromRGBO(65, 65, 65, 1)
+                      : const Color.fromRGBO(191, 191, 191, 1),
+                  color: model.themeData.brightness == Brightness.light
+                      ? Colors.white
+                      : const Color.fromRGBO(33, 33, 33, 1),
                 ),
               ),
               RangePointer(
@@ -534,10 +522,9 @@ class _RadialSliderStylesState extends SampleViewState {
                     fontSize: 12,
                     fontFamily: 'Times',
                     fontWeight: FontWeight.bold,
-                    color:
-                        model.themeData.brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                   ),
                 ),
                 angle: 90,

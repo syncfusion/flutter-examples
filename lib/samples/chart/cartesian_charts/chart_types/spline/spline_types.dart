@@ -28,8 +28,12 @@ class _SplineTypesState extends SampleViewState {
   @override
   void initState() {
     _selectedSplineType = 'natural';
-    _splineList =
-        <String>['natural', 'monotonic', 'cardinal', 'clamped'].toList();
+    _splineList = <String>[
+      'natural',
+      'monotonic',
+      'cardinal',
+      'clamped',
+    ].toList();
     _spline = SplineType.natural;
     _tooltipBehavior = TooltipBehavior(
       enable: true,
@@ -86,16 +90,15 @@ class _SplineTypesState extends SampleViewState {
                 focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedSplineType,
-                items:
-                    _splineList!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'natural',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: _splineList!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'natural',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (dynamic value) {
                   _onPositionTypeChange(value.toString());
                   stateSetter(() {});

@@ -101,16 +101,15 @@ class _EdgeLabelState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedType,
-                    items:
-                        _edgeList!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'hide',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _edgeList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'hide',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onPositionTypeChange(value.toString());
                       stateSetter(() {});
@@ -140,8 +139,9 @@ class _EdgeLabelState extends SampleViewState {
         maximum: DateTime(2016, 4),
 
         /// This is the API for x axis edge label placement.
-        edgeLabelPlacement:
-            isCardView ? EdgeLabelPlacement.shift : _edgeLabelPlacement!,
+        edgeLabelPlacement: isCardView
+            ? EdgeLabelPlacement.shift
+            : _edgeLabelPlacement!,
       ),
       primaryYAxis: NumericAxis(
         majorTickLines: const MajorTickLines(width: 0.5),
@@ -179,8 +179,8 @@ class _EdgeLabelState extends SampleViewState {
       SplineSeries<ChartSampleData, DateTime>(
         dataSource: _fuelPriceDataOfIndia,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         name: 'Diesel',
         markerSettings: const MarkerSettings(
           isVisible: true,

@@ -103,14 +103,13 @@ class _MapPolygonPageState extends SampleViewState {
                       _isInvertedPolygon = true;
                     });
                   },
-                  child:
-                      _isLightTheme
-                          ? _buildButtonIcons(
-                            'images/maps_inverted_polygon_light.png',
-                          )
-                          : _buildButtonIcons(
-                            'images/maps_inverted_polygon_dark.png',
-                          ),
+                  child: _isLightTheme
+                      ? _buildButtonIcons(
+                          'images/maps_inverted_polygon_light.png',
+                        )
+                      : _buildButtonIcons(
+                          'images/maps_inverted_polygon_dark.png',
+                        ),
                 ),
               ),
             ),
@@ -126,14 +125,13 @@ class _MapPolygonPageState extends SampleViewState {
                       _isInvertedPolygon = false;
                     });
                   },
-                  child:
-                      _isLightTheme
-                          ? _buildButtonIcons(
-                            'images/maps_default_polygon_light.png',
-                          )
-                          : _buildButtonIcons(
-                            'images/maps_default_polygon_dark.png',
-                          ),
+                  child: _isLightTheme
+                      ? _buildButtonIcons(
+                          'images/maps_default_polygon_light.png',
+                        )
+                      : _buildButtonIcons(
+                          'images/maps_default_polygon_dark.png',
+                        ),
                 ),
               ),
             ),
@@ -155,16 +153,16 @@ class _MapPolygonPageState extends SampleViewState {
         }
         return isSelected
             ? (_isLightTheme
-                ? const Color.fromRGBO(250, 250, 250, 1.0)
-                : const Color.fromRGBO(66, 66, 66, 1.0))
+                  ? const Color.fromRGBO(250, 250, 250, 1.0)
+                  : const Color.fromRGBO(66, 66, 66, 1.0))
             : (_isLightTheme
-                ? const Color.fromRGBO(230, 230, 230, 1.0)
-                : const Color.fromRGBO(
-                  88,
-                  88,
-                  88,
-                  1.0,
-                )); // Use the component's default.
+                  ? const Color.fromRGBO(230, 230, 230, 1.0)
+                  : const Color.fromRGBO(
+                      88,
+                      88,
+                      88,
+                      1.0,
+                    )); // Use the component's default.
       }),
       shape: WidgetStateProperty.all<OutlinedBorder>(
         const RoundedRectangleBorder(
@@ -465,11 +463,10 @@ class _ExpandedButtonState extends State<_ExpandedButton>
 
   @override
   void didChangeDependencies() {
-    _ancestor =
-        context
-            .dependOnInheritedWidgetOfExactType<
-              _InheritedExpandableAnimatedButton
-            >()!;
+    _ancestor = context
+        .dependOnInheritedWidgetOfExactType<
+          _InheritedExpandableAnimatedButton
+        >()!;
     super.didChangeDependencies();
   }
 
@@ -511,10 +508,9 @@ class _ExpandedButtonState extends State<_ExpandedButton>
               height: widget.size,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children:
-                    _ancestor.alignment == WrapCrossAlignment.end
-                        ? <Widget>[_text, _image]
-                        : <Widget>[_image, _text],
+                children: _ancestor.alignment == WrapCrossAlignment.end
+                    ? <Widget>[_text, _image]
+                    : <Widget>[_image, _text],
               ),
             ),
           ),

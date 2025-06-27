@@ -67,16 +67,15 @@ class _CircularSelectionState extends SampleViewState {
                 focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _pointIndex.toString(),
-                items:
-                    _pointIndexList!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : '0',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: _pointIndexList!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : '0',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (dynamic value) {
                   setState(() {
                     _pointIndex = int.parse(value);

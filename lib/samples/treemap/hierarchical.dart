@@ -136,9 +136,9 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
       child: Padding(
         padding:
             MediaQuery.of(context).orientation == Orientation.portrait ||
-                    isDesktop
-                ? const EdgeInsets.all(12.5)
-                : const EdgeInsets.all(10.0),
+                isDesktop
+            ? const EdgeInsets.all(12.5)
+            : const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -184,8 +184,8 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
         //
         // Once grouped, we will get [labelBuilder] and [tooltipBuilder]
         // callbacks respectively.
-        groupMapper:
-            (int index) => _europeanCupAndUEFALeagueWinners[index].nation,
+        groupMapper: (int index) =>
+            _europeanCupAndUEFALeagueWinners[index].nation,
         // Padding around the tile.
         padding: const EdgeInsets.all(1.5),
         // Returns a widget for each tile's data label.
@@ -213,8 +213,8 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
         //
         // Once grouped, we will get [labelBuilder] and [tooltipBuilder]
         // callbacks respectively.
-        groupMapper:
-            (int index) => _europeanCupAndUEFALeagueWinners[index].team,
+        groupMapper: (int index) =>
+            _europeanCupAndUEFALeagueWinners[index].team,
         // Padding around the tile.
         padding: const EdgeInsets.all(1.0),
         // Returns a widget for each tile's data label.

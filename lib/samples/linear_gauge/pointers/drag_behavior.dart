@@ -99,10 +99,9 @@ class _DragBehaviorState extends SampleViewState {
         axisTrackStyle: const LinearAxisTrackStyle(thickness: 3),
         markerPointers: <LinearMarkerPointer>[
           LinearWidgetPointer(
-            value:
-                dragMode == LinearMarkerDragBehavior.free
-                    ? _firstLoosePointerValue
-                    : _firstLockPointerValue,
+            value: dragMode == LinearMarkerDragBehavior.free
+                ? _firstLoosePointerValue
+                : _firstLockPointerValue,
             onChanged: (dynamic value) {
               setState(() {
                 if (dragMode == LinearMarkerDragBehavior.free) {
@@ -112,10 +111,9 @@ class _DragBehaviorState extends SampleViewState {
                 }
               });
             },
-            dragBehavior:
-                dragMode == LinearMarkerDragBehavior.free
-                    ? LinearMarkerDragBehavior.free
-                    : LinearMarkerDragBehavior.constrained,
+            dragBehavior: dragMode == LinearMarkerDragBehavior.free
+                ? LinearMarkerDragBehavior.free
+                : LinearMarkerDragBehavior.constrained,
             position: LinearElementPosition.outside,
             child: RotatedBox(
               quarterTurns: 3,
@@ -127,10 +125,9 @@ class _DragBehaviorState extends SampleViewState {
             ),
           ),
           LinearWidgetPointer(
-            value:
-                dragMode == LinearMarkerDragBehavior.free
-                    ? _middleLoosePointerValue
-                    : _middleLockPointerValue,
+            value: dragMode == LinearMarkerDragBehavior.free
+                ? _middleLoosePointerValue
+                : _middleLockPointerValue,
             onChanged: (dynamic value) {
               setState(() {
                 if (dragMode == LinearMarkerDragBehavior.free) {
@@ -140,10 +137,9 @@ class _DragBehaviorState extends SampleViewState {
                 }
               });
             },
-            dragBehavior:
-                dragMode == LinearMarkerDragBehavior.free
-                    ? LinearMarkerDragBehavior.free
-                    : LinearMarkerDragBehavior.constrained,
+            dragBehavior: dragMode == LinearMarkerDragBehavior.free
+                ? LinearMarkerDragBehavior.free
+                : LinearMarkerDragBehavior.constrained,
             position: LinearElementPosition.outside,
             child: RotatedBox(
               quarterTurns: 3,

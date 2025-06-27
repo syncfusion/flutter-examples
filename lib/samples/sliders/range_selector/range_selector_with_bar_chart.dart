@@ -119,24 +119,27 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                 SfRangeSelectorTheme(
                   data: SfRangeSelectorThemeData(
                     thumbColor: isLightTheme ? Colors.white : Colors.black,
-                    thumbStrokeColor:
-                        isLightTheme ? Colors.black : Colors.white,
+                    thumbStrokeColor: isLightTheme
+                        ? Colors.black
+                        : Colors.white,
                     thumbStrokeWidth: 2.0,
                     activeTrackHeight: 2.5,
                     inactiveTrackHeight: 1.0,
-                    activeTrackColor:
-                        isLightTheme ? Colors.black : Colors.white,
-                    inactiveTrackColor:
-                        isLightTheme ? Colors.black : Colors.white,
+                    activeTrackColor: isLightTheme
+                        ? Colors.black
+                        : Colors.white,
+                    inactiveTrackColor: isLightTheme
+                        ? Colors.black
+                        : Colors.white,
                     inactiveRegionColor: model.sampleOutputCardColor.withValues(
                       alpha: 0.75,
                     ),
-                    tooltipBackgroundColor:
-                        isLightTheme ? Colors.black : Colors.white,
-                    overlayColor:
-                        isLightTheme
-                            ? Colors.black.withValues(alpha: 0.12)
-                            : Colors.white.withValues(alpha: 0.12),
+                    tooltipBackgroundColor: isLightTheme
+                        ? Colors.black
+                        : Colors.white,
+                    overlayColor: isLightTheme
+                        ? Colors.black.withValues(alpha: 0.12)
+                        : Colors.white.withValues(alpha: 0.12),
                     tooltipTextStyle: TextStyle(
                       color: isLightTheme ? Colors.white : Colors.black,
                     ),
@@ -157,12 +160,11 @@ class _RangeSelectorBarChartPageState extends SampleViewState
                       });
                     },
                     child: SizedBox(
-                      width:
-                          mediaQueryData.orientation == Orientation.landscape
-                              ? model.isWebFullView
-                                  ? mediaQueryData.size.width * 0.5
-                                  : mediaQueryData.size.width
-                              : mediaQueryData.size.width,
+                      width: mediaQueryData.orientation == Orientation.landscape
+                          ? model.isWebFullView
+                                ? mediaQueryData.size.width * 0.5
+                                : mediaQueryData.size.width
+                          : mediaQueryData.size.width,
                       height: mediaQueryData.size.height * 0.40 - 25,
                       child: _getColumnChart(),
                     ),
@@ -175,9 +177,9 @@ class _RangeSelectorBarChartPageState extends SampleViewState
         Padding(
           padding:
               mediaQueryData.orientation == Orientation.landscape ||
-                      model.isWebFullView
-                  ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1)
-                  : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.2),
+                  model.isWebFullView
+              ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1)
+              : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.2),
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Text(_profitText, style: const TextStyle(fontSize: 18.0)),
@@ -213,9 +215,8 @@ class _RangeSelectorBarChartPageState extends SampleViewState
         dataSource: _chartData,
         xValueMapper: (_ChartSampleData data, _) => data.x,
         yValueMapper: (_ChartSampleData data, _) => data.y,
-        pointColorMapper:
-            (_ChartSampleData data, _) =>
-                data.y < 0 ? Colors.red : Colors.green,
+        pointColorMapper: (_ChartSampleData data, _) =>
+            data.y < 0 ? Colors.red : Colors.green,
         borderRadius: const BorderRadius.all(Radius.circular(15)),
       ),
     ];

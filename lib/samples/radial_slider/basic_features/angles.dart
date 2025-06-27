@@ -42,17 +42,15 @@ class _RadialSliderAnglesState extends SampleViewState {
           children: <Widget>[
             _buildFirstSlider(),
             Align(
-              alignment:
-                  !model.isWebFullView
-                      ? const Alignment(0, 0.1)
-                      : Alignment.center,
+              alignment: !model.isWebFullView
+                  ? const Alignment(0, 0.1)
+                  : Alignment.center,
               child: _buildSecondSlider(),
             ),
             Align(
-              alignment:
-                  !model.isWebFullView
-                      ? const Alignment(0, 0.1)
-                      : Alignment.center,
+              alignment: !model.isWebFullView
+                  ? const Alignment(0, 0.1)
+                  : Alignment.center,
               child: _buildThirdSlider(),
             ),
             _buildFourthSlider(),
@@ -66,31 +64,27 @@ class _RadialSliderAnglesState extends SampleViewState {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Align(
-              alignment:
-                  model.isWebFullView
-                      ? Alignment.centerRight
-                      : Alignment.center,
+              alignment: model.isWebFullView
+                  ? Alignment.centerRight
+                  : Alignment.center,
               child: _buildFirstSlider(),
             ),
             Align(
-              alignment:
-                  model.isWebFullView
-                      ? Alignment.centerLeft
-                      : const Alignment(0.8, 0),
+              alignment: model.isWebFullView
+                  ? Alignment.centerLeft
+                  : const Alignment(0.8, 0),
               child: _buildSecondSlider(),
             ),
             Align(
-              alignment:
-                  model.isWebFullView
-                      ? Alignment.centerLeft
-                      : const Alignment(-0.5, 0),
+              alignment: model.isWebFullView
+                  ? Alignment.centerLeft
+                  : const Alignment(-0.5, 0),
               child: _buildThirdSlider(),
             ),
             Align(
-              alignment:
-                  model.isWebFullView
-                      ? const Alignment(-0.1, 0.25)
-                      : const Alignment(0, 0.5),
+              alignment: model.isWebFullView
+                  ? const Alignment(-0.1, 0.25)
+                  : const Alignment(0, 0.5),
               child: _buildFourthSlider(),
             ),
           ],
@@ -147,10 +141,9 @@ class _RadialSliderAnglesState extends SampleViewState {
                     fontSize: _annotationFontSize,
                     fontFamily: 'Times',
                     fontWeight: FontWeight.bold,
-                    color:
-                        model.themeData.brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                   ),
                 ),
                 angle: 0,
@@ -219,10 +212,9 @@ class _RadialSliderAnglesState extends SampleViewState {
                     fontSize: _annotationFontSize,
                     fontFamily: 'Times',
                     fontWeight: FontWeight.bold,
-                    color:
-                        model.themeData.brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                   ),
                 ),
                 angle: 0,
@@ -291,10 +283,9 @@ class _RadialSliderAnglesState extends SampleViewState {
                     fontSize: _annotationFontSize,
                     fontFamily: 'Times',
                     fontWeight: FontWeight.bold,
-                    color:
-                        model.themeData.brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                   ),
                 ),
                 angle: 0,
@@ -362,10 +353,9 @@ class _RadialSliderAnglesState extends SampleViewState {
                     fontSize: _annotationFontSize,
                     fontFamily: 'Times',
                     fontWeight: FontWeight.bold,
-                    color:
-                        model.themeData.brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
+                    color: model.themeData.brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                   ),
                 ),
                 angle: 0,

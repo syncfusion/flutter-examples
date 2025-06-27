@@ -49,12 +49,10 @@ class _VerticalSliderStepDurationPageState extends SampleViewState {
           });
         },
         enableTooltip: true,
-        tooltipTextFormatterCallback: (
-          dynamic actualLabel,
-          String formattedText,
-        ) {
-          return DateFormat.yMMM().format(actualLabel);
-        },
+        tooltipTextFormatterCallback:
+            (dynamic actualLabel, String formattedText) {
+              return DateFormat.yMMM().format(actualLabel);
+            },
       ),
     );
   }
@@ -119,13 +117,14 @@ class _VerticalSliderStepDurationPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget rangeSlider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget rangeSlider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 350
             ? rangeSlider
             : SingleChildScrollView(
-              child: SizedBox(height: 400, child: rangeSlider),
-            );
+                child: SizedBox(height: 400, child: rangeSlider),
+              );
       },
     );
   }

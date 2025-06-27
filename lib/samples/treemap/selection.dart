@@ -179,9 +179,9 @@ class _TreemapSelectionSampleState extends SampleViewState {
       child: Padding(
         padding:
             MediaQuery.of(context).orientation == Orientation.portrait ||
-                    isDesktop
-                ? const EdgeInsets.all(12.5)
-                : const EdgeInsets.all(10.0),
+                isDesktop
+            ? const EdgeInsets.all(12.5)
+            : const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -229,16 +229,14 @@ class _TreemapSelectionSampleState extends SampleViewState {
     if (tile != _selectedTile) {
       _selectedTile = tile;
       if (_topImportsAndExports[tile.indices[0]].type == 'Import') {
-        _importTextEditingController.text =
-            tile.group == 'Import'
-                ? 'Import - ${tile.weight.toStringAsFixed(2)}B'
-                : 'Import -  ${tile.group} (${tile.weight.toStringAsFixed(2)}B)';
+        _importTextEditingController.text = tile.group == 'Import'
+            ? 'Import - ${tile.weight.toStringAsFixed(2)}B'
+            : 'Import -  ${tile.group} (${tile.weight.toStringAsFixed(2)}B)';
         _exportTextEditingController.text = 'Export';
       } else {
-        _exportTextEditingController.text =
-            tile.group == 'Export'
-                ? 'Export - ${tile.weight.toStringAsFixed(2)}B'
-                : 'Export -  ${tile.group} (${tile.weight.toStringAsFixed(2)}B)';
+        _exportTextEditingController.text = tile.group == 'Export'
+            ? 'Export - ${tile.weight.toStringAsFixed(2)}B'
+            : 'Export -  ${tile.group} (${tile.weight.toStringAsFixed(2)}B)';
         _importTextEditingController.text = 'Import';
       }
     } else {
@@ -272,8 +270,9 @@ class _TreemapSelectionSampleState extends SampleViewState {
           final Brightness brightness = ThemeData.estimateBrightnessForColor(
             tile.color,
           );
-          final Color color =
-              brightness == Brightness.dark ? Colors.white : Colors.black;
+          final Color color = brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black;
           if (tile.group == 'Import') {
             _importTextEditingController.text = tile.group;
             return Padding(
@@ -345,8 +344,9 @@ class _TreemapSelectionSampleState extends SampleViewState {
           final Brightness brightness = ThemeData.estimateBrightnessForColor(
             tile.color,
           );
-          final Color color =
-              brightness == Brightness.dark ? Colors.white : Colors.black;
+          final Color color = brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black;
           return IgnorePointer(
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -355,8 +355,9 @@ class _TreemapSelectionSampleState extends SampleViewState {
                   tile.group,
                   style: TextStyle(color: color),
                   softWrap: isDesktop,
-                  overflow:
-                      isDesktop ? TextOverflow.visible : TextOverflow.ellipsis,
+                  overflow: isDesktop
+                      ? TextOverflow.visible
+                      : TextOverflow.ellipsis,
                 ),
               ),
             ),

@@ -82,16 +82,15 @@ class _PieSmartDataLabelsState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedLabelIntersectAction,
-                    items:
-                        _labelIntersectActionList!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _labelIntersectActionList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (String? value) {
                       _onLabelIntersectActionChange(value);
                       stateSetter(() {});
@@ -129,9 +128,8 @@ class _PieSmartDataLabelsState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
-        dataLabelMapper:
-            (ChartSampleData data, int index) =>
-                data.x + ': ' + data.y.toString(),
+        dataLabelMapper: (ChartSampleData data, int index) =>
+            data.x + ': ' + data.y.toString(),
         name: 'RIO',
         radius: '60%',
         dataLabelSettings: DataLabelSettings(

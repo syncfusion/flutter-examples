@@ -70,14 +70,14 @@ Widget _editExceptionSeries(
 ) {
   final Color defaultColor =
       model.themeData != null &&
-              model.themeData.colorScheme.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black54;
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black54;
   final Color defaultTextColor =
       model.themeData != null &&
-              model.themeData.colorScheme.brightness == Brightness.dark
-          ? Colors.white
-          : Colors.black87;
+          model.themeData.colorScheme.brightness == Brightness.dark
+      ? Colors.white
+      : Colors.black87;
   return Dialog(
     child: Container(
       width: 400,
@@ -336,20 +336,20 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
     );
     _selectedTimeZoneIndex =
         widget.selectedAppointment.startTimeZone == null ||
-                widget.selectedAppointment.startTimeZone == ''
-            ? 0
-            : widget.timeZoneCollection.indexOf(
-              widget.selectedAppointment.startTimeZone!,
-            );
-    _subject =
-        widget.selectedAppointment.subject == '(No title)'
-            ? ''
-            : widget.selectedAppointment.subject;
+            widget.selectedAppointment.startTimeZone == ''
+        ? 0
+        : widget.timeZoneCollection.indexOf(
+            widget.selectedAppointment.startTimeZone!,
+          );
+    _subject = widget.selectedAppointment.subject == '(No title)'
+        ? ''
+        : widget.selectedAppointment.subject;
     _notes = widget.selectedAppointment.notes;
     _location = widget.selectedAppointment.location;
     _selectedColorIndex = _selectedColorIndex == -1 ? 0 : _selectedColorIndex;
-    _selectedTimeZoneIndex =
-        _selectedTimeZoneIndex == -1 ? 0 : _selectedTimeZoneIndex;
+    _selectedTimeZoneIndex = _selectedTimeZoneIndex == -1
+        ? 0
+        : _selectedTimeZoneIndex;
     _resourceIds = widget.selectedAppointment.resourceIds?.sublist(0);
     _startTime = TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
     _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
@@ -378,12 +378,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
     }
     _recurrenceProperties =
         widget.selectedAppointment.recurrenceRule != null &&
-                widget.selectedAppointment.recurrenceRule!.isNotEmpty
-            ? SfCalendar.parseRRule(
-              widget.selectedAppointment.recurrenceRule!,
-              _startDate,
-            )
-            : null;
+            widget.selectedAppointment.recurrenceRule!.isNotEmpty
+        ? SfCalendar.parseRRule(
+            widget.selectedAppointment.recurrenceRule!,
+            _startDate,
+          )
+        : null;
     _recurrenceProperties == null
         ? _neverRule()
         : _updateWebRecurrenceProperties();
@@ -392,16 +392,14 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
   void _updateWebRecurrenceProperties() {
     _recurrenceType = _recurrenceProperties!.recurrenceType;
     _week = _recurrenceProperties!.week;
-    _weekNumber =
-        _recurrenceProperties!.week == 0
-            ? _weekNumber
-            : _recurrenceProperties!.week;
+    _weekNumber = _recurrenceProperties!.week == 0
+        ? _weekNumber
+        : _recurrenceProperties!.week;
     _lastDay = _recurrenceProperties!.dayOfMonth;
     if (_lastDay != -1) {
-      _dayOfMonth =
-          _recurrenceProperties!.dayOfMonth == 1
-              ? _startDate.day
-              : _recurrenceProperties!.dayOfMonth;
+      _dayOfMonth = _recurrenceProperties!.dayOfMonth == 1
+          ? _startDate.day
+          : _recurrenceProperties!.dayOfMonth;
     }
     switch (_recurrenceType) {
       case RecurrenceType.daily:
@@ -547,10 +545,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
 
   void _countRange() {
     _recurrenceProperties!.recurrenceRange = RecurrenceRange.count;
-    _count =
-        _recurrenceProperties!.recurrenceCount == 0
-            ? 10
-            : _recurrenceProperties!.recurrenceCount;
+    _count = _recurrenceProperties!.recurrenceCount == 0
+        ? 10
+        : _recurrenceProperties!.recurrenceCount;
     _selectedRecurrenceRange = 'Count';
     _recurrenceProperties!.recurrenceCount = _count!;
   }
@@ -592,16 +589,14 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
       _recurrenceProperties!.dayOfWeek = _dayOfWeek;
       _monthIconColor =
           widget.model.themeData != null &&
-                  widget.model.themeData.colorScheme.brightness ==
-                      Brightness.dark
-              ? Colors.white
-              : Colors.black54;
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
       _lastDayIconColor =
           widget.model.themeData != null &&
-                  widget.model.themeData.colorScheme.brightness ==
-                      Brightness.dark
-              ? Colors.white
-              : Colors.black54;
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
       _weekIconColor = widget.model.primaryColor;
       _lastDayRadio = Icons.radio_button_unchecked;
       _monthDayRadio = Icons.radio_button_unchecked;
@@ -616,16 +611,14 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
       _recurrenceProperties!.dayOfMonth = _dayOfMonth;
       _weekIconColor =
           widget.model.themeData != null &&
-                  widget.model.themeData.colorScheme.brightness ==
-                      Brightness.dark
-              ? Colors.white
-              : Colors.black54;
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
       _lastDayIconColor =
           widget.model.themeData != null &&
-                  widget.model.themeData.colorScheme.brightness ==
-                      Brightness.dark
-              ? Colors.white
-              : Colors.black54;
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
       _monthIconColor = widget.model.primaryColor;
       _monthDayRadio = Icons.radio_button_checked;
       _weekDayRadio = Icons.radio_button_unchecked;
@@ -640,16 +633,14 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
       _recurrenceProperties!.dayOfMonth = -1;
       _monthIconColor =
           widget.model.themeData != null &&
-                  widget.model.themeData.colorScheme.brightness ==
-                      Brightness.dark
-              ? Colors.white
-              : Colors.black54;
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
       _weekIconColor =
           widget.model.themeData != null &&
-                  widget.model.themeData.colorScheme.brightness ==
-                      Brightness.dark
-              ? Colors.white
-              : Colors.black54;
+              widget.model.themeData.colorScheme.brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black54;
       _lastDayIconColor = widget.model.primaryColor;
       _lastDayRadio = Icons.radio_button_checked;
       _monthDayRadio = Icons.radio_button_unchecked;
@@ -808,10 +799,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
           avatar: CircleAvatar(
             backgroundColor: widget.model.primaryColor,
             backgroundImage: selectedResource.image,
-            child:
-                selectedResource.image == null
-                    ? Text(selectedResource.displayName[0])
-                    : null,
+            child: selectedResource.image == null
+                ? Text(selectedResource.displayName[0])
+                : null,
           ),
           label: Text(selectedResource.displayName),
           onDeleted: () {
@@ -833,24 +823,24 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
   Widget build(BuildContext context) {
     final Color defaultColor =
         widget.model.themeData != null &&
-                widget.model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black54;
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black54;
     final Color defaultTextColor =
         widget.model.themeData != null &&
-                widget.model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black87;
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black87;
     final Color defaultButtonColor =
         widget.model.themeData != null &&
-                widget.model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white10
-            : Colors.white;
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white10
+        : Colors.white;
     final Color borderColor =
         widget.model.themeData != null &&
-                widget.model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.transparent;
+            widget.model.themeData.colorScheme.brightness == Brightness.dark
+        ? Colors.white
+        : Colors.transparent;
 
     return Dialog(
       insetPadding: const EdgeInsets.all(20),
@@ -860,28 +850,28 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
           borderRadius: const BorderRadius.all(Radius.circular(4)),
           color:
               widget.model.themeData != null &&
-                      widget.model.themeData.colorScheme.brightness ==
-                          Brightness.dark
-                  ? Colors.grey[850]
-                  : Colors.white,
+                  widget.model.themeData.colorScheme.brightness ==
+                      Brightness.dark
+              ? Colors.grey[850]
+              : Colors.white,
         ),
         height:
             widget.events.resources != null &&
-                    widget.events.resources!.isNotEmpty
-                ? widget.selectedAppointment.recurrenceId == null
-                    ? _isTimeZoneEnabled || _selectedRecurrenceType != 'Never'
+                widget.events.resources!.isNotEmpty
+            ? widget.selectedAppointment.recurrenceId == null
+                  ? _isTimeZoneEnabled || _selectedRecurrenceType != 'Never'
                         ? 640
                         : 580
-                    : _isTimeZoneEnabled || _selectedRecurrenceType != 'Never'
-                    ? 560
-                    : 480
-                : widget.selectedAppointment.recurrenceId == null
-                ? _isTimeZoneEnabled || _selectedRecurrenceType != 'Never'
-                    ? 560
-                    : 500
-                : _isTimeZoneEnabled || _selectedRecurrenceType != 'Never'
-                ? 480
-                : 420,
+                  : _isTimeZoneEnabled || _selectedRecurrenceType != 'Never'
+                  ? 560
+                  : 480
+            : widget.selectedAppointment.recurrenceId == null
+            ? _isTimeZoneEnabled || _selectedRecurrenceType != 'Never'
+                  ? 560
+                  : 500
+            : _isTimeZoneEnabled || _selectedRecurrenceType != 'Never'
+            ? 480
+            : 420,
         alignment: Alignment.center,
         child: Column(
           children: <Widget>[
@@ -1072,10 +1062,13 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                   TextField(
                                     readOnly: true,
                                     controller: TextEditingController(
-                                      text: (_isAllDay
-                                              ? DateFormat('MM/dd/yyyy')
-                                              : DateFormat('MM/dd/yy h:mm a'))
-                                          .format(_startDate),
+                                      text:
+                                          (_isAllDay
+                                                  ? DateFormat('MM/dd/yyyy')
+                                                  : DateFormat(
+                                                      'MM/dd/yy h:mm a',
+                                                    ))
+                                              .format(_startDate),
                                     ),
                                     onChanged: (String value) {
                                       _startDate = DateTime.parse(value);
@@ -1115,27 +1108,29 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     initialDate: _startDate,
                                                     firstDate: DateTime(1900),
                                                     lastDate: DateTime(2100),
-                                                    builder: (
-                                                      BuildContext context,
-                                                      Widget? child,
-                                                    ) {
-                                                      return Theme(
-                                                        data: ThemeData(
-                                                          useMaterial3: false,
-                                                          brightness:
-                                                              widget
+                                                    builder:
+                                                        (
+                                                          BuildContext context,
+                                                          Widget? child,
+                                                        ) {
+                                                          return Theme(
+                                                            data: ThemeData(
+                                                              useMaterial3:
+                                                                  false,
+                                                              brightness: widget
                                                                   .model
                                                                   .themeData
                                                                   .brightness,
-                                                          colorScheme:
-                                                              getColorScheme(
-                                                                widget.model,
-                                                                true,
-                                                              ),
-                                                        ),
-                                                        child: child!,
-                                                      );
-                                                    },
+                                                              colorScheme:
+                                                                  getColorScheme(
+                                                                    widget
+                                                                        .model,
+                                                                    true,
+                                                                  ),
+                                                            ),
+                                                            child: child!,
+                                                          );
+                                                        },
                                                   );
                                                   if (date != null &&
                                                       date != _startDate) {
@@ -1196,27 +1191,30 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         minute:
                                                             _startTime.minute,
                                                       ),
-                                                      builder: (
-                                                        BuildContext context,
-                                                        Widget? child,
-                                                      ) {
-                                                        return Theme(
-                                                          data: ThemeData(
-                                                            useMaterial3: false,
-                                                            brightness:
-                                                                widget
+                                                      builder:
+                                                          (
+                                                            BuildContext
+                                                            context,
+                                                            Widget? child,
+                                                          ) {
+                                                            return Theme(
+                                                              data: ThemeData(
+                                                                useMaterial3:
+                                                                    false,
+                                                                brightness: widget
                                                                     .model
                                                                     .themeData
                                                                     .brightness,
-                                                            colorScheme:
-                                                                getColorScheme(
-                                                                  widget.model,
-                                                                  false,
-                                                                ),
-                                                          ),
-                                                          child: child!,
-                                                        );
-                                                      },
+                                                                colorScheme:
+                                                                    getColorScheme(
+                                                                      widget
+                                                                          .model,
+                                                                      false,
+                                                                    ),
+                                                              ),
+                                                              child: child!,
+                                                            );
+                                                          },
                                                     );
                                                     if (time != null &&
                                                         time != _startTime) {
@@ -1292,10 +1290,13 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                   TextField(
                                     readOnly: true,
                                     controller: TextEditingController(
-                                      text: (_isAllDay
-                                              ? DateFormat('MM/dd/yyyy')
-                                              : DateFormat('MM/dd/yy h:mm a'))
-                                          .format(_endDate),
+                                      text:
+                                          (_isAllDay
+                                                  ? DateFormat('MM/dd/yyyy')
+                                                  : DateFormat(
+                                                      'MM/dd/yy h:mm a',
+                                                    ))
+                                              .format(_endDate),
                                     ),
                                     onChanged: (String value) {
                                       _endDate = DateTime.parse(value);
@@ -1335,27 +1336,29 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     initialDate: _endDate,
                                                     firstDate: DateTime(1900),
                                                     lastDate: DateTime(2100),
-                                                    builder: (
-                                                      BuildContext context,
-                                                      Widget? child,
-                                                    ) {
-                                                      return Theme(
-                                                        data: ThemeData(
-                                                          useMaterial3: false,
-                                                          brightness:
-                                                              widget
+                                                    builder:
+                                                        (
+                                                          BuildContext context,
+                                                          Widget? child,
+                                                        ) {
+                                                          return Theme(
+                                                            data: ThemeData(
+                                                              useMaterial3:
+                                                                  false,
+                                                              brightness: widget
                                                                   .model
                                                                   .themeData
                                                                   .brightness,
-                                                          colorScheme:
-                                                              getColorScheme(
-                                                                widget.model,
-                                                                true,
-                                                              ),
-                                                        ),
-                                                        child: child!,
-                                                      );
-                                                    },
+                                                              colorScheme:
+                                                                  getColorScheme(
+                                                                    widget
+                                                                        .model,
+                                                                    true,
+                                                                  ),
+                                                            ),
+                                                            child: child!,
+                                                          );
+                                                        },
                                                   );
                                                   if (date != null &&
                                                       date != _endDate) {
@@ -1419,27 +1422,30 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         hour: _endTime.hour,
                                                         minute: _endTime.minute,
                                                       ),
-                                                      builder: (
-                                                        BuildContext context,
-                                                        Widget? child,
-                                                      ) {
-                                                        return Theme(
-                                                          data: ThemeData(
-                                                            useMaterial3: false,
-                                                            brightness:
-                                                                widget
+                                                      builder:
+                                                          (
+                                                            BuildContext
+                                                            context,
+                                                            Widget? child,
+                                                          ) {
+                                                            return Theme(
+                                                              data: ThemeData(
+                                                                useMaterial3:
+                                                                    false,
+                                                                brightness: widget
                                                                     .model
                                                                     .themeData
                                                                     .brightness,
-                                                            colorScheme:
-                                                                getColorScheme(
-                                                                  widget.model,
-                                                                  false,
-                                                                ),
-                                                          ),
-                                                          child: child!,
-                                                        );
-                                                      },
+                                                                colorScheme:
+                                                                    getColorScheme(
+                                                                      widget
+                                                                          .model,
+                                                                      false,
+                                                                    ),
+                                                              ),
+                                                              child: child!,
+                                                            );
+                                                          },
                                                     );
                                                     if (time != null &&
                                                         time != _endTime) {
@@ -1466,9 +1472,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                               );
                                                           _startTime =
                                                               TimeOfDay(
-                                                                hour:
-                                                                    _startDate
-                                                                        .hour,
+                                                                hour: _startDate
+                                                                    .hour,
                                                                 minute:
                                                                     _startDate
                                                                         .minute,
@@ -1602,12 +1607,11 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         widget.timeZoneCollection,
                                         _selectedTimeZoneIndex,
                                         widget.model,
-                                        onChanged: (
-                                          PickerChangedDetails details,
-                                        ) {
-                                          _selectedTimeZoneIndex =
-                                              details.index;
-                                        },
+                                        onChanged:
+                                            (PickerChangedDetails details) {
+                                              _selectedTimeZoneIndex =
+                                                  details.index;
+                                            },
                                       );
                                     },
                                   ).then(
@@ -1681,10 +1685,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                       suffix: SizedBox(
                                         height: 28,
                                         child: DropdownButton<String>(
-                                          dropdownColor:
-                                              widget
-                                                  .model
-                                                  .drawerBackgroundColor,
+                                          dropdownColor: widget
+                                              .model
+                                              .drawerBackgroundColor,
                                           focusColor: Colors.transparent,
                                           isExpanded: true,
                                           underline: Container(),
@@ -1694,13 +1697,14 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                             fontWeight: FontWeight.w400,
                                           ),
                                           value: _selectedRecurrenceType,
-                                          items:
-                                              _repeatOption.map((String item) {
-                                                return DropdownMenuItem<String>(
-                                                  value: item,
-                                                  child: Text(item),
-                                                );
-                                              }).toList(),
+                                          items: _repeatOption.map((
+                                            String item,
+                                          ) {
+                                            return DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(item),
+                                            );
+                                          }).toList(),
                                           onChanged: (String? value) {
                                             if (value == 'Weekly') {
                                               _weeklyRule();
@@ -1762,10 +1766,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                               text: _interval.toString(),
                                               selection:
                                                   TextSelection.collapsed(
-                                                    offset:
-                                                        _interval
-                                                            .toString()
-                                                            .length,
+                                                    offset: _interval
+                                                        .toString()
+                                                        .length,
                                                   ),
                                             ),
                                           ),
@@ -1944,18 +1947,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 ),
                                                 backgroundColor:
                                                     _days!.contains(
-                                                          WeekDays.sunday,
-                                                        )
-                                                        ? widget
-                                                            .model
-                                                            .primaryColor
-                                                        : defaultButtonColor,
+                                                      WeekDays.sunday,
+                                                    )
+                                                    ? widget.model.primaryColor
+                                                    : defaultButtonColor,
                                                 foregroundColor:
                                                     _days!.contains(
-                                                          WeekDays.sunday,
-                                                        )
-                                                        ? Colors.white
-                                                        : defaultTextColor,
+                                                      WeekDays.sunday,
+                                                    )
+                                                    ? Colors.white
+                                                    : defaultTextColor,
                                                 shape: const CircleBorder(),
                                                 padding: const EdgeInsets.all(
                                                   15,
@@ -1984,18 +1985,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 ),
                                                 backgroundColor:
                                                     _days!.contains(
-                                                          WeekDays.monday,
-                                                        )
-                                                        ? widget
-                                                            .model
-                                                            .primaryColor
-                                                        : defaultButtonColor,
+                                                      WeekDays.monday,
+                                                    )
+                                                    ? widget.model.primaryColor
+                                                    : defaultButtonColor,
                                                 foregroundColor:
                                                     _days!.contains(
-                                                          WeekDays.monday,
-                                                        )
-                                                        ? Colors.white
-                                                        : defaultTextColor,
+                                                      WeekDays.monday,
+                                                    )
+                                                    ? Colors.white
+                                                    : defaultTextColor,
                                                 shape: const CircleBorder(),
                                                 padding: const EdgeInsets.all(
                                                   15,
@@ -2024,18 +2023,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 ),
                                                 backgroundColor:
                                                     _days!.contains(
-                                                          WeekDays.tuesday,
-                                                        )
-                                                        ? widget
-                                                            .model
-                                                            .primaryColor
-                                                        : defaultButtonColor,
+                                                      WeekDays.tuesday,
+                                                    )
+                                                    ? widget.model.primaryColor
+                                                    : defaultButtonColor,
                                                 foregroundColor:
                                                     _days!.contains(
-                                                          WeekDays.tuesday,
-                                                        )
-                                                        ? Colors.white
-                                                        : defaultTextColor,
+                                                      WeekDays.tuesday,
+                                                    )
+                                                    ? Colors.white
+                                                    : defaultTextColor,
                                                 shape: const CircleBorder(),
                                                 padding: const EdgeInsets.all(
                                                   15,
@@ -2064,18 +2061,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 ),
                                                 backgroundColor:
                                                     _days!.contains(
-                                                          WeekDays.wednesday,
-                                                        )
-                                                        ? widget
-                                                            .model
-                                                            .primaryColor
-                                                        : defaultButtonColor,
+                                                      WeekDays.wednesday,
+                                                    )
+                                                    ? widget.model.primaryColor
+                                                    : defaultButtonColor,
                                                 foregroundColor:
                                                     _days!.contains(
-                                                          WeekDays.wednesday,
-                                                        )
-                                                        ? Colors.white
-                                                        : defaultTextColor,
+                                                      WeekDays.wednesday,
+                                                    )
+                                                    ? Colors.white
+                                                    : defaultTextColor,
                                                 shape: const CircleBorder(),
                                                 padding: const EdgeInsets.all(
                                                   15,
@@ -2104,18 +2099,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 ),
                                                 backgroundColor:
                                                     _days!.contains(
-                                                          WeekDays.thursday,
-                                                        )
-                                                        ? widget
-                                                            .model
-                                                            .primaryColor
-                                                        : defaultButtonColor,
+                                                      WeekDays.thursday,
+                                                    )
+                                                    ? widget.model.primaryColor
+                                                    : defaultButtonColor,
                                                 foregroundColor:
                                                     _days!.contains(
-                                                          WeekDays.thursday,
-                                                        )
-                                                        ? Colors.white
-                                                        : defaultTextColor,
+                                                      WeekDays.thursday,
+                                                    )
+                                                    ? Colors.white
+                                                    : defaultTextColor,
                                                 shape: const CircleBorder(),
                                                 padding: const EdgeInsets.all(
                                                   15,
@@ -2144,18 +2137,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 ),
                                                 backgroundColor:
                                                     _days!.contains(
-                                                          WeekDays.friday,
-                                                        )
-                                                        ? widget
-                                                            .model
-                                                            .primaryColor
-                                                        : defaultButtonColor,
+                                                      WeekDays.friday,
+                                                    )
+                                                    ? widget.model.primaryColor
+                                                    : defaultButtonColor,
                                                 foregroundColor:
                                                     _days!.contains(
-                                                          WeekDays.friday,
-                                                        )
-                                                        ? Colors.white
-                                                        : defaultTextColor,
+                                                      WeekDays.friday,
+                                                    )
+                                                    ? Colors.white
+                                                    : defaultTextColor,
                                                 shape: const CircleBorder(),
                                                 padding: const EdgeInsets.all(
                                                   15,
@@ -2184,18 +2175,16 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 ),
                                                 backgroundColor:
                                                     _days!.contains(
-                                                          WeekDays.saturday,
-                                                        )
-                                                        ? widget
-                                                            .model
-                                                            .primaryColor
-                                                        : defaultButtonColor,
+                                                      WeekDays.saturday,
+                                                    )
+                                                    ? widget.model.primaryColor
+                                                    : defaultButtonColor,
                                                 foregroundColor:
                                                     _days!.contains(
-                                                          WeekDays.saturday,
-                                                        )
-                                                        ? Colors.white
-                                                        : defaultTextColor,
+                                                      WeekDays.saturday,
+                                                    )
+                                                    ? Colors.white
+                                                    : defaultTextColor,
                                                 shape: const CircleBorder(),
                                                 padding: const EdgeInsets.all(
                                                   15,
@@ -2246,10 +2235,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         suffix: SizedBox(
                                           height: 27,
                                           child: DropdownButton<String>(
-                                            dropdownColor:
-                                                widget
-                                                    .model
-                                                    .drawerBackgroundColor,
+                                            dropdownColor: widget
+                                                .model
+                                                .drawerBackgroundColor,
                                             focusColor: Colors.transparent,
                                             isExpanded: true,
                                             underline: Container(),
@@ -2259,15 +2247,14 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                               fontWeight: FontWeight.w400,
                                             ),
                                             value: _monthName,
-                                            items:
-                                                _dayMonths.map((String item) {
-                                                  return DropdownMenuItem<
-                                                    String
-                                                  >(
-                                                    value: item,
-                                                    child: Text(item),
-                                                  );
-                                                }).toList(),
+                                            items: _dayMonths.map((
+                                              String item,
+                                            ) {
+                                              return DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(item),
+                                              );
+                                            }).toList(),
                                             onChanged: (String? value) {
                                               setState(() {
                                                 if (value == 'January') {
@@ -2422,15 +2409,13 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                               controller:
                                                   TextEditingController.fromValue(
                                                     TextEditingValue(
-                                                      text:
-                                                          _dayOfMonth
-                                                              .toString(),
+                                                      text: _dayOfMonth
+                                                          .toString(),
                                                       selection:
                                                           TextSelection.collapsed(
-                                                            offset:
-                                                                _dayOfMonth
-                                                                    .toString()
-                                                                    .length,
+                                                            offset: _dayOfMonth
+                                                                .toString()
+                                                                .length,
                                                           ),
                                                     ),
                                                   ),
@@ -2452,27 +2437,28 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                   _dayOfMonth = _startDate.day;
                                                 }
                                                 _recurrenceProperties!
-                                                    .dayOfWeek = 0;
+                                                        .dayOfWeek =
+                                                    0;
                                                 _recurrenceProperties!.week = 0;
                                                 _recurrenceProperties!
-                                                    .dayOfMonth = _dayOfMonth;
+                                                        .dayOfMonth =
+                                                    _dayOfMonth;
                                                 _weekIconColor =
                                                     widget.model.themeData !=
-                                                                null &&
-                                                            widget
-                                                                    .model
-                                                                    .themeData
-                                                                    .brightness ==
-                                                                Brightness.dark
-                                                        ? Colors.white
-                                                        : Colors.black54;
+                                                            null &&
+                                                        widget
+                                                                .model
+                                                                .themeData
+                                                                .brightness ==
+                                                            Brightness.dark
+                                                    ? Colors.white
+                                                    : Colors.black54;
                                                 _monthIconColor =
                                                     widget.model.primaryColor;
                                                 _monthDayRadio =
                                                     Icons.radio_button_checked;
-                                                _weekDayRadio =
-                                                    Icons
-                                                        .radio_button_unchecked;
+                                                _weekDayRadio = Icons
+                                                    .radio_button_unchecked;
                                               },
                                               keyboardType:
                                                   TextInputType.number,
@@ -2535,10 +2521,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                 focusedBorder:
                                                     UnderlineInputBorder(
                                                       borderSide: BorderSide(
-                                                        color:
-                                                            widget
-                                                                .model
-                                                                .primaryColor,
+                                                        color: widget
+                                                            .model
+                                                            .primaryColor,
                                                         width: 2.0,
                                                       ),
                                                     ),
@@ -2581,18 +2566,18 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                       padding: EdgeInsets.only(
                                         top:
                                             _selectedRecurrenceType == 'Monthly'
-                                                ? 9
-                                                : 0,
+                                            ? 9
+                                            : 0,
                                       ),
                                       child: Row(
                                         crossAxisAlignment:
                                             _selectedRecurrenceType == 'Monthly'
-                                                ? CrossAxisAlignment.center
-                                                : CrossAxisAlignment.start,
+                                            ? CrossAxisAlignment.center
+                                            : CrossAxisAlignment.start,
                                         mainAxisSize:
                                             _selectedRecurrenceType == 'Monthly'
-                                                ? MainAxisSize.max
-                                                : MainAxisSize.min,
+                                            ? MainAxisSize.max
+                                            : MainAxisSize.min,
                                         children: <Widget>[
                                           Expanded(
                                             flex: 3,
@@ -2612,9 +2597,7 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                   isDense: true,
                                                   suffix: SizedBox(
                                                     height: 27,
-                                                    child: DropdownButton<
-                                                      String
-                                                    >(
+                                                    child: DropdownButton<String>(
                                                       focusColor:
                                                           Colors.transparent,
                                                       isExpanded: true,
@@ -2627,20 +2610,17 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                       ),
                                                       value:
                                                           _selectedRecurrenceRange,
-                                                      items:
-                                                          _ends.map((
-                                                            String item,
-                                                          ) {
-                                                            return DropdownMenuItem<
-                                                              String
-                                                            >(
-                                                              value: item,
-                                                              child: Text(item),
-                                                            );
-                                                          }).toList(),
-                                                      onChanged: (
-                                                        String? value,
+                                                      items: _ends.map((
+                                                        String item,
                                                       ) {
+                                                        return DropdownMenuItem<
+                                                          String
+                                                        >(
+                                                          value: item,
+                                                          child: Text(item),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged: (String? value) {
                                                         setState(() {
                                                           if (value ==
                                                               'Never') {
@@ -2663,10 +2643,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                   focusedBorder:
                                                       UnderlineInputBorder(
                                                         borderSide: BorderSide(
-                                                          color:
-                                                              widget
-                                                                  .model
-                                                                  .primaryColor,
+                                                          color: widget
+                                                              .model
+                                                              .primaryColor,
                                                           width: 2.0,
                                                         ),
                                                       ),
@@ -2677,9 +2656,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           Expanded(
                                             flex:
                                                 _selectedRecurrenceRange ==
-                                                        'Count'
-                                                    ? 3
-                                                    : 0,
+                                                    'Count'
+                                                ? 3
+                                                : 0,
                                             child: Visibility(
                                               visible:
                                                   _selectedRecurrenceRange ==
@@ -2694,22 +2673,19 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                   controller:
                                                       TextEditingController.fromValue(
                                                         TextEditingValue(
-                                                          text:
-                                                              _count.toString(),
+                                                          text: _count
+                                                              .toString(),
                                                           selection:
                                                               TextSelection.collapsed(
-                                                                offset:
-                                                                    _count
-                                                                        .toString()
-                                                                        .length,
+                                                                offset: _count
+                                                                    .toString()
+                                                                    .length,
                                                               ),
                                                         ),
                                                       ),
                                                   cursorColor:
                                                       widget.model.primaryColor,
-                                                  onChanged: (
-                                                    String value,
-                                                  ) async {
+                                                  onChanged: (String value) async {
                                                     if (value != null &&
                                                         value.isNotEmpty) {
                                                       _count = int.parse(value);
@@ -2734,12 +2710,11 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                   },
                                                   keyboardType:
                                                       TextInputType.number,
-                                                  inputFormatters: <
-                                                    TextInputFormatter
-                                                  >[
-                                                    FilteringTextInputFormatter
-                                                        .digitsOnly,
-                                                  ],
+                                                  inputFormatters:
+                                                      <TextInputFormatter>[
+                                                        FilteringTextInputFormatter
+                                                            .digitsOnly,
+                                                      ],
                                                   maxLines: null,
                                                   style: TextStyle(
                                                     fontSize: 13,
@@ -2751,9 +2726,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     contentPadding: EdgeInsets.only(
                                                       top:
                                                           _selectedRecurrenceType ==
-                                                                  'Monthly'
-                                                              ? 13
-                                                              : 18,
+                                                              'Monthly'
+                                                          ? 13
+                                                          : 18,
                                                       bottom: 10,
                                                     ),
                                                     suffixIconConstraints:
@@ -2789,19 +2764,17 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         ),
                                                       ],
                                                     ),
-                                                    focusColor:
-                                                        widget
-                                                            .model
-                                                            .primaryColor,
+                                                    focusColor: widget
+                                                        .model
+                                                        .primaryColor,
                                                     border:
                                                         const UnderlineInputBorder(),
                                                     focusedBorder:
                                                         UnderlineInputBorder(
                                                           borderSide: BorderSide(
-                                                            color:
-                                                                widget
-                                                                    .model
-                                                                    .primaryColor,
+                                                            color: widget
+                                                                .model
+                                                                .primaryColor,
                                                             width: 2.0,
                                                           ),
                                                         ),
@@ -2813,9 +2786,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           Expanded(
                                             flex:
                                                 _selectedRecurrenceRange ==
-                                                        'Until'
-                                                    ? 3
-                                                    : 0,
+                                                    'Until'
+                                                ? 3
+                                                : 0,
                                             child: Visibility(
                                               visible:
                                                   _selectedRecurrenceRange ==
@@ -2851,14 +2824,14 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                     contentPadding: EdgeInsets.only(
                                                       top:
                                                           _selectedRecurrenceType ==
-                                                                  'Monthly'
-                                                              ? 10
-                                                              : 15,
+                                                              'Monthly'
+                                                          ? 10
+                                                          : 15,
                                                       bottom:
                                                           _selectedRecurrenceType ==
-                                                                  'Monthly'
-                                                              ? 10
-                                                              : 13,
+                                                              'Monthly'
+                                                          ? 10
+                                                          : 13,
                                                     ),
                                                     suffixIconConstraints:
                                                         const BoxConstraints(
@@ -2879,39 +2852,40 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                             initialDate:
                                                                 _selectedDate,
                                                             firstDate:
-                                                                _startDate.isBefore(
+                                                                _startDate
+                                                                    .isBefore(
                                                                       _firstDate,
                                                                     )
-                                                                    ? _startDate
-                                                                    : _firstDate,
+                                                                ? _startDate
+                                                                : _firstDate,
                                                             currentDate:
                                                                 _selectedDate,
                                                             lastDate: DateTime(
                                                               2050,
                                                             ),
-                                                            builder: (
-                                                              BuildContext
-                                                              context,
-                                                              Widget? child,
-                                                            ) {
-                                                              return Theme(
-                                                                data: ThemeData(
-                                                                  brightness:
-                                                                      widget
+                                                            builder:
+                                                                (
+                                                                  BuildContext
+                                                                  context,
+                                                                  Widget? child,
+                                                                ) {
+                                                                  return Theme(
+                                                                    data: ThemeData(
+                                                                      brightness: widget
                                                                           .model
                                                                           .themeData
                                                                           .colorScheme
                                                                           .brightness,
-                                                                  colorScheme:
-                                                                      getColorScheme(
-                                                                        widget
-                                                                            .model,
-                                                                        true,
-                                                                      ),
-                                                                ),
-                                                                child: child!,
-                                                              );
-                                                            },
+                                                                      colorScheme:
+                                                                          getColorScheme(
+                                                                            widget.model,
+                                                                            true,
+                                                                          ),
+                                                                    ),
+                                                                    child:
+                                                                        child!,
+                                                                  );
+                                                                },
                                                           );
                                                           if (pickedDate ==
                                                               null) {
@@ -2945,19 +2919,17 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                         ),
                                                       ),
                                                     ),
-                                                    focusColor:
-                                                        widget
-                                                            .model
-                                                            .primaryColor,
+                                                    focusColor: widget
+                                                        .model
+                                                        .primaryColor,
                                                     border:
                                                         const UnderlineInputBorder(),
                                                     focusedBorder:
                                                         UnderlineInputBorder(
                                                           borderSide: BorderSide(
-                                                            color:
-                                                                widget
-                                                                    .model
-                                                                    .primaryColor,
+                                                            color: widget
+                                                                .model
+                                                                .primaryColor,
                                                             width: 2.0,
                                                           ),
                                                         ),
@@ -2969,15 +2941,15 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           Spacer(
                                             flex:
                                                 _selectedRecurrenceType ==
-                                                        'Daily'
-                                                    ? _selectedRecurrenceRange ==
-                                                            'Never'
-                                                        ? 8
-                                                        : 6
-                                                    : _selectedRecurrenceRange ==
-                                                        'Never'
-                                                    ? 2
-                                                    : 1,
+                                                    'Daily'
+                                                ? _selectedRecurrenceRange ==
+                                                          'Never'
+                                                      ? 8
+                                                      : 6
+                                                : _selectedRecurrenceRange ==
+                                                      'Never'
+                                                ? 2
+                                                : 1,
                                           ),
                                         ],
                                       ),
@@ -3060,14 +3032,14 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           _dayOfMonth;
                                       _weekIconColor =
                                           widget.model.themeData != null &&
-                                                  widget
-                                                          .model
-                                                          .themeData
-                                                          .colorScheme
-                                                          .brightness ==
-                                                      Brightness.dark
-                                              ? Colors.white
-                                              : Colors.black54;
+                                              widget
+                                                      .model
+                                                      .themeData
+                                                      .colorScheme
+                                                      .brightness ==
+                                                  Brightness.dark
+                                          ? Colors.white
+                                          : Colors.black54;
                                       _monthIconColor =
                                           widget.model.primaryColor;
                                       _monthDayRadio =
@@ -3185,13 +3157,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           color: defaultTextColor,
                                           fontWeight: FontWeight.w400,
                                         ),
-                                        items:
-                                            _daysPosition.map((String item) {
-                                              return DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(item),
-                                              );
-                                            }).toList(),
+                                        items: _daysPosition.map((String item) {
+                                          return DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(item),
+                                          );
+                                        }).toList(),
                                         onChanged: (String? value) {
                                           setState(() {
                                             if (value == 'First') {
@@ -3264,13 +3235,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                           color: defaultTextColor,
                                           fontWeight: FontWeight.w400,
                                         ),
-                                        items:
-                                            weekDay.map((String item) {
-                                              return DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(item),
-                                              );
-                                            }).toList(),
+                                        items: weekDay.map((String item) {
+                                          return DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(item),
+                                          );
+                                        }).toList(),
                                         onChanged: (String? value) {
                                           setState(() {
                                             if (value == 'Sunday') {
@@ -3393,11 +3363,10 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                               _unSelectedResources,
                               widget.model,
                               onChanged: (PickerChangedDetails details) {
-                                _resourceIds =
-                                    _resourceIds == null
-                                        ? <Object>[details.resourceId!]
-                                        : (_resourceIds!.sublist(0)
-                                          ..add(details.resourceId!));
+                                _resourceIds = _resourceIds == null
+                                    ? <Object>[details.resourceId!]
+                                    : (_resourceIds!.sublist(0)
+                                        ..add(details.resourceId!));
                                 _selectedResources = getSelectedResources(
                                   _resourceIds,
                                   widget.events.resources,
@@ -3490,11 +3459,10 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                       _selectedColorIndex,
                                       widget.colorNames,
                                       widget.model,
-                                      onChanged: (
-                                        PickerChangedDetails details,
-                                      ) {
-                                        _selectedColorIndex = details.index;
-                                      },
+                                      onChanged:
+                                          (PickerChangedDetails details) {
+                                            _selectedColorIndex = details.index;
+                                          },
                                     );
                                   },
                                 ).then(
@@ -3508,9 +3476,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                   Icon(
                                     Icons.lens,
                                     size: 20,
-                                    color:
-                                        widget
-                                            .colorCollection[_selectedColorIndex],
+                                    color: widget
+                                        .colorCollection[_selectedColorIndex],
                                   ),
                                   Expanded(
                                     flex: 9,
@@ -3601,14 +3568,12 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return PopScope(
-                                    onPopInvokedWithResult: (
-                                      bool value,
-                                      Object? result,
-                                    ) async {
-                                      if (value) {
-                                        return;
-                                      }
-                                    },
+                                    onPopInvokedWithResult:
+                                        (bool value, Object? result) async {
+                                          if (value) {
+                                            return;
+                                          }
+                                        },
                                     child: Theme(
                                       data: widget.model.themeData,
                                       child: AlertDialog(
@@ -3618,8 +3583,8 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                         ),
                                         actions: <Widget>[
                                           TextButton(
-                                            onPressed:
-                                                () => Navigator.pop(context),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
                                             child: const Text('OK'),
                                           ),
                                         ],
@@ -3652,37 +3617,35 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 endTime: _endDate,
                                 color:
                                     widget.colorCollection[_selectedColorIndex],
-                                startTimeZone:
-                                    _selectedTimeZoneIndex == 0
-                                        ? ''
-                                        : widget
-                                            .timeZoneCollection[_selectedTimeZoneIndex],
-                                endTimeZone:
-                                    _selectedTimeZoneIndex == 0
-                                        ? ''
-                                        : widget
-                                            .timeZoneCollection[_selectedTimeZoneIndex],
+                                startTimeZone: _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                          .timeZoneCollection[_selectedTimeZoneIndex],
+                                endTimeZone: _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                          .timeZoneCollection[_selectedTimeZoneIndex],
                                 notes: _notes,
                                 isAllDay: _isAllDay,
                                 location: _location,
-                                subject:
-                                    _subject == '' ? '(No title)' : _subject,
+                                subject: _subject == ''
+                                    ? '(No title)'
+                                    : _subject,
                                 resourceIds: _resourceIds,
                                 id: widget.selectedAppointment.id,
                                 recurrenceRule:
                                     _recurrenceProperties == null ||
-                                            _selectedRecurrenceType ==
-                                                'Never' ||
-                                            widget
-                                                    .selectedAppointment
-                                                    .recurrenceId !=
-                                                null
-                                        ? null
-                                        : SfCalendar.generateRRule(
-                                          _recurrenceProperties!,
-                                          _startDate,
-                                          _endDate,
-                                        ),
+                                        _selectedRecurrenceType == 'Never' ||
+                                        widget
+                                                .selectedAppointment
+                                                .recurrenceId !=
+                                            null
+                                    ? null
+                                    : SfCalendar.generateRRule(
+                                        _recurrenceProperties!,
+                                        _startDate,
+                                        _endDate,
+                                      ),
                               );
                               widget.events.appointments!.add(newAppointment);
                               widget.events.notifyListeners(
@@ -3697,50 +3660,46 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 endTime: _endDate,
                                 color:
                                     widget.colorCollection[_selectedColorIndex],
-                                startTimeZone:
-                                    _selectedTimeZoneIndex == 0
-                                        ? ''
-                                        : widget
-                                            .timeZoneCollection[_selectedTimeZoneIndex],
-                                endTimeZone:
-                                    _selectedTimeZoneIndex == 0
-                                        ? ''
-                                        : widget
-                                            .timeZoneCollection[_selectedTimeZoneIndex],
+                                startTimeZone: _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                          .timeZoneCollection[_selectedTimeZoneIndex],
+                                endTimeZone: _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                          .timeZoneCollection[_selectedTimeZoneIndex],
                                 notes: _notes,
                                 isAllDay: _isAllDay,
                                 location: _location,
-                                subject:
-                                    _subject == '' ? '(No title)' : _subject,
+                                subject: _subject == ''
+                                    ? '(No title)'
+                                    : _subject,
                                 resourceIds: _resourceIds,
                                 id: widget.selectedAppointment.id,
                                 recurrenceRule:
                                     _recurrenceProperties == null ||
-                                            _selectedRecurrenceType ==
-                                                'Never' ||
-                                            widget
-                                                    .selectedAppointment
-                                                    .recurrenceId !=
-                                                null
-                                        ? null
-                                        : SfCalendar.generateRRule(
-                                          _recurrenceProperties!,
-                                          _startDate,
-                                          _endDate,
-                                        ),
+                                        _selectedRecurrenceType == 'Never' ||
+                                        widget
+                                                .selectedAppointment
+                                                .recurrenceId !=
+                                            null
+                                    ? null
+                                    : SfCalendar.generateRRule(
+                                        _recurrenceProperties!,
+                                        _startDate,
+                                        _endDate,
+                                      ),
                               );
                               showDialog<Widget>(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return PopScope(
-                                    onPopInvokedWithResult: (
-                                      bool value,
-                                      Object? result,
-                                    ) async {
-                                      if (value) {
-                                        return;
-                                      }
-                                    },
+                                    onPopInvokedWithResult:
+                                        (bool value, Object? result) async {
+                                          if (value) {
+                                            return;
+                                          }
+                                        },
                                     child: Theme(
                                       data: widget.model.themeData,
                                       child: _editExceptionSeries(
@@ -3774,11 +3733,11 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                             );
                             parentAppointment.recurrenceExceptionDates != null
                                 ? parentAppointment.recurrenceExceptionDates!
-                                    .add(widget.selectedAppointment.startTime)
-                                : parentAppointment
-                                    .recurrenceExceptionDates = <DateTime>[
-                                  widget.selectedAppointment.startTime,
-                                ];
+                                      .add(widget.selectedAppointment.startTime)
+                                : parentAppointment.recurrenceExceptionDates =
+                                      <DateTime>[
+                                        widget.selectedAppointment.startTime,
+                                      ];
                             widget.events.appointments!.add(parentAppointment);
                             widget.events.notifyListeners(
                               CalendarDataSourceAction.add,
@@ -3832,21 +3791,20 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 endTime: _endDate,
                                 color:
                                     widget.colorCollection[_selectedColorIndex],
-                                startTimeZone:
-                                    _selectedTimeZoneIndex == 0
-                                        ? ''
-                                        : widget
-                                            .timeZoneCollection[_selectedTimeZoneIndex],
-                                endTimeZone:
-                                    _selectedTimeZoneIndex == 0
-                                        ? ''
-                                        : widget
-                                            .timeZoneCollection[_selectedTimeZoneIndex],
+                                startTimeZone: _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                          .timeZoneCollection[_selectedTimeZoneIndex],
+                                endTimeZone: _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                          .timeZoneCollection[_selectedTimeZoneIndex],
                                 notes: _notes,
                                 isAllDay: _isAllDay,
                                 location: _location,
-                                subject:
-                                    _subject == '' ? '(No title)' : _subject,
+                                subject: _subject == ''
+                                    ? '(No title)'
+                                    : _subject,
                                 resourceIds: _resourceIds,
                                 id: widget.selectedAppointment.id,
                                 recurrenceId:
@@ -3910,39 +3868,37 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                 endTime: _endDate,
                                 color:
                                     widget.colorCollection[_selectedColorIndex],
-                                startTimeZone:
-                                    _selectedTimeZoneIndex == 0
-                                        ? ''
-                                        : widget
-                                            .timeZoneCollection[_selectedTimeZoneIndex],
-                                endTimeZone:
-                                    _selectedTimeZoneIndex == 0
-                                        ? ''
-                                        : widget
-                                            .timeZoneCollection[_selectedTimeZoneIndex],
+                                startTimeZone: _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                          .timeZoneCollection[_selectedTimeZoneIndex],
+                                endTimeZone: _selectedTimeZoneIndex == 0
+                                    ? ''
+                                    : widget
+                                          .timeZoneCollection[_selectedTimeZoneIndex],
                                 notes: _notes,
                                 isAllDay: _isAllDay,
                                 location: _location,
-                                subject:
-                                    _subject == '' ? '(No title)' : _subject,
+                                subject: _subject == ''
+                                    ? '(No title)'
+                                    : _subject,
                                 resourceIds: _resourceIds,
                                 id: widget.selectedAppointment.id,
                                 recurrenceId:
                                     widget.selectedAppointment.recurrenceId,
                                 recurrenceRule:
                                     _recurrenceProperties == null ||
-                                            _selectedRecurrenceType ==
-                                                'Never' ||
-                                            widget
-                                                    .selectedAppointment
-                                                    .recurrenceId !=
-                                                null
-                                        ? null
-                                        : SfCalendar.generateRRule(
-                                          _recurrenceProperties!,
-                                          _startDate,
-                                          _endDate,
-                                        ),
+                                        _selectedRecurrenceType == 'Never' ||
+                                        widget
+                                                .selectedAppointment
+                                                .recurrenceId !=
+                                            null
+                                    ? null
+                                    : SfCalendar.generateRRule(
+                                        _recurrenceProperties!,
+                                        _startDate,
+                                        _endDate,
+                                      ),
                               ),
                             );
                             widget.events.appointments!.add(

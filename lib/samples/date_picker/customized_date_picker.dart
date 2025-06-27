@@ -63,10 +63,9 @@ class _CustomizedDatePickerState extends SampleViewState {
   Widget build(BuildContext context) {
     final Widget datePicker = Card(
       elevation: 10,
-      margin:
-          model.isWebFullView
-              ? const EdgeInsets.fromLTRB(30, 60, 30, 0)
-              : const EdgeInsets.all(30),
+      margin: model.isWebFullView
+          ? const EdgeInsets.fromLTRB(30, 60, 30, 0)
+          : const EdgeInsets.all(30),
       child: Container(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
         color: model.sampleOutputCardColor,
@@ -76,36 +75,30 @@ class _CustomizedDatePickerState extends SampleViewState {
     return Scaffold(
       backgroundColor:
           model.themeData == null ||
-                  model.themeData.colorScheme.brightness == Brightness.light
-              ? null
-              : const Color(0x00171a21),
+              model.themeData.colorScheme.brightness == Brightness.light
+          ? null
+          : const Color(0x00171a21),
       body: Column(
         children: <Widget>[
           Expanded(
             flex: model.isWebFullView ? 9 : 8,
-            child:
-                model.isWebFullView
-                    ? Center(
-                      child: SizedBox(
-                        width: 400,
-                        height: 600,
-                        child: datePicker,
-                      ),
-                    )
-                    : ListView(
-                      children: <Widget>[
-                        SizedBox(height: 450, child: datePicker),
-                      ],
-                    ),
+            child: model.isWebFullView
+                ? Center(
+                    child: SizedBox(width: 400, height: 600, child: datePicker),
+                  )
+                : ListView(
+                    children: <Widget>[
+                      SizedBox(height: 450, child: datePicker),
+                    ],
+                  ),
           ),
           Expanded(
-            flex:
-                model.isWebFullView
-                    ? 1
-                    : model.isMobileResolution &&
-                        _deviceOrientation == Orientation.landscape
-                    ? 0
-                    : 1,
+            flex: model.isWebFullView
+                ? 1
+                : model.isMobileResolution &&
+                      _deviceOrientation == Orientation.landscape
+                ? 0
+                : 1,
             child: Container(),
           ),
         ],
@@ -123,14 +116,18 @@ class _CustomizedDatePickerState extends SampleViewState {
         theme.brightness != null &&
         theme.brightness == Brightness.dark;
 
-    final Color monthCellBackground =
-        isDark ? const Color(0xFF232731) : const Color(0xfff7f4ff);
-    final Color indicatorColor =
-        isDark ? const Color(0xFF5CFFB7) : const Color(0xFF1AC4C7);
-    final Color highlightColor =
-        isDark ? const Color(0xFF5CFFB7) : Colors.deepPurpleAccent;
-    final Color cellTextColor =
-        isDark ? const Color(0xFFDFD4FF) : const Color(0xFF130438);
+    final Color monthCellBackground = isDark
+        ? const Color(0xFF232731)
+        : const Color(0xfff7f4ff);
+    final Color indicatorColor = isDark
+        ? const Color(0xFF5CFFB7)
+        : const Color(0xFF1AC4C7);
+    final Color highlightColor = isDark
+        ? const Color(0xFF5CFFB7)
+        : Colors.deepPurpleAccent;
+    final Color cellTextColor = isDark
+        ? const Color(0xFFDFD4FF)
+        : const Color(0xFF130438);
 
     return SfDateRangePicker(
       selectionShape: DateRangePickerSelectionShape.rectangle,

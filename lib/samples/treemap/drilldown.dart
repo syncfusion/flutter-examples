@@ -1520,9 +1520,9 @@ class _TreemapDrilldownSampleState extends SampleViewState
       child: Padding(
         padding:
             MediaQuery.of(context).orientation == Orientation.portrait ||
-                    _isDesktop
-                ? const EdgeInsets.all(12.5)
-                : const EdgeInsets.all(10.0),
+                _isDesktop
+            ? const EdgeInsets.all(12.5)
+            : const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -1540,49 +1540,49 @@ class _TreemapDrilldownSampleState extends SampleViewState
                   },
                   enableDrilldown: true,
                   breadcrumbs: TreemapBreadcrumbs(
-                    builder: (
-                      BuildContext context,
-                      TreemapTile tile,
-                      bool isCurrent,
-                    ) {
-                      final String breadcrumbText =
-                          tile.group == 'Home' ? 'Continents' : tile.group;
-                      final Widget current = AnimatedDefaultTextStyle(
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color:
-                              _isLightTheme
-                                  ? const Color.fromRGBO(10, 10, 10, 1)
-                                  : const Color.fromRGBO(255, 255, 255, 1),
-                          fontWeight:
-                              isCurrent && tile.group != 'Home'
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                        ),
-                        duration: const Duration(milliseconds: 500),
-                        child: Text(breadcrumbText),
-                      );
+                    builder:
+                        (
+                          BuildContext context,
+                          TreemapTile tile,
+                          bool isCurrent,
+                        ) {
+                          final String breadcrumbText = tile.group == 'Home'
+                              ? 'Continents'
+                              : tile.group;
+                          final Widget current = AnimatedDefaultTextStyle(
+                            style: Theme.of(context).textTheme.bodySmall!
+                                .copyWith(
+                                  color: _isLightTheme
+                                      ? const Color.fromRGBO(10, 10, 10, 1)
+                                      : const Color.fromRGBO(255, 255, 255, 1),
+                                  fontWeight: isCurrent && tile.group != 'Home'
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                ),
+                            duration: const Duration(milliseconds: 500),
+                            child: Text(breadcrumbText),
+                          );
 
-                      if (tile.group == 'Home') {
-                        if (!isCurrent) {
-                          _opacityAnimationController.forward();
-                        } else {
-                          _opacityAnimationController.reverse();
-                        }
+                          if (tile.group == 'Home') {
+                            if (!isCurrent) {
+                              _opacityAnimationController.forward();
+                            } else {
+                              _opacityAnimationController.reverse();
+                            }
 
-                        return FadeTransition(
-                          opacity: _opacityAnimation,
-                          child: current,
-                        );
-                      }
+                            return FadeTransition(
+                              opacity: _opacityAnimation,
+                              child: current,
+                            );
+                          }
 
-                      return current;
-                    },
+                          return current;
+                        },
                   ),
                   tooltipSettings: TreemapTooltipSettings(
-                    color:
-                        _isLightTheme
-                            ? const Color.fromRGBO(45, 45, 45, 1)
-                            : const Color.fromRGBO(242, 242, 242, 1),
+                    color: _isLightTheme
+                        ? const Color.fromRGBO(45, 45, 45, 1)
+                        : const Color.fromRGBO(242, 242, 242, 1),
                   ),
                   levels: _levels,
                 ),
@@ -1642,8 +1642,9 @@ class _TreemapDrilldownSampleState extends SampleViewState
     final Brightness brightness = ThemeData.estimateBrightnessForColor(
       tile.color,
     );
-    final Color color =
-        brightness == Brightness.dark ? Colors.white : Colors.black;
+    final Color color = brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
     return Stack(
       children: <Widget>[
         Align(
@@ -1684,8 +1685,9 @@ class _TreemapDrilldownSampleState extends SampleViewState
     final Brightness brightness = ThemeData.estimateBrightnessForColor(
       tile.color,
     );
-    final Color color =
-        brightness == Brightness.dark ? Colors.white : Colors.black;
+    final Color color = brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(left: 4.0, top: 4.0, right: 4),
@@ -1726,10 +1728,9 @@ class _TreemapDrilldownSampleState extends SampleViewState
                 text: _levels.indexOf(tile.level) == 1 ? 'Country' : 'State',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   height: 1.5,
-                  color:
-                      _isLightTheme
-                          ? const Color.fromRGBO(255, 255, 255, 0.75)
-                          : const Color.fromRGBO(10, 10, 10, 0.75),
+                  color: _isLightTheme
+                      ? const Color.fromRGBO(255, 255, 255, 0.75)
+                      : const Color.fromRGBO(10, 10, 10, 0.75),
                 ),
                 children: const <TextSpan>[TextSpan(text: '\nPopulation')],
               ),
@@ -1743,10 +1744,9 @@ class _TreemapDrilldownSampleState extends SampleViewState
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   height: 1.5,
                   fontWeight: FontWeight.bold,
-                  color:
-                      _isLightTheme
-                          ? const Color.fromRGBO(255, 255, 255, 1)
-                          : const Color.fromRGBO(10, 10, 10, 1),
+                  color: _isLightTheme
+                      ? const Color.fromRGBO(255, 255, 255, 1)
+                      : const Color.fromRGBO(10, 10, 10, 1),
                 ),
                 children: <TextSpan>[
                   TextSpan(
@@ -1755,7 +1755,7 @@ class _TreemapDrilldownSampleState extends SampleViewState
                         ((_levels.indexOf(tile.level) == 1
                                     ? tile.weight
                                     : _worldPopulationDetails[tile.indices[0]]
-                                        .populationInThousands) /
+                                          .populationInThousands) /
                                 pow(10, 3))
                             .toStringAsFixed(2) +
                         'M',

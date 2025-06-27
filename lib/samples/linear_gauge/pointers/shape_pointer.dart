@@ -60,62 +60,55 @@ class _ShapePointerState extends SampleViewState {
   Widget _buildShapePointer(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
-      child:
-          _isHorizontalOrientation
-              ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildHorizontalGauges(
-                    'Inverted triangle',
-                    _buildInvertedTriangleShapePointer(),
-                  ),
-                  _buildHorizontalGauges('Circle', _buildCircleShapePointer()),
-                  _buildHorizontalGauges(
-                    'Diamond',
-                    _buildDiamondShapePointer(),
-                  ),
-                  _buildHorizontalGauges(
-                    'Rectangle',
-                    _buildRectangleShapePointer(),
-                  ),
-                  _buildHorizontalGauges(
-                    'Multiple pointers',
-                    _buildMultipleShapePointers(),
-                  ),
-                ],
-              )
-              : Column(
-                children: <Widget>[
-                  Wrap(
-                    runSpacing: 30,
-                    spacing: 16,
-                    alignment: WrapAlignment.center,
-                    children: <Widget>[
-                      _buildVerticalGauges(
-                        'Inverted triangle',
-                        _buildInvertedTriangleShapePointer(),
-                      ),
-                      _buildVerticalGauges(
-                        'Circle',
-                        _buildCircleShapePointer(),
-                      ),
-                      _buildVerticalGauges(
-                        'Diamond',
-                        _buildDiamondShapePointer(),
-                      ),
-                      _buildVerticalGauges(
-                        'Rectangle',
-                        _buildRectangleShapePointer(),
-                      ),
-                      _buildVerticalGauges(
-                        'Multiple pointers',
-                        _buildMultipleShapePointers(),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      child: _isHorizontalOrientation
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildHorizontalGauges(
+                  'Inverted triangle',
+                  _buildInvertedTriangleShapePointer(),
+                ),
+                _buildHorizontalGauges('Circle', _buildCircleShapePointer()),
+                _buildHorizontalGauges('Diamond', _buildDiamondShapePointer()),
+                _buildHorizontalGauges(
+                  'Rectangle',
+                  _buildRectangleShapePointer(),
+                ),
+                _buildHorizontalGauges(
+                  'Multiple pointers',
+                  _buildMultipleShapePointers(),
+                ),
+              ],
+            )
+          : Column(
+              children: <Widget>[
+                Wrap(
+                  runSpacing: 30,
+                  spacing: 16,
+                  alignment: WrapAlignment.center,
+                  children: <Widget>[
+                    _buildVerticalGauges(
+                      'Inverted triangle',
+                      _buildInvertedTriangleShapePointer(),
+                    ),
+                    _buildVerticalGauges('Circle', _buildCircleShapePointer()),
+                    _buildVerticalGauges(
+                      'Diamond',
+                      _buildDiamondShapePointer(),
+                    ),
+                    _buildVerticalGauges(
+                      'Rectangle',
+                      _buildRectangleShapePointer(),
+                    ),
+                    _buildVerticalGauges(
+                      'Multiple pointers',
+                      _buildMultipleShapePointers(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
     );
   }
 
@@ -152,10 +145,9 @@ class _ShapePointerState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         markerPointers: <LinearShapePointer>[
           LinearShapePointer(
             value: _invertedTrianglePointerValue,
@@ -179,10 +171,9 @@ class _ShapePointerState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         markerPointers: <LinearShapePointer>[
           LinearShapePointer(
             value: _circlePointerValue,
@@ -207,10 +198,9 @@ class _ShapePointerState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         markerPointers: <LinearShapePointer>[
           LinearShapePointer(
             value: _diamondPointerValue,
@@ -235,10 +225,9 @@ class _ShapePointerState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         markerPointers: <LinearShapePointer>[
           LinearShapePointer(
             value: _rectanglePointerValue,
@@ -263,10 +252,9 @@ class _ShapePointerState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         markerPointers: <LinearShapePointer>[
           LinearShapePointer(
             value: _pointerValue,
@@ -317,10 +305,9 @@ class _ShapePointerState extends SampleViewState {
             ),
           ),
         },
-        onValueChanged:
-            (bool value) => setState(() {
-              _isHorizontalOrientation = value;
-            }),
+        onValueChanged: (bool value) => setState(() {
+          _isHorizontalOrientation = value;
+        }),
         groupValue: _isHorizontalOrientation,
       ),
     );

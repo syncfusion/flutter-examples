@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../base.dart';
 import '../../constants.dart';
-import '../../data_processing/utils.dart';
+// import '../../data_processing/utils.dart';
 import '../../data_processing/windows_path_file.dart'
     if (dart.library.html) '../../data_processing/web_path_file.dart';
 import '../../helper/responsive_layout.dart';
-import '../../import_export/import.dart';
+// import '../../import_export/import.dart';
 import '../../models/user.dart';
 import '../../notifiers/import_notifier.dart';
 import '../../notifiers/setup_notifier.dart';
@@ -74,18 +74,14 @@ class ImportPageState extends State<ImportPage> {
     return Consumer<ImportNotifier>(
       builder: (BuildContext context, ImportNotifier import, Widget? child) {
         return Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _buildHeader(),
             verticalSpacer12,
             _buildObjective(),
-            verticalSpacer24,
             _buildActions(import),
             verticalSpacer12,
-            _buildHelperText(),
-            verticalSpacer24,
-            _buildNotes(),
-            verticalSpacer24,
             _buildFinishButton(context, import),
           ],
         );
@@ -105,8 +101,8 @@ class ImportPageState extends State<ImportPage> {
 
   Widget _buildObjective() {
     return Text(
-      r'To begin using the app, you can import your expense data or opt out '
-      r'and start with sample data. We should also provide the option to reset '
+      r'To begin using the app, you can start with sample data or opt out.'
+      r' We have also provided the option to reset '
       r'or overwrite the data at any time.',
       style: _textTheme.bodyLarge!.copyWith(
         color: _colorScheme.onSurfaceVariant,
@@ -118,69 +114,76 @@ class ImportPageState extends State<ImportPage> {
     BuildContext context,
     ImportNotifier import,
   ) {
-    return OutlinedButton(
-      onPressed: () async {
-        import.validateDownloadFile(isDownloaded: true);
-        await import.updateDefaultTemplateDetails(context);
-        _homeScreenNotifier?.setNewUser();
-      },
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        side: BorderSide(color: _colorScheme.outline),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      ),
-      child: Text(
-        'Continue with sample data',
-        style: _textTheme.bodyLarge!.copyWith(
-          color: _colorScheme.onSurfaceVariant,
+    return SizedBox(
+      height: 60,
+      child: OutlinedButton(
+        onPressed: () async {
+          import.validateDownloadFile(isDownloaded: true);
+          await import.updateDefaultTemplateDetails(context);
+          _homeScreenNotifier?.setNewUser();
+        },
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          side: BorderSide(color: _colorScheme.outline),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        ),
+        child: Text(
+          'Continue with sample data',
+          style: _textTheme.bodyLarge!.copyWith(
+            color: _colorScheme.onSurfaceVariant,
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildUploadButton(BuildContext context, ImportNotifier import) {
-    return OutlinedButton(
-      onPressed: () async {
-        _importFile(import);
-      },
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        side: BorderSide(color: _colorScheme.outline),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      ),
-      child: Text(
-        'Upload your file',
-        style: _textTheme.bodyLarge!.copyWith(
-          color: _colorScheme.onSurfaceVariant,
-        ),
-      ),
-    );
-  }
+  // Widget _buildUploadButton(BuildContext context, ImportNotifier import) {
+  //   return OutlinedButton(
+  //     onPressed: () async {
+  //       // _importFile(import);
+  //     },
+  //     style: OutlinedButton.styleFrom(
+  //       padding: const EdgeInsets.symmetric(vertical: 10),
+  //       side: BorderSide(color: _colorScheme.outline),
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+  //     ),
+  //     child: Text(
+  //       'Upload your file',
+  //       style: _textTheme.bodyLarge!.copyWith(
+  //         color: _colorScheme.onSurfaceVariant,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildActions(ImportNotifier import) {
     Widget result;
     if (import.isFileAdded || import.isFileDownloaded) {
       result = _buildUploadedFileDetails(import);
     } else {
-      result = Column(
-        spacing: 12,
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: _buildImportTemplateButton(context, import),
-          ),
-          Text(
-            'or',
-            style: _textTheme.bodyLarge!.copyWith(
-              color: _colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: _buildUploadButton(context, import),
-          ),
-        ],
+      // result = Column(
+      //   spacing: 12,
+      //   children: [
+      //     SizedBox(
+      //       width: MediaQuery.of(context).size.width,
+      //       child: _buildImportTemplateButton(context, import),
+      //     ),
+      //     // Text(
+      //     //   'or',
+      //     //   style: _textTheme.bodyLarge!.copyWith(
+      //     //     color: _colorScheme.onSurfaceVariant,
+      //     //     fontWeight: FontWeight.w400,
+      //     //   ),
+      //     // ),
+      //     // SizedBox(
+      //     //   width: MediaQuery.of(context).size.width,
+      //     //   child: _buildUploadButton(context, import),
+      //     // ),
+      //   ],
+      // );
+      result = SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: _buildImportTemplateButton(context, import),
       );
     }
 
@@ -191,8 +194,9 @@ class ImportPageState extends State<ImportPage> {
   }
 
   Widget _buildUploadedFileDetails(ImportNotifier import) {
-    final String fileName =
-        import.isFileAdded ? import.fileName : import.downloadedFileName;
+    final String fileName = import.isFileAdded
+        ? import.fileName
+        : import.downloadedFileName;
     return Center(
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -200,6 +204,7 @@ class ImportPageState extends State<ImportPage> {
           color: _colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(6),
         ),
+        height: 60,
         child: Row(
           children: <Widget>[
             Expanded(
@@ -233,67 +238,70 @@ class ImportPageState extends State<ImportPage> {
     } else {
       final UserDetails userDetails = await readUserDetailsFromFile();
       widget.userDetails.userProfile = userDetails.userProfile;
-      final String filePath = await getFilePath();
-      final File file = File(filePath);
-      await file.delete();
-      await writeNewUserDetailsToFile(widget.userDetails);
+      // final String filePath = await getFilePath();
+      // final File file = File(filePath);
+      // await file.delete();
+      // await writeNewUserDetailsToFile(widget.userDetails);
     }
   }
 
-  void _importFile(ImportNotifier import) {
-    try {
-      final ExcelImporter importer = ExcelImporter(
-        userProfile: widget.userDetails.userProfile,
-        context: context,
-      );
-      importer.importSettingsFromExcel(import);
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Import failed with $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
+  // void _importFile(ImportNotifier import) {
+  //   try {
+  //     final ExcelImporter importer = ExcelImporter(
+  //       userProfile: widget.userDetails.userProfile,
+  //       context: context,
+  //     );
+  //     importer.importSettingsFromExcel(import);
+  //   } catch (e) {
+  //     if (mounted) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text('Import failed with $e'),
+  //           backgroundColor: Colors.red,
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
 
-  Widget _buildHelperText() {
-    return Row(
-      children: <Widget>[
-        Text('Supported Format:', style: _textTheme.bodySmall),
-        const SizedBox(width: 4),
-        Text(
-          '.xlsx',
-          style: _textTheme.bodySmall!.copyWith(color: _colorScheme.primary),
-        ),
-      ],
-    );
-  }
+  // Widget _buildHelperText() {
+  //   return Row(
+  //     children: <Widget>[
+  //       Text('Supported Format:', style: _textTheme.bodySmall),
+  //       const SizedBox(width: 4),
+  //       Text(
+  //         '.xlsx',
+  //         style: _textTheme.bodySmall!.copyWith(color: _colorScheme.primary),
+  //       ),
+  //     ],
+  //   );
+  // }
 
-  Widget _buildNotes() {
-    return Row(
-      children: [
-        Flexible(
-          child: Text(
-            'Note: This is a one-time setup and cannot be changed later.',
-            style: _textTheme.bodySmall!.copyWith(color: _colorScheme.error),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildNotes() {
+  //   return Row(
+  //     children: [
+  //       Flexible(
+  //         child: Text(
+  //           'Note: This is a one-time setup and cannot be changed later.',
+  //           style: _textTheme.bodySmall!.copyWith(color: _colorScheme.error),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildFinishButton(BuildContext context, ImportNotifier import) {
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.topRight,
       child: TextButton(
         onPressed: () async {
           final FirstTimeUserDetails newUserDetails =
               await isVerifyFirstTimeUser();
           if (context.mounted) {
-            _importNotifier?.updateDetails(context);
+            _importNotifier?.updateDetails(
+              context,
+              !(import.isFileAdded || import.isFileDownloaded),
+            );
           }
           _homeScreenNotifier?.setNewUser();
           if (context.mounted) {
@@ -302,15 +310,16 @@ class ImportPageState extends State<ImportPage> {
               MaterialPageRoute<Widget>(
                 builder: (BuildContext context) {
                   return Consumer<ImportNotifier>(
-                    builder: (
-                      BuildContext context,
-                      ImportNotifier value,
-                      Widget? child,
-                    ) {
-                      return ExpenseAnalysis(
-                        currentUserDetails: newUserDetails.userDetails,
-                      );
-                    },
+                    builder:
+                        (
+                          BuildContext context,
+                          ImportNotifier value,
+                          Widget? child,
+                        ) {
+                          return ExpenseAnalysis(
+                            currentUserDetails: newUserDetails.userDetails,
+                          );
+                        },
                   );
                 },
               ),

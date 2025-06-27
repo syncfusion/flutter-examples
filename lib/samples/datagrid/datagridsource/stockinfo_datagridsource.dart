@@ -33,39 +33,23 @@ class StockInfoDataGridSource extends DataGridSource {
   /// Rows are generated once and for CRUD operation we have to refresh
   /// the data row.
   void _buildDataGridRows() {
-    _dataGridRows =
-        _stocks
-            .map<DataGridRow>(
-              (StockInfo dataGridRow) => DataGridRow(
-                cells: <DataGridCell<dynamic>>[
-                  DataGridCell<String>(
-                    columnName: 'Name',
-                    value: dataGridRow.name,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'Qs1',
-                    value: dataGridRow.qs1,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'Qs2',
-                    value: dataGridRow.qs2,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'Qs3',
-                    value: dataGridRow.qs3,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'Qs4',
-                    value: dataGridRow.qs4,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'Total Sales',
-                    value: dataGridRow.totalSales,
-                  ),
-                ],
+    _dataGridRows = _stocks
+        .map<DataGridRow>(
+          (StockInfo dataGridRow) => DataGridRow(
+            cells: <DataGridCell<dynamic>>[
+              DataGridCell<String>(columnName: 'Name', value: dataGridRow.name),
+              DataGridCell<double>(columnName: 'Qs1', value: dataGridRow.qs1),
+              DataGridCell<double>(columnName: 'Qs2', value: dataGridRow.qs2),
+              DataGridCell<double>(columnName: 'Qs3', value: dataGridRow.qs3),
+              DataGridCell<double>(columnName: 'Qs4', value: dataGridRow.qs4),
+              DataGridCell<double>(
+                columnName: 'Total Sales',
+                value: dataGridRow.totalSales,
               ),
-            )
-            .toList();
+            ],
+          ),
+        )
+        .toList();
   }
 
   // Building the Widget for each data cells
@@ -76,8 +60,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -88,8 +73,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -100,8 +86,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -116,8 +103,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -128,8 +116,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -140,8 +129,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -156,8 +146,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -168,8 +159,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -180,8 +172,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -196,8 +189,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -208,8 +202,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -220,8 +215,9 @@ class StockInfoDataGridSource extends DataGridSource {
         child: Align(
           child: Text(
             NumberFormat.currency(locale: 'en_US', symbol: r'$').format(value),
-            style:
-                !isGroupingSample ? const TextStyle(color: Colors.black) : null,
+            style: !isGroupingSample
+                ? const TextStyle(color: Colors.black)
+                : null,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -329,13 +325,12 @@ class StockInfoDataGridSource extends DataGridSource {
   @override
   String performGrouping(String columnName, DataGridRow row) {
     if (columnName == 'Total Sales') {
-      final double total =
-          row
-              .getCells()
-              .firstWhereOrNull(
-                (DataGridCell cell) => cell.columnName == columnName,
-              )!
-              .value;
+      final double total = row
+          .getCells()
+          .firstWhereOrNull(
+            (DataGridCell cell) => cell.columnName == columnName,
+          )!
+          .value;
       if (total <= 10000) {
         return '<= 10 K';
       } else if (total > 10000 && total <= 12000) {

@@ -84,37 +84,36 @@ class _SparklineAxesTypesState extends SampleViewState {
     _isVertical =
         MediaQuery.of(context).size.height > MediaQuery.of(context).size.width;
     if (_isVertical) {
-      _size =
-          model.isWebFullView
-              ? MediaQuery.of(context).size.height / 5
-              : MediaQuery.of(context).size.height / 4.5;
+      _size = model.isWebFullView
+          ? MediaQuery.of(context).size.height / 5
+          : MediaQuery.of(context).size.height / 4.5;
       return model.isWebFullView && model.isMobileResolution
           ? SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
-                _buildSparkNumericChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
-                _buildSparkCategoryChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
-                _buildSparkDatetimeChart(),
-              ],
-            ),
-          )
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                  _buildSparkNumericChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                  _buildSparkCategoryChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                  _buildSparkDatetimeChart(),
+                ],
+              ),
+            )
           : Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
-                _buildSparkNumericChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
-                _buildSparkCategoryChart(),
-                const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
-                _buildSparkDatetimeChart(),
-              ],
-            ),
-          );
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                  _buildSparkNumericChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                  _buildSparkCategoryChart(),
+                  const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 5)),
+                  _buildSparkDatetimeChart(),
+                ],
+              ),
+            );
     } else {
       _size = MediaQuery.of(context).size.width / 4.5;
       return Center(

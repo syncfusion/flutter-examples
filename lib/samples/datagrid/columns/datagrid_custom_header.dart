@@ -106,10 +106,9 @@ class _CustomHeaderDataGridState extends SampleViewState {
         _source.sortedColumns.add(
           SortColumnDetails(
             name: gridColumn.columnName,
-            sortDirection:
-                value == 'Ascending'
-                    ? DataGridSortDirection.ascending
-                    : DataGridSortDirection.descending,
+            sortDirection: value == 'Ascending'
+                ? DataGridSortDirection.ascending
+                : DataGridSortDirection.descending,
           ),
         );
         _source.sort();
@@ -131,10 +130,9 @@ class _CustomHeaderDataGridState extends SampleViewState {
         Icon(
           Icons.keyboard_arrow_down,
           size: 25,
-          color:
-              isMaterial3
-                  ? model.themeData.colorScheme.onSurfaceVariant
-                  : Colors.grey,
+          color: isMaterial3
+              ? model.themeData.colorScheme.onSurfaceVariant
+              : Colors.grey,
         ),
       ],
     );

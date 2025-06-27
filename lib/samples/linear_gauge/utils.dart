@@ -13,9 +13,9 @@ bool get isWebOrDesktop {
 double getScreenWidth(BuildContext context, bool orientation) {
   return isWebOrDesktop
       ? MediaQuery.of(context).size.width >= 1000
-          ? orientation
-              ? MediaQuery.of(context).size.width / 3
-              : MediaQuery.of(context).size.width
-          : 440
+            ? orientation
+                  ? MediaQuery.of(context).size.width / 3
+                  : MediaQuery.of(context).size.width
+            : 440
       : MediaQuery.of(context).size.width;
 }

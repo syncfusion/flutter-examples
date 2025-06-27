@@ -172,10 +172,9 @@ class _MapZoomingPageState extends SampleViewState {
     final ThemeData themeData = Theme.of(context);
     final bool isLightTheme =
         themeData.colorScheme.brightness == Brightness.light;
-    final Color surfaceColor =
-        isLightTheme
-            ? const Color.fromRGBO(45, 45, 45, 1)
-            : const Color.fromRGBO(242, 242, 242, 1);
+    final Color surfaceColor = isLightTheme
+        ? const Color.fromRGBO(45, 45, 45, 1)
+        : const Color.fromRGBO(242, 242, 242, 1);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final bool scrollEnabled = constraints.maxHeight > 400;
@@ -187,13 +186,12 @@ class _MapZoomingPageState extends SampleViewState {
           height = height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
         }
         return Container(
-          padding:
-              scrollEnabled
-                  ? EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.05,
-                    bottom: MediaQuery.of(context).size.height * 0.05,
-                  )
-                  : const EdgeInsets.only(top: 10, bottom: 15),
+          padding: scrollEnabled
+              ? EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.05,
+                )
+              : const EdgeInsets.only(top: 10, bottom: 15),
           child: SfMapsTheme(
             data: SfMapsThemeData(
               shapeHoverColor: Colors.transparent,
@@ -237,23 +235,31 @@ class _MapZoomingPageState extends SampleViewState {
                           color: surfaceColor,
                         ),
                         initialMarkersCount: _touristPlaces.length,
-                        markerTooltipBuilder: (
-                          BuildContext context,
-                          int index,
-                        ) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              _touristPlaces[index].place,
-                              style: themeData.textTheme.bodySmall!.copyWith(
-                                color:
-                                    isLightTheme
-                                        ? const Color.fromRGBO(255, 255, 255, 1)
-                                        : const Color.fromRGBO(10, 10, 10, 1),
-                              ),
-                            ),
-                          );
-                        },
+                        markerTooltipBuilder:
+                            (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  _touristPlaces[index].place,
+                                  style: themeData.textTheme.bodySmall!
+                                      .copyWith(
+                                        color: isLightTheme
+                                            ? const Color.fromRGBO(
+                                                255,
+                                                255,
+                                                255,
+                                                1,
+                                              )
+                                            : const Color.fromRGBO(
+                                                10,
+                                                10,
+                                                10,
+                                                1,
+                                              ),
+                                      ),
+                                ),
+                              );
+                            },
                         markerBuilder: (BuildContext context, int index) {
                           return MapMarker(
                             latitude: _touristPlaces[index].latLng.latitude,
@@ -262,10 +268,9 @@ class _MapZoomingPageState extends SampleViewState {
                             size: Size(_markerSize, _markerSize * 2),
                             child: Icon(
                               Icons.location_on,
-                              color:
-                                  isLightTheme
-                                      ? const Color.fromRGBO(45, 45, 45, 1)
-                                      : const Color.fromRGBO(199, 42, 89, 1),
+                              color: isLightTheme
+                                  ? const Color.fromRGBO(45, 45, 45, 1)
+                                  : const Color.fromRGBO(199, 42, 89, 1),
                             ),
                           );
                         },

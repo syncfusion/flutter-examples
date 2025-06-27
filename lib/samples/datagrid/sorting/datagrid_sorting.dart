@@ -72,10 +72,9 @@ class _SortingDataGridState extends SampleViewState {
       columns: _obtainColumns(),
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
-      columnWidthMode:
-          _isWebOrDesktop || _isLandscapeInMobileView
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+      columnWidthMode: _isWebOrDesktop || _isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.none,
       allowSorting: allowSorting,
       allowMultiColumnSorting: allowMultiSorting,
       allowTriStateSorting: allowTriStateSorting,
@@ -223,14 +222,14 @@ class _SortingDataGridState extends SampleViewState {
     return <GridColumn>[
       GridColumn(
         columnName: 'id',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !_isWebOrDesktop
-                ? 100
-                : (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !_isWebOrDesktop
+            ? 100
+            : (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
@@ -239,14 +238,14 @@ class _SortingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'customerId',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !_isWebOrDesktop
-                ? 120
-                : (_isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !_isWebOrDesktop
+            ? 120
+            : (_isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
@@ -255,12 +254,11 @@ class _SortingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'name',
-        width:
-            !_isWebOrDesktop
-                ? 80
-                : (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
+        width: !_isWebOrDesktop
+            ? 80
+            : (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
@@ -270,12 +268,11 @@ class _SortingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'freight',
-        width:
-            !_isWebOrDesktop
-                ? 120
-                : (_isWebOrDesktop && model.isMobileResolution)
-                ? 110.0
-                : double.nan,
+        width: !_isWebOrDesktop
+            ? 120
+            : (_isWebOrDesktop && model.isMobileResolution)
+            ? 110.0
+            : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
@@ -284,14 +281,14 @@ class _SortingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'city',
-        width:
-            !_isWebOrDesktop
-                ? 90
-                : (_isWebOrDesktop && model.isMobileResolution)
-                ? 120.0
-                : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: !_isWebOrDesktop
+            ? 90
+            : (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.all(8.0),
@@ -300,8 +297,9 @@ class _SortingDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'price',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         columnWidthMode: ColumnWidthMode.lastColumnFill,
         label: Container(
           alignment: Alignment.centerRight,

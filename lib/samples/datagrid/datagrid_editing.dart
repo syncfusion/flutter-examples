@@ -53,14 +53,13 @@ class _EditingDataGridState extends SampleViewState {
       navigationMode: GridNavigationMode.cell,
       selectionMode: SelectionMode.single,
       editingGestureType: _editingGestureType,
-      columnWidthMode:
-          _isWebOrDesktop
-              ? (_isWebOrDesktop && model.isMobileResolution)
-                  ? ColumnWidthMode.none
-                  : ColumnWidthMode.fill
-              : _isLandscapeInMobileView
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+      columnWidthMode: _isWebOrDesktop
+          ? (_isWebOrDesktop && model.isMobileResolution)
+                ? ColumnWidthMode.none
+                : ColumnWidthMode.fill
+          : _isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.none,
       columns: <GridColumn>[
         GridColumn(
           columnName: 'Product No',
@@ -139,18 +138,17 @@ class _EditingDataGridState extends SampleViewState {
                 dropdownColor: model.drawerBackgroundColor,
                 focusColor: Colors.transparent,
                 value: _editingGestureType.toString().split('.')[1],
-                items:
-                    <String>['tap', 'doubleTap'].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          softWrap: false,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: <String>['tap', 'doubleTap'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      softWrap: false,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (dynamic value) {
                   if (value == 'tap') {
                     _editingGestureType = EditingGestureType.tap;

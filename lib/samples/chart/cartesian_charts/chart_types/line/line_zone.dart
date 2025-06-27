@@ -106,18 +106,16 @@ class _LineZoneState extends SampleViewState {
   /// Return the Cartesian Chart with Line series.
   SfCartesianChart _buildCartesianChart(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
-    final double containerWidth =
-        kIsWeb
-            ? 80
-            : orientation == Orientation.portrait
-            ? 80
-            : 60;
-    final double containerHeight =
-        kIsWeb
-            ? 60
-            : orientation == Orientation.portrait
-            ? 60
-            : 42;
+    final double containerWidth = kIsWeb
+        ? 80
+        : orientation == Orientation.portrait
+        ? 80
+        : 60;
+    final double containerHeight = kIsWeb
+        ? 60
+        : orientation == Orientation.portrait
+        ? 60
+        : 42;
     final double fontSize = 14 / MediaQuery.of(context).textScaler.scale(1);
     final double size = 13 / MediaQuery.of(context).textScaler.scale(1);
     return SfCartesianChart(
@@ -126,10 +124,9 @@ class _LineZoneState extends SampleViewState {
         text: isCardView ? '' : 'Average annual rainfall of United Kingdom',
       ),
       primaryXAxis: DateTimeAxis(
-        edgeLabelPlacement:
-            model.isWebFullView
-                ? EdgeLabelPlacement.shift
-                : EdgeLabelPlacement.none,
+        edgeLabelPlacement: model.isWebFullView
+            ? EdgeLabelPlacement.shift
+            : EdgeLabelPlacement.none,
         intervalType: DateTimeIntervalType.years,
         dateFormat: DateFormat.y(),
         interval: kIsWeb ? 5 : 10,
@@ -194,12 +191,11 @@ class _LineZoneState extends SampleViewState {
           ),
           coordinateUnit: CoordinateUnit.percentage,
           x: kIsWeb ? '95%' : '85%',
-          y:
-              kIsWeb
-                  ? '19%'
-                  : orientation == Orientation.portrait
-                  ? '14%'
-                  : '17%',
+          y: kIsWeb
+              ? '19%'
+              : orientation == Orientation.portrait
+              ? '14%'
+              : '17%',
         ),
       ],
     );

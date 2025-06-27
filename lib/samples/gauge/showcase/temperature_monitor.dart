@@ -25,8 +25,9 @@ class _GaugeTemperatureMonitorExampleState extends SampleViewState {
   Widget build(BuildContext context) {
     setState(() {
       // change axis interval based on orientation for the UI that looks good.
-      _interval =
-          MediaQuery.of(context).orientation == Orientation.portrait ? 10 : 20;
+      _interval = MediaQuery.of(context).orientation == Orientation.portrait
+          ? 10
+          : 20;
     });
     return _buildTemperatureMonitorExample();
   }

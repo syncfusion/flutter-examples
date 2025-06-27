@@ -72,10 +72,9 @@ class _BlackoutDatePickerState extends SampleViewState {
   Widget build(BuildContext context) {
     final Widget cardView = Card(
       elevation: 10,
-      margin:
-          model.isWebFullView
-              ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
-              : const EdgeInsets.all(30),
+      margin: model.isWebFullView
+          ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
+          : const EdgeInsets.all(30),
       child: Container(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
         color: model.sampleOutputCardColor,
@@ -92,32 +91,28 @@ class _BlackoutDatePickerState extends SampleViewState {
     return Scaffold(
       backgroundColor:
           model.themeData == null ||
-                  model.themeData.colorScheme.brightness == Brightness.light
-              ? null
-              : const Color(0x00171a21),
+              model.themeData.colorScheme.brightness == Brightness.light
+          ? null
+          : const Color(0x00171a21),
       body: Column(
         children: <Widget>[
           Expanded(
             flex: model.isWebFullView ? 9 : 8,
-            child:
-                model.isWebFullView
-                    ? Center(
-                      child: SizedBox(width: 400, height: 600, child: cardView),
-                    )
-                    : ListView(
-                      children: <Widget>[
-                        SizedBox(height: 450, child: cardView),
-                      ],
-                    ),
+            child: model.isWebFullView
+                ? Center(
+                    child: SizedBox(width: 400, height: 600, child: cardView),
+                  )
+                : ListView(
+                    children: <Widget>[SizedBox(height: 450, child: cardView)],
+                  ),
           ),
           Expanded(
-            flex:
-                model.isWebFullView
-                    ? 1
-                    : model.isMobileResolution &&
-                        _deviceOrientation == Orientation.landscape
-                    ? 0
-                    : 1,
+            flex: model.isWebFullView
+                ? 1
+                : model.isMobileResolution &&
+                      _deviceOrientation == Orientation.landscape
+                ? 0
+                : 1,
             child: Container(),
           ),
         ],

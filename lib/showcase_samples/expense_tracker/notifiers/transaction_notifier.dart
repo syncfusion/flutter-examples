@@ -220,6 +220,10 @@ class TransactionNotifier extends ChangeNotifier {
     );
     sorting();
   }
+
+  void reset() {
+    _isFirstTime = true;
+  }
 }
 
 class TransactionDialog extends ChangeNotifier {

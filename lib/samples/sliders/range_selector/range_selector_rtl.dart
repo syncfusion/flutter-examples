@@ -156,39 +156,35 @@ class _RangeSelectorRTLState extends SampleViewState {
                     max: max,
                     interval:
                         (model.isWebFullView &&
-                                mediaQueryData.size.width <= 1000)
-                            ? 2
-                            : 1,
+                            mediaQueryData.size.width <= 1000)
+                        ? 2
+                        : 1,
                     controller: rangeController,
                     dateFormat: DateFormat.y(),
                     dateIntervalType: DateIntervalType.years,
                     showTicks: true,
                     showLabels: true,
                     enableTooltip: true,
-                    tooltipTextFormatterCallback: (
-                      dynamic actualLabel,
-                      String formattedText,
-                    ) {
-                      return DateFormat.yMMMd().format(actualLabel);
-                    },
+                    tooltipTextFormatterCallback:
+                        (dynamic actualLabel, String formattedText) {
+                          return DateFormat.yMMMd().format(actualLabel);
+                        },
                     onChanged: (SfRangeValues values) {
                       setState(() {
                         /// update the range value changes
                       });
                     },
                     child: SizedBox(
-                      width:
-                          mediaQueryData.orientation == Orientation.landscape
-                              ? model.isWebFullView
-                                  ? mediaQueryData.size.width * 0.6
-                                  : mediaQueryData.size.width
-                              : mediaQueryData.size.width,
-                      height:
-                          mediaQueryData.orientation == Orientation.portrait
-                              ? mediaQueryData.size.height * 0.45
-                              : model.isWebFullView
-                              ? mediaQueryData.size.height * 0.38
-                              : mediaQueryData.size.height * 0.4,
+                      width: mediaQueryData.orientation == Orientation.landscape
+                          ? model.isWebFullView
+                                ? mediaQueryData.size.width * 0.6
+                                : mediaQueryData.size.width
+                          : mediaQueryData.size.width,
+                      height: mediaQueryData.orientation == Orientation.portrait
+                          ? mediaQueryData.size.height * 0.45
+                          : model.isWebFullView
+                          ? mediaQueryData.size.height * 0.38
+                          : mediaQueryData.size.height * 0.4,
                       child: SfCartesianChart(
                         margin: EdgeInsets.zero,
                         primaryXAxis: DateTimeAxis(
@@ -204,9 +200,8 @@ class _RangeSelectorRTLState extends SampleViewState {
                         series: <SplineAreaSeries<ChartSampleData, DateTime>>[
                           SplineAreaSeries<ChartSampleData, DateTime>(
                             dataSource: chartData,
-                            xValueMapper:
-                                (ChartSampleData sales, _) =>
-                                    sales.x as DateTime,
+                            xValueMapper: (ChartSampleData sales, _) =>
+                                sales.x as DateTime,
                             yValueMapper: (ChartSampleData sales, _) => sales.y,
                             gradient: gradientColors,
                             animationDuration: 0,
@@ -222,11 +217,9 @@ class _RangeSelectorRTLState extends SampleViewState {
           Padding(
             padding:
                 mediaQueryData.orientation == Orientation.landscape ||
-                        model.isWebFullView
-                    ? EdgeInsets.only(
-                      bottom: mediaQueryData.size.height * 0.025,
-                    )
-                    : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
+                    model.isWebFullView
+                ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.025)
+                : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(

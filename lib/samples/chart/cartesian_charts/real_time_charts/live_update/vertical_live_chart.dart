@@ -83,11 +83,10 @@ class _LiveUpdateState extends SampleViewState {
         animationDuration: 0,
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
-        onRendererCreated: (
-          ChartSeriesController<ChartSampleData, num> controller,
-        ) {
-          _chartSeriesController = controller;
-        },
+        onRendererCreated:
+            (ChartSeriesController<ChartSampleData, num> controller) {
+              _chartSeriesController = controller;
+            },
       ),
     ];
   }

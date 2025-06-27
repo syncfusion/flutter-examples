@@ -114,10 +114,9 @@ class _MapSublayerPageState extends SampleViewState {
         _themeData.platform == TargetPlatform.windows ||
         _themeData.platform == TargetPlatform.linux;
     return Scaffold(
-      backgroundColor:
-          _isDesktop
-              ? model.sampleOutputCardColor
-              : model.sampleOutputCardColor,
+      backgroundColor: _isDesktop
+          ? model.sampleOutputCardColor
+          : model.sampleOutputCardColor,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final bool scrollEnabled = constraints.maxHeight > 400;
@@ -127,8 +126,9 @@ class _MapSublayerPageState extends SampleViewState {
                   MediaQuery.of(context).orientation ==
                       Orientation.landscape)) {
             final double refHeight = height * 0.6;
-            height =
-                height > 500 ? (refHeight < 500 ? 500 : refHeight) : height;
+            height = height > 500
+                ? (refHeight < 500 ? 500 : refHeight)
+                : height;
           }
           return Center(
             child: SingleChildScrollView(
@@ -155,14 +155,13 @@ class _MapSublayerPageState extends SampleViewState {
               snapchat.data as List<List<MapLatLng>>;
           return Center(
             child: Padding(
-              padding:
-                  scrollEnabled
-                      ? EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.05,
-                        bottom: MediaQuery.of(context).size.height * 0.05,
-                        right: 10,
-                      )
-                      : const EdgeInsets.only(right: 10, bottom: 15),
+              padding: scrollEnabled
+                  ? EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.05,
+                      bottom: MediaQuery.of(context).size.height * 0.05,
+                      right: 10,
+                    )
+                  : const EdgeInsets.only(right: 10, bottom: 15),
               child: SfMapsTheme(
                 data: const SfMapsThemeData(
                   shapeHoverColor: Colors.transparent,
@@ -185,16 +184,14 @@ class _MapSublayerPageState extends SampleViewState {
                         layers: <MapLayer>[
                           MapShapeLayer(
                             source: _mapSource,
-                            color:
-                                isLightTheme
-                                    ? const Color.fromRGBO(254, 246, 214, 1.0)
-                                    : const Color.fromRGBO(142, 197, 128, 1.0),
+                            color: isLightTheme
+                                ? const Color.fromRGBO(254, 246, 214, 1.0)
+                                : const Color.fromRGBO(142, 197, 128, 1.0),
                             zoomPanBehavior: _zoomPanBehavior,
                             strokeWidth: 1.0,
-                            strokeColor:
-                                isLightTheme
-                                    ? const Color.fromRGBO(205, 195, 152, 0.5)
-                                    : const Color.fromRGBO(117, 156, 22, 1.0),
+                            strokeColor: isLightTheme
+                                ? const Color.fromRGBO(205, 195, 152, 0.5)
+                                : const Color.fromRGBO(117, 156, 22, 1.0),
                             loadingBuilder: (BuildContext context) {
                               return const SizedBox(
                                 height: 25,
@@ -205,14 +202,12 @@ class _MapSublayerPageState extends SampleViewState {
                               );
                             },
                             tooltipSettings: MapTooltipSettings(
-                              color:
-                                  isLightTheme
-                                      ? const Color.fromRGBO(45, 45, 45, 1)
-                                      : const Color.fromRGBO(242, 242, 242, 1),
-                              strokeColor:
-                                  isLightTheme
-                                      ? const Color.fromRGBO(242, 242, 242, 1)
-                                      : const Color.fromRGBO(45, 45, 45, 1),
+                              color: isLightTheme
+                                  ? const Color.fromRGBO(45, 45, 45, 1)
+                                  : const Color.fromRGBO(242, 242, 242, 1),
+                              strokeColor: isLightTheme
+                                  ? const Color.fromRGBO(242, 242, 242, 1)
+                                  : const Color.fromRGBO(45, 45, 45, 1),
                             ),
                             showDataLabels: true,
                             dataLabelSettings: MapDataLabelSettings(
@@ -223,67 +218,61 @@ class _MapSublayerPageState extends SampleViewState {
                             ),
                             sublayers: <MapSublayer>[
                               MapPolylineLayer(
-                                polylines:
-                                    List<MapPolyline>.generate(
-                                      polylines.length,
-                                      (int index) {
-                                        return MapPolyline(
-                                          points: polylines[index],
-                                          color:
-                                              isLightTheme
-                                                  ? const Color.fromRGBO(
-                                                    0,
-                                                    168,
-                                                    204,
-                                                    1.0,
-                                                  )
-                                                  : const Color.fromRGBO(
-                                                    11,
-                                                    138,
-                                                    255,
-                                                    1.0,
-                                                  ),
-                                          width: 2.0,
-                                        );
-                                      },
-                                    ).toSet(),
-                                tooltipBuilder: (
-                                  BuildContext context,
-                                  int index,
-                                ) {
-                                  final String? tooltipText = _getTooltipText(
-                                    index,
-                                  );
-                                  if (tooltipText != null) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        tooltipText,
-                                        style: model
-                                            .themeData
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                              color:
-                                                  isLightTheme
-                                                      ? const Color.fromRGBO(
-                                                        255,
-                                                        255,
-                                                        255,
-                                                        1,
-                                                      )
-                                                      : const Color.fromRGBO(
-                                                        10,
-                                                        10,
-                                                        10,
-                                                        1,
-                                                      ),
+                                polylines: List<MapPolyline>.generate(
+                                  polylines.length,
+                                  (int index) {
+                                    return MapPolyline(
+                                      points: polylines[index],
+                                      color: isLightTheme
+                                          ? const Color.fromRGBO(
+                                              0,
+                                              168,
+                                              204,
+                                              1.0,
+                                            )
+                                          : const Color.fromRGBO(
+                                              11,
+                                              138,
+                                              255,
+                                              1.0,
                                             ),
-                                      ),
+                                      width: 2.0,
                                     );
-                                  }
-                                  return const SizedBox();
-                                },
+                                  },
+                                ).toSet(),
+                                tooltipBuilder:
+                                    (BuildContext context, int index) {
+                                      final String? tooltipText =
+                                          _getTooltipText(index);
+                                      if (tooltipText != null) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            tooltipText,
+                                            style: model
+                                                .themeData
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                  color: isLightTheme
+                                                      ? const Color.fromRGBO(
+                                                          255,
+                                                          255,
+                                                          255,
+                                                          1,
+                                                        )
+                                                      : const Color.fromRGBO(
+                                                          10,
+                                                          10,
+                                                          10,
+                                                          1,
+                                                        ),
+                                                ),
+                                          ),
+                                        );
+                                      }
+                                      return const SizedBox();
+                                    },
                               ),
                             ],
                           ),

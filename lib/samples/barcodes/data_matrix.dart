@@ -51,10 +51,9 @@ class _DataMatrixGeneratorState extends SampleViewState {
       padding = EdgeInsets.fromLTRB(margin, 0, margin, 0);
     }
     return Scaffold(
-      backgroundColor:
-          model.isWebFullView
-              ? Colors.transparent
-              : model.sampleOutputCardColor,
+      backgroundColor: model.isWebFullView
+          ? Colors.transparent
+          : model.sampleOutputCardColor,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
         child: Container(

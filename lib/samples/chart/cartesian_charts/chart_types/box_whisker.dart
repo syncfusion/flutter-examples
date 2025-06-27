@@ -43,10 +43,9 @@ class _BoxWhiskerState extends SampleViewState {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Initialize box and whisker color based on the current theme
-    _boxWhiskerColor =
-        Theme.of(context).brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black;
+    _boxWhiskerColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
   }
 
   List<SalesData> _buildSalesData() {
@@ -141,16 +140,12 @@ class _BoxWhiskerState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectMode,
-            items:
-                _modeType!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'normal',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _modeType!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'normal',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               _onModeChange(value.toString());
               stateSetter(() {});

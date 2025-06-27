@@ -180,33 +180,29 @@ class AccountBalanceChart extends StatelessWidget {
     final String timeFrame = timeFrameNotifier.timeFrame;
 
     return DateTimeCategoryAxis(
-      labelStyle:
-          isMobile(context)
-              ? textTheme.bodySmall!.copyWith(
-                color: colorScheme.onSurfaceVariant,
-                fontFamily: 'Roboto',
-              )
-              : textTheme.bodyMedium!.copyWith(
-                color: colorScheme.onSurfaceVariant,
-                fontFamily: 'Roboto',
-              ),
+      labelStyle: isMobile(context)
+          ? textTheme.bodySmall!.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontFamily: 'Roboto',
+            )
+          : textTheme.bodyMedium!.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              fontFamily: 'Roboto',
+            ),
       axisLine: const AxisLine(width: 0),
       edgeLabelPlacement: EdgeLabelPlacement.shift,
-      desiredIntervals:
-          timeFrame == 'Last 3 Month'
-              ? 3
-              : timeFrame == 'Last 6 Month'
-              ? 6
-              : 15,
-      intervalType:
-          (timeFrame == 'Last 3 Month' || timeFrame == 'Last 6 Month')
-              ? DateTimeIntervalType.months
-              : DateTimeIntervalType.days,
+      desiredIntervals: timeFrame == 'Last 3 Month'
+          ? 3
+          : timeFrame == 'Last 6 Month'
+          ? 6
+          : 15,
+      intervalType: (timeFrame == 'Last 3 Month' || timeFrame == 'Last 6 Month')
+          ? DateTimeIntervalType.months
+          : DateTimeIntervalType.days,
       majorTickLines: const MajorTickLines(size: 0.0),
-      dateFormat:
-          (timeFrame == 'Last 3 Month' || timeFrame == 'Last 6 Month')
-              ? DateFormat('MMM')
-              : DateFormat('dd'),
+      dateFormat: (timeFrame == 'Last 3 Month' || timeFrame == 'Last 6 Month')
+          ? DateFormat('MMM')
+          : DateFormat('dd'),
     );
   }
 
@@ -239,39 +235,30 @@ class AccountBalanceChart extends StatelessWidget {
       axisLine: const AxisLine(width: 0),
       minimum: minimumDate,
       maximum: maximumDate,
-      labelStyle:
-          isMobile(context)
-              ? textTheme.bodySmall!.copyWith(
-                color: colorScheme.onSurfaceVariant,
-                fontFamily: 'Roboto',
-              )
-              : textTheme.bodyMedium!.copyWith(
-                color: colorScheme.onSurfaceVariant,
-                fontFamily: 'Roboto',
-              ),
+      labelStyle: isMobile(context)
+          ? textTheme.bodySmall!.copyWith(color: colorScheme.onSurfaceVariant)
+          : textTheme.bodyMedium!.copyWith(color: colorScheme.onSurfaceVariant),
       edgeLabelPlacement: EdgeLabelPlacement.shift,
-      enableAutoIntervalOnZooming: false,
       intervalType:
           (timeFrame == 'This Year' ||
-                  timeFrame == 'Last 6 Month' ||
-                  timeFrame == 'Last Year')
-              ? DateTimeIntervalType.months
-              : DateTimeIntervalType.days,
+              timeFrame == 'Last 6 Month' ||
+              timeFrame == 'Last Year')
+          ? DateTimeIntervalType.months
+          : DateTimeIntervalType.days,
       majorTickLines: const MajorTickLines(size: 0.0),
-      desiredIntervals:
-          timeFrame == 'This Year'
-              ? DateTime.now().month
-              : timeFrame == 'Last 6 Month'
-              ? 6
-              : timeFrame == 'Last Year'
-              ? 12
-              : 30,
+      desiredIntervals: timeFrame == 'This Year'
+          ? DateTime.now().month
+          : timeFrame == 'Last 6 Month'
+          ? 6
+          : timeFrame == 'Last Year'
+          ? 12
+          : 30,
       dateFormat:
           (timeFrame == 'This Year' ||
-                  timeFrame == 'Last 6 Month' ||
-                  timeFrame == 'Last Year')
-              ? DateFormat('MMM')
-              : DateFormat('dd'),
+              timeFrame == 'Last 6 Month' ||
+              timeFrame == 'Last Year')
+          ? DateFormat('MMM')
+          : DateFormat('dd'),
     );
   }
 
@@ -279,14 +266,9 @@ class AccountBalanceChart extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return NumericAxis(
-      labelStyle:
-          isMobile(context)
-              ? textTheme.bodySmall!.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              )
-              : textTheme.bodyMedium!.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
+      labelStyle: isMobile(context)
+          ? textTheme.bodySmall!.copyWith(color: colorScheme.onSurfaceVariant)
+          : textTheme.bodyMedium!.copyWith(color: colorScheme.onSurfaceVariant),
       rangePadding: ChartRangePadding.additionalEnd,
       axisLine: const AxisLine(width: 0),
       maximumLabels: 2,
@@ -347,10 +329,10 @@ class AccountBalanceChart extends StatelessWidget {
       (IncomeDetails a, IncomeDetails b) => a.date.compareTo(b.date),
     );
     return SplineAreaSeries<IncomeDetails, DateTime>(
-      xValueMapper:
-          (IncomeDetails incomeDetails, int index) => incomeDetails.date,
-      yValueMapper:
-          (IncomeDetails incomeDetails, int index) => incomeDetails.amount,
+      xValueMapper: (IncomeDetails incomeDetails, int index) =>
+          incomeDetails.date,
+      yValueMapper: (IncomeDetails incomeDetails, int index) =>
+          incomeDetails.amount,
       name: 'Income',
       splineType: SplineType.monotonic,
       dataSource: incomeDetails,
@@ -380,10 +362,10 @@ class AccountBalanceChart extends StatelessWidget {
     );
 
     return SplineAreaSeries<ExpenseDetails, DateTime>(
-      xValueMapper:
-          (ExpenseDetails expenseDetails, int index) => expenseDetails.date,
-      yValueMapper:
-          (ExpenseDetails expenseDetails, int index) => expenseDetails.amount,
+      xValueMapper: (ExpenseDetails expenseDetails, int index) =>
+          expenseDetails.date,
+      yValueMapper: (ExpenseDetails expenseDetails, int index) =>
+          expenseDetails.amount,
       splineType: SplineType.monotonic,
       dataSource: expenseDetails,
       name: 'Expense',
@@ -505,10 +487,9 @@ class AccountBalanceChart extends StatelessWidget {
           )
           .toList();
     } else if (timeFrame == 'Last 6 Month') {
-      final List<DateTime> last6Months =
-          List.generate(6, (index) {
-            return DateTime(now.year, now.month - index);
-          }).reversed.toList();
+      final List<DateTime> last6Months = List.generate(6, (index) {
+        return DateTime(now.year, now.month - index);
+      }).reversed.toList();
 
       final Map<DateTime, double> monthlyTotals = {
         for (final month in last6Months) month: 0.0,
@@ -536,12 +517,11 @@ class AccountBalanceChart extends StatelessWidget {
         );
       }).toList();
     } else if (timeFrame == 'This Month') {
-      final int daysInMonth =
-          DateTime(
-            now.year,
-            now.month + 1,
-            0,
-          ).day; // Get total days in current month
+      final int daysInMonth = DateTime(
+        now.year,
+        now.month + 1,
+        0,
+      ).day; // Get total days in current month
       final Map<int, double> dailyTotals = {
         for (var i = 1; i <= daysInMonth; i++) i: 0.0,
       }; // Initialize all days with 0
@@ -668,10 +648,9 @@ class AccountBalanceChart extends StatelessWidget {
           )
           .toList();
     } else if (timeFrame == 'Last 6 Month') {
-      final List<DateTime> last6Months =
-          List.generate(6, (index) {
-            return DateTime(now.year, now.month - index);
-          }).reversed.toList();
+      final List<DateTime> last6Months = List.generate(6, (index) {
+        return DateTime(now.year, now.month - index);
+      }).reversed.toList();
 
       final Map<DateTime, double> monthlyTotals = {
         for (final DateTime month in last6Months) month: 0.0,
@@ -770,10 +749,9 @@ class AccountBalanceChart extends StatelessWidget {
     //   ).toList();
     // } else
     if (timeFrame == 'Last 3 Month') {
-      final List<DateTime> last3Months =
-          List.generate(3, (index) {
-            return DateTime(now.year, now.month - index);
-          }).reversed.toList();
+      final List<DateTime> last3Months = List.generate(3, (index) {
+        return DateTime(now.year, now.month - index);
+      }).reversed.toList();
 
       final Map<DateTime, double> monthlyTotals = {
         for (final DateTime month in last3Months) month: 0.0,
@@ -800,10 +778,9 @@ class AccountBalanceChart extends StatelessWidget {
           )
           .toList();
     } else if (timeFrame == 'Last 6 Month') {
-      final List<DateTime> last6Months =
-          List.generate(6, (index) {
-            return DateTime(now.year, now.month - index);
-          }).reversed.toList();
+      final List<DateTime> last6Months = List.generate(6, (index) {
+        return DateTime(now.year, now.month - index);
+      }).reversed.toList();
 
       final Map<DateTime, double> monthlyTotals = {
         for (final DateTime month in last6Months) month: 0.0,
@@ -880,40 +857,35 @@ class AccountBalanceChart extends StatelessWidget {
         legend: Legend(
           isVisible: !showViewMore,
           position: LegendPosition.bottom,
-          legendItemBuilder: (
-            String name,
-            dynamic series,
-            dynamic point,
-            int index,
-          ) {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: series.color,
-                  ),
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  name,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontFamily: 'Roboto',
-                  ),
-                ),
-              ],
-            );
-          },
+          legendItemBuilder:
+              (String name, dynamic series, dynamic point, int index) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: series.color,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      name,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                  ],
+                );
+              },
         ),
         margin: EdgeInsets.zero,
-        primaryXAxis:
-            showViewMore
-                ? _buildSavingsPrimaryXAxis(context)
-                : _buildPrimaryXAxis(context),
+        primaryXAxis: showViewMore
+            ? _buildSavingsPrimaryXAxis(context)
+            : _buildPrimaryXAxis(context),
         primaryYAxis: _buildPrimaryYAxis(context),
         series: <CartesianSeries<dynamic, DateTime>>[
           if (showViewMore)
@@ -1010,24 +982,22 @@ Widget _buildDropDownMenu(
               showViewMore ? savingTimeFrames.length : timeFrames.length,
               (int index) {
                 return PopupMenuItem(
-                  value:
-                      showViewMore
-                          ? savingTimeFrames[index]
-                          : timeFrames[index],
-                  child:
-                      showViewMore
-                          ? Text(
-                            savingTimeFrames[index],
-                            style: themeData.textTheme.labelLarge!.copyWith(
-                              color: themeData.colorScheme.onSurfaceVariant,
-                            ),
-                          )
-                          : Text(
-                            timeFrames[index],
-                            style: themeData.textTheme.labelLarge!.copyWith(
-                              color: themeData.colorScheme.onSurfaceVariant,
-                            ),
+                  value: showViewMore
+                      ? savingTimeFrames[index]
+                      : timeFrames[index],
+                  child: showViewMore
+                      ? Text(
+                          savingTimeFrames[index],
+                          style: themeData.textTheme.labelLarge!.copyWith(
+                            color: themeData.colorScheme.onSurfaceVariant,
                           ),
+                        )
+                      : Text(
+                          timeFrames[index],
+                          style: themeData.textTheme.labelLarge!.copyWith(
+                            color: themeData.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
                 );
               },
             );

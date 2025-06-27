@@ -27,8 +27,8 @@ class _RangeSliderDragModePageState extends SampleViewState {
         return constraints.maxHeight > 325
             ? _DragModeRangeSlider()
             : SingleChildScrollView(
-              child: SizedBox(height: 325, child: _DragModeRangeSlider()),
-            );
+                child: SizedBox(height: 325, child: _DragModeRangeSlider()),
+              );
       },
     );
   }

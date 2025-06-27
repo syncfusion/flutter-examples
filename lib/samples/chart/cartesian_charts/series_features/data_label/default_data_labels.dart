@@ -123,16 +123,12 @@ class _DataLabelDefaultState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _labelAlignment,
-            items:
-                _chartAlign!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'center',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _chartAlign!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'center',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               _onAlignmentChange(value.toString());
               stateSetter(() {});
@@ -160,16 +156,12 @@ class _DataLabelDefaultState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _labelPosition,
-            items:
-                _positionType!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'top',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _positionType!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'top',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               _onPositionChange(value.toString());
               stateSetter(() {});
@@ -194,10 +186,9 @@ class _DataLabelDefaultState extends SampleViewState {
             minValue: -50,
             maxValue: 50,
             initialValue: _horizontalPadding,
-            onChanged:
-                (double value) => setState(() {
-                  _horizontalPadding = value;
-                }),
+            onChanged: (double value) => setState(() {
+              _horizontalPadding = value;
+            }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -221,10 +212,9 @@ class _DataLabelDefaultState extends SampleViewState {
             minValue: -50,
             maxValue: 50,
             initialValue: _verticalPadding,
-            onChanged:
-                (double val) => setState(() {
-                  _verticalPadding = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _verticalPadding = val;
+            }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
