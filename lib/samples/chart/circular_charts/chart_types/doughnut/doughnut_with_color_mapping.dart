@@ -165,10 +165,9 @@ class _DoughnutDefaultState extends SampleViewState {
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
         radius: '100%',
-        strokeColor:
-            model.themeData.colorScheme.brightness == Brightness.light
-                ? Colors.white
-                : Colors.black,
+        strokeColor: model.themeData.colorScheme.brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
 
         /// Applies the color for each doughnut segment.
         pointColorMapper: (ChartSampleData data, int index) => data.pointColor,

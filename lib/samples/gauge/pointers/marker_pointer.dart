@@ -73,16 +73,15 @@ class _MarkerPointerExampleState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedMarkerType,
-                    items:
-                        _markerTypes.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'invertedTriangle',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _markerTypes.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'invertedTriangle',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (String? value) {
                       _onMarkerTypeChange(value.toString());
                       stateSetter(() {});
@@ -98,10 +97,9 @@ class _MarkerPointerExampleState extends SampleViewState {
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
-                  padding:
-                      !model.isWebFullView
-                          ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
-                          : const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                  padding: !model.isWebFullView
+                      ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
+                      : const EdgeInsets.fromLTRB(50, 0, 0, 0),
                   child: CustomDirectionalButtons(
                     maxValue: 15,
                     initialValue: _elevation,

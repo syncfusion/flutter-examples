@@ -99,10 +99,9 @@ class _ProgressBarCustomLabelsState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size =
-          model.isWebFullView
-              ? MediaQuery.of(context).size.height / 6.5
-              : MediaQuery.of(context).size.height / 5.5;
+      _size = model.isWebFullView
+          ? MediaQuery.of(context).size.height / 6.5
+          : MediaQuery.of(context).size.height / 5.5;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

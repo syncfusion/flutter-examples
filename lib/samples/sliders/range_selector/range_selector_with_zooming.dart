@@ -1182,21 +1182,19 @@ class _RangeSelectorZoomingPageState extends SampleViewState
     final Widget page = Container(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
-      color:
-          model.isWebFullView
-              ? model.sampleOutputCardColor
-              : model.sampleOutputCardColor,
+      color: model.isWebFullView
+          ? model.sampleOutputCardColor
+          : model.sampleOutputCardColor,
       child: Center(
         child: Column(
           children: <Widget>[
             Expanded(
               child: Container(
-                width:
-                    mediaQueryData.orientation == Orientation.landscape
-                        ? model.isWebFullView
-                            ? mediaQueryData.size.width * 0.7
-                            : mediaQueryData.size.width
-                        : mediaQueryData.size.width,
+                width: mediaQueryData.orientation == Orientation.landscape
+                    ? model.isWebFullView
+                          ? mediaQueryData.size.width * 0.7
+                          : mediaQueryData.size.width
+                    : mediaQueryData.size.width,
                 padding: const EdgeInsets.fromLTRB(5, 20, 15, 25),
                 child: splineChart,
               ),
@@ -1209,10 +1207,9 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                 ),
                 inactiveLabelStyle: TextStyle(
                   fontSize: 10,
-                  color:
-                      isLightTheme
-                          ? Colors.black
-                          : const Color.fromRGBO(170, 170, 170, 1),
+                  color: isLightTheme
+                      ? Colors.black
+                      : const Color.fromRGBO(170, 170, 170, 1),
                 ),
                 activeTrackColor: const Color.fromRGBO(255, 125, 30, 1),
                 inactiveRegionColor: model.sampleOutputCardColor.withValues(
@@ -1227,12 +1224,11 @@ class _RangeSelectorZoomingPageState extends SampleViewState
               child: Container(
                 margin: EdgeInsets.zero,
                 padding: EdgeInsets.zero,
-                width:
-                    mediaQueryData.orientation == Orientation.landscape
-                        ? model.isWebFullView
-                            ? mediaQueryData.size.width * 0.7
-                            : mediaQueryData.size.width
-                        : mediaQueryData.size.width,
+                width: mediaQueryData.orientation == Orientation.landscape
+                    ? model.isWebFullView
+                          ? mediaQueryData.size.width * 0.7
+                          : mediaQueryData.size.width
+                    : mediaQueryData.size.width,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(14, 0, 15, 15),
@@ -1248,18 +1244,16 @@ class _RangeSelectorZoomingPageState extends SampleViewState
                       showTicks: true,
                       showLabels: true,
                       dragMode: SliderDragMode.both,
-                      labelFormatterCallback: (
-                        dynamic actualLabel,
-                        String formattedText,
-                      ) {
-                        String label = DateFormat.MMM().format(actualLabel);
-                        label =
-                            (model.isWebFullView &&
+                      labelFormatterCallback:
+                          (dynamic actualLabel, String formattedText) {
+                            String label = DateFormat.MMM().format(actualLabel);
+                            label =
+                                (model.isWebFullView &&
                                     mediaQueryData.size.width <= 1000)
                                 ? label[0]
                                 : label;
-                        return label;
-                      },
+                            return label;
+                          },
                       onChanged: (SfRangeValues values) {},
                       child: Container(
                         height: 75,
@@ -1279,13 +1273,13 @@ class _RangeSelectorZoomingPageState extends SampleViewState
     return Scaffold(
       body:
           mediaQueryData.orientation == Orientation.landscape &&
-                  !model.isWebFullView
-              ? Center(
-                child: SingleChildScrollView(
-                  child: SizedBox(height: 400, child: page),
-                ),
-              )
-              : page,
+              !model.isWebFullView
+          ? Center(
+              child: SingleChildScrollView(
+                child: SizedBox(height: 400, child: page),
+              ),
+            )
+          : page,
     );
   }
 

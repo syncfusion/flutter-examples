@@ -168,12 +168,11 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                     _setTotalDataUsage(values);
                   },
                   child: SizedBox(
-                    width:
-                        mediaQueryData.orientation == Orientation.landscape
-                            ? model.isWebFullView
-                                ? mediaQueryData.size.width * 0.5
-                                : mediaQueryData.size.width
-                            : mediaQueryData.size.width,
+                    width: mediaQueryData.orientation == Orientation.landscape
+                        ? model.isWebFullView
+                              ? mediaQueryData.size.width * 0.5
+                              : mediaQueryData.size.width
+                        : mediaQueryData.size.width,
                     height: mediaQueryData.size.height * 0.55 - 25,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -225,8 +224,9 @@ class _RangeSelectorSelectionPageState extends SampleViewState
                               ),
                               selectionController: rangeController,
                             ),
-                            dashArray:
-                                model.isWebFullView ? null : <double>[3, 2],
+                            dashArray: model.isWebFullView
+                                ? null
+                                : <double>[3, 2],
                             color: const Color.fromRGBO(255, 255, 255, 0),
                             borderColor: const Color.fromRGBO(194, 194, 194, 1),
                             animationDuration: 0,
@@ -246,11 +246,9 @@ class _RangeSelectorSelectionPageState extends SampleViewState
           Padding(
             padding:
                 mediaQueryData.orientation == Orientation.landscape ||
-                        model.isWebFullView
-                    ? EdgeInsets.only(
-                      bottom: mediaQueryData.size.height * 0.025,
-                    )
-                    : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
+                    model.isWebFullView
+                ? EdgeInsets.only(bottom: mediaQueryData.size.height * 0.025)
+                : EdgeInsets.only(bottom: mediaQueryData.size.height * 0.1),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(

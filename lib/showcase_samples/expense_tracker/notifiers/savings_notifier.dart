@@ -129,11 +129,13 @@ class SavingsNotifier extends ChangeNotifier {
     if (selectedSegment == 'All') {
       segmentFilteredSavings = _savings;
     } else if (selectedSegment == 'Deposit') {
-      segmentFilteredSavings =
-          _savings.where((saving) => saving.type == 'Deposit').toList();
+      segmentFilteredSavings = _savings
+          .where((saving) => saving.type == 'Deposit')
+          .toList();
     } else if (selectedSegment == 'Withdraw') {
-      segmentFilteredSavings =
-          _savings.where((saving) => saving.type == 'Withdraw').toList();
+      segmentFilteredSavings = _savings
+          .where((saving) => saving.type == 'Withdraw')
+          .toList();
     }
 
     final DateTime now = DateTime.now();
@@ -173,14 +175,17 @@ class SavingsNotifier extends ChangeNotifier {
         filterEndDate = now;
     }
 
-    _filteredSavings =
-        segmentFilteredSavings.where((saving) {
-          final DateTime transactionDate = saving.savingDate;
-          return transactionDate.isAfter(filterStartDate) &&
-              transactionDate.isBefore(filterEndDate);
-        }).toList();
+    _filteredSavings = segmentFilteredSavings.where((saving) {
+      final DateTime transactionDate = saving.savingDate;
+      return transactionDate.isAfter(filterStartDate) &&
+          transactionDate.isBefore(filterEndDate);
+    }).toList();
     sorting();
     _savingsCount++;
+  }
+
+  void reset() {
+    _isFirstTime = true;
   }
 }
 

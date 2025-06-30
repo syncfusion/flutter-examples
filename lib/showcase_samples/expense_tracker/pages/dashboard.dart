@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../data_processing/goal_handler.dart';
+import '../data_processing/goal_handler.dart'
+    if (dart.library.html) '../data_processing/goal_web_handler.dart';
 import '../data_processing/saving_handler.dart'
     if (dart.library.html) '../data_processing/saving_web_handler.dart';
 import '../data_processing/transaction_handler.dart';
+import '../helper/common_helper.dart';
 import '../layouts/dashboard/dashboard_layout.dart';
 import '../layouts/dashboard/dashboard_sections/common_finance_widget.dart';
 import '../models/goal.dart';
@@ -43,6 +45,7 @@ class DashboardPageState extends State<DashboardPage> {
   double _totalExpense = 0;
   double _totalIncome = 0;
   double _totalSavings = 0;
+  List<Color>? _cardAvatarColors;
   List<MapEntry<String, ExpenseDetails>> _topExpenseCategories =
       <MapEntry<String, ExpenseDetails>>[];
   List<MapEntry<String, IncomeDetails>> _topIncomeCategories =
@@ -136,8 +139,8 @@ class DashboardPageState extends State<DashboardPage> {
       _topExpenseCategories = sortedExpenseCategories.take(5).toList();
       for (int index = 0; index < _topExpenseCategories.length; index++) {
         if (!_expenseCategories.containsKey(_topExpenseCategories[index].key)) {
-          _expenseCategories[_topExpenseCategories[index]
-              .key] = <ExpenseDetails>[_topExpenseCategories[index].value];
+          _expenseCategories[_topExpenseCategories[index].key] =
+              <ExpenseDetails>[_topExpenseCategories[index].value];
         }
       }
     }
@@ -174,7 +177,7 @@ class DashboardPageState extends State<DashboardPage> {
       }
     }
 
-    _goals = readGoals(context, _userDetails);
+    _goals = readGoals(_userDetails);
     _savings = readSavings(_userDetails);
     for (final Saving saving in _savings) {
       if (saving.type == 'Deposit') {
@@ -185,6 +188,7 @@ class DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    _cardAvatarColors ??= randomColors(context);
     return DashboardLayout(
       buildContext: context,
       userDetails: _userDetails,
@@ -193,6 +197,7 @@ class DashboardPageState extends State<DashboardPage> {
       transactions: _transactions,
       goals: _goals,
       savings: _savings,
+      cardAvatarColors: _cardAvatarColors,
       accountBalanceController: _accountBalanceDropDownController,
       filteredTimeFrame: accountTimeFrameNotifier,
       filteredSavingTimeFrame: savingsTimeFrameNotifier,

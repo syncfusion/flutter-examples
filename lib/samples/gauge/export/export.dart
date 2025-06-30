@@ -119,16 +119,14 @@ class _ExportState extends SampleViewState {
         MediaQuery.of(context).orientation == Orientation.portrait;
     return SfRadialGauge(
       key: _key,
-      backgroundColor:
-          model.themeData.brightness == Brightness.light
-              ? Colors.white
-              : const Color.fromRGBO(33, 33, 33, 1),
+      backgroundColor: model.themeData.brightness == Brightness.light
+          ? Colors.white
+          : const Color.fromRGBO(33, 33, 33, 1),
       enableLoadingAnimation: true,
       title: GaugeTitle(
-        text:
-            isPortrait
-                ? '\nHigh and low temperatures of London \nSep ‘20'
-                : '\nHigh and low temperatures of London - Sep ‘20',
+        text: isPortrait
+            ? '\nHigh and low temperatures of London \nSep ‘20'
+            : '\nHigh and low temperatures of London - Sep ‘20',
         textStyle: const TextStyle(
           fontSize: 20.0,
           fontFamily: 'Segoe UI',
@@ -238,8 +236,8 @@ class _ExportState extends SampleViewState {
     }
     document.pageSettings.orientation =
         MediaQuery.of(context).orientation == Orientation.landscape
-            ? PdfPageOrientation.landscape
-            : PdfPageOrientation.portrait;
+        ? PdfPageOrientation.landscape
+        : PdfPageOrientation.portrait;
     document.pageSettings.margins.all = 0;
     document.pageSettings.size = Size(
       bitmap.width.toDouble(),

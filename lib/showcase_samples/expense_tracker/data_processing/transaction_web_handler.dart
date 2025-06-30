@@ -1,136 +1,151 @@
-import 'dart:convert';
-import 'dart:typed_data';
+// import 'dart:convert';
+// import 'dart:typed_data';
 
-import 'package:excel/excel.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:excel/excel.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
-import '../enum.dart';
-import '../helper/currency_and_data_format/currency_format.dart';
-import '../helper/excel_header_row.dart';
+// import '../enum.dart';
+// import '../helper/currency_and_data_format/currency_format.dart';
+// import '../helper/excel_header_row.dart';
+// import '../models/transaction.dart';
+// import '../models/transactional_details.dart';
+// import '../models/user.dart';
+// import '../models/user_profile.dart';
+// import 'utils.dart';
+// import 'web_path_file.dart';
+
 import '../models/transaction.dart';
 import '../models/transactional_details.dart';
 import '../models/user.dart';
-import '../models/user_profile.dart';
 import 'utils.dart';
-import 'web_path_file.dart';
 
 List<Transaction> readTransactions(UserDetails userDetails) {
-  final List<TransactionalDetails> allTransactionalDetails =
+  final TransactionalDetails transactionalDetails =
       readAllTransactionDetailCollections(userDetails);
   final List<Transaction> transactions = [];
 
-  if (allTransactionalDetails.isNotEmpty) {
-    for (final TransactionalDetails transactionalDetails
-        in allTransactionalDetails) {
-      if (transactionalDetails.transactions.isNotEmpty) {
-        transactions.addAll(transactionalDetails.transactions);
-      }
-    }
+  if (transactionalDetails.transactions.isNotEmpty) {
+    transactions.addAll(transactionalDetails.transactions);
   }
   return transactions;
 }
 
-Future<void> updateTransactions(
-  BuildContext context,
-  UserDetails userDetails,
-  Transaction transaction,
-  UserInteractions userInteraction,
-  List<int> indexes, {
-  bool isNewUser = false,
-}) async {
-  if (userInteraction == UserInteractions.add ||
-      userInteraction == UserInteractions.edit) {
-    await _writeTransactions(
-      transaction,
-      userInteraction,
-      userDetails.userProfile,
-      indexes,
-    );
-  } else {
-    _deleteTransactions(transaction, indexes);
-  }
-}
+// TODO(Praveen): Replace this excel code with csv or xml format code.
 
-Future<void> _deleteTransactions(
-  Transaction currentTransaction,
-  List<int> indexes,
-) async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
-  final Excel excel = await createOrGetExcelFile();
-  final Sheet transactionsSheet = getSheet(excel, 'Transactions');
+// Future<void> updateTransactions(
+//   UserDetails userDetails,
+//   Transaction transaction,
+//   UserInteractions userInteraction,
+//   List<int> indexes,
+// ) async {
+//   switch (userInteraction) {
+//     case UserInteractions.add:
+//     case UserInteractions.edit:
+//       await _writeTransactions(
+//         transaction,
+//         userInteraction,
+//         userDetails.userProfile,
+//         indexes,
+//       );
+//       break;
+//     case UserInteractions.delete:
+//       _deleteTransactions(transaction, indexes);
+//   }
+// }
 
-  if (indexes.isNotEmpty) {
-    for (final int index in indexes) {
-      if (index != -1) {
-        final int excelRowIndex = index + 1;
-        transactionsSheet.removeRow(excelRowIndex);
-      }
-    }
-  }
+// Future<void> _deleteTransactions(
+//   Transaction currentTransaction,
+//   List<int> indexes,
+// ) async {
+//   final SharedPreferences preferences = await SharedPreferences.getInstance();
+//   final Excel excel = await createOrGetExcelFile();
+//   final Sheet transactionsSheet = excelSheet(excel, 'Transactions');
 
-  final List<int>? saveBytes = excel.encode();
-  if (saveBytes == null) {
-    throw Exception('Failed to save Excel data.');
-  }
-  // Convert the bytes to a base64 string and save to SharedPreferences
-  final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
-  await preferences.setString(sharedPreferencesKey, base64Data);
-}
+//   if (indexes.isNotEmpty) {
+//     for (final int index in indexes) {
+//       if (index != -1) {
+//         final int excelRowIndex = index + 1;
+//         transactionsSheet.removeRow(excelRowIndex);
+//       }
+//     }
+//   }
 
-Future<void> _writeTransactions(
-  Transaction transaction,
-  UserInteractions userInteraction,
-  Profile userProfile,
-  List<int> indexes,
-) async {
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
-  final Excel excel = await createOrGetExcelFile();
-  final transactionsSheet = getSheet(excel, 'Transactions');
+//   final List<int>? saveBytes = excel.save();
+//   // Convert the bytes to a base64 string and save to SharedPreferences
+//   if (saveBytes != null) {
+//     final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
+//     await preferences.setString(sharedPreferencesKey, base64Data);
+//   }
+// }
 
-  if (userInteraction == UserInteractions.add) {
-    final List<CellValue> cellValue = transactionsCellValue(
-      transaction,
-      userProfile,
-    );
-    transactionsSheet.insertRow(1);
-    transactionsSheet.insertRowIterables(cellValue, 1);
-  } else {
-    final int index = indexes[0];
-    if (index != -1) {
-      final int excelRowNumber = index + 2;
-      transactionsSheet.updateCell(
-        CellIndex.indexByString('B$excelRowNumber'),
-        TextCellValue(transaction.transactionDate.toString()),
-      );
-      transactionsSheet.updateCell(
-        CellIndex.indexByString('C$excelRowNumber'),
-        TextCellValue(transaction.category),
-      );
-      transactionsSheet.updateCell(
-        CellIndex.indexByString('D$excelRowNumber'),
-        TextCellValue(transaction.subCategory),
-      );
-      transactionsSheet.updateCell(
-        CellIndex.indexByString('E$excelRowNumber'),
-        TextCellValue(transaction.type),
-      );
-      transactionsSheet.updateCell(
-        CellIndex.indexByString('F$excelRowNumber'),
-        TextCellValue(toCurrency(transaction.amount, userProfile)),
-      );
-      transactionsSheet.updateCell(
-        CellIndex.indexByString('G$excelRowNumber'),
-        TextCellValue(transaction.remark),
-      );
-    }
-  }
+// Future<void> _writeTransactions(
+//   Transaction transaction,
+//   UserInteractions userInteraction,
+//   Profile userProfile,
+//   List<int> indexes,
+// ) async {
+//   final SharedPreferences preferences = await SharedPreferences.getInstance();
+//   final Excel excel = await createOrGetExcelFile();
+//   final Sheet transactionsSheet = excelSheet(excel, 'Transactions');
 
-  final List<int>? saveBytes = excel.encode();
-  if (saveBytes == null) {
-    throw Exception('Failed to save Excel data.');
-  }
-  // Convert the bytes to a base64 string and save to SharedPreferences
-  final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
-  await preferences.setString(sharedPreferencesKey, base64Data);
-}
+//   switch (userInteraction) {
+//     case UserInteractions.add:
+//       _handleAdd(transactionsSheet, transaction, userProfile);
+//       break;
+//     case UserInteractions.edit:
+//       _handleEdit(transactionsSheet, transaction, userProfile, indexes);
+//       break;
+//     case UserInteractions.delete:
+//       break;
+//   }
+
+//   final List<int>? saveBytes = excel.save();
+//   // Convert the bytes to a base64 string and save to SharedPreferences
+//   if (saveBytes != null) {
+//     final String base64Data = base64Encode(Uint8List.fromList(saveBytes));
+//     await preferences.setString(sharedPreferencesKey, base64Data);
+//   }
+// }
+
+// void _handleAdd(
+//   Sheet transactionsSheet,
+//   Transaction transaction,
+//   Profile userProfile,
+// ) {
+//   final List<CellValue> cellValue = transactionsCellValue(
+//     transaction,
+//     userProfile,
+//   );
+//   transactionsSheet.insertRow(1);
+//   transactionsSheet.insertRowIterables(cellValue, 1);
+// }
+
+// void _handleEdit(
+//   Sheet transactionsSheet,
+//   Transaction transaction,
+//   Profile userProfile,
+//   List<int> indexes,
+// ) {
+//   final int index = indexes[0];
+//   if (index != -1) {
+//     final int excelRowNumber = index + 2;
+//     _updateCell(
+//       transactionsSheet,
+//       'B$excelRowNumber',
+//       transaction.transactionDate.toString(),
+//     );
+//     _updateCell(transactionsSheet, 'C$excelRowNumber', transaction.category);
+//     _updateCell(transactionsSheet, 'D$excelRowNumber', transaction.subCategory);
+//     _updateCell(transactionsSheet, 'E$excelRowNumber', transaction.type);
+//     _updateCell(
+//       transactionsSheet,
+//       'F$excelRowNumber',
+//       toCurrency(transaction.amount, userProfile),
+//     );
+//     _updateCell(transactionsSheet, 'G$excelRowNumber', transaction.remark);
+//   }
+// }
+
+// void _updateCell(Sheet sheet, String cellIndex, String value) {
+//   sheet.updateCell(CellIndex.indexByString(cellIndex), TextCellValue(value));
+// }

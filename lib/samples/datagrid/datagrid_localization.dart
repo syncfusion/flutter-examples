@@ -82,15 +82,14 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
       allowSorting: true,
       columnWidthMode:
           (_isWebOrDesktop && !model.isMobileResolution) ||
-                  _isLandscapeInMobileView
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+              _isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.none,
       columns: <GridColumn>[
         GridColumn(
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnName: 'id',
           label: Container(
             padding: const EdgeInsets.all(8),
@@ -99,14 +98,12 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
           ),
         ),
         GridColumn(
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 150.0
-                  : double.nan,
-          columnWidthMode:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? ColumnWidthMode.none
-                  : ColumnWidthMode.fitByColumnName,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 150.0
+              : double.nan,
+          columnWidthMode: (_isWebOrDesktop && model.isMobileResolution)
+              ? ColumnWidthMode.none
+              : ColumnWidthMode.fitByColumnName,
           autoFitPadding: const EdgeInsets.all(8),
           columnName: 'customerId',
           label: Container(
@@ -116,10 +113,9 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
           ),
         ),
         GridColumn(
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnName: 'name',
           label: Container(
             padding: const EdgeInsets.all(8),
@@ -128,10 +124,9 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
           ),
         ),
         GridColumn(
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 110.0
-                  : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 110.0
+              : double.nan,
           columnName: 'freight',
           label: Container(
             padding: const EdgeInsets.all(8),
@@ -140,10 +135,9 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
           ),
         ),
         GridColumn(
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnName: 'city',
           label: Container(
             padding: const EdgeInsets.all(8),
@@ -152,10 +146,9 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
           ),
         ),
         GridColumn(
-          width:
-              (_isWebOrDesktop && model.isMobileResolution)
-                  ? 120.0
-                  : double.nan,
+          width: (_isWebOrDesktop && model.isMobileResolution)
+              ? 120.0
+              : double.nan,
           columnName: 'price',
           label: Container(
             padding: const EdgeInsets.all(8),

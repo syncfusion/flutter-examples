@@ -283,25 +283,22 @@ class _MapBubblePageState extends SampleViewState
 
     _mapSource = _facebookMapSource;
     _currentDelegate = 'FaceBook';
-    _shapeColor =
-        _isLightTheme
-            ? const Color.fromRGBO(57, 110, 218, 0.35)
-            : const Color.fromRGBO(72, 132, 255, 0.35);
+    _shapeColor = _isLightTheme
+        ? const Color.fromRGBO(57, 110, 218, 0.35)
+        : const Color.fromRGBO(72, 132, 255, 0.35);
     _shapeStrokeColor = const Color.fromARGB(
       255,
       52,
       85,
       176,
     ).withValues(alpha: 0);
-    _bubbleColor =
-        _isLightTheme
-            ? const Color.fromRGBO(15, 59, 177, 0.5)
-            : const Color.fromRGBO(135, 167, 255, 0.6);
+    _bubbleColor = _isLightTheme
+        ? const Color.fromRGBO(15, 59, 177, 0.5)
+        : const Color.fromRGBO(135, 167, 255, 0.6);
     _bubbleStrokeColor = Colors.white;
-    _tooltipColor =
-        _isLightTheme
-            ? const Color.fromRGBO(35, 65, 148, 1)
-            : const Color.fromRGBO(52, 85, 176, 1);
+    _tooltipColor = _isLightTheme
+        ? const Color.fromRGBO(35, 65, 148, 1)
+        : const Color.fromRGBO(52, 85, 176, 1);
     _tooltipStrokeColor = Colors.white;
     _tooltipTextColor = Colors.white;
     _facebookBoxDecoration = _getBoxDecoration(
@@ -360,14 +357,13 @@ class _MapBubblePageState extends SampleViewState
     return Stack(
       children: <Widget>[
         Padding(
-          padding:
-              scrollEnabled
-                  ? EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.05,
-                    bottom: MediaQuery.of(context).size.height * 0.15,
-                    right: 10,
-                  )
-                  : const EdgeInsets.only(bottom: 75.0, right: 10),
+          padding: scrollEnabled
+              ? EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.15,
+                  right: 10,
+                )
+              : const EdgeInsets.only(bottom: 75.0, right: 10),
           child: SfMapsTheme(
             data: SfMapsThemeData(
               shapeHoverColor: Colors.transparent,
@@ -403,19 +399,17 @@ class _MapBubblePageState extends SampleViewState
                         strokeWidth: 1,
                         strokeColor: _shapeStrokeColor,
                         // Returns the custom tooltip for each bubble.
-                        bubbleTooltipBuilder: (
-                          BuildContext context,
-                          int index,
-                        ) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              _getCustomizedString(index),
-                              style: Theme.of(context).textTheme.bodySmall!
-                                  .copyWith(color: _tooltipTextColor),
-                            ),
-                          );
-                        },
+                        bubbleTooltipBuilder:
+                            (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  _getCustomizedString(index),
+                                  style: Theme.of(context).textTheme.bodySmall!
+                                      .copyWith(color: _tooltipTextColor),
+                                ),
+                              );
+                            },
                         bubbleSettings: MapBubbleSettings(
                           strokeColor: _bubbleStrokeColor,
                           strokeWidth: 0.5,
@@ -456,24 +450,21 @@ class _MapBubblePageState extends SampleViewState
                         setState(() {
                           _mapSource = _facebookMapSource;
                           _currentDelegate = 'FaceBook';
-                          _shapeColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(57, 110, 218, 0.35)
-                                  : const Color.fromRGBO(72, 132, 255, 0.35);
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(57, 110, 218, 0.35)
+                              : const Color.fromRGBO(72, 132, 255, 0.35);
                           _shapeStrokeColor = const Color.fromARGB(
                             255,
                             52,
                             85,
                             176,
                           ).withValues(alpha: 0);
-                          _bubbleColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(15, 59, 177, 0.5)
-                                  : const Color.fromRGBO(135, 167, 255, 0.6);
-                          _tooltipColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(35, 65, 148, 1)
-                                  : const Color.fromRGBO(52, 85, 176, 1);
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(15, 59, 177, 0.5)
+                              : const Color.fromRGBO(135, 167, 255, 0.6);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(35, 65, 148, 1)
+                              : const Color.fromRGBO(52, 85, 176, 1);
                           _bubbleStrokeColor = Colors.white;
                           _tooltipStrokeColor = Colors.white;
                           _tooltipTextColor = Colors.white;
@@ -517,24 +508,21 @@ class _MapBubblePageState extends SampleViewState
                         setState(() {
                           _mapSource = _twitterMapSource;
                           _currentDelegate = 'Twitter';
-                          _shapeColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(86, 170, 235, 0.35)
-                                  : const Color.fromRGBO(32, 154, 255, 0.35);
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(86, 170, 235, 0.35)
+                              : const Color.fromRGBO(32, 154, 255, 0.35);
                           _shapeStrokeColor = const Color.fromARGB(
                             255,
                             0,
                             122,
                             202,
                           ).withValues(alpha: 0);
-                          _bubbleColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(17, 124, 179, 0.5)
-                                  : const Color.fromRGBO(56, 184, 251, 0.5);
-                          _tooltipColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(27, 129, 188, 1)
-                                  : const Color.fromRGBO(65, 154, 207, 1);
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(17, 124, 179, 0.5)
+                              : const Color.fromRGBO(56, 184, 251, 0.5);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(27, 129, 188, 1)
+                              : const Color.fromRGBO(65, 154, 207, 1);
                           _bubbleStrokeColor = Colors.white;
                           _tooltipStrokeColor = Colors.white;
                           _tooltipTextColor = Colors.white;
@@ -578,24 +566,21 @@ class _MapBubblePageState extends SampleViewState
                         setState(() {
                           _mapSource = _instagramMapSource;
                           _currentDelegate = 'Instagram';
-                          _shapeColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(159, 119, 213, 0.35)
-                                  : const Color.fromRGBO(166, 104, 246, 0.35);
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(159, 119, 213, 0.35)
+                              : const Color.fromRGBO(166, 104, 246, 0.35);
                           _shapeStrokeColor = const Color.fromARGB(
                             255,
                             238,
                             46,
                             73,
                           ).withValues(alpha: 0);
-                          _bubbleColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(249, 99, 20, 0.5)
-                                  : const Color.fromRGBO(253, 173, 38, 0.5);
-                          _tooltipColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(175, 90, 66, 1)
-                                  : const Color.fromRGBO(202, 130, 8, 1);
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(249, 99, 20, 0.5)
+                              : const Color.fromRGBO(253, 173, 38, 0.5);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(175, 90, 66, 1)
+                              : const Color.fromRGBO(202, 130, 8, 1);
                           _bubbleStrokeColor = Colors.white;
                           _tooltipStrokeColor = Colors.white;
                           _tooltipTextColor = Colors.white;
@@ -639,30 +624,30 @@ class _MapBubblePageState extends SampleViewState
                         setState(() {
                           _mapSource = _snapChatMapSource;
                           _currentDelegate = 'SnapChat';
-                          _shapeColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(212, 185, 48, 0.35)
-                                  : const Color.fromRGBO(227, 226, 73, 0.35);
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(212, 185, 48, 0.35)
+                              : const Color.fromRGBO(227, 226, 73, 0.35);
                           _shapeStrokeColor = const Color.fromARGB(
                             255,
                             255,
                             126,
                             0,
                           ).withValues(alpha: 0);
-                          _bubbleColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(182, 150, 2, 0.5)
-                                  : const Color.fromRGBO(254, 253, 2, 0.458);
-                          _tooltipColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(173, 144, 12, 1)
-                                  : const Color.fromRGBO(225, 225, 30, 1);
-                          _bubbleStrokeColor =
-                              _isLightTheme ? Colors.black : Colors.white;
-                          _tooltipStrokeColor =
-                              _isLightTheme ? Colors.black : Colors.white;
-                          _tooltipTextColor =
-                              _isLightTheme ? Colors.white : Colors.black;
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(182, 150, 2, 0.5)
+                              : const Color.fromRGBO(254, 253, 2, 0.458);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(173, 144, 12, 1)
+                              : const Color.fromRGBO(225, 225, 30, 1);
+                          _bubbleStrokeColor = _isLightTheme
+                              ? Colors.black
+                              : Colors.white;
+                          _tooltipStrokeColor = _isLightTheme
+                              ? Colors.black
+                              : Colors.white;
+                          _tooltipTextColor = _isLightTheme
+                              ? Colors.white
+                              : Colors.black;
 
                           _snapchatController.forward();
 
@@ -703,21 +688,18 @@ class _MapBubblePageState extends SampleViewState
                         setState(() {
                           _mapSource = _tikTokMapSorce;
                           _currentDelegate = 'Tiktok';
-                          _shapeColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(72, 193, 188, 0.35)
-                                  : const Color.fromRGBO(50, 216, 210, 0.35);
+                          _shapeColor = _isLightTheme
+                              ? const Color.fromRGBO(72, 193, 188, 0.35)
+                              : const Color.fromRGBO(50, 216, 210, 0.35);
                           _shapeStrokeColor = Colors.black54.withValues(
                             alpha: 0,
                           );
-                          _bubbleColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(250, 60, 114, 0.5)
-                                  : const Color.fromRGBO(218, 11, 69, 0.5);
-                          _tooltipColor =
-                              _isLightTheme
-                                  ? const Color.fromRGBO(186, 57, 108, 1)
-                                  : const Color.fromRGBO(189, 74, 119, 1);
+                          _bubbleColor = _isLightTheme
+                              ? const Color.fromRGBO(250, 60, 114, 0.5)
+                              : const Color.fromRGBO(218, 11, 69, 0.5);
+                          _tooltipColor = _isLightTheme
+                              ? const Color.fromRGBO(186, 57, 108, 1)
+                              : const Color.fromRGBO(189, 74, 119, 1);
                           _bubbleStrokeColor = Colors.white;
                           _tooltipStrokeColor = Colors.white;
                           _tooltipTextColor = Colors.white;

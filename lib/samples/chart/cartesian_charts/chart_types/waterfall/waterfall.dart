@@ -87,10 +87,9 @@ class _WaterFallState extends SampleViewState {
       title: ChartTitle(text: isCardView ? '' : 'Company revenue and profit'),
       primaryXAxis: CategoryAxis(
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction:
-            isCardView
-                ? AxisLabelIntersectAction.wrap
-                : AxisLabelIntersectAction.rotate45,
+        labelIntersectAction: isCardView
+            ? AxisLabelIntersectAction.wrap
+            : AxisLabelIntersectAction.rotate45,
       ),
       primaryYAxis: NumericAxis(
         name: 'Expenditure',
@@ -145,10 +144,10 @@ class _WaterFallState extends SampleViewState {
         negativePointsColor: const Color.fromRGBO(229, 101, 144, 1),
         intermediateSumColor: const Color.fromRGBO(79, 129, 188, 1),
         totalSumColor: const Color.fromRGBO(79, 129, 188, 1),
-        intermediateSumPredicate:
-            (_ChartSampleData data, int index) => data.intermediateSumPredicate,
-        totalSumPredicate:
-            (_ChartSampleData data, int index) => data.totalSumPredicate,
+        intermediateSumPredicate: (_ChartSampleData data, int index) =>
+            data.intermediateSumPredicate,
+        totalSumPredicate: (_ChartSampleData data, int index) =>
+            data.totalSumPredicate,
         dataLabelSettings: const DataLabelSettings(
           isVisible: true,
           labelAlignment: ChartDataLabelAlignment.middle,

@@ -6,7 +6,8 @@ import './mobile_helper.dart'
     as helper;
 
 /// To check platform whether it is desktop or not.
-bool isDesktop = kIsWeb || Platform.isMacOS || Platform.isWindows;
+bool isDesktop =
+    kIsWeb || Platform.isMacOS || Platform.isWindows || Platform.isLinux;
 
 /// Indicates whether the current environment is running in macOS desktop.
 bool kIsMacOS = helper.getPlatformType() == 'macos';
@@ -30,24 +31,21 @@ Widget showToast(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding:
-                  useMaterial3
-                      ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
-                      : const EdgeInsets.only(
-                        left: 16,
-                        top: 6,
-                        right: 16,
-                        bottom: 6,
-                      ),
+              padding: useMaterial3
+                  ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+                  : const EdgeInsets.only(
+                      left: 16,
+                      top: 6,
+                      right: 16,
+                      bottom: 6,
+                    ),
               decoration: BoxDecoration(
-                color:
-                    useMaterial3
-                        ? Theme.of(context).colorScheme.inverseSurface
-                        : Colors.grey[600],
-                borderRadius:
-                    useMaterial3
-                        ? const BorderRadius.all(Radius.circular(4.0))
-                        : const BorderRadius.all(Radius.circular(16.0)),
+                color: useMaterial3
+                    ? Theme.of(context).colorScheme.inverseSurface
+                    : Colors.grey[600],
+                borderRadius: useMaterial3
+                    ? const BorderRadius.all(Radius.circular(4.0))
+                    : const BorderRadius.all(Radius.circular(16.0)),
               ),
               child: Text(
                 toastText,
@@ -55,10 +53,9 @@ Widget showToast(
                 style: TextStyle(
                   fontFamily: 'Roboto',
                   fontSize: 16,
-                  color:
-                      useMaterial3
-                          ? Theme.of(context).colorScheme.onInverseSurface
-                          : Colors.white,
+                  color: useMaterial3
+                      ? Theme.of(context).colorScheme.onInverseSurface
+                      : Colors.white,
                 ),
               ),
             ),
@@ -88,10 +85,9 @@ void showErrorDialog(BuildContext context, String error, String description) {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                shape:
-                    useMaterial3
-                        ? const CircleBorder()
-                        : const RoundedRectangleBorder(),
+                shape: useMaterial3
+                    ? const CircleBorder()
+                    : const RoundedRectangleBorder(),
                 child: const Icon(Icons.clear, size: 20),
               ),
             ),
@@ -103,13 +99,12 @@ void showErrorDialog(BuildContext context, String error, String description) {
             onPressed: () {
               Navigator.of(context, rootNavigator: true).pop();
             },
-            style:
-                useMaterial3
-                    ? TextButton.styleFrom(
-                      foregroundColor: Theme.of(context).primaryColor,
-                      fixedSize: const Size(71, 40),
-                    )
-                    : null,
+            style: useMaterial3
+                ? TextButton.styleFrom(
+                    foregroundColor: Theme.of(context).primaryColor,
+                    fixedSize: const Size(71, 40),
+                  )
+                : null,
             child: const Text('OK'),
           ),
         ],

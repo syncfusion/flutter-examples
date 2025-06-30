@@ -66,12 +66,11 @@ class _RangeAreaState extends SampleViewState {
     bool isMaterial3,
     bool isLightMode,
   ) {
-    final Color color =
-        isMaterial3
-            ? (isLightMode
-                ? const Color.fromRGBO(6, 174, 224, 1)
-                : const Color.fromRGBO(255, 245, 0, 1))
-            : const Color.fromRGBO(50, 198, 255, 1);
+    final Color color = isMaterial3
+        ? (isLightMode
+              ? const Color.fromRGBO(6, 174, 224, 1)
+              : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(50, 198, 255, 1);
     return <CartesianSeries<ChartSampleData, DateTime>>[
       RangeAreaSeries<ChartSampleData, DateTime>(
         dataSource: _buildChartData(),

@@ -47,9 +47,9 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
           child: Padding(
             padding:
                 MediaQuery.of(context).orientation == Orientation.portrait ||
-                        _isDesktop
-                    ? const EdgeInsets.all(12.5)
-                    : const EdgeInsets.all(10.0),
+                    _isDesktop
+                ? const EdgeInsets.all(12.5)
+                : const EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
                 Text(
@@ -62,13 +62,12 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
                   child: Padding(
                     padding: EdgeInsets.only(
                       top: 8.0,
-                      bottom:
-                          (model.isMobile)
-                              ? (MediaQuery.of(context).orientation ==
-                                      Orientation.portrait
-                                  ? 60.0
-                                  : 30)
-                              : 0,
+                      bottom: (model.isMobile)
+                          ? (MediaQuery.of(context).orientation ==
+                                    Orientation.portrait
+                                ? 60.0
+                                : 30)
+                          : 0,
                     ),
                     child: SfTreemap(
                       // The number of data in your data source collection.
@@ -84,17 +83,15 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
                         return _statesAreaData[index].areaInSqKm;
                       },
                       tooltipSettings: TreemapTooltipSettings(
-                        color:
-                            _isLightTheme
-                                ? const Color.fromRGBO(45, 45, 45, 1)
-                                : const Color.fromRGBO(242, 242, 242, 1),
+                        color: _isLightTheme
+                            ? const Color.fromRGBO(45, 45, 45, 1)
+                            : const Color.fromRGBO(242, 242, 242, 1),
                       ),
                       levels: _getTreemapLevels(themeData),
                       legend: TreemapLegend(
-                        position:
-                            model.isWebFullView
-                                ? TreemapLegendPosition.bottom
-                                : TreemapLegendPosition.top,
+                        position: model.isWebFullView
+                            ? TreemapLegendPosition.bottom
+                            : TreemapLegendPosition.top,
                         iconType: TreemapIconType.diamond,
                       ),
                     ),
@@ -270,8 +267,9 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
           final Brightness brightness = ThemeData.estimateBrightnessForColor(
             tile.color,
           );
-          final Color color =
-              brightness == Brightness.dark ? Colors.white : Colors.black;
+          final Color color = brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black;
           return Padding(
             padding: const EdgeInsetsDirectional.only(start: 4.0, top: 4.0),
             child: Text(
@@ -286,10 +284,9 @@ class _TreemapLocalizationPageState extends LocalizationSampleViewState {
         },
         // Returns a widget for each tile's tooltip.
         tooltipBuilder: (BuildContext context, TreemapTile tile) {
-          final Color textColor =
-              _isLightTheme
-                  ? const Color.fromRGBO(255, 255, 255, 1)
-                  : const Color.fromRGBO(10, 10, 10, 1);
+          final Color textColor = _isLightTheme
+              ? const Color.fromRGBO(255, 255, 255, 1)
+              : const Color.fromRGBO(10, 10, 10, 1);
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [

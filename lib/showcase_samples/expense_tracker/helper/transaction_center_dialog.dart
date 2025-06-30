@@ -6,11 +6,9 @@ import 'package:intl/intl.dart';
 import '../custom_widgets/custom_buttons.dart';
 import '../custom_widgets/custom_drop_down_menu.dart';
 import '../custom_widgets/text_field.dart';
-// import '../data_processing/category_handler.dart';
-import '../data_processing/transaction_handler.dart'
-    if (dart.library.html) '../data_processing/transaction_web_handler.dart';
+// import '../data_processing/transaction_handler.dart'
+//     if (dart.library.html) '../data_processing/transaction_web_handler.dart';
 import '../enum.dart';
-// import '../models/category.dart';
 import '../models/transaction.dart';
 import '../models/user.dart';
 import '../notifiers/text_field_valid_notifier.dart';
@@ -143,10 +141,9 @@ class _TransactionCenterDialogState extends State<TransactionCenterDialog> {
 
   Widget _buildTransactionAddCenterDialog() {
     return CommonCenterDialog(
-      dialogHeader:
-          widget.userInteraction == UserInteractions.add
-              ? 'Create Transaction'
-              : 'Edit Transaction',
+      dialogHeader: widget.userInteraction == UserInteractions.add
+          ? 'Create Transaction'
+          : 'Edit Transaction',
       onCloseIconPressed: () {
         widget.validNotifier.isTextButtonValid(false);
         widget.selectedCountNotifier.countChecking(0);
@@ -316,8 +313,11 @@ class _TransactionCenterDialogState extends State<TransactionCenterDialog> {
     if (isEdit &&
         _amountController.text == '' &&
         widget.notifier.transactionTextFieldDetails != null) {
-      _amountController.text =
-          widget.notifier.transactionTextFieldDetails!.amount.toString();
+      _amountController.text = widget
+          .notifier
+          .transactionTextFieldDetails!
+          .amount
+          .toString();
     }
     return CustomTextField(
       controller: _amountController,
@@ -413,56 +413,53 @@ class _TransactionCenterDialogState extends State<TransactionCenterDialog> {
             widget.validNotifier.isTextButtonValid(false);
             Navigator.pop(context);
           },
-          onAddOrEditAction:
-              isValid
-                  ? () async {
-                    if (_amountController.text.isEmpty ||
-                        _typeController.text.isEmpty ||
-                        _categoryController.text.isEmpty ||
-                        _dateController.text.isEmpty) {
-                      return;
-                    }
-
-                    final Transaction transaction = Transaction(
-                      type: _typeController.text,
-                      category: _categoryController.text,
-                      subCategory: _subCategoryController.text,
-                      amount: double.tryParse(_amountController.text) ?? 0.0,
-                      remark: _remarkController.text,
-                      transactionDate: DateFormat(
-                        widget.userDetails.userProfile.dateFormat,
-                      ).parse(_dateController.text),
-                    );
-                    final List<Transaction> transactions =
-                        widget.notifier.transactions;
-                    if (widget.userInteraction == UserInteractions.edit) {
-                      widget.notifier.editTransaction(
-                        widget.selectedIndex,
-                        transaction,
-                      );
-                      widget.selectedCountNotifier.countChecking(0);
-                      updateTransactions(
-                        context,
-                        widget.userDetails,
-                        transaction,
-                        widget.userInteraction,
-                        widget.notifier.selectedIndexes,
-                      );
-                    } else {
-                      transactions.add(transaction);
-                      widget.notifier.updateTransactions(transactions);
-                      updateTransactions(
-                        context,
-                        widget.userDetails,
-                        transaction,
-                        widget.userInteraction,
-                        <int>[],
-                      );
-                    }
-                    widget.validNotifier.isTextButtonValid(false);
-                    Navigator.pop(context);
+          onAddOrEditAction: isValid
+              ? () async {
+                  if (_amountController.text.isEmpty ||
+                      _typeController.text.isEmpty ||
+                      _categoryController.text.isEmpty ||
+                      _dateController.text.isEmpty) {
+                    return;
                   }
-                  : null,
+
+                  final Transaction transaction = Transaction(
+                    type: _typeController.text,
+                    category: _categoryController.text,
+                    subCategory: _subCategoryController.text,
+                    amount: double.tryParse(_amountController.text) ?? 0.0,
+                    remark: _remarkController.text,
+                    transactionDate: DateFormat(
+                      widget.userDetails.userProfile.dateFormat,
+                    ).parse(_dateController.text),
+                  );
+                  final List<Transaction> transactions =
+                      widget.notifier.transactions;
+                  if (widget.userInteraction == UserInteractions.edit) {
+                    widget.notifier.editTransaction(
+                      widget.selectedIndex,
+                      transaction,
+                    );
+                    widget.selectedCountNotifier.countChecking(0);
+                    // updateTransactions(
+                    //   widget.userDetails,
+                    //   transaction,
+                    //   widget.userInteraction,
+                    //   widget.notifier.selectedIndexes,
+                    // );
+                  } else {
+                    transactions.add(transaction);
+                    widget.notifier.updateTransactions(transactions);
+                    // updateTransactions(
+                    //   widget.userDetails,
+                    //   transaction,
+                    //   widget.userInteraction,
+                    //   <int>[],
+                    // );
+                  }
+                  widget.validNotifier.isTextButtonValid(false);
+                  Navigator.pop(context);
+                }
+              : null,
           showEditButton: widget.userInteraction == UserInteractions.edit,
         );
       },

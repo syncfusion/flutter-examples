@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 // ignore: depend_on_referenced_packages
@@ -8,21 +9,30 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 import '../constants.dart';
 import '../custom_widgets/chip_and_drop_down_button.dart';
 
-import '../data_processing/goal_handler.dart';
+import '../custom_widgets/text_field.dart';
+import '../data_processing/goal_handler.dart'
+    if (dart.library.html) '../data_processing/goal_web_handler.dart';
 import '../enum.dart';
 
+import '../helper/common_helper.dart';
 import '../helper/currency_and_data_format/currency_format.dart';
 import '../helper/currency_and_data_format/date_format.dart';
 import '../helper/dashboard.dart';
 import '../helper/goals_center_dialog.dart';
 import '../helper/responsive_layout.dart';
 
+import '../helper/type_color.dart';
+import '../layouts/dashboard/dashboard_layout.dart';
 import '../models/goal.dart';
 import '../models/transaction.dart';
 import '../models/user.dart';
+import '../notifiers/goal_notifier.dart';
 import '../notifiers/import_notifier.dart';
+import '../notifiers/mobile_app_bar.dart';
+import '../notifiers/text_field_valid_notifier.dart';
 import '../notifiers/theme_notifier.dart';
 import '../notifiers/view_notifier.dart';
+import 'base_home.dart';
 
 enum _GoalMenuOption {
   add,
@@ -43,59 +53,218 @@ class GoalLayout extends StatefulWidget {
 class _GoalLayoutState extends State<GoalLayout> {
   late List<String> _tabs;
   late String _selectedTab;
+  List<Color>? _cardAvatarColors;
+
+  Widget _buildInsightCards(BuildContext context, Size availableSize) {
+    final List<Goal> goals = readGoals(widget.user);
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: SizedBox(
+        height: 96,
+        child: Row(
+          children: [
+            Expanded(
+              child: OverallDetails(
+                insightTitle: 'This Month Contribution',
+                insightValue: _monthlyContributionAmount(goals),
+                iconData: Icons.savings_outlined,
+                backgroundColor: colorScheme.primaryContainer,
+                iconColor: colorScheme.primary,
+                isIconNeeded: false,
+              ),
+            ),
+            horizontalSpacer16,
+            Expanded(
+              child: OverallDetails(
+                insightTitle: 'No Active Goals',
+                insightValue: _activeGoalsCount(goals),
+                iconData: Icons.savings_outlined,
+                backgroundColor: colorScheme.primaryContainer,
+                iconColor: colorScheme.primary,
+                isIconNeeded: false,
+              ),
+            ),
+            horizontalSpacer16,
+            Expanded(
+              child: OverallDetails(
+                insightTitle: 'No of Completed Goals',
+                insightValue: _completedGoalsCount(goals),
+                iconData: Icons.savings_outlined,
+                backgroundColor: colorScheme.primaryContainer,
+                iconColor: colorScheme.primary,
+                isIconNeeded: false,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _monthlyContributionAmount(List<Goal> goals) {
+    final DateTime currentDate = DateTime.now();
+    final double totalSaved = goals.fold<double>(0, (double sum, Goal goal) {
+      final double thisMonthSavedAmount =
+          goal.lastUpdated.month == currentDate.month ? goal.fund : 0;
+      return sum + thisMonthSavedAmount;
+    });
+    return toCurrency(totalSaved, widget.user.userProfile);
+  }
+
+  String _activeGoalsCount(List<Goal> goals) {
+    final int activeGoalsCount = goals
+        .where((goal) => goal.fund < goal.amount)
+        .length;
+    return '$activeGoalsCount';
+  }
+
+  String _completedGoalsCount(List<Goal> goals) {
+    final int completedGoalsCount = goals
+        .where((goal) => goal.fund >= goal.amount)
+        .length;
+    return '$completedGoalsCount';
+  }
 
   Widget _buildHeader(ViewNotifier notifier) {
     return isMobile(context)
         ? SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: _buildSegmentedButtons(notifier),
-        )
+            width: MediaQuery.of(context).size.width,
+            child: _buildSegmentedButtons(notifier),
+          )
         : Row(children: [_buildSegmentedButtons(notifier)]);
   }
 
-  SegmentedFilterButtons _buildSegmentedButtons(ViewNotifier notifier) {
-    return SegmentedFilterButtons(
-      options: _tabs,
-      onSelectionChanged: (Set<String> selectedSegment) {
-        _selectedTab = selectedSegment.first;
-        notifier.notifyActiveGoalsChange(isActive: _selectedTab == _tabs[1]);
-      },
-      selectedSegment: _selectedTab,
+  Widget _buildSegmentedButtons(ViewNotifier notifier) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 14),
+      child: SegmentedFilterButtons(
+        options: _tabs,
+        onSelectionChanged: (Set<String> selectedSegment) =>
+            _handleSelectionChange(selectedSegment, notifier),
+        selectedSegment: _selectedTab,
+      ),
     );
+  }
+
+  void _handleSelectionChange(
+    Set<String> selectedSegment,
+    ViewNotifier notifier,
+  ) {
+    _selectedTab = selectedSegment.first;
+    notifier.notifyActiveGoalsChange(isActive: _selectedTab == _tabs[1]);
   }
 
   Widget _buildWrapLayout(BuildContext context, BoxConstraints constraints) {
     final Size availableSize = constraints.biggest;
-    double cardWidthFactor;
-    double gapBetweenCards = 0.0;
-    const double spacing = 16;
+    final double cardWidthFactor = _calculateCardWidthFactor(availableSize);
+    final double gapBetweenCards = _calculateGapBetweenCards(availableSize);
 
+    return Consumer2<GoalNotifier, MobileAppBarUpdate>(
+      builder:
+          (
+            BuildContext context,
+            GoalNotifier goalNotifier,
+            MobileAppBarUpdate mobileNotifier,
+            Widget? child,
+          ) {
+            return _buildGoalsLayout(
+              context,
+              goalNotifier,
+              mobileNotifier,
+              availableSize,
+              cardWidthFactor,
+              gapBetweenCards,
+            );
+          },
+    );
+  }
+
+  double _calculateCardWidthFactor(Size availableSize) {
     switch (deviceType(availableSize)) {
       case DeviceType.desktop:
-        cardWidthFactor = 1 / 3;
-        gapBetweenCards = spacing * 2;
+        return 1 / 3;
       case DeviceType.mobile:
-        cardWidthFactor = 1;
+        return 1;
       case DeviceType.tablet:
-        cardWidthFactor = 0.5;
-        gapBetweenCards = spacing;
+        return 0.5;
     }
+  }
 
-    final List<Goal> visibleGoals = _visibleGoals();
+  double _calculateGapBetweenCards(Size availableSize) {
+    const double spacing = 16;
+    switch (deviceType(availableSize)) {
+      case DeviceType.desktop:
+        return spacing * 3;
+      case DeviceType.mobile:
+        return 0.0;
+      case DeviceType.tablet:
+        return spacing * 2;
+    }
+  }
+
+  Widget _buildGoalsLayout(
+    BuildContext context,
+    GoalNotifier goalNotifier,
+    MobileAppBarUpdate mobileNotifier,
+    Size availableSize,
+    double cardWidthFactor,
+    double gapBetweenCards,
+  ) {
+    final List<Goal> visibleGoals = _visibleGoals(goalNotifier);
     final double availableWidthForChild = availableSize.width - gapBetweenCards;
-    return SingleChildScrollView(
+
+    if (visibleGoals.isEmpty) {
+      return buildNoRecordsFound(context);
+    }
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.only(left: 8, right: 8, top: 2),
+        child: Column(
+          children: [
+            _buildGoalsWrap(
+              context,
+              goalNotifier,
+              mobileNotifier,
+              visibleGoals,
+              availableWidthForChild,
+              cardWidthFactor,
+            ),
+            if (isMobile(context)) verticalSpacer16 else verticalSpacer24,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGoalsWrap(
+    BuildContext context,
+    GoalNotifier goalNotifier,
+    MobileAppBarUpdate mobileNotifier,
+    List<Goal> visibleGoals,
+    double availableWidthForChild,
+    double cardWidthFactor,
+  ) {
+    const double spacing = 16;
+    return Align(
+      alignment: Alignment.topLeft,
       child: Wrap(
         spacing: spacing,
         runSpacing: spacing,
         children: List.generate(visibleGoals.length, (int index) {
+          final List<Color> goalColors =
+              _cardAvatarColors ?? doughnutPalette(Theme.of(context));
           final Goal goal = visibleGoals[index];
           return SizedBox(
             width: availableWidthForChild * cardWidthFactor,
             child: _GoalCard(
+              notifier: goalNotifier,
+              mobileNotifier: mobileNotifier,
               index: index,
               user: widget.user,
               goal: goal,
-              color: doughnutPalette(Theme.of(context))[index % 10],
+              color: goalColors[index % 10],
             ),
           );
         }),
@@ -103,24 +272,27 @@ class _GoalLayoutState extends State<GoalLayout> {
     );
   }
 
-  List<Goal> _visibleGoals() {
+  List<Goal> _visibleGoals(GoalNotifier goalNotifier) {
     final bool isCompleted = _selectedTab == _tabs[1];
-    final List<Goal> goals = readGoals(context, widget.user);
+    goalNotifier.goals = goalNotifier.isFirstTime
+        ? widget.user.transactionalData.data.goals
+        : goalNotifier.goals;
     final List<Goal> visibleGoals = <Goal>[];
     if (isCompleted) {
-      for (final Goal goal in goals) {
-        if (goal.savedAmount >= goal.targetAmount) {
+      for (final Goal goal in goalNotifier.goals) {
+        if (goal.fund >= goal.amount) {
+          goal.isCompleted = true;
           visibleGoals.add(goal);
         }
       }
     } else {
-      for (final Goal goal in goals) {
-        if (goal.savedAmount < goal.targetAmount) {
+      for (final Goal goal in goalNotifier.goals) {
+        if (goal.fund < goal.amount) {
           visibleGoals.add(goal);
         }
       }
     }
-
+    goalNotifier.visibleGoals = visibleGoals;
     return visibleGoals;
   }
 
@@ -133,14 +305,20 @@ class _GoalLayoutState extends State<GoalLayout> {
 
   @override
   Widget build(BuildContext context) {
+    _cardAvatarColors ??= randomColors(context);
+    final Size availableSize = MediaQuery.of(context).size;
     return Consumer<ViewNotifier>(
       builder: (BuildContext context, ViewNotifier notifier, Widget? child) {
         return Padding(
-          padding: EdgeInsets.all(isMobile(context) ? 16.0 : 24.0),
+          padding: isMobile(context)
+              ? const EdgeInsets.only(left: 8, right: 8, top: 16)
+              : const EdgeInsets.only(left: 16, right: 16, top: 24),
           child: Column(
             children: <Widget>[
+              if (!isMobile(context))
+                _buildInsightCards(context, availableSize),
+              verticalSpacer24,
               _buildHeader(notifier),
-              verticalSpacer16,
               Expanded(
                 child: LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
@@ -158,6 +336,7 @@ class _GoalLayoutState extends State<GoalLayout> {
   @override
   void dispose() {
     _tabs.clear();
+    _cardAvatarColors?.clear();
     super.dispose();
   }
 }
@@ -166,6 +345,8 @@ class _GoalCard extends StatefulWidget {
   const _GoalCard({
     required this.index,
     required this.user,
+    required this.notifier,
+    required this.mobileNotifier,
     required this.goal,
     required this.color,
   });
@@ -173,6 +354,8 @@ class _GoalCard extends StatefulWidget {
   final Goal goal;
   final Color color;
   final UserDetails user;
+  final GoalNotifier notifier;
+  final MobileAppBarUpdate mobileNotifier;
   final int index;
 
   @override
@@ -197,9 +380,11 @@ class _GoalCardState extends State<_GoalCard> {
           borderRadius: BorderRadius.circular(10),
         ),
         alignment: Alignment.center,
-        child: Text(
-          widget.goal.name[0].toUpperCase(),
-          style: _textTheme.titleLarge?.copyWith(color: widget.color),
+        child: Icon(
+          widget.user.userProfile.getIconForGoalCategory(
+            widget.goal.category.toLowerCase(),
+          ),
+          color: widget.color,
         ),
       ),
       title: Text(
@@ -210,9 +395,15 @@ class _GoalCardState extends State<_GoalCard> {
       ),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 4.0),
-        child: Text(widget.goal.notes ?? '', style: _bodyMediumStyle),
+        child: Text(
+          widget.goal.notes ?? '',
+          style: _bodyMediumStyle,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
       trailing: _GoalMenu(
+        notifier: widget.notifier,
+        mobileNotifier: widget.mobileNotifier,
         user: widget.user,
         goal: widget.goal,
         index: widget.index,
@@ -227,11 +418,11 @@ class _GoalCardState extends State<_GoalCard> {
 
   Widget _buildRemainingAmount() {
     final String remaining = toCurrency(
-      widget.goal.targetAmount - widget.goal.savedAmount,
+      widget.goal.fund,
       widget.user.userProfile,
     );
     final String target = toCurrency(
-      widget.goal.targetAmount,
+      widget.goal.amount,
       widget.user.userProfile,
     );
     return Column(
@@ -248,24 +439,14 @@ class _GoalCardState extends State<_GoalCard> {
                 ),
               ),
             ),
-            Text(
-              formatDate(widget.goal.targetDate, user: widget.user),
-              style: _titleMediumStyle,
-              textAlign: TextAlign.end,
-            ),
+            TypeColor(type: widget.goal.priority ?? 'Low'),
           ],
         ),
         verticalSpacer4,
         Row(
           children: <Widget>[
-            Expanded(
-              child: Text('Remaining from $target', style: _bodyMediumStyle),
-            ),
-            Text(
-              'Created on',
-              style: _bodyMediumStyle,
-              textAlign: TextAlign.end,
-            ),
+            Expanded(child: Text('Out of $target', style: _bodyMediumStyle)),
+            Text('Priority', style: _bodyMediumStyle, textAlign: TextAlign.end),
           ],
         ),
       ],
@@ -273,26 +454,26 @@ class _GoalCardState extends State<_GoalCard> {
   }
 
   Widget _buildSpentAmount() {
-    final double amountSpent =
-        widget.goal.targetAmount - widget.goal.savedAmount;
-    final double percent =
-        (widget.goal.savedAmount / widget.goal.targetAmount) * 100;
+    final double percent = (widget.goal.fund / widget.goal.amount) * 100;
     final String percentValue = NumberFormat('#.##').format(percent);
 
-    final String spent = toCurrency(amountSpent, widget.user.userProfile);
+    final String date = formatDate(widget.goal.date, user: widget.user);
+    final String remainingDays =
+        widget.goal.date.difference(DateTime.now()).inDays.toString() +
+        ' days left';
     return Column(
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text('Amount spent', style: _bodyMediumStyle),
-            Text('Utilization', style: _bodyMediumStyle),
+            Text('Deadline', style: _bodyMediumStyle),
+            Text(remainingDays, style: _bodyMediumStyle),
           ],
         ),
         verticalSpacer4,
         Row(
           children: <Widget>[
-            Expanded(child: Text(spent, style: _titleMediumStyle)),
+            Expanded(child: Text(date, style: _titleMediumStyle)),
             Text('$percentValue%', style: _titleMediumStyle),
           ],
         ),
@@ -301,8 +482,7 @@ class _GoalCardState extends State<_GoalCard> {
   }
 
   Widget _buildProgress() {
-    final double percent =
-        (widget.goal.savedAmount / widget.goal.targetAmount) * 100;
+    final double percent = (widget.goal.fund / widget.goal.amount) * 100;
     return SfLinearGauge(
       showTicks: false,
       showLabels: false,
@@ -373,12 +553,16 @@ class _GoalCardState extends State<_GoalCard> {
 class _GoalMenu extends StatefulWidget {
   const _GoalMenu({
     required this.goal,
+    required this.notifier,
+    required this.mobileNotifier,
     required this.user,
     required this.index,
     required this.importNotifier,
   });
 
   final Goal goal;
+  final GoalNotifier notifier;
+  final MobileAppBarUpdate mobileNotifier;
   final UserDetails user;
   final int index;
   final ImportNotifier importNotifier;
@@ -393,14 +577,11 @@ class _GoalMenuState extends State<_GoalMenu> {
 
   List<PopupMenuEntry<_GoalMenuOption>> get _buildMenuItems {
     return <PopupMenuEntry<_GoalMenuOption>>[
-      PopupMenuItem<_GoalMenuOption>(
-        value: _GoalMenuOption.add,
-        child: _buildMenuItem(Icons.add, 'Add expense'),
-      ),
-      // PopupMenuItem<_GoalMenuOption>(
-      //   value: _GoalMenuOption.view,
-      //   child: _buildMenuItem(Icons.remove_red_eye_outlined, 'View expense'),
-      // ),
+      if (!widget.goal.isCompleted)
+        PopupMenuItem<_GoalMenuOption>(
+          value: _GoalMenuOption.add,
+          child: _buildMenuItem(Icons.add, 'Add Fund'),
+        ),
       PopupMenuItem<_GoalMenuOption>(
         value: _GoalMenuOption.edit,
         child: _buildMenuItem(Icons.edit_outlined, 'Edit'),
@@ -414,7 +595,7 @@ class _GoalMenuState extends State<_GoalMenu> {
 
   Widget _buildMenuItem(IconData icon, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.only(left: 8, right: 8),
       child: Row(
         children: <Widget>[
           Icon(icon, color: _colorScheme.onSurfaceVariant),
@@ -431,27 +612,207 @@ class _GoalMenuState extends State<_GoalMenu> {
   }
 
   void _handleMenuButtonSelected(_GoalMenuOption value) {
+    if (isMobile(context)) {
+      _handleMobileMenuSelection(value);
+    } else {
+      _showDesktopDialog(value);
+    }
+  }
+
+  void _handleMobileMenuSelection(_GoalMenuOption value) {
+    switch (value) {
+      case _GoalMenuOption.delete:
+        _showDeleteConfirmation();
+        break;
+      case _GoalMenuOption.add:
+      case _GoalMenuOption.edit:
+        _showMobileDialog(value);
+        break;
+    }
+  }
+
+  void _showMobileDialog(_GoalMenuOption value) {
+    widget.mobileNotifier.currentMobileDialog = MobileDialogs.goals;
+    showDialog<Widget>(
+      context: context,
+      builder: (BuildContext context) {
+        return _buildMobileDialog(value);
+      },
+    );
+  }
+
+  void _showDesktopDialog(_GoalMenuOption value) {
     showDialog<StatefulBuilder>(
       context: context,
       builder: (BuildContext context) {
-        switch (value) {
-          case _GoalMenuOption.add:
-            return _AddOrEditExpense(
-              goal: widget.goal,
-              user: widget.user,
-              isEdit: false,
-            );
-          // case _GoalMenuOption.view:
-          // break;
-          case _GoalMenuOption.edit:
-            return GoalsCenterDialog(
-              userInteraction: UserInteractions.edit,
-              userDetails: widget.user,
-            );
-          case _GoalMenuOption.delete:
-            return _DeleteGoal(goal: widget.goal, user: widget.user);
-        }
+        return _buildDesktopDialog(value);
       },
+    );
+  }
+
+  void _showDeleteConfirmation() {
+    showMobileDeleteConfirmation(
+      context,
+      'Delete Goal',
+      'Are you sure you want to delete this goal item?',
+      () {
+        widget.notifier.deleteGoal(widget.goal);
+        // updateGoals(
+        //   widget.user,
+        //   widget.goal,
+        //   UserInteractions.delete,
+        //   index: widget.notifier.currentIndex,
+        // );
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  Widget _buildMobileDialog(_GoalMenuOption value) {
+    switch (value) {
+      case _GoalMenuOption.add:
+        return _createMobileDialog(
+          UserInteractions.add,
+          'Add Fund',
+          'Add',
+          true,
+        );
+      case _GoalMenuOption.edit:
+        return _createMobileDialog(
+          UserInteractions.edit,
+          'Edit Goal',
+          'Save',
+          false,
+        );
+      case _GoalMenuOption.delete:
+        return _DeleteGoal(
+          goal: widget.goal,
+          user: widget.user,
+          notifier: widget.notifier,
+        );
+    }
+  }
+
+  Widget _buildDesktopDialog(_GoalMenuOption value) {
+    switch (value) {
+      case _GoalMenuOption.add:
+        return _createDesktopDialog(false);
+      case _GoalMenuOption.edit:
+        return _createDesktopDialog(true);
+      case _GoalMenuOption.delete:
+        return _DeleteGoal(
+          goal: widget.goal,
+          user: widget.user,
+          notifier: widget.notifier,
+        );
+    }
+  }
+
+  Widget _createMobileDialog(
+    UserInteractions interaction,
+    String title,
+    String buttonText,
+    bool isAddExpense,
+  ) {
+    return Consumer<TextButtonValidNotifier>(
+      builder:
+          (BuildContext context, TextButtonValidNotifier value, Widget? child) {
+            return MobileCenterDialog(
+              userInteraction: interaction,
+              goalNotifier: widget.notifier,
+              validateNotifier: value,
+              currentMobileDialog: widget.mobileNotifier.currentMobileDialog,
+              title: title,
+              buttonText: buttonText,
+              index: widget.index,
+              isAddExpense: isAddExpense,
+              userDetails: widget.user,
+              onCancelPressed: () => _handleCancel(value),
+              onPressed: () => _handleOnPressed(interaction, value),
+            );
+          },
+    );
+  }
+
+  void _handleCancel(TextButtonValidNotifier value) {
+    widget.mobileNotifier.openDialog(isDialogOpen: false);
+    value.isTextButtonValid(false);
+    Navigator.pop(context);
+  }
+
+  void _handleOnPressed(
+    UserInteractions interaction,
+    TextButtonValidNotifier value,
+  ) {
+    if (interaction == UserInteractions.add) {
+      _addFund();
+    } else {
+      _editGoal();
+    }
+
+    _updateGoalState(interaction);
+    value.isTextButtonValid(false);
+    widget.mobileNotifier.openDialog(isDialogOpen: false);
+    Navigator.pop(context);
+  }
+
+  void _addFund() {
+    widget.notifier.addFund(
+      widget.goal,
+      parseCurrency(
+        widget.notifier.goalTextFieldDetails!.amount.toString(),
+        widget.user.userProfile,
+      ),
+    );
+  }
+
+  void _editGoal() {
+    final GoalTextFieldDetails details = widget.notifier.goalTextFieldDetails!;
+    final Goal goal = Goal(
+      name: details.name,
+      amount: details.amount,
+      notes: details.remarks,
+      date: details.date,
+      priority: details.priority,
+      category: details.category,
+    );
+    final Goal currentGoal = widget.notifier.visibleGoals[widget.index];
+    goal.fund = currentGoal.fund;
+    widget.notifier.editGoal(currentGoal, goal, widget.index);
+  }
+
+  void _updateGoalState(UserInteractions interaction) {
+    // final int index = widget.notifier.currentIndex;
+    // final Goal goal = widget.notifier.goals[index];
+    if (interaction == UserInteractions.add) {
+      // updateGoalFund(goal, index);
+    } else if (interaction == UserInteractions.edit) {
+      // updateGoals(widget.user, goal, UserInteractions.edit, index: index);
+    }
+  }
+
+  Widget _createDesktopDialog(bool isEdit) {
+    return Consumer<TextButtonValidNotifier>(
+      builder:
+          (BuildContext context, TextButtonValidNotifier value, Widget? child) {
+            if (isEdit) {
+              return GoalsCenterDialog(
+                notifier: widget.notifier,
+                validNotifier: value,
+                userInteraction: UserInteractions.edit,
+                userDetails: widget.user,
+                selectedIndex: widget.index,
+              );
+            } else {
+              return _AddOrEditFund(
+                goal: widget.goal,
+                notifier: widget.notifier,
+                validNotifier: value,
+                user: widget.user,
+                isEdit: false,
+              );
+            }
+          },
     );
   }
 
@@ -461,50 +822,51 @@ class _GoalMenuState extends State<_GoalMenu> {
     _colorScheme = themeData.colorScheme;
     _textTheme = themeData.textTheme;
 
-    return PopupMenuButton<_GoalMenuOption>(
-      position: PopupMenuPosition.under,
-      iconSize: 18,
-      color: _colorScheme.surfaceContainerLow,
-      icon: const Icon(Icons.more_vert),
-      padding: EdgeInsets.zero,
-      onSelected: _handleMenuButtonSelected,
-      itemBuilder: (BuildContext context) {
-        return _buildMenuItems;
-      },
-      style: TextButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    return Theme(
+      data: ThemeData(hoverColor: _colorScheme.primaryContainer),
+      child: PopupMenuButton<_GoalMenuOption>(
+        position: PopupMenuPosition.under,
+        iconSize: 18,
+        tooltip: '',
+        color: _colorScheme.surfaceContainerLow,
+        icon: Icon(Icons.more_vert, color: _colorScheme.onSurfaceVariant),
+        padding: EdgeInsets.zero,
+        onSelected: _handleMenuButtonSelected,
+        itemBuilder: (BuildContext context) => _buildMenuItems,
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
       ),
     );
   }
 }
 
-class _AddOrEditExpense extends StatefulWidget {
-  const _AddOrEditExpense({
+class _AddOrEditFund extends StatefulWidget {
+  const _AddOrEditFund({
     required this.goal,
     required this.user,
+    required this.notifier,
+    required this.validNotifier,
     required this.isEdit,
   });
 
   final Goal goal;
   final UserDetails user;
   final bool isEdit;
+  final GoalNotifier notifier;
+  final TextButtonValidNotifier validNotifier;
 
   @override
-  State<_AddOrEditExpense> createState() => _AddOrEditExpenseState();
+  State<_AddOrEditFund> createState() => _AddOrEditFundState();
 }
 
-class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
+class _AddOrEditFundState extends State<_AddOrEditFund> {
   late ColorScheme _colorScheme;
   late TextTheme _textTheme;
 
-  String? _selectedCategory;
-  String? _selectedSubcategory;
-  // ignore: unused_field
-  String? _addedAmount;
-  // ignore: unused_field
-  String? _remarks;
+  final TextEditingController _amountController = TextEditingController();
 
-  Widget _buildDesktopContent(BuildContext context, StateSetter setState) {
+  Widget _buildDesktopContent() {
     return Column(
       spacing: 24,
       mainAxisSize: MainAxisSize.min,
@@ -512,31 +874,24 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
         Row(
           spacing: 16,
           children: <Widget>[
-            Expanded(child: _buildCategory(setState)),
-            Expanded(child: _buildSubcategory(setState)),
-          ],
-        ),
-        Row(
-          spacing: 16,
-          children: <Widget>[
+            Expanded(child: _buildCategory()),
             Expanded(child: _buildAmount()),
-            Expanded(child: _buildDate(context, setState)),
           ],
         ),
+        Row(spacing: 16, children: <Widget>[Expanded(child: _buildDate())]),
         _buildRemarks(),
       ],
     );
   }
 
-  Widget _buildMobileContent(BuildContext context, StateSetter setState) {
+  Widget _buildMobileContent() {
     return Column(
       spacing: 24,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        _buildCategory(setState),
-        _buildSubcategory(setState),
+        _buildCategory(),
         _buildAmount(),
-        _buildDate(context, setState),
+        _buildDate(),
         _buildRemarks(),
       ],
     );
@@ -547,7 +902,7 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
-          'Add Expense',
+          'Add Fund',
           style: _textTheme.headlineSmall?.copyWith(
             color: _colorScheme.onSurface,
           ),
@@ -564,96 +919,111 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
     );
   }
 
-  Widget _buildCategory(StateSetter setState) {
+  Widget _buildCategory() {
+    final TextEditingController controller = TextEditingController();
+    controller.text = widget.goal.name;
+    return CustomTextField(
+      controller: controller,
+      focusNode: FocusNode(),
+      hintText: 'Title',
+      readOnly: true,
+      canRequestFocus: false,
+    );
+  }
+
+  Widget _buildAmount() {
+    return CustomTextField(
+      controller: _amountController,
+      hintText: 'Add Amount',
+      focusNode: FocusNode(),
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.singleLineFormatter,
+        FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+      ],
+      onChanged: (String value) {
+        final bool valid = _validateForm();
+        widget.validNotifier.isTextButtonValid(valid);
+      },
+    );
+  }
+
+  Widget _buildDate() {
+    final TextEditingController controller = TextEditingController();
+    controller.text = formatDate(widget.goal.date);
+    return CustomTextField(
+      controller: controller,
+      focusNode: FocusNode(),
+      hintText: 'Deadline',
+      readOnly: true,
+      canRequestFocus: false,
+    );
+  }
+
+  Widget _buildRemarks() {
+    final TextEditingController controller = TextEditingController();
+    controller.text = widget.goal.notes ?? '';
+    return CustomTextField(
+      controller: controller,
+      focusNode: FocusNode(),
+      hintText: 'Remarks',
+      maxLines: 4,
+      readOnly: true,
+      canRequestFocus: false,
+    );
+  }
+
+  bool _validateForm() {
+    return _amountController.text.isNotEmpty;
+  }
+
+  Widget _buildContent(bool isDesktop, BuildContext context) {
     return SizedBox(
-      width: 208.0,
-      child: DropdownButtonFormField<String>(
-        value: _selectedCategory,
-        // TODO(VijayakumarM): Load categories based on the selected Goal.
-        items: const <DropdownMenuItem<String>>[],
-        onChanged: (String? value) {
-          setState(() => _selectedCategory = value);
-        },
-        decoration: const InputDecoration(
-          labelText: 'Category',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(6)),
-          ),
+      width: 400,
+      child: isDesktop ? _buildDesktopContent() : _buildMobileContent(),
+    );
+  }
+
+  List<Widget> _buildActionButtons(BuildContext context) {
+    return <Widget>[_buildCancelButton(context), _buildAddButton(context)];
+  }
+
+  Widget _buildCancelButton(BuildContext context) {
+    return TextButton(
+      onPressed: () => _handleCancel(context),
+      child: const Text('Cancel'),
+    );
+  }
+
+  Widget _buildAddButton(BuildContext context) {
+    return TextButton(
+      onPressed: () => _handleAdd(context),
+      child: Text(
+        'Add',
+        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+          color: !widget.validNotifier.isValid
+              ? Colors.grey
+              : Theme.of(context).colorScheme.primary,
         ),
       ),
     );
   }
 
-  Widget _buildSubcategory(StateSetter setState) {
-    return DropdownButtonFormField<String>(
-      value: _selectedSubcategory,
-      // TODO(VijayakumarM): Load subcategories based on the selected category.
-      items: const <DropdownMenuItem<String>>[],
-      onChanged: (String? value) {
-        setState(() => _selectedSubcategory = value);
-      },
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Subcategory',
-      ),
-    );
+  void _handleCancel(BuildContext context) {
+    widget.validNotifier.isTextButtonValid(false);
+    Navigator.pop(context);
   }
 
-  Widget _buildAmount() {
-    return TextFormField(
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Amount',
-      ),
-      keyboardType: TextInputType.number,
-      onChanged: (String value) => _addedAmount = value,
+  void _handleAdd(BuildContext context) {
+    widget.notifier.addFund(
+      widget.goal,
+      parseCurrency(_amountController.text, widget.user.userProfile),
     );
-  }
-
-  Widget _buildDate(BuildContext context, StateSetter setState) {
-    return TextFormField(
-      readOnly: true,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Date',
-        suffixIcon: Icon(Icons.calendar_month_outlined),
-      ),
-      onTap: () async {
-        final DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(1950),
-          lastDate: DateTime.now(),
-        );
-        if (pickedDate != null) {}
-      },
-    );
-  }
-
-  Widget _buildRemarks() {
-    return TextFormField(
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Remarks',
-      ),
-      maxLines: 3,
-      onChanged: (String value) => _remarks = value,
-    );
-  }
-
-  List<Widget> _buildActionButtons(BuildContext context) {
-    return <Widget>[
-      TextButton(
-        onPressed: () => Navigator.pop(context),
-        child: const Text('Cancel'),
-      ),
-      TextButton(
-        onPressed: () {
-          // TODO(VijayakumarM): Add the expense to the database.
-        },
-        child: const Text('Add'),
-      ),
-    ];
+    // final int index = widget.notifier.currentIndex;
+    // final Goal goal = widget.notifier.goals[index];
+    widget.validNotifier.isTextButtonValid(false);
+    // updateGoalFund(goal, index);
+    Navigator.pop(context);
   }
 
   @override
@@ -702,10 +1072,7 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
             ),
             actionsPadding: const EdgeInsets.all(24),
             title: _buildHeader(context),
-            content:
-                isDesktop
-                    ? _buildDesktopContent(context, setState)
-                    : _buildMobileContent(context, setState),
+            content: _buildContent(isDesktop, context),
             actions: _buildActionButtons(context),
           ),
         );
@@ -715,10 +1082,15 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
 }
 
 class _DeleteGoal extends StatefulWidget {
-  const _DeleteGoal({required this.goal, required this.user});
+  const _DeleteGoal({
+    required this.goal,
+    required this.user,
+    required this.notifier,
+  });
 
   final Goal goal;
   final UserDetails user;
+  final GoalNotifier notifier;
 
   @override
   State<_DeleteGoal> createState() => _DeleteGoalState();
@@ -746,10 +1118,19 @@ class _DeleteGoalState extends State<_DeleteGoal> {
       TextButton(
         style: actionButtonStyle,
         onPressed: () {
+          widget.notifier.deleteGoal(widget.goal);
+          // updateGoals(
+          //   widget.user,
+          //   widget.goal,
+          //   UserInteractions.delete,
+          //   index: widget.notifier.currentIndex,
+          // );
           Navigator.of(context).pop();
-          // TODO(VijayakumarM): Add delete logic.
         },
-        child: Text('Delete', style: actionButtonTextStyle),
+        child: Text(
+          'Delete',
+          style: _textTheme.labelLarge?.copyWith(color: _colorScheme.error),
+        ),
       ),
     ];
   }
@@ -768,14 +1149,32 @@ class _DeleteGoalState extends State<_DeleteGoal> {
         bottom: 16,
       ),
       actionsPadding: const EdgeInsets.all(24),
-      title: Text(
-        'Delete Goal',
-        style: _textTheme.headlineSmall?.copyWith(
-          color: _colorScheme.onSurface,
-        ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Delete Goal',
+            style: _textTheme.headlineSmall?.copyWith(
+              color: _colorScheme.onSurface,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 6.0),
+            child: IconButton(
+              icon: const Icon(
+                IconData(0xe721, fontFamily: fontIconFamily),
+                size: 24,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ],
       ),
       content: Text(
-        'Are you sure you want to delete this Goal?',
+        'Are you sure you want to delete this goal?',
         style: _textTheme.bodyLarge?.copyWith(color: _colorScheme.onSurface),
       ),
       actions: _buildActionButtons(context),
@@ -824,7 +1223,7 @@ class GoalDataSource extends DataGridSource {
           ),
           DataGridCell<num>(
             columnName: columnNames[1],
-            value: paginatedGoal.targetAmount,
+            value: paginatedGoal.amount,
           ),
           DataGridCell<num>(
             columnName: columnNames[2],
@@ -932,10 +1331,9 @@ class GoalDataSource extends DataGridSource {
         ],
         axisTrackStyle: LinearAxisTrackStyle(
           edgeStyle: LinearEdgeStyle.bothCurve,
-          color:
-              themeNotifier.isDarkTheme
-                  ? linearGaugeDarkThemeTrackColor
-                  : linearGaugeLightThemeTrackColor,
+          color: themeNotifier.isDarkTheme
+              ? linearGaugeDarkThemeTrackColor
+              : linearGaugeLightThemeTrackColor,
         ),
       ),
     );

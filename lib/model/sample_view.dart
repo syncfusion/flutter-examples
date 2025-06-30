@@ -76,8 +76,9 @@ class LocalizationSampleViewState<T extends LocalizationSampleView>
 
   /// Add the localization selection widget.
   Widget localizationSelectorWidget(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 250 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 250
+        : MediaQuery.of(context).size.width;
     final double dropDownWidth = 0.6 * screenWidth;
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
@@ -97,27 +98,27 @@ class LocalizationSampleViewState<T extends LocalizationSampleView>
                 isExpanded: true,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: model.locale,
-                items:
-                    _supportedLocales.map((Locale value) {
-                      String localeString = value.toString();
-                      if (this is DirectionalitySampleViewState) {
-                        localeString =
-                            (localeString == 'ar_AE') ? 'Arabic' : 'English';
-                      } else {
-                        localeString =
-                            localeString.substring(0, 2) +
-                            '-' +
-                            localeString.substring(3, 5);
-                      }
+                items: _supportedLocales.map((Locale value) {
+                  String localeString = value.toString();
+                  if (this is DirectionalitySampleViewState) {
+                    localeString = (localeString == 'ar_AE')
+                        ? 'Arabic'
+                        : 'English';
+                  } else {
+                    localeString =
+                        localeString.substring(0, 2) +
+                        '-' +
+                        localeString.substring(3, 5);
+                  }
 
-                      return DropdownMenuItem<Locale>(
-                        value: value,
-                        child: Text(
-                          localeString,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                  return DropdownMenuItem<Locale>(
+                    value: value,
+                    child: Text(
+                      localeString,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (Locale? value) {
                   if (model.locale != value) {
                     setState(() {
@@ -214,8 +215,9 @@ class DirectionalitySampleViewState<T extends DirectionalitySampleView>
 
   /// Add the localization selection widget.
   Widget textDirectionSelectorWidget(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 250 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 250
+        : MediaQuery.of(context).size.width;
     closeAllOverlay();
     final double dropDownWidth = 0.6 * screenWidth;
     return StatefulBuilder(
@@ -238,16 +240,15 @@ class DirectionalitySampleViewState<T extends DirectionalitySampleView>
                 isExpanded: true,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: model.textDirection,
-                items:
-                    _supportedTextDirection.map((TextDirection value) {
-                      return DropdownMenuItem<TextDirection>(
-                        value: value,
-                        child: Text(
-                          value.toString().split('.')[1].toUpperCase(),
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: _supportedTextDirection.map((TextDirection value) {
+                  return DropdownMenuItem<TextDirection>(
+                    value: value,
+                    child: Text(
+                      value.toString().split('.')[1].toUpperCase(),
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (TextDirection? value) {
                   if (model.textDirection != value) {
                     setState(() {
@@ -357,20 +358,17 @@ class ProgressBarColor {
   final SampleModel model;
 
   /// Get the pointer color based on the theme.
-  Color? get pointerColor =>
-      model.themeData.useMaterial3
-          ? model.primaryColor.withValues(alpha: 0.8)
-          : null;
+  Color? get pointerColor => model.themeData.useMaterial3
+      ? model.primaryColor.withValues(alpha: 0.8)
+      : null;
 
   /// Get the axis line color based on the theme.
-  Color get axisLineColor =>
-      model.themeData.useMaterial3
-          ? model.primaryColor.withAlpha(30)
-          : const Color.fromARGB(30, 0, 169, 181);
+  Color get axisLineColor => model.themeData.useMaterial3
+      ? model.primaryColor.withAlpha(30)
+      : const Color.fromARGB(30, 0, 169, 181);
 
   /// Get the buffer color based on the theme.
-  Color get bufferColor =>
-      model.themeData.useMaterial3
-          ? model.primaryColor.withAlpha(90)
-          : const Color.fromARGB(90, 0, 169, 181);
+  Color get bufferColor => model.themeData.useMaterial3
+      ? model.primaryColor.withAlpha(90)
+      : const Color.fromARGB(90, 0, 169, 181);
 }

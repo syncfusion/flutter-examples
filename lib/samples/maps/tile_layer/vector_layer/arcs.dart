@@ -432,38 +432,35 @@ class _ArcsSampleState extends SampleViewState
   MapSublayer _getCurrentSublayer(String currentLegend) {
     if (currentLegend == 'arcs') {
       return MapArcLayer(
-        arcs:
-            List<MapArc>.generate(_airports.length, (int index) {
-              return MapArc(
-                from: _airports[index].from,
-                to: _airports[index].to,
-                dashArray: _dashArray,
-                heightFactor:
-                    index == 5 &&
-                            _airports[index].to ==
-                                const MapLatLng(13.0827, 80.2707)
-                        ? 0.5
-                        : 0.2,
-                color: _layerColor,
-                width: 2.0,
-              );
-            }).toSet(),
+        arcs: List<MapArc>.generate(_airports.length, (int index) {
+          return MapArc(
+            from: _airports[index].from,
+            to: _airports[index].to,
+            dashArray: _dashArray,
+            heightFactor:
+                index == 5 &&
+                    _airports[index].to == const MapLatLng(13.0827, 80.2707)
+                ? 0.5
+                : 0.2,
+            color: _layerColor,
+            width: 2.0,
+          );
+        }).toSet(),
         animation: _animation,
         tooltipBuilder: _tooltipBuilder,
       );
     } else {
       return MapLineLayer(
-        lines:
-            List<MapLine>.generate(_airports.length, (int index) {
-              return MapLine(
-                from: _airports[index].from,
-                to: _airports[index].to,
-                dashArray: _dashArray,
-                color: _layerColor,
-                strokeCap: StrokeCap.round,
-                width: 2.0,
-              );
-            }).toSet(),
+        lines: List<MapLine>.generate(_airports.length, (int index) {
+          return MapLine(
+            from: _airports[index].from,
+            to: _airports[index].to,
+            dashArray: _dashArray,
+            color: _layerColor,
+            strokeCap: StrokeCap.round,
+            width: 2.0,
+          );
+        }).toSet(),
         animation: _animation,
         tooltipBuilder: _tooltipBuilder,
       );
@@ -533,10 +530,9 @@ class _ArcsSampleState extends SampleViewState
                   return MapMarker(
                     latitude: _markerData[index].latLng.latitude,
                     longitude: _markerData[index].latLng.longitude,
-                    child:
-                        index == 0
-                            ? BlowingCircle(color: _layerColor)
-                            : Icon(Icons.circle, color: _layerColor, size: 15),
+                    child: index == 0
+                        ? BlowingCircle(color: _layerColor)
+                        : Icon(Icons.circle, color: _layerColor, size: 15),
                   );
                 },
                 markerTooltipBuilder: (BuildContext context, int index) {
@@ -582,15 +578,14 @@ class _ArcsSampleState extends SampleViewState
 
   Widget _buildChipWidget(int index, String city) {
     return Padding(
-      padding:
-          _isDesktop
-              ? const EdgeInsets.only(left: 8.0, top: 8.0)
-              : const EdgeInsets.only(left: 8.0),
+      padding: _isDesktop
+          ? const EdgeInsets.only(left: 8.0, top: 8.0)
+          : const EdgeInsets.only(left: 8.0),
       child: ChoiceChip(
         backgroundColor:
             model.themeData.colorScheme.brightness == Brightness.light
-                ? Colors.white
-                : Colors.black,
+            ? Colors.white
+            : Colors.black,
         elevation: 3.0,
         shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
         showCheckmark: false,
@@ -598,8 +593,8 @@ class _ArcsSampleState extends SampleViewState
         selected: _currentSelectedCityIndex == index,
         selectedColor:
             model.themeData.colorScheme.brightness == Brightness.light
-                ? model.primaryColor.withValues(alpha: 0.25)
-                : const Color.fromRGBO(61, 91, 89, 0.9),
+            ? model.primaryColor.withValues(alpha: 0.25)
+            : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {
             setState(() {
@@ -666,10 +661,9 @@ class _ArcsSampleState extends SampleViewState
                       onChanged: (bool? value) {
                         setState(() {
                           _enableDashArray = value!;
-                          _dashArray =
-                              _enableDashArray
-                                  ? <double>[8, 2, 2, 2]
-                                  : <double>[0, 0];
+                          _dashArray = _enableDashArray
+                              ? <double>[8, 2, 2, 2]
+                              : <double>[0, 0];
                           _canUpdateZoomLevel = false;
                         });
                         stateSetter(() {});
@@ -718,10 +712,9 @@ class _BlowingCircleCustomPaint extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final double halfWidth = iconSize.width / 2;
     const Offset center = Offset.zero;
-    final Paint paint =
-        Paint()
-          ..isAntiAlias = true
-          ..color = iconColor;
+    final Paint paint = Paint()
+      ..isAntiAlias = true
+      ..color = iconColor;
     canvas.drawCircle(center, halfWidth, paint);
     canvas.drawCircle(
       center,
@@ -759,12 +752,11 @@ class _BlowingCircleState extends State<BlowingCircle>
       duration: const Duration(milliseconds: 1000),
     );
 
-    _animation = CurvedAnimation(
-      curve: Curves.fastOutSlowIn,
-      parent: _controller,
-    )..addListener(() {
-      setState(() {});
-    });
+    _animation =
+        CurvedAnimation(curve: Curves.fastOutSlowIn, parent: _controller)
+          ..addListener(() {
+            setState(() {});
+          });
 
     _controller.repeat();
   }

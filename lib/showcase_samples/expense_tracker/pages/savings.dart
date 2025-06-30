@@ -190,8 +190,9 @@ class RenderSavingsPageLayout extends RenderBox
   @override
   void performLayout() {
     final Size availableSize = constraints.biggest;
-    final double commonInsightTileMinimumHeight =
-        isMobile(buildContext) ? 64.0 : 96.0;
+    final double commonInsightTileMinimumHeight = isMobile(buildContext)
+        ? 64.0
+        : 96.0;
     const double insightWidthFactor = 0.5;
 
     final RenderBox? totalSavingsRenderBox = childForSlot(
@@ -354,21 +355,21 @@ class _SavingsPageState extends State<SavingsPage> {
     final SavingsNotifier savingsNotifier = context.watch<SavingsNotifier>();
     return isTablet(context)
         ? ChartsDropdownFilter(
-          intervalFilters: segmentedButtons,
-          selectedDuration: savingsNotifier.selectedSegment,
-          showLeadingIcon: false,
-          horizontalPadding: 16.0,
-          onTap: (String? value) {
-            _onSelectedEvent(savingsNotifier, value);
-          },
-        )
+            intervalFilters: segmentedButtons,
+            selectedDuration: savingsNotifier.selectedSegment,
+            showLeadingIcon: false,
+            horizontalPadding: 16.0,
+            onTap: (String? value) {
+              _onSelectedEvent(savingsNotifier, value);
+            },
+          )
         : SegmentedFilterButtons(
-          options: segmentedButtons,
-          onSelectionChanged: (Set<String> selections) {
-            _onSelectedEvent(savingsNotifier, selections.first);
-          },
-          selectedSegment: savingsNotifier.selectedSegment,
-        );
+            options: segmentedButtons,
+            onSelectionChanged: (Set<String> selections) {
+              _onSelectedEvent(savingsNotifier, selections.first);
+            },
+            selectedSegment: savingsNotifier.selectedSegment,
+          );
   }
 
   void _onSelectedEvent(SavingsNotifier savingsNotifier, String? value) {
@@ -442,188 +443,186 @@ class _SavingsPageState extends State<SavingsPage> {
 
   Widget _buildEditAndDeleteTag(SavingsNotifier savingsNotifier) {
     return Consumer<SavingsSelectedCountNotifier>(
-      builder: (
-        BuildContext context,
-        SavingsSelectedCountNotifier selectedCountNotifier,
-        Widget? child,
-      ) {
-        final bool isWebFullView =
-            kIsWeb ||
-            Platform.isWindows ||
-            Platform.isMacOS ||
-            Platform.isLinux;
-        return SizedBox(
-          height: isWebFullView ? 40 : 46,
-          child: SelectedCountsTag(
-            selectedCount: selectedCountNotifier.selectedCount,
-            closeButtonPressed: () {
-              _dataGridController.selectedRows = <DataGridRow>[];
-              selectedCountNotifier.countChecking(0);
-              selectedCountNotifier.countChecking(
-                _dataGridController.selectedRows.length,
-              );
-            },
-            editButtonPressed: () {
-              final int startIndex =
-                  _dataSource.rowsPerPage * _dataSource.currentPageIndex;
-              final List<int> selectedIndexes =
-                  _dataGridController.selectedRows
+      builder:
+          (
+            BuildContext context,
+            SavingsSelectedCountNotifier selectedCountNotifier,
+            Widget? child,
+          ) {
+            final bool isWebFullView =
+                kIsWeb ||
+                Platform.isWindows ||
+                Platform.isMacOS ||
+                Platform.isLinux;
+            return SizedBox(
+              height: isWebFullView ? 40 : 46,
+              child: SelectedCountsTag(
+                selectedCount: selectedCountNotifier.selectedCount,
+                closeButtonPressed: () {
+                  _dataGridController.selectedRows = <DataGridRow>[];
+                  selectedCountNotifier.countChecking(0);
+                  selectedCountNotifier.countChecking(
+                    _dataGridController.selectedRows.length,
+                  );
+                },
+                editButtonPressed: () {
+                  final int startIndex =
+                      _dataSource.rowsPerPage * _dataSource.currentPageIndex;
+                  final List<int> selectedIndexes = _dataGridController
+                      .selectedRows
                       .map((row) => startIndex + _dataSource.rows.indexOf(row))
                       .toList();
-              _userInteraction = UserInteractions.edit;
-              if (isMobile(context)) {
-                showDialog<Saving>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Consumer<TextButtonValidNotifier>(
-                      builder: (
-                        BuildContext context,
-                        TextButtonValidNotifier value,
-                        Widget? child,
-                      ) {
-                        return MobileCenterDialog(
-                          validateNotifier: value,
-                          userInteraction: UserInteractions.edit,
-                          savingsNotifier: savingsNotifier,
-                          currentMobileDialog: MobileDialogs.savings,
-                          title: 'Edit savings',
-                          buttonText: 'Save',
-                          index: selectedIndexes[0],
-                          userDetails: widget.currentUserDetails,
-                          onCancelPressed: () {
-                            Navigator.pop(context);
-                          },
-                          onPressed: () {
-                            if (savingsNotifier.savingsTextFieldDetails !=
-                                null) {
-                              final Saving saving = Saving(
-                                name:
-                                    savingsNotifier
-                                        .savingsTextFieldDetails!
-                                        .name,
-                                savedAmount:
-                                    savingsNotifier
-                                        .savingsTextFieldDetails!
-                                        .amount,
-                                type:
-                                    savingsNotifier
-                                        .savingsTextFieldDetails!
-                                        .type,
-                                remark:
-                                    savingsNotifier
-                                        .savingsTextFieldDetails!
-                                        .remarks,
-                                savingDate:
-                                    savingsNotifier
-                                        .savingsTextFieldDetails!
-                                        .date,
-                              );
-                              savingsNotifier.editSavings(
-                                selectedIndexes[0],
-                                saving,
-                              );
-                              selectedCountNotifier.countChecking(0);
+                  _userInteraction = UserInteractions.edit;
+                  if (isMobile(context)) {
+                    showDialog<Saving>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Consumer<TextButtonValidNotifier>(
+                          builder:
+                              (
+                                BuildContext context,
+                                TextButtonValidNotifier value,
+                                Widget? child,
+                              ) {
+                                return MobileCenterDialog(
+                                  validateNotifier: value,
+                                  userInteraction: UserInteractions.edit,
+                                  savingsNotifier: savingsNotifier,
+                                  currentMobileDialog: MobileDialogs.savings,
+                                  title: 'Edit savings',
+                                  buttonText: 'Save',
+                                  index: selectedIndexes[0],
+                                  userDetails: widget.currentUserDetails,
+                                  onCancelPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  onPressed: () {
+                                    if (savingsNotifier
+                                            .savingsTextFieldDetails !=
+                                        null) {
+                                      final Saving saving = Saving(
+                                        name: savingsNotifier
+                                            .savingsTextFieldDetails!
+                                            .name,
+                                        savedAmount: savingsNotifier
+                                            .savingsTextFieldDetails!
+                                            .amount,
+                                        type: savingsNotifier
+                                            .savingsTextFieldDetails!
+                                            .type,
+                                        remark: savingsNotifier
+                                            .savingsTextFieldDetails!
+                                            .remarks,
+                                        savingDate: savingsNotifier
+                                            .savingsTextFieldDetails!
+                                            .date,
+                                      );
+                                      savingsNotifier.editSavings(
+                                        selectedIndexes[0],
+                                        saving,
+                                      );
+                                      selectedCountNotifier.countChecking(0);
 
-                              updateSavings(
-                                context,
-                                widget.currentUserDetails,
-                                saving,
-                                _userInteraction,
-                                savingsNotifier.selectedIndexes,
-                              );
-                              value.isTextButtonValid(false);
-                              Navigator.pop(context);
-                            }
-                          },
+                                      // updateSavings(
+                                      //   widget.currentUserDetails,
+                                      //   saving,
+                                      //   _userInteraction,
+                                      //   savingsNotifier.selectedIndexes,
+                                      // );
+                                      value.isTextButtonValid(false);
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                );
+                              },
                         );
                       },
                     );
-                  },
-                );
-              } else {
-                showDialog<Saving>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Consumer<TextButtonValidNotifier>(
-                      builder: (
-                        BuildContext context,
-                        TextButtonValidNotifier validNotifier,
-                        Widget? child,
-                      ) {
-                        return SavingsCenterDialog(
-                          notifier: savingsNotifier,
-                          validNotifier: validNotifier,
-                          selectedCountNotifier: selectedCountNotifier,
-                          addButtonOnPressedEvent: () {},
-                          userInteraction: _userInteraction,
-                          userDetails: widget.currentUserDetails,
-                          selectedIndex: selectedIndexes[0],
+                  } else {
+                    showDialog<Saving>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Consumer<TextButtonValidNotifier>(
+                          builder:
+                              (
+                                BuildContext context,
+                                TextButtonValidNotifier validNotifier,
+                                Widget? child,
+                              ) {
+                                return SavingsCenterDialog(
+                                  notifier: savingsNotifier,
+                                  validNotifier: validNotifier,
+                                  selectedCountNotifier: selectedCountNotifier,
+                                  addButtonOnPressedEvent: () {},
+                                  userInteraction: _userInteraction,
+                                  userDetails: widget.currentUserDetails,
+                                  selectedIndex: selectedIndexes[0],
+                                );
+                              },
                         );
                       },
                     );
-                  },
-                );
-              }
-            },
-            deleteButtonPressed: () {
-              if (isMobile(context)) {
-                showMobileDeleteConfirmation(
-                  context,
-                  'Delete Saving?',
-                  'Do you want delete this saving?',
-                  () {
-                    final int startIndex =
-                        _dataSource.rowsPerPage * _dataSource.currentPageIndex;
-                    final List<int> selectedIndexes =
-                        _dataGridController.selectedRows
+                  }
+                },
+                deleteButtonPressed: () {
+                  if (isMobile(context)) {
+                    showMobileDeleteConfirmation(
+                      context,
+                      'Delete Saving?',
+                      'Do you want delete this saving?',
+                      () {
+                        final int startIndex =
+                            _dataSource.rowsPerPage *
+                            _dataSource.currentPageIndex;
+                        final List<int> selectedIndexes = _dataGridController
+                            .selectedRows
                             .map(
                               (row) =>
                                   startIndex + _dataSource.rows.indexOf(row),
                             )
                             .toList();
-                    savingsNotifier.deleteSavings(selectedIndexes);
-                    selectedCountNotifier.countChecking(0);
-                    updateSavings(
-                      context,
-                      widget.currentUserDetails,
-                      _savings[0],
-                      UserInteractions.delete,
-                      savingsNotifier.selectedIndexes,
+                        savingsNotifier.deleteSavings(selectedIndexes);
+                        selectedCountNotifier.countChecking(0);
+                        // updateSavings(
+                        //   widget.currentUserDetails,
+                        //   _savings[0],
+                        //   UserInteractions.delete,
+                        //   savingsNotifier.selectedIndexes,
+                        // );
+                        Navigator.pop(context);
+                      },
                     );
-                    Navigator.pop(context);
-                  },
-                );
-              } else {
-                showDeleteConfirmationDialog(
-                  context: context,
-                  title: 'Delete Saving?',
-                  content: 'Do you want delete this saving?',
-                  confirmAction: () {
-                    final int startIndex =
-                        _dataSource.rowsPerPage * _dataSource.currentPageIndex;
-                    final List<int> selectedIndexes =
-                        _dataGridController.selectedRows
+                  } else {
+                    showDeleteConfirmationDialog(
+                      context: context,
+                      title: 'Delete Saving?',
+                      content: 'Do you want delete this saving?',
+                      confirmAction: () {
+                        final int startIndex =
+                            _dataSource.rowsPerPage *
+                            _dataSource.currentPageIndex;
+                        final List<int> selectedIndexes = _dataGridController
+                            .selectedRows
                             .map(
                               (row) =>
                                   startIndex + _dataSource.rows.indexOf(row),
                             )
                             .toList();
-                    savingsNotifier.deleteSavings(selectedIndexes);
-                    selectedCountNotifier.countChecking(0);
-                    updateSavings(
-                      context,
-                      widget.currentUserDetails,
-                      _savings[0],
-                      UserInteractions.delete,
-                      savingsNotifier.selectedIndexes,
+                        savingsNotifier.deleteSavings(selectedIndexes);
+                        selectedCountNotifier.countChecking(0);
+                        // updateSavings(
+                        //   widget.currentUserDetails,
+                        //   _savings[0],
+                        //   UserInteractions.delete,
+                        //   savingsNotifier.selectedIndexes,
+                        // );
+                      },
                     );
-                  },
-                );
-              }
-            },
-          ),
-        );
-      },
+                  }
+                },
+              ),
+            );
+          },
     );
   }
 
@@ -636,48 +635,50 @@ class _SavingsPageState extends State<SavingsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Consumer<SavingsSelectedCountNotifier>(
-          builder: (
-            BuildContext context,
-            SavingsSelectedCountNotifier value,
-            Widget? child,
-          ) {
-            _selectedCountNotifier = value;
-            if (value.selectedCount > 0) {
-              return _buildEditAndDeleteTag(savingsNotifier);
-            } else {
-              return _buildAddAndSegmentedButtons(
-                context,
-                (Set<String> newSelection) {
-                  _selectedSegment = newSelection.first;
-                },
-                () {
-                  _userInteraction = UserInteractions.add;
-                  showDialog<Saving>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Consumer<TextButtonValidNotifier>(
-                        builder: (
-                          BuildContext context,
-                          TextButtonValidNotifier validNotifier,
-                          Widget? child,
-                        ) {
-                          return SavingsCenterDialog(
-                            notifier: savingsNotifier,
-                            validNotifier: validNotifier,
-                            selectedCountNotifier:
-                                context.watch<SavingsSelectedCountNotifier>(),
-                            addButtonOnPressedEvent: () {},
-                            userInteraction: _userInteraction,
-                            userDetails: widget.currentUserDetails,
+          builder:
+              (
+                BuildContext context,
+                SavingsSelectedCountNotifier value,
+                Widget? child,
+              ) {
+                _selectedCountNotifier = value;
+                if (value.selectedCount > 0) {
+                  return _buildEditAndDeleteTag(savingsNotifier);
+                } else {
+                  return _buildAddAndSegmentedButtons(
+                    context,
+                    (Set<String> newSelection) {
+                      _selectedSegment = newSelection.first;
+                    },
+                    () {
+                      _userInteraction = UserInteractions.add;
+                      showDialog<Saving>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Consumer<TextButtonValidNotifier>(
+                            builder:
+                                (
+                                  BuildContext context,
+                                  TextButtonValidNotifier validNotifier,
+                                  Widget? child,
+                                ) {
+                                  return SavingsCenterDialog(
+                                    notifier: savingsNotifier,
+                                    validNotifier: validNotifier,
+                                    selectedCountNotifier: context
+                                        .watch<SavingsSelectedCountNotifier>(),
+                                    addButtonOnPressedEvent: () {},
+                                    userInteraction: _userInteraction,
+                                    userDetails: widget.currentUserDetails,
+                                  );
+                                },
                           );
                         },
                       );
                     },
                   );
-                },
-              );
-            }
-          },
+                }
+              },
         ),
         if (isMobile(context))
           Row(
@@ -747,16 +748,14 @@ class _SavingsPageState extends State<SavingsPage> {
           dataGridController: _dataGridController,
           columnHeaders: buildSavingsColumnNames(context),
           totalRecords: filteredSavings.length,
-          onSelectionChanged: (
-            List<DataGridRow> addedRows,
-            List<DataGridRow> removedRows,
-          ) {
-            _selectedRows.addAll(addedRows);
-            _selectedRows.removeAll(removedRows);
-            _selectedCountNotifier.countChecking(
-              _dataGridController.selectedRows.length,
-            );
-          },
+          onSelectionChanged:
+              (List<DataGridRow> addedRows, List<DataGridRow> removedRows) {
+                _selectedRows.addAll(addedRows);
+                _selectedRows.removeAll(removedRows);
+                _selectedCountNotifier.countChecking(
+                  _dataGridController.selectedRows.length,
+                );
+              },
           onPageNavigationEnd: (newPageIndex) {
             _dataSource.handlePageChange(newPageIndex - 1, newPageIndex);
             _dataGridController.selectedRows.clear();
@@ -820,10 +819,9 @@ class SavingsGridSource extends CustomDataGridSource<Saving> {
                  padding: const EdgeInsets.only(left: 30.0),
                  child: Text(
                    formatDate(saving.savingDate, user: userDetails),
-                   style:
-                       isMobile(context)
-                           ? bodyMediumStyle
-                           : bodyLargeMediumStyle,
+                   style: isMobile(context)
+                       ? bodyMediumStyle
+                       : bodyLargeMediumStyle,
                  ),
                );
              case 'Name':
@@ -833,10 +831,9 @@ class SavingsGridSource extends CustomDataGridSource<Saving> {
                    padding: const EdgeInsets.only(left: 12.0),
                    child: Text(
                      saving.name,
-                     style:
-                         isMobile(context)
-                             ? bodyMediumStyle
-                             : bodyLargeMediumStyle,
+                     style: isMobile(context)
+                         ? bodyMediumStyle
+                         : bodyLargeMediumStyle,
                    ),
                  ),
                );
@@ -852,10 +849,9 @@ class SavingsGridSource extends CustomDataGridSource<Saving> {
                  padding: const EdgeInsets.only(left: 24),
                  child: Text(
                    toCurrency(saving.savedAmount, userDetails.userProfile),
-                   style:
-                       isMobile(context)
-                           ? bodyMediumStyle
-                           : bodyLargeMediumStyle,
+                   style: isMobile(context)
+                       ? bodyMediumStyle
+                       : bodyLargeMediumStyle,
                  ),
                );
              case 'Notes':
@@ -865,10 +861,9 @@ class SavingsGridSource extends CustomDataGridSource<Saving> {
                    padding: const EdgeInsets.only(left: 12.0),
                    child: Text(
                      saving.remark,
-                     style:
-                         isMobile(context)
-                             ? bodyMediumStyle
-                             : bodyLargeMediumStyle,
+                     style: isMobile(context)
+                         ? bodyMediumStyle
+                         : bodyLargeMediumStyle,
                    ),
                  ),
                );

@@ -112,24 +112,22 @@ class _DraggableMarkerState extends SampleViewState
                   );
                   _tileLayerController.updateMarkers(<int>[index]);
                 },
-                child:
-                    _selectedIndex == index
-                        ? ScaleTransition(
-                          alignment: Alignment.bottomCenter,
-                          scale: _animation,
-                          child: Icon(
-                            Icons.location_on,
-                            color:
-                                Colors.accents[(index % Colors.accents.length)],
-                            size: 30,
-                          ),
-                        )
-                        : Icon(
+                child: _selectedIndex == index
+                    ? ScaleTransition(
+                        alignment: Alignment.bottomCenter,
+                        scale: _animation,
+                        child: Icon(
                           Icons.location_on,
                           color:
                               Colors.accents[(index % Colors.accents.length)],
                           size: 30,
                         ),
+                      )
+                    : Icon(
+                        Icons.location_on,
+                        color: Colors.accents[(index % Colors.accents.length)],
+                        size: 30,
+                      ),
               ),
             );
           },

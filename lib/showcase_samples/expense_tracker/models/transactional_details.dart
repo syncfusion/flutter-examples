@@ -1,5 +1,4 @@
 import 'budget.dart';
-// import 'category.dart';
 import 'goal.dart';
 import 'saving.dart';
 import 'transaction.dart';
@@ -10,7 +9,6 @@ class TransactionalDetails {
     required this.budgets,
     required this.goals,
     required this.savings,
-    // required this.categories,
   });
 
   factory TransactionalDetails.fromJson(
@@ -21,7 +19,6 @@ class TransactionalDetails {
       budgets: transactionalDetails.budgets,
       goals: transactionalDetails.goals,
       savings: transactionalDetails.savings,
-      // categories: transactionalDetails.categories,
     );
   }
 
@@ -29,5 +26,4 @@ class TransactionalDetails {
   List<Budget> budgets;
   List<Goal> goals;
   List<Saving> savings;
-  // List<Category> categories;
 }

@@ -80,8 +80,8 @@ class _AreaDefaultState extends SampleViewState {
       AreaSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         opacity: 0.7,
         name: 'Product B',
       ),

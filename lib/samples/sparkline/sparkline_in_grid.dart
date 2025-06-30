@@ -344,12 +344,11 @@ class _SparkLineGridState extends SampleViewState {
   SfDataGrid _buildDataGrid() {
     return SfDataGrid(
       source: _columnTypesDataGridSource,
-      columnWidthMode:
-          model.isWebFullView
-              ? ColumnWidthMode.fill
-              : _isLandscapeInMobileView
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+      columnWidthMode: model.isWebFullView
+          ? ColumnWidthMode.fill
+          : _isLandscapeInMobileView
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.none,
       columns: <GridColumn>[
         GridColumn(
           columnName: 'id',
@@ -436,24 +435,23 @@ class _Employee {
 
 class _ColumnTypesDataGridSource extends DataGridSource {
   _ColumnTypesDataGridSource(List<_Employee> employees, this.isWeb) {
-    _employeeData =
-        employees
-            .map<DataGridRow>(
-              (_Employee e) => DataGridRow(
-                cells: <DataGridCell<dynamic>>[
-                  DataGridCell<int>(columnName: 'id', value: e.id),
-                  DataGridCell<String>(columnName: 'name', value: e.name),
-                  DataGridCell<String>(
-                    columnName: 'shipCountry',
-                    value: e.shipCountry,
-                  ),
-                  DataGridCell<Widget>(columnName: 'tax', value: e.tax),
-                  DataGridCell<Widget>(columnName: 'column', value: e.column),
-                  DataGridCell<Widget>(columnName: 'winloss', value: e.winloss),
-                ],
+    _employeeData = employees
+        .map<DataGridRow>(
+          (_Employee e) => DataGridRow(
+            cells: <DataGridCell<dynamic>>[
+              DataGridCell<int>(columnName: 'id', value: e.id),
+              DataGridCell<String>(columnName: 'name', value: e.name),
+              DataGridCell<String>(
+                columnName: 'shipCountry',
+                value: e.shipCountry,
               ),
-            )
-            .toList();
+              DataGridCell<Widget>(columnName: 'tax', value: e.tax),
+              DataGridCell<Widget>(columnName: 'column', value: e.column),
+              DataGridCell<Widget>(columnName: 'winloss', value: e.winloss),
+            ],
+          ),
+        )
+        .toList();
   }
 
   late List<DataGridRow> _employeeData;

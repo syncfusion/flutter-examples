@@ -92,8 +92,9 @@ class _ButtonZoomingState extends SampleViewState {
         padding: EdgeInsets.fromLTRB(5, 0, 5, isCardView ? 0 : 50),
         child: Container(child: _buildChartContainer()),
       ),
-      floatingActionButton:
-          isCardView ? null : _buildFloatingActionButtons(context),
+      floatingActionButton: isCardView
+          ? null
+          : _buildFloatingActionButtons(context),
     );
   }
 
@@ -174,10 +175,9 @@ class _ButtonZoomingState extends SampleViewState {
     EdgeInsetsGeometry padding,
   ) {
     return Container(
-      width:
-          model.isWebFullView
-              ? null
-              : (MediaQuery.of(context).size.width / 7) * 0.9,
+      width: model.isWebFullView
+          ? null
+          : (MediaQuery.of(context).size.width / 7) * 0.9,
       padding: padding,
       child: Tooltip(
         message: tooltipMessage,

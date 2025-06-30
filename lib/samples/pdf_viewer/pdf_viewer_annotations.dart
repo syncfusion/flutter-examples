@@ -80,14 +80,13 @@ class _AnnotationsPdfViewerState extends SampleViewState {
     super.didChangeDependencies();
     _useMaterial3 = Theme.of(context).useMaterial3;
     _isLight = model.themeData.colorScheme.brightness == Brightness.light;
-    _contextMenuColor =
-        _useMaterial3
-            ? _isLight
-                ? const Color(0xFFEEE8F4)
-                : const Color(0xFF302D38)
-            : _isLight
-            ? const Color(0xFFFFFFFF)
-            : const Color(0xFF424242);
+    _contextMenuColor = _useMaterial3
+        ? _isLight
+              ? const Color(0xFFEEE8F4)
+              : const Color(0xFF302D38)
+        : _isLight
+        ? const Color(0xFFFFFFFF)
+        : const Color(0xFF424242);
     if (_needToMaximize != model.needToMaximize) {
       _closeOverlays();
       _needToMaximize = model.needToMaximize;
@@ -101,30 +100,28 @@ class _AnnotationsPdfViewerState extends SampleViewState {
   @override
   Widget build(BuildContext context) {
     if (isDesktop) {
-      final bool? isDrawerOpened =
-          model
-              .webOutputContainerState
-              .widget
-              .webLayoutPageState
-              ?.scaffoldKey
-              .currentState
-              ?.isEndDrawerOpen;
+      final bool? isDrawerOpened = model
+          .webOutputContainerState
+          .widget
+          .webLayoutPageState
+          ?.scaffoldKey
+          .currentState
+          ?.isEndDrawerOpen;
       if (isDrawerOpened != null && isDrawerOpened) {
         _closeOverlays();
       }
     }
 
     final PreferredSizeWidget appBar = AppBar(
-      bottom:
-          _useMaterial3
-              ? PreferredSize(
-                preferredSize: const Size.fromHeight(0),
-                child: Container(
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                  height: 1,
-                ),
-              )
-              : null,
+      bottom: _useMaterial3
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(
+                color: Theme.of(context).colorScheme.outlineVariant,
+                height: 1,
+              ),
+            )
+          : null,
       flexibleSpace: Semantics(
         label: 'PdfAnnotation toolbar',
         child: AnnotationToolbar(
@@ -212,8 +209,8 @@ class _AnnotationsPdfViewerState extends SampleViewState {
             }
 
             if (toolbarItem == 'Save') {
-              final List<int> savedBytes =
-                  await _pdfViewerController.saveDocument();
+              final List<int> savedBytes = await _pdfViewerController
+                  .saveDocument();
               _saveDocument(
                 savedBytes,
                 'The document was saved at the location ',
@@ -232,14 +229,13 @@ class _AnnotationsPdfViewerState extends SampleViewState {
         ),
       ),
       automaticallyImplyLeading: false,
-      backgroundColor:
-          _useMaterial3
-              ? Theme.of(context).colorScheme.brightness == Brightness.light
-                  ? const Color.fromRGBO(247, 242, 251, 1)
-                  : const Color.fromRGBO(37, 35, 42, 1)
-              : Theme.of(context).colorScheme.brightness == Brightness.light
-              ? const Color(0xFFFAFAFA)
-              : const Color(0xFF424242),
+      backgroundColor: _useMaterial3
+          ? Theme.of(context).colorScheme.brightness == Brightness.light
+                ? const Color.fromRGBO(247, 242, 251, 1)
+                : const Color.fromRGBO(37, 35, 42, 1)
+          : Theme.of(context).colorScheme.brightness == Brightness.light
+          ? const Color(0xFFFAFAFA)
+          : const Color(0xFF424242),
     );
 
     return Scaffold(
@@ -397,10 +393,13 @@ class _AnnotationsPdfViewerState extends SampleViewState {
     } else {
       final Directory directory = await getApplicationSupportDirectory();
       final String path = directory.path;
-      final File file = File('$path/$fileName');
+      final File file = File('$path${Platform.pathSeparator}$fileName');
       try {
         await file.writeAsBytes(dataBytes);
-        _showDialog('Document saved', message + path + r'\' + fileName);
+        _showDialog(
+          'Document saved',
+          message + path + Platform.pathSeparator + fileName,
+        );
       } on PathAccessException catch (e) {
         _showDialog(
           'Error',
@@ -435,16 +434,15 @@ class _AnnotationsPdfViewerState extends SampleViewState {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              style:
-                  _useMaterial3
-                      ? TextButton.styleFrom(
-                        fixedSize: const Size(double.infinity, 40),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                      )
-                      : null,
+              style: _useMaterial3
+                  ? TextButton.styleFrom(
+                      fixedSize: const Size(double.infinity, 40),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                    )
+                  : null,
               child: const Text('Close'),
             ),
           ],
@@ -475,28 +473,23 @@ class _AnnotationsPdfViewerState extends SampleViewState {
           positionOverride ?? toolbarItemRenderBox.localToGlobal(Offset.zero);
       overlayState = Overlay.of(context, rootOverlay: true);
       overlayEntry = OverlayEntry(
-        builder:
-            (BuildContext context) => Positioned(
-              top: position.dy + 40.0,
-              left: position.dx,
-              child: Container(
-                decoration: BoxDecoration(
-                  color:
-                      _isLight
-                          ? const Color(0xFFFFFFFF)
-                          : const Color(0xFF424242),
-                  boxShadow: boxShadows,
-                  borderRadius:
-                      _useMaterial3
-                          ? BorderRadius.all(
-                            Radius.circular(borderRadius ?? 4.0),
-                          )
-                          : null,
-                ),
-                constraints: constraints,
-                child: dropDownItems,
-              ),
+        builder: (BuildContext context) => Positioned(
+          top: position.dy + 40.0,
+          left: position.dx,
+          child: Container(
+            decoration: BoxDecoration(
+              color: _isLight
+                  ? const Color(0xFFFFFFFF)
+                  : const Color(0xFF424242),
+              boxShadow: boxShadows,
+              borderRadius: _useMaterial3
+                  ? BorderRadius.all(Radius.circular(borderRadius ?? 4.0))
+                  : null,
             ),
+            constraints: constraints,
+            child: dropDownItems,
+          ),
+        ),
       );
     }
     overlayState?.insert(overlayEntry!);
@@ -718,34 +711,30 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
   void didChangeDependencies() {
     _isLight = Theme.of(context).brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _annotationIconColor =
-        _useMaterial3
-            ? widget.model?.themeData.colorScheme.onSurfaceVariant
-            : (widget.model?.themeData.brightness == Brightness.light)
-            ? Colors.black.withValues(alpha: 0.87)
-            : Colors.white;
-    _color =
-        _useMaterial3
-            ? _isLight
-                ? const Color.fromRGBO(73, 69, 79, 1)
-                : const Color.fromRGBO(202, 196, 208, 1)
-            : _isLight
-            ? Colors.black.withValues(alpha: 0.54)
-            : Colors.white.withValues(alpha: 0.65);
-    _disabledColor =
-        _useMaterial3
-            ? _isLight
-                ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
-                : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
-            : _isLight
-            ? Colors.black12
-            : Colors.white12;
-    _fillColor =
-        _useMaterial3
-            ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
-            : _isLight
-            ? const Color(0xFFD2D2D2)
-            : const Color(0xFF525252);
+    _annotationIconColor = _useMaterial3
+        ? widget.model?.themeData.colorScheme.onSurfaceVariant
+        : (widget.model?.themeData.brightness == Brightness.light)
+        ? Colors.black.withValues(alpha: 0.87)
+        : Colors.white;
+    _color = _useMaterial3
+        ? _isLight
+              ? const Color.fromRGBO(73, 69, 79, 1)
+              : const Color.fromRGBO(202, 196, 208, 1)
+        : _isLight
+        ? Colors.black.withValues(alpha: 0.54)
+        : Colors.white.withValues(alpha: 0.65);
+    _disabledColor = _useMaterial3
+        ? _isLight
+              ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+              : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
+        : _isLight
+        ? Colors.black12
+        : Colors.white12;
+    _fillColor = _useMaterial3
+        ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08)
+        : _isLight
+        ? const Color(0xFFD2D2D2)
+        : const Color(0xFF525252);
     _isWeb =
         isDesktop && widget.model != null && !widget.model!.isMobileResolution;
     super.didChangeDependencies();
@@ -790,41 +779,36 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
     double iconSize = 16;
     switch (mode) {
       case PdfAnnotationMode.highlight:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/highlight_light.png'
-                : 'images/pdf_viewer/highlight_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/highlight_light.png'
+            : 'images/pdf_viewer/highlight_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.strikethrough:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/strikethrough_light.png'
-                : 'images/pdf_viewer/strikethrough_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/strikethrough_light.png'
+            : 'images/pdf_viewer/strikethrough_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.underline:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/underline_light.png'
-                : 'images/pdf_viewer/underline_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/underline_light.png'
+            : 'images/pdf_viewer/underline_dark.png';
         iconSize = 18;
         break;
       case PdfAnnotationMode.squiggly:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/squiggly_light.png'
-                : 'images/pdf_viewer/squiggly_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/squiggly_light.png'
+            : 'images/pdf_viewer/squiggly_dark.png';
         iconSize = 18;
         break;
 
       case PdfAnnotationMode.none:
         break;
       case PdfAnnotationMode.stickyNote:
-        iconPath =
-            _isLight
-                ? 'images/pdf_viewer/note_light.png'
-                : 'images/pdf_viewer/note_dark.png';
+        iconPath = _isLight
+            ? 'images/pdf_viewer/note_light.png'
+            : 'images/pdf_viewer/note_dark.png';
         iconSize = 18;
         break;
     }
@@ -841,33 +825,30 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
     return Padding(
       padding:
           toolTip == 'Lock' ||
-                  toolTip == 'Unlock' ||
-                  toolTip == 'Delete' ||
-                  toolTip == 'Color Palette' ||
-                  toolTip == 'Sticky note icons'
-              ? const EdgeInsets.only(right: 8)
-              : const EdgeInsets.only(left: 8),
+              toolTip == 'Unlock' ||
+              toolTip == 'Delete' ||
+              toolTip == 'Color Palette' ||
+              toolTip == 'Sticky note icons'
+          ? const EdgeInsets.only(right: 8)
+          : const EdgeInsets.only(left: 8),
       child: Tooltip(
         message: toolTip,
-        decoration:
-            _useMaterial3
-                ? BoxDecoration(
-                  color: Theme.of(context).colorScheme.inverseSurface,
-                  borderRadius: BorderRadius.circular(4),
-                )
-                : null,
-        textStyle:
-            _useMaterial3
-                ? TextStyle(
-                  color: Theme.of(context).colorScheme.onInverseSurface,
-                  fontSize: 14,
-                )
-                : null,
-        padding:
-            _useMaterial3
-                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
-                : null,
-        height: _useMaterial3 ? 48 : null,
+        decoration: _useMaterial3
+            ? BoxDecoration(
+                color: Theme.of(context).colorScheme.inverseSurface,
+                borderRadius: BorderRadius.circular(4),
+              )
+            : null,
+        textStyle: _useMaterial3
+            ? TextStyle(
+                color: Theme.of(context).colorScheme.onInverseSurface,
+                fontSize: 14,
+              )
+            : null,
+        padding: _useMaterial3
+            ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+            : null,
+        constraints: _useMaterial3 ? const BoxConstraints(maxHeight: 48) : null,
         child: SizedBox(
           key: key,
           height: 36,
@@ -900,11 +881,11 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
           shape ??
           (_useMaterial3
               ? const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-              )
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                )
               : const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2)),
-              )),
+                  borderRadius: BorderRadius.all(Radius.circular(2)),
+                )),
       child: child,
     );
   }
@@ -912,10 +893,9 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
   /// Constructs the toolbar divider
   Widget _groupDivider(bool isPaddingLeft) {
     return Padding(
-      padding:
-          isPaddingLeft
-              ? const EdgeInsets.only(left: 8)
-              : const EdgeInsets.only(right: 8),
+      padding: isPaddingLeft
+          ? const EdgeInsets.only(left: 8)
+          : const EdgeInsets.only(right: 8),
       child: VerticalDivider(
         width: 1.0,
         // width of vertical divider
@@ -925,12 +905,11 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
         // top indent of vertical divider
         endIndent: _useMaterial3 ? 16 : 12.0,
         // bottom indent of vertical divider
-        color:
-            _useMaterial3
-                ? Theme.of(context).colorScheme.outlineVariant
-                : _isLight
-                ? Colors.black.withValues(alpha: 0.24)
-                : const Color.fromRGBO(255, 255, 255, 0.26),
+        color: _useMaterial3
+            ? Theme.of(context).colorScheme.outlineVariant
+            : _isLight
+            ? Colors.black.withValues(alpha: 0.24)
+            : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
   }
@@ -960,52 +939,52 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                 'Undo',
                 ValueListenableBuilder<UndoHistoryValue>(
                   valueListenable: widget.undoHistoryController!,
-                  builder: (
-                    BuildContext context,
-                    UndoHistoryValue value,
-                    Widget? child,
-                  ) {
-                    return _webToolbarButton(
-                      onPressed:
-                          value.canUndo
+                  builder:
+                      (
+                        BuildContext context,
+                        UndoHistoryValue value,
+                        Widget? child,
+                      ) {
+                        return _webToolbarButton(
+                          onPressed: value.canUndo
                               ? () {
-                                widget.undoHistoryController!.undo();
-                                widget.onTap?.call('Undo');
-                              }
+                                  widget.undoHistoryController!.undo();
+                                  widget.onTap?.call('Undo');
+                                }
                               : null,
-                      child: Icon(
-                        Icons.undo,
-                        color: value.canUndo ? _color : _disabledColor,
-                        size: 20,
-                      ),
-                    );
-                  },
+                          child: Icon(
+                            Icons.undo,
+                            color: value.canUndo ? _color : _disabledColor,
+                            size: 20,
+                          ),
+                        );
+                      },
                 ),
               ),
               _webToolbarItem(
                 'Redo',
                 ValueListenableBuilder<UndoHistoryValue>(
                   valueListenable: widget.undoHistoryController!,
-                  builder: (
-                    BuildContext context,
-                    UndoHistoryValue value,
-                    Widget? child,
-                  ) {
-                    return _webToolbarButton(
-                      onPressed:
-                          value.canRedo
+                  builder:
+                      (
+                        BuildContext context,
+                        UndoHistoryValue value,
+                        Widget? child,
+                      ) {
+                        return _webToolbarButton(
+                          onPressed: value.canRedo
                               ? () {
-                                widget.undoHistoryController!.redo();
-                                widget.onTap?.call('Redo');
-                              }
+                                  widget.undoHistoryController!.redo();
+                                  widget.onTap?.call('Redo');
+                                }
                               : null,
-                      child: Icon(
-                        Icons.redo,
-                        color: value.canRedo ? _color : _disabledColor,
-                        size: 20,
-                      ),
-                    );
-                  },
+                          child: Icon(
+                            Icons.redo,
+                            color: value.canRedo ? _color : _disabledColor,
+                            size: 20,
+                          ),
+                        );
+                      },
                 ),
               ),
             ],
@@ -1020,9 +999,9 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                   },
                   fillColor:
                       widget.pdfViewerController.annotationMode ==
-                              PdfAnnotationMode.highlight
-                          ? _fillColor
-                          : null,
+                          PdfAnnotationMode.highlight
+                      ? _fillColor
+                      : null,
                   child: _annotationIcon(PdfAnnotationMode.highlight),
                 ),
               ),
@@ -1034,9 +1013,9 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                   },
                   fillColor:
                       widget.pdfViewerController.annotationMode ==
-                              PdfAnnotationMode.underline
-                          ? _fillColor
-                          : null,
+                          PdfAnnotationMode.underline
+                      ? _fillColor
+                      : null,
                   child: _annotationIcon(PdfAnnotationMode.underline),
                 ),
               ),
@@ -1048,9 +1027,9 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                   },
                   fillColor:
                       widget.pdfViewerController.annotationMode ==
-                              PdfAnnotationMode.strikethrough
-                          ? _fillColor
-                          : null,
+                          PdfAnnotationMode.strikethrough
+                      ? _fillColor
+                      : null,
                   child: _annotationIcon(PdfAnnotationMode.strikethrough),
                 ),
               ),
@@ -1062,9 +1041,9 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                   },
                   fillColor:
                       widget.pdfViewerController.annotationMode ==
-                              PdfAnnotationMode.squiggly
-                          ? _fillColor
-                          : null,
+                          PdfAnnotationMode.squiggly
+                      ? _fillColor
+                      : null,
                   child: _annotationIcon(PdfAnnotationMode.squiggly),
                 ),
               ),
@@ -1076,9 +1055,9 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                   },
                   fillColor:
                       widget.pdfViewerController.annotationMode ==
-                              PdfAnnotationMode.stickyNote
-                          ? _fillColor
-                          : null,
+                          PdfAnnotationMode.stickyNote
+                      ? _fillColor
+                      : null,
                   child: _annotationIcon(PdfAnnotationMode.stickyNote),
                 ),
               ),
@@ -1101,8 +1080,9 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                       child: ImageIcon(
                         const AssetImage('images/pdf_viewer/color_palette.png'),
                         size: 17,
-                        color:
-                            _isLight ? Colors.black : const Color(0xFFFFFFFF),
+                        color: _isLight
+                            ? Colors.black
+                            : const Color(0xFFFFFFFF),
                       ),
                     ),
                     key: _colorPaletteKey,
@@ -1117,22 +1097,21 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                         widget.onTap?.call('Sticky note icons');
                       },
                       fillColor: _stickyNoteIconFillColor,
-                      child:
-                          _isLight
-                              ? ImageIcon(
-                                const AssetImage(
-                                  'images/pdf_viewer/Note_light.png',
-                                ),
-                                size: 17,
-                                color: _annotationIconColor,
-                              )
-                              : ImageIcon(
-                                const AssetImage(
-                                  'images/pdf_viewer/Note_dark.png',
-                                ),
-                                size: 17,
-                                color: _annotationIconColor,
+                      child: _isLight
+                          ? ImageIcon(
+                              const AssetImage(
+                                'images/pdf_viewer/note_light.png',
                               ),
+                              size: 17,
+                              color: _annotationIconColor,
+                            )
+                          : ImageIcon(
+                              const AssetImage(
+                                'images/pdf_viewer/note_dark.png',
+                              ),
+                              size: 17,
+                              color: _annotationIconColor,
+                            ),
                     ),
                     key: _stickyNoteKey,
                   ),
@@ -1148,8 +1127,9 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                       child: ImageIcon(
                         const AssetImage('images/pdf_viewer/delete.png'),
                         size: 17,
-                        color:
-                            _isLight ? Colors.black : const Color(0xFFFFFFFF),
+                        color: _isLight
+                            ? Colors.black
+                            : const Color(0xFFFFFFFF),
                       ),
                     ),
                   ),
@@ -1169,8 +1149,9 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                               : 'images/pdf_viewer/locked.png',
                         ),
                         size: 18,
-                        color:
-                            _isLight ? Colors.black : const Color(0xFFFFFFFF),
+                        color: _isLight
+                            ? Colors.black
+                            : const Color(0xFFFFFFFF),
                       ),
                     ),
                   ),
@@ -1206,27 +1187,29 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     height: 40,
                     child: ValueListenableBuilder<UndoHistoryValue>(
                       valueListenable: widget.undoHistoryController!,
-                      builder: (
-                        BuildContext context,
-                        UndoHistoryValue value,
-                        Widget? child,
-                      ) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.undo,
-                              color: value.canUndo ? _color : _disabledColor,
-                              size: 24,
-                            ),
-                            onPressed:
-                                value.canUndo
+                      builder:
+                          (
+                            BuildContext context,
+                            UndoHistoryValue value,
+                            Widget? child,
+                          ) {
+                            return Material(
+                              color: Colors.transparent,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.undo,
+                                  color: value.canUndo
+                                      ? _color
+                                      : _disabledColor,
+                                  size: 24,
+                                ),
+                                onPressed: value.canUndo
                                     ? widget.undoHistoryController!.undo
                                     : null,
-                            tooltip: widget.showTooltip ? 'Undo' : null,
-                          ),
-                        );
-                      },
+                                tooltip: widget.showTooltip ? 'Undo' : null,
+                              ),
+                            );
+                          },
                     ),
                   ),
                   ToolbarItem(
@@ -1234,27 +1217,29 @@ class AnnotationToolbarState extends State<AnnotationToolbar> {
                     height: 40,
                     child: ValueListenableBuilder<UndoHistoryValue>(
                       valueListenable: widget.undoHistoryController!,
-                      builder: (
-                        BuildContext context,
-                        UndoHistoryValue value,
-                        Widget? child,
-                      ) {
-                        return Material(
-                          color: Colors.transparent,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.redo,
-                              color: value.canRedo ? _color : _disabledColor,
-                              size: 24,
-                            ),
-                            onPressed:
-                                value.canRedo
+                      builder:
+                          (
+                            BuildContext context,
+                            UndoHistoryValue value,
+                            Widget? child,
+                          ) {
+                            return Material(
+                              color: Colors.transparent,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.redo,
+                                  color: value.canRedo
+                                      ? _color
+                                      : _disabledColor,
+                                  size: 24,
+                                ),
+                                onPressed: value.canRedo
                                     ? widget.undoHistoryController!.redo
                                     : null,
-                            tooltip: widget.showTooltip ? 'Redo' : null,
-                          ),
-                        );
-                      },
+                                tooltip: widget.showTooltip ? 'Redo' : null,
+                              ),
+                            );
+                          },
                     ),
                   ),
                 ],

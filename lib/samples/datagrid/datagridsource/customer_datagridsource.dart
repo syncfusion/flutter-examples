@@ -36,51 +36,51 @@ class CustomerDataGridSource extends DataGridSource {
         .map<DataGridRow>((Customer dataGridRow) {
           return isWebOrDesktop
               ? DataGridRow(
-                cells: <DataGridCell>[
-                  DataGridCell<Image>(
-                    columnName: 'Dealer',
-                    value: dataGridRow.dealer,
-                  ),
-                  DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
-                  DataGridCell<String>(
-                    columnName: 'Name',
-                    value: dataGridRow.name,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'Freight',
-                    value: dataGridRow.freight,
-                  ),
-                  DataGridCell<DateTime>(
-                    columnName: 'Shipped Date',
-                    value: dataGridRow.shippedDate,
-                  ),
-                  DataGridCell<String>(
-                    columnName: 'City',
-                    value: dataGridRow.city,
-                  ),
-                  DataGridCell<double>(
-                    columnName: 'Price',
-                    value: dataGridRow.price,
-                  ),
-                ],
-              )
+                  cells: <DataGridCell>[
+                    DataGridCell<Image>(
+                      columnName: 'Dealer',
+                      value: dataGridRow.dealer,
+                    ),
+                    DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
+                    DataGridCell<String>(
+                      columnName: 'Name',
+                      value: dataGridRow.name,
+                    ),
+                    DataGridCell<double>(
+                      columnName: 'Freight',
+                      value: dataGridRow.freight,
+                    ),
+                    DataGridCell<DateTime>(
+                      columnName: 'Shipped Date',
+                      value: dataGridRow.shippedDate,
+                    ),
+                    DataGridCell<String>(
+                      columnName: 'City',
+                      value: dataGridRow.city,
+                    ),
+                    DataGridCell<double>(
+                      columnName: 'Price',
+                      value: dataGridRow.price,
+                    ),
+                  ],
+                )
               : DataGridRow(
-                cells: <DataGridCell>[
-                  DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
-                  DataGridCell<String>(
-                    columnName: 'Name',
-                    value: dataGridRow.name,
-                  ),
-                  DataGridCell<DateTime>(
-                    columnName: 'Shipped Date',
-                    value: dataGridRow.shippedDate,
-                  ),
-                  DataGridCell<String>(
-                    columnName: 'City',
-                    value: dataGridRow.city,
-                  ),
-                ],
-              );
+                  cells: <DataGridCell>[
+                    DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
+                    DataGridCell<String>(
+                      columnName: 'Name',
+                      value: dataGridRow.name,
+                    ),
+                    DataGridCell<DateTime>(
+                      columnName: 'Shipped Date',
+                      value: dataGridRow.shippedDate,
+                    ),
+                    DataGridCell<String>(
+                      columnName: 'City',
+                      value: dataGridRow.city,
+                    ),
+                  ],
+                );
         })
         .toList(growable: false);
   }
@@ -102,102 +102,102 @@ class CustomerDataGridSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     return isWebOrDesktop
         ? DataGridRowAdapter(
-          cells: <Widget>[
-            _buildDealer(row.getCells()[0].value),
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                row.getCells()[1].value.toString(),
-                overflow: TextOverflow.ellipsis,
+            cells: <Widget>[
+              _buildDealer(row.getCells()[0].value),
+              Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  row.getCells()[1].value.toString(),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                row.getCells()[2].value.toString(),
-                overflow: TextOverflow.ellipsis,
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  row.getCells()[2].value.toString(),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                NumberFormat.currency(
-                  locale: 'en_US',
-                  symbol: r'$',
-                  decimalDigits: 2,
-                ).format(row.getCells()[3].value),
-                overflow: TextOverflow.ellipsis,
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  NumberFormat.currency(
+                    locale: 'en_US',
+                    symbol: r'$',
+                    decimalDigits: 2,
+                  ).format(row.getCells()[3].value),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                DateFormat.yMd().format(row.getCells()[4].value),
-                overflow: TextOverflow.ellipsis,
+              Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  DateFormat.yMd().format(row.getCells()[4].value),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                row.getCells()[5].value.toString(),
-                overflow: TextOverflow.ellipsis,
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  row.getCells()[5].value.toString(),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                NumberFormat.currency(
-                  locale: 'en_US',
-                  symbol: r'$',
-                  decimalDigits: 2,
-                ).format(row.getCells()[6].value),
-                overflow: TextOverflow.ellipsis,
+              Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  NumberFormat.currency(
+                    locale: 'en_US',
+                    symbol: r'$',
+                    decimalDigits: 2,
+                  ).format(row.getCells()[6].value),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-          ],
-        )
+            ],
+          )
         : DataGridRowAdapter(
-          cells: <Widget>[
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                row.getCells()[0].value.toString(),
-                overflow: TextOverflow.ellipsis,
+            cells: <Widget>[
+              Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  row.getCells()[0].value.toString(),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                row.getCells()[1].value.toString(),
-                overflow: TextOverflow.ellipsis,
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  row.getCells()[1].value.toString(),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                DateFormat.yMd().format(row.getCells()[2].value),
-                overflow: TextOverflow.ellipsis,
+              Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  DateFormat.yMd().format(row.getCells()[2].value),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                row.getCells()[3].value.toString(),
-                overflow: TextOverflow.ellipsis,
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  row.getCells()[3].value.toString(),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-          ],
-        );
+            ],
+          );
   }
 
   // CustomerInfo Data set

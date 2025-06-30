@@ -15,21 +15,19 @@ class ImageConverter {
   }) async {
     final int signaturePadWidth = renderSignaturePad.size.width.toInt();
     final int signaturePadHeight = renderSignaturePad.size.height.toInt();
-    final web.HTMLCanvasElement canvas =
-        web.HTMLCanvasElement()
-          ..width = signaturePadWidth
-          ..height = signaturePadHeight;
+    final web.HTMLCanvasElement canvas = web.HTMLCanvasElement()
+      ..width = signaturePadWidth
+      ..height = signaturePadHeight;
 
     final web.CanvasRenderingContext2D context = canvas.context2D;
     renderSignaturePad.renderToContext2D(context);
 
-    final imageData =
-        canvas.context2D
-            .getImageData(0, 0, signaturePadWidth, signaturePadHeight)
-            .data
-            .toDart
-            .buffer
-            .asUint8List();
+    final imageData = canvas.context2D
+        .getImageData(0, 0, signaturePadWidth, signaturePadHeight)
+        .data
+        .toDart
+        .buffer
+        .asUint8List();
 
     final imageDescriptor = ui.ImageDescriptor.raw(
       await ui.ImmutableBuffer.fromUint8List(imageData),

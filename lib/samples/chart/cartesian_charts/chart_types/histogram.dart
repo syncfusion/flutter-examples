@@ -206,12 +206,11 @@ class _HistogramDefaultState extends SampleViewState {
     bool isMaterial3,
     bool isLightMode,
   ) {
-    final Color curveColor =
-        isMaterial3
-            ? (isLightMode
-                ? const Color.fromRGBO(99, 85, 199, 1)
-                : const Color.fromRGBO(51, 182, 119, 1))
-            : const Color.fromRGBO(192, 108, 132, 1);
+    final Color curveColor = isMaterial3
+        ? (isLightMode
+              ? const Color.fromRGBO(99, 85, 199, 1)
+              : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return <HistogramSeries<ChartSampleData, double>>[
       HistogramSeries<ChartSampleData, double>(
         name: 'Score',

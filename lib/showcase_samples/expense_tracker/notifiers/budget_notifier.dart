@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data_processing/budget_handler.dart';
+// import '../data_processing/budget_handler.dart';
 import '../models/budget.dart';
 import '../models/user.dart';
 
@@ -10,7 +10,6 @@ class BudgetNotifier extends ChangeNotifier {
   set budgets(List<Budget> value) {
     if (_budgets != value) {
       _budgets = value;
-      // notifyListeners();
     }
   }
 
@@ -34,12 +33,13 @@ class BudgetNotifier extends ChangeNotifier {
   }
 
   List<Budget> read(UserDetails user) {
-    _budgets = readBudgets(user);
-    return _budgets;
+    // _budgets = readBudgets(user);
+    // return _budgets;
+    return user.transactionalData.data.budgets;
   }
 
   void createBudget(Budget budget) {
-    _budgets.add(budget);
+    _budgets.insert(0, budget);
     _isFirstTime = false;
     notifyListeners();
   }
@@ -90,18 +90,24 @@ class BudgetNotifier extends ChangeNotifier {
     _isFirstTime = false;
     notifyListeners();
   }
+
+  void reset() {
+    _isFirstTime = true;
+  }
 }
 
 class BudgetTextFieldDetails {
   BudgetTextFieldDetails({
     required this.name,
     required this.remarks,
+    required this.category,
     required this.date,
     required this.amount,
   });
 
   String name;
   String remarks;
+  String category;
   DateTime date;
   double amount;
 }

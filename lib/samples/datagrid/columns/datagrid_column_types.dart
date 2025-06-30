@@ -30,12 +30,11 @@ class _ColumnTypesDataGridState extends SampleViewState {
   SfDataGrid _buildDataGrid(BuildContext context) {
     return SfDataGrid(
       source: _columnTypesDataGridSource,
-      columnWidthMode:
-          _isWebOrDesktop
-              ? (_isWebOrDesktop && model.isMobileResolution)
-                  ? ColumnWidthMode.none
-                  : ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+      columnWidthMode: _isWebOrDesktop
+          ? (_isWebOrDesktop && model.isMobileResolution)
+                ? ColumnWidthMode.none
+                : ColumnWidthMode.fill
+          : ColumnWidthMode.none,
       columns: _obtainColumns(),
     );
   }
@@ -53,21 +52,19 @@ class _ColumnTypesDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'id',
-        width:
-            !_isWebOrDesktop
-                ? 50
-                : (_isWebOrDesktop && model.isMobileResolution)
-                ? 110
-                : double.nan,
+        width: !_isWebOrDesktop
+            ? 50
+            : (_isWebOrDesktop && model.isMobileResolution)
+            ? 110
+            : double.nan,
         label: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(8.0),
           child: const Text('ID', overflow: TextOverflow.ellipsis),
         ),
-        columnWidthMode:
-            _isLandscapeInMobileView
-                ? ColumnWidthMode.fill
-                : ColumnWidthMode.none,
+        columnWidthMode: _isLandscapeInMobileView
+            ? ColumnWidthMode.fill
+            : ColumnWidthMode.none,
       ),
       GridColumn(
         columnName: 'name',
@@ -81,10 +78,9 @@ class _ColumnTypesDataGridState extends SampleViewState {
       GridColumn(
         columnName: 'freight',
         width: (_isWebOrDesktop && model.isMobileResolution) ? 110 : double.nan,
-        columnWidthMode:
-            _isLandscapeInMobileView
-                ? ColumnWidthMode.fill
-                : ColumnWidthMode.none,
+        columnWidthMode: _isLandscapeInMobileView
+            ? ColumnWidthMode.fill
+            : ColumnWidthMode.none,
         label: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
@@ -112,8 +108,9 @@ class _ColumnTypesDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'price',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         columnWidthMode: ColumnWidthMode.lastColumnFill,
         label: Container(
           alignment: Alignment.centerRight,

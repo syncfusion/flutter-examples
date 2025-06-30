@@ -147,13 +147,12 @@ class RecurrenceCalendarState extends SampleViewState {
               child: Center(
                 child: SizedBox(
                   width: isAppointmentTapped ? 400 : 500,
-                  height:
-                      isAppointmentTapped
-                          ? (_selectedAppointment!.location == null ||
-                                  _selectedAppointment!.location!.isEmpty
-                              ? 150
-                              : 200)
-                          : 400,
+                  height: isAppointmentTapped
+                      ? (_selectedAppointment!.location == null ||
+                                _selectedAppointment!.location!.isEmpty
+                            ? 150
+                            : 200)
+                      : 400,
                   child: Theme(
                     data: model.themeData,
                     child: Card(
@@ -162,31 +161,30 @@ class RecurrenceCalendarState extends SampleViewState {
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                       ),
-                      child:
-                          isAppointmentTapped
-                              ? displayAppointmentDetails(
-                                context,
-                                targetElement,
-                                selectedDate,
-                                model,
-                                _selectedAppointment!,
-                                _colorCollection,
-                                _colorNames,
-                                _dataSource,
-                                _timeZoneCollection,
-                                _visibleDates,
-                              )
-                              : PopUpAppointmentEditor(
-                                model,
-                                newAppointment,
-                                appointment,
-                                _dataSource,
-                                _colorCollection,
-                                _colorNames,
-                                _selectedAppointment!,
-                                _timeZoneCollection,
-                                _visibleDates,
-                              ),
+                      child: isAppointmentTapped
+                          ? displayAppointmentDetails(
+                              context,
+                              targetElement,
+                              selectedDate,
+                              model,
+                              _selectedAppointment!,
+                              _colorCollection,
+                              _colorNames,
+                              _dataSource,
+                              _timeZoneCollection,
+                              _visibleDates,
+                            )
+                          : PopUpAppointmentEditor(
+                              model,
+                              newAppointment,
+                              appointment,
+                              _dataSource,
+                              _colorCollection,
+                              _colorNames,
+                              _selectedAppointment!,
+                              _timeZoneCollection,
+                              _visibleDates,
+                            ),
                     ),
                   ),
                 ),
@@ -199,17 +197,16 @@ class RecurrenceCalendarState extends SampleViewState {
         Navigator.push<Widget>(
           context,
           MaterialPageRoute<Widget>(
-            builder:
-                (BuildContext context) => AppointmentEditor(
-                  model,
-                  _selectedAppointment,
-                  targetElement,
-                  selectedDate,
-                  _colorCollection,
-                  _colorNames,
-                  _dataSource,
-                  _timeZoneCollection,
-                ),
+            builder: (BuildContext context) => AppointmentEditor(
+              model,
+              _selectedAppointment,
+              targetElement,
+              selectedDate,
+              _colorCollection,
+              _colorNames,
+              _dataSource,
+              _timeZoneCollection,
+            ),
           ),
         );
       }
@@ -243,26 +240,26 @@ class RecurrenceCalendarState extends SampleViewState {
           Expanded(
             child:
                 calendarController.view == CalendarView.month &&
-                        model.isWebFullView &&
-                        screenHeight < 800
-                    ? Scrollbar(
-                      thumbVisibility: true,
+                    model.isWebFullView &&
+                    screenHeight < 800
+                ? Scrollbar(
+                    thumbVisibility: true,
+                    controller: controller,
+                    child: ListView(
                       controller: controller,
-                      child: ListView(
-                        controller: controller,
-                        children: <Widget>[
-                          Container(
-                            color: model.sampleOutputCardColor,
-                            height: 600,
-                            child: calendar,
-                          ),
-                        ],
-                      ),
-                    )
-                    : Container(
-                      color: model.sampleOutputCardColor,
-                      child: calendar,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
                     ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
           ),
         ],
       ),

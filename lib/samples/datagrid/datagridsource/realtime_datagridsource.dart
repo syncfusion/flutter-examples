@@ -130,22 +130,21 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
       alignment: Alignment.center,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children:
-            isWebOrDesktop
-                ? <Widget>[
-                  SizedBox(width: 20, child: image),
-                  SizedBox(width: 50, child: Text('   ' + stack.toString())),
-                ]
-                : <Widget>[
-                  Container(child: image),
-                  const SizedBox(width: 6.0),
-                  Flexible(
-                    child: Text(
-                      stack.toString(),
-                      textScaler: TextScaler.noScaling,
-                    ),
+        children: isWebOrDesktop
+            ? <Widget>[
+                SizedBox(width: 20, child: image),
+                SizedBox(width: 50, child: Text('   ' + stack.toString())),
+              ]
+            : <Widget>[
+                Container(child: image),
+                const SizedBox(width: 6.0),
+                Flexible(
+                  child: Text(
+                    stack.toString(),
+                    textScaler: TextScaler.noScaling,
                   ),
-                ],
+                ),
+              ],
       ),
     );
   }

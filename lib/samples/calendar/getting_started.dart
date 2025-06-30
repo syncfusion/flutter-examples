@@ -44,29 +44,29 @@ class GettingStartedCalendarState extends SampleViewState {
     CalendarView.schedule,
   ];
 
-  final List<String> _viewNavigationModeList =
-      <String>['snap', 'none'].toList();
-  final List<String> _numberOfDaysList =
-      <String>[
-        'default',
-        '1 day',
-        '2 days',
-        '3 days',
-        '4 days',
-        '5 days',
-        '6 days',
-        '7 days',
-      ].toList();
+  final List<String> _viewNavigationModeList = <String>[
+    'snap',
+    'none',
+  ].toList();
+  final List<String> _numberOfDaysList = <String>[
+    'default',
+    '1 day',
+    '2 days',
+    '3 days',
+    '4 days',
+    '5 days',
+    '6 days',
+    '7 days',
+  ].toList();
 
-  final List<String> _numberOfDaysListWorkWeek =
-      <String>[
-        'default',
-        '1 day',
-        '2 days',
-        '3 days',
-        '4 days',
-        '5 days',
-      ].toList();
+  final List<String> _numberOfDaysListWorkWeek = <String>[
+    'default',
+    '1 day',
+    '2 days',
+    '3 days',
+    '4 days',
+    '5 days',
+  ].toList();
 
   /// Global key used to maintain the state,
   /// when we change the parent of the widget.
@@ -119,26 +119,26 @@ class GettingStartedCalendarState extends SampleViewState {
           Expanded(
             child:
                 _calendarController.view == CalendarView.month &&
-                        model.isWebFullView &&
-                        screenHeight < 800
-                    ? Scrollbar(
-                      thumbVisibility: true,
+                    model.isWebFullView &&
+                    screenHeight < 800
+                ? Scrollbar(
+                    thumbVisibility: true,
+                    controller: _controller,
+                    child: ListView(
                       controller: _controller,
-                      child: ListView(
-                        controller: _controller,
-                        children: <Widget>[
-                          Container(
-                            color: model.sampleOutputCardColor,
-                            height: 600,
-                            child: calendar,
-                          ),
-                        ],
-                      ),
-                    )
-                    : Container(
-                      color: model.sampleOutputCardColor,
-                      child: calendar,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
                     ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
           ),
         ],
       ),
@@ -520,17 +520,16 @@ class GettingStartedCalendarState extends SampleViewState {
                         height: 1,
                       ),
                       value: _viewNavigationModeString,
-                      items:
-                          _viewNavigationModeList.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'Snap',
-                              child: Text(
-                                value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor),
-                              ),
-                            );
-                          }).toList(),
+                      items: _viewNavigationModeList.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'Snap',
+                          child: Text(
+                            value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: model.textColor),
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (dynamic value) {
                         onViewNavigationModeChange(value);
                         stateSetter(() {});

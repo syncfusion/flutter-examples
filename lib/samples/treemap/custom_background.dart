@@ -431,9 +431,9 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
       child: Padding(
         padding:
             MediaQuery.of(context).orientation == Orientation.portrait ||
-                    isDesktop
-                ? const EdgeInsets.all(12.5)
-                : const EdgeInsets.all(10.0),
+                isDesktop
+            ? const EdgeInsets.all(12.5)
+            : const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -488,8 +488,9 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
           final Brightness brightness = ThemeData.estimateBrightnessForColor(
             tile.color,
           );
-          final Color color =
-              brightness == Brightness.dark ? Colors.white : Colors.black;
+          final Color color = brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black;
           return ColoredBox(
             color: const Color.fromRGBO(121, 137, 27, 1.0),
             child: Align(
@@ -551,10 +552,9 @@ class _TreemapCustomBackgroundSampleState extends SampleViewState {
         padding: EdgeInsets.zero,
         border: RoundedRectangleBorder(
           side: BorderSide(
-            color:
-                themeData.colorScheme.brightness == Brightness.light
-                    ? const Color.fromRGBO(255, 255, 255, 1.0)
-                    : const Color.fromRGBO(0, 0, 0, 1.0),
+            color: themeData.colorScheme.brightness == Brightness.light
+                ? const Color.fromRGBO(255, 255, 255, 1.0)
+                : const Color.fromRGBO(0, 0, 0, 1.0),
             width: 0.5,
           ),
         ),

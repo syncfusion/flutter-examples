@@ -126,12 +126,11 @@ class _ClockExampleState extends SampleViewState {
           showFirstLabel: false,
           showLastLabel: true,
           interval: 2,
-          centerX:
-              isCardView
-                  ? 0.38
-                  : model.isWebFullView
-                  ? 0.38
-                  : 0.335,
+          centerX: isCardView
+              ? 0.38
+              : model.isWebFullView
+              ? 0.38
+              : 0.335,
           minorTicksPerInterval: 5,
           tickOffset: 0.03,
           minorTickStyle: const MinorTickStyle(

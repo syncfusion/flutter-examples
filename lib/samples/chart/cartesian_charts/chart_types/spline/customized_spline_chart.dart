@@ -126,10 +126,9 @@ class _SplineCustomPainter<T, D> extends SplineSegment<T, D> {
   @override
   Paint getStrokePaint() {
     final Paint customerStrokePaint = Paint();
-    customerStrokePaint.color =
-        currentSegmentIndex < 4
-            ? const Color.fromRGBO(0, 168, 181, 1)
-            : const Color.fromRGBO(246, 114, 128, 1);
+    customerStrokePaint.color = currentSegmentIndex < 4
+        ? const Color.fromRGBO(0, 168, 181, 1)
+        : const Color.fromRGBO(246, 114, 128, 1);
     customerStrokePaint.strokeWidth = 2;
     customerStrokePaint.style = PaintingStyle.stroke;
     return customerStrokePaint;

@@ -47,8 +47,8 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
   SfCartesianChart _buildCartesianChart(BuildContext context) {
     final Color labelColor =
         model.themeData.colorScheme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black;
+        ? Colors.white
+        : Colors.black;
     return SfCartesianChart(
       title: ChartTitle(
         text: isCardView ? '' : 'Sales comparison of a product',
@@ -56,10 +56,9 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
       plotAreaBorderWidth: 0,
       primaryXAxis: DateTimeCategoryAxis(
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction:
-            isCardView
-                ? AxisLabelIntersectAction.multipleRows
-                : AxisLabelIntersectAction.rotate45,
+        labelIntersectAction: isCardView
+            ? AxisLabelIntersectAction.multipleRows
+            : AxisLabelIntersectAction.rotate45,
         title: AxisTitle(text: isCardView ? '' : 'Business days'),
         plotBands: <PlotBand>[
           PlotBand(
@@ -95,8 +94,8 @@ class _DateTimeCategoryDefaultState extends SampleViewState {
           dataSource: _productSalesComparisonData,
           name: 'Sales',
           xValueMapper: (_ProductSalesComparisonData x, int index) => x.year,
-          yValueMapper:
-              (_ProductSalesComparisonData sales, int index) => sales.sales,
+          yValueMapper: (_ProductSalesComparisonData sales, int index) =>
+              sales.sales,
         ),
       ],
       tooltipBehavior: _tooltipBehavior,

@@ -76,9 +76,9 @@ class _CertificatePdfState extends SampleViewState {
                     labelStyle: TextStyle(
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue,
+                              Brightness.light
+                          ? Colors.grey
+                          : Colors.lightBlue,
                     ),
                   ),
                   controller: _nameController,
@@ -90,9 +90,9 @@ class _CertificatePdfState extends SampleViewState {
                     labelStyle: TextStyle(
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue,
+                              Brightness.light
+                          ? Colors.grey
+                          : Colors.lightBlue,
                     ),
                   ),
                   controller: _courceNameController,
@@ -104,9 +104,9 @@ class _CertificatePdfState extends SampleViewState {
                     labelStyle: TextStyle(
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue,
+                              Brightness.light
+                          ? Colors.grey
+                          : Colors.lightBlue,
                     ),
                   ),
                   controller: _dateController,
@@ -122,15 +122,14 @@ class _CertificatePdfState extends SampleViewState {
                     backgroundColor: WidgetStateProperty.all<Color>(
                       model.primaryColor,
                     ),
-                    padding:
-                        model.isMobile
-                            ? null
-                            : WidgetStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                vertical: 15,
-                                horizontal: 15,
-                              ),
+                    padding: model.isMobile
+                        ? null
+                        : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
                             ),
+                          ),
                   ),
                   child: const Text(
                     'Generate PDF',

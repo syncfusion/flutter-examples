@@ -261,8 +261,8 @@ class _RoundedModalBottomSheetState<T>
     return GestureDetector(
       child: AnimatedBuilder(
         animation: widget.route!.animation!,
-        builder:
-            (BuildContext context, Widget? child) => CustomSingleChildLayout(
+        builder: (BuildContext context, Widget? child) =>
+            CustomSingleChildLayout(
               delegate: _RoundedModalBottomSheetLayout(
                 widget.route!.autoResize!
                     ? MediaQuery.of(context).viewInsets.bottom
@@ -272,19 +272,18 @@ class _RoundedModalBottomSheetState<T>
               child: CustomBottomSheet(
                 animationController: widget.route!.animationController,
                 onClosing: () => Navigator.pop(context),
-                builder:
-                    (BuildContext context) => Container(
-                      decoration: BoxDecoration(
-                        color: widget.route!.color,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(12.0),
-                          topRight: Radius.circular(12.0),
-                        ),
-                      ),
-                      child: SafeArea(
-                        child: Builder(builder: widget.route!.builder!),
-                      ),
+                builder: (BuildContext context) => Container(
+                  decoration: BoxDecoration(
+                    color: widget.route!.color,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(12.0),
+                      topRight: Radius.circular(12.0),
                     ),
+                  ),
+                  child: SafeArea(
+                    child: Builder(builder: widget.route!.builder!),
+                  ),
+                ),
               ),
             ),
       ),

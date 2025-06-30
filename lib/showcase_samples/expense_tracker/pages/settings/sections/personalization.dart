@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
 import '../../../custom_widgets/text_field.dart';
-import '../../../data_processing/utils.dart';
+// import '../../../data_processing/utils.dart';
 import '../../../helper/currency_and_data_format/date_format.dart';
 import '../../../helper/dashboard.dart';
 import '../../../helper/responsive_layout.dart';
@@ -42,16 +42,15 @@ class _PersonalizationPageState extends State<PersonalizationPage> {
         vertical: isMobile(context) ? 24.0 : 24.0,
         horizontal: isMobile(context) ? 24.0 : 24.0,
       ),
-      child:
-          isMobile(context)
-              ? _buildSettingsFields(context)
-              : ExpenseCard(
-                edgeInsets: EdgeInsets.symmetric(
-                  horizontal: isMobile(context) ? 0 : 32.0,
-                  vertical: isMobile(context) ? 0 : 32.0,
-                ),
-                child: _buildSettingsFields(context),
+      child: isMobile(context)
+          ? _buildSettingsFields(context)
+          : ExpenseCard(
+              edgeInsets: EdgeInsets.symmetric(
+                horizontal: isMobile(context) ? 0 : 32.0,
+                vertical: isMobile(context) ? 0 : 32.0,
               ),
+              child: _buildSettingsFields(context),
+            ),
     );
   }
 
@@ -92,10 +91,8 @@ class _PersonalizationPageState extends State<PersonalizationPage> {
                   bottom: 2,
                 ),
                 child: TextButton(
-                  onPressed:
-                      () =>
-                          pageNavigatorNotifier.value =
-                              NavigationPagesSlot.settings,
+                  onPressed: () => pageNavigatorNotifier.value =
+                      NavigationPagesSlot.settings,
                   style: TextButton.styleFrom(overlayColor: Colors.transparent),
                   child: const Text('Discard'),
                 ),
@@ -112,8 +109,9 @@ class _PersonalizationPageState extends State<PersonalizationPage> {
               decoration: BoxDecoration(
                 color: _hasChanges ? _colorScheme.primary : Colors.transparent,
                 border: Border.all(
-                  color:
-                      _hasChanges ? Colors.transparent : _colorScheme.outline,
+                  color: _hasChanges
+                      ? Colors.transparent
+                      : _colorScheme.outline,
                 ),
                 borderRadius: BorderRadius.circular(30),
               ),
@@ -128,16 +126,15 @@ class _PersonalizationPageState extends State<PersonalizationPage> {
                   style: TextButton.styleFrom(
                     disabledForegroundColor: _colorScheme.onSurface,
                   ),
-                  onPressed:
-                      _hasChanges
-                          ? () {
-                            widget.userProfile.currency = _selectedCurrency;
-                            widget.userProfile.dateFormat = _selectedDateFormat;
-                            updateUserProfile(context, widget.userProfile);
-                            pageNavigatorNotifier.value =
-                                NavigationPagesSlot.settings;
-                          }
-                          : null,
+                  onPressed: _hasChanges
+                      ? () {
+                          widget.userProfile.currency = _selectedCurrency;
+                          widget.userProfile.dateFormat = _selectedDateFormat;
+                          // updateUserProfile(context, widget.userProfile);
+                          pageNavigatorNotifier.value =
+                              NavigationPagesSlot.settings;
+                        }
+                      : null,
                   child: Text(
                     'Update',
                     style: _textTheme.titleSmall?.copyWith(

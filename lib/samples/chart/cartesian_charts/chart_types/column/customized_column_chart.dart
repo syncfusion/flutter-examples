@@ -83,8 +83,8 @@ class _ColumnVerticalState extends SampleViewState {
           dataSource: _chartData,
           xValueMapper: (ChartSampleData sales, int index) => sales.x,
           yValueMapper: (ChartSampleData sales, int index) => sales.y,
-          pointColorMapper:
-              (ChartSampleData sales, int index) => sales.pointColor,
+          pointColorMapper: (ChartSampleData sales, int index) =>
+              sales.pointColor,
           width: 0.8,
           onCreateRenderer: (ChartSeries<ChartSampleData, String> series) {
             return _CustomColumnSeriesRenderer(model.themeData);
@@ -147,12 +147,11 @@ class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
   @override
   Paint getFillPaint() {
     final Paint customerFillPaint = Paint();
-    colorList =
-        themeData.useMaterial3
-            ? (themeData.brightness == Brightness.light
-                ? colorListM3Light
-                : colorListM3Dark)
-            : colorList;
+    colorList = themeData.useMaterial3
+        ? (themeData.brightness == Brightness.light
+              ? colorListM3Light
+              : colorListM3Dark)
+        : colorList;
     customerFillPaint.isAntiAlias = false;
     customerFillPaint.color = colorList[currentSegmentIndex];
     customerFillPaint.style = PaintingStyle.fill;

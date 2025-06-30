@@ -57,10 +57,9 @@ class _BarSpacingState extends SampleViewState {
               child: CustomDirectionalButtons(
                 maxValue: 1,
                 initialValue: _columnWidth,
-                onChanged:
-                    (double val) => setState(() {
-                      _columnWidth = val;
-                    }),
+                onChanged: (double val) => setState(() {
+                  _columnWidth = val;
+                }),
                 step: 0.1,
                 loop: true,
                 iconColor: model.textColor,
@@ -84,10 +83,9 @@ class _BarSpacingState extends SampleViewState {
               child: CustomDirectionalButtons(
                 maxValue: 1,
                 initialValue: _columnSpacing,
-                onChanged:
-                    (double val) => setState(() {
-                      _columnSpacing = val;
-                    }),
+                onChanged: (double val) => setState(() {
+                  _columnSpacing = val;
+                }),
                 step: 0.1,
                 loop: true,
                 padding: 5.0,
@@ -142,8 +140,8 @@ class _BarSpacingState extends SampleViewState {
       BarSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         name: 'Export',
         width: isCardView ? 0.8 : _columnWidth,
         spacing: isCardView ? 0.2 : _columnSpacing,

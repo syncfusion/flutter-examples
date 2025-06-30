@@ -26,13 +26,13 @@ class _TaskTrackingState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-            child: _buildTaskTracker(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
+              child: _buildTaskTracker(context),
+            ),
+          )
         : _buildTaskTracker(context);
   }
 
@@ -73,10 +73,9 @@ class _TaskTrackingState extends SampleViewState {
                     _pointerValue = value as double;
                   });
                 },
-                color:
-                    brightness == Brightness.light
-                        ? const Color(0xff06589C)
-                        : const Color(0xffFFFFFF),
+                color: brightness == Brightness.light
+                    ? const Color(0xff06589C)
+                    : const Color(0xffFFFFFF),
                 width: 24,
                 position: LinearElementPosition.cross,
                 shapeType: LinearShapePointerType.triangle,

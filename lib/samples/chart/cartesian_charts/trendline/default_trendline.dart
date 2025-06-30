@@ -49,15 +49,14 @@ class _TrendLineDefaultState extends SampleViewState {
     _rSquare = '';
     periodMaxValue = 0;
     _selectedTrendLineType = 'linear';
-    _trendlineTypeList =
-        <String>[
-          'linear',
-          'exponential',
-          'power',
-          'logarithmic',
-          'polynomial',
-          'movingAverage',
-        ].toList();
+    _trendlineTypeList = <String>[
+      'linear',
+      'exponential',
+      'power',
+      'logarithmic',
+      'polynomial',
+      'movingAverage',
+    ].toList();
     _type = TrendlineType.linear;
     _polynomialOrder = 2;
     _period = 2;
@@ -82,8 +81,9 @@ class _TrendLineDefaultState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
     final double dropDownWidth =
         (model.isWebFullView ? 0.76 : 0.57) * screenWidth;
     return StatefulBuilder(
@@ -117,17 +117,16 @@ class _TrendLineDefaultState extends SampleViewState {
                       height: 1,
                     ),
                     value: _selectedTrendLineType,
-                    items:
-                        _trendlineTypeList!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              textWidthBasis: TextWidthBasis.parent,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _trendlineTypeList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          textWidthBasis: TextWidthBasis.parent,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       setState(() {
                         _onTrendLineTypeChanged(value.toString());
@@ -153,15 +152,14 @@ class _TrendLineDefaultState extends SampleViewState {
                       child: CheckboxListTile(
                         activeColor: model.primaryColor,
                         value: _displaySlopeEquation,
-                        onChanged:
-                            _type == TrendlineType.movingAverage
-                                ? null
-                                : (bool? value) {
-                                  setState(() {
-                                    _displaySlopeEquation = value;
-                                    stateSetter(() {});
-                                  });
-                                },
+                        onChanged: _type == TrendlineType.movingAverage
+                            ? null
+                            : (bool? value) {
+                                setState(() {
+                                  _displaySlopeEquation = value;
+                                  stateSetter(() {});
+                                });
+                              },
                       ),
                     ),
                   ),
@@ -183,15 +181,14 @@ class _TrendLineDefaultState extends SampleViewState {
                       child: CheckboxListTile(
                         activeColor: model.primaryColor,
                         value: _displayRSquare,
-                        onChanged:
-                            _type == TrendlineType.movingAverage
-                                ? null
-                                : (bool? value) {
-                                  setState(() {
-                                    _displayRSquare = value;
-                                    stateSetter(() {});
-                                  });
-                                },
+                        onChanged: _type == TrendlineType.movingAverage
+                            ? null
+                            : (bool? value) {
+                                setState(() {
+                                  _displayRSquare = value;
+                                  stateSetter(() {});
+                                });
+                              },
                       ),
                     ),
                   ),
@@ -217,10 +214,9 @@ class _TrendLineDefaultState extends SampleViewState {
                           minValue: 2,
                           maxValue: 4,
                           initialValue: _polynomialOrder.toDouble(),
-                          onChanged:
-                              (double val) => setState(() {
-                                _polynomialOrder = val.floor();
-                              }),
+                          onChanged: (double val) => setState(() {
+                            _polynomialOrder = val.floor();
+                          }),
                           loop: true,
                           iconColor: model.textColor,
                           style: TextStyle(
@@ -237,8 +233,9 @@ class _TrendLineDefaultState extends SampleViewState {
             Container(
               alignment: Alignment.topCenter,
               child: Visibility(
-                visible:
-                    _selectedTrendLineType != 'movingAverage' ? false : true,
+                visible: _selectedTrendLineType != 'movingAverage'
+                    ? false
+                    : true,
                 maintainState: true,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,10 +257,9 @@ class _TrendLineDefaultState extends SampleViewState {
                         minValue: 2,
                         maxValue: periodMaxValue.toDouble(),
                         initialValue: _period.toDouble(),
-                        onChanged:
-                            (double val) => setState(() {
-                              _period = val.floor();
-                            }),
+                        onChanged: (double val) => setState(() {
+                          _period = val.floor();
+                        }),
                         loop: true,
                         iconColor: model.textColor,
                         style: TextStyle(
@@ -317,22 +313,20 @@ class _TrendLineDefaultState extends SampleViewState {
       annotations: <CartesianChartAnnotation>[
         CartesianChartAnnotation(
           widget: SizedBox(
-            height:
-                kIsWeb
-                    ? 60
-                    : orientation == Orientation.landscape
-                    ? 50
-                    : 90,
-            width:
-                kIsWeb
-                    ? slopeTextSize != null && slopeTextSize!.width > 200
-                        ? slopeTextSize!.width
-                        : 200
-                    : slopeTextSize != null && slopeTextSize!.width > 170
-                    ? orientation == Orientation.portrait
-                        ? 220
-                        : slopeTextSize!.width
-                    : 170,
+            height: kIsWeb
+                ? 60
+                : orientation == Orientation.landscape
+                ? 50
+                : 90,
+            width: kIsWeb
+                ? slopeTextSize != null && slopeTextSize!.width > 200
+                      ? slopeTextSize!.width
+                      : 200
+                : slopeTextSize != null && slopeTextSize!.width > 170
+                ? orientation == Orientation.portrait
+                      ? 220
+                      : slopeTextSize!.width
+                : 170,
             child: Visibility(
               visible: !isLegendTapped,
               child: Column(
@@ -342,41 +336,39 @@ class _TrendLineDefaultState extends SampleViewState {
                           _displaySlopeEquation! &&
                           _type != TrendlineType.movingAverage)
                       ? Text(
-                        _slopeEquation,
-                        style: TextStyle(color: model.textColor),
-                        overflow: TextOverflow.ellipsis,
-                      )
+                          _slopeEquation,
+                          style: TextStyle(color: model.textColor),
+                          overflow: TextOverflow.ellipsis,
+                        )
                       : const Text(''),
                   SizedBox(
-                    height:
-                        kIsWeb
-                            ? 15
-                            : orientation == Orientation.landscape
-                            ? 8
-                            : 20,
+                    height: kIsWeb
+                        ? 15
+                        : orientation == Orientation.landscape
+                        ? 8
+                        : 20,
                   ),
                   // ignore: prefer_if_elements_to_conditional_expressions
                   (_displayRSquare != null &&
                           _displayRSquare! &&
                           _type != TrendlineType.movingAverage)
                       ? Text(
-                        'R² = ' + _rSquare,
-                        style: TextStyle(color: model.textColor),
-                      )
+                          'R² = ' + _rSquare,
+                          style: TextStyle(color: model.textColor),
+                        )
                       : const Text(''),
                 ],
               ),
             ),
           ),
           coordinateUnit: CoordinateUnit.point,
-          x:
-              model.isWebFullView
-                  ? slopeTextSize != null && slopeTextSize!.width > 200
-                      ? 'Thu'
-                      : 'Fri'
-                  : slopeTextSize != null && slopeTextSize!.width > 170
-                  ? 'Wed'
-                  : 'Thu',
+          x: model.isWebFullView
+              ? slopeTextSize != null && slopeTextSize!.width > 200
+                    ? 'Thu'
+                    : 'Fri'
+              : slopeTextSize != null && slopeTextSize!.width > 170
+              ? 'Wed'
+              : 'Thu',
           y: 34000,
         ),
       ],
@@ -389,12 +381,11 @@ class _TrendLineDefaultState extends SampleViewState {
     bool isLightMode,
   ) {
     periodMaxValue = 6;
-    final Color color =
-        isMaterial3
-            ? (isLightMode
-                ? const Color.fromRGBO(99, 85, 199, 1)
-                : const Color.fromRGBO(51, 182, 119, 1))
-            : const Color.fromRGBO(192, 108, 132, 1);
+    final Color color = isMaterial3
+        ? (isLightMode
+              ? const Color.fromRGBO(99, 85, 199, 1)
+              : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return <ColumnSeries<ChartSampleData, String>>[
       ColumnSeries<ChartSampleData, String>(
         dataSource: _websiteVisitorsData,
@@ -410,10 +401,9 @@ class _TrendLineDefaultState extends SampleViewState {
             polynomialOrder: _polynomialOrder,
             period: _period,
             onRenderDetailsUpdate: (TrendlineRenderParams args) {
-              _rSquare =
-                  double.parse(
-                    args.rSquaredValue!.toStringAsFixed(4),
-                  ).toString();
+              _rSquare = double.parse(
+                args.rSquaredValue!.toStringAsFixed(4),
+              ).toString();
               _slope = args.slope;
               _intercept = args.intercept;
               _createSlopeEquation(_slope, _intercept);

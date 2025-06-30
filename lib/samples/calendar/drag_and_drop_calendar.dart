@@ -74,26 +74,26 @@ class _DragAndDropCalendarState extends SampleViewState {
           Expanded(
             child:
                 _calendarController.view == CalendarView.month &&
-                        model.isWebFullView &&
-                        screenHeight < 800
-                    ? Scrollbar(
-                      thumbVisibility: true,
+                    model.isWebFullView &&
+                    screenHeight < 800
+                ? Scrollbar(
+                    thumbVisibility: true,
+                    controller: _controller,
+                    child: ListView(
                       controller: _controller,
-                      child: ListView(
-                        controller: _controller,
-                        children: <Widget>[
-                          Container(
-                            color: model.sampleOutputCardColor,
-                            height: 600,
-                            child: calendar,
-                          ),
-                        ],
-                      ),
-                    )
-                    : Container(
-                      color: model.sampleOutputCardColor,
-                      child: calendar,
+                      children: <Widget>[
+                        Container(
+                          color: model.sampleOutputCardColor,
+                          height: 600,
+                          child: calendar,
+                        ),
+                      ],
                     ),
+                  )
+                : Container(
+                    color: model.sampleOutputCardColor,
+                    child: calendar,
+                  ),
           ),
         ],
       ),

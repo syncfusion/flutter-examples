@@ -243,8 +243,8 @@ class _MapTooltipPageState extends SampleViewState {
       shapeDataField: 'name',
       dataCount: _forestArea.length,
       primaryValueMapper: (int index) => _forestArea[index].state,
-      bubbleSizeMapper:
-          (int index) => _forestArea[index].areaInSqKm!.toDouble(),
+      bubbleSizeMapper: (int index) =>
+          _forestArea[index].areaInSqKm!.toDouble(),
     );
 
     _riverMapSource = MapShapeSource.asset(
@@ -260,8 +260,8 @@ class _MapTooltipPageState extends SampleViewState {
       shapeDataField: 'name',
       dataCount: _rainfallArea.length,
       primaryValueMapper: (int index) => _rainfallArea[index].state,
-      bubbleSizeMapper:
-          (int index) => _rainfallArea[index].rainfallInMillimeter,
+      bubbleSizeMapper: (int index) =>
+          _rainfallArea[index].rainfallInMillimeter,
     );
 
     _setMapDelegate(_currentDataTypeIndex);
@@ -319,10 +319,9 @@ class _MapTooltipPageState extends SampleViewState {
                   model.state,
                   textAlign: TextAlign.center,
                   style: themeData.textTheme.bodyMedium!.copyWith(
-                    color:
-                        isLightTheme
-                            ? const Color.fromRGBO(0, 0, 0, 0.87)
-                            : const Color.fromRGBO(255, 255, 255, 0.87),
+                    color: isLightTheme
+                        ? const Color.fromRGBO(0, 0, 0, 0.87)
+                        : const Color.fromRGBO(255, 255, 255, 0.87),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -330,10 +329,9 @@ class _MapTooltipPageState extends SampleViewState {
                 Text(
                   _getTooltipText(model),
                   style: themeData.textTheme.bodySmall!.copyWith(
-                    color:
-                        isLightTheme
-                            ? const Color.fromRGBO(0, 0, 0, 0.87)
-                            : const Color.fromRGBO(255, 255, 255, 0.87),
+                    color: isLightTheme
+                        ? const Color.fromRGBO(0, 0, 0, 0.87)
+                        : const Color.fromRGBO(255, 255, 255, 0.87),
                   ),
                 ),
               ],
@@ -429,14 +427,13 @@ class _MapTooltipPageState extends SampleViewState {
     return Stack(
       children: <Widget>[
         Container(
-          padding:
-              scrollEnabled
-                  ? EdgeInsets.only(
-                    left: 15,
-                    top: MediaQuery.of(context).size.height * 0.05,
-                    bottom: MediaQuery.of(context).size.height * 0.075,
-                  )
-                  : const EdgeInsets.only(bottom: 70.0),
+          padding: scrollEnabled
+              ? EdgeInsets.only(
+                  left: 15,
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.075,
+                )
+              : const EdgeInsets.only(bottom: 70.0),
           child: SfMapsTheme(
             data: SfMapsThemeData(
               shapeHoverColor: Colors.transparent,
@@ -475,24 +472,20 @@ class _MapTooltipPageState extends SampleViewState {
                         /// inside the tooltip. Hence, the nose will still be
                         /// there. You can customize the stroke around the
                         /// tooltip if needed.
-                        bubbleTooltipBuilder: (
-                          BuildContext context,
-                          int index,
-                        ) {
-                          return _buildCustomTooltipWidget(
-                            _getSelectedIndexModel(index),
-                            themeData,
-                            isLightTheme,
-                          );
-                        },
-                        color:
-                            isLightTheme
-                                ? const Color.fromRGBO(204, 204, 204, 1)
-                                : const Color.fromRGBO(103, 103, 103, 1),
-                        strokeColor:
-                            isLightTheme
-                                ? const Color.fromRGBO(255, 255, 255, 1)
-                                : const Color.fromRGBO(49, 49, 49, 1),
+                        bubbleTooltipBuilder:
+                            (BuildContext context, int index) {
+                              return _buildCustomTooltipWidget(
+                                _getSelectedIndexModel(index),
+                                themeData,
+                                isLightTheme,
+                              );
+                            },
+                        color: isLightTheme
+                            ? const Color.fromRGBO(204, 204, 204, 1)
+                            : const Color.fromRGBO(103, 103, 103, 1),
+                        strokeColor: isLightTheme
+                            ? const Color.fromRGBO(255, 255, 255, 1)
+                            : const Color.fromRGBO(49, 49, 49, 1),
                         strokeWidth: 0.5,
                         bubbleSettings: MapBubbleSettings(
                           minRadius: 15,
@@ -502,10 +495,9 @@ class _MapTooltipPageState extends SampleViewState {
                           strokeWidth: 0.5,
                         ),
                         tooltipSettings: MapTooltipSettings(
-                          color:
-                              isLightTheme
-                                  ? const Color.fromRGBO(255, 255, 255, 1)
-                                  : const Color.fromRGBO(66, 66, 66, 1),
+                          color: isLightTheme
+                              ? const Color.fromRGBO(255, 255, 255, 1)
+                              : const Color.fromRGBO(66, 66, 66, 1),
                           strokeColor: const Color.fromRGBO(153, 153, 153, 1),
                           strokeWidth: 0.5,
                           hideDelay: _autoHide ? 3.0 : double.infinity,

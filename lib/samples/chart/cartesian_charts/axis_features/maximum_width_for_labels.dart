@@ -71,10 +71,9 @@ class ChartMaximumLabelWidthState extends SampleViewState {
                   ),
                 ),
                 Container(
-                  padding:
-                      !model.isWebFullView
-                          ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
-                          : const EdgeInsets.fromLTRB(42, 0, 0, 0),
+                  padding: !model.isWebFullView
+                      ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
+                      : const EdgeInsets.fromLTRB(42, 0, 0, 0),
                   child: CustomDirectionalButtons(
                     maxValue: 120,
                     minValue: 1,
@@ -103,6 +102,7 @@ class ChartMaximumLabelWidthState extends SampleViewState {
                   SizedBox(
                     width: 75,
                     child: CheckboxListTile(
+                      contentPadding: EdgeInsets.zero,
                       activeColor: model.primaryColor,
                       value: _isEnableLabelExtend,
                       onChanged: (bool? value) {
@@ -125,10 +125,9 @@ class ChartMaximumLabelWidthState extends SampleViewState {
                     style: TextStyle(color: model.textColor),
                   ),
                   Container(
-                    padding:
-                        !model.isWebFullView
-                            ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
-                            : const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                    padding: !model.isWebFullView
+                        ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
+                        : const EdgeInsets.fromLTRB(50, 0, 0, 0),
                     child: CustomDirectionalButtons(
                       maxValue: 200,
                       minValue: 1,

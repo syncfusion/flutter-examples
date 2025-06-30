@@ -12,8 +12,10 @@ import 'package:url_launcher/url_launcher.dart';
 ///Local imports
 import 'model/helper.dart';
 import 'model/model.dart';
+import 'model/showcase_application.dart';
 import 'model/web_view.dart';
 import 'showcase_samples/expense_tracker/base.dart';
+import 'showcase_samples/stock_analysis/screens/setup.dart';
 import 'widgets/animate_opacity_widget.dart';
 import 'widgets/search_bar.dart';
 
@@ -108,25 +110,23 @@ class _SampleBrowserState extends State<SampleBrowser> {
         final Brightness platformBrightness = MediaQuery.platformBrightnessOf(
           context,
         );
-        _sampleListModel.systemTheme =
-            platformBrightness == Brightness.light
-                ? ThemeData.light(useMaterial3: _isMaterial3)
-                : ThemeData.dark(useMaterial3: _isMaterial3);
+        _sampleListModel.systemTheme = platformBrightness == Brightness.light
+            ? ThemeData.light(useMaterial3: _isMaterial3)
+            : ThemeData.dark(useMaterial3: _isMaterial3);
         _brightness ??= _sampleListModel.systemTheme.brightness;
       }
     }
-    ThemeData themeData =
-        _brightness == Brightness.light
-            ? ThemeData.light(useMaterial3: _isMaterial3)
-            : ThemeData.dark(useMaterial3: _isMaterial3);
+    ThemeData themeData = _brightness == Brightness.light
+        ? ThemeData.light(useMaterial3: _isMaterial3)
+        : ThemeData.dark(useMaterial3: _isMaterial3);
     _updateBaseColor(themeData);
     themeData = _themeData(
       _sampleListModel.paletteColors[selectedColorPaletteIndex],
     );
     _sampleListModel.primaryColor = themeData.colorScheme.primary;
     final Map<String, WidgetBuilder> navigationRoutes = <String, WidgetBuilder>{
-      _sampleListModel.isWebFullView ? '/' : '/demos':
-          (BuildContext context) => HomePage(refresh: _refresh),
+      _sampleListModel.isWebFullView ? '/' : '/demos': (BuildContext context) =>
+          HomePage(refresh: _refresh),
     };
     for (int i = 0; i < _sampleListModel.routes!.length; i++) {
       final SampleRoute sampleRoute = _sampleListModel.routes![i];
@@ -141,14 +141,16 @@ class _SampleBrowserState extends State<SampleBrowser> {
 
       navigationRoutes[sampleRoute.routeName!] =
           (BuildContext context) => WebLayoutPage(
-            key: initialKey,
-            routeName: sampleRoute.routeName,
-            sampleModel: _sampleListModel,
-            category: category,
-            subItem: sampleRoute.subItem,
-            refresh: _refresh,
-          );
+                key: initialKey,
+                routeName: sampleRoute.routeName,
+                sampleModel: _sampleListModel,
+                category: category,
+                subItem: sampleRoute.subItem,
+                refresh: _refresh,
+              );
     }
+
+    _addShowcaseNavigationRoutes(navigationRoutes);
 
     _sampleListModel.themeData = _themeData(_sampleListModel.primaryColor);
     _sampleListModel.changeTheme(
@@ -169,6 +171,15 @@ class _SampleBrowserState extends State<SampleBrowser> {
     } else {
       return _buildMobileView(navigationRoutes);
     }
+  }
+
+  void _addShowcaseNavigationRoutes(
+    Map<String, WidgetBuilder> navigationRoutes,
+  ) {
+    navigationRoutes['/stock-chart'] =
+        (BuildContext context) => const StockAnalysis();
+    navigationRoutes['/expense-tracker'] =
+        (BuildContext context) => const ExpenseAnalysisApp();
   }
 
   MaterialApp _buildWebOrDesktopView(
@@ -234,10 +245,9 @@ class _SampleBrowserState extends State<SampleBrowser> {
       return ThemeData(
         useMaterial3: false,
         brightness: _brightness,
-        colorScheme:
-            _brightness == Brightness.light
-                ? ColorScheme.light(primary: paletteColor)
-                : ColorScheme.dark(primary: paletteColor),
+        colorScheme: _brightness == Brightness.light
+            ? ColorScheme.light(primary: paletteColor)
+            : ColorScheme.dark(primary: paletteColor),
       );
     }
   }
@@ -265,11 +275,12 @@ class _SampleBrowserState extends State<SampleBrowser> {
 class ShowCaseApplications {
   ShowCaseApplications({
     required this.title,
-    required this.imagePath,
+    required this.routeName,
     required this.application,
   });
+
   final String title;
-  final String imagePath;
+  final String routeName;
   final Widget application;
 }
 
@@ -292,6 +303,18 @@ class _HomePageState extends State<HomePage> {
   late double _applicationCardWidth;
   final double _applicationCardHeight = 260;
   final PageController _pageController = PageController();
+  final List<ShowCaseApplications> applications = [
+    ShowCaseApplications(
+      title: 'Expense Tracker',
+      routeName: '/expense-tracker',
+      application: const ExpenseAnalysisApp(),
+    ),
+    ShowCaseApplications(
+      title: 'Stock Chart',
+      routeName: '/stock-chart',
+      application: const StockAnalysis(),
+    ),
+  ];
 
   bool _isDownloadButtonHover = false;
   bool _isGetPackageButtonHover = false;
@@ -319,15 +342,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  final List<ShowCaseApplications> applications = [
-    ShowCaseApplications(
-      title: 'Expense Tracker',
-      // TODO(Sravan): Need to update the correct image.
-      imagePath: 'images/expense_tracker_snapshot.png',
-      application: const ExpenseAnalysisApp(),
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final bool isMaxXSize = MediaQuery.of(context).size.width >= 1000;
@@ -335,38 +349,31 @@ class _HomePageState extends State<HomePage> {
     model.isMobileResolution = (MediaQuery.of(context).size.width) < 768;
 
     return SafeArea(
-      child:
-          model.isMobileResolution
-              ? Scaffold(
-                key: scaffoldKey,
-                resizeToAvoidBottomInset: false,
-                drawer:
-                    (!model.isWebFullView && Platform.isIOS)
-                        ? null // Avoiding drawer in iOS platform.
-                        : buildLeftSideDrawer(model),
-                backgroundColor: model.backgroundColor,
-                endDrawerEnableOpenDragGesture: false,
-                endDrawer:
-                    model.isWebFullView
-                        ? buildWebThemeSettings(model, context, widget.refresh)
-                        : null,
-                appBar: _buildMobileAppBar(model, context),
-                body: _buildScrollableWidget(context, model, isMaxXSize),
-              )
-              : Scaffold(
-                key: scaffoldKey,
-                bottomNavigationBar: buildFooter(context, model),
-                backgroundColor: model.backgroundColor,
-                endDrawerEnableOpenDragGesture: false,
-                endDrawer: buildWebThemeSettings(
-                  model,
-                  context,
-                  widget.refresh,
-                ),
-                resizeToAvoidBottomInset: false,
-                appBar: _buildDesktopAppBar(model, context, isMaxXSize),
-                body: _buildHomePageBody(context, model, isMaxXSize),
-              ),
+      child: model.isMobileResolution
+          ? Scaffold(
+              key: scaffoldKey,
+              resizeToAvoidBottomInset: false,
+              drawer: (!model.isWebFullView && Platform.isIOS)
+                  ? null // Avoiding drawer in iOS platform.
+                  : buildLeftSideDrawer(model),
+              backgroundColor: model.backgroundColor,
+              endDrawerEnableOpenDragGesture: false,
+              endDrawer: model.isWebFullView
+                  ? buildWebThemeSettings(model, context, widget.refresh)
+                  : null,
+              appBar: _buildMobileAppBar(model, context),
+              body: _buildScrollableWidget(context, model, isMaxXSize),
+            )
+          : Scaffold(
+              key: scaffoldKey,
+              bottomNavigationBar: buildFooter(context, model),
+              backgroundColor: model.backgroundColor,
+              endDrawerEnableOpenDragGesture: false,
+              endDrawer: buildWebThemeSettings(model, context, widget.refresh),
+              resizeToAvoidBottomInset: false,
+              appBar: _buildDesktopAppBar(model, context, isMaxXSize),
+              body: _buildHomePageBody(context, model, isMaxXSize),
+            ),
     );
   }
 
@@ -391,8 +398,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    final bool showViewAll =
-        _applicationCurrentPage == 1 &&
+    final bool showViewAll = _applicationCurrentPage == 1 &&
         (deviceWidth > 1060
             ? applications.length > 6
             : (deviceWidth >= 768
@@ -400,10 +406,9 @@ class _HomePageState extends State<HomePage> {
                 : applications.length > 2));
 
     double padding = 0;
-    double sidePadding =
-        deviceWidth > 1060
-            ? deviceWidth * 0.038
-            : deviceWidth >= 768
+    double sidePadding = deviceWidth > 1060
+        ? deviceWidth * 0.038
+        : deviceWidth >= 768
             ? deviceWidth * 0.041
             : deviceWidth * 0.05;
 
@@ -432,15 +437,22 @@ class _HomePageState extends State<HomePage> {
         children: [
           _buildShowcaseTitle(model, sidePadding, padding),
           const SizedBox(height: 10),
-          _buildApplicationsSection(
-            context,
-            model,
-            isMaxXSize,
-            sidePadding,
-            padding,
-            deviceWidth,
-            itemsPerPage,
-            showViewAll,
+          ShowcaseApplications(
+            model: model,
+            isMaxXSize: isMaxXSize,
+            sidePadding: sidePadding,
+            padding: padding,
+            deviceWidth: MediaQuery.of(context).size.width,
+            itemsPerPage: itemsPerPage,
+            showViewAll: showViewAll,
+            applications: applications,
+            pageController: _pageController,
+            appBar: model.isMobileResolution
+                ? _buildMobileAppBar(model, context)
+                : _buildDesktopAppBar(model, context, isMaxXSize),
+            applicationCardHeight: _applicationCardHeight,
+            applicationCardWidth: _applicationCardWidth,
+            applicationCurrentPage: _applicationCurrentPage,
           ),
           const SizedBox(height: 18),
           _buildAllControlsTitle(model, sidePadding, padding),
@@ -469,87 +481,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /// Builds the applications section with a page view of application cards.
-  Widget _buildApplicationsSection(
-    BuildContext context,
-    SampleModel model,
-    bool isMaxXSize,
-    double sidePadding,
-    double padding,
-    double deviceWidth,
-    int itemsPerPage,
-    bool showViewAll,
-  ) {
-    return Padding(
-      padding: EdgeInsets.only(left: sidePadding / 2),
-      child: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: sidePadding / 2),
-            child: SizedBox(
-              height: _applicationCardHeight,
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: applications.length > itemsPerPage ? 2 : 1,
-                itemBuilder: (context, pageIndex) {
-                  final int startIndex = pageIndex * itemsPerPage;
-                  final int endIndex =
-                      _applicationCurrentPage == 1 && pageIndex > 0
-                          ? deviceWidth > 1060
-                              ? applications.length > 6
-                                  ? startIndex + 2
-                                  : applications.length
-                              : (deviceWidth >= 768
-                                  ? applications.length > 4
-                                      ? startIndex + 1
-                                      : applications.length
-                                  : applications.length > 2
-                                  ? startIndex
-                                  : applications.length)
-                          : (startIndex + itemsPerPage > applications.length)
-                          ? applications.length
-                          : startIndex + itemsPerPage;
-
-                  final List<ShowCaseApplications> visibleApps = applications
-                      .sublist(startIndex, endIndex);
-
-                  return Row(
-                    children: [
-                      ...visibleApps.map(
-                        (app) => Padding(
-                          padding: EdgeInsets.only(right: padding),
-                          child: _buildApplicationWidget(
-                            app,
-                            model,
-                            deviceWidth,
-                          ),
-                        ),
-                      ),
-                      if (showViewAll && pageIndex > 0)
-                        _buildViewAllOptions(
-                          context,
-                          model,
-                          isMaxXSize,
-                          sidePadding,
-                          padding,
-                        ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-          if (_applicationCurrentPage == 1 &&
-              applications.length > itemsPerPage)
-            _buildPreviousButton(context, model, sidePadding, padding),
-          if (_applicationCurrentPage == 0 &&
-              applications.length > itemsPerPage)
-            _buildNextButton(context, model, sidePadding, padding),
-        ],
-      ),
-    );
-  }
-
   /// Builds the title for the "All Controls" section.
   Widget _buildAllControlsTitle(
     SampleModel model,
@@ -565,332 +496,6 @@ class _HomePageState extends State<HomePage> {
           fontSize: 16,
           fontFamily: 'Roboto-Bold',
         ),
-      ),
-    );
-  }
-
-  /// Builds the previous page button in the applications page view.
-  Widget _buildPreviousButton(
-    BuildContext context,
-    SampleModel model,
-    double sidePadding,
-    double padding,
-  ) {
-    return Positioned(
-      top: _applicationCardHeight / 3 + padding * 2,
-      child: ElevatedButton(
-        onPressed: () {
-          _pageController.previousPage(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
-        },
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          padding: const EdgeInsets.all(10),
-          backgroundColor: Theme.of(context).colorScheme.surface,
-        ),
-        child: Center(
-          child: Icon(
-            Icons.arrow_back_ios,
-            color:
-                model.themeData.colorScheme.brightness == Brightness.dark
-                    ? const Color.fromRGBO(238, 238, 238, 1)
-                    : Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Builds the next page button in the applications page view.
-  Widget _buildNextButton(
-    BuildContext context,
-    SampleModel model,
-    double sidePadding,
-    double padding,
-  ) {
-    return Positioned(
-      right: sidePadding / 2,
-      top: _applicationCardHeight / 3 + padding * 2,
-      child: ElevatedButton(
-        onPressed: () {
-          _pageController.nextPage(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
-        },
-        style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(),
-          padding: const EdgeInsets.all(10),
-          backgroundColor: Theme.of(context).colorScheme.surface,
-        ),
-        child: Center(
-          child: Icon(
-            Icons.arrow_forward_ios,
-            color:
-                model.themeData.colorScheme.brightness == Brightness.dark
-                    ? const Color.fromRGBO(238, 238, 238, 1)
-                    : Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildApplicationWidget(
-    ShowCaseApplications app,
-    SampleModel model,
-    double width,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: model.homeCardColor,
-        border: Border.all(
-          color:
-              model.themeData.useMaterial3
-                  ? model.themeData.colorScheme.outlineVariant
-                  : const Color.fromRGBO(0, 0, 0, 0.12),
-          width: 1.1,
-        ),
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-      ),
-      width: model.isWebFullView ? 380.0 : _applicationCardWidth,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    // TODO(Sravan): Implement back button functionality to navigate to the previous screen or handle app exit.
-                    builder: (BuildContext context) => app.application,
-                  ),
-                );
-              },
-              child: SizedBox(
-                height: 185,
-                width: 356,
-                child: Image.asset(app.imagePath, fit: BoxFit.fill),
-              ),
-            ),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Divider(
-                color:
-                    model.themeData.useMaterial3
-                        ? model.themeData.colorScheme.outlineVariant
-                        : (model.themeData.colorScheme.brightness ==
-                                Brightness.dark
-                            ? const Color.fromRGBO(61, 61, 61, 1)
-                            : const Color.fromRGBO(238, 238, 238, 1)),
-                thickness: 1,
-                height: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 12.0,
-                  top: 16.0,
-                  bottom: 16.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        app.title,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.start,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          letterSpacing: 0,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w700,
-                        ),
-                        // TextStyle(
-                        //   color: model.primaryColor,
-                        //   fontSize: 16,
-                        //   fontFamily: 'Roboto-Bold',
-                        // ),
-                      ),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(55, 153, 30, 1),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10.0),
-                          topLeft: Radius.circular(10.0),
-                        ),
-                      ),
-                      padding: const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
-                      child: const Text(
-                        'New',
-                        style: TextStyle(fontSize: 12, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildViewAllOptions(
-    BuildContext context,
-    SampleModel model,
-    bool isMaxXSize,
-    double sidePadding,
-    double padding,
-  ) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: model.homeCardColor,
-        border: Border.all(
-          color:
-              model.themeData.useMaterial3
-                  ? model.themeData.colorScheme.outlineVariant
-                  : const Color.fromRGBO(0, 0, 0, 0.12),
-          width: 1.1,
-        ),
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-      ),
-      width: _applicationCardWidth * 0.8,
-      child: InkWell(
-        onTap:
-            () => _navigateToApplications(
-              context,
-              model,
-              isMaxXSize,
-              sidePadding,
-              padding,
-            ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Text(
-              'View All',
-              style: TextStyle(
-                color: model.primaryColor,
-                fontSize: 16,
-                fontFamily: 'Roboto-Bold',
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _navigateToApplications(
-    BuildContext context,
-    SampleModel model,
-    bool isMaxXSize,
-    double sidePadding,
-    double padding,
-  ) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return Scaffold(
-            appBar:
-                model.isMobileResolution
-                    // TODO(Sravan): Implement sub items app bar.
-                    ? _buildMobileAppBar(model, context)
-                    : _buildDesktopAppBar(model, context, isMaxXSize),
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Back button
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: sidePadding,
-                    vertical: 16,
-                  ),
-                  child: InkWell(
-                    onTap: () => Navigator.pop(context),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.arrow_back,
-                          size: 24,
-                          color: model.primaryColor,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Showcase Samples',
-                          style: TextStyle(
-                            color: model.primaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                /// Applications grid.
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: sidePadding),
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        final int itemsPerRow =
-                            constraints.maxWidth > 1060
-                                ? 3
-                                : (constraints.maxWidth > 768 ? 2 : 1);
-                        final double appHeight =
-                            MediaQuery.of(context).size.height * 0.4;
-
-                        return GridView.builder(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                            right: 20,
-                            bottom: 10,
-                            left: 10,
-                          ),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: itemsPerRow,
-                                crossAxisSpacing: padding,
-                                mainAxisSpacing: padding,
-                                childAspectRatio:
-                                    constraints.maxWidth /
-                                    itemsPerRow /
-                                    appHeight,
-                              ),
-                          itemCount: applications.length,
-                          itemBuilder:
-                              (context, index) => _buildApplicationWidget(
-                                applications[index],
-                                model,
-                                constraints.maxWidth,
-                              ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
       ),
     );
   }
@@ -1046,11 +651,10 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.only(top: 20, right: 25),
       child: SizedBox(
         height: 35,
-        width:
-            MediaQuery.of(context).size.width >= 920
-                ? 300
-                : MediaQuery.of(context).size.width /
-                    (MediaQuery.of(context).size.width < 820 ? 5 : 4),
+        width: MediaQuery.of(context).size.width >= 920
+            ? 300
+            : MediaQuery.of(context).size.width /
+                (MediaQuery.of(context).size.width < 820 ? 5 : 4),
         child: CustomSearchBar(sampleListModel: model),
       ),
     );
@@ -1103,10 +707,9 @@ class _HomePageState extends State<HomePage> {
                         child: Text(
                           'DOWNLOAD NOW',
                           style: TextStyle(
-                            color:
-                                _isDownloadButtonHover
-                                    ? model.themeData.colorScheme.primary
-                                    : model.baseAppBarItemColor,
+                            color: _isDownloadButtonHover
+                                ? model.themeData.colorScheme.primary
+                                : model.baseAppBarItemColor,
                             fontSize: 12,
                             fontFamily: 'Roboto-Medium',
                           ),
@@ -1169,10 +772,9 @@ class _HomePageState extends State<HomePage> {
                             Text(
                               'Get Packages',
                               style: TextStyle(
-                                color:
-                                    _isGetPackageButtonHover
-                                        ? model.themeData.colorScheme.primary
-                                        : model.baseAppBarItemColor,
+                                color: _isGetPackageButtonHover
+                                    ? model.themeData.colorScheme.primary
+                                    : model.baseAppBarItemColor,
                                 fontSize: 12,
                                 fontFamily: 'Roboto-Medium',
                               ),
@@ -1218,10 +820,10 @@ class _HomePageState extends State<HomePage> {
   ) {
     return model.isWeb
         ? Scrollbar(
-          controller: controller,
-          thumbVisibility: true,
-          child: _buildCustomScrollWidget(context, model, isMaxXSize),
-        )
+            controller: controller,
+            thumbVisibility: true,
+            child: _buildCustomScrollWidget(context, model, isMaxXSize),
+          )
         : _buildCustomScrollWidget(context, model, isMaxXSize);
   }
 
@@ -1282,13 +884,12 @@ class _HomePageState extends State<HomePage> {
               delegate: SliverChildListDelegate(<Widget>[
                 ColoredBox(
                   color: model.backgroundColor,
-                  child:
-                      searchResults.isNotEmpty
-                          ? SizedBox(
-                            height: MediaQuery.of(context).size.height,
-                            child: ListView(children: searchResults),
-                          )
-                          : _buildHomePageBody(context, model, isMaxXSize),
+                  child: searchResults.isNotEmpty
+                      ? SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          child: ListView(children: searchResults),
+                        )
+                      : _buildHomePageBody(context, model, isMaxXSize),
                 ),
               ]),
             ),
@@ -1392,10 +993,9 @@ class _PersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
             Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               height: 70,
-              child:
-                  (_sampleListModel != null && _sampleListModel!.isMobile)
-                      ? CustomSearchBar(sampleListModel: _sampleListModel!)
-                      : _sampleListModel!.searchBar,
+              child: (_sampleListModel != null && _sampleListModel!.isMobile)
+                  ? CustomSearchBar(sampleListModel: _sampleListModel!)
+                  : _sampleListModel!.searchBar,
             ),
             Container(
               height: 20,
@@ -1452,10 +1052,9 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
     final double deviceWidth = MediaQuery.of(context).size.width;
     double padding;
     Widget? organizedCardWidget;
-    double sidePadding =
-        deviceWidth > 1060
-            ? deviceWidth * 0.038
-            : deviceWidth >= 768
+    double sidePadding = deviceWidth > 1060
+        ? deviceWidth * 0.038
+        : deviceWidth >= 768
             ? deviceWidth * 0.041
             : deviceWidth * 0.05;
 
@@ -1573,10 +1172,9 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
       decoration: BoxDecoration(
         color: model.homeCardColor,
         border: Border.all(
-          color:
-              model.themeData.useMaterial3
-                  ? model.themeData.colorScheme.outlineVariant
-                  : const Color.fromRGBO(0, 0, 0, 0.12),
+          color: model.themeData.useMaterial3
+              ? model.themeData.colorScheme.outlineVariant
+              : const Color.fromRGBO(0, 0, 0, 0.12),
           width: 1.1,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -1596,12 +1194,11 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
             ),
           ),
           Divider(
-            color:
-                model.themeData.useMaterial3
-                    ? model.themeData.colorScheme.outlineVariant
-                    : (model.themeData.colorScheme.brightness == Brightness.dark
-                        ? const Color.fromRGBO(61, 61, 61, 1)
-                        : const Color.fromRGBO(238, 238, 238, 1)),
+            color: model.themeData.useMaterial3
+                ? model.themeData.colorScheme.outlineVariant
+                : (model.themeData.colorScheme.brightness == Brightness.dark
+                    ? const Color.fromRGBO(61, 61, 61, 1)
+                    : const Color.fromRGBO(238, 238, 238, 1)),
             thickness: 1,
           ),
           Column(children: _buildControlListView(category)),
@@ -1663,48 +1260,42 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                         else
                           (control.isBeta ?? false)
                               ? Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  padding:
-                                      model.isWeb && model.isMobileResolution
-                                          ? const EdgeInsets.fromLTRB(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    padding: model.isWeb &&
+                                            model.isMobileResolution
+                                        ? const EdgeInsets.fromLTRB(
                                             3,
                                             1.5,
                                             3,
                                             5.5,
                                           )
-                                          : const EdgeInsets.fromLTRB(
-                                            3,
-                                            3,
-                                            3,
-                                            2,
-                                          ),
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromRGBO(245, 188, 14, 1),
-                                  ),
-                                  child: const Text(
-                                    'BETA',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
-                                      letterSpacing: 0.12,
-                                      fontFamily: 'Roboto-Medium',
-                                      color: Colors.black,
+                                        : const EdgeInsets.fromLTRB(3, 3, 3, 2),
+                                    decoration: const BoxDecoration(
+                                      color: Color.fromRGBO(245, 188, 14, 1),
+                                    ),
+                                    child: const Text(
+                                      'BETA',
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.12,
+                                        fontFamily: 'Roboto-Medium',
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )
+                                )
                               : Container(),
                       ],
                     ),
                     if (status != null)
                       Container(
                         decoration: BoxDecoration(
-                          color:
-                              status.toLowerCase() == 'new'
-                                  ? const Color.fromRGBO(55, 153, 30, 1)
-                                  : status.toLowerCase() == 'updated'
+                          color: status.toLowerCase() == 'new'
+                              ? const Color.fromRGBO(55, 153, 30, 1)
+                              : status.toLowerCase() == 'updated'
                                   ? const Color.fromRGBO(246, 117, 0, 1)
                                   : Colors.transparent,
                           borderRadius: const BorderRadius.only(
@@ -1712,10 +1303,9 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                             bottomLeft: Radius.circular(10),
                           ),
                         ),
-                        padding:
-                            model.isWeb && model.isMobileResolution
-                                ? const EdgeInsets.fromLTRB(6, 1.5, 4, 5.5)
-                                : const EdgeInsets.fromLTRB(6, 2.7, 4, 2.7),
+                        padding: model.isWeb && model.isMobileResolution
+                            ? const EdgeInsets.fromLTRB(6, 1.5, 4, 5.5)
+                            : const EdgeInsets.fromLTRB(6, 2.7, 4, 2.7),
                         child: Text(
                           status,
                           style: const TextStyle(

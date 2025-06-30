@@ -195,17 +195,16 @@ class _ColumnResizingDataGridState extends SampleViewState {
                           height: 1,
                         ),
                         value: _columnResizeMode,
-                        items:
-                            _columnResize.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: (value != null) ? value : 'onResize',
-                                child: Text(
-                                  value,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: model.textColor),
-                                ),
-                              );
-                            }).toList(),
+                        items: _columnResize.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: (value != null) ? value : 'onResize',
+                            child: Text(
+                              value,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: model.textColor),
+                            ),
+                          );
+                        }).toList(),
                         onChanged: (dynamic value) {
                           _onColumnResizeModeChanged(value);
                           stateSetter(() {});

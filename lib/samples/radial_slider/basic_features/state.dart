@@ -41,10 +41,9 @@ class _RadialSliderStateTypesState extends SampleViewState {
           RadialAxis(
             radiusFactor: 0.8,
             axisLineStyle: AxisLineStyle(
-              color:
-                  model.themeData.colorScheme.brightness == Brightness.light
-                      ? const Color.fromRGBO(191, 214, 245, 1)
-                      : const Color.fromRGBO(36, 58, 89, 1),
+              color: model.themeData.colorScheme.brightness == Brightness.light
+                  ? const Color.fromRGBO(191, 214, 245, 1)
+                  : const Color.fromRGBO(36, 58, 89, 1),
               thickness: model.isWebFullView ? 0.05 : 0.075,
               thicknessUnit: GaugeSizeUnit.factor,
             ),
@@ -57,10 +56,9 @@ class _RadialSliderStateTypesState extends SampleViewState {
                 width: model.isWebFullView ? 0.05 : 0.075,
                 value: _value,
                 cornerStyle: CornerStyle.bothCurve,
-                color:
-                    _enableDragging
-                        ? const Color.fromRGBO(44, 117, 220, 1)
-                        : const Color(0xFF888888),
+                color: _enableDragging
+                    ? const Color.fromRGBO(44, 117, 220, 1)
+                    : const Color(0xFF888888),
                 sizeUnit: GaugeSizeUnit.factor,
               ),
               MarkerPointer(
@@ -70,10 +68,9 @@ class _RadialSliderStateTypesState extends SampleViewState {
                 onValueChanging: handlePointerValueChanging,
                 elevation: 5,
                 enableDragging: _enableDragging,
-                color:
-                    _enableDragging
-                        ? const Color.fromRGBO(44, 117, 220, 1)
-                        : const Color(0xFF888888),
+                color: _enableDragging
+                    ? const Color.fromRGBO(44, 117, 220, 1)
+                    : const Color(0xFF888888),
                 markerHeight: _firstMarkerSize,
                 markerWidth: _firstMarkerSize,
                 markerType: MarkerType.circle,

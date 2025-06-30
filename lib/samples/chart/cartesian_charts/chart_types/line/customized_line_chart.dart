@@ -91,10 +91,9 @@ class _LineDefaultState extends SampleViewState {
           yValueMapper: (_ChartData sales, int index) => sales.y,
           animationDuration: 0,
           enableTooltip: false,
-          color:
-              model.themeData.colorScheme.brightness == Brightness.dark
-                  ? Colors.grey
-                  : Colors.black,
+          color: model.themeData.colorScheme.brightness == Brightness.dark
+              ? Colors.grey
+              : Colors.black,
         ),
         LineSeries<_ChartData, DateTime>(
           dataSource: _chartData2,
@@ -197,17 +196,15 @@ class _LineCustomPainter<T, D> extends LineSegment<T, D> {
 
     if (currentSegmentIndex == series.dataSource!.length - 2) {
       const double labelPadding = 10;
-      final Paint topLinePaint =
-          Paint()
-            ..color = Colors.green
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2;
+      final Paint topLinePaint = Paint()
+        ..color = Colors.green
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2;
 
-      final Paint bottomLinePaint =
-          Paint()
-            ..color = Colors.red
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2;
+      final Paint bottomLinePaint = Paint()
+        ..color = Colors.red
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2;
       maximum = _yPointValues.reduce(max);
       minimum = _yPointValues.reduce(min);
       final Path bottomLinePath = Path();

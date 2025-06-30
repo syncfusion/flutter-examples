@@ -106,16 +106,15 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _ySelectedPositionType,
-                    items:
-                        _yPositionType!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'outside',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _yPositionType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'outside',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onPositionChange(value.toString());
                       stateSetter(() {});
@@ -142,16 +141,15 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _ySelectedAlignmentType,
-                    items:
-                        _yAlignmentType!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'start',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _yAlignmentType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'start',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onAlignmentChange(value.toString());
                       stateSetter(() {});
@@ -190,16 +188,15 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _xSelectedPositionType,
-                    items:
-                        _xPositionType!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'outside',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _xPositionType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'outside',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onXPositionChange(value.toString());
                       stateSetter(() {});
@@ -226,16 +223,15 @@ class _AxisCrossingState extends SampleViewState {
                       height: 1,
                     ),
                     value: _xSelectedAlignmentType,
-                    items:
-                        _xAlignmentType!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'center',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _xAlignmentType!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'center',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       _onXAlignmentChange(value.toString());
                       stateSetter(() {});
@@ -262,17 +258,20 @@ class _AxisCrossingState extends SampleViewState {
       primaryXAxis: CategoryAxis(
         edgeLabelPlacement: EdgeLabelPlacement.shift,
         interval: 1,
-        labelPosition:
-            isCardView ? ChartDataLabelPosition.outside : _labelPositionX,
+        labelPosition: isCardView
+            ? ChartDataLabelPosition.outside
+            : _labelPositionX,
         labelAlignment: isCardView ? LabelAlignment.center : _labelAlignmentX,
         tickPosition: isCardView ? TickPosition.outside : _tickPositionX,
         majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-        edgeLabelPlacement:
-            isCardView ? EdgeLabelPlacement.none : EdgeLabelPlacement.shift,
-        labelPosition:
-            isCardView ? ChartDataLabelPosition.outside : _labelPositionY,
+        edgeLabelPlacement: isCardView
+            ? EdgeLabelPlacement.none
+            : EdgeLabelPlacement.shift,
+        labelPosition: isCardView
+            ? ChartDataLabelPosition.outside
+            : _labelPositionY,
         labelAlignment: isCardView ? LabelAlignment.center : _labelAlignmentY,
         tickPosition: isCardView ? TickPosition.outside : _tickPositionY,
         minimum: 0,

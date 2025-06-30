@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data_processing/utils.dart';
+// import '../data_processing/utils.dart';
 import '../helper/responsive_layout.dart';
 import '../models/user_profile.dart';
 
@@ -14,7 +14,7 @@ class DrawerNotifier extends ChangeNotifier {
       profile.isDrawerExpanded = false;
     }
     _isDrawerExpanded = profile.isDrawerExpanded;
-    updateUserProfile(context, profile);
+    // updateUserProfile(context, profile);
     notifyListeners();
   }
 }

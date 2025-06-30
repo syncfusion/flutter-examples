@@ -35,8 +35,11 @@ class _DefaultTrackballState extends SampleViewState {
 
   @override
   void initState() {
-    _trackballModes =
-        <String>['floatAllPoints', 'groupAllPoints', 'nearestPoint'].toList();
+    _trackballModes = <String>[
+      'floatAllPoints',
+      'groupAllPoints',
+      'nearestPoint',
+    ].toList();
     _alignmentList = <String>['center', 'far', 'near'].toList();
     _hideDelayDuration = 2;
     _shouldAlwaysShow = false;
@@ -170,10 +173,9 @@ class _DefaultTrackballState extends SampleViewState {
               ),
               Container(
                 height: 50,
-                padding:
-                    !model.isWebFullView
-                        ? const EdgeInsets.fromLTRB(90, 0, 0, 0)
-                        : const EdgeInsets.fromLTRB(55, 0, 0, 0),
+                padding: !model.isWebFullView
+                    ? const EdgeInsets.fromLTRB(90, 0, 0, 0)
+                    : const EdgeInsets.fromLTRB(55, 0, 0, 0),
                 child: DropdownButton<String>(
                   dropdownColor: model.drawerBackgroundColor,
                   focusColor: Colors.transparent,
@@ -182,19 +184,15 @@ class _DefaultTrackballState extends SampleViewState {
                     height: 1,
                   ),
                   value: _selectedMode,
-                  items:
-                      _trackballModes.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'point',
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: model.textColor,
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                  items: _trackballModes.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'point',
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 16, color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
                   onChanged: (dynamic value) {
                     setState(() {
                       _updateTrackballDisplayMode(value);
@@ -223,36 +221,33 @@ class _DefaultTrackballState extends SampleViewState {
             softWrap: false,
             style: TextStyle(
               fontSize: 16,
-              color:
-                  _selectedMode != 'groupAllPoints'
-                      ? model.textColor.withValues(alpha: 0.3)
-                      : model.textColor,
+              color: _selectedMode != 'groupAllPoints'
+                  ? model.textColor.withValues(alpha: 0.3)
+                  : model.textColor,
             ),
           ),
         ),
         Container(
           height: 50,
-          padding:
-              !model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(60, 0, 0, 0)
-                  : const EdgeInsets.fromLTRB(25, 0, 0, 0),
+          padding: !model.isWebFullView
+              ? const EdgeInsets.fromLTRB(60, 0, 0, 0)
+              : const EdgeInsets.fromLTRB(25, 0, 0, 0),
           child: DropdownButton<String>(
             dropdownColor: model.drawerBackgroundColor,
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _tooltipAlignment,
-            items:
-                _selectedMode != 'groupAllPoints'
-                    ? null
-                    : _alignmentList.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'center',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+            items: _selectedMode != 'groupAllPoints'
+                ? null
+                : _alignmentList.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'center',
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
             onChanged: (dynamic value) {
               setState(() {
                 _onAlignmentChange(value);
@@ -291,10 +286,9 @@ class _DefaultTrackballState extends SampleViewState {
           ),
         ),
         Container(
-          padding:
-              !model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
-                  : const EdgeInsets.fromLTRB(42, 0, 0, 0),
+          padding: !model.isWebFullView
+              ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
+              : const EdgeInsets.fromLTRB(42, 0, 0, 0),
           child: Checkbox(
             activeColor: model.primaryColor,
             value: _shouldAlwaysShow,
@@ -324,17 +318,15 @@ class _DefaultTrackballState extends SampleViewState {
           ),
         ),
         Container(
-          padding:
-              !model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
-                  : const EdgeInsets.fromLTRB(38, 0, 0, 0),
+          padding: !model.isWebFullView
+              ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
+              : const EdgeInsets.fromLTRB(38, 0, 0, 0),
           child: CustomDirectionalButtons(
             maxValue: 10,
             initialValue: _hideDelayDuration,
-            onChanged:
-                (double value) => setState(() {
-                  _hideDelayDuration = value;
-                }),
+            onChanged: (double value) => setState(() {
+              _hideDelayDuration = value;
+            }),
             step: 2,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -358,10 +350,9 @@ class _DefaultTrackballState extends SampleViewState {
           ),
         ),
         Container(
-          padding:
-              !model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
-                  : const EdgeInsets.fromLTRB(42, 0, 0, 0),
+          padding: !model.isWebFullView
+              ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
+              : const EdgeInsets.fromLTRB(42, 0, 0, 0),
           child: Checkbox(
             activeColor: model.primaryColor,
             value: _showMarker,
@@ -393,10 +384,9 @@ class _DefaultTrackballState extends SampleViewState {
           ),
         ),
         Container(
-          padding:
-              !model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
-                  : const EdgeInsets.fromLTRB(42, 0, 0, 0),
+          padding: !model.isWebFullView
+              ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
+              : const EdgeInsets.fromLTRB(42, 0, 0, 0),
           child: Checkbox(
             activeColor: model.primaryColor,
             value: _canShowMarker,
@@ -436,10 +426,9 @@ class _DefaultTrackballState extends SampleViewState {
       trackballBehavior: TrackballBehavior(
         enable: true,
         markerSettings: TrackballMarkerSettings(
-          markerVisibility:
-              _showMarker
-                  ? TrackballVisibilityMode.visible
-                  : TrackballVisibilityMode.hidden,
+          markerVisibility: _showMarker
+              ? TrackballVisibilityMode.visible
+              : TrackballVisibilityMode.hidden,
           height: 10,
           width: 10,
           borderWidth: 1,
@@ -449,10 +438,9 @@ class _DefaultTrackballState extends SampleViewState {
         tooltipAlignment: _tooltipAlignmentSetting,
         tooltipDisplayMode: _trackballDisplayMode,
         tooltipSettings: InteractiveTooltip(
-          format:
-              _trackballDisplayMode != TrackballDisplayMode.groupAllPoints
-                  ? 'series.name : point.y'
-                  : null,
+          format: _trackballDisplayMode != TrackballDisplayMode.groupAllPoints
+              ? 'series.name : point.y'
+              : null,
           canShowMarker: _canShowMarker,
         ),
         shouldAlwaysShow: _shouldAlwaysShow,
@@ -473,16 +461,16 @@ class _DefaultTrackballState extends SampleViewState {
       LineSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.secondSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'Andrew',
       ),
       LineSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.thirdSeriesYValue,
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'Thomas',
       ),

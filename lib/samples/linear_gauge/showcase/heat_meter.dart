@@ -25,13 +25,13 @@ class _HeatMeterState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-            child: _buildHeatMeter(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
+              child: _buildHeatMeter(context),
+            ),
+          )
         : _buildHeatMeter(context);
   }
 
@@ -73,12 +73,11 @@ class _HeatMeterState extends SampleViewState {
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
-                  color:
-                      _widgetPointerWithGradientValue < 20
-                          ? Colors.green
-                          : _widgetPointerWithGradientValue < 60
-                          ? Colors.orange
-                          : Colors.red,
+                  color: _widgetPointerWithGradientValue < 20
+                      ? Colors.green
+                      : _widgetPointerWithGradientValue < 60
+                      ? Colors.orange
+                      : Colors.red,
                 ),
               ),
             ),
@@ -92,12 +91,11 @@ class _HeatMeterState extends SampleViewState {
             });
           },
           value: _widgetPointerWithGradientValue,
-          color:
-              _widgetPointerWithGradientValue < 20
-                  ? Colors.green
-                  : _widgetPointerWithGradientValue < 60
-                  ? Colors.orange
-                  : Colors.red,
+          color: _widgetPointerWithGradientValue < 20
+              ? Colors.green
+              : _widgetPointerWithGradientValue < 60
+              ? Colors.orange
+              : Colors.red,
         ),
       ],
     );

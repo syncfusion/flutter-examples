@@ -127,15 +127,14 @@ class _MapMarkerPageState extends SampleViewState {
   Widget _buildMapsWidget(bool scrollEnabled) {
     return Center(
       child: Padding(
-        padding:
-            scrollEnabled
-                ? EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.1,
-                  right: 10,
-                  left: 10,
-                )
-                : const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        padding: scrollEnabled
+            ? EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
+                bottom: MediaQuery.of(context).size.height * 0.1,
+                right: 10,
+                left: 10,
+              )
+            : const EdgeInsets.only(left: 10, right: 10, bottom: 10),
         child: SfMapsTheme(
           data: const SfMapsThemeData(
             shapeHoverColor: Colors.transparent,
@@ -186,9 +185,9 @@ class _MapMarkerPageState extends SampleViewState {
                       strokeWidth: 0,
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? const Color.fromRGBO(71, 70, 75, 0.2)
-                              : const Color.fromRGBO(71, 70, 75, 1),
+                              Brightness.light
+                          ? const Color.fromRGBO(71, 70, 75, 0.2)
+                          : const Color.fromRGBO(71, 70, 75, 1),
                     ),
                   ],
                 ),

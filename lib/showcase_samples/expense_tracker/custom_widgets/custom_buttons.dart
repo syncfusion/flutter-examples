@@ -177,12 +177,11 @@ class CustomTextActionButtons extends StatelessWidget {
         CustomTextButtons(onPressed: onCancelAction, text: 'Cancel'),
         CustomTextButtons(
           onPressed: onAddOrEditAction,
-          text:
-              showSaveButton
-                  ? 'Save'
-                  : showEditButton
-                  ? 'Save'
-                  : 'Create',
+          text: showSaveButton
+              ? 'Save'
+              : showEditButton
+              ? 'Save'
+              : 'Create',
         ),
       ],
     );
@@ -209,10 +208,9 @@ class CustomTextButtons extends StatelessWidget {
       child: Text(
         text,
         style: themeData.textTheme.labelLarge!.copyWith(
-          color:
-              onPressed == null
-                  ? Colors.grey
-                  : Theme.of(context).colorScheme.primary,
+          color: onPressed == null
+              ? Colors.grey
+              : Theme.of(context).colorScheme.primary,
         ),
       ),
     );

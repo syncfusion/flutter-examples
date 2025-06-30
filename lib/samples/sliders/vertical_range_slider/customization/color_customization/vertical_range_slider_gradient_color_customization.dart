@@ -250,11 +250,10 @@ class _TrackShape extends SfTrackShape {
     );
 
     if (endThumbCenter == null) {
-      final Paint paint =
-          Paint()
-            ..isAntiAlias = true
-            ..strokeWidth = 0
-            ..color = themeData.activeTrackColor!;
+      final Paint paint = Paint()
+        ..isAntiAlias = true
+        ..strokeWidth = 0
+        ..color = themeData.activeTrackColor!;
 
       Rect trackRect = Rect.fromLTRB(
         actualTrackRect.left,
@@ -283,11 +282,10 @@ class _TrackShape extends SfTrackShape {
       );
       context.canvas.drawRRect(rightRRect, paint);
     } else {
-      final Paint paint =
-          Paint()
-            ..isAntiAlias = true
-            ..strokeWidth = 0
-            ..color = themeData.inactiveTrackColor!;
+      final Paint paint = Paint()
+        ..isAntiAlias = true
+        ..strokeWidth = 0
+        ..color = themeData.inactiveTrackColor!;
 
       // Drawing inactive track.
       Rect trackRect = Rect.fromLTRB(

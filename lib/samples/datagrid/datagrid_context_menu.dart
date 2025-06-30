@@ -71,10 +71,9 @@ class _ContextMenuDataGridState extends SampleViewState {
       return PopupMenuItem<String>(
         padding: EdgeInsets.zero,
         value: itemName,
-        enabled:
-            sortDirection != null
-                ? isEnabled(sortDirection)
-                : _source.sortedColumns.isNotEmpty,
+        enabled: sortDirection != null
+            ? isEnabled(sortDirection)
+            : _source.sortedColumns.isNotEmpty,
         child: GestureDetector(
           onTap: () {
             _handleMenuItemTap(itemName, column);
@@ -132,10 +131,9 @@ class _ContextMenuDataGridState extends SampleViewState {
         _source.sortedColumns.add(
           SortColumnDetails(
             name: gridColumn.columnName,
-            sortDirection:
-                value == 'Sort Ascending'
-                    ? DataGridSortDirection.ascending
-                    : DataGridSortDirection.descending,
+            sortDirection: value == 'Sort Ascending'
+                ? DataGridSortDirection.ascending
+                : DataGridSortDirection.descending,
           ),
         );
         _source.sort();
@@ -157,9 +155,9 @@ class _ContextMenuDataGridState extends SampleViewState {
       columns: _obtainColumns(),
       columnWidthMode:
           ((_isDesktop || _isLandscapeInMobileView) &&
-                  !model.isMobileResolution)
-              ? ColumnWidthMode.fill
-              : ColumnWidthMode.none,
+              !model.isMobileResolution)
+          ? ColumnWidthMode.fill
+          : ColumnWidthMode.none,
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
       onCellLongPress: (DataGridCellLongPressDetails details) {

@@ -42,15 +42,14 @@ class _InvoiceXlsIOState extends SampleViewState {
                   backgroundColor: WidgetStateProperty.all<Color>(
                     model.primaryColor,
                   ),
-                  padding:
-                      model.isMobile
-                          ? null
-                          : WidgetStateProperty.all(
-                            const EdgeInsets.symmetric(
-                              vertical: 15,
-                              horizontal: 15,
-                            ),
+                  padding: model.isMobile
+                      ? null
+                      : WidgetStateProperty.all(
+                          const EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 15,
                           ),
+                        ),
                 ),
                 onPressed: _generateExcel,
                 child: const Text(

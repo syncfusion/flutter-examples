@@ -71,8 +71,9 @@ class _CircularSelectionState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return ListView(
@@ -174,18 +175,17 @@ class _CircularSelectionState extends SampleViewState {
       PieSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         radius: '70%',
         startAngle: 30,
         endAngle: 30,
         dataLabelMapper: (ChartSampleData sales, int index) => sales.text,
         dataLabelSettings: DataLabelSettings(
           isVisible: true,
-          labelPosition:
-              isCardView
-                  ? ChartDataLabelPosition.outside
-                  : ChartDataLabelPosition.inside,
+          labelPosition: isCardView
+              ? ChartDataLabelPosition.outside
+              : ChartDataLabelPosition.inside,
         ),
 
         /// To enable the selection settings and its functionalities.

@@ -115,12 +115,11 @@ class _PaginationState extends SampleViewState {
   Widget build(BuildContext context) {
     _width = MediaQuery.of(context).size.width;
     final Orientation orientation = MediaQuery.of(context).orientation;
-    _segmentedControlWidth =
-        _width > 500
-            ? model.isWebFullView
-                ? _width * 0.5
-                : _width * 0.7
-            : double.infinity;
+    _segmentedControlWidth = _width > 500
+        ? model.isWebFullView
+              ? _width * 0.5
+              : _width * 0.7
+        : double.infinity;
     _height = MediaQuery.of(context).size.height;
     _height = !model.isWebFullView ? _height - 46 : _height;
     _height = model.isWebFullView && !kIsWeb ? _height * 0.6 : _height * 0.65;
@@ -162,10 +161,9 @@ class _PaginationState extends SampleViewState {
                       child: Text(
                         '$_degree',
                         style: TextStyle(
-                          fontSize:
-                              orientation == Orientation.landscape
-                                  ? _height * 0.08
-                                  : _height * 0.06,
+                          fontSize: orientation == Orientation.landscape
+                              ? _height * 0.08
+                              : _height * 0.06,
                         ),
                       ),
                     ),
@@ -210,10 +208,9 @@ class _PaginationState extends SampleViewState {
           Visibility(
             visible: _height >= 350,
             child: Container(
-              padding:
-                  model.isWebFullView
-                      ? const EdgeInsets.fromLTRB(0, 16, 0, 16)
-                      : const EdgeInsets.fromLTRB(0, 8, 0, 8),
+              padding: model.isWebFullView
+                  ? const EdgeInsets.fromLTRB(0, 16, 0, 16)
+                  : const EdgeInsets.fromLTRB(0, 8, 0, 8),
               width: _segmentedControlWidth,
               child: CupertinoSlidingSegmentedControl<int>(
                 groupValue: _segmentedControlGroupValue,
@@ -229,14 +226,12 @@ class _PaginationState extends SampleViewState {
 
   /// Returns the item of segmented control.
   Map<int, Widget> _buildSegmentedControlButtons(Orientation orientation) {
-    _containerWidth =
-        _segmentedControlWidth == double.infinity
-            ? _width / 5
-            : _segmentedControlWidth / 5;
-    final Color color =
-        model.themeData.brightness == Brightness.light
-            ? const Color.fromRGBO(104, 104, 104, 1)
-            : const Color.fromRGBO(242, 242, 242, 1);
+    _containerWidth = _segmentedControlWidth == double.infinity
+        ? _width / 5
+        : _segmentedControlWidth / 5;
+    final Color color = model.themeData.brightness == Brightness.light
+        ? const Color.fromRGBO(104, 104, 104, 1)
+        : const Color.fromRGBO(242, 242, 242, 1);
     final ButtonStyle style = ButtonStyle(
       shape: WidgetStateProperty.all(const RoundedRectangleBorder()),
       backgroundColor: WidgetStateProperty.resolveWith(_fetchColor),
@@ -366,8 +361,8 @@ class _PaginationState extends SampleViewState {
       ),
       plotAreaBorderWidth: 0,
       series: _buildSplineAreaSeries(),
-      onPlotAreaSwipe:
-          (ChartSwipeDirection direction) => _performSwipe(direction),
+      onPlotAreaSwipe: (ChartSwipeDirection direction) =>
+          _performSwipe(direction),
     );
   }
 

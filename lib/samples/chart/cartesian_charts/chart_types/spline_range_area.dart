@@ -108,18 +108,16 @@ class _SplineRangeAreaState extends SampleViewState {
     bool isMaterial3,
     bool isLightMode,
   ) {
-    final Color seriesColor1 =
-        isMaterial3
-            ? (isLightMode
-                ? const Color.fromRGBO(6, 174, 224, 1)
-                : const Color.fromRGBO(255, 245, 0, 1))
-            : const Color.fromRGBO(75, 135, 185, 1);
-    final Color seriesColor2 =
-        isMaterial3
-            ? (isLightMode
-                ? const Color.fromRGBO(99, 85, 199, 1)
-                : const Color.fromRGBO(51, 182, 119, 1))
-            : const Color.fromRGBO(192, 108, 132, 1);
+    final Color seriesColor1 = isMaterial3
+        ? (isLightMode
+              ? const Color.fromRGBO(6, 174, 224, 1)
+              : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
+    final Color seriesColor2 = isMaterial3
+        ? (isLightMode
+              ? const Color.fromRGBO(99, 85, 199, 1)
+              : const Color.fromRGBO(51, 182, 119, 1))
+        : const Color.fromRGBO(192, 108, 132, 1);
     return <SplineRangeAreaSeries<ChartSampleData, String>>[
       SplineRangeAreaSeries<ChartSampleData, String>(
         dataSource: _chartData,
@@ -134,10 +132,10 @@ class _SplineRangeAreaState extends SampleViewState {
       SplineRangeAreaSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        highValueMapper:
-            (ChartSampleData data, int index) => data.secondSeriesYValue,
-        lowValueMapper:
-            (ChartSampleData data, int index) => data.thirdSeriesYValue,
+        highValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
+        lowValueMapper: (ChartSampleData data, int index) =>
+            data.thirdSeriesYValue,
         color: seriesColor2.withValues(alpha: 0.5),
         borderColor: seriesColor2,
         borderDrawMode: RangeAreaBorderMode.excludeSides,

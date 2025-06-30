@@ -88,9 +88,9 @@ class _FormFillingPdfState extends SampleViewState {
                     labelStyle: TextStyle(
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue,
+                              Brightness.light
+                          ? Colors.grey
+                          : Colors.lightBlue,
                     ),
                   ),
                   controller: _nameController,
@@ -104,9 +104,9 @@ class _FormFillingPdfState extends SampleViewState {
                     labelStyle: TextStyle(
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue,
+                              Brightness.light
+                          ? Colors.grey
+                          : Colors.lightBlue,
                     ),
                   ),
                   controller: _emailController,
@@ -120,9 +120,9 @@ class _FormFillingPdfState extends SampleViewState {
                     labelStyle: TextStyle(
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue,
+                              Brightness.light
+                          ? Colors.grey
+                          : Colors.lightBlue,
                     ),
                   ),
                   child: SizedBox(
@@ -138,9 +138,9 @@ class _FormFillingPdfState extends SampleViewState {
                     labelStyle: TextStyle(
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue,
+                              Brightness.light
+                          ? Colors.grey
+                          : Colors.lightBlue,
                     ),
                   ),
                   controller: _dateController,
@@ -221,9 +221,9 @@ class _FormFillingPdfState extends SampleViewState {
                     labelStyle: TextStyle(
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.lightBlue,
+                              Brightness.light
+                          ? Colors.grey
+                          : Colors.lightBlue,
                     ),
                   ),
                 ),
@@ -264,12 +264,11 @@ class _FormFillingPdfState extends SampleViewState {
           onPressed: _viewTemplate,
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
-            padding:
-                model.isMobile
-                    ? null
-                    : WidgetStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                    ),
+            padding: model.isMobile
+                ? null
+                : WidgetStateProperty.all(
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  ),
           ),
           child: const Text(
             'View Template',
@@ -281,12 +280,11 @@ class _FormFillingPdfState extends SampleViewState {
           onPressed: () => _fillFormFields(false),
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
-            padding:
-                model.isMobile
-                    ? null
-                    : WidgetStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                    ),
+            padding: model.isMobile
+                ? null
+                : WidgetStateProperty.all(
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  ),
           ),
           child: const Text('Fill Form', style: TextStyle(color: Colors.white)),
         ),
@@ -295,12 +293,11 @@ class _FormFillingPdfState extends SampleViewState {
           onPressed: () => _fillFormFields(true),
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
-            padding:
-                model.isMobile
-                    ? null
-                    : WidgetStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                    ),
+            padding: model.isMobile
+                ? null
+                : WidgetStateProperty.all(
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  ),
           ),
           child: const Text(
             'Fill And Flatten',

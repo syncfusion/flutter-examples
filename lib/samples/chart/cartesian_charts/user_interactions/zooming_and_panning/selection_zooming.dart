@@ -353,14 +353,13 @@ class _DefaultZoomingState extends SampleViewState {
         padding: EdgeInsets.fromLTRB(5, 0, 5, bottomPadding),
         child: Container(child: _buildDefaultZoomingChart()),
       ),
-      floatingActionButton:
-          isCardView
-              ? null
-              : FloatingActionButton(
-                onPressed: () => _zoomingPanBehavior.reset(),
-                backgroundColor: model.primaryColor,
-                child: const Icon(Icons.refresh, color: Colors.white),
-              ),
+      floatingActionButton: isCardView
+          ? null
+          : FloatingActionButton(
+              onPressed: () => _zoomingPanBehavior.reset(),
+              backgroundColor: model.primaryColor,
+              child: const Icon(Icons.refresh, color: Colors.white),
+            ),
     );
   }
 

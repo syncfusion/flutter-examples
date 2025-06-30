@@ -100,25 +100,23 @@ class AssistViewState extends SampleViewState {
   }
 
   AssistActionButton _buildActionButton() {
-    final Color actionButtonStateColor =
-        _enableActionButton
-            ? const Color.fromARGB(255, 140, 34, 159)
-            : Colors.transparent;
+    final Color actionButtonStateColor = _enableActionButton
+        ? const Color.fromARGB(255, 140, 34, 159)
+        : Colors.transparent;
     return AssistActionButton(
       foregroundColor: !_enableActionButton ? Colors.grey[400] : Colors.white,
       backgroundColor: actionButtonStateColor,
       hoverColor: actionButtonStateColor,
       splashColor: actionButtonStateColor,
       focusColor: actionButtonStateColor,
-      onPressed:
-          _enableActionButton
-              ? (String prompt) {
-                if (_composerTextController.text.isNotEmpty) {
-                  _handleSendButtonPressed(_composerTextController.text);
-                  _composerTextController.clear();
-                }
+      onPressed: _enableActionButton
+          ? (String prompt) {
+              if (_composerTextController.text.isNotEmpty) {
+                _handleSendButtonPressed(_composerTextController.text);
+                _composerTextController.clear();
               }
-              : null,
+            }
+          : null,
     );
   }
 
@@ -295,15 +293,14 @@ class AssistViewState extends SampleViewState {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: IconButton.filled(
-                    onPressed:
-                        _placeholderTextController.text.isEmpty
-                            ? null
-                            : () {
-                              _handleSendButtonPressed(
-                                _placeholderTextController.text,
-                              );
-                              _placeholderTextController.clear();
-                            },
+                    onPressed: _placeholderTextController.text.isEmpty
+                        ? null
+                        : () {
+                            _handleSendButtonPressed(
+                              _placeholderTextController.text,
+                            );
+                            _placeholderTextController.clear();
+                          },
                     icon: const Icon(Icons.arrow_upward_rounded),
                   ),
                 ),
@@ -416,11 +413,11 @@ class AssistViewState extends SampleViewState {
     return message.isRequested
         ? const CircleAvatar(child: Text('EK', style: TextStyle(fontSize: 12)))
         : Image.asset(
-          _lightTheme
-              ? 'images/ai_avatar_light.png'
-              : 'images/ai_avatar_dark.png',
-          color: model.themeData.colorScheme.primary,
-        );
+            _lightTheme
+                ? 'images/ai_avatar_light.png'
+                : 'images/ai_avatar_dark.png',
+            color: model.themeData.colorScheme.primary,
+          );
   }
 
   Widget _bubbleContent(
@@ -440,21 +437,18 @@ class AssistViewState extends SampleViewState {
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(10.0),
           topRight: const Radius.circular(10.0),
-          bottomLeft:
-              _bubbleAlignment == AssistMessageAlignment.start
-                  ? Radius.zero
-                  : const Radius.circular(10.0),
-          bottomRight:
-              _bubbleAlignment != AssistMessageAlignment.start
-                  ? Radius.zero
-                  : const Radius.circular(10.0),
+          bottomLeft: _bubbleAlignment == AssistMessageAlignment.start
+              ? Radius.zero
+              : const Radius.circular(10.0),
+          bottomRight: _bubbleAlignment != AssistMessageAlignment.start
+              ? Radius.zero
+              : const Radius.circular(10.0),
         ),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color:
-                _lightTheme
-                    ? Colors.black.withValues(alpha: 0.2)
-                    : Colors.white.withValues(alpha: 0.2),
+            color: _lightTheme
+                ? Colors.black.withValues(alpha: 0.2)
+                : Colors.white.withValues(alpha: 0.2),
             offset: const Offset(2.0, 2.0),
             blurRadius: 5,
           ),
@@ -501,8 +495,9 @@ class AssistViewState extends SampleViewState {
   ) {
     final TextTheme textThemeData = Theme.of(context).textTheme;
     if (_footerMessageIndex == index) {
-      final List<String> feedbacks =
-          _isPositiveFeedback ? _positiveFeedbacks : _negativeFeedbacks;
+      final List<String> feedbacks = _isPositiveFeedback
+          ? _positiveFeedbacks
+          : _negativeFeedbacks;
       return ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: ColoredBox(
@@ -539,14 +534,14 @@ class AssistViewState extends SampleViewState {
                   child: FilledButton(
                     onPressed:
                         _selectedChipFeedbackIndices.isNotEmpty ||
-                                _feedbackTextController.text.isNotEmpty
-                            ? () {
-                              setState(() {
-                                _footerMessageIndex = -1;
-                                _selectedChipFeedbackIndices.clear();
-                              });
-                            }
-                            : null,
+                            _feedbackTextController.text.isNotEmpty
+                        ? () {
+                            setState(() {
+                              _footerMessageIndex = -1;
+                              _selectedChipFeedbackIndices.clear();
+                            });
+                          }
+                        : null,
                     child: const Text('Submit'),
                   ),
                 ),
@@ -791,16 +786,15 @@ class AssistViewState extends SampleViewState {
             onPressed: () {
               showDialog(
                 context: context,
-                builder:
-                    (context) => WelcomeDialog(
-                      primaryColor: model.primaryColor,
-                      apiKey: model.assistApiKey,
-                      onApiKeySaved: (newApiKey) {
-                        setState(() {
-                          model.assistApiKey = newApiKey;
-                        });
-                      },
-                    ),
+                builder: (context) => WelcomeDialog(
+                  primaryColor: model.primaryColor,
+                  apiKey: model.assistApiKey,
+                  onApiKeySaved: (newApiKey) {
+                    setState(() {
+                      model.assistApiKey = newApiKey;
+                    });
+                  },
+                ),
               );
             },
           ),
@@ -953,16 +947,15 @@ class AssistViewState extends SampleViewState {
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder:
-              (context) => WelcomeDialog(
-                primaryColor: model.primaryColor,
-                apiKey: model.assistApiKey,
-                onApiKeySaved: (newApiKey) {
-                  setState(() {
-                    model.assistApiKey = newApiKey;
-                  });
-                },
-              ),
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+            },
+          ),
         );
         model.isFirstTime = false;
       }
@@ -979,16 +972,15 @@ class AssistViewState extends SampleViewState {
             final double availableWidth = constraints.maxWidth;
             const double maxExpectedWidth = 750.0;
             final bool canCenter = availableWidth > maxExpectedWidth;
-            final EdgeInsets padding =
-                canCenter
-                    ? const EdgeInsets.symmetric(vertical: 10.0)
-                    : const EdgeInsets.all(10.0);
-            final AssistComposer? composer =
-                _messages.isNotEmpty
-                    ? AssistComposer.builder(builder: _buildComposer)
-                    : null;
-            final AssistActionButton? actionButton =
-                _messages.isNotEmpty ? _buildActionButton() : null;
+            final EdgeInsets padding = canCenter
+                ? const EdgeInsets.symmetric(vertical: 10.0)
+                : const EdgeInsets.all(10.0);
+            final AssistComposer? composer = _messages.isNotEmpty
+                ? AssistComposer.builder(builder: _buildComposer)
+                : null;
+            final AssistActionButton? actionButton = _messages.isNotEmpty
+                ? _buildActionButton()
+                : null;
 
             return Padding(
               padding: padding,
@@ -1088,27 +1080,25 @@ class TypingIndicatorState extends State<TypingIndicator>
         crossAxisAlignment: CrossAxisAlignment.end,
         children: List<Widget>.generate(3, (int index) {
           return Padding(
-            padding:
-                index == 0
-                    ? const EdgeInsetsDirectional.only(start: 48.0, end: 4.0)
-                    : const EdgeInsets.symmetric(horizontal: 4.0),
+            padding: index == 0
+                ? const EdgeInsetsDirectional.only(start: 48.0, end: 4.0)
+                : const EdgeInsets.symmetric(horizontal: 4.0),
             child: AnimatedBuilder(
               animation: _controller,
               builder: (BuildContext context, Widget? child) {
                 return Opacity(
-                  opacity:
-                      Tween<double>(begin: 0.2, end: 1.0)
-                          .animate(
-                            CurvedAnimation(
-                              parent: _controller,
-                              curve: Interval(
-                                index * 0.2,
-                                0.1 + index * 0.2,
-                                curve: Curves.easeInOut,
-                              ),
-                            ),
-                          )
-                          .value,
+                  opacity: Tween<double>(begin: 0.2, end: 1.0)
+                      .animate(
+                        CurvedAnimation(
+                          parent: _controller,
+                          curve: Interval(
+                            index * 0.2,
+                            0.1 + index * 0.2,
+                            curve: Curves.easeInOut,
+                          ),
+                        ),
+                      )
+                      .value,
                   child: Container(
                     width: 7.0,
                     height: 7.0,
@@ -1147,10 +1137,9 @@ class _GradientText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-      shaderCallback:
-          (Rect bounds) => gradient.createShader(
-            Rect.fromLTWH(0.0, 0.0, bounds.width, bounds.height),
-          ),
+      shaderCallback: (Rect bounds) => gradient.createShader(
+        Rect.fromLTWH(0.0, 0.0, bounds.width, bounds.height),
+      ),
       child: Text(text, style: style.copyWith(color: Colors.white)),
     );
   }
@@ -1231,11 +1220,10 @@ class _RenderGradientBorder extends RenderProxyBox {
       context.paintChild(child!, offset);
 
       final Rect rect = offset & size;
-      final Paint paint =
-          Paint()
-            ..shader = gradient!.createShader(rect)
-            ..strokeWidth = width
-            ..style = PaintingStyle.stroke;
+      final Paint paint = Paint()
+        ..shader = gradient!.createShader(rect)
+        ..strokeWidth = width
+        ..style = PaintingStyle.stroke;
       final RRect rrect = RRect.fromRectAndRadius(rect, borderRadius);
       context.canvas.drawRRect(rrect, paint);
     }

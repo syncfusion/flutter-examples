@@ -57,8 +57,9 @@ class _DoughnutGradientState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return ListView(
@@ -84,16 +85,15 @@ class _DoughnutGradientState extends SampleViewState {
                       height: 1,
                     ),
                     value: _shaderType,
-                    items:
-                        _shaderTypes!.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: (value != null) ? value : 'point',
-                            child: Text(
-                              value,
-                              style: TextStyle(color: model.textColor),
-                            ),
-                          );
-                        }).toList(),
+                    items: _shaderTypes!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'point',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (dynamic value) {
                       setState(() {
                         _onShaderTyeChange(value);
@@ -172,20 +172,18 @@ class _DoughnutGradientState extends SampleViewState {
         radius: isCardView ? '85%' : '63%',
         explodeOffset: '3%',
         explode: true,
-        strokeColor:
-            model.themeData.brightness == Brightness.light
-                ? Colors.black.withValues(alpha: 0.3)
-                : Colors.white.withValues(alpha: 0.3),
+        strokeColor: model.themeData.brightness == Brightness.light
+            ? Colors.black.withValues(alpha: 0.3)
+            : Colors.white.withValues(alpha: 0.3),
         strokeWidth: 1.5,
         dataLabelMapper: (ChartSampleData data, int index) => data.text,
         dataLabelSettings: DataLabelSettings(
           isVisible: true,
           labelPosition: ChartDataLabelPosition.outside,
           connectorLineSettings: ConnectorLineSettings(
-            color:
-                model.themeData.brightness == Brightness.light
-                    ? Colors.black.withValues(alpha: 0.5)
-                    : Colors.white,
+            color: model.themeData.brightness == Brightness.light
+                ? Colors.black.withValues(alpha: 0.5)
+                : Colors.white,
             width: 1.5,
             length: isCardView ? '7%' : '10%',
             type: ConnectorType.curve,
@@ -252,10 +250,9 @@ class _DoughnutGradientState extends SampleViewState {
         );
       }
     }
-    stopOffsets =
-        listEquals(stopOffsets, defaultStopOffsets)
-            ? stopOffsets
-            : defaultStopOffsets;
+    stopOffsets = listEquals(stopOffsets, defaultStopOffsets)
+        ? stopOffsets
+        : defaultStopOffsets;
     return stopOffsets;
   }
 

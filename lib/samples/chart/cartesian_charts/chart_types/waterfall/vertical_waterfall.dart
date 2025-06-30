@@ -240,10 +240,9 @@ class _VerticalWaterFallState extends SampleViewState {
       ),
       primaryXAxis: CategoryAxis(
         axisLine: AxisLine(
-          color:
-              model.drawerBackgroundColor == Colors.white
-                  ? const Color.fromRGBO(181, 181, 181, 0.5)
-                  : const Color.fromRGBO(101, 101, 101, 1),
+          color: model.drawerBackgroundColor == Colors.white
+              ? const Color.fromRGBO(181, 181, 181, 0.5)
+              : const Color.fromRGBO(101, 101, 101, 1),
         ),
         majorTickLines: const MajorTickLines(width: 0),
         majorGridLines: const MajorGridLines(width: 0),
@@ -284,17 +283,15 @@ class _VerticalWaterFallState extends SampleViewState {
       primaryXAxis: CategoryAxis(
         name: 'XAxis',
         axisLine: AxisLine(
-          color:
-              model.drawerBackgroundColor == Colors.white
-                  ? const Color.fromRGBO(181, 181, 181, 0.5)
-                  : const Color.fromRGBO(101, 101, 101, 1),
+          color: model.drawerBackgroundColor == Colors.white
+              ? const Color.fromRGBO(181, 181, 181, 0.5)
+              : const Color.fromRGBO(101, 101, 101, 1),
         ),
         majorTickLines: const MajorTickLines(width: 0),
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction:
-            isCardView
-                ? AxisLabelIntersectAction.wrap
-                : AxisLabelIntersectAction.rotate45,
+        labelIntersectAction: isCardView
+            ? AxisLabelIntersectAction.wrap
+            : AxisLabelIntersectAction.rotate45,
         axisLabelFormatter: (AxisLabelRenderDetails details) {
           return ChartAxisLabel('', null);
         },
@@ -338,17 +335,15 @@ class _VerticalWaterFallState extends SampleViewState {
       primaryXAxis: CategoryAxis(
         name: 'XAxis',
         axisLine: AxisLine(
-          color:
-              model.drawerBackgroundColor == Colors.white
-                  ? const Color.fromRGBO(181, 181, 181, 0.5)
-                  : const Color.fromRGBO(101, 101, 101, 1),
+          color: model.drawerBackgroundColor == Colors.white
+              ? const Color.fromRGBO(181, 181, 181, 0.5)
+              : const Color.fromRGBO(101, 101, 101, 1),
         ),
         majorTickLines: const MajorTickLines(width: 0),
         majorGridLines: const MajorGridLines(width: 0),
-        labelIntersectAction:
-            isCardView
-                ? AxisLabelIntersectAction.wrap
-                : AxisLabelIntersectAction.rotate45,
+        labelIntersectAction: isCardView
+            ? AxisLabelIntersectAction.wrap
+            : AxisLabelIntersectAction.rotate45,
         axisLabelFormatter: (AxisLabelRenderDetails details) {
           return ChartAxisLabel('', null);
         },
@@ -377,10 +372,10 @@ class _VerticalWaterFallState extends SampleViewState {
         xValueMapper: (_ChartSampleData data, int index) => data.x,
         yValueMapper: (_ChartSampleData data, int index) => data.y,
         name: '2015',
-        intermediateSumPredicate:
-            (_ChartSampleData data, int index) => data.intermediateSumPredicate,
-        totalSumPredicate:
-            (_ChartSampleData data, int index) => data.totalSumPredicate,
+        intermediateSumPredicate: (_ChartSampleData data, int index) =>
+            data.intermediateSumPredicate,
+        totalSumPredicate: (_ChartSampleData data, int index) =>
+            data.totalSumPredicate,
         dataLabelSettings: DataLabelSettings(
           isVisible: isCardView ? false : true,
           labelAlignment: ChartDataLabelAlignment.middle,
@@ -400,10 +395,10 @@ class _VerticalWaterFallState extends SampleViewState {
         name: '2016',
         xValueMapper: (_ChartSampleData data, int index) => data.x,
         yValueMapper: (_ChartSampleData data, int index) => data.y,
-        intermediateSumPredicate:
-            (_ChartSampleData data, int index) => data.intermediateSumPredicate,
-        totalSumPredicate:
-            (_ChartSampleData data, int index) => data.totalSumPredicate,
+        intermediateSumPredicate: (_ChartSampleData data, int index) =>
+            data.intermediateSumPredicate,
+        totalSumPredicate: (_ChartSampleData data, int index) =>
+            data.totalSumPredicate,
         dataLabelSettings: DataLabelSettings(
           isVisible: isCardView ? false : true,
           labelAlignment: ChartDataLabelAlignment.middle,
@@ -423,10 +418,10 @@ class _VerticalWaterFallState extends SampleViewState {
         name: '2017',
         xValueMapper: (_ChartSampleData data, int index) => data.x,
         yValueMapper: (_ChartSampleData data, int index) => data.y,
-        intermediateSumPredicate:
-            (_ChartSampleData data, int index) => data.intermediateSumPredicate,
-        totalSumPredicate:
-            (_ChartSampleData data, int index) => data.totalSumPredicate,
+        intermediateSumPredicate: (_ChartSampleData data, int index) =>
+            data.intermediateSumPredicate,
+        totalSumPredicate: (_ChartSampleData data, int index) =>
+            data.totalSumPredicate,
         dataLabelSettings: DataLabelSettings(
           isVisible: isCardView ? false : true,
           labelAlignment: ChartDataLabelAlignment.middle,

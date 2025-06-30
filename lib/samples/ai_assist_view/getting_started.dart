@@ -116,8 +116,8 @@ class _AssistViewState extends SampleViewState {
       return Column(
         children: [
           InkWell(
-            onTapDown:
-                (TapDownDetails details) => _handleQuickAccessTileTap(topic),
+            onTapDown: (TapDownDetails details) =>
+                _handleQuickAccessTileTap(topic),
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
@@ -213,11 +213,11 @@ class _AssistViewState extends SampleViewState {
     return message.isRequested
         ? Image.asset('images/People_Circle7.png')
         : Image.asset(
-          _lightTheme
-              ? 'images/ai_avatar_light.png'
-              : 'images/ai_avatar_dark.png',
-          color: model.themeData.colorScheme.primary,
-        );
+            _lightTheme
+                ? 'images/ai_avatar_light.png'
+                : 'images/ai_avatar_dark.png',
+            color: model.themeData.colorScheme.primary,
+          );
   }
 
   void _handleActionButtonPressed(String prompt) {
@@ -263,16 +263,15 @@ class _AssistViewState extends SampleViewState {
             onPressed: () {
               showDialog(
                 context: context,
-                builder:
-                    (context) => WelcomeDialog(
-                      primaryColor: model.primaryColor,
-                      apiKey: model.assistApiKey,
-                      onApiKeySaved: (newApiKey) {
-                        setState(() {
-                          model.assistApiKey = newApiKey;
-                        });
-                      },
-                    ),
+                builder: (context) => WelcomeDialog(
+                  primaryColor: model.primaryColor,
+                  apiKey: model.assistApiKey,
+                  onApiKeySaved: (newApiKey) {
+                    setState(() {
+                      model.assistApiKey = newApiKey;
+                    });
+                  },
+                ),
               );
             },
           ),
@@ -293,10 +292,9 @@ class _AssistViewState extends SampleViewState {
             minValue: 0.8,
             step: 0.05,
             initialValue: _widthFactor,
-            onChanged:
-                (double val) => setState(() {
-                  _widthFactor = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _widthFactor = val;
+            }),
             iconColor: model.textColor,
             style: TextStyle(fontSize: 16.0, color: model.textColor),
           ),
@@ -323,17 +321,16 @@ class _AssistViewState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1.0),
             value: _selectedAlignment,
-            items:
-                _bubbleAlignmentItem.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'Auto',
-                    child: Text(
-                      value,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _bubbleAlignmentItem.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'Auto',
+                child: Text(
+                  value,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: model.textColor),
+                ),
+              );
+            }).toList(),
             onChanged: (String? value) {
               stateSetter(() {
                 _handleAlignmentChange(value.toString());
@@ -380,17 +377,16 @@ class _AssistViewState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1.0),
             value: _selectedBehavior,
-            items:
-                _placeholderBehaviorItem.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'Scroll',
-                    child: Text(
-                      value,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _placeholderBehaviorItem.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'Scroll',
+                child: Text(
+                  value,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: model.textColor),
+                ),
+              );
+            }).toList(),
             onChanged: (String? value) {
               stateSetter(() {
                 _handlePlaceholderBehavior(value.toString());
@@ -586,16 +582,15 @@ class _AssistViewState extends SampleViewState {
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder:
-              (context) => WelcomeDialog(
-                primaryColor: model.primaryColor,
-                apiKey: model.assistApiKey,
-                onApiKeySaved: (newApiKey) {
-                  setState(() {
-                    model.assistApiKey = newApiKey;
-                  });
-                },
-              ),
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+            },
+          ),
         );
         model.isFirstTime = false;
       }
@@ -613,10 +608,9 @@ class _AssistViewState extends SampleViewState {
             const double maxExpectedWidth = 750;
             final bool canCenter = availableWidth > maxExpectedWidth;
             return Padding(
-              padding:
-                  canCenter
-                      ? const EdgeInsets.symmetric(vertical: 10.0)
-                      : const EdgeInsets.all(10.0),
+              padding: canCenter
+                  ? const EdgeInsets.symmetric(vertical: 10.0)
+                  : const EdgeInsets.all(10.0),
               child: Center(
                 child: SizedBox(
                   width: canCenter ? maxExpectedWidth : availableWidth,

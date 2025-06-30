@@ -42,38 +42,31 @@ class FileExplorerState extends State<FileExplorer> {
   late bool _useMaterial3;
   @override
   void initState() {
-    _documents =
-        (widget.isRtlTab)
-            ? <Document>[
-              Document('RTL Document', 'assets/pdf/rtl_document.pdf'),
-              Document('GIS Succinctly', 'assets/pdf/gis_succinctly.pdf'),
-              Document('HTTP Succinctly', 'assets/pdf/http_succinctly.pdf'),
-              Document(
-                'JavaScript Succinctly',
-                'assets/pdf/javascript_succinctly.pdf',
-              ),
-            ]
-            : <Document>[
-              Document('GIS Succinctly', 'assets/pdf/gis_succinctly.pdf'),
-              Document('HTTP Succinctly', 'assets/pdf/http_succinctly.pdf'),
-              Document(
-                'JavaScript Succinctly',
-                'assets/pdf/javascript_succinctly.pdf',
-              ),
-              Document('Rotated Document', 'assets/pdf/rotated_document.pdf'),
-              Document(
-                'Single Page Document',
-                'assets/pdf/single_page_document.pdf',
-              ),
-              Document(
-                'Encrypted Document',
-                'assets/pdf/encrypted_document.pdf',
-              ),
-              Document(
-                'Corrupted Document',
-                'assets/pdf/corrupted_document.pdf',
-              ),
-            ];
+    _documents = (widget.isRtlTab)
+        ? <Document>[
+            Document('RTL Document', 'assets/pdf/rtl_document.pdf'),
+            Document('GIS Succinctly', 'assets/pdf/gis_succinctly.pdf'),
+            Document('HTTP Succinctly', 'assets/pdf/http_succinctly.pdf'),
+            Document(
+              'JavaScript Succinctly',
+              'assets/pdf/javascript_succinctly.pdf',
+            ),
+          ]
+        : <Document>[
+            Document('GIS Succinctly', 'assets/pdf/gis_succinctly.pdf'),
+            Document('HTTP Succinctly', 'assets/pdf/http_succinctly.pdf'),
+            Document(
+              'JavaScript Succinctly',
+              'assets/pdf/javascript_succinctly.pdf',
+            ),
+            Document('Rotated Document', 'assets/pdf/rotated_document.pdf'),
+            Document(
+              'Single Page Document',
+              'assets/pdf/single_page_document.pdf',
+            ),
+            Document('Encrypted Document', 'assets/pdf/encrypted_document.pdf'),
+            Document('Corrupted Document', 'assets/pdf/corrupted_document.pdf'),
+          ];
     super.initState();
   }
 
@@ -81,14 +74,13 @@ class FileExplorerState extends State<FileExplorer> {
   void didChangeDependencies() {
     _useMaterial3 = Theme.of(context).useMaterial3;
     _isLight = widget.brightness == Brightness.light;
-    _backgroundColor =
-        _useMaterial3
-            ? _isLight
-                ? const Color.fromRGBO(247, 242, 251, 1)
-                : const Color.fromRGBO(37, 35, 42, 1)
-            : _isLight
-            ? const Color(0xFFFAFAFA)
-            : const Color(0xFF424242);
+    _backgroundColor = _useMaterial3
+        ? _isLight
+              ? const Color.fromRGBO(247, 242, 251, 1)
+              : const Color.fromRGBO(37, 35, 42, 1)
+        : _isLight
+        ? const Color(0xFFFAFAFA)
+        : const Color(0xFF424242);
     _foregroundColor = _isLight ? Colors.black : Colors.white;
     super.didChangeDependencies();
   }
@@ -102,14 +94,13 @@ class FileExplorerState extends State<FileExplorer> {
         backgroundColor: _backgroundColor,
       ),
       body: Container(
-        color:
-            _useMaterial3
-                ? _isLight
-                    ? const Color.fromRGBO(247, 242, 251, 1)
-                    : const Color.fromRGBO(37, 35, 42, 1)
-                : _isLight
-                ? Colors.white
-                : const Color(0xFF212121),
+        color: _useMaterial3
+            ? _isLight
+                  ? const Color.fromRGBO(247, 242, 251, 1)
+                  : const Color.fromRGBO(37, 35, 42, 1)
+            : _isLight
+            ? Colors.white
+            : const Color(0xFF212121),
         child: ListView.builder(
           itemCount: _documents.length,
           itemBuilder: (BuildContext context, int index) {
@@ -208,14 +199,12 @@ class SearchToolbarState extends State<SearchToolbar> {
   @override
   void didChangeDependencies() {
     _isLight = widget.brightness == Brightness.light;
-    _color =
-        _isLight
-            ? const Color(0x00000000).withValues(alpha: 0.87)
-            : const Color(0x00ffffff).withValues(alpha: 0.87);
-    _textColor =
-        _isLight
-            ? const Color.fromRGBO(0, 0, 0, 0.54).withValues(alpha: 0.87)
-            : const Color(0x00ffffff).withValues(alpha: 0.54);
+    _color = _isLight
+        ? const Color(0x00000000).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.87);
+    _textColor = _isLight
+        ? const Color.fromRGBO(0, 0, 0, 0.54).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.54);
     super.didChangeDependencies();
   }
 
@@ -249,18 +238,18 @@ class SearchToolbarState extends State<SearchToolbar> {
                   },
                   child: Icon(
                     Icons.clear,
-                    color:
-                        _isLight
-                            ? const Color.fromRGBO(0, 0, 0, 0.54)
-                            : const Color.fromRGBO(255, 255, 255, 0.65),
+                    color: _isLight
+                        ? const Color.fromRGBO(0, 0, 0, 0.54)
+                        : const Color.fromRGBO(255, 255, 255, 0.65),
                     size: 20,
                   ),
                 ),
               ),
             ],
           ),
-          backgroundColor:
-              _isLight ? const Color(0xFFFFFFFF) : const Color(0xFF424242),
+          backgroundColor: _isLight
+              ? const Color(0xFFFFFFFF)
+              : const Color(0xFF424242),
           content: SizedBox(
             width: 328,
             child: Text(
@@ -336,10 +325,9 @@ class SearchToolbarState extends State<SearchToolbar> {
               // Back button to navigate to the main toolbar.
               icon: Icon(
                 Icons.arrow_back,
-                color:
-                    _isLight
-                        ? const Color(0x00000000).withValues(alpha: 0.54)
-                        : const Color(0x00ffffff).withValues(alpha: 0.54),
+                color: _isLight
+                    ? const Color(0x00000000).withValues(alpha: 0.54)
+                    : const Color(0x00ffffff).withValues(alpha: 0.54),
                 size: 24,
               ),
               onPressed: () {
@@ -369,10 +357,9 @@ class SearchToolbarState extends State<SearchToolbar> {
                 border: InputBorder.none,
                 hintText: widget.languageCode == 'ar' ? 'يجد' : 'Find...',
                 hintStyle: TextStyle(
-                  color:
-                      _isLight
-                          ? const Color(0x00000000).withValues(alpha: 0.34)
-                          : const Color(0x00ffffff).withValues(alpha: 0.54),
+                  color: _isLight
+                      ? const Color(0x00000000).withValues(alpha: 0.34)
+                      : const Color(0x00ffffff).withValues(alpha: 0.54),
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Roboto',
                   fontStyle: FontStyle.normal,
@@ -414,10 +401,9 @@ class SearchToolbarState extends State<SearchToolbar> {
                 icon: Icon(
                   Icons.clear,
                   size: 24,
-                  color:
-                      _isLight
-                          ? const Color.fromRGBO(0, 0, 0, 0.54)
-                          : const Color.fromRGBO(255, 255, 255, 0.65),
+                  color: _isLight
+                      ? const Color.fromRGBO(0, 0, 0, 0.54)
+                      : const Color.fromRGBO(255, 255, 255, 0.65),
                 ),
                 onPressed: () {
                   setState(() {
@@ -429,12 +415,11 @@ class SearchToolbarState extends State<SearchToolbar> {
                   });
                   widget.onTap?.call('Clear Text');
                 },
-                tooltip:
-                    widget.canShowTooltip
-                        ? widget.languageCode == 'ar'
-                            ? 'نص واضح'
-                            : 'Clear Text'
-                        : null,
+                tooltip: widget.canShowTooltip
+                    ? widget.languageCode == 'ar'
+                          ? 'نص واضح'
+                          : 'Clear Text'
+                    : null,
               ),
             ),
           ),
@@ -482,10 +467,9 @@ class SearchToolbarState extends State<SearchToolbar> {
                   child: IconButton(
                     icon: Icon(
                       Icons.navigate_before,
-                      color:
-                          _isLight
-                              ? const Color.fromRGBO(0, 0, 0, 0.54)
-                              : const Color.fromRGBO(255, 255, 255, 0.65),
+                      color: _isLight
+                          ? const Color.fromRGBO(0, 0, 0, 0.54)
+                          : const Color.fromRGBO(255, 255, 255, 0.65),
                       size: 24,
                     ),
                     onPressed: () {
@@ -494,12 +478,11 @@ class SearchToolbarState extends State<SearchToolbar> {
                       });
                       widget.onTap?.call('Previous Instance');
                     },
-                    tooltip:
-                        widget.canShowTooltip
-                            ? widget.languageCode == 'ar'
-                                ? 'سابق'
-                                : 'Previous'
-                            : null,
+                    tooltip: widget.canShowTooltip
+                        ? widget.languageCode == 'ar'
+                              ? 'سابق'
+                              : 'Previous'
+                        : null,
                   ),
                 ),
                 // Navigate to next search instance.
@@ -509,10 +492,9 @@ class SearchToolbarState extends State<SearchToolbar> {
                     icon: Icon(
                       Icons.navigate_next,
                       size: 24,
-                      color:
-                          _isLight
-                              ? const Color.fromRGBO(0, 0, 0, 0.54)
-                              : const Color.fromRGBO(255, 255, 255, 0.65),
+                      color: _isLight
+                          ? const Color.fromRGBO(0, 0, 0, 0.54)
+                          : const Color.fromRGBO(255, 255, 255, 0.65),
                     ),
                     onPressed: () {
                       setState(() {
@@ -529,12 +511,11 @@ class SearchToolbarState extends State<SearchToolbar> {
                       });
                       widget.onTap?.call('Next Instance');
                     },
-                    tooltip:
-                        widget.canShowTooltip
-                            ? widget.languageCode == 'ar'
-                                ? 'التالي'
-                                : 'Next'
-                            : null,
+                    tooltip: widget.canShowTooltip
+                        ? widget.languageCode == 'ar'
+                              ? 'التالي'
+                              : 'Next'
+                        : null,
                   ),
                 ),
               ],
@@ -705,10 +686,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
   void didChangeDependencies() {
     _isLight = widget.brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _color =
-        _isLight
-            ? const Color(0x00000000).withValues(alpha: 0.87)
-            : const Color(0x00ffffff).withValues(alpha: 0.87);
+    _color = _isLight
+        ? const Color(0x00000000).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.87);
     super.didChangeDependencies();
   }
 
@@ -729,19 +709,17 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
           height: _useMaterial3 ? 188 : 146, // height of search menu
           width: 412, // width of search menu
           decoration: BoxDecoration(
-            color:
-                _useMaterial3
-                    ? _isLight
-                        ? const Color.fromRGBO(247, 242, 251, 1)
-                        : const Color.fromRGBO(37, 35, 42, 1)
-                    : _isLight
-                    ? const Color(0xFFFFFFFF)
-                    : const Color(0xFF424242),
+            color: _useMaterial3
+                ? _isLight
+                      ? const Color.fromRGBO(247, 242, 251, 1)
+                      : const Color.fromRGBO(37, 35, 42, 1)
+                : _isLight
+                ? const Color(0xFFFFFFFF)
+                : const Color(0xFF424242),
             boxShadow: boxShadows,
-            borderRadius:
-                _useMaterial3
-                    ? const BorderRadius.all(Radius.circular(16))
-                    : null,
+            borderRadius: _useMaterial3
+                ? const BorderRadius.all(Radius.circular(16))
+                : null,
           ),
           child: Column(
             children: <Widget>[
@@ -750,31 +728,26 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                 children: <Widget>[
                   // Search label for overlay
                   Padding(
-                    padding:
-                        widget.textDirection == TextDirection.rtl
-                            ? const EdgeInsets.only(
-                              right:
-                                  16, // x position of search word in search menu
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(
+                            right:
+                                16, // x position of search word in search menu
 
-                              top:
-                                  15, // y position of search word in search menu
-                            )
-                            : const EdgeInsets.only(
-                              left:
-                                  16, // x position of search word in search menu
+                            top: 15, // y position of search word in search menu
+                          )
+                        : const EdgeInsets.only(
+                            left:
+                                16, // x position of search word in search menu
 
-                              top:
-                                  15, // y position of search word in search menu
-                            ),
+                            top: 15, // y position of search word in search menu
+                          ),
                     child: SizedBox(
-                      height:
-                          _useMaterial3
-                              ? 32
-                              : 23, // height of search word in search menu
-                      width:
-                          _useMaterial3
-                              ? 90
-                              : 66, // width of search word in search menu
+                      height: _useMaterial3
+                          ? 32
+                          : 23, // height of search word in search menu
+                      width: _useMaterial3
+                          ? 90
+                          : 66, // width of search word in search menu
                       child: Text(
                         widget.languageCode == 'ar' ? 'بحث' : 'Search',
                         style: TextStyle(
@@ -791,51 +764,42 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                   ),
                   // Close button for search overlay
                   Padding(
-                    padding:
-                        widget.textDirection == TextDirection.rtl
-                            ? EdgeInsets.only(
-                              right:
-                                  _useMaterial3
-                                      ? 32
-                                      : 8, // x position of clear button in search menu
-                              top:
-                                  8, // y position of clear button in search menu
-                            )
-                            : EdgeInsets.only(
-                              left:
-                                  _useMaterial3
-                                      ? 32
-                                      : 8, // x position of clear button in search menu
-                              top:
-                                  8, // y position of clear button in search menu
-                            ),
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? EdgeInsets.only(
+                            right: _useMaterial3
+                                ? 32
+                                : 8, // x position of clear button in search menu
+                            top: 8, // y position of clear button in search menu
+                          )
+                        : EdgeInsets.only(
+                            left: _useMaterial3
+                                ? 32
+                                : 8, // x position of clear button in search menu
+                            top: 8, // y position of clear button in search menu
+                          ),
                     child: SizedBox(
-                      height:
-                          _useMaterial3
-                              ? 40
-                              : 36, // height of close search menu button
-                      width:
-                          _useMaterial3
-                              ? 40
-                              : 36, // width of close search menu button
+                      height: _useMaterial3
+                          ? 40
+                          : 36, // height of close search menu button
+                      width: _useMaterial3
+                          ? 40
+                          : 36, // width of close search menu button
                       child: RawMaterialButton(
                         onPressed: () {
                           _closeSearchMenu();
                         },
-                        shape:
-                            _useMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                )
-                                : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.0),
-                                ),
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              )
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2.0),
+                              ),
                         child: Icon(
                           Icons.clear,
-                          color:
-                              _isLight
-                                  ? const Color.fromRGBO(0, 0, 0, 0.54)
-                                  : const Color.fromRGBO(255, 255, 255, 0.65),
+                          color: _isLight
+                              ? const Color.fromRGBO(0, 0, 0, 0.54)
+                              : const Color.fromRGBO(255, 255, 255, 0.65),
                           size: 20,
                         ),
                       ),
@@ -849,24 +813,22 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                   // Search input field.
                   Flexible(
                     child: Padding(
-                      padding:
-                          widget.textDirection == TextDirection.rtl
-                              ? EdgeInsets.only(
-                                top: _useMaterial3 ? 8 : 0,
-                                right:
-                                    16, // y position of text field in search menu
-                              )
-                              : EdgeInsets.only(
-                                top: _useMaterial3 ? 8 : 0,
-                                left:
-                                    16, // y position of text field in search menu
-                              ),
+                      padding: widget.textDirection == TextDirection.rtl
+                          ? EdgeInsets.only(
+                              top: _useMaterial3 ? 8 : 0,
+                              right:
+                                  16, // y position of text field in search menu
+                            )
+                          : EdgeInsets.only(
+                              top: _useMaterial3 ? 8 : 0,
+                              left:
+                                  16, // y position of text field in search menu
+                            ),
                       child: SizedBox(
                         width: _useMaterial3 ? 297 : null,
-                        height:
-                            _useMaterial3
-                                ? 40
-                                : null, // height of search text field in search menu
+                        height: _useMaterial3
+                            ? 40
+                            : null, // height of search text field in search menu
                         child: TextFormField(
                           focusNode: _focusNode,
                           controller: _editingController,
@@ -879,149 +841,134 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                             color: _color,
                           ),
                           decoration: InputDecoration(
-                            contentPadding:
-                                _useMaterial3
-                                    ? widget.textDirection == TextDirection.ltr
-                                        ? const EdgeInsets.only(
+                            contentPadding: _useMaterial3
+                                ? widget.textDirection == TextDirection.ltr
+                                      ? const EdgeInsets.only(
                                           top: 8,
                                           bottom: 8,
                                           left: 16,
                                         )
-                                        : const EdgeInsets.only(
+                                      : const EdgeInsets.only(
                                           top: 8,
                                           bottom: 8,
                                           right: 16,
                                         )
-                                    : const EdgeInsets.only(top: 20),
-                            border:
-                                _useMaterial3
-                                    ? const OutlineInputBorder()
-                                    : const UnderlineInputBorder(),
-                            enabledBorder:
-                                _useMaterial3
-                                    ? const OutlineInputBorder()
-                                    : const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 2.0,
-                                      ),
+                                : const EdgeInsets.only(top: 20),
+                            border: _useMaterial3
+                                ? const OutlineInputBorder()
+                                : const UnderlineInputBorder(),
+                            enabledBorder: _useMaterial3
+                                ? const OutlineInputBorder()
+                                : const UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                      width: 2.0,
                                     ),
-                            focusedBorder:
-                                _useMaterial3
-                                    ? OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: widget.primaryColor!,
-                                      ),
-                                    )
-                                    : UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: widget.primaryColor!,
-                                        width: 2.0,
-                                      ),
+                                  ),
+                            focusedBorder: _useMaterial3
+                                ? OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: widget.primaryColor!,
                                     ),
-                            hintText:
-                                widget.languageCode == 'ar'
-                                    ? 'البحث في المستند'
-                                    : 'Find in document',
+                                  )
+                                : UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: widget.primaryColor!,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                            hintText: widget.languageCode == 'ar'
+                                ? 'البحث في المستند'
+                                : 'Find in document',
                             hintStyle: TextStyle(
-                              color:
-                                  _isLight
-                                      ? const Color(
-                                        0x00000000,
-                                      ).withValues(alpha: 0.34)
-                                      : const Color(0xFF949494),
+                              color: _isLight
+                                  ? const Color(
+                                      0x00000000,
+                                    ).withValues(alpha: 0.34)
+                                  : const Color(0xFF949494),
                               fontSize: 15,
                               fontFamily: 'Roboto',
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w400,
                               decoration: TextDecoration.none,
                             ),
-                            suffixIcon:
-                                !showItem
-                                    ? Padding(
-                                      padding:
-                                          _useMaterial3
-                                              ? const EdgeInsets.all(7)
-                                              : const EdgeInsets.only(
-                                                left: 8,
-                                                right: 8,
-                                                bottom: 6,
-                                                top: 15,
-                                              ),
-                                      child: SizedBox(
-                                        height:
-                                            _useMaterial3
-                                                ? 18
-                                                : 14.57, // height of search button in search menu
-                                        width:
-                                            _useMaterial3
-                                                ? 18
-                                                : 14.57, // width of search button in search menu
-                                        child: RawMaterialButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _handleSearch();
-                                            });
-                                          },
-                                          child: Icon(
-                                            Icons.search,
-                                            color:
-                                                _isLight
-                                                    ? Colors.black.withValues(
-                                                      alpha: 0.54,
-                                                    )
-                                                    : Colors.white.withValues(
-                                                      alpha: 0.65,
-                                                    ),
-                                            size: 18,
+                            suffixIcon: !showItem
+                                ? Padding(
+                                    padding: _useMaterial3
+                                        ? const EdgeInsets.all(7)
+                                        : const EdgeInsets.only(
+                                            left: 8,
+                                            right: 8,
+                                            bottom: 6,
+                                            top: 15,
                                           ),
-                                        ),
-                                      ),
-                                    )
-                                    : Padding(
-                                      padding:
-                                          _useMaterial3
-                                              ? const EdgeInsets.all(7)
-                                              : const EdgeInsets.only(
-                                                left: 8,
-                                                right: 8,
-                                                bottom: 6,
-                                                top: 18,
-                                              ),
-                                      child: SizedBox(
-                                        height:
-                                            _useMaterial3
-                                                ? 18
-                                                : 14.57, // height of clear search button
-                                        width:
-                                            _useMaterial3
-                                                ? 18
-                                                : 14.57, // width of clear search button
-                                        child: RawMaterialButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _pdfTextSearchResult?.clear();
-                                              _editingController.clear();
-                                              _focusNode.requestFocus();
-                                              _isSearchInitiated = false;
-                                              showItem = false;
-                                            });
-                                          },
-                                          child: Icon(
-                                            Icons.clear,
-                                            color:
-                                                _isLight
-                                                    ? Colors.black.withValues(
-                                                      alpha: 0.54,
-                                                    )
-                                                    : Colors.white.withValues(
-                                                      alpha: 0.65,
-                                                    ),
-                                            size: 18,
-                                          ),
+                                    child: SizedBox(
+                                      height: _useMaterial3
+                                          ? 18
+                                          : 14.57, // height of search button in search menu
+                                      width: _useMaterial3
+                                          ? 18
+                                          : 14.57, // width of search button in search menu
+                                      child: RawMaterialButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _handleSearch();
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.search,
+                                          color: _isLight
+                                              ? Colors.black.withValues(
+                                                  alpha: 0.54,
+                                                )
+                                              : Colors.white.withValues(
+                                                  alpha: 0.65,
+                                                ),
+                                          size: 18,
                                         ),
                                       ),
                                     ),
+                                  )
+                                : Padding(
+                                    padding: _useMaterial3
+                                        ? const EdgeInsets.all(7)
+                                        : const EdgeInsets.only(
+                                            left: 8,
+                                            right: 8,
+                                            bottom: 6,
+                                            top: 18,
+                                          ),
+                                    child: SizedBox(
+                                      height: _useMaterial3
+                                          ? 18
+                                          : 14.57, // height of clear search button
+                                      width: _useMaterial3
+                                          ? 18
+                                          : 14.57, // width of clear search button
+                                      child: RawMaterialButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _pdfTextSearchResult?.clear();
+                                            _editingController.clear();
+                                            _focusNode.requestFocus();
+                                            _isSearchInitiated = false;
+                                            showItem = false;
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.clear,
+                                          color: _isLight
+                                              ? Colors.black.withValues(
+                                                  alpha: 0.54,
+                                                )
+                                              : Colors.white.withValues(
+                                                  alpha: 0.65,
+                                                ),
+                                          size: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                           ),
                           onChanged: (String value) {
                             isEnterKeyPressed = false;
@@ -1119,10 +1066,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                         child: VerticalDivider(
                           width: 24.0, // width of vertical divider
                           thickness: 1.0, // thickness of vertical divider
-                          color:
-                              _isLight
-                                  ? Colors.black.withValues(alpha: 0.24)
-                                  : Colors.white.withValues(alpha: 0.26),
+                          color: _isLight
+                              ? Colors.black.withValues(alpha: 0.24)
+                              : Colors.white.withValues(alpha: 0.26),
                         ),
                       ),
                     ),
@@ -1130,46 +1076,42 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: SizedBox(
-                      height:
-                          _useMaterial3
-                              ? 40
-                              : 36, // height of previous instance button
-                      width:
-                          _useMaterial3
-                              ? 40
-                              : 36, // width of previous instance button
+                      height: _useMaterial3
+                          ? 40
+                          : 36, // height of previous instance button
+                      width: _useMaterial3
+                          ? 40
+                          : 36, // width of previous instance button
                       child: RawMaterialButton(
-                        shape:
-                            _useMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                )
-                                : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.0),
-                                ),
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              )
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2.0),
+                              ),
                         onPressed:
                             _pdfTextSearchResult != null &&
-                                    _pdfTextSearchResult!.hasResult
-                                ? () {
-                                  setState(() {
-                                    _pdfTextSearchResult?.previousInstance();
-                                  });
-                                }
-                                : null,
+                                _pdfTextSearchResult!.hasResult
+                            ? () {
+                                setState(() {
+                                  _pdfTextSearchResult?.previousInstance();
+                                });
+                              }
+                            : null,
                         child: Icon(
                           widget.textDirection == TextDirection.rtl
                               ? Icons.keyboard_arrow_right
                               : Icons.keyboard_arrow_left,
-                          color:
-                              _isLight
-                                  ? _pdfTextSearchResult != null &&
-                                          _pdfTextSearchResult!.hasResult
-                                      ? const Color.fromRGBO(0, 0, 0, 0.54)
-                                      : Colors.black.withValues(alpha: 0.28)
-                                  : _pdfTextSearchResult != null &&
-                                      _pdfTextSearchResult!.hasResult
-                                  ? const Color.fromRGBO(255, 255, 255, 0.65)
-                                  : Colors.white12,
+                          color: _isLight
+                              ? _pdfTextSearchResult != null &&
+                                        _pdfTextSearchResult!.hasResult
+                                    ? const Color.fromRGBO(0, 0, 0, 0.54)
+                                    : Colors.black.withValues(alpha: 0.28)
+                              : _pdfTextSearchResult != null &&
+                                    _pdfTextSearchResult!.hasResult
+                              ? const Color.fromRGBO(255, 255, 255, 0.65)
+                              : Colors.white12,
                           size: _useMaterial3 ? 30 : 20,
                         ),
                       ),
@@ -1179,46 +1121,42 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10, right: 8),
                     child: SizedBox(
-                      height:
-                          _useMaterial3
-                              ? 40
-                              : 36, // height of next instance button
-                      width:
-                          _useMaterial3
-                              ? 40
-                              : 36, // width of next instance button
+                      height: _useMaterial3
+                          ? 40
+                          : 36, // height of next instance button
+                      width: _useMaterial3
+                          ? 40
+                          : 36, // width of next instance button
                       child: RawMaterialButton(
-                        shape:
-                            _useMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                )
-                                : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.0),
-                                ),
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              )
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2.0),
+                              ),
                         onPressed:
                             _pdfTextSearchResult != null &&
-                                    _pdfTextSearchResult!.hasResult
-                                ? () {
-                                  setState(() {
-                                    _pdfTextSearchResult?.nextInstance();
-                                  });
-                                }
-                                : null,
+                                _pdfTextSearchResult!.hasResult
+                            ? () {
+                                setState(() {
+                                  _pdfTextSearchResult?.nextInstance();
+                                });
+                              }
+                            : null,
                         child: Icon(
                           widget.textDirection == TextDirection.rtl
                               ? Icons.keyboard_arrow_left
                               : Icons.keyboard_arrow_right,
-                          color:
-                              _isLight
-                                  ? _pdfTextSearchResult != null &&
-                                          _pdfTextSearchResult!.hasResult
-                                      ? const Color.fromRGBO(0, 0, 0, 0.54)
-                                      : Colors.black.withValues(alpha: 0.28)
-                                  : _pdfTextSearchResult != null &&
-                                      _pdfTextSearchResult!.hasResult
-                                  ? const Color.fromRGBO(255, 255, 255, 0.65)
-                                  : Colors.white12,
+                          color: _isLight
+                              ? _pdfTextSearchResult != null &&
+                                        _pdfTextSearchResult!.hasResult
+                                    ? const Color.fromRGBO(0, 0, 0, 0.54)
+                                    : Colors.black.withValues(alpha: 0.28)
+                              : _pdfTextSearchResult != null &&
+                                    _pdfTextSearchResult!.hasResult
+                              ? const Color.fromRGBO(255, 255, 255, 0.65)
+                              : Colors.white12,
                           size: _useMaterial3 ? 30 : 20,
                         ),
                       ),
@@ -1231,27 +1169,17 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                 children: <Widget>[
                   // Check box for case sensitive search.
                   Padding(
-                    padding:
-                        widget.textDirection == TextDirection.rtl
-                            ? const EdgeInsets.only(
-                              right: 16,
-                              top: 16,
-                              bottom: 16,
-                            )
-                            : const EdgeInsets.only(
-                              left: 16,
-                              top: 16,
-                              bottom: 16,
-                            ),
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(right: 16, top: 16, bottom: 16)
+                        : const EdgeInsets.only(left: 16, top: 16, bottom: 16),
                     child: SizedBox(
                       height: 18, // height of match case checkbox
                       width: 18, // width of match case checkbox
                       child: Theme(
                         data: ThemeData(
-                          unselectedWidgetColor:
-                              _isLight
-                                  ? const Color.fromRGBO(0, 0, 0, 0.54)
-                                  : const Color.fromRGBO(255, 255, 255, 0.54),
+                          unselectedWidgetColor: _isLight
+                              ? const Color.fromRGBO(0, 0, 0, 0.54)
+                              : const Color.fromRGBO(255, 255, 255, 0.54),
                         ),
                         child: Checkbox(
                           value: isMatchCaseChecked,
@@ -1263,8 +1191,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                             });
                           },
                           side: BorderSide(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                             width: 2,
                           ),
                         ),
@@ -1273,18 +1202,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                   ),
                   // Label for case sensitive search.
                   Padding(
-                    padding:
-                        widget.textDirection == TextDirection.rtl
-                            ? const EdgeInsets.only(
-                              right: 8,
-                              top: 16,
-                              bottom: 16,
-                            )
-                            : const EdgeInsets.only(
-                              left: 8,
-                              top: 16,
-                              bottom: 16,
-                            ),
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(right: 8, top: 16, bottom: 16)
+                        : const EdgeInsets.only(left: 8, top: 16, bottom: 16),
                     child: Text(
                       widget.languageCode == 'ar'
                           ? 'حالة مباراة'
@@ -1301,27 +1221,17 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                   ),
                   // Check box for whole word search.
                   Padding(
-                    padding:
-                        widget.textDirection == TextDirection.rtl
-                            ? const EdgeInsets.only(
-                              right: 16,
-                              top: 16,
-                              bottom: 16,
-                            )
-                            : const EdgeInsets.only(
-                              left: 16,
-                              top: 16,
-                              bottom: 16,
-                            ),
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(right: 16, top: 16, bottom: 16)
+                        : const EdgeInsets.only(left: 16, top: 16, bottom: 16),
                     child: SizedBox(
                       height: 18, // height of whole word checkbox
                       width: 18, // height of whole word checkbox
                       child: Theme(
                         data: ThemeData(
-                          unselectedWidgetColor:
-                              _isLight
-                                  ? const Color.fromRGBO(0, 0, 0, 0.54)
-                                  : const Color.fromRGBO(255, 255, 255, 0.54),
+                          unselectedWidgetColor: _isLight
+                              ? const Color.fromRGBO(0, 0, 0, 0.54)
+                              : const Color.fromRGBO(255, 255, 255, 0.54),
                         ),
                         child: Checkbox(
                           activeColor: widget.primaryColor,
@@ -1333,8 +1243,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                             });
                           },
                           side: BorderSide(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                             width: 2,
                           ),
                         ),
@@ -1343,18 +1254,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                   ),
                   // Label for whole word search.
                   Padding(
-                    padding:
-                        widget.textDirection == TextDirection.rtl
-                            ? const EdgeInsets.only(
-                              right: 8,
-                              top: 16,
-                              bottom: 16,
-                            )
-                            : const EdgeInsets.only(
-                              left: 8,
-                              top: 16,
-                              bottom: 16,
-                            ),
+                    padding: widget.textDirection == TextDirection.rtl
+                        ? const EdgeInsets.only(right: 8, top: 16, bottom: 16)
+                        : const EdgeInsets.only(left: 8, top: 16, bottom: 16),
                     child: Text(
                       widget.languageCode == 'ar'
                           ? 'الكلمة بالكامل'
@@ -1520,20 +1422,18 @@ class _ColorPaletteState extends State<ColorPalette> {
     _useMaterial3 = Theme.of(context).useMaterial3;
     _width = _isDesktop ? 316 : 0;
     _height = _isDesktop ? (_useMaterial3 ? 294 : 312) : 56;
-    _color =
-        _useMaterial3
-            ? _isLight
-                ? const Color.fromRGBO(238, 232, 244, 1)
-                : const Color.fromRGBO(48, 45, 56, 1)
-            : _isLight
-            ? const Color(0xFFFAFAFA)
-            : const Color(0xFF424242);
-    _textColor =
-        _useMaterial3
-            ? Theme.of(context).colorScheme.onSurface
-            : _isLight
-            ? const Color(0x00000000).withValues(alpha: 0.87)
-            : const Color(0x00ffffff).withValues(alpha: 0.87);
+    _color = _useMaterial3
+        ? _isLight
+              ? const Color.fromRGBO(238, 232, 244, 1)
+              : const Color.fromRGBO(48, 45, 56, 1)
+        : _isLight
+        ? const Color(0xFFFAFAFA)
+        : const Color(0xFF424242);
+    _textColor = _useMaterial3
+        ? Theme.of(context).colorScheme.onSurface
+        : _isLight
+        ? const Color(0x00000000).withValues(alpha: 0.87)
+        : const Color(0x00ffffff).withValues(alpha: 0.87);
     _selectionColor = _isLight ? Colors.black : const Color(0xFFFAFAFA);
     super.didChangeDependencies();
   }
@@ -1546,21 +1446,15 @@ class _ColorPaletteState extends State<ColorPalette> {
         width: _width,
         height: _height,
         decoration: ShapeDecoration(
-          shape:
-              _useMaterial3
-                  ? RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  )
-                  : RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(2),
-                  ),
+          shape: _useMaterial3
+              ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+              : RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
           color: _color,
         ),
         child: Column(
-          mainAxisAlignment:
-              _useMaterial3
-                  ? MainAxisAlignment.spaceAround
-                  : MainAxisAlignment.start,
+          mainAxisAlignment: _useMaterial3
+              ? MainAxisAlignment.spaceAround
+              : MainAxisAlignment.start,
           children: <Widget>[
             Container(
               height: 208,
@@ -1623,67 +1517,68 @@ class _ColorPaletteState extends State<ColorPalette> {
                               widget.pdfViewerController.annotationMode;
                           if (annotationMode == PdfAnnotationMode.highlight) {
                             widget
-                                .pdfViewerController
-                                .annotationSettings
-                                .highlight
-                                .color = color;
+                                    .pdfViewerController
+                                    .annotationSettings
+                                    .highlight
+                                    .color =
+                                color;
                           } else if (annotationMode ==
                               PdfAnnotationMode.strikethrough) {
                             widget
-                                .pdfViewerController
-                                .annotationSettings
-                                .strikethrough
-                                .color = color;
+                                    .pdfViewerController
+                                    .annotationSettings
+                                    .strikethrough
+                                    .color =
+                                color;
                           } else if (annotationMode ==
                               PdfAnnotationMode.underline) {
                             widget
-                                .pdfViewerController
-                                .annotationSettings
-                                .underline
-                                .color = color;
+                                    .pdfViewerController
+                                    .annotationSettings
+                                    .underline
+                                    .color =
+                                color;
                           } else if (annotationMode ==
                               PdfAnnotationMode.squiggly) {
                             widget
-                                .pdfViewerController
-                                .annotationSettings
-                                .squiggly
-                                .color = color;
+                                    .pdfViewerController
+                                    .annotationSettings
+                                    .squiggly
+                                    .color =
+                                color;
                           } else if (annotationMode ==
                               PdfAnnotationMode.stickyNote) {
                             widget
-                                .pdfViewerController
-                                .annotationSettings
-                                .stickyNote
-                                .color = color;
+                                    .pdfViewerController
+                                    .annotationSettings
+                                    .stickyNote
+                                    .color =
+                                color;
                           }
                         }
                       },
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color:
-                                _selectedColor == color
-                                    ? _selectionColor
-                                    : Colors.transparent,
+                            color: _selectedColor == color
+                                ? _selectionColor
+                                : Colors.transparent,
                             width: 2,
                           ),
-                          shape:
-                              _useMaterial3
-                                  ? BoxShape.circle
-                                  : BoxShape.rectangle,
+                          shape: _useMaterial3
+                              ? BoxShape.circle
+                              : BoxShape.rectangle,
                         ),
                         child: Padding(
-                          padding:
-                              _selectedColor == color
-                                  ? const EdgeInsets.all(2.0)
-                                  : EdgeInsets.zero,
+                          padding: _selectedColor == color
+                              ? const EdgeInsets.all(2.0)
+                              : EdgeInsets.zero,
                           child: Container(
                             decoration: BoxDecoration(
                               color: color,
-                              shape:
-                                  _useMaterial3
-                                      ? BoxShape.circle
-                                      : BoxShape.rectangle,
+                              shape: _useMaterial3
+                                  ? BoxShape.circle
+                                  : BoxShape.rectangle,
                             ),
                           ),
                         ),
@@ -1695,10 +1590,9 @@ class _ColorPaletteState extends State<ColorPalette> {
             Divider(
               height: 1,
               thickness: 1,
-              color:
-                  _useMaterial3
-                      ? Theme.of(context).colorScheme.outlineVariant
-                      : const Color(0x1F000000),
+              color: _useMaterial3
+                  ? Theme.of(context).colorScheme.outlineVariant
+                  : const Color(0x1F000000),
             ),
             SizedBox(
               height: _useMaterial3 ? 90 : 103,
@@ -1749,10 +1643,9 @@ class _ColorPaletteState extends State<ColorPalette> {
             child: Divider(
               height: 1,
               thickness: 1,
-              color:
-                  _isLight
-                      ? Colors.black.withValues(alpha: 0.24)
-                      : Colors.white.withValues(alpha: 0.26),
+              color: _isLight
+                  ? Colors.black.withValues(alpha: 0.24)
+                  : Colors.white.withValues(alpha: 0.26),
             ),
           ),
           Padding(
@@ -1782,14 +1675,13 @@ class _ColorPaletteState extends State<ColorPalette> {
                           height: 40,
                           width: 40,
                           child: RawMaterialButton(
-                            shape:
-                                _useMaterial3
-                                    ? RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    )
-                                    : RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(2.0),
-                                    ),
+                            shape: _useMaterial3
+                                ? RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  )
+                                : RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(2.0),
+                                  ),
                             onPressed: () {
                               setState(() {
                                 widget.onColorChanged?.call(color);
@@ -1803,81 +1695,78 @@ class _ColorPaletteState extends State<ColorPalette> {
                                 if (annotationMode ==
                                     PdfAnnotationMode.highlight) {
                                   widget
-                                      .pdfViewerController
-                                      .annotationSettings
-                                      .highlight
-                                      .color = color;
+                                          .pdfViewerController
+                                          .annotationSettings
+                                          .highlight
+                                          .color =
+                                      color;
                                 } else if (annotationMode ==
                                     PdfAnnotationMode.strikethrough) {
                                   widget
-                                      .pdfViewerController
-                                      .annotationSettings
-                                      .strikethrough
-                                      .color = color;
+                                          .pdfViewerController
+                                          .annotationSettings
+                                          .strikethrough
+                                          .color =
+                                      color;
                                 } else if (annotationMode ==
                                     PdfAnnotationMode.underline) {
                                   widget
-                                      .pdfViewerController
-                                      .annotationSettings
-                                      .underline
-                                      .color = color;
+                                          .pdfViewerController
+                                          .annotationSettings
+                                          .underline
+                                          .color =
+                                      color;
                                 } else if (annotationMode ==
                                     PdfAnnotationMode.squiggly) {
                                   widget
-                                      .pdfViewerController
-                                      .annotationSettings
-                                      .squiggly
-                                      .color = color;
+                                          .pdfViewerController
+                                          .annotationSettings
+                                          .squiggly
+                                          .color =
+                                      color;
                                 } else if (annotationMode ==
                                     PdfAnnotationMode.stickyNote) {
                                   widget
-                                      .pdfViewerController
-                                      .annotationSettings
-                                      .stickyNote
-                                      .color = color;
+                                          .pdfViewerController
+                                          .annotationSettings
+                                          .stickyNote
+                                          .color =
+                                      color;
                                 }
                               }
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    _useMaterial3
-                                        ? null
-                                        : const BorderRadius.all(
-                                          Radius.circular(4),
-                                        ),
-                                shape:
-                                    _useMaterial3
-                                        ? BoxShape.circle
-                                        : BoxShape.rectangle,
+                                borderRadius: _useMaterial3
+                                    ? null
+                                    : const BorderRadius.all(
+                                        Radius.circular(4),
+                                      ),
+                                shape: _useMaterial3
+                                    ? BoxShape.circle
+                                    : BoxShape.rectangle,
                                 border: Border.all(
-                                  color:
-                                      _selectedColor == color
-                                          ? _selectionColor.withValues(
-                                            alpha: 0.87,
-                                          )
-                                          : Colors.transparent,
+                                  color: _selectedColor == color
+                                      ? _selectionColor.withValues(alpha: 0.87)
+                                      : Colors.transparent,
                                   width: 2,
                                 ),
                               ),
                               child: Padding(
-                                padding:
-                                    _selectedColor == color
-                                        ? const EdgeInsets.all(2.0)
-                                        : EdgeInsets.zero,
+                                padding: _selectedColor == color
+                                    ? const EdgeInsets.all(2.0)
+                                    : EdgeInsets.zero,
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: color,
-                                    borderRadius:
-                                        _useMaterial3
-                                            ? null
-                                            : const BorderRadius.all(
-                                              Radius.circular(2.0),
-                                            ),
-                                    shape:
-                                        _useMaterial3
-                                            ? BoxShape.circle
-                                            : BoxShape.rectangle,
+                                    borderRadius: _useMaterial3
+                                        ? null
+                                        : const BorderRadius.all(
+                                            Radius.circular(2.0),
+                                          ),
+                                    shape: _useMaterial3
+                                        ? BoxShape.circle
+                                        : BoxShape.rectangle,
                                   ),
                                 ),
                               ),
@@ -1890,10 +1779,9 @@ class _ColorPaletteState extends State<ColorPalette> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0, left: 4.0),
                   child: Container(
-                    color:
-                        _isLight
-                            ? Colors.black.withValues(alpha: 0.24)
-                            : Colors.white.withValues(alpha: 0.26),
+                    color: _isLight
+                        ? Colors.black.withValues(alpha: 0.24)
+                        : Colors.white.withValues(alpha: 0.26),
                     child: const VerticalDivider(
                       thickness: 1,
                       endIndent: 32,
@@ -1905,14 +1793,13 @@ class _ColorPaletteState extends State<ColorPalette> {
                   height: 35,
                   width: 35,
                   child: RawMaterialButton(
-                    shape:
-                        _useMaterial3
-                            ? RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(17.5),
-                            )
-                            : RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
+                    shape: _useMaterial3
+                        ? RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(17.5),
+                          )
+                        : RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
                     onPressed: () {
                       setState(() {
                         _canShowOpacitySlider = !_canShowOpacitySlider;
@@ -1928,14 +1815,13 @@ class _ColorPaletteState extends State<ColorPalette> {
                           opacity: 0.7,
                           image: AssetImage('images/pdf_viewer/opacity.png'),
                         ),
-                        shape:
-                            _useMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(17.5),
-                                )
-                                : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(17.5),
+                              )
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
                       ),
                     ),
                   ),
@@ -1957,10 +1843,9 @@ class _ColorPaletteState extends State<ColorPalette> {
         thumbColor: widget.model.primaryColor,
         tooltipTextStyle: TextStyle(
           fontSize: _useMaterial3 ? 12 : null,
-          color:
-              _useMaterial3
-                  ? Theme.of(context).colorScheme.onPrimary
-                  : Colors.white.withValues(alpha: 0.87),
+          color: _useMaterial3
+              ? Theme.of(context).colorScheme.onPrimary
+              : Colors.white.withValues(alpha: 0.87),
         ),
         overlayRadius: _useMaterial3 ? 20 : 24,
       ),
@@ -1984,10 +1869,11 @@ class _ColorPaletteState extends State<ColorPalette> {
                   value as double;
             } else if (annotationMode == PdfAnnotationMode.strikethrough) {
               widget
-                  .pdfViewerController
-                  .annotationSettings
-                  .strikethrough
-                  .opacity = value as double;
+                      .pdfViewerController
+                      .annotationSettings
+                      .strikethrough
+                      .opacity =
+                  value as double;
             } else if (annotationMode == PdfAnnotationMode.underline) {
               widget.pdfViewerController.annotationSettings.underline.opacity =
                   value as double;
@@ -2103,28 +1989,26 @@ class _BottomToolbarState extends State<BottomToolbar> {
     _isLight = Theme.of(context).brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
     _isSecondaryToolbarVisible = widget.selectedAnnotation != null;
-    _iconColor =
-        _useMaterial3
-            ? _isLight
-                ? const Color.fromRGBO(73, 69, 79, 1)
-                : const Color.fromRGBO(202, 196, 208, 1)
-            : _isLight
-            ? Colors.black.withValues(alpha: 0.54)
-            : Colors.white.withValues(alpha: 0.65);
+    _iconColor = _useMaterial3
+        ? _isLight
+              ? const Color.fromRGBO(73, 69, 79, 1)
+              : const Color.fromRGBO(202, 196, 208, 1)
+        : _isLight
+        ? Colors.black.withValues(alpha: 0.54)
+        : Colors.white.withValues(alpha: 0.65);
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:
-          _useMaterial3
-              ? _isLight
-                  ? const Color.fromRGBO(247, 242, 251, 1)
-                  : const Color.fromRGBO(37, 35, 42, 1)
-              : _isLight
-              ? Colors.white
-              : const Color(0xFF424242),
+      color: _useMaterial3
+          ? _isLight
+                ? const Color.fromRGBO(247, 242, 251, 1)
+                : const Color.fromRGBO(37, 35, 42, 1)
+          : _isLight
+          ? Colors.white
+          : const Color(0xFF424242),
       child: Column(
         children: [
           if (_isStickyNoteIconToolBarVisible) _stickyNoteIconToolBar(),
@@ -2216,10 +2100,9 @@ class _BottomToolbarState extends State<BottomToolbar> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Divider(
-            color:
-                _isLight
-                    ? Colors.black.withValues(alpha: 0.26)
-                    : Colors.white.withValues(alpha: 0.26),
+            color: _isLight
+                ? Colors.black.withValues(alpha: 0.26)
+                : Colors.white.withValues(alpha: 0.26),
             thickness: 1,
             height: 1,
           ),
@@ -2241,31 +2124,28 @@ class _BottomToolbarState extends State<BottomToolbar> {
                     child: Material(
                       color: Colors.transparent,
                       child: RawMaterialButton(
-                        shape:
-                            _useMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                )
-                                : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.0),
-                                ),
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              )
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2.0),
+                              ),
                         onPressed: () {
                           widget.pdfViewerController.annotationMode =
                               PdfAnnotationMode.highlight;
                           setState(() {
                             _isSecondaryToolbarVisible = true;
-                            _selectedColor =
-                                widget
-                                    .pdfViewerController
-                                    .annotationSettings
-                                    .highlight
-                                    .color;
-                            _currentOpacity =
-                                widget
-                                    .pdfViewerController
-                                    .annotationSettings
-                                    .highlight
-                                    .opacity;
+                            _selectedColor = widget
+                                .pdfViewerController
+                                .annotationSettings
+                                .highlight
+                                .color;
+                            _currentOpacity = widget
+                                .pdfViewerController
+                                .annotationSettings
+                                .highlight
+                                .opacity;
                           });
                         },
                         child: _annotationIcon(
@@ -2283,31 +2163,28 @@ class _BottomToolbarState extends State<BottomToolbar> {
                     child: Tooltip(
                       message: widget.showTooltip ? 'Underline' : null,
                       child: RawMaterialButton(
-                        shape:
-                            _useMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                )
-                                : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.0),
-                                ),
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              )
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2.0),
+                              ),
                         onPressed: () {
                           widget.pdfViewerController.annotationMode =
                               PdfAnnotationMode.underline;
                           setState(() {
                             _isSecondaryToolbarVisible = true;
-                            _selectedColor =
-                                widget
-                                    .pdfViewerController
-                                    .annotationSettings
-                                    .underline
-                                    .color;
-                            _currentOpacity =
-                                widget
-                                    .pdfViewerController
-                                    .annotationSettings
-                                    .underline
-                                    .opacity;
+                            _selectedColor = widget
+                                .pdfViewerController
+                                .annotationSettings
+                                .underline
+                                .color;
+                            _currentOpacity = widget
+                                .pdfViewerController
+                                .annotationSettings
+                                .underline
+                                .opacity;
                           });
                         },
                         child: _annotationIcon(
@@ -2325,31 +2202,28 @@ class _BottomToolbarState extends State<BottomToolbar> {
                     child: Tooltip(
                       message: widget.showTooltip ? 'Strikethrough' : null,
                       child: RawMaterialButton(
-                        shape:
-                            _useMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                )
-                                : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.0),
-                                ),
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              )
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2.0),
+                              ),
                         onPressed: () {
                           widget.pdfViewerController.annotationMode =
                               PdfAnnotationMode.strikethrough;
                           setState(() {
                             _isSecondaryToolbarVisible = true;
-                            _selectedColor =
-                                widget
-                                    .pdfViewerController
-                                    .annotationSettings
-                                    .strikethrough
-                                    .color;
-                            _currentOpacity =
-                                widget
-                                    .pdfViewerController
-                                    .annotationSettings
-                                    .strikethrough
-                                    .opacity;
+                            _selectedColor = widget
+                                .pdfViewerController
+                                .annotationSettings
+                                .strikethrough
+                                .color;
+                            _currentOpacity = widget
+                                .pdfViewerController
+                                .annotationSettings
+                                .strikethrough
+                                .opacity;
                           });
                         },
                         child: _annotationIcon(
@@ -2367,31 +2241,28 @@ class _BottomToolbarState extends State<BottomToolbar> {
                     child: Tooltip(
                       message: widget.showTooltip ? 'Squiggly' : null,
                       child: RawMaterialButton(
-                        shape:
-                            _useMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                )
-                                : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.0),
-                                ),
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              )
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2.0),
+                              ),
                         onPressed: () {
                           widget.pdfViewerController.annotationMode =
                               PdfAnnotationMode.squiggly;
                           setState(() {
                             _isSecondaryToolbarVisible = true;
-                            _selectedColor =
-                                widget
-                                    .pdfViewerController
-                                    .annotationSettings
-                                    .squiggly
-                                    .color;
-                            _currentOpacity =
-                                widget
-                                    .pdfViewerController
-                                    .annotationSettings
-                                    .squiggly
-                                    .opacity;
+                            _selectedColor = widget
+                                .pdfViewerController
+                                .annotationSettings
+                                .squiggly
+                                .color;
+                            _currentOpacity = widget
+                                .pdfViewerController
+                                .annotationSettings
+                                .squiggly
+                                .opacity;
                           });
                         },
                         child: _annotationIcon(
@@ -2410,36 +2281,34 @@ class _BottomToolbarState extends State<BottomToolbar> {
                       child: Tooltip(
                         message: widget.showTooltip ? 'Sticky note' : null,
                         child: RawMaterialButton(
-                          shape:
-                              _useMaterial3
-                                  ? RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                  )
-                                  : RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2.0),
-                                  ),
+                          shape: _useMaterial3
+                              ? RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                )
+                              : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2.0),
+                                ),
                           onPressed: () {
                             widget.pdfViewerController.annotationMode =
                                 PdfAnnotationMode.stickyNote;
                             setState(() {
                               widget
+                                      .pdfViewerController
+                                      .annotationSettings
+                                      .stickyNote
+                                      .icon =
+                                  PdfStickyNoteIcon.comment;
+                              _isSecondaryToolbarVisible = true;
+                              _selectedColor = widget
                                   .pdfViewerController
                                   .annotationSettings
                                   .stickyNote
-                                  .icon = PdfStickyNoteIcon.comment;
-                              _isSecondaryToolbarVisible = true;
-                              _selectedColor =
-                                  widget
-                                      .pdfViewerController
-                                      .annotationSettings
-                                      .stickyNote
-                                      .color;
-                              _currentOpacity =
-                                  widget
-                                      .pdfViewerController
-                                      .annotationSettings
-                                      .stickyNote
-                                      .opacity;
+                                  .color;
+                              _currentOpacity = widget
+                                  .pdfViewerController
+                                  .annotationSettings
+                                  .stickyNote
+                                  .opacity;
                             });
                           },
                           child: _annotationIcon(
@@ -2486,10 +2355,9 @@ class _BottomToolbarState extends State<BottomToolbar> {
                 } else {
                   // If the opacity slider is hidden, and the color palette is visible, the bottom toolbar height will be 2 times of the toolbar section height.
                   setState(() {
-                    _toolbarHeight =
-                        _isSecondaryToolbarVisible
-                            ? 2 * _toolBarSectionHeight
-                            : _toolBarSectionHeight;
+                    _toolbarHeight = _isSecondaryToolbarVisible
+                        ? 2 * _toolBarSectionHeight
+                        : _toolBarSectionHeight;
                   });
                 }
               },
@@ -2501,10 +2369,9 @@ class _BottomToolbarState extends State<BottomToolbar> {
             ),
           ),
           Divider(
-            color:
-                _isLight
-                    ? Colors.black.withValues(alpha: 0.26)
-                    : Colors.white.withValues(alpha: 0.26),
+            color: _isLight
+                ? Colors.black.withValues(alpha: 0.26)
+                : Colors.white.withValues(alpha: 0.26),
             thickness: 1,
             indent: 0,
             endIndent: 0,
@@ -2528,14 +2395,13 @@ class _BottomToolbarState extends State<BottomToolbar> {
                         height: 40,
                         width: 40,
                         child: RawMaterialButton(
-                          shape:
-                              _useMaterial3
-                                  ? RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  )
-                                  : RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
+                          shape: _useMaterial3
+                              ? RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                )
+                              : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
                           onPressed: () {
                             widget.pdfViewerController.annotationMode =
                                 PdfAnnotationMode.none;
@@ -2559,10 +2425,9 @@ class _BottomToolbarState extends State<BottomToolbar> {
                       child: Padding(
                         padding: const EdgeInsets.only(right: 8.0, left: 4.0),
                         child: Container(
-                          color:
-                              _isLight
-                                  ? Colors.black.withValues(alpha: 0.24)
-                                  : Colors.white.withValues(alpha: 0.26),
+                          color: _isLight
+                              ? Colors.black.withValues(alpha: 0.24)
+                              : Colors.white.withValues(alpha: 0.26),
                           child: const VerticalDivider(
                             thickness: 1,
                             endIndent: 24,
@@ -2618,28 +2483,25 @@ class _BottomToolbarState extends State<BottomToolbar> {
                         highlightElevation: 0.0,
                         highlightColor: Colors.transparent,
                         hoverColor: Colors.transparent,
-                        shape:
-                            _useMaterial3
-                                ? RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4),
-                                )
-                                : RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2),
-                                ),
-                        fillColor:
-                            !_canShowColorPalette
-                                ? Colors.transparent
-                                : _isLight
-                                ? const Color(0xFFD2D2D2)
-                                : const Color(0xFF525252),
+                        shape: _useMaterial3
+                            ? RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                            : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                        fillColor: !_canShowColorPalette
+                            ? Colors.transparent
+                            : _isLight
+                            ? const Color(0xFFD2D2D2)
+                            : const Color(0xFF525252),
                         onPressed: () {
                           setState(() {
                             _isStickyNoteIconToolBarVisible = false;
                             _canShowColorPalette = !_canShowColorPalette;
-                            _toolbarHeight =
-                                _canShowColorPalette
-                                    ? 2 * _toolBarSectionHeight
-                                    : _toolBarSectionHeight;
+                            _toolbarHeight = _canShowColorPalette
+                                ? 2 * _toolBarSectionHeight
+                                : _toolBarSectionHeight;
                           });
                         },
                         child: Padding(
@@ -2648,18 +2510,16 @@ class _BottomToolbarState extends State<BottomToolbar> {
                             decoration: BoxDecoration(
                               color:
                                   widget.pdfViewerController.annotationMode ==
-                                              PdfAnnotationMode.stickyNote &&
-                                          _selectedColor == null
-                                      ? Colors.yellow
-                                      : _selectedColor,
-                              borderRadius:
-                                  _useMaterial3
-                                      ? null
-                                      : BorderRadius.circular(2.0),
-                              shape:
-                                  _useMaterial3
-                                      ? BoxShape.circle
-                                      : BoxShape.rectangle,
+                                          PdfAnnotationMode.stickyNote &&
+                                      _selectedColor == null
+                                  ? Colors.yellow
+                                  : _selectedColor,
+                              borderRadius: _useMaterial3
+                                  ? null
+                                  : BorderRadius.circular(2.0),
+                              shape: _useMaterial3
+                                  ? BoxShape.circle
+                                  : BoxShape.rectangle,
                             ),
                           ),
                         ),
@@ -2712,20 +2572,18 @@ class _BottomToolbarState extends State<BottomToolbar> {
                   // If the opacity slider is hidden, and the color palette is visible, the bottom toolbar height will be 2 times of the toolbar section height.
                   // If the annotation is deselected, the bottom toolbar height will be equal to the toolbar section height.
                   setState(() {
-                    _toolbarHeight =
-                        widget.selectedAnnotation != null
-                            ? 2 * _toolBarSectionHeight
-                            : _toolBarSectionHeight;
+                    _toolbarHeight = widget.selectedAnnotation != null
+                        ? 2 * _toolBarSectionHeight
+                        : _toolBarSectionHeight;
                   });
                 }
               },
             ),
           ),
           Divider(
-            color:
-                _isLight
-                    ? Colors.black.withValues(alpha: 0.26)
-                    : Colors.white.withValues(alpha: 0.26),
+            color: _isLight
+                ? Colors.black.withValues(alpha: 0.26)
+                : Colors.white.withValues(alpha: 0.26),
             thickness: 1,
             indent: 0,
             endIndent: 0,
@@ -2766,10 +2624,9 @@ class _BottomToolbarState extends State<BottomToolbar> {
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0, left: 4.0),
                       child: Container(
-                        color:
-                            _isLight
-                                ? Colors.black.withValues(alpha: 0.24)
-                                : Colors.white.withValues(alpha: 0.26),
+                        color: _isLight
+                            ? Colors.black.withValues(alpha: 0.24)
+                            : Colors.white.withValues(alpha: 0.26),
                         child: const VerticalDivider(
                           thickness: 1,
                           endIndent: 24,
@@ -2807,20 +2664,19 @@ class _BottomToolbarState extends State<BottomToolbar> {
                                 _toolbarHeight = _toolBarSectionHeight;
                               });
                             },
-                            child:
-                                _isLight
-                                    ? const ImageIcon(
-                                      AssetImage(
-                                        'images/pdf_viewer/note_light.png',
-                                      ),
-                                      size: 24,
-                                    )
-                                    : const ImageIcon(
-                                      AssetImage(
-                                        'images/pdf_viewer/note_dark.png',
-                                      ),
-                                      size: 24,
+                            child: _isLight
+                                ? const ImageIcon(
+                                    AssetImage(
+                                      'images/pdf_viewer/note_light.png',
                                     ),
+                                    size: 24,
+                                  )
+                                : const ImageIcon(
+                                    AssetImage(
+                                      'images/pdf_viewer/note_dark.png',
+                                    ),
+                                    size: 24,
+                                  ),
                           ),
                         ),
                       ),
@@ -2837,30 +2693,27 @@ class _BottomToolbarState extends State<BottomToolbar> {
                             focusElevation: 0.0,
                             hoverElevation: 0.0,
                             highlightElevation: 0.0,
-                            shape:
-                                _useMaterial3
-                                    ? RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    )
-                                    : RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
+                            shape: _useMaterial3
+                                ? RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  )
+                                : RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
                             highlightColor: Colors.transparent,
                             hoverColor: Colors.transparent,
-                            fillColor:
-                                !_canShowColorPalette
-                                    ? Colors.transparent
-                                    : _isLight
-                                    ? const Color(0xFFD2D2D2)
-                                    : const Color(0xFF525252),
+                            fillColor: !_canShowColorPalette
+                                ? Colors.transparent
+                                : _isLight
+                                ? const Color(0xFFD2D2D2)
+                                : const Color(0xFF525252),
                             onPressed: () {
                               if (!isLocked) {
                                 setState(() {
                                   _canShowColorPalette = !_canShowColorPalette;
-                                  _toolbarHeight =
-                                      _canShowColorPalette
-                                          ? 2 * _toolBarSectionHeight
-                                          : _toolBarSectionHeight;
+                                  _toolbarHeight = _canShowColorPalette
+                                      ? 2 * _toolBarSectionHeight
+                                      : _toolBarSectionHeight;
                                   _isStickyNoteIconToolBarVisible = false;
                                 });
                               }
@@ -2870,14 +2723,12 @@ class _BottomToolbarState extends State<BottomToolbar> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: widget.selectedAnnotation?.color,
-                                  borderRadius:
-                                      _useMaterial3
-                                          ? null
-                                          : BorderRadius.circular(2.0),
-                                  shape:
-                                      _useMaterial3
-                                          ? BoxShape.circle
-                                          : BoxShape.rectangle,
+                                  borderRadius: _useMaterial3
+                                      ? null
+                                      : BorderRadius.circular(2.0),
+                                  shape: _useMaterial3
+                                      ? BoxShape.circle
+                                      : BoxShape.rectangle,
                                 ),
                               ),
                             ),
@@ -2891,14 +2742,13 @@ class _BottomToolbarState extends State<BottomToolbar> {
                         height: 40,
                         width: 40,
                         child: RawMaterialButton(
-                          shape:
-                              _useMaterial3
-                                  ? RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  )
-                                  : RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
+                          shape: _useMaterial3
+                              ? RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                )
+                              : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
                           onPressed: () {
                             setState(() {
                               if (widget.selectedAnnotation != null) {
@@ -2927,10 +2777,9 @@ class _BottomToolbarState extends State<BottomToolbar> {
                       child: Padding(
                         padding: const EdgeInsets.only(right: 4.0, left: 4.0),
                         child: Container(
-                          color:
-                              _isLight
-                                  ? Colors.black.withValues(alpha: 0.24)
-                                  : Colors.white.withValues(alpha: 0.26),
+                          color: _isLight
+                              ? Colors.black.withValues(alpha: 0.24)
+                              : Colors.white.withValues(alpha: 0.26),
                           child: const VerticalDivider(
                             thickness: 1,
                             endIndent: 24,
@@ -2947,14 +2796,13 @@ class _BottomToolbarState extends State<BottomToolbar> {
                           height: 40,
                           width: 40,
                           child: RawMaterialButton(
-                            shape:
-                                _useMaterial3
-                                    ? RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4),
-                                    )
-                                    : RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
+                            shape: _useMaterial3
+                                ? RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  )
+                                : RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
                             onPressed: () {
                               if (widget.selectedAnnotation != null) {
                                 widget.pdfViewerController.removeAnnotation(
@@ -2991,47 +2839,44 @@ class _BottomToolbarState extends State<BottomToolbar> {
           _stickyNoteIconButton(
             iconPathLight: 'images/pdf_viewer/note_light.png',
             iconPathDark: 'images/pdf_viewer/note_dark.png',
-            onPressed:
-                () => _handleStickyNoteIconSelection(PdfStickyNoteIcon.note),
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.note),
           ),
           _stickyNoteIconButton(
             iconPathLight: 'images/pdf_viewer/insert_light.png',
             iconPathDark: 'images/pdf_viewer/insert_dark.png',
-            onPressed:
-                () => _handleStickyNoteIconSelection(PdfStickyNoteIcon.insert),
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.insert),
           ),
           _stickyNoteIconButton(
             iconPathLight: 'images/pdf_viewer/comment_light.png',
             iconPathDark: 'images/pdf_viewer/comment_dark.png',
-            onPressed:
-                () => _handleStickyNoteIconSelection(PdfStickyNoteIcon.comment),
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.comment),
           ),
           _stickyNoteIconButton(
             iconPathLight: 'images/pdf_viewer/key_light.png',
             iconPathDark: 'images/pdf_viewer/key_dark.png',
-            onPressed:
-                () => _handleStickyNoteIconSelection(PdfStickyNoteIcon.key),
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.key),
           ),
           _stickyNoteIconButton(
             iconPathLight: 'images/pdf_viewer/help_light.png',
             iconPathDark: 'images/pdf_viewer/help_dark.png',
-            onPressed:
-                () => _handleStickyNoteIconSelection(PdfStickyNoteIcon.help),
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.help),
           ),
           _stickyNoteIconButton(
             iconPathLight: 'images/pdf_viewer/paragraph_light.png',
             iconPathDark: 'images/pdf_viewer/paragraph_dark.png',
-            onPressed:
-                () =>
-                    _handleStickyNoteIconSelection(PdfStickyNoteIcon.paragraph),
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.paragraph),
           ),
           _stickyNoteIconButton(
             iconPathLight: 'images/pdf_viewer/new_paragraph_light.png',
             iconPathDark: 'images/pdf_viewer/new_paragraph_dark.png',
-            onPressed:
-                () => _handleStickyNoteIconSelection(
-                  PdfStickyNoteIcon.newParagraph,
-                ),
+            onPressed: () =>
+                _handleStickyNoteIconSelection(PdfStickyNoteIcon.newParagraph),
           ),
         ],
       ),
@@ -3062,19 +2907,13 @@ class _BottomToolbarState extends State<BottomToolbar> {
         height: 40,
         width: 40,
         child: RawMaterialButton(
-          shape:
-              _useMaterial3
-                  ? RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  )
-                  : RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(2),
-                  ),
+          shape: _useMaterial3
+              ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))
+              : RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
           onPressed: onPressed,
-          child:
-              _isLight
-                  ? ImageIcon(AssetImage(iconPathLight), size: 22)
-                  : ImageIcon(AssetImage(iconPathDark), size: 22),
+          child: _isLight
+              ? ImageIcon(AssetImage(iconPathLight), size: 22)
+              : ImageIcon(AssetImage(iconPathDark), size: 22),
         ),
       ),
     );

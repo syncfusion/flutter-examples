@@ -546,9 +546,9 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
           child: Padding(
             padding:
                 MediaQuery.of(context).orientation == Orientation.portrait ||
-                        isDesktop
-                    ? const EdgeInsets.all(12.5)
-                    : const EdgeInsets.all(10.0),
+                    isDesktop
+                ? const EdgeInsets.all(12.5)
+                : const EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
                 Text(
@@ -572,21 +572,19 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
                         return _stateWiseElectionResult[index].totalVoters;
                       },
                       tooltipSettings: TreemapTooltipSettings(
-                        color:
-                            _isLightTheme
-                                ? const Color.fromRGBO(45, 45, 45, 1)
-                                : const Color.fromRGBO(242, 242, 242, 1),
+                        color: _isLightTheme
+                            ? const Color.fromRGBO(45, 45, 45, 1)
+                            : const Color.fromRGBO(242, 242, 242, 1),
                       ),
                       colorMappers: _colorMappers,
                       levels: _getTreemapLevels(themeData),
                       legend: TreemapLegend.bar(
-                        segmentSize:
-                            isDesktop
-                                ? const Size(25, 12)
-                                : Size(
-                                  (size.width * 0.80) / _colorMappers.length,
-                                  12.0,
-                                ),
+                        segmentSize: isDesktop
+                            ? const Size(25, 12)
+                            : Size(
+                                (size.width * 0.80) / _colorMappers.length,
+                                12.0,
+                              ),
                         spacing: 0.0,
                         textStyle: const TextStyle(fontSize: 10),
                       ),
@@ -626,8 +624,9 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
           final Brightness brightness = ThemeData.estimateBrightnessForColor(
             tile.color,
           );
-          final Color color =
-              brightness == Brightness.dark ? Colors.white : Colors.black;
+          final Color color = brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black;
           return Padding(
             padding: const EdgeInsets.only(left: 4.0, top: 4.0),
             child: Text(
@@ -649,19 +648,17 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
                 text: _stateWiseElectionResult[tile.indices[0]].candidate,
                 style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
-                  color:
-                      _isLightTheme
-                          ? const Color.fromRGBO(255, 255, 255, 1)
-                          : const Color.fromRGBO(10, 10, 10, 1),
+                  color: _isLightTheme
+                      ? const Color.fromRGBO(255, 255, 255, 1)
+                      : const Color.fromRGBO(10, 10, 10, 1),
                 ),
                 children: <TextSpan>[
                   TextSpan(
                     text: '\n${tile.group}',
                     style: themeData.textTheme.bodySmall!.copyWith(
-                      color:
-                          _isLightTheme
-                              ? const Color.fromRGBO(255, 255, 255, 1)
-                              : const Color.fromRGBO(10, 10, 10, 1),
+                      color: _isLightTheme
+                          ? const Color.fromRGBO(255, 255, 255, 1)
+                          : const Color.fromRGBO(10, 10, 10, 1),
                     ),
                   ),
                   TextSpan(
@@ -671,10 +668,9 @@ class _TreemapRangeColorMappingSampleState extends SampleViewState {
                             .toString() +
                         '%',
                     style: themeData.textTheme.bodySmall!.copyWith(
-                      color:
-                          _isLightTheme
-                              ? const Color.fromRGBO(255, 255, 255, 1)
-                              : const Color.fromRGBO(10, 10, 10, 1),
+                      color: _isLightTheme
+                          ? const Color.fromRGBO(255, 255, 255, 1)
+                          : const Color.fromRGBO(10, 10, 10, 1),
                     ),
                   ),
                 ],

@@ -77,7 +77,7 @@ class _MainAppState extends State<MainApp> {
     } else {
       return SetupOrImportPage(
         userDetails: setDefaultUserDetails(
-          Profile(firstName: '', lastName: '', userId: ''),
+          Profile(firstName: '', lastName: '', userId: '', currency: 'Dollar'),
         ),
         pageController: _pageController,
       );
@@ -131,7 +131,12 @@ class _MainAppState extends State<MainApp> {
                 colorSchemeSeed: const Color(0xff00639B),
                 brightness: Brightness.light,
               ),
-              home: _buildHomeScreen(context),
+              initialRoute: '/expense-tracker',
+              routes: {
+                '/expense-tracker': (context) {
+                  return _buildHomeScreen(context);
+                },
+              },
             );
           },
         );

@@ -30,13 +30,13 @@ class _BatteryIndicatorState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-            child: _buildBatteryIndicator(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
+              child: _buildBatteryIndicator(context),
+            ),
+          )
         : Center(child: _buildBatteryIndicator(context));
   }
 
@@ -44,12 +44,11 @@ class _BatteryIndicatorState extends SampleViewState {
   Widget _buildBatteryIndicator(BuildContext context) {
     final Brightness brightness = Theme.of(context).brightness;
 
-    final Color? fillColor =
-        _batteryPercentage <= 25
-            ? const Color(0xffF45656)
-            : _batteryPercentage <= 50
-            ? const Color(0xffFFC93E)
-            : Colors.green[400];
+    final Color? fillColor = _batteryPercentage <= 25
+        ? const Color(0xffF45656)
+        : _batteryPercentage <= 50
+        ? const Color(0xffFFC93E)
+        : Colors.green[400];
     return SizedBox(
       width: 145,
       child: SfLinearGauge(
@@ -76,10 +75,9 @@ class _BatteryIndicatorState extends SampleViewState {
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 border: Border.all(
-                  color:
-                      brightness == Brightness.light
-                          ? const Color(0xffAAAAAA)
-                          : const Color(0xff4D4D4D),
+                  color: brightness == Brightness.light
+                      ? const Color(0xffAAAAAA)
+                      : const Color(0xff4D4D4D),
                   width: 4,
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -90,10 +88,9 @@ class _BatteryIndicatorState extends SampleViewState {
             startValue: _minimum + 5,
             startWidth: 55,
             endWidth: 55,
-            endValue:
-                _batteryPercentage < _maximum / 4
-                    ? _batteryPercentage
-                    : _maximum / 4,
+            endValue: _batteryPercentage < _maximum / 4
+                ? _batteryPercentage
+                : _maximum / 4,
             position: LinearElementPosition.cross,
             color: Colors.transparent,
             child: Container(
@@ -104,16 +101,14 @@ class _BatteryIndicatorState extends SampleViewState {
             ),
           ),
           LinearGaugeRange(
-            startValue:
-                _batteryPercentage >= (_maximum / 4 + 2)
-                    ? (_maximum / 4 + 2)
-                    : _minimum + 5,
-            endValue:
-                _batteryPercentage < (_maximum / 4 + 2)
-                    ? _minimum + 5
-                    : _batteryPercentage <= _maximum / 2
-                    ? _batteryPercentage
-                    : _maximum / 2,
+            startValue: _batteryPercentage >= (_maximum / 4 + 2)
+                ? (_maximum / 4 + 2)
+                : _minimum + 5,
+            endValue: _batteryPercentage < (_maximum / 4 + 2)
+                ? _minimum + 5
+                : _batteryPercentage <= _maximum / 2
+                ? _batteryPercentage
+                : _maximum / 2,
             startWidth: 55,
             endWidth: 55,
             position: LinearElementPosition.cross,
@@ -126,16 +121,14 @@ class _BatteryIndicatorState extends SampleViewState {
             ),
           ),
           LinearGaugeRange(
-            startValue:
-                _batteryPercentage >= (_maximum / 2 + 2)
-                    ? (_maximum / 2 + 2)
-                    : _minimum + 5,
-            endValue:
-                _batteryPercentage < (_maximum / 2 + 2)
-                    ? _minimum + 5
-                    : _batteryPercentage <= (_maximum * 3 / 4)
-                    ? _batteryPercentage
-                    : (_maximum * 3 / 4),
+            startValue: _batteryPercentage >= (_maximum / 2 + 2)
+                ? (_maximum / 2 + 2)
+                : _minimum + 5,
+            endValue: _batteryPercentage < (_maximum / 2 + 2)
+                ? _minimum + 5
+                : _batteryPercentage <= (_maximum * 3 / 4)
+                ? _batteryPercentage
+                : (_maximum * 3 / 4),
             startWidth: 55,
             endWidth: 55,
             position: LinearElementPosition.cross,
@@ -148,16 +141,14 @@ class _BatteryIndicatorState extends SampleViewState {
             ),
           ),
           LinearGaugeRange(
-            startValue:
-                _batteryPercentage >= (_maximum * 3 / 4 + 2)
-                    ? (_maximum * 3 / 4 + 2)
-                    : _minimum + 5,
-            endValue:
-                _batteryPercentage < (_maximum * 3 / 4 + 2)
-                    ? _minimum + 5
-                    : _batteryPercentage < _maximum
-                    ? _batteryPercentage
-                    : _maximum - 7,
+            startValue: _batteryPercentage >= (_maximum * 3 / 4 + 2)
+                ? (_maximum * 3 / 4 + 2)
+                : _minimum + 5,
+            endValue: _batteryPercentage < (_maximum * 3 / 4 + 2)
+                ? _minimum + 5
+                : _batteryPercentage < _maximum
+                ? _batteryPercentage
+                : _maximum - 7,
             startWidth: 55,
             endWidth: 55,
             position: LinearElementPosition.cross,
@@ -179,15 +170,13 @@ class _BatteryIndicatorState extends SampleViewState {
               height: 38,
               width: 16,
               decoration: BoxDecoration(
-                color:
-                    brightness == Brightness.light
-                        ? Colors.transparent
-                        : const Color(0xff232323),
+                color: brightness == Brightness.light
+                    ? Colors.transparent
+                    : const Color(0xff232323),
                 border: Border.all(
-                  color:
-                      brightness == Brightness.light
-                          ? const Color(0xffAAAAAA)
-                          : const Color(0xff4D4D4D),
+                  color: brightness == Brightness.light
+                      ? const Color(0xffAAAAAA)
+                      : const Color(0xff4D4D4D),
                   width: 4,
                 ),
                 borderRadius: const BorderRadius.only(
@@ -212,9 +201,9 @@ class _BatteryIndicatorState extends SampleViewState {
                 style: TextStyle(
                   fontSize:
                       (defaultTargetPlatform == TargetPlatform.macOS ||
-                              defaultTargetPlatform == TargetPlatform.iOS)
-                          ? 18
-                          : 20,
+                          defaultTargetPlatform == TargetPlatform.iOS)
+                      ? 18
+                      : 20,
                   fontWeight: FontWeight.w500,
                 ),
               ),

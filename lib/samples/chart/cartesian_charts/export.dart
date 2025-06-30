@@ -232,8 +232,8 @@ class _ExportState extends SampleViewState {
     }
     document.pageSettings.orientation =
         MediaQuery.of(context).orientation == Orientation.landscape
-            ? PdfPageOrientation.landscape
-            : PdfPageOrientation.portrait;
+        ? PdfPageOrientation.landscape
+        : PdfPageOrientation.portrait;
     document.pageSettings.margins.all = 0;
     document.pageSettings.size = Size(
       bitmap.width.toDouble(),

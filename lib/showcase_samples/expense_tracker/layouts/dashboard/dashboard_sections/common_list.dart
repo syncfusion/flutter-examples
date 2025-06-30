@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/core.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import '../../../../stock_analysis/helper/helper.dart';
 import '../../../constants.dart';
 import '../../../helper/common_helper.dart';
 import '../../../helper/currency_and_data_format/currency_format.dart';
@@ -14,6 +15,7 @@ import '../../../helper/view_more.dart';
 import '../../../models/goal.dart';
 import '../../../models/transaction.dart';
 import '../../../models/user.dart';
+import '../../../models/user_profile.dart';
 import '../../../pages/base_home.dart';
 
 class CommonList extends StatelessWidget {
@@ -23,11 +25,12 @@ class CommonList extends StatelessWidget {
     required this.userDetails,
     required this.isActiveGoals,
     required this.collections,
+    this.cardAvatarColors,
     super.key,
   });
 
+  final List<Color>? cardAvatarColors;
   final String headerText;
-
   final String subHeaderText;
   final UserDetails userDetails;
   final bool isActiveGoals;
@@ -58,7 +61,7 @@ class CommonList extends StatelessWidget {
                   context,
                   index,
                   isActiveGoals
-                      ? (dataModel as Goal).name
+                      ? (dataModel as Goal).category
                       : (dataModel as Transaction).category,
                   textTheme,
                   colorScheme,
@@ -68,13 +71,14 @@ class CommonList extends StatelessWidget {
                   child: _buildHeaderAndSubHeader(
                     context,
                     isActiveGoals
-                        ? (dataModel as Goal).name
-                        : (dataModel as Transaction).category,
+                        ? (dataModel as Goal).name.capitalizeFirst()
+                        : (dataModel as Transaction).category.capitalizeFirst(),
                     textTheme,
                     colorScheme,
                     isActiveGoals
-                        ? (dataModel as Goal).notes ?? ''
-                        : (dataModel as Transaction).subCategory,
+                        ? (dataModel as Goal).notes?.capitalizeFirst() ?? ''
+                        : (dataModel as Transaction).subCategory
+                              .capitalizeFirst(),
                   ),
                 ),
             ],
@@ -108,7 +112,7 @@ class CommonList extends StatelessWidget {
           _buildCurrencyValue(
             context,
             isActiveGoals
-                ? (dataModel as Goal).savedAmount
+                ? (dataModel as Goal).fund
                 : (dataModel as Transaction).amount,
             textTheme,
             colorScheme,
@@ -127,11 +131,11 @@ class CommonList extends StatelessWidget {
   ) {
     return Text(
       isActiveGoals
-          ? 'Out of ${toCurrency((dataModel as Goal).targetAmount, userDetails.userProfile)}'
+          ? 'Out of ${toCurrency((dataModel as Goal).amount, userDetails.userProfile)}'
           : _buildDateString(
-            (dataModel as Transaction).transactionDate,
-            DateFormat(userDetails.userProfile.dateFormat),
-          ),
+              (dataModel as Transaction).transactionDate,
+              DateFormat(userDetails.userProfile.dateFormat),
+            ),
       textAlign: TextAlign.right,
       style: textTheme.bodyMedium!.copyWith(
         color: colorScheme.onSurfaceVariant,
@@ -169,12 +173,11 @@ class CommonList extends StatelessWidget {
       textAlign: TextAlign.right,
       style: textTheme.bodyLarge!.copyWith(
         fontFamily: 'Roboto',
-        color:
-            isActiveGoals
-                ? colorScheme.onSurface
-                : type == 'Income'
-                ? doughnutPalette(Theme.of(context))[1]
-                : const Color.fromRGBO(179, 38, 30, 1),
+        color: isActiveGoals
+            ? colorScheme.onSurface
+            : type == 'Income'
+            ? doughnutPalette(Theme.of(context))[1]
+            : const Color.fromRGBO(179, 38, 30, 1),
         fontWeight: FontWeight.w500,
       ),
     );
@@ -243,41 +246,39 @@ class CommonList extends StatelessWidget {
     TextTheme textTheme,
     ColorScheme colorScheme,
   ) {
+    final Color color =
+        (cardAvatarColors ?? doughnutPalette(Theme.of(context)))[index % 10];
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child:
-          isActiveGoals
-              ? SizedBox(
-                width: 36.0,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: doughnutPalette(Theme.of(context))[index],
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: _buildInitialText(category, textTheme, colorScheme),
-                  ),
+      child: isActiveGoals
+          ? SizedBox(
+              width: 36.0,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: color.withAlpha(25),
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-              )
-              : CircleAvatar(
-                radius: 16,
-                backgroundColor: colorScheme.primary,
-                child: _buildInitialText(category, textTheme, colorScheme),
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: _buildIcon(category, color),
+                ),
               ),
+            )
+          : CircleAvatar(
+              radius: 16,
+              backgroundColor: color.withAlpha(25),
+              child: _buildIcon(category, color),
+            ),
     );
   }
 
-  Center _buildInitialText(
-    String category,
-    TextTheme textTheme,
-    ColorScheme colorScheme,
-  ) {
-    return Center(
-      child: Text(
-        category.characters.first,
-        style: textTheme.bodyLarge!.copyWith(color: colorScheme.onPrimary),
-      ),
+  Icon _buildIcon(String category, Color color) {
+    final Profile profile = userDetails.userProfile;
+    return Icon(
+      isActiveGoals
+          ? profile.getIconForGoalCategory(category.toLowerCase())
+          : profile.getIconForCategory(category.toLowerCase()),
+      color: color,
     );
   }
 
@@ -289,7 +290,7 @@ class CommonList extends StatelessWidget {
     if (isActiveGoals) {
       final List<Goal> goals = <Goal>[];
       for (final Goal goal in collections) {
-        if (goal.savedAmount < goal.targetAmount) {
+        if (goal.fund < goal.amount) {
           goals.add(goal);
         }
       }
@@ -357,29 +358,30 @@ class CommonList extends StatelessWidget {
                         barPointers: <LinearBarPointer>[
                           LinearBarPointer(
                             thickness: 12,
-                            value: (goal.savedAmount / goal.targetAmount) * 100,
-                            color: doughnutPalette(Theme.of(context))[index],
+                            value: (goal.fund / goal.amount) * 100,
+                            color:
+                                (cardAvatarColors ??
+                                doughnutPalette(Theme.of(context)))[index % 10],
                             edgeStyle: LinearEdgeStyle.bothCurve,
                             animationDuration: 0,
                           ),
                         ],
                         markerPointers: [
                           LinearWidgetPointer(
-                            value:
-                                ((goal.savedAmount / goal.targetAmount) * 100) -
-                                3.5,
+                            value: ((goal.fund / goal.amount) * 100) - 3.5,
                             animationDuration: 0,
                             child: Text(
-                              '${((goal.savedAmount / goal.targetAmount) * 100).floor()}%',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.labelSmall!.copyWith(
-                                fontSize: 10,
-                                // height: 10,
-                                letterSpacing: 0.15,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
+                              '${((goal.fund / goal.amount) * 100).floor()}%',
+                              style: Theme.of(context).textTheme.labelSmall!
+                                  .copyWith(
+                                    fontSize: 10,
+                                    // height: 10,
+                                    letterSpacing: 0.15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimary,
+                                  ),
                             ),
                           ),
                         ],
@@ -419,23 +421,21 @@ class CommonList extends StatelessWidget {
       edgeInsets: EdgeInsets.zero,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          final double headerHeight =
-              measureText(
-                headerText,
-                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              ).height;
+          final double headerHeight = measureText(
+            headerText,
+            Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ).height;
 
-          final double subTitleHeight =
-              measureText(
-                subHeaderText,
-                Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ).height;
+          final double subTitleHeight = measureText(
+            subHeaderText,
+            Theme.of(context).textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.w400,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ).height;
 
           const double bothSideDividerPadding = 16.0 + 16.0;
           const double dividerHeight = 1.0;

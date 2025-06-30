@@ -135,8 +135,8 @@ class _BubblePointColorState extends SampleViewState {
 
         /// It helps to render a bubble series as various colors,
         /// which is given by user from data source.
-        pointColorMapper:
-            (ChartSampleData sales, int index) => sales.pointColor,
+        pointColorMapper: (ChartSampleData sales, int index) =>
+            sales.pointColor,
         sizeValueMapper: (ChartSampleData sales, int index) => sales.size,
       ),
     ];

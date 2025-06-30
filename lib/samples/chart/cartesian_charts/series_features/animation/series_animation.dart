@@ -50,9 +50,9 @@ class _AnimationDefaultState extends SampleViewState {
   Widget build(BuildContext context) {
     padding =
         MediaQuery.of(context).orientation == Orientation.landscape ||
-                model.isWebFullView
-            ? (MediaQuery.of(context).size.width / 100 * 14)
-            : (MediaQuery.of(context).size.width / 100) * 5;
+            model.isWebFullView
+        ? (MediaQuery.of(context).size.width / 100 * 14)
+        : (MediaQuery.of(context).size.width / 100) * 5;
     return _buildDefaultAnimationChart();
   }
 
@@ -107,25 +107,23 @@ class _AnimationDefaultState extends SampleViewState {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          child:
-              model.isWebFullView
-                  ? ButtonTheme(
-                    minWidth: 40.0,
-                    height: 30.0,
-                    child: _buildColumnButton(),
-                  )
-                  : _buildColumnButton(),
+          child: model.isWebFullView
+              ? ButtonTheme(
+                  minWidth: 40.0,
+                  height: 30.0,
+                  child: _buildLineButton(),
+                )
+              : _buildLineButton(),
         ),
         const Padding(padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
         Container(
-          child:
-              model.isWebFullView
-                  ? ButtonTheme(
-                    minWidth: 40.0,
-                    height: 30.0,
-                    child: _buildLineButton(),
-                  )
-                  : _buildColumnButton(),
+          child: model.isWebFullView
+              ? ButtonTheme(
+                  minWidth: 40.0,
+                  height: 30.0,
+                  child: _buildColumnButton(),
+                )
+              : _buildColumnButton(),
         ),
       ],
     );
@@ -140,26 +138,24 @@ class _AnimationDefaultState extends SampleViewState {
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
         yValueMapper: (ChartSampleData data, int index) => data.y,
-        onRendererCreated: (
-          ChartSeriesController<ChartSampleData, String> controller,
-        ) {
-          _chartSeriesController1 = controller;
-        },
+        onRendererCreated:
+            (ChartSeriesController<ChartSampleData, String> controller) {
+              _chartSeriesController1 = controller;
+            },
         name: 'Unit Sold',
       ),
       LineSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.secondSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
         yAxisName: 'yAxis1',
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'Total Transaction',
-        onRendererCreated: (
-          ChartSeriesController<ChartSampleData, String> controller,
-        ) {
-          _chartSeriesController2 = controller;
-        },
+        onRendererCreated:
+            (ChartSeriesController<ChartSampleData, String> controller) {
+              _chartSeriesController2 = controller;
+            },
       ),
     ];
   }
@@ -170,10 +166,10 @@ class _AnimationDefaultState extends SampleViewState {
         backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
       ),
       onPressed: () {
-        _chartSeriesController2?.animate();
+        _chartSeriesController1?.animate();
       },
       child: const Text(
-        'Animate line series',
+        'Animate column series',
         textScaler: TextScaler.noScaling,
         style: TextStyle(color: Colors.white),
       ),
@@ -186,10 +182,10 @@ class _AnimationDefaultState extends SampleViewState {
         backgroundColor: WidgetStateProperty.all<Color>(model.primaryColor),
       ),
       onPressed: () {
-        _chartSeriesController1?.animate();
+        _chartSeriesController2?.animate();
       },
       child: const Text(
-        'Animate column series',
+        'Animate line series',
         textScaler: TextScaler.noScaling,
         style: TextStyle(color: Colors.white),
       ),

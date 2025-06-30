@@ -113,8 +113,9 @@ class _PyramidSmartLabelState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
     final double dropDownWidth = (model.isMobile ? 0.2 : 0.4) * screenWidth;
 
     return StatefulBuilder(
@@ -165,16 +166,12 @@ class _PyramidSmartLabelState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _selectedPosition,
-              items:
-                  _labelPosition!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'outside',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
+              items: _labelPosition!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : 'outside',
+                  child: Text(value, style: TextStyle(color: model.textColor)),
+                );
+              }).toList(),
               onChanged: (dynamic value) {
                 _updateLabelPosition(value.toString());
                 stateSetter(() {});
@@ -197,10 +194,9 @@ class _PyramidSmartLabelState extends SampleViewState {
             softWrap: false,
             style: TextStyle(
               fontSize: 16,
-              color:
-                  _selectedPosition != 'inside'
-                      ? model.textColor.withValues(alpha: 0.3)
-                      : model.textColor,
+              color: _selectedPosition != 'inside'
+                  ? model.textColor.withValues(alpha: 0.3)
+                  : model.textColor,
             ),
           ),
         ),
@@ -214,18 +210,17 @@ class _PyramidSmartLabelState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _selectedOverflowMode,
-              items:
-                  _selectedPosition != 'inside'
-                      ? null
-                      : _overflowModeList!.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'none',
-                          child: Text(
-                            value,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
+              items: _selectedPosition != 'inside'
+                  ? null
+                  : _overflowModeList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'none',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
               onChanged: (dynamic value) {
                 _updateOverflowMode(value.toString());
                 stateSetter(() {});
@@ -253,9 +248,9 @@ class _PyramidSmartLabelState extends SampleViewState {
               fontSize: 16,
               color:
                   (_selectedOverflowMode != 'none' &&
-                          _selectedPosition != 'outside')
-                      ? model.textColor.withValues(alpha: 0.3)
-                      : model.textColor,
+                      _selectedPosition != 'outside')
+                  ? model.textColor.withValues(alpha: 0.3)
+                  : model.textColor,
             ),
           ),
         ),
@@ -271,17 +266,17 @@ class _PyramidSmartLabelState extends SampleViewState {
               value: _selectedIntersectAction,
               items:
                   (_selectedOverflowMode != 'none' &&
-                          _selectedPosition != 'outside')
-                      ? null
-                      : _labelIntersectActionList!.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'shift',
-                          child: Text(
-                            value,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
+                      _selectedPosition != 'outside')
+                  ? null
+                  : _labelIntersectActionList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'shift',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
               onChanged: (dynamic value) {
                 _updateLabelIntersectAction(value.toString());
                 stateSetter(() {});
@@ -316,25 +311,22 @@ class _PyramidSmartLabelState extends SampleViewState {
   /// Returns the pyramid series.
   PyramidSeries<ChartSampleData, String> _buildPyramidSeries() {
     final ThemeData themeData = model.themeData;
-    _palette1 =
-        themeData.useMaterial3
-            ? (themeData.brightness == Brightness.light ? _palette2 : _palette3)
-            : _palette1;
+    _palette1 = themeData.useMaterial3
+        ? (themeData.brightness == Brightness.light ? _palette2 : _palette3)
+        : _palette1;
     return PyramidSeries<ChartSampleData, String>(
       width: '60%',
       dataSource: _chartData,
       xValueMapper: (ChartSampleData data, int index) => data.x,
       yValueMapper: (ChartSampleData data, int index) => data.y,
       textFieldMapper: (ChartSampleData data, int index) => data.x,
-      pointColorMapper:
-          (ChartSampleData data, int index) =>
-              _palette1[_palette1.length - 1 - index],
+      pointColorMapper: (ChartSampleData data, int index) =>
+          _palette1[_palette1.length - 1 - index],
       dataLabelSettings: DataLabelSettings(
         isVisible: true,
-        labelPosition:
-            isCardView
-                ? ChartDataLabelPosition.outside
-                : _selectedLabelPosition,
+        labelPosition: isCardView
+            ? ChartDataLabelPosition.outside
+            : _selectedLabelPosition,
         overflowMode: _overflowMode,
         labelIntersectAction: _labelIntersectAction,
         useSeriesColor: true,

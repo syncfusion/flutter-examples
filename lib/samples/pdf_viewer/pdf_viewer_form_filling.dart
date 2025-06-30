@@ -34,22 +34,20 @@ class _FormFillingPdfViewerState extends SampleViewState {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _iconEnabledColor =
-        _useMaterial3
-            ? Theme.of(context).brightness == Brightness.light
-                ? const Color.fromRGBO(73, 69, 79, 1)
-                : const Color.fromRGBO(202, 196, 208, 1)
-            : Theme.of(context).brightness == Brightness.light
-            ? Colors.black.withValues(alpha: 0.54)
-            : Colors.white.withValues(alpha: 0.65);
-    _iconDisabledColor =
-        _useMaterial3
-            ? Theme.of(context).brightness == Brightness.light
-                ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
-                : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
-            : Theme.of(context).brightness == Brightness.light
-            ? Colors.black12
-            : Colors.white12;
+    _iconEnabledColor = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+              ? const Color.fromRGBO(73, 69, 79, 1)
+              : const Color.fromRGBO(202, 196, 208, 1)
+        : Theme.of(context).brightness == Brightness.light
+        ? Colors.black.withValues(alpha: 0.54)
+        : Colors.white.withValues(alpha: 0.65);
+    _iconDisabledColor = _useMaterial3
+        ? Theme.of(context).brightness == Brightness.light
+              ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+              : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
+        : Theme.of(context).brightness == Brightness.light
+        ? Colors.black12
+        : Colors.white12;
   }
 
   @override
@@ -78,72 +76,67 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       width: 40,
                       height: 40,
                       child: Tooltip(
-                        decoration:
-                            _useMaterial3
-                                ? BoxDecoration(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.inverseSurface,
-                                  borderRadius: BorderRadius.circular(4),
-                                )
-                                : null,
-                        textStyle:
-                            _useMaterial3
-                                ? TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onInverseSurface,
-                                  fontSize: 14,
-                                )
-                                : null,
-                        padding:
-                            _useMaterial3
-                                ? const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
-                                )
-                                : null,
-                        height: _useMaterial3 ? 48 : null,
+                        decoration: _useMaterial3
+                            ? BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inverseSurface,
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                            : null,
+                        textStyle: _useMaterial3
+                            ? TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onInverseSurface,
+                                fontSize: 14,
+                              )
+                            : null,
+                        padding: _useMaterial3
+                            ? const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              )
+                            : null,
+                        constraints: _useMaterial3
+                            ? const BoxConstraints(maxHeight: 48)
+                            : null,
                         message: 'Undo',
                         child: ValueListenableBuilder<UndoHistoryValue>(
                           valueListenable: _undoHistoryController,
-                          builder: (
-                            BuildContext context,
-                            UndoHistoryValue value,
-                            Widget? child,
-                          ) {
-                            return MaterialButton(
-                              padding: EdgeInsets.zero,
-                              elevation: 0,
-                              focusElevation: 0,
-                              hoverElevation: 0,
-                              highlightElevation: 0,
-                              disabledElevation: 0,
-                              color: Colors.transparent,
-                              shape:
-                                  _useMaterial3
+                          builder:
+                              (
+                                BuildContext context,
+                                UndoHistoryValue value,
+                                Widget? child,
+                              ) {
+                                return MaterialButton(
+                                  padding: EdgeInsets.zero,
+                                  elevation: 0,
+                                  focusElevation: 0,
+                                  hoverElevation: 0,
+                                  highlightElevation: 0,
+                                  disabledElevation: 0,
+                                  color: Colors.transparent,
+                                  shape: _useMaterial3
                                       ? const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(4),
-                                        ),
-                                      )
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(4),
+                                          ),
+                                        )
                                       : null,
-                              onPressed:
-                                  value.canUndo
+                                  onPressed: value.canUndo
                                       ? _undoHistoryController.undo
                                       : null,
-                              child: Icon(
-                                Icons.undo,
-                                size: 20,
-                                color:
-                                    value.canUndo
+                                  child: Icon(
+                                    Icons.undo,
+                                    size: 20,
+                                    color: value.canUndo
                                         ? _iconEnabledColor
                                         : _iconDisabledColor,
-                              ),
-                            );
-                          },
+                                  ),
+                                );
+                              },
                         ),
                       ),
                     ),
@@ -151,72 +144,67 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       width: 40,
                       height: 40,
                       child: Tooltip(
-                        decoration:
-                            _useMaterial3
-                                ? BoxDecoration(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.inverseSurface,
-                                  borderRadius: BorderRadius.circular(4),
-                                )
-                                : null,
-                        textStyle:
-                            _useMaterial3
-                                ? TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onInverseSurface,
-                                  fontSize: 14,
-                                )
-                                : null,
-                        padding:
-                            _useMaterial3
-                                ? const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
-                                )
-                                : null,
-                        height: _useMaterial3 ? 48 : null,
+                        decoration: _useMaterial3
+                            ? BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inverseSurface,
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                            : null,
+                        textStyle: _useMaterial3
+                            ? TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onInverseSurface,
+                                fontSize: 14,
+                              )
+                            : null,
+                        padding: _useMaterial3
+                            ? const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              )
+                            : null,
+                        constraints: _useMaterial3
+                            ? const BoxConstraints(maxHeight: 48)
+                            : null,
                         message: 'Redo',
                         child: ValueListenableBuilder<UndoHistoryValue>(
                           valueListenable: _undoHistoryController,
-                          builder: (
-                            BuildContext context,
-                            UndoHistoryValue value,
-                            Widget? child,
-                          ) {
-                            return MaterialButton(
-                              padding: EdgeInsets.zero,
-                              onPressed:
-                                  value.canRedo
+                          builder:
+                              (
+                                BuildContext context,
+                                UndoHistoryValue value,
+                                Widget? child,
+                              ) {
+                                return MaterialButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: value.canRedo
                                       ? _undoHistoryController.redo
                                       : null,
-                              elevation: 0,
-                              focusElevation: 0,
-                              hoverElevation: 0,
-                              highlightElevation: 0,
-                              disabledElevation: 0,
-                              color: Colors.transparent,
-                              shape:
-                                  _useMaterial3
+                                  elevation: 0,
+                                  focusElevation: 0,
+                                  hoverElevation: 0,
+                                  highlightElevation: 0,
+                                  disabledElevation: 0,
+                                  color: Colors.transparent,
+                                  shape: _useMaterial3
                                       ? const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(4),
-                                        ),
-                                      )
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(4),
+                                          ),
+                                        )
                                       : null,
-                              child: Icon(
-                                Icons.redo,
-                                size: 20,
-                                color:
-                                    value.canRedo
+                                  child: Icon(
+                                    Icons.redo,
+                                    size: 20,
+                                    color: value.canRedo
                                         ? _iconEnabledColor
                                         : _iconDisabledColor,
-                              ),
-                            );
-                          },
+                                  ),
+                                );
+                              },
                         ),
                       ),
                     ),
@@ -228,34 +216,31 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       width: 40,
                       height: 40,
                       child: Tooltip(
-                        decoration:
-                            _useMaterial3
-                                ? BoxDecoration(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.inverseSurface,
-                                  borderRadius: BorderRadius.circular(4),
-                                )
-                                : null,
-                        textStyle:
-                            _useMaterial3
-                                ? TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onInverseSurface,
-                                  fontSize: 14,
-                                )
-                                : null,
-                        padding:
-                            _useMaterial3
-                                ? const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
-                                )
-                                : null,
-                        height: _useMaterial3 ? 48 : null,
+                        decoration: _useMaterial3
+                            ? BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inverseSurface,
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                            : null,
+                        textStyle: _useMaterial3
+                            ? TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onInverseSurface,
+                                fontSize: 14,
+                              )
+                            : null,
+                        padding: _useMaterial3
+                            ? const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              )
+                            : null,
+                        constraints: _useMaterial3
+                            ? const BoxConstraints(maxHeight: 48)
+                            : null,
                         message: 'Save Document',
                         child: MaterialButton(
                           padding: EdgeInsets.zero,
@@ -265,14 +250,13 @@ class _FormFillingPdfViewerState extends SampleViewState {
                           highlightElevation: 0,
                           disabledElevation: 0,
                           color: Colors.transparent,
-                          shape:
-                              _useMaterial3
-                                  ? const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(4),
-                                    ),
-                                  )
-                                  : null,
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
+                                )
+                              : null,
                           onPressed: () async {
                             final List<int> savedBytes =
                                 await _pdfViewerController.saveDocument();
@@ -296,54 +280,50 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       width: 40,
                       height: 40,
                       child: Tooltip(
-                        decoration:
-                            _useMaterial3
-                                ? BoxDecoration(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.inverseSurface,
-                                  borderRadius: BorderRadius.circular(4),
-                                )
-                                : null,
-                        textStyle:
-                            _useMaterial3
-                                ? TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onInverseSurface,
-                                  fontSize: 14,
-                                )
-                                : null,
-                        padding:
-                            _useMaterial3
-                                ? const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
-                                )
-                                : null,
-                        height: _useMaterial3 ? 48 : null,
+                        decoration: _useMaterial3
+                            ? BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inverseSurface,
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                            : null,
+                        textStyle: _useMaterial3
+                            ? TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onInverseSurface,
+                                fontSize: 14,
+                              )
+                            : null,
+                        padding: _useMaterial3
+                            ? const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              )
+                            : null,
+                        constraints: _useMaterial3
+                            ? const BoxConstraints(maxHeight: 48)
+                            : null,
                         message: 'Import Form Data',
                         child: RawMaterialButton(
                           elevation: 0,
                           focusElevation: 0,
                           hoverElevation: 0,
                           highlightElevation: 0,
-                          shape:
-                              _useMaterial3
-                                  ? const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(4),
-                                    ),
-                                  )
-                                  : const RoundedRectangleBorder(),
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
+                                )
+                              : const RoundedRectangleBorder(),
                           onPressed: () async {
                             final ByteData byteData = await rootBundle.load(
                               'assets/pdf/form_data.xfdf',
                             );
-                            final List<int> formDataBytes =
-                                byteData.buffer.asUint8List();
+                            final List<int> formDataBytes = byteData.buffer
+                                .asUint8List();
                             _pdfViewerController.importFormData(
                               formDataBytes,
                               DataFormat.xfdf,
@@ -361,48 +341,44 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       width: 40,
                       height: 40,
                       child: Tooltip(
-                        decoration:
-                            _useMaterial3
-                                ? BoxDecoration(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.inverseSurface,
-                                  borderRadius: BorderRadius.circular(4),
-                                )
-                                : null,
-                        textStyle:
-                            _useMaterial3
-                                ? TextStyle(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onInverseSurface,
-                                  fontSize: 14,
-                                )
-                                : null,
-                        padding:
-                            _useMaterial3
-                                ? const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
-                                )
-                                : null,
-                        height: _useMaterial3 ? 48 : null,
+                        decoration: _useMaterial3
+                            ? BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inverseSurface,
+                                borderRadius: BorderRadius.circular(4),
+                              )
+                            : null,
+                        textStyle: _useMaterial3
+                            ? TextStyle(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onInverseSurface,
+                                fontSize: 14,
+                              )
+                            : null,
+                        padding: _useMaterial3
+                            ? const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              )
+                            : null,
+                        constraints: _useMaterial3
+                            ? const BoxConstraints(maxHeight: 48)
+                            : null,
                         message: 'Export Form Data',
                         child: RawMaterialButton(
                           elevation: 0,
                           focusElevation: 0,
                           hoverElevation: 0,
                           highlightElevation: 0,
-                          shape:
-                              _useMaterial3
-                                  ? const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(4),
-                                    ),
-                                  )
-                                  : const RoundedRectangleBorder(),
+                          shape: _useMaterial3
+                              ? const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(4),
+                                  ),
+                                )
+                              : const RoundedRectangleBorder(),
                           onPressed: () async {
                             final List<int> formDataBytes = _pdfViewerController
                                 .exportFormData(dataFormat: DataFormat.xfdf);
@@ -427,14 +403,13 @@ class _FormFillingPdfViewerState extends SampleViewState {
           ),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor:
-            _useMaterial3
-                ? Theme.of(context).colorScheme.brightness == Brightness.light
-                    ? const Color.fromRGBO(247, 242, 251, 1)
-                    : const Color.fromRGBO(37, 35, 42, 1)
-                : Theme.of(context).colorScheme.brightness == Brightness.light
-                ? const Color(0xFFFAFAFA)
-                : const Color(0xFF424242),
+        backgroundColor: _useMaterial3
+            ? Theme.of(context).colorScheme.brightness == Brightness.light
+                  ? const Color.fromRGBO(247, 242, 251, 1)
+                  : const Color.fromRGBO(37, 35, 42, 1)
+            : Theme.of(context).colorScheme.brightness == Brightness.light
+            ? const Color(0xFFFAFAFA)
+            : const Color(0xFF424242),
       ),
       body: SfPdfViewer.asset(
         _documentPath,
@@ -456,10 +431,13 @@ class _FormFillingPdfViewerState extends SampleViewState {
     } else {
       final Directory directory = await getApplicationSupportDirectory();
       final String path = directory.path;
-      final File file = File('$path/$fileName');
+      final File file = File('$path${Platform.pathSeparator}$fileName');
       try {
         await file.writeAsBytes(dataBytes);
-        _showDialog('Document saved', message + path + r'\' + fileName);
+        _showDialog(
+          'Document saved',
+          message + path + Platform.pathSeparator + fileName,
+        );
       } on PathAccessException catch (e) {
         _showDialog(
           'Error',
@@ -494,16 +472,15 @@ class _FormFillingPdfViewerState extends SampleViewState {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              style:
-                  _useMaterial3
-                      ? TextButton.styleFrom(
-                        fixedSize: const Size(double.infinity, 40),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                      )
-                      : null,
+              style: _useMaterial3
+                  ? TextButton.styleFrom(
+                      fixedSize: const Size(double.infinity, 40),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                    )
+                  : null,
               child: const Text('Close'),
             ),
           ],
@@ -524,10 +501,9 @@ class _FormFillingPdfViewerState extends SampleViewState {
         // top indent of vertical divider
         endIndent: 12.0,
         // bottom indent of vertical divider
-        color:
-            model.themeData.colorScheme.brightness == Brightness.light
-                ? Colors.black.withValues(alpha: 0.24)
-                : const Color.fromRGBO(255, 255, 255, 0.26),
+        color: model.themeData.colorScheme.brightness == Brightness.light
+            ? Colors.black.withValues(alpha: 0.24)
+            : const Color.fromRGBO(255, 255, 255, 0.26),
       ),
     );
   }

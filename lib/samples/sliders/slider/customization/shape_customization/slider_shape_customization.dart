@@ -88,19 +88,20 @@ class _ShapeCustomizedSliderPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget slider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget slider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 400
             ? slider
             : SingleChildScrollView(
-              child: SizedBox(
-                height: 500,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
-                  child: slider,
+                child: SizedBox(
+                  height: 500,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 50),
+                    child: slider,
+                  ),
                 ),
-              ),
-            );
+              );
       },
     );
   }
@@ -173,8 +174,9 @@ class _SfTrackShape extends SfTrackShape {
     }
 
     trackPaint.color = Colors.red.withValues(alpha: 0.40);
-    final double highTrackLeft =
-        actualValueInPercent >= 80.0 ? thumbCenter.dx : trackIntermediatePos!;
+    final double highTrackLeft = actualValueInPercent >= 80.0
+        ? thumbCenter.dx
+        : trackIntermediatePos!;
     final Rect highVolumeRectWithLessOpacity = Rect.fromLTRB(
       highTrackLeft,
       trackRect.top,

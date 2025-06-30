@@ -25,13 +25,13 @@ class _IdleHoursState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width >= 1000 ? 350 : 240,
-            child: _buildIdleHours(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width >= 1000 ? 350 : 240,
+              child: _buildIdleHours(context),
+            ),
+          )
         : _buildIdleHours(context);
   }
 
@@ -70,13 +70,9 @@ class _IdleHoursState extends SampleViewState {
         },
         markerPointers: List<LinearWidgetPointer>.generate(
           24,
-          (int index) =>
-              index % 3 == 0
-                  ? _buildLinearWidgetPointer(
-                    index * 4,
-                    Colors.lightBlue.shade900,
-                  )
-                  : _buildLinearWidgetPointer(index * 4, Colors.lightBlue),
+          (int index) => index % 3 == 0
+              ? _buildLinearWidgetPointer(index * 4, Colors.lightBlue.shade900)
+              : _buildLinearWidgetPointer(index * 4, Colors.lightBlue),
         ),
       ),
     );

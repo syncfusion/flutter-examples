@@ -91,23 +91,20 @@ class _ApiCustomizationState extends SampleViewState {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         SizedBox(
-          height:
-              model.isWebFullView
-                  ? MediaQuery.of(context).size.height / 2
-                  : MediaQuery.of(context).size.height /
-                      (MediaQuery.of(context).orientation ==
-                              Orientation.portrait
-                          ? 2
-                          : 3),
+          height: model.isWebFullView
+              ? MediaQuery.of(context).size.height / 2
+              : MediaQuery.of(context).size.height /
+                    (MediaQuery.of(context).orientation == Orientation.portrait
+                        ? 2
+                        : 3),
           child: SfLinearGauge(
             maximum: 50,
             isMirrored: _isMirror,
             isAxisInversed: _isInverse,
             interval: 10,
-            orientation:
-                _isHorizontalOrientation
-                    ? LinearGaugeOrientation.horizontal
-                    : LinearGaugeOrientation.vertical,
+            orientation: _isHorizontalOrientation
+                ? LinearGaugeOrientation.horizontal
+                : LinearGaugeOrientation.vertical,
             barPointers: <LinearBarPointer>[
               LinearBarPointer(
                 value: 30,
@@ -293,16 +290,15 @@ class _ApiCustomizationState extends SampleViewState {
                     child: DropdownButton<String>(
                       dropdownColor: model.drawerBackgroundColor,
                       value: _shapePointerPosition,
-                      items:
-                          _pointerPositions.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'outside',
-                              child: Text(
-                                value,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            );
-                          }).toList(),
+                      items: _pointerPositions.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'outside',
+                          child: Text(
+                            value,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (String? value) {
                         setState(() {
                           if (value != null) {
@@ -333,16 +329,15 @@ class _ApiCustomizationState extends SampleViewState {
                     child: DropdownButton<String>(
                       dropdownColor: model.drawerBackgroundColor,
                       value: _barPointerPosition,
-                      items:
-                          _pointerPositions.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'outside',
-                              child: Text(
-                                value,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            );
-                          }).toList(),
+                      items: _pointerPositions.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'outside',
+                          child: Text(
+                            value,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (String? value) {
                         setState(() {
                           if (value != null) {
@@ -373,16 +368,15 @@ class _ApiCustomizationState extends SampleViewState {
                     child: DropdownButton<String>(
                       dropdownColor: model.drawerBackgroundColor,
                       value: _rangePointerPosition,
-                      items:
-                          _pointerPositions.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'outside',
-                              child: Text(
-                                value,
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            );
-                          }).toList(),
+                      items: _pointerPositions.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'outside',
+                          child: Text(
+                            value,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (dynamic value) {
                         setState(() {
                           rangePosition(value.toString());
@@ -434,59 +428,56 @@ class _ApiCustomizationState extends SampleViewState {
     final Brightness brightness = Theme.of(context).brightness;
     return (isWebOrDesktop && MediaQuery.of(context).size.width >= 550)
         ? Row(
-          children: <Widget>[
-            const Spacer(),
-            Wrap(
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: _buildLinearGauge(context),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: 1,
-              color:
-                  brightness == Brightness.dark
-                      ? const Color(0xff3D3D3D)
-                      : const Color(0xffe2e2e2),
-            ),
-            Container(
-              color:
-                  brightness == Brightness.dark
-                      ? const Color(0xff2a2a2a)
-                      : model.backgroundColor,
-              height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.all(10),
-              child: _buildPropertiesPanel(context),
-            ),
-          ],
-        )
-        : Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
+            children: <Widget>[
+              const Spacer(),
+              Wrap(
                 children: <Widget>[
-                  _buildLinearGauge(context),
-                  const SizedBox(height: 10),
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 4,
-                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-                    color:
-                        brightness == Brightness.dark
-                            ? const Color(0xff2a2a2a)
-                            : model.backgroundColor,
-                    child: _buildPropertiesPanel(context),
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: _buildLinearGauge(context),
                   ),
                 ],
               ),
+              const Spacer(),
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: 1,
+                color: brightness == Brightness.dark
+                    ? const Color(0xff3D3D3D)
+                    : const Color(0xffe2e2e2),
+              ),
+              Container(
+                color: brightness == Brightness.dark
+                    ? const Color(0xff2a2a2a)
+                    : model.backgroundColor,
+                height: MediaQuery.of(context).size.height,
+                padding: const EdgeInsets.all(10),
+                child: _buildPropertiesPanel(context),
+              ),
+            ],
+          )
+        : Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    _buildLinearGauge(context),
+                    const SizedBox(height: 10),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 4,
+                      padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
+                      color: brightness == Brightness.dark
+                          ? const Color(0xff2a2a2a)
+                          : model.backgroundColor,
+                      child: _buildPropertiesPanel(context),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-        );
+          );
   }
 }

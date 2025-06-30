@@ -181,14 +181,13 @@ class ChartsDropdownFilterState extends State<ChartsDropdownFilter> {
             requestFocusOnTap: false,
             inputFormatters: const [],
             width: widget.width ?? _calculateDropdownWidth(),
-            leadingIcon:
-                widget.showLeadingIcon
-                    ? Icon(
-                      const IconData(0xe72b, fontFamily: fontIconFamily),
-                      color: themeData.colorScheme.onSurfaceVariant,
-                      size: 18.0,
-                    )
-                    : null,
+            leadingIcon: widget.showLeadingIcon
+                ? Icon(
+                    const IconData(0xe72b, fontFamily: fontIconFamily),
+                    color: themeData.colorScheme.onSurfaceVariant,
+                    size: 18.0,
+                  )
+                : null,
             textAlign: TextAlign.left,
             trailingIcon: Padding(
               padding: const EdgeInsets.only(top: 1.0),

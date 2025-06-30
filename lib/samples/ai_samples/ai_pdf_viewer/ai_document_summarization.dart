@@ -76,17 +76,16 @@ PDF files are structured with a header for identification, a body containing the
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder:
-              (context) => WelcomeDialog(
-                primaryColor: model.primaryColor,
-                apiKey: model.assistApiKey,
-                onApiKeySaved: (newApiKey) {
-                  setState(() {
-                    model.assistApiKey = newApiKey;
-                  });
-                  _initAiServices(newApiKey);
-                },
-              ),
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+              _initAiServices(newApiKey);
+            },
+          ),
         );
         model.isFirstTime = false;
       }
@@ -152,10 +151,9 @@ PDF files are structured with a header for identification, a body containing the
             child: Container(
               width: _aiAssistantWidth,
               decoration: BoxDecoration(
-                color:
-                    _useMaterial3
-                        ? Theme.of(context).colorScheme.surface
-                        : Theme.of(context).scaffoldBackgroundColor,
+                color: _useMaterial3
+                    ? Theme.of(context).colorScheme.surface
+                    : Theme.of(context).scaffoldBackgroundColor,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.1),
@@ -215,25 +213,22 @@ PDF files are structured with a header for identification, a body containing the
 
   Widget _addTooltip(Widget child, String message) {
     return Tooltip(
-      decoration:
-          _useMaterial3
-              ? BoxDecoration(
-                color: Theme.of(context).colorScheme.inverseSurface,
-                borderRadius: BorderRadius.circular(4),
-              )
-              : null,
-      textStyle:
-          _useMaterial3
-              ? TextStyle(
-                color: Theme.of(context).colorScheme.onInverseSurface,
-                fontSize: 14,
-              )
-              : null,
-      padding:
-          _useMaterial3
-              ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
-              : null,
-      height: _useMaterial3 ? 48 : null,
+      decoration: _useMaterial3
+          ? BoxDecoration(
+              color: Theme.of(context).colorScheme.inverseSurface,
+              borderRadius: BorderRadius.circular(4),
+            )
+          : null,
+      textStyle: _useMaterial3
+          ? TextStyle(
+              color: Theme.of(context).colorScheme.onInverseSurface,
+              fontSize: 14,
+            )
+          : null,
+      padding: _useMaterial3
+          ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+          : null,
+      constraints: _useMaterial3 ? const BoxConstraints(maxHeight: 48) : null,
       message: _isDocumentLoaded ? message : '',
       child: child,
     );
@@ -247,23 +242,23 @@ PDF files are structured with a header for identification, a body containing the
           scale: _isDocumentLoaded ? _animation.value : 1,
           child: FloatingActionButton(
             heroTag: 'Smart button',
-            backgroundColor:
-                _isDocumentLoaded ? model.primaryColor : Colors.transparent,
-            onPressed:
-                _isDocumentLoaded
-                    ? () {
-                      setState(() {
-                        _isAIAssitantOpen = !_isAIAssitantOpen;
-                      });
+            backgroundColor: _isDocumentLoaded
+                ? model.primaryColor
+                : Colors.transparent,
+            onPressed: _isDocumentLoaded
+                ? () {
+                    setState(() {
+                      _isAIAssitantOpen = !_isAIAssitantOpen;
+                    });
 
-                      if (_messages.isEmpty) {
-                        _handleActionButtonPressed(
-                          'Summarize this document',
-                          _offlineResponse,
-                        );
-                      }
+                    if (_messages.isEmpty) {
+                      _handleActionButtonPressed(
+                        'Summarize this document',
+                        _offlineResponse,
+                      );
                     }
-                    : null,
+                  }
+                : null,
             disabledElevation: 1,
             child: Image.asset(
               'images/ai_assist_view.png',
@@ -287,16 +282,13 @@ PDF files are structured with a header for identification, a body containing the
               top: BorderSide(color: model.dividerColor),
               bottom: BorderSide(color: model.dividerColor),
             ),
-            color:
-                _useMaterial3
-                    ? Theme.of(context).colorScheme.brightness ==
-                            Brightness.light
-                        ? const Color.fromRGBO(247, 242, 251, 1)
-                        : const Color.fromRGBO(37, 35, 42, 1)
-                    : Theme.of(context).colorScheme.brightness ==
-                        Brightness.light
-                    ? const Color(0xFFFAFAFA)
-                    : const Color(0xFF424242),
+            color: _useMaterial3
+                ? Theme.of(context).colorScheme.brightness == Brightness.light
+                      ? const Color.fromRGBO(247, 242, 251, 1)
+                      : const Color.fromRGBO(37, 35, 42, 1)
+                : Theme.of(context).colorScheme.brightness == Brightness.light
+                ? const Color(0xFFFAFAFA)
+                : const Color(0xFF424242),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -342,27 +334,21 @@ PDF files are structured with a header for identification, a body containing the
                 requestMessageSettings: const AssistMessageSettings(
                   showAuthorAvatar: false,
                 ),
-                messageAvatarBuilder: (
-                  BuildContext context,
-                  int index,
-                  AssistMessage message,
-                ) {
-                  return message.isRequested
-                      ? const SizedBox.shrink()
-                      : Image.asset(
-                        model.themeData.brightness == Brightness.light
-                            ? 'images/ai_avatar_light.png'
-                            : 'images/ai_avatar_dark.png',
-                        color: model.themeData.colorScheme.primary,
-                      );
-                },
-                messageContentBuilder: (
-                  context,
-                  int index,
-                  AssistMessage message,
-                ) {
-                  return MarkdownBody(data: message.data);
-                },
+                messageAvatarBuilder:
+                    (BuildContext context, int index, AssistMessage message) {
+                      return message.isRequested
+                          ? const SizedBox.shrink()
+                          : Image.asset(
+                              model.themeData.brightness == Brightness.light
+                                  ? 'images/ai_avatar_light.png'
+                                  : 'images/ai_avatar_dark.png',
+                              color: model.themeData.colorScheme.primary,
+                            );
+                    },
+                messageContentBuilder:
+                    (context, int index, AssistMessage message) {
+                      return MarkdownBody(data: message.data);
+                    },
               ),
             ),
           ),

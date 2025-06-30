@@ -58,12 +58,10 @@ class _SliderSizeCustomizationPageState extends SampleViewState {
           });
         },
         enableTooltip: true,
-        tooltipTextFormatterCallback: (
-          dynamic actualLabel,
-          String formattedText,
-        ) {
-          return DateFormat.yMMM().format(actualLabel);
-        },
+        tooltipTextFormatterCallback:
+            (dynamic actualLabel, String formattedText) {
+              return DateFormat.yMMM().format(actualLabel);
+            },
       ),
     );
   }
@@ -127,13 +125,14 @@ class _SliderSizeCustomizationPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget slider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget slider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 300
             ? slider
             : SingleChildScrollView(
-              child: SizedBox(height: 300, child: slider),
-            );
+                child: SizedBox(height: 300, child: slider),
+              );
       },
     );
   }

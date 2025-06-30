@@ -39,13 +39,11 @@ class _MultipleRangesExampleState extends SampleViewState {
           pointers: <GaugePointer>[
             NeedlePointer(
               value: 30,
-              needleEndWidth:
-                  isCardView
-                      ? 5
-                      : MediaQuery.of(context).orientation ==
-                          Orientation.portrait
-                      ? 10
-                      : 6,
+              needleEndWidth: isCardView
+                  ? 5
+                  : MediaQuery.of(context).orientation == Orientation.portrait
+                  ? 10
+                  : 6,
               needleLength: 0.7,
               knobStyle: const KnobStyle(),
             ),

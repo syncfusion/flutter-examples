@@ -87,16 +87,15 @@ class _AiCalendarState extends SampleViewState
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder:
-              (context) => WelcomeDialog(
-                primaryColor: model.primaryColor,
-                apiKey: model.assistApiKey,
-                onApiKeySaved: (newApiKey) {
-                  setState(() {
-                    model.assistApiKey = newApiKey;
-                  });
-                },
-              ),
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+            },
+          ),
         );
         model.isFirstTime = false;
       }
@@ -108,8 +107,9 @@ class _AiCalendarState extends SampleViewState
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final double sidebarWidth =
-              constraints.maxWidth > 600 ? 360 : constraints.maxWidth;
+          final double sidebarWidth = constraints.maxWidth > 600
+              ? 360
+              : constraints.maxWidth;
           return Stack(
             children: [
               Column(children: [Expanded(child: _buildCalendar(_events))]),
@@ -129,10 +129,9 @@ class _AiCalendarState extends SampleViewState
                     child: Container(
                       width: sidebarWidth,
                       decoration: BoxDecoration(
-                        color:
-                            Theme.of(context).brightness == Brightness.light
-                                ? const Color(0xFFFFFBFE) // Light theme color
-                                : const Color(0xFF1C1B1F), // Dark theme color
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? const Color(0xFFFFFBFE) // Light theme color
+                            : const Color(0xFF1C1B1F), // Dark theme color
                         border: Border.all(color: Colors.grey, width: 0.5),
                         boxShadow: [
                           BoxShadow(
@@ -168,9 +167,9 @@ class _AiCalendarState extends SampleViewState
                                       fontWeight: FontWeight.bold,
                                       color:
                                           model.themeData.brightness ==
-                                                  Brightness.light
-                                              ? Colors.white
-                                              : Colors.black,
+                                              Brightness.light
+                                          ? Colors.white
+                                          : Colors.black,
                                     ),
                                   ),
                                   Row(
@@ -180,9 +179,9 @@ class _AiCalendarState extends SampleViewState
                                           Icons.autorenew,
                                           color:
                                               model.themeData.brightness ==
-                                                      Brightness.light
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                                  Brightness.light
+                                              ? Colors.white
+                                              : Colors.black,
                                         ),
                                         onPressed: _refreshView,
                                       ),
@@ -191,9 +190,9 @@ class _AiCalendarState extends SampleViewState
                                           Icons.close,
                                           color:
                                               model.themeData.brightness ==
-                                                      Brightness.light
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                                  Brightness.light
+                                              ? Colors.white
+                                              : Colors.black,
                                         ),
                                         onPressed: _toggleSidebar,
                                       ),
@@ -204,10 +203,7 @@ class _AiCalendarState extends SampleViewState
                             ),
                             Expanded(
                               child: StatefulBuilder(
-                                builder: (
-                                  BuildContext context,
-                                  StateSetter setState,
-                                ) {
+                                builder: (BuildContext context, StateSetter setState) {
                                   return Stack(
                                     children: [
                                       Padding(
@@ -215,32 +211,34 @@ class _AiCalendarState extends SampleViewState
                                         child: SfAIAssistView(
                                           key: _assistViewKey,
                                           messages: _messages,
-                                          onSuggestionItemSelected: (
-                                            bool selected,
-                                            int messageIndex,
-                                            AssistMessageSuggestion suggestion,
-                                            int suggestionIndex,
-                                          ) {
-                                            _handleSuggestionSelected(
-                                              suggestion.data!,
-                                              setState,
-                                            );
-                                            if (suggestion.data!.contains(
-                                                  'AM',
-                                                ) ||
-                                                suggestion.data!.contains(
-                                                  'PM',
-                                                )) {
-                                              _handleAppointmentTimeSelection(
-                                                suggestion.data!,
-                                                setState,
-                                              );
-                                            } else
-                                              _scheduleAppointmentWithDetails(
-                                                suggestion.data!,
-                                                setState,
-                                              );
-                                          },
+                                          onSuggestionItemSelected:
+                                              (
+                                                bool selected,
+                                                int messageIndex,
+                                                AssistMessageSuggestion
+                                                suggestion,
+                                                int suggestionIndex,
+                                              ) {
+                                                _handleSuggestionSelected(
+                                                  suggestion.data!,
+                                                  setState,
+                                                );
+                                                if (suggestion.data!.contains(
+                                                      'AM',
+                                                    ) ||
+                                                    suggestion.data!.contains(
+                                                      'PM',
+                                                    )) {
+                                                  _handleAppointmentTimeSelection(
+                                                    suggestion.data!,
+                                                    setState,
+                                                  );
+                                                } else
+                                                  _scheduleAppointmentWithDetails(
+                                                    suggestion.data!,
+                                                    setState,
+                                                  );
+                                              },
                                           placeholderBuilder:
                                               (BuildContext context) =>
                                                   placeholder(
@@ -270,15 +268,15 @@ class _AiCalendarState extends SampleViewState
                                                 widthFactor: 0.95,
                                                 backgroundColor:
                                                     model
-                                                                .themeData
-                                                                .brightness ==
-                                                            Brightness.light
-                                                        ? Theme.of(context)
-                                                            .colorScheme
-                                                            .surfaceContainer
-                                                        : Theme.of(context)
-                                                            .colorScheme
-                                                            .surfaceContainer,
+                                                            .themeData
+                                                            .brightness ==
+                                                        Brightness.light
+                                                    ? Theme.of(context)
+                                                          .colorScheme
+                                                          .surfaceContainer
+                                                    : Theme.of(context)
+                                                          .colorScheme
+                                                          .surfaceContainer,
                                                 textStyle: const TextStyle(
                                                   fontFamily: 'Roboto',
                                                   fontSize: 14.0,
@@ -366,10 +364,9 @@ class _AiCalendarState extends SampleViewState
               'How can I assist with your healthcare needs?',
               style: TextStyle(
                 fontSize: 16.0,
-                color:
-                    model.themeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                color: model.themeData.brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Roboto',
               ),
@@ -424,28 +421,26 @@ class _AiCalendarState extends SampleViewState
         suffixIcon: IconButton(
           icon: Icon(
             Icons.send,
-            color:
-                _textController.text.isNotEmpty
-                    ? Theme.of(context).colorScheme.primary
-                    : const Color(0xFF9E9E9E),
+            color: _textController.text.isNotEmpty
+                ? Theme.of(context).colorScheme.primary
+                : const Color(0xFF9E9E9E),
           ),
-          onPressed:
-              _textController.text.isNotEmpty
-                  ? () {
-                    setState(() {
-                      _messages.add(
-                        AssistMessage.request(
-                          time: DateTime.now(),
-                          author: user,
-                          data: _textController.text,
-                        ),
-                      );
-                      _showButtons = false;
-                      _generateAIResponse(_textController.text, setState);
-                      _textController.clear();
-                    });
-                  }
-                  : null,
+          onPressed: _textController.text.isNotEmpty
+              ? () {
+                  setState(() {
+                    _messages.add(
+                      AssistMessage.request(
+                        time: DateTime.now(),
+                        author: user,
+                        data: _textController.text,
+                      ),
+                    );
+                    _showButtons = false;
+                    _generateAIResponse(_textController.text, setState);
+                    _textController.clear();
+                  });
+                }
+              : null,
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
@@ -467,12 +462,11 @@ class _AiCalendarState extends SampleViewState
     BoxConstraints constraints,
   ) {
     return ElevatedButton(
-      onPressed:
-          () => _hideButtons(
-            'Book an appointment with Dr. $doctorName',
-            doctorName,
-            setState,
-          ),
+      onPressed: () => _hideButtons(
+        'Book an appointment with Dr. $doctorName',
+        doctorName,
+        setState,
+      ),
       style: ElevatedButton.styleFrom(
         side: BorderSide(color: Theme.of(context).colorScheme.outlineVariant),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -492,10 +486,9 @@ class _AiCalendarState extends SampleViewState
                 ),
                 Icon(
                   Icons.arrow_outward_sharp,
-                  color:
-                      model.themeData.brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
+                  color: model.themeData.brightness == Brightness.light
+                      ? Colors.black
+                      : Colors.white,
                 ),
               ],
             ),
@@ -510,10 +503,9 @@ class _AiCalendarState extends SampleViewState
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color:
-                    model.themeData.brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                color: model.themeData.brightness == Brightness.light
+                    ? Colors.black
+                    : Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
@@ -846,7 +838,8 @@ class _AiCalendarState extends SampleViewState
 
   String _generatePrompt() {
     // ignore: prefer_final_locals
-    String aiPrompt = """
+    String aiPrompt =
+        """
 You are an intelligent appointment booking assistant designed to book doctor appointments step-by-step.  
 Focus on the user's inputs, confirm details at each step, and proceed only after validation. Always remember the current step and user preferences until the appointment is finalized.
 
@@ -950,8 +943,9 @@ When responding to the user:
           displayName: _names[i],
           id: '000$i',
           color: _colors[i],
-          image:
-              i < _userImages.length ? ExactAssetImage(_userImages[i]) : null,
+          image: i < _userImages.length
+              ? ExactAssetImage(_userImages[i])
+              : null,
         ),
       );
     }

@@ -8,8 +8,9 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../constants.dart';
 import '../custom_widgets/chip_and_drop_down_button.dart';
-import '../data_processing/budget_handler.dart'
-    if (dart.library.html) '../data_processing/budget_web_handler.dart';
+import '../custom_widgets/text_field.dart';
+// import '../data_processing/budget_handler.dart'
+//     if (dart.library.html) '../data_processing/budget_web_handler.dart';
 import '../enum.dart';
 import '../helper/budgets_center_dialog.dart';
 import '../helper/common_helper.dart';
@@ -47,26 +48,30 @@ class BudgetLayout extends StatefulWidget {
 class _BudgetLayoutState extends State<BudgetLayout> {
   late List<String> _tabs;
   late String _selectedTab;
+  List<Color>? _cardAvatarColors;
 
   Widget _buildHeader(ViewNotifier notifier) {
     return isMobile(context)
         ? SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: _buildSegmentedButtons(notifier),
-        )
+            width: MediaQuery.of(context).size.width,
+            child: _buildSegmentedButtons(notifier),
+          )
         : Row(children: [_buildSegmentedButtons(notifier)]);
   }
 
-  SegmentedFilterButtons _buildSegmentedButtons(ViewNotifier notifier) {
-    return SegmentedFilterButtons(
-      options: _tabs,
-      onSelectionChanged: (Set<String> selectedSegment) {
-        _selectedTab = selectedSegment.first;
-        notifier.notifyBudgetVisibilityChange(
-          isCompleted: _selectedTab == _tabs[1],
-        );
-      },
-      selectedSegment: _selectedTab,
+  Widget _buildSegmentedButtons(ViewNotifier notifier) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8, bottom: 14),
+      child: SegmentedFilterButtons(
+        options: _tabs,
+        onSelectionChanged: (Set<String> selectedSegment) {
+          _selectedTab = selectedSegment.first;
+          notifier.notifyBudgetVisibilityChange(
+            isCompleted: _selectedTab == _tabs[1],
+          );
+        },
+        selectedSegment: _selectedTab,
+      ),
     );
   }
 
@@ -79,69 +84,88 @@ class _BudgetLayoutState extends State<BudgetLayout> {
     switch (deviceType(availableSize)) {
       case DeviceType.desktop:
         cardWidthFactor = 1 / 3;
-        gapBetweenCards = spacing * 2;
+        gapBetweenCards = spacing * 3;
       case DeviceType.mobile:
         cardWidthFactor = 1;
       case DeviceType.tablet:
         cardWidthFactor = 0.5;
-        gapBetweenCards = spacing;
+        gapBetweenCards = spacing * 2;
     }
 
     return Consumer2<BudgetNotifier, MobileAppBarUpdate>(
-      builder: (
-        BuildContext context,
-        BudgetNotifier value,
-        MobileAppBarUpdate mobileNotifier,
-        Widget? child,
-      ) {
-        final List<Budget> visibleBudgets = _visibleBudgets(value);
-        final double availableWidthForChild =
-            availableSize.width - gapBetweenCards;
+      builder:
+          (
+            BuildContext context,
+            BudgetNotifier budgetNotifier,
+            MobileAppBarUpdate mobileNotifier,
+            Widget? child,
+          ) {
+            final List<Budget> visibleBudgets = _visibleBudgets(budgetNotifier);
+            final double availableWidthForChild =
+                availableSize.width - gapBetweenCards;
 
-        // Check if no budgets are available
-        if (visibleBudgets.isEmpty) {
-          return buildNoRecordsFound(context);
-        }
-        return ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-          child: SingleChildScrollView(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Wrap(
-                spacing: spacing,
-                runSpacing: spacing,
-                children: List.generate(visibleBudgets.length, (int index) {
-                  final Budget budget = visibleBudgets[index];
-                  return SizedBox(
-                    width: availableWidthForChild * cardWidthFactor,
-                    child: _BudgetCard(
-                      mobileNotifier: mobileNotifier,
-                      notifier: value,
-                      index: index,
-                      user: widget.user,
-                      budget: budget,
-                      color: doughnutPalette(Theme.of(context))[index % 10],
+            // Check if no budgets are available
+            if (visibleBudgets.isEmpty) {
+              return buildNoRecordsFound(context);
+            }
+            return ScrollConfiguration(
+              behavior: ScrollConfiguration.of(
+                context,
+              ).copyWith(scrollbars: false),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, right: 8, top: 2),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Wrap(
+                          spacing: spacing,
+                          runSpacing: spacing,
+                          children: List.generate(visibleBudgets.length, (
+                            int index,
+                          ) {
+                            final List<Color> goalColors =
+                                _cardAvatarColors ??
+                                doughnutPalette(Theme.of(context));
+                            final Budget budget = visibleBudgets[index];
+                            return SizedBox(
+                              width: availableWidthForChild * cardWidthFactor,
+                              child: _BudgetCard(
+                                notifier: budgetNotifier,
+                                mobileNotifier: mobileNotifier,
+                                index: index,
+                                user: widget.user,
+                                budget: budget,
+                                color: goalColors[index % 10],
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
                     ),
-                  );
-                }),
+                    if (isMobile(context))
+                      verticalSpacer16
+                    else
+                      verticalSpacer24,
+                  ],
+                ),
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
     );
   }
 
   List<Budget> _visibleBudgets(BudgetNotifier budgetNotifier) {
     final bool isCompleted = _selectedTab == _tabs[1];
-    budgetNotifier.budgets =
-        budgetNotifier.isFirstTime
-            ? widget.user.transactionalData.data[0].budgets
-            : budgetNotifier.budgets;
+    budgetNotifier.budgets = budgetNotifier.isFirstTime
+        ? widget.user.transactionalData.data.budgets
+        : budgetNotifier.budgets;
     final List<Budget> visibleBudgets = <Budget>[];
     if (isCompleted) {
       for (final Budget budget in budgetNotifier.budgets) {
         if (budget.expense >= budget.target) {
+          budget.isCompleted = true;
           visibleBudgets.add(budget);
         }
       }
@@ -165,14 +189,16 @@ class _BudgetLayoutState extends State<BudgetLayout> {
 
   @override
   Widget build(BuildContext context) {
+    _cardAvatarColors ??= randomColors(context);
     return Consumer<ViewNotifier>(
       builder: (BuildContext context, ViewNotifier notifier, Widget? child) {
         return Padding(
-          padding: EdgeInsets.all(isMobile(context) ? 16.0 : 24.0),
+          padding: isMobile(context)
+              ? const EdgeInsets.only(left: 8, right: 8, top: 16)
+              : const EdgeInsets.only(left: 16, right: 16, top: 24),
           child: Column(
             children: <Widget>[
               _buildHeader(notifier),
-              verticalSpacer16,
               Expanded(
                 child: LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
@@ -190,6 +216,7 @@ class _BudgetLayoutState extends State<BudgetLayout> {
   @override
   void dispose() {
     _tabs.clear();
+    _cardAvatarColors?.clear();
     super.dispose();
   }
 }
@@ -225,25 +252,23 @@ class _BudgetCardState extends State<_BudgetCard> {
   Widget _buildHeading() {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading:
-          widget.budget.name.isNotEmpty
-              ? Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: widget.color.withAlpha(25),
-                  borderRadius: BorderRadius.circular(10),
+      leading: widget.budget.name.isNotEmpty
+          ? Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: widget.color.withAlpha(25),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              child: Icon(
+                widget.user.userProfile.getIconForCategory(
+                  widget.budget.category.toLowerCase(),
                 ),
-                alignment: Alignment.center,
-                child: Text(
-                  widget.budget.name[0].toUpperCase(),
-                  style: _textTheme.titleLarge?.copyWith(
-                    color: widget.color,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              )
-              : null,
+                color: widget.color,
+              ),
+            )
+          : null,
       title: Text(
         widget.budget.name,
         style: _titleMediumStyle,
@@ -472,10 +497,11 @@ class _BudgetMenuState extends State<_BudgetMenu> {
 
   List<PopupMenuEntry<_BudgetMenuOption>> get _buildMenuItems {
     return <PopupMenuEntry<_BudgetMenuOption>>[
-      PopupMenuItem<_BudgetMenuOption>(
-        value: _BudgetMenuOption.add,
-        child: _buildMenuItem(Icons.add, 'Add expense'),
-      ),
+      if (!widget.budget.isCompleted)
+        PopupMenuItem<_BudgetMenuOption>(
+          value: _BudgetMenuOption.add,
+          child: _buildMenuItem(Icons.add, 'Add Expense'),
+        ),
       PopupMenuItem<_BudgetMenuOption>(
         value: _BudgetMenuOption.edit,
         child: _buildMenuItem(Icons.edit_outlined, 'Edit'),
@@ -514,13 +540,12 @@ class _BudgetMenuState extends State<_BudgetMenu> {
           'Are you sure you want to delete this budget item?',
           () {
             widget.notifier.deleteBudget(widget.budget);
-            updateBudgets(
-              context,
-              widget.user,
-              widget.budget,
-              UserInteractions.delete,
-              index: widget.notifier.currentIndex,
-            );
+            // updateBudgets(
+            //   widget.user,
+            //   widget.budget,
+            //   UserInteractions.delete,
+            //   index: widget.notifier.currentIndex,
+            // );
             Navigator.of(context).pop();
           },
         );
@@ -532,105 +557,110 @@ class _BudgetMenuState extends State<_BudgetMenu> {
             switch (value) {
               case _BudgetMenuOption.add:
                 return Consumer<TextButtonValidNotifier>(
-                  builder: (
-                    BuildContext context,
-                    TextButtonValidNotifier value,
-                    Widget? child,
-                  ) {
-                    return MobileCenterDialog(
-                      userInteraction: UserInteractions.add,
-                      budgetNotifier: widget.notifier,
-                      validateNotifier: value,
-                      currentMobileDialog:
-                          widget.mobileNotifier.currentMobileDialog,
-                      title: 'Add Expense',
-                      buttonText: 'Add',
-                      index: widget.index,
-                      isAddExpense: true,
-                      userDetails: widget.user,
-                      onCancelPressed: () {
-                        widget.mobileNotifier.openDialog(isDialogOpen: false);
-                        value.isTextButtonValid(false);
-                        Navigator.pop(context);
-                      },
-                      onPressed: () {
-                        widget.notifier.addExpense(
-                          widget.budget,
-                          parseCurrency(
-                            widget.notifier.budgetTextFieldDetails!.amount
-                                .toString(),
-                            widget.user.userProfile,
-                          ),
+                  builder:
+                      (
+                        BuildContext context,
+                        TextButtonValidNotifier value,
+                        Widget? child,
+                      ) {
+                        return MobileCenterDialog(
+                          userInteraction: UserInteractions.add,
+                          budgetNotifier: widget.notifier,
+                          validateNotifier: value,
+                          currentMobileDialog:
+                              widget.mobileNotifier.currentMobileDialog,
+                          title: 'Add Expense',
+                          buttonText: 'Add',
+                          index: widget.index,
+                          isAddExpense: true,
+                          userDetails: widget.user,
+                          onCancelPressed: () {
+                            widget.mobileNotifier.openDialog(
+                              isDialogOpen: false,
+                            );
+                            value.isTextButtonValid(false);
+                            Navigator.pop(context);
+                          },
+                          onPressed: () {
+                            widget.notifier.addExpense(
+                              widget.budget,
+                              parseCurrency(
+                                widget.notifier.budgetTextFieldDetails!.amount
+                                    .toString(),
+                                widget.user.userProfile,
+                              ),
+                            );
+                            // final int index = widget.notifier.currentIndex;
+                            // final Budget budget =
+                            //     widget.notifier.budgets[index];
+                            // updateBudgetExpense(budget, index);
+                            value.isTextButtonValid(false);
+                            widget.mobileNotifier.openDialog(
+                              isDialogOpen: false,
+                            );
+                            Navigator.pop(context);
+                          },
                         );
-                        final int index = widget.notifier.currentIndex;
-                        final Budget budget = widget.notifier.budgets[index];
-                        updateBudgetExpense(
-                          context,
-                          widget.user,
-                          budget,
-                          UserInteractions.add,
-                          index: index,
-                        );
-                        value.isTextButtonValid(false);
-                        widget.mobileNotifier.openDialog(isDialogOpen: false);
-                        Navigator.pop(context);
                       },
-                    );
-                  },
                 );
               case _BudgetMenuOption.edit:
                 return Consumer<TextButtonValidNotifier>(
-                  builder: (
-                    BuildContext context,
-                    TextButtonValidNotifier value,
-                    Widget? child,
-                  ) {
-                    return MobileCenterDialog(
-                      userInteraction: UserInteractions.edit,
-                      budgetNotifier: widget.notifier,
-                      validateNotifier: value,
-                      currentMobileDialog:
-                          widget.mobileNotifier.currentMobileDialog,
-                      title: 'Edit Budget',
-                      buttonText: 'Edit',
-                      index: widget.index,
-                      userDetails: widget.user,
-                      onCancelPressed: () {
-                        widget.mobileNotifier.openDialog(isDialogOpen: false);
-                        value.isTextButtonValid(false);
-                        Navigator.pop(context);
+                  builder:
+                      (
+                        BuildContext context,
+                        TextButtonValidNotifier value,
+                        Widget? child,
+                      ) {
+                        return MobileCenterDialog(
+                          userInteraction: UserInteractions.edit,
+                          budgetNotifier: widget.notifier,
+                          validateNotifier: value,
+                          currentMobileDialog:
+                              widget.mobileNotifier.currentMobileDialog,
+                          title: 'Edit Budget',
+                          buttonText: 'Save',
+                          index: widget.index,
+                          userDetails: widget.user,
+                          onCancelPressed: () {
+                            widget.mobileNotifier.openDialog(
+                              isDialogOpen: false,
+                            );
+                            value.isTextButtonValid(false);
+                            Navigator.pop(context);
+                          },
+                          onPressed: () {
+                            final BudgetTextFieldDetails details =
+                                widget.notifier.budgetTextFieldDetails!;
+                            final Budget budget = Budget(
+                              name: details.name,
+                              target: details.amount,
+                              notes: details.remarks,
+                              expense: 0,
+                              createdDate: details.date,
+                              category: details.category,
+                            );
+                            final Budget currentBudget =
+                                widget.notifier.visibleBudgets[widget.index];
+                            budget.expense = currentBudget.expense;
+                            widget.notifier.editBudget(
+                              currentBudget,
+                              budget,
+                              widget.index,
+                            );
+                            // updateBudgets(
+                            //   widget.user,
+                            //   budget,
+                            //   UserInteractions.edit,
+                            //   index: widget.notifier.currentIndex,
+                            // );
+                            widget.mobileNotifier.openDialog(
+                              isDialogOpen: false,
+                            );
+                            value.isTextButtonValid(false);
+                            Navigator.pop(context);
+                          },
+                        );
                       },
-                      onPressed: () {
-                        final BudgetTextFieldDetails details =
-                            widget.notifier.budgetTextFieldDetails!;
-                        final Budget budget = Budget(
-                          name: details.name,
-                          target: details.amount,
-                          notes: details.remarks,
-                          expense: 0,
-                          createdDate: details.date,
-                        );
-                        final Budget currentBudget =
-                            widget.notifier.visibleBudgets[widget.index];
-                        budget.expense = currentBudget.expense;
-                        widget.notifier.editBudget(
-                          currentBudget,
-                          budget,
-                          widget.index,
-                        );
-                        updateBudgets(
-                          context,
-                          widget.user,
-                          budget,
-                          UserInteractions.edit,
-                          index: widget.notifier.currentIndex,
-                        );
-                        widget.mobileNotifier.openDialog(isDialogOpen: false);
-                        value.isTextButtonValid(false);
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
                 );
               case _BudgetMenuOption.delete:
                 return _DeleteBudget(
@@ -649,37 +679,39 @@ class _BudgetMenuState extends State<_BudgetMenu> {
           switch (value) {
             case _BudgetMenuOption.add:
               return Consumer<TextButtonValidNotifier>(
-                builder: (
-                  BuildContext context,
-                  TextButtonValidNotifier value,
-                  Widget? child,
-                ) {
-                  return _AddOrEditExpense(
-                    budget: widget.budget,
-                    notifier: widget.notifier,
-                    validNotifier: value,
-                    user: widget.user,
-                    isEdit: false,
-                  );
-                },
+                builder:
+                    (
+                      BuildContext context,
+                      TextButtonValidNotifier value,
+                      Widget? child,
+                    ) {
+                      return _AddOrEditExpense(
+                        budget: widget.budget,
+                        notifier: widget.notifier,
+                        validNotifier: value,
+                        user: widget.user,
+                        isEdit: false,
+                      );
+                    },
               );
             // case _BudgetMenuOption.view:
             // break;
             case _BudgetMenuOption.edit:
               return Consumer<TextButtonValidNotifier>(
-                builder: (
-                  BuildContext context,
-                  TextButtonValidNotifier value,
-                  Widget? child,
-                ) {
-                  return BudgetsCenterDialog(
-                    notifier: widget.notifier,
-                    validNotifier: value,
-                    userInteraction: UserInteractions.edit,
-                    userDetails: widget.user,
-                    selectedIndex: widget.index,
-                  );
-                },
+                builder:
+                    (
+                      BuildContext context,
+                      TextButtonValidNotifier value,
+                      Widget? child,
+                    ) {
+                      return BudgetsCenterDialog(
+                        notifier: widget.notifier,
+                        validNotifier: value,
+                        userInteraction: UserInteractions.edit,
+                        userDetails: widget.user,
+                        selectedIndex: widget.index,
+                      );
+                    },
               );
             case _BudgetMenuOption.delete:
               return _DeleteBudget(
@@ -704,6 +736,7 @@ class _BudgetMenuState extends State<_BudgetMenu> {
       child: PopupMenuButton<_BudgetMenuOption>(
         position: PopupMenuPosition.under,
         iconSize: 18,
+        tooltip: '',
         color: _colorScheme.surfaceContainerLow,
         icon: Icon(Icons.more_vert, color: _colorScheme.onSurfaceVariant),
         padding: EdgeInsets.zero,
@@ -742,8 +775,6 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
   late ColorScheme _colorScheme;
   late TextTheme _textTheme;
 
-  String? _selectedCategory;
-  String? _selectedSubcategory;
   final TextEditingController _amountController = TextEditingController();
 
   Widget _buildDesktopContent(BuildContext context, StateSetter setState) {
@@ -773,7 +804,6 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         _buildCategory(setState),
-        _buildSubcategory(setState),
         _buildAmount(),
         _buildDate(context, setState),
         _buildRemarks(),
@@ -804,41 +834,22 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
   }
 
   Widget _buildCategory(StateSetter setState) {
-    return SizedBox(
-      width: 208.0,
-      child: DropdownButtonFormField<String>(
-        value: _selectedCategory,
-        items: const <DropdownMenuItem<String>>[],
-        onChanged: (String? value) {},
-        decoration: InputDecoration(
-          labelText: widget.budget.name,
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(6)),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSubcategory(StateSetter setState) {
-    return DropdownButtonFormField<String>(
-      value: _selectedSubcategory,
-      items: const <DropdownMenuItem<String>>[],
-      onChanged: (String? value) {},
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: widget.budget.notes,
-      ),
+    final TextEditingController controller = TextEditingController();
+    controller.text = widget.budget.name;
+    return CustomTextField(
+      controller: controller,
+      focusNode: FocusNode(),
+      hintText: 'Title',
+      readOnly: true,
+      canRequestFocus: false,
     );
   }
 
   Widget _buildAmount() {
-    return TextFormField(
+    return CustomTextField(
       controller: _amountController,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Amount',
-      ),
+      hintText: 'Add Amount',
+      focusNode: FocusNode(),
       keyboardType: TextInputType.number,
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.singleLineFormatter,
@@ -852,26 +863,27 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
   }
 
   Widget _buildDate(BuildContext context, StateSetter setState) {
-    return TextFormField(
+    final TextEditingController controller = TextEditingController();
+    controller.text = formatDate(widget.budget.createdDate);
+    return CustomTextField(
+      controller: controller,
+      focusNode: FocusNode(),
+      hintText: 'Date',
       readOnly: true,
       canRequestFocus: false,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: formatDate(widget.budget.createdDate),
-        suffixIcon: const Icon(Icons.calendar_month_outlined),
-      ),
     );
   }
 
   Widget _buildRemarks() {
-    return TextFormField(
+    final TextEditingController controller = TextEditingController();
+    controller.text = widget.budget.notes ?? '';
+    return CustomTextField(
+      controller: controller,
+      focusNode: FocusNode(),
+      hintText: 'Remarks',
+      maxLines: 4,
       readOnly: true,
       canRequestFocus: false,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: widget.budget.notes,
-      ),
-      maxLines: 3,
     );
   }
 
@@ -882,7 +894,10 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
   List<Widget> _buildActionButtons(BuildContext context) {
     return <Widget>[
       TextButton(
-        onPressed: () => Navigator.pop(context),
+        onPressed: () {
+          widget.validNotifier.isTextButtonValid(false);
+          Navigator.pop(context);
+        },
         child: const Text('Cancel'),
       ),
       TextButton(
@@ -891,24 +906,18 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
             widget.budget,
             parseCurrency(_amountController.text, widget.user.userProfile),
           );
-          final int index = widget.notifier.currentIndex;
-          final Budget budget = widget.notifier.budgets[index];
-          updateBudgetExpense(
-            context,
-            widget.user,
-            budget,
-            UserInteractions.add,
-            index: index,
-          );
+          // final int index = widget.notifier.currentIndex;
+          // final Budget budget = widget.notifier.budgets[index];
+          widget.validNotifier.isTextButtonValid(false);
+          // updateBudgetExpense(budget, index);
           Navigator.pop(context);
         },
         child: Text(
           'Add',
           style: Theme.of(context).textTheme.labelLarge!.copyWith(
-            color:
-                !widget.validNotifier.isValid
-                    ? Colors.grey
-                    : Theme.of(context).colorScheme.primary,
+            color: !widget.validNotifier.isValid
+                ? Colors.grey
+                : Theme.of(context).colorScheme.primary,
           ),
         ),
       ),
@@ -961,10 +970,12 @@ class _AddOrEditExpenseState extends State<_AddOrEditExpense> {
             ),
             actionsPadding: const EdgeInsets.all(24),
             title: _buildHeader(context),
-            content:
-                isDesktop
-                    ? _buildDesktopContent(context, setState)
-                    : _buildMobileContent(context, setState),
+            content: SizedBox(
+              width: 400,
+              child: isDesktop
+                  ? _buildDesktopContent(context, setState)
+                  : _buildMobileContent(context, setState),
+            ),
             actions: _buildActionButtons(context),
           ),
         );
@@ -1011,13 +1022,12 @@ class _DeleteBudgetState extends State<_DeleteBudget> {
         style: actionButtonStyle,
         onPressed: () {
           widget.notifier.deleteBudget(widget.budget);
-          updateBudgets(
-            context,
-            widget.user,
-            widget.budget,
-            UserInteractions.delete,
-            index: widget.notifier.currentIndex,
-          );
+          // updateBudgets(
+          //   widget.user,
+          //   widget.budget,
+          //   UserInteractions.delete,
+          //   index: widget.notifier.currentIndex,
+          // );
           Navigator.of(context).pop();
         },
         child: Text(
@@ -1047,7 +1057,7 @@ class _DeleteBudgetState extends State<_DeleteBudget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Delete budget',
+            'Delete Budget',
             style: _textTheme.headlineSmall?.copyWith(
               color: _colorScheme.onSurface,
             ),
@@ -1226,10 +1236,9 @@ class BudgetDataSource extends DataGridSource {
         ],
         axisTrackStyle: LinearAxisTrackStyle(
           edgeStyle: LinearEdgeStyle.bothCurve,
-          color:
-              themeNotifier.isDarkTheme
-                  ? linearGaugeDarkThemeTrackColor
-                  : linearGaugeLightThemeTrackColor,
+          color: themeNotifier.isDarkTheme
+              ? linearGaugeDarkThemeTrackColor
+              : linearGaugeLightThemeTrackColor,
         ),
       ),
     );

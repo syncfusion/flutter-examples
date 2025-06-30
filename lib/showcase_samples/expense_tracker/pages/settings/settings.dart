@@ -6,15 +6,21 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../base.dart';
 import '../../constants.dart';
 import '../../custom_widgets/custom_buttons.dart';
 import '../../helper/common_helper.dart';
 import '../../helper/dashboard.dart';
 import '../../helper/responsive_layout.dart';
+import '../../models/transactional_data.dart';
+import '../../models/transactional_details.dart';
 import '../../models/user.dart';
 import '../../models/user_profile.dart';
+import '../../notifiers/budget_notifier.dart';
+import '../../notifiers/goal_notifier.dart';
+import '../../notifiers/import_notifier.dart';
 import '../../notifiers/restart_notifier.dart';
+import '../../notifiers/savings_notifier.dart';
+import '../../notifiers/transaction_notifier.dart';
 import '../base_home.dart';
 import 'sections/appearance.dart';
 import 'sections/personalization.dart';
@@ -140,7 +146,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Reset Application',
+                    'Reset Data',
                     style: _textTheme.titleLarge?.copyWith(
                       color: _colorScheme.error,
                     ),
@@ -164,14 +170,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Are you sure you want to reset the application?',
+                    'Are you sure you want to reset the data?',
                     style: _textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 12),
                   Text('This will:', style: _textTheme.bodyMedium),
                   const SizedBox(height: 8),
                   Text(
-                    '• Delete all your data\n• Clear all settings\n• Restart the application',
+                    '• Delete all your data\n• Clear all settings',
                     style: _textTheme.bodyMedium?.copyWith(
                       color: _colorScheme.error,
                     ),
@@ -298,13 +304,38 @@ class _SettingsPageState extends State<SettingsPage> {
         Provider.of<RestartAppNotifier>(context, listen: false);
 
     restartAppNotifier.isRestartedAPP();
+    Provider.of<ImportNotifier>(
+      context,
+      listen: false,
+    ).resetAppData(widget.currentUserDetails.userProfile);
 
-    // Navigate to your login page
+    Provider.of<BudgetNotifier>(context, listen: false).reset();
+    Provider.of<GoalNotifier>(context, listen: false).reset();
+    Provider.of<SavingsNotifier>(context, listen: false).reset();
+    Provider.of<TransactionNotifier>(context, listen: false).reset();
+
+    // Navigate to dashboard page
     await Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const ExpenseAnalysisApp(),
+        builder:
+            (BuildContext context) =>
+                ExpenseAnalysis(currentUserDetails: _defaultUserDetails()),
       ),
       (Route<void> route) => true,
+    );
+  }
+
+  UserDetails _defaultUserDetails() {
+    return UserDetails(
+      userProfile: widget.currentUserDetails.userProfile,
+      transactionalData: TransactionalData(
+        data: TransactionalDetails(
+          transactions: [],
+          budgets: [],
+          goals: [],
+          savings: [],
+        ),
+      ),
     );
   }
 
@@ -472,7 +503,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                     child: _buildSettingOptions(
                       'Profile',
-                      'Name, Date of Birth, Gender',
+                      _getSubTitleText(),
                       Icon(
                         const IconData(0xe726, fontFamily: fontIconFamily),
                         size: 24.0,
@@ -580,6 +611,20 @@ class _SettingsPageState extends State<SettingsPage> {
         if (isMobile(context)) Flexible(child: _buildResetButton(context)),
       ],
     );
+  }
+
+  String _getSubTitleText() {
+    final Profile userProfile = widget.currentUserDetails.userProfile;
+    final List<String> details = ['Name'];
+
+    if (userProfile.dateOfBirth != null) {
+      details.add('Date of Birth');
+    }
+    if (userProfile.gender != null) {
+      details.add('Gender');
+    }
+
+    return details.join(', ');
   }
 
   Widget _buildSettingOptions(

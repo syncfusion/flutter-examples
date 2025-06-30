@@ -41,15 +41,14 @@ class _DataValidationXlsIOState extends SampleViewState {
                   backgroundColor: WidgetStateProperty.all<Color>(
                     model.primaryColor,
                   ),
-                  padding:
-                      model.isMobile
-                          ? null
-                          : WidgetStateProperty.all(
-                            const EdgeInsets.symmetric(
-                              vertical: 15,
-                              horizontal: 15,
-                            ),
+                  padding: model.isMobile
+                      ? null
+                      : WidgetStateProperty.all(
+                          const EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 15,
                           ),
+                        ),
                 ),
                 onPressed: _generateExcel,
                 child: const Text(
@@ -76,8 +75,9 @@ class _DataValidationXlsIOState extends SampleViewState {
     sheet.getRangeByName('C7').cellStyle.borders.all.lineStyle =
         LineStyle.medium;
     //Accessing the cell Range C7 and applying the list data validation
-    final DataValidation listValidation =
-        sheet.getRangeByName('C7').dataValidation;
+    final DataValidation listValidation = sheet
+        .getRangeByName('C7')
+        .dataValidation;
     listValidation.listOfValues = <String>['Product', 'Brand', 'Price'];
     listValidation.promptBoxText = 'Data Validation list';
     listValidation.showPromptBox = true;
@@ -89,8 +89,9 @@ class _DataValidationXlsIOState extends SampleViewState {
     sheet.getRangeByName('C9').cellStyle.borders.all.lineStyle =
         LineStyle.medium;
     //Accessing the cell Range C9 and applying the whole number data validation
-    final DataValidation integerValidation =
-        sheet.getRangeByName('C9').dataValidation;
+    final DataValidation integerValidation = sheet
+        .getRangeByName('C9')
+        .dataValidation;
     integerValidation.allowType = ExcelDataValidationType.integer;
     integerValidation.comparisonOperator =
         ExcelDataValidationComparisonOperator.between;
@@ -107,8 +108,9 @@ class _DataValidationXlsIOState extends SampleViewState {
     sheet.getRangeByName('C11').cellStyle.borders.all.lineStyle =
         LineStyle.medium;
     //Accessing the cell Range C11 and applying the date data validation
-    final DataValidation dateValidation =
-        sheet.getRangeByName('C11').dataValidation;
+    final DataValidation dateValidation = sheet
+        .getRangeByName('C11')
+        .dataValidation;
     dateValidation.allowType = ExcelDataValidationType.date;
     dateValidation.comparisonOperator =
         ExcelDataValidationComparisonOperator.between;
@@ -125,8 +127,9 @@ class _DataValidationXlsIOState extends SampleViewState {
     sheet.getRangeByName('C13').cellStyle.borders.all.lineStyle =
         LineStyle.medium;
     //Accessing the cell Range C13 and applying the text length data validation
-    final DataValidation textLengthValidation =
-        sheet.getRangeByName('C13').dataValidation;
+    final DataValidation textLengthValidation = sheet
+        .getRangeByName('C13')
+        .dataValidation;
     textLengthValidation.allowType = ExcelDataValidationType.textLength;
     textLengthValidation.comparisonOperator =
         ExcelDataValidationComparisonOperator.between;
@@ -144,8 +147,9 @@ class _DataValidationXlsIOState extends SampleViewState {
     sheet.getRangeByName('C15').cellStyle.borders.all.lineStyle =
         LineStyle.medium;
     //Accessing the cell Range C15 and applying the time data validation
-    final DataValidation timeValidation =
-        sheet.getRangeByName('C15').dataValidation;
+    final DataValidation timeValidation = sheet
+        .getRangeByName('C15')
+        .dataValidation;
     timeValidation.allowType = ExcelDataValidationType.time;
     timeValidation.comparisonOperator =
         ExcelDataValidationComparisonOperator.between;

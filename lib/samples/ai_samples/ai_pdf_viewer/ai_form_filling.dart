@@ -70,17 +70,16 @@ class _SmartFillSampleState extends SampleViewState
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder:
-              (context) => WelcomeDialog(
-                primaryColor: model.primaryColor,
-                apiKey: model.assistApiKey,
-                onApiKeySaved: (newApiKey) {
-                  setState(() {
-                    model.assistApiKey = newApiKey;
-                  });
-                  _initAiServices(newApiKey);
-                },
-              ),
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+              _initAiServices(newApiKey);
+            },
+          ),
         );
         model.isFirstTime = false;
       }
@@ -279,7 +278,8 @@ class _SmartFillSampleState extends SampleViewState
         final String customValues = _getHintText();
         final String exportedFormData = _getXFDFString();
 
-        final String prompt = '''
+        final String prompt =
+            '''
           Merge the copied text content into the XFDF file content. Hint text: $customValues.
           Ensure the copied text content matches the appropriate field names.
           Here are the details:
@@ -431,16 +431,15 @@ class _SmartFillSampleState extends SampleViewState
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              style:
-                  _useMaterial3
-                      ? TextButton.styleFrom(
-                        fixedSize: const Size(double.infinity, 40),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                      )
-                      : null,
+              style: _useMaterial3
+                  ? TextButton.styleFrom(
+                      fixedSize: const Size(double.infinity, 40),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                    )
+                  : null,
               child: const Text('Close'),
             ),
           ],
@@ -477,9 +476,9 @@ class _SmartFillSampleState extends SampleViewState
     // Determine the width of the list panel based on device type and orientation.
     final listWidth =
         model.isMobile &&
-                MediaQuery.of(context).orientation == Orientation.landscape
-            ? MediaQuery.of(context).size.width / 3
-            : MediaQuery.of(context).size.width / 4;
+            MediaQuery.of(context).orientation == Orientation.landscape
+        ? MediaQuery.of(context).size.width / 3
+        : MediaQuery.of(context).size.width / 4;
 
     // Function to build the PDF viewer widget.
     Widget pdfViewer() {
@@ -513,13 +512,12 @@ class _SmartFillSampleState extends SampleViewState
                 onPressed: _saveDocumentHandler,
                 child: Icon(
                   Icons.save,
-                  color:
-                      _useMaterial3
-                          ? Theme.of(context).colorScheme.onSurfaceVariant
-                          : Theme.of(context).colorScheme.brightness ==
-                              Brightness.light
-                          ? Colors.black.withValues(alpha: 0.54)
-                          : Colors.white.withValues(alpha: 0.65),
+                  color: _useMaterial3
+                      ? Theme.of(context).colorScheme.onSurfaceVariant
+                      : Theme.of(context).colorScheme.brightness ==
+                            Brightness.light
+                      ? Colors.black.withValues(alpha: 0.54)
+                      : Colors.white.withValues(alpha: 0.65),
                 ),
               ),
             ),
@@ -541,10 +539,9 @@ class _SmartFillSampleState extends SampleViewState
         ),
         elevation: 4,
         child: Padding(
-          padding:
-              isMobile
-                  ? const EdgeInsets.all(16.0)
-                  : const EdgeInsets.all(12.0),
+          padding: isMobile
+              ? const EdgeInsets.all(16.0)
+              : const EdgeInsets.all(12.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -557,10 +554,9 @@ class _SmartFillSampleState extends SampleViewState
                 ),
               ),
               Padding(
-                padding:
-                    isMobile
-                        ? const EdgeInsets.only(left: 16.0)
-                        : const EdgeInsets.only(left: 12.0),
+                padding: isMobile
+                    ? const EdgeInsets.only(left: 16.0)
+                    : const EdgeInsets.only(left: 12.0),
                 child: Tooltip(
                   message: 'Copy',
                   child: GestureDetector(
@@ -607,178 +603,87 @@ class _SmartFillSampleState extends SampleViewState
     }
 
     return Scaffold(
-      appBar:
-          isMobile
-              ? AppBar(
-                automaticallyImplyLeading: false,
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: _addTooltip(
-                      _buildAIButton(),
-                      'Click to smart fill the form',
-                    ),
+      appBar: isMobile
+          ? AppBar(
+              automaticallyImplyLeading: false,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: _addTooltip(
+                    _buildAIButton(),
+                    'Click to smart fill the form',
                   ),
-                ],
-                elevation: 2.0,
-                bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(0),
-                  child: Container(height: 0.75, color: model.dividerColor),
                 ),
-              )
-              : null,
-      body:
-          isMobile
-              ? Column(
-                children: [
-                  Expanded(flex: 4, child: pdfViewer()),
-                  Visibility(
-                    visible: _isDocumentLoaded,
-                    child: Flexible(
-                      flex: _isExpanded ? 8 : 3,
-                      child: Column(
-                        children: [
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            onTap:
-                                () =>
-                                    setState(() => _isExpanded = !_isExpanded),
-                            child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  top: BorderSide(color: model.dividerColor),
-                                  bottom: BorderSide(color: model.dividerColor),
-                                ),
-                                color:
-                                    _useMaterial3
-                                        ? Theme.of(
-                                                  context,
-                                                ).colorScheme.brightness ==
-                                                Brightness.light
-                                            ? const Color.fromRGBO(
-                                              247,
-                                              242,
-                                              251,
-                                              1,
-                                            )
-                                            : const Color.fromRGBO(
-                                              37,
-                                              35,
-                                              42,
-                                              1,
-                                            )
-                                        : Theme.of(
-                                              context,
-                                            ).colorScheme.brightness ==
-                                            Brightness.light
-                                        ? const Color(0xFFFAFAFA)
-                                        : const Color(0xFF424242),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 8.0,
-                                      bottom: 4.0,
-                                    ),
-                                    child: Icon(
-                                      _isExpanded
-                                          ? Icons.keyboard_arrow_down
-                                          : Icons.keyboard_arrow_up,
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.onSurfaceVariant,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 4.0,
-                                      bottom: 8.0,
-                                    ),
-                                    child: Text(
-                                      'Sample Content to copy',
-                                      style: TextStyle(
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.onSurfaceVariant,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(child: listView()),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              )
-              : Row(
-                children: [
-                  Expanded(child: pdfViewer()),
-                  Container(
-                    // Display the list panel next to PDF viewer on larger screens.
-                    width: listWidth,
-                    height: MediaQuery.of(context).size.height,
-                    color:
-                        _useMaterial3
-                            ? Theme.of(context).colorScheme.brightness ==
-                                    Brightness.light
-                                ? const Color.fromRGBO(247, 242, 251, 1)
-                                : const Color.fromRGBO(37, 35, 42, 1)
-                            : Theme.of(context).colorScheme.brightness ==
-                                Brightness.light
-                            ? const Color(0xFFFAFAFA)
-                            : const Color(0xFF424242),
+              ],
+              elevation: 2.0,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(0),
+                child: Container(height: 0.75, color: model.dividerColor),
+              ),
+            )
+          : null,
+      body: isMobile
+          ? Column(
+              children: [
+                Expanded(flex: 4, child: pdfViewer()),
+                Visibility(
+                  visible: _isDocumentLoaded,
+                  child: Flexible(
+                    flex: _isExpanded ? 8 : 3,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: model.dividerColor,
-                                width: 0.75,
+                        InkWell(
+                          splashColor: Colors.transparent,
+                          onTap: () =>
+                              setState(() => _isExpanded = !_isExpanded),
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(color: model.dividerColor),
+                                bottom: BorderSide(color: model.dividerColor),
                               ),
+                              color: _useMaterial3
+                                  ? Theme.of(context).colorScheme.brightness ==
+                                            Brightness.light
+                                        ? const Color.fromRGBO(247, 242, 251, 1)
+                                        : const Color.fromRGBO(37, 35, 42, 1)
+                                  : Theme.of(context).colorScheme.brightness ==
+                                        Brightness.light
+                                  ? const Color(0xFFFAFAFA)
+                                  : const Color(0xFF424242),
                             ),
-                          ),
-                          height: 64.0,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                              vertical: 12.0,
-                            ),
-                            child: Row(
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Flexible(
-                                  child: Text(
-                                    'Sample Content to copy',
-                                    style: TextStyle(
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.onSurfaceVariant,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 8.0,
+                                    bottom: 4.0,
+                                  ),
+                                  child: Icon(
+                                    _isExpanded
+                                        ? Icons.keyboard_arrow_down
+                                        : Icons.keyboard_arrow_up,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 16.0),
-                                  child: _addTooltip(
-                                    _buildAIButton(),
-                                    'Click to smart fill the form',
+                                  padding: const EdgeInsets.only(
+                                    top: 4.0,
+                                    bottom: 8.0,
+                                  ),
+                                  child: Text(
+                                    'Sample Content to copy',
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurfaceVariant,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -789,32 +694,97 @@ class _SmartFillSampleState extends SampleViewState
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(child: pdfViewer()),
+                Container(
+                  // Display the list panel next to PDF viewer on larger screens.
+                  width: listWidth,
+                  height: MediaQuery.of(context).size.height,
+                  color: _useMaterial3
+                      ? Theme.of(context).colorScheme.brightness ==
+                                Brightness.light
+                            ? const Color.fromRGBO(247, 242, 251, 1)
+                            : const Color.fromRGBO(37, 35, 42, 1)
+                      : Theme.of(context).colorScheme.brightness ==
+                            Brightness.light
+                      ? const Color(0xFFFAFAFA)
+                      : const Color(0xFF424242),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: model.dividerColor,
+                              width: 0.75,
+                            ),
+                          ),
+                        ),
+                        height: 64.0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 12.0,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  'Sample Content to copy',
+                                  style: TextStyle(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16.0),
+                                child: _addTooltip(
+                                  _buildAIButton(),
+                                  'Click to smart fill the form',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(child: listView()),
+                    ],
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
   Widget _addTooltip(Widget child, String message) {
     return Tooltip(
-      decoration:
-          _useMaterial3
-              ? BoxDecoration(
-                color: Theme.of(context).colorScheme.inverseSurface,
-                borderRadius: BorderRadius.circular(4),
-              )
-              : null,
-      textStyle:
-          _useMaterial3
-              ? TextStyle(
-                color: Theme.of(context).colorScheme.onInverseSurface,
-                fontSize: 14,
-              )
-              : null,
-      padding:
-          _useMaterial3
-              ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
-              : null,
-      height: _useMaterial3 ? 48 : null,
+      decoration: _useMaterial3
+          ? BoxDecoration(
+              color: Theme.of(context).colorScheme.inverseSurface,
+              borderRadius: BorderRadius.circular(4),
+            )
+          : null,
+      textStyle: _useMaterial3
+          ? TextStyle(
+              color: Theme.of(context).colorScheme.onInverseSurface,
+              fontSize: 14,
+            )
+          : null,
+      constraints: _useMaterial3 ? const BoxConstraints(maxHeight: 48) : null,
+      padding: _useMaterial3
+          ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+          : null,
       message: _isButtonEnabled ? message : '',
       child: child,
     );
@@ -829,8 +799,9 @@ class _SmartFillSampleState extends SampleViewState
           child: FloatingActionButton(
             heroTag: 'Smart button',
             mini: true,
-            backgroundColor:
-                _isButtonEnabled ? model.primaryColor : Colors.transparent,
+            backgroundColor: _isButtonEnabled
+                ? model.primaryColor
+                : Colors.transparent,
             onPressed: _isButtonEnabled ? _smartFill : null,
             disabledElevation: 1,
             child: Image.asset(

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import '../../stock_analysis/notifier/stock_chart_notifier.dart';
+import '../../stock_analysis/notifier/theme_notifier.dart';
 import 'budget_notifier.dart';
 import 'drawer_notifier.dart';
+import 'goal_notifier.dart';
 import 'import_notifier.dart';
 import 'mobile_app_bar.dart';
 import 'restart_notifier.dart';
@@ -42,12 +45,19 @@ List<SingleChildWidget> buildProviders([BuildContext? context]) {
       create: (BuildContext context) => TransactionSelectedCountNotifier(),
     ),
     ChangeNotifierProvider(create: (BuildContext context) => BudgetNotifier()),
+    ChangeNotifierProvider(create: (BuildContext context) => GoalNotifier()),
     ChangeNotifierProvider(create: (BuildContext context) => DrawerNotifier()),
     ChangeNotifierProvider(
       create: (BuildContext context) => MobileAppBarUpdate(),
     ),
     ChangeNotifierProvider(
       create: (BuildContext context) => RestartAppNotifier(),
+    ),
+    ChangeNotifierProvider<StockThemeNotifier>(
+      create: (BuildContext context) => StockThemeNotifier(),
+    ),
+    ChangeNotifierProvider<StockChartProvider>(
+      create: (BuildContext context) => StockChartProvider(),
     ),
   ];
 }

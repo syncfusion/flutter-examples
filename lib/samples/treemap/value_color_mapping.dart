@@ -125,9 +125,9 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
           child: Padding(
             padding:
                 MediaQuery.of(context).orientation == Orientation.portrait ||
-                        isDesktop
-                    ? const EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5)
-                    : const EdgeInsets.all(10.0),
+                    isDesktop
+                ? const EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5)
+                : const EdgeInsets.all(10.0),
             child: Column(
               children: <Widget>[
                 Text(
@@ -151,22 +151,20 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
                         return _topOnlineMarketPlaces[index].visitorsInBillions;
                       },
                       tooltipSettings: TreemapTooltipSettings(
-                        color:
-                            _isLightTheme
-                                ? const Color.fromRGBO(45, 45, 45, 1)
-                                : const Color.fromRGBO(242, 242, 242, 1),
+                        color: _isLightTheme
+                            ? const Color.fromRGBO(45, 45, 45, 1)
+                            : const Color.fromRGBO(242, 242, 242, 1),
                       ),
                       levels: _getTreemapLevels(themeData),
                       colorMappers: _colorMappers,
                       legend: TreemapLegend.bar(
                         position: TreemapLegendPosition.bottom,
-                        segmentSize:
-                            isDesktop
-                                ? const Size(80.0, 12.0)
-                                : Size(
-                                  (size.width * 0.80) / _colorMappers.length,
-                                  12.0,
-                                ),
+                        segmentSize: isDesktop
+                            ? const Size(80.0, 12.0)
+                            : Size(
+                                (size.width * 0.80) / _colorMappers.length,
+                                12.0,
+                              ),
                       ),
                     ),
                   ),
@@ -201,8 +199,9 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
           final Brightness brightness = ThemeData.estimateBrightnessForColor(
             tile.color,
           );
-          final Color color =
-              brightness == Brightness.dark ? Colors.white : Colors.black;
+          final Color color = brightness == Brightness.dark
+              ? Colors.white
+              : Colors.black;
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: Text(
@@ -225,19 +224,17 @@ class _TreemapValueColorMappingSampleState extends SampleViewState {
                     'Country : ${_topOnlineMarketPlaces[tile.indices[0]].country}',
                 style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
-                  color:
-                      _isLightTheme
-                          ? const Color.fromRGBO(255, 255, 255, 1)
-                          : const Color.fromRGBO(10, 10, 10, 1),
+                  color: _isLightTheme
+                      ? const Color.fromRGBO(255, 255, 255, 1)
+                      : const Color.fromRGBO(10, 10, 10, 1),
                 ),
                 children: <TextSpan>[
                   TextSpan(
                     text: '\nVisitors : ${tile.weight}B',
                     style: themeData.textTheme.bodySmall!.copyWith(
-                      color:
-                          _isLightTheme
-                              ? const Color.fromRGBO(255, 255, 255, 1)
-                              : const Color.fromRGBO(10, 10, 10, 1),
+                      color: _isLightTheme
+                          ? const Color.fromRGBO(255, 255, 255, 1)
+                          : const Color.fromRGBO(10, 10, 10, 1),
                     ),
                   ),
                 ],

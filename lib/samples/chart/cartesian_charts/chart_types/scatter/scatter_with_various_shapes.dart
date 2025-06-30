@@ -146,8 +146,8 @@ class _ScatterShapesState extends SampleViewState {
       ScatterSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         name: 'China',
         markerSettings: const MarkerSettings(
           width: 15,
@@ -158,8 +158,8 @@ class _ScatterShapesState extends SampleViewState {
       ScatterSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
         name: 'Japan',
         markerSettings: const MarkerSettings(
           width: 15,

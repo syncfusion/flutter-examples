@@ -113,15 +113,14 @@ class _ImportAndExportFormDataState extends SampleViewState {
                       backgroundColor: WidgetStateProperty.all<Color>(
                         model.primaryColor,
                       ),
-                      padding:
-                          model.isMobile
-                              ? null
-                              : WidgetStateProperty.all(
-                                const EdgeInsets.symmetric(
-                                  vertical: 15,
-                                  horizontal: 15,
-                                ),
+                      padding: model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 15,
                               ),
+                            ),
                     ),
                     onPressed: _viewTemplate,
                     child: const Text(
@@ -135,15 +134,14 @@ class _ImportAndExportFormDataState extends SampleViewState {
                       backgroundColor: WidgetStateProperty.all<Color>(
                         model.primaryColor,
                       ),
-                      padding:
-                          model.isMobile
-                              ? null
-                              : WidgetStateProperty.all(
-                                const EdgeInsets.symmetric(
-                                  vertical: 15,
-                                  horizontal: 15,
-                                ),
+                      padding: model.isMobile
+                          ? null
+                          : WidgetStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 15,
                               ),
+                            ),
                     ),
                     onPressed: _processData,
                     child: Text(

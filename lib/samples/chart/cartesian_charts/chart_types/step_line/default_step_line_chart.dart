@@ -80,8 +80,8 @@ class _StepLineDefaultState extends SampleViewState {
       StepLineSeries<ChartSampleData, num>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         name: 'Non-Renewable',
       ),
     ];

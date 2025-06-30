@@ -80,12 +80,10 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
         enableTooltip: true,
         shouldAlwaysShowTooltip: _shouldAlwaysShowTooltip,
         //tooltipShape: SfPaddleTooltipShape(),
-        tooltipTextFormatterCallback: (
-          dynamic actualLabel,
-          String formattedText,
-        ) {
-          return DateFormat('h:mm a').format(actualLabel);
-        },
+        tooltipTextFormatterCallback:
+            (dynamic actualLabel, String formattedText) {
+              return DateFormat('h:mm a').format(actualLabel);
+            },
       ),
     );
   }
@@ -128,13 +126,14 @@ class _VerticalSliderTooltipPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget slider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget slider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 350
             ? slider
             : SingleChildScrollView(
-              child: SizedBox(height: 400, child: slider),
-            );
+                child: SizedBox(height: 400, child: slider),
+              );
       },
     );
   }

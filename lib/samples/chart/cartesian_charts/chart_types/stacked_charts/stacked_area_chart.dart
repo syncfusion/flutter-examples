@@ -190,15 +190,15 @@ class _StackedAreaChartState extends SampleViewState {
       StackedAreaSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.secondSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.secondSeriesYValue,
         name: 'Pears',
       ),
       StackedAreaSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData data, int index) => data.x,
-        yValueMapper:
-            (ChartSampleData data, int index) => data.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData data, int index) =>
+            data.thirdSeriesYValue,
         name: 'Others',
       ),
     ];

@@ -54,62 +54,55 @@ class _BarPointerState extends SampleViewState {
   Widget _buildBarPointer(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
-      child:
-          _isHorizontalOrientation
-              ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildHorizontalGauges(
-                    'Outside',
-                    _buildBarPointerOutsideAxis(),
-                  ),
-                  _buildHorizontalGauges('Cross', _buildBarPointerCrossAxis()),
-                  _buildHorizontalGauges(
-                    'Inside',
-                    _buildBarPointerInsideAxis(),
-                  ),
-                  _buildHorizontalGauges(
-                    'Gradient shader',
-                    _buildBarPointerWithShader(),
-                  ),
-                  _buildHorizontalGauges(
-                    'Multiple bar pointers',
-                    _buildMultipleBarPointers(context),
-                  ),
-                ],
-              )
-              : Column(
-                children: <Widget>[
-                  Wrap(
-                    runSpacing: 30,
-                    spacing: 16,
-                    alignment: WrapAlignment.center,
-                    children: <Widget>[
-                      _buildVerticalGauges(
-                        'Outside',
-                        _buildBarPointerOutsideAxis(),
-                      ),
-                      _buildVerticalGauges(
-                        'Cross',
-                        _buildBarPointerCrossAxis(),
-                      ),
-                      _buildVerticalGauges(
-                        'Inside',
-                        _buildBarPointerInsideAxis(),
-                      ),
-                      _buildVerticalGauges(
-                        'Gradient shader',
-                        _buildBarPointerWithShader(),
-                      ),
-                      _buildVerticalGauges(
-                        'Multiple bar pointers',
-                        _buildMultipleBarPointers(context),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      child: _isHorizontalOrientation
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildHorizontalGauges(
+                  'Outside',
+                  _buildBarPointerOutsideAxis(),
+                ),
+                _buildHorizontalGauges('Cross', _buildBarPointerCrossAxis()),
+                _buildHorizontalGauges('Inside', _buildBarPointerInsideAxis()),
+                _buildHorizontalGauges(
+                  'Gradient shader',
+                  _buildBarPointerWithShader(),
+                ),
+                _buildHorizontalGauges(
+                  'Multiple bar pointers',
+                  _buildMultipleBarPointers(context),
+                ),
+              ],
+            )
+          : Column(
+              children: <Widget>[
+                Wrap(
+                  runSpacing: 30,
+                  spacing: 16,
+                  alignment: WrapAlignment.center,
+                  children: <Widget>[
+                    _buildVerticalGauges(
+                      'Outside',
+                      _buildBarPointerOutsideAxis(),
+                    ),
+                    _buildVerticalGauges('Cross', _buildBarPointerCrossAxis()),
+                    _buildVerticalGauges(
+                      'Inside',
+                      _buildBarPointerInsideAxis(),
+                    ),
+                    _buildVerticalGauges(
+                      'Gradient shader',
+                      _buildBarPointerWithShader(),
+                    ),
+                    _buildVerticalGauges(
+                      'Multiple bar pointers',
+                      _buildMultipleBarPointers(context),
+                    ),
+                  ],
+                ),
+              ],
+            ),
     );
   }
 
@@ -146,10 +139,9 @@ class _BarPointerState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         barPointers: const <LinearBarPointer>[
           LinearBarPointer(value: 70, position: LinearElementPosition.outside),
         ],
@@ -163,10 +155,9 @@ class _BarPointerState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         barPointers: const <LinearBarPointer>[LinearBarPointer(value: 70)],
       ),
     );
@@ -178,10 +169,9 @@ class _BarPointerState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         barPointers: const <LinearBarPointer>[
           LinearBarPointer(value: 70, position: LinearElementPosition.inside),
         ],
@@ -195,10 +185,9 @@ class _BarPointerState extends SampleViewState {
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
         animateAxis: true,
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         barPointers: <LinearBarPointer>[
           LinearBarPointer(
             value: 70,
@@ -224,19 +213,17 @@ class _BarPointerState extends SampleViewState {
     return SizedBox(
       height: _isHorizontalOrientation ? 100 : 300,
       child: SfLinearGauge(
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         animateAxis: true,
         barPointers: <LinearBarPointer>[
           LinearBarPointer(
             value: 10,
             position: LinearElementPosition.inside,
-            color:
-                brightness == Brightness.light
-                    ? const Color(0xffF45656)
-                    : const Color(0xffFF7B7B),
+            color: brightness == Brightness.light
+                ? const Color(0xffF45656)
+                : const Color(0xffFF7B7B),
           ),
           const LinearBarPointer(
             value: 70,
@@ -273,10 +260,9 @@ class _BarPointerState extends SampleViewState {
             ),
           ),
         },
-        onValueChanged:
-            (bool value) => setState(() {
-              _isHorizontalOrientation = value;
-            }),
+        onValueChanged: (bool value) => setState(() {
+          _isHorizontalOrientation = value;
+        }),
         groupValue: _isHorizontalOrientation,
       ),
     );

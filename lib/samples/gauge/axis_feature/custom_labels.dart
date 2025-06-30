@@ -53,14 +53,13 @@ class _GaugeCustomLabelsState extends SampleViewState {
             NeedlePointer(
               value: 70,
               needleLength: 0.55,
-              needleEndWidth:
-                  model.isWebFullView
-                      ? 18
-                      : isCardView
-                      ? 10
-                      : orientation == Orientation.portrait
-                      ? 18
-                      : 10,
+              needleEndWidth: model.isWebFullView
+                  ? 18
+                  : isCardView
+                  ? 10
+                  : orientation == Orientation.portrait
+                  ? 18
+                  : 10,
               gradient: const LinearGradient(
                 colors: <Color>[
                   Color(0xFFFF6B78),
@@ -88,18 +87,16 @@ class _GaugeCustomLabelsState extends SampleViewState {
               ),
               value: 30,
               needleLength: 0.55,
-              needleColor:
-                  brightness == Brightness.dark
-                      ? const Color(0xFF888888)
-                      : const Color(0x0ffcacca),
-              needleEndWidth:
-                  model.isWebFullView
-                      ? 18
-                      : isCardView
-                      ? 10
-                      : orientation == Orientation.portrait
-                      ? 18
-                      : 10,
+              needleColor: brightness == Brightness.dark
+                  ? const Color(0xFF888888)
+                  : const Color(0x0ffcacca),
+              needleEndWidth: model.isWebFullView
+                  ? 18
+                  : isCardView
+                  ? 10
+                  : orientation == Orientation.portrait
+                  ? 18
+                  : 10,
               knobStyle: KnobStyle(
                 knobRadius: model.isWebFullView ? 0.098 : 0.09,
                 color: Colors.white,

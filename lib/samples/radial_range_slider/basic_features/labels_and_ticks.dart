@@ -33,8 +33,8 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
 
     final bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape
-            ? true
-            : false;
+        ? true
+        : false;
 
     return Center(
       child: SfRadialGauge(
@@ -110,31 +110,28 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                     alignment: AlignmentDirectional.center,
                     children: <Widget>[
                       AnimatedPositioned(
-                        right:
-                            (_isFirstPointer && !_isSecondPointer)
-                                ? isWebOrDesktop
-                                    ? 120
-                                    : 130
-                                : isWebOrDesktop
-                                ? 165
-                                : isLandscape
-                                ? 158
-                                : 165,
+                        right: (_isFirstPointer && !_isSecondPointer)
+                            ? isWebOrDesktop
+                                  ? 120
+                                  : 130
+                            : isWebOrDesktop
+                            ? 165
+                            : isLandscape
+                            ? 158
+                            : 165,
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.decelerate,
                         child: AnimatedOpacity(
                           opacity: _isFirstPointer ? 1.0 : 0.0,
-                          duration:
-                              (_isFirstPointer && _isSecondPointer)
-                                  ? const Duration(milliseconds: 800)
-                                  : const Duration(milliseconds: 200),
+                          duration: (_isFirstPointer && _isSecondPointer)
+                              ? const Duration(milliseconds: 800)
+                              : const Duration(milliseconds: 200),
                           child: CustomAnimatedBuilder(
-                            value:
-                                !_isSecondPointer
-                                    ? isLandscape
-                                        ? 1.5
-                                        : 2.0
-                                    : 1.0,
+                            value: !_isSecondPointer
+                                ? isLandscape
+                                      ? 1.5
+                                      : 2.0
+                                : 1.0,
                             curve: Curves.decelerate,
                             duration: const Duration(milliseconds: 300),
                             builder:
@@ -157,12 +154,12 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                         ),
                       ),
                       AnimatedOpacity(
-                        opacity:
-                            (_isSecondPointer && _isFirstPointer) ? 1.0 : 0.0,
-                        duration:
-                            (_isFirstPointer && _isSecondPointer)
-                                ? const Duration(milliseconds: 800)
-                                : const Duration(milliseconds: 200),
+                        opacity: (_isSecondPointer && _isFirstPointer)
+                            ? 1.0
+                            : 0.0,
+                        duration: (_isFirstPointer && _isSecondPointer)
+                            ? const Duration(milliseconds: 800)
+                            : const Duration(milliseconds: 200),
                         child: Text(
                           '-',
                           textAlign: TextAlign.center,
@@ -173,31 +170,28 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
                         ),
                       ),
                       AnimatedPositioned(
-                        left:
-                            (_isSecondPointer && !_isFirstPointer)
-                                ? isWebOrDesktop
-                                    ? 120
-                                    : 135
-                                : isWebOrDesktop
-                                ? 165
-                                : isLandscape
-                                ? 158
-                                : 165,
+                        left: (_isSecondPointer && !_isFirstPointer)
+                            ? isWebOrDesktop
+                                  ? 120
+                                  : 135
+                            : isWebOrDesktop
+                            ? 165
+                            : isLandscape
+                            ? 158
+                            : 165,
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.decelerate,
                         child: AnimatedOpacity(
                           opacity: _isSecondPointer ? 1.0 : 0.0,
-                          duration:
-                              (_isFirstPointer && _isSecondPointer)
-                                  ? const Duration(milliseconds: 800)
-                                  : const Duration(milliseconds: 200),
+                          duration: (_isFirstPointer && _isSecondPointer)
+                              ? const Duration(milliseconds: 800)
+                              : const Duration(milliseconds: 200),
                           child: CustomAnimatedBuilder(
-                            value:
-                                !_isFirstPointer
-                                    ? isLandscape
-                                        ? 1.5
-                                        : 2.0
-                                    : 1.0,
+                            value: !_isFirstPointer
+                                ? isLandscape
+                                      ? 1.5
+                                      : 2.0
+                                : 1.0,
                             curve: Curves.decelerate,
                             duration: const Duration(milliseconds: 300),
                             builder:
@@ -237,12 +231,11 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
     setState(() {
       _secondMarkerValue = markerValue;
       final int value = _secondMarkerValue.round();
-      _annotationValue2 =
-          value == 12
-              ? '$value PM'
-              : value == 0
-              ? ' 12 AM'
-              : '$value AM';
+      _annotationValue2 = value == 12
+          ? '$value PM'
+          : value == 0
+          ? ' 12 AM'
+          : '$value AM';
     });
   }
 
@@ -259,12 +252,11 @@ class _RadialRangeSliderLabelsTicksState extends SampleViewState {
     setState(() {
       _firstMarkerValue = markerValue;
       final int value = _firstMarkerValue.round();
-      _annotationValue1 =
-          value == 12
-              ? '$value PM'
-              : value == 0
-              ? ' 12 AM'
-              : '$value AM';
+      _annotationValue1 = value == 12
+          ? '$value PM'
+          : value == 0
+          ? ' 12 AM'
+          : '$value AM';
     });
   }
 
@@ -388,9 +380,8 @@ class _CustomAnimatedBuilderState extends State<CustomAnimatedBuilder>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _animationController,
-      builder:
-          (BuildContext context, Widget? child) =>
-              widget.builder(context, widget.child, _animationController),
+      builder: (BuildContext context, Widget? child) =>
+          widget.builder(context, widget.child, _animationController),
     );
   }
 }

@@ -64,23 +64,23 @@ class _BingMapState extends SampleViewState {
     /// key.
     return _hasBingMapKey
         ? FutureBuilder<String?>(
-          future: getBingUrlTemplate(_bingURL),
-          builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasData) {
-                final String urlTemplate = snapshot.data!;
-                return _buildBingMap(urlTemplate);
+            future: getBingUrlTemplate(_bingURL),
+            builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  final String urlTemplate = snapshot.data!;
+                  return _buildBingMap(urlTemplate);
+                } else {
+                  _hasBingMapKey = false;
+                  _showEmptyKeyError = false;
+                  _showKeyError = true;
+                  return _buildKeyValidationScreen();
+                }
               } else {
-                _hasBingMapKey = false;
-                _showEmptyKeyError = false;
-                _showKeyError = true;
-                return _buildKeyValidationScreen();
+                return const Center(child: CircularProgressIndicator());
               }
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        )
+            },
+          )
         : _buildKeyValidationScreen();
   }
 
@@ -113,10 +113,9 @@ class _BingMapState extends SampleViewState {
                   splashRadius: 20,
                   icon: const Icon(Icons.send),
                   onPressed: () => _handleKeyValidation(),
-                  color:
-                      (_showEmptyKeyError || _showKeyError)
-                          ? Colors.red
-                          : const Color.fromRGBO(153, 153, 153, 1),
+                  color: (_showEmptyKeyError || _showKeyError)
+                      ? Colors.red
+                      : const Color.fromRGBO(153, 153, 153, 1),
                 ),
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
@@ -235,8 +234,8 @@ class _BingMapState extends SampleViewState {
         if (_selectedMapViewIndex != index) {
           setState(() {
             _selectedMapViewIndex = index;
-            _zoomPanBehavior.zoomLevel =
-                _zoomPanBehavior.zoomLevel.floorToDouble();
+            _zoomPanBehavior.zoomLevel = _zoomPanBehavior.zoomLevel
+                .floorToDouble();
             _setBingMapView(_selectedMapViewIndex);
           });
         }

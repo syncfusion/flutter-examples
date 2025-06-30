@@ -15,15 +15,17 @@ final Map<String, String> dateFormats = {
 };
 
 String formatDate(DateTime date, {UserDetails? user}) {
-  final String formatOfDate =
-      user != null ? user.userProfile.dateFormat : defaultDateFormat;
+  final String formatOfDate = user != null
+      ? user.userProfile.dateFormat
+      : defaultDateFormat;
   return DateFormat(formatOfDate).format(date);
 }
 
 DateTime parseDateString(String dateString, {UserDetails? user}) {
   if (dateString.contains('/')) {
-    final String formatOfDate =
-        user != null ? user.userProfile.dateFormat : defaultDateFormat;
+    final String formatOfDate = user != null
+        ? user.userProfile.dateFormat
+        : defaultDateFormat;
     final DateFormat dateFormat = DateFormat(formatOfDate);
     return dateFormat.parse(dateString);
   }
@@ -31,10 +33,9 @@ DateTime parseDateString(String dateString, {UserDetails? user}) {
 }
 
 String extractDateTime(String dateTimeString, {UserDetails? userDetails}) {
-  final String formatOfDate =
-      userDetails != null
-          ? userDetails.userProfile.dateFormat
-          : defaultDateFormat;
+  final String formatOfDate = userDetails != null
+      ? userDetails.userProfile.dateFormat
+      : defaultDateFormat;
   final String defaultDateAndTimeFormat = '$formatOfDate : $defaultTimeFormat';
   final DateFormat inputFormat = DateFormat(defaultDateAndTimeFormat);
   final DateTime dateTime = inputFormat.parse(dateTimeString);

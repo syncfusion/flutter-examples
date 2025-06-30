@@ -224,15 +224,14 @@ class _PolylinesSampleState extends SampleViewState
 
   Widget _buildChipWidget(int index, String city) {
     return Padding(
-      padding:
-          _isDesktop
-              ? const EdgeInsets.only(left: 8.0, top: 8.0)
-              : const EdgeInsets.only(left: 8.0),
+      padding: _isDesktop
+          ? const EdgeInsets.only(left: 8.0, top: 8.0)
+          : const EdgeInsets.only(left: 8.0),
       child: ChoiceChip(
         backgroundColor:
             model.themeData.colorScheme.brightness == Brightness.light
-                ? Colors.white
-                : Colors.black,
+            ? Colors.white
+            : Colors.black,
         elevation: 3.0,
         shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
         showCheckmark: false,
@@ -240,8 +239,8 @@ class _PolylinesSampleState extends SampleViewState
         selected: _currentSelectedCityIndex == index,
         selectedColor:
             model.themeData.colorScheme.brightness == Brightness.light
-                ? model.primaryColor.withValues(alpha: 0.25)
-                : const Color.fromRGBO(61, 91, 89, 0.9),
+            ? model.primaryColor.withValues(alpha: 0.25)
+            : const Color.fromRGBO(61, 91, 89, 0.9),
         onSelected: (bool isSelected) {
           if (isSelected) {
             setState(() {

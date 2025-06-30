@@ -76,8 +76,9 @@ class _ExportingDataGridState extends SampleViewState {
                 details.columnName == 'Product No' ||
                 details.columnName == 'Shipped Date' ||
                 details.columnName == 'Price';
-            details.excelRange.cellStyle.hAlign =
-                isRightAlign ? HAlignType.right : HAlignType.left;
+            details.excelRange.cellStyle.hAlign = isRightAlign
+                ? HAlignType.right
+                : HAlignType.left;
           }
         },
       );
@@ -153,24 +154,22 @@ class _ExportingDataGridState extends SampleViewState {
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color:
-                  model.themeData.colorScheme.brightness == Brightness.light
-                      ? const Color.fromRGBO(0, 0, 0, 0.26)
-                      : const Color.fromRGBO(255, 255, 255, 0.26),
+              color: model.themeData.colorScheme.brightness == Brightness.light
+                  ? const Color.fromRGBO(0, 0, 0, 0.26)
+                  : const Color.fromRGBO(255, 255, 255, 0.26),
             ),
           ),
         ),
         child: SfDataGrid(
           key: _key,
           source: _dataGridSource,
-          columnWidthMode:
-              _isWebOrDesktop
-                  ? (_isWebOrDesktop && model.isMobileResolution)
-                      ? ColumnWidthMode.none
-                      : ColumnWidthMode.fill
-                  : _isLandscapeInMobileView
-                  ? ColumnWidthMode.fill
-                  : ColumnWidthMode.none,
+          columnWidthMode: _isWebOrDesktop
+              ? (_isWebOrDesktop && model.isMobileResolution)
+                    ? ColumnWidthMode.none
+                    : ColumnWidthMode.fill
+              : _isLandscapeInMobileView
+              ? ColumnWidthMode.fill
+              : ColumnWidthMode.none,
           columns: _obtainColumns(),
         ),
       ),

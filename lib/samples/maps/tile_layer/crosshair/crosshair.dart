@@ -34,8 +34,8 @@ class _MapCrosshairPageState extends SampleViewState {
 
   @override
   void initState() {
-    _tileLayerController =
-        _CrosshairTileLayerController()..addZoomLevelChangeListener(_refresh);
+    _tileLayerController = _CrosshairTileLayerController()
+      ..addZoomLevelChangeListener(_refresh);
     _textController = TextEditingController();
     _zoomPanBehavior = _CrosshairZoomPanBehavior(
       _tileLayerController,
@@ -144,10 +144,8 @@ class _MapCrosshairPageState extends SampleViewState {
                 size: 16,
                 color:
                     _zoomPanBehavior.maxZoomLevel == _zoomPanBehavior.zoomLevel
-                        ? model.themeData.colorScheme.primary.withValues(
-                          alpha: 0.2,
-                        )
-                        : model.themeData.colorScheme.primary,
+                    ? model.themeData.colorScheme.primary.withValues(alpha: 0.2)
+                    : model.themeData.colorScheme.primary,
               ),
             ),
           ),
@@ -166,10 +164,8 @@ class _MapCrosshairPageState extends SampleViewState {
                 size: 16,
                 color:
                     _zoomPanBehavior.minZoomLevel == _zoomPanBehavior.zoomLevel
-                        ? model.themeData.colorScheme.primary.withValues(
-                          alpha: 0.2,
-                        )
-                        : model.themeData.colorScheme.primary,
+                    ? model.themeData.colorScheme.primary.withValues(alpha: 0.2)
+                    : model.themeData.colorScheme.primary,
               ),
             ),
           ),

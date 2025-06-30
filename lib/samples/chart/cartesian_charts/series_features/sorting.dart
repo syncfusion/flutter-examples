@@ -88,16 +88,12 @@ class _SortingDefaultState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedType,
-            items:
-                _labelList!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'y',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _labelList!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'y',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               _onPositionTypeChange(value.toString());
               stateSetter(() {});
@@ -123,16 +119,12 @@ class _SortingDefaultState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedSortType,
-            items:
-                _sortList!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'none',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _sortList!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'none',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               _onSortingTypeChange(value.toString());
               stateSetter(() {});
@@ -182,9 +174,8 @@ class _SortingDefaultState extends SampleViewState {
         yValueMapper: (ChartSampleData data, int index) => data.y,
         sortingOrder: _sortingOrder,
         dataLabelSettings: const DataLabelSettings(isVisible: true),
-        sortFieldValueMapper:
-            (ChartSampleData sales, int index) =>
-                _sortBy == 'x' ? sales.x : sales.y,
+        sortFieldValueMapper: (ChartSampleData sales, int index) =>
+            _sortBy == 'x' ? sales.x : sales.y,
       ),
     ];
   }

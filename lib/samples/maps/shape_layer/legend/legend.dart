@@ -330,11 +330,11 @@ class _MapLegendPageState extends SampleViewState {
       'assets/africa.json',
       shapeDataField: 'name',
       dataCount: _internetPriceForBubbles.length,
-      primaryValueMapper:
-          (int index) => _internetPriceForBubbles[index].actualCountryName,
+      primaryValueMapper: (int index) =>
+          _internetPriceForBubbles[index].actualCountryName,
       bubbleSizeMapper: (int index) => _internetPriceForBubbles[index].price,
-      bubbleColorValueMapper:
-          (int index) => _internetPriceForBubbles[index].price,
+      bubbleColorValueMapper: (int index) =>
+          _internetPriceForBubbles[index].price,
       bubbleColorMappers: _bubbleColorMappers,
     );
 
@@ -342,10 +342,10 @@ class _MapLegendPageState extends SampleViewState {
       'assets/africa.json',
       shapeDataField: 'name',
       dataCount: _internetPriceForShapes.length,
-      primaryValueMapper:
-          (int index) => _internetPriceForShapes[index].actualCountryName,
-      shapeColorValueMapper:
-          (int index) => _internetPriceForShapes[index].price,
+      primaryValueMapper: (int index) =>
+          _internetPriceForShapes[index].actualCountryName,
+      shapeColorValueMapper: (int index) =>
+          _internetPriceForShapes[index].price,
       shapeColorMappers: _shapeColorMappers,
     );
 
@@ -402,38 +402,33 @@ class _MapLegendPageState extends SampleViewState {
     final bool isLightTheme =
         model.themeData.colorScheme.brightness == Brightness.light;
     return Padding(
-      padding:
-          scrollEnabled
-              ? EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.05,
-                right: 10,
-                left: 5,
-              )
-              : const EdgeInsets.only(left: 5, right: 10),
+      padding: scrollEnabled
+          ? EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.05,
+              right: 10,
+              left: 5,
+            )
+          : const EdgeInsets.only(left: 5, right: 10),
       child: SfMapsTheme(
         data: SfMapsThemeData(
-          shapeHoverColor:
-              _showBubbleData
-                  ? Colors.transparent
-                  : (isLightTheme
-                      ? const Color.fromRGBO(204, 204, 204, 0.8)
-                      : const Color.fromRGBO(77, 77, 77, 0.8)),
-          shapeHoverStrokeColor:
-              _showBubbleData
-                  ? Colors.transparent
-                  : (isLightTheme
-                      ? const Color.fromRGBO(158, 158, 158, 1)
-                      : const Color.fromRGBO(255, 255, 255, 1)),
-          bubbleHoverColor:
-              _showBubbleData
-                  ? (isLightTheme
-                      ? const Color.fromRGBO(204, 204, 204, 0.8)
-                      : const Color.fromRGBO(115, 115, 115, 0.8))
-                  : Colors.transparent,
-          bubbleHoverStrokeColor:
-              _showBubbleData
-                  ? const Color.fromRGBO(158, 158, 158, 1)
-                  : Colors.transparent,
+          shapeHoverColor: _showBubbleData
+              ? Colors.transparent
+              : (isLightTheme
+                    ? const Color.fromRGBO(204, 204, 204, 0.8)
+                    : const Color.fromRGBO(77, 77, 77, 0.8)),
+          shapeHoverStrokeColor: _showBubbleData
+              ? Colors.transparent
+              : (isLightTheme
+                    ? const Color.fromRGBO(158, 158, 158, 1)
+                    : const Color.fromRGBO(255, 255, 255, 1)),
+          bubbleHoverColor: _showBubbleData
+              ? (isLightTheme
+                    ? const Color.fromRGBO(204, 204, 204, 0.8)
+                    : const Color.fromRGBO(115, 115, 115, 0.8))
+              : Colors.transparent,
+          bubbleHoverStrokeColor: _showBubbleData
+              ? const Color.fromRGBO(158, 158, 158, 1)
+              : Colors.transparent,
           toggledItemColor: Colors.transparent,
           toggledItemStrokeColor: _showBubbleData ? Colors.transparent : null,
         ),
@@ -465,148 +460,126 @@ class _MapLegendPageState extends SampleViewState {
 
                     /// Changing the data based on whether data will be
                     /// visualized using the shape colors or bubbles.
-                    source:
-                        _showBubbleData ? _mapBubbleSource : _mapShapeSource,
+                    source: _showBubbleData
+                        ? _mapBubbleSource
+                        : _mapShapeSource,
                     // Returns the custom tooltip for each shape.
-                    shapeTooltipBuilder:
-                        _showBubbleData
-                            ? null
-                            : (BuildContext context, int index) {
-                              if (_internetPriceForShapes[index].price ==
-                                  null) {
-                                return const SizedBox();
-                              }
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Country : ' +
-                                      (_internetPriceForShapes[index]
-                                              .countryName ??
-                                          _internetPriceForShapes[index]
-                                              .actualCountryName) +
-                                      '\nPrice : \$' +
-                                      _internetPriceForShapes[index].price
-                                          .toString(),
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.bodySmall!.copyWith(
-                                    color:
-                                        isLightTheme
-                                            ? const Color.fromRGBO(
-                                              255,
-                                              255,
-                                              255,
-                                              1,
-                                            )
-                                            : const Color.fromRGBO(
-                                              10,
-                                              10,
-                                              10,
-                                              1,
-                                            ),
-                                  ),
-                                ),
-                              );
-                            },
-                    // Returns the custom tooltip for each bubble.
-                    bubbleTooltipBuilder:
-                        _showBubbleData
-                            ? (BuildContext context, int index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Country : ' +
-                                      (_internetPriceForBubbles[index]
-                                              .countryName ??
-                                          _internetPriceForBubbles[index]
-                                              .actualCountryName) +
-                                      '\nPrice : \$' +
-                                      _internetPriceForBubbles[index].price
-                                          .toString(),
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.bodySmall!.copyWith(
-                                    color:
-                                        isLightTheme
-                                            ? const Color.fromRGBO(
-                                              255,
-                                              255,
-                                              255,
-                                              1,
-                                            )
-                                            : const Color.fromRGBO(
-                                              10,
-                                              10,
-                                              10,
-                                              1,
-                                            ),
-                                  ),
-                                ),
-                              );
+                    shapeTooltipBuilder: _showBubbleData
+                        ? null
+                        : (BuildContext context, int index) {
+                            if (_internetPriceForShapes[index].price == null) {
+                              return const SizedBox();
                             }
-                            : null,
-                    color:
-                        _showBubbleData
-                            ? (isLightTheme
-                                ? const Color.fromRGBO(204, 204, 204, 1)
-                                : const Color.fromRGBO(103, 103, 103, 1))
-                            : null,
-                    strokeColor:
-                        _showBubbleData
-                            ? (isLightTheme
-                                ? const Color.fromRGBO(255, 255, 255, 1)
-                                : const Color.fromRGBO(49, 49, 49, 1))
-                            : const Color.fromRGBO(255, 255, 255, 1),
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Country : ' +
+                                    (_internetPriceForShapes[index]
+                                            .countryName ??
+                                        _internetPriceForShapes[index]
+                                            .actualCountryName) +
+                                    '\nPrice : \$' +
+                                    _internetPriceForShapes[index].price
+                                        .toString(),
+                                style: Theme.of(context).textTheme.bodySmall!
+                                    .copyWith(
+                                      color: isLightTheme
+                                          ? const Color.fromRGBO(
+                                              255,
+                                              255,
+                                              255,
+                                              1,
+                                            )
+                                          : const Color.fromRGBO(10, 10, 10, 1),
+                                    ),
+                              ),
+                            );
+                          },
+                    // Returns the custom tooltip for each bubble.
+                    bubbleTooltipBuilder: _showBubbleData
+                        ? (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Country : ' +
+                                    (_internetPriceForBubbles[index]
+                                            .countryName ??
+                                        _internetPriceForBubbles[index]
+                                            .actualCountryName) +
+                                    '\nPrice : \$' +
+                                    _internetPriceForBubbles[index].price
+                                        .toString(),
+                                style: Theme.of(context).textTheme.bodySmall!
+                                    .copyWith(
+                                      color: isLightTheme
+                                          ? const Color.fromRGBO(
+                                              255,
+                                              255,
+                                              255,
+                                              1,
+                                            )
+                                          : const Color.fromRGBO(10, 10, 10, 1),
+                                    ),
+                              ),
+                            );
+                          }
+                        : null,
+                    color: _showBubbleData
+                        ? (isLightTheme
+                              ? const Color.fromRGBO(204, 204, 204, 1)
+                              : const Color.fromRGBO(103, 103, 103, 1))
+                        : null,
+                    strokeColor: _showBubbleData
+                        ? (isLightTheme
+                              ? const Color.fromRGBO(255, 255, 255, 1)
+                              : const Color.fromRGBO(49, 49, 49, 1))
+                        : const Color.fromRGBO(255, 255, 255, 1),
                     bubbleSettings: const MapBubbleSettings(
                       minRadius: 13,
                       maxRadius: 20,
                       strokeColor: Colors.black,
                       strokeWidth: 0.5,
                     ),
-                    legend:
-                        _showBarLegend
-                            ? MapLegend.bar(
-                              /// You can show legend for the shapes or bubbles. By
-                              /// default, the legend will not be shown.
-                              _showBubbleData
-                                  ? MapElement.bubble
-                                  : MapElement.shape,
-                              labelsPlacement:
-                                  MapLegendLabelsPlacement.betweenItems,
-                              spacing: _enableGradient ? 10.0 : 1.0,
-                              segmentPaintingStyle:
-                                  _enableGradient
-                                      ? MapLegendPaintingStyle.gradient
-                                      : MapLegendPaintingStyle.solid,
-                              segmentSize:
-                                  _enableGradient
-                                      ? const Size(279.0, 9.0)
-                                      : const Size(55.0, 9.0),
-                              showPointerOnHover: true,
-                              padding: const EdgeInsets.only(bottom: 20),
-                            )
-                            : MapLegend(
-                              /// You can show legend for the shapes or bubbles. By
-                              /// default, the legend will not be shown.
-                              _showBubbleData
-                                  ? MapElement.bubble
-                                  : MapElement.shape,
-                              position: MapLegendPosition.left,
-                              offset: Offset(
-                                MediaQuery.of(context).size.width *
-                                    (model.isWebFullView && model.needToMaximize
-                                        ? 0.25
-                                        : 0.12),
-                                50,
-                              ),
-                              iconType: MapIconType.rectangle,
-                              enableToggleInteraction: _enableToggleInteraction,
+                    legend: _showBarLegend
+                        ? MapLegend.bar(
+                            /// You can show legend for the shapes or bubbles. By
+                            /// default, the legend will not be shown.
+                            _showBubbleData
+                                ? MapElement.bubble
+                                : MapElement.shape,
+                            labelsPlacement:
+                                MapLegendLabelsPlacement.betweenItems,
+                            spacing: _enableGradient ? 10.0 : 1.0,
+                            segmentPaintingStyle: _enableGradient
+                                ? MapLegendPaintingStyle.gradient
+                                : MapLegendPaintingStyle.solid,
+                            segmentSize: _enableGradient
+                                ? const Size(279.0, 9.0)
+                                : const Size(55.0, 9.0),
+                            showPointerOnHover: true,
+                            padding: const EdgeInsets.only(bottom: 20),
+                          )
+                        : MapLegend(
+                            /// You can show legend for the shapes or bubbles. By
+                            /// default, the legend will not be shown.
+                            _showBubbleData
+                                ? MapElement.bubble
+                                : MapElement.shape,
+                            position: MapLegendPosition.left,
+                            offset: Offset(
+                              MediaQuery.of(context).size.width *
+                                  (model.isWebFullView && model.needToMaximize
+                                      ? 0.25
+                                      : 0.12),
+                              50,
                             ),
+                            iconType: MapIconType.rectangle,
+                            enableToggleInteraction: _enableToggleInteraction,
+                          ),
                     tooltipSettings: MapTooltipSettings(
-                      color:
-                          isLightTheme
-                              ? const Color.fromRGBO(45, 45, 45, 1)
-                              : const Color.fromRGBO(242, 242, 242, 1),
+                      color: isLightTheme
+                          ? const Color.fromRGBO(45, 45, 45, 1)
+                          : const Color.fromRGBO(242, 242, 242, 1),
                     ),
                   ),
                 ],
@@ -650,16 +623,13 @@ class _MapLegendPageState extends SampleViewState {
                               'assets/africa.json',
                               shapeDataField: 'name',
                               dataCount: _internetPriceForBubbles.length,
-                              primaryValueMapper:
-                                  (int index) =>
-                                      _internetPriceForBubbles[index]
-                                          .actualCountryName,
-                              bubbleSizeMapper:
-                                  (int index) =>
-                                      _internetPriceForBubbles[index].price,
-                              bubbleColorValueMapper:
-                                  (int index) =>
-                                      _internetPriceForBubbles[index].price,
+                              primaryValueMapper: (int index) =>
+                                  _internetPriceForBubbles[index]
+                                      .actualCountryName,
+                              bubbleSizeMapper: (int index) =>
+                                  _internetPriceForBubbles[index].price,
+                              bubbleColorValueMapper: (int index) =>
+                                  _internetPriceForBubbles[index].price,
                               bubbleColorMappers: _bubbleBarLegendColorMappers,
                             );
 
@@ -667,13 +637,11 @@ class _MapLegendPageState extends SampleViewState {
                               'assets/africa.json',
                               shapeDataField: 'name',
                               dataCount: _internetPriceForShapes.length,
-                              primaryValueMapper:
-                                  (int index) =>
-                                      _internetPriceForShapes[index]
-                                          .actualCountryName,
-                              shapeColorValueMapper:
-                                  (int index) =>
-                                      _internetPriceForShapes[index].price,
+                              primaryValueMapper: (int index) =>
+                                  _internetPriceForShapes[index]
+                                      .actualCountryName,
+                              shapeColorValueMapper: (int index) =>
+                                  _internetPriceForShapes[index].price,
                               shapeColorMappers: _shapeBarLegendColorMappers,
                             );
                           } else {
@@ -682,16 +650,13 @@ class _MapLegendPageState extends SampleViewState {
                               'assets/africa.json',
                               shapeDataField: 'name',
                               dataCount: _internetPriceForBubbles.length,
-                              primaryValueMapper:
-                                  (int index) =>
-                                      _internetPriceForBubbles[index]
-                                          .actualCountryName,
-                              bubbleSizeMapper:
-                                  (int index) =>
-                                      _internetPriceForBubbles[index].price,
-                              bubbleColorValueMapper:
-                                  (int index) =>
-                                      _internetPriceForBubbles[index].price,
+                              primaryValueMapper: (int index) =>
+                                  _internetPriceForBubbles[index]
+                                      .actualCountryName,
+                              bubbleSizeMapper: (int index) =>
+                                  _internetPriceForBubbles[index].price,
+                              bubbleColorValueMapper: (int index) =>
+                                  _internetPriceForBubbles[index].price,
                               bubbleColorMappers: _bubbleColorMappers,
                             );
 
@@ -699,13 +664,11 @@ class _MapLegendPageState extends SampleViewState {
                               'assets/africa.json',
                               shapeDataField: 'name',
                               dataCount: _internetPriceForShapes.length,
-                              primaryValueMapper:
-                                  (int index) =>
-                                      _internetPriceForShapes[index]
-                                          .actualCountryName,
-                              shapeColorValueMapper:
-                                  (int index) =>
-                                      _internetPriceForShapes[index].price,
+                              primaryValueMapper: (int index) =>
+                                  _internetPriceForShapes[index]
+                                      .actualCountryName,
+                              shapeColorValueMapper: (int index) =>
+                                  _internetPriceForShapes[index].price,
                               shapeColorMappers: _shapeColorMappers,
                             );
                           }
@@ -751,10 +714,9 @@ class _MapLegendPageState extends SampleViewState {
                           : 'Enable toggle interaction',
                       softWrap: false,
                       style: TextStyle(
-                        color:
-                            _showBarLegend
-                                ? model.textColor.withValues(alpha: 0.5)
-                                : model.textColor,
+                        color: _showBarLegend
+                            ? model.textColor.withValues(alpha: 0.5)
+                            : model.textColor,
                         fontSize: 16,
                       ),
                     ),
@@ -764,15 +726,14 @@ class _MapLegendPageState extends SampleViewState {
                     child: CheckboxListTile(
                       activeColor: model.primaryColor,
                       value: _enableToggleInteraction,
-                      onChanged:
-                          !_showBarLegend
-                              ? (bool? value) {
-                                setState(() {
-                                  _enableToggleInteraction = value!;
-                                  stateSetter(() {});
-                                });
-                              }
-                              : null,
+                      onChanged: !_showBarLegend
+                          ? (bool? value) {
+                              setState(() {
+                                _enableToggleInteraction = value!;
+                                stateSetter(() {});
+                              });
+                            }
+                          : null,
                     ),
                   ),
                 ],
@@ -784,10 +745,9 @@ class _MapLegendPageState extends SampleViewState {
                       'Enable gradient',
                       softWrap: false,
                       style: TextStyle(
-                        color:
-                            _showBarLegend
-                                ? model.textColor
-                                : model.textColor.withValues(alpha: 0.5),
+                        color: _showBarLegend
+                            ? model.textColor
+                            : model.textColor.withValues(alpha: 0.5),
                         fontSize: 16,
                       ),
                     ),
@@ -797,15 +757,14 @@ class _MapLegendPageState extends SampleViewState {
                     child: CheckboxListTile(
                       activeColor: model.primaryColor,
                       value: _enableGradient,
-                      onChanged:
-                          _showBarLegend
-                              ? (bool? value) {
-                                setState(() {
-                                  _enableGradient = value!;
-                                  stateSetter(() {});
-                                });
-                              }
-                              : null,
+                      onChanged: _showBarLegend
+                          ? (bool? value) {
+                              setState(() {
+                                _enableGradient = value!;
+                                stateSetter(() {});
+                              });
+                            }
+                          : null,
                     ),
                   ),
                 ],

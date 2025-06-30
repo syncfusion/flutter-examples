@@ -30,10 +30,12 @@ class _PullToRefreshDataGridState extends SampleViewState {
     return <GridColumn>[
       GridColumn(
         columnName: 'id',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
@@ -42,14 +44,14 @@ class _PullToRefreshDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'customerId',
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !_isWebOrDesktop
-                ? 120
-                : (_isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !_isWebOrDesktop
+            ? 120
+            : (_isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerRight,
@@ -58,8 +60,9 @@ class _PullToRefreshDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'name',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
@@ -68,8 +71,9 @@ class _PullToRefreshDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'freight',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 110.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 110.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.center,
@@ -78,10 +82,12 @@ class _PullToRefreshDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'city',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
-        columnWidthMode:
-            !_isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
+        columnWidthMode: !_isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
         label: Container(
           padding: const EdgeInsets.all(8),
           alignment: Alignment.centerLeft,
@@ -90,8 +96,9 @@ class _PullToRefreshDataGridState extends SampleViewState {
       ),
       GridColumn(
         columnName: 'price',
-        width:
-            (_isWebOrDesktop && model.isMobileResolution) ? 120.0 : double.nan,
+        width: (_isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
+            : double.nan,
         columnWidthMode: ColumnWidthMode.lastColumnFill,
         label: Container(
           padding: const EdgeInsets.all(8),

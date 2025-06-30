@@ -306,8 +306,8 @@ class _MapRangeColorMappingPageState extends SampleViewState {
       // the mapping between the data source and the shapes
       // in the .json file is done.
       dataCount: _worldPopulationDensity.length,
-      primaryValueMapper:
-          (int index) => _worldPopulationDensity[index].countryName,
+      primaryValueMapper: (int index) =>
+          _worldPopulationDensity[index].countryName,
       // Used for color mapping.
       //
       // The value of the [MapColorMapper.from]
@@ -315,8 +315,8 @@ class _MapRangeColorMappingPageState extends SampleViewState {
       // will be compared with the value returned in the
       // [shapeColorValueMapper] and the respective
       // [MapColorMapper.color] will be applied to the shape.
-      shapeColorValueMapper:
-          (int index) => _worldPopulationDensity[index].density,
+      shapeColorValueMapper: (int index) =>
+          _worldPopulationDensity[index].density,
       // Group and differentiate the shapes using the color
       // based on [MapColorMapper.from] and
       //[MapColorMapper.to] value.
@@ -399,14 +399,13 @@ class _MapRangeColorMappingPageState extends SampleViewState {
   Widget _buildMapsWidget(bool scrollEnabled) {
     return Center(
       child: Padding(
-        padding:
-            scrollEnabled
-                ? EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.05,
-                  right: 10,
-                )
-                : const EdgeInsets.only(right: 10, bottom: 15),
+        padding: scrollEnabled
+            ? EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
+                bottom: MediaQuery.of(context).size.height * 0.05,
+                right: 10,
+              )
+            : const EdgeInsets.only(right: 10, bottom: 15),
         child: SfMapsTheme(
           data: const SfMapsThemeData(
             shapeHoverColor: Color.fromRGBO(176, 237, 131, 1),
@@ -445,11 +444,10 @@ class _MapRangeColorMappingPageState extends SampleViewState {
                                   _worldPopulationDensity[index].density,
                                 ) +
                                 ' per sq. km.',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall!.copyWith(
-                              color: Theme.of(context).colorScheme.surface,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall!
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
                           ),
                         );
                       },
@@ -466,14 +464,14 @@ class _MapRangeColorMappingPageState extends SampleViewState {
                       tooltipSettings: MapTooltipSettings(
                         color:
                             model.themeData.colorScheme.brightness ==
-                                    Brightness.light
-                                ? const Color.fromRGBO(0, 32, 128, 1)
-                                : const Color.fromRGBO(226, 233, 255, 1),
+                                Brightness.light
+                            ? const Color.fromRGBO(0, 32, 128, 1)
+                            : const Color.fromRGBO(226, 233, 255, 1),
                         strokeColor:
                             model.themeData.colorScheme.brightness ==
-                                    Brightness.light
-                                ? Colors.white
-                                : Colors.black,
+                                Brightness.light
+                            ? Colors.white
+                            : Colors.black,
                       ),
                     ),
                   ],

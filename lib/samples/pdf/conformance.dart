@@ -65,15 +65,14 @@ class _ConformancePdfState extends SampleViewState {
                     backgroundColor: WidgetStateProperty.all<Color>(
                       model.primaryColor,
                     ),
-                    padding:
-                        model.isMobile
-                            ? null
-                            : WidgetStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                vertical: 15,
-                                horizontal: 15,
-                              ),
+                    padding: model.isMobile
+                        ? null
+                        : WidgetStateProperty.all(
+                            const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 15,
                             ),
+                          ),
                   ),
                   onPressed: _conformance,
                   child: const Text(
@@ -279,11 +278,10 @@ class _ConformancePdfState extends SampleViewState {
       }
     };
     //Draw the PDF grid and get the result.
-    result =
-        grid.draw(
-          page: page,
-          bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0),
-        )!;
+    result = grid.draw(
+      page: page,
+      bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0),
+    )!;
     //Draw grand total.
     page.graphics.drawString(
       'Grand Total',

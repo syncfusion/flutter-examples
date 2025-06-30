@@ -60,10 +60,9 @@ class _TMAIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _period,
-            onChanged:
-                (double val) => setState(() {
-                  _period = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _period = val;
+            }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),

@@ -83,60 +83,56 @@ class _WidgetPointerExampleState extends SampleViewState {
                 decoration: BoxDecoration(
                   color:
                       model.themeData.colorScheme.brightness == Brightness.light
-                          ? Colors.white
-                          : const Color.fromRGBO(33, 33, 33, 1),
+                      ? Colors.white
+                      : const Color.fromRGBO(33, 33, 33, 1),
                   borderRadius: BorderRadius.circular(40),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                       color:
                           model.themeData.colorScheme.brightness ==
-                                  Brightness.light
-                              ? Colors.grey
-                              : Colors.white.withValues(alpha: 0.2),
+                              Brightness.light
+                          ? Colors.grey
+                          : Colors.white.withValues(alpha: 0.2),
                       blurRadius: 4.0,
                     ),
                   ],
                   border: Border.all(
                     color:
                         model.themeData.colorScheme.brightness ==
-                                Brightness.light
-                            ? Colors.black.withValues(alpha: 0.1)
-                            : Colors.white.withValues(alpha: 0.1),
+                            Brightness.light
+                        ? Colors.black.withValues(alpha: 0.1)
+                        : Colors.white.withValues(alpha: 0.1),
                   ),
                 ),
-                height:
-                    isCardView
-                        ? 37
-                        : MediaQuery.of(context).orientation ==
-                            Orientation.landscape
-                        ? 45
-                        : 50,
-                width:
-                    isCardView
-                        ? 35
-                        : MediaQuery.of(context).orientation ==
-                            Orientation.landscape
-                        ? 45
-                        : 50,
+                height: isCardView
+                    ? 37
+                    : MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                    ? 45
+                    : 50,
+                width: isCardView
+                    ? 35
+                    : MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                    ? 45
+                    : 50,
                 child: Center(
                   child: Row(
                     children: <Widget>[
                       const Padding(padding: EdgeInsets.fromLTRB(5, 0, 0, 0)),
                       Container(
-                        width:
-                            isCardView
-                                ? 14.00
-                                : MediaQuery.of(context).orientation ==
-                                    Orientation.landscape
-                                ? 20
-                                : 20,
-                        height:
-                            isCardView
-                                ? 19.00
-                                : MediaQuery.of(context).orientation ==
-                                    Orientation.landscape
-                                ? 30
-                                : 30,
+                        width: isCardView
+                            ? 14.00
+                            : MediaQuery.of(context).orientation ==
+                                  Orientation.landscape
+                            ? 20
+                            : 20,
+                        height: isCardView
+                            ? 19.00
+                            : MediaQuery.of(context).orientation ==
+                                  Orientation.landscape
+                            ? 30
+                            : 30,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: ExactAssetImage(

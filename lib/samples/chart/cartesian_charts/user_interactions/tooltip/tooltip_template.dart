@@ -28,40 +28,41 @@ class _TooltipTemplateState extends SampleViewState {
     _tooltipBehavior = TooltipBehavior(
       enable: true,
       color: Colors.grey[400],
-      builder: (
-        dynamic data,
-        dynamic point,
-        dynamic series,
-        int pointIndex,
-        int seriesIndex,
-      ) {
-        return Container(
-          alignment: Alignment.center,
-          height: 40,
-          width: 70,
-          decoration: BoxDecoration(
-            color: Colors.grey[400],
-            borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  height: 30,
-                  width: 35,
-                  child: Image.asset(_buildImageTemplate(pointIndex)),
+      builder:
+          (
+            dynamic data,
+            dynamic point,
+            dynamic series,
+            int pointIndex,
+            int seriesIndex,
+          ) {
+            return Container(
+              alignment: Alignment.center,
+              height: 40,
+              width: 70,
+              decoration: BoxDecoration(
+                color: Colors.grey[400],
+                borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 30,
+                      width: 35,
+                      child: Image.asset(_buildImageTemplate(pointIndex)),
+                    ),
+                    Text(
+                      data.y.toString() + '%',
+                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                      textScaler: TextScaler.noScaling,
+                    ),
+                  ],
                 ),
-                Text(
-                  data.y.toString() + '%',
-                  style: const TextStyle(fontSize: 12, color: Colors.black),
-                  textScaler: TextScaler.noScaling,
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+              ),
+            );
+          },
     );
     _chartData = _buildChartData();
     _gradient = const LinearGradient(
@@ -112,10 +113,9 @@ class _TooltipTemplateState extends SampleViewState {
   SfCartesianChart _buildTooltipTemplateChart() {
     return SfCartesianChart(
       title: ChartTitle(
-        text:
-            isCardView
-                ? ''
-                : 'Percentage of people using social media on a daily basis',
+        text: isCardView
+            ? ''
+            : 'Percentage of people using social media on a daily basis',
       ),
       plotAreaBorderWidth: 0,
       primaryXAxis: const CategoryAxis(
@@ -169,16 +169,15 @@ class _TooltipTemplateState extends SampleViewState {
   }
 
   String _buildImageTemplate(int pointIndex) {
-    final String path =
-        pointIndex == 0
-            ? 'images/youtube.png'
-            : (pointIndex == 1
-                ? 'images/maps_twitter.png'
-                : (pointIndex == 2
+    final String path = pointIndex == 0
+        ? 'images/youtube.png'
+        : (pointIndex == 1
+              ? 'images/maps_twitter.png'
+              : (pointIndex == 2
                     ? 'images/maps_instagram.png'
                     : (pointIndex == 3
-                        ? 'images/maps_snapchat.png'
-                        : 'images/maps_facebook.png')));
+                          ? 'images/maps_snapchat.png'
+                          : 'images/maps_facebook.png')));
     return path;
   }
 

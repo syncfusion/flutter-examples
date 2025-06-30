@@ -33,10 +33,9 @@ class _SegmentedFilterButtonsState extends State<SegmentedFilterButtons> {
       visualDensity: const VisualDensity(vertical: -0.5),
       padding: _segmentedEdgeInsets(context),
       side: BorderSide(width: 0.0, color: colorScheme.primary),
-      textStyle:
-          isMobile(context)
-              ? Theme.of(context).textTheme.titleSmall
-              : Theme.of(context).textTheme.titleMedium,
+      textStyle: isMobile(context)
+          ? Theme.of(context).textTheme.titleSmall
+          : Theme.of(context).textTheme.titleMedium,
       backgroundColor: colorScheme.surface,
       selectedBackgroundColor: colorScheme.primary,
       selectedForegroundColor: colorScheme.onPrimary,
@@ -89,10 +88,9 @@ class _SegmentedFilterButtonsState extends State<SegmentedFilterButtons> {
             child: Icon(
               widget.icons![index],
               size: 20,
-              color:
-                  isSelected
-                      ? colorScheme.onPrimary
-                      : colorScheme.onSurfaceVariant,
+              color: isSelected
+                  ? colorScheme.onPrimary
+                  : colorScheme.onSurfaceVariant,
             ),
           ),
         );

@@ -8,15 +8,17 @@ import '../../constants.dart';
 import '../../custom_widgets/custom_drop_down_menu.dart';
 import '../../custom_widgets/single_selection_date_picker.dart';
 import '../../custom_widgets/text_field.dart';
-import '../../data_processing/utils.dart';
+// import '../../data_processing/utils.dart';
 import '../../enum.dart';
-import '../../helper/common_helper.dart';
+// import '../../helper/common_helper.dart';
+// import '../../helper/common_helper.dart';
 import '../../helper/currency_and_data_format/currency_format.dart';
 import '../../helper/currency_and_data_format/date_format.dart';
 import '../../helper/responsive_layout.dart';
 import '../../models/user.dart';
 import '../../models/user_profile.dart';
 import '../../notifiers/drawer_notifier.dart';
+import '../../notifiers/import_notifier.dart';
 import '../../notifiers/setup_notifier.dart';
 import '../../notifiers/welcome_screen_notifier.dart';
 
@@ -41,7 +43,6 @@ class SetupProfilePageState extends State<SetupProfilePage> {
   late final TextEditingController _datePickerController;
   late final ValueNotifier<String?> _firstNameErrorMessage;
   late final ValueNotifier<String?> _lastNameErrorMessage;
-  late final ValueNotifier<String?> _datePickerErrorMessage;
   late final TextEditingController _genderController;
   late final TextEditingController _currencyController;
   late final FocusNode _firstNameFocusNode;
@@ -51,7 +52,8 @@ class SetupProfilePageState extends State<SetupProfilePage> {
   late final FocusNode _currencyFocusNode;
   late SetupNotifier _setupNotifier;
   late WelcomeScreenNotifier _pageNotifier;
-  DateTime _selectedDate = DateTime.now();
+  late ImportNotifier _importNotifier;
+  DateTime? _selectedDate;
 
   /// Initializes all controllers, notifiers, and focus nodes.
   void _initializeFields() {
@@ -63,7 +65,6 @@ class SetupProfilePageState extends State<SetupProfilePage> {
     _currencyController = TextEditingController();
     _firstNameErrorMessage = ValueNotifier<String?>(null);
     _lastNameErrorMessage = ValueNotifier<String?>(null);
-    _datePickerErrorMessage = ValueNotifier<String?>(null);
     _selectedCurrencyNotifier = ValueNotifier<String>(
       _userDetails.userProfile.currency,
     );
@@ -82,7 +83,6 @@ class SetupProfilePageState extends State<SetupProfilePage> {
     _currencyController.dispose();
     _firstNameErrorMessage.dispose();
     _lastNameErrorMessage.dispose();
-    _datePickerErrorMessage.dispose();
     _selectedCurrencyNotifier.dispose();
     _firstNameFocusNode.dispose();
     _lastNameFocusNode.dispose();
@@ -107,19 +107,12 @@ class SetupProfilePageState extends State<SetupProfilePage> {
       context,
       'Last name cannot be empty',
     );
-    _validateField(
-      _datePickerController,
-      _datePickerErrorMessage,
-      context,
-      'Date of birth is required',
-    );
   }
 
   /// Checks if all fields are valid.
   bool _areFieldsValid() {
     return _firstNameErrorMessage.value == null &&
         _lastNameErrorMessage.value == null &&
-        _datePickerErrorMessage.value == null &&
         _selectedCurrencyNotifier.value.isNotEmpty;
   }
 
@@ -139,25 +132,19 @@ class SetupProfilePageState extends State<SetupProfilePage> {
 
   /// Builds mobile layout for signup form.
   Widget _buildMobileLayout(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 40),
-        child: SingleChildScrollView(
-          child: SizedBox(width: 300.0, child: _buildSignUpForm(context)),
-        ),
-      ),
-    );
+    return SafeArea(child: _buildDesktopLayout(context));
   }
 
   /// Builds desktop layout for signup form.
   Widget _buildDesktopLayout(BuildContext context) {
     return Row(
       children: <Widget>[
-        SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width / 2,
-          child: Image.asset(screenCoverAssetPath, fit: BoxFit.fill),
-        ),
+        if (!isMobile(context))
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width / 2,
+            child: Image.asset(screenCoverAssetPath, fit: BoxFit.fill),
+          ),
         Expanded(
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -167,7 +154,7 @@ class SetupProfilePageState extends State<SetupProfilePage> {
               children: [
                 Positioned(
                   top: 16.0,
-                  left: 16.0, // Changed from right to left
+                  left: 16.0,
                   child: TextButton(
                     style: TextButton.styleFrom(
                       foregroundColor: Theme.of(context).colorScheme.surface,
@@ -183,10 +170,11 @@ class SetupProfilePageState extends State<SetupProfilePage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          Icons.arrow_back, // Changed from home to back icon
+                          Icons.arrow_back,
                           size: 20,
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
                         ),
                         const SizedBox(width: 8),
                         Padding(
@@ -195,10 +183,9 @@ class SetupProfilePageState extends State<SetupProfilePage> {
                             'Go to Sample Browser', // Updated text
                             style: TextStyle(
                               fontSize: 16,
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimaryContainer,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onPrimaryContainer,
                             ),
                           ),
                         ),
@@ -244,40 +231,7 @@ class SetupProfilePageState extends State<SetupProfilePage> {
         verticalSpacer16,
         _buildCurrencyDropdown(currencies, selectedCurrency),
         verticalSpacer16,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (isMobile(context))
-              TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Theme.of(context).colorScheme.surface,
-                ),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop(context);
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.arrow_back, // Changed from home to back icon
-                      size: 20,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Go To Sample Browser', // Updated text
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            const SizedBox(width: 1),
-            _buildSetUpButton(context),
-          ],
-        ),
+        _buildSetUpButton(context),
       ],
     );
   }
@@ -309,19 +263,19 @@ class SetupProfilePageState extends State<SetupProfilePage> {
   Widget _buildNameFields(BuildContext context) {
     return MediaQuery.of(context).size.width < 600.0
         ? Column(
-          children: <Widget>[
-            _buildFirstNameField(),
-            verticalSpacer16,
-            _buildLastNameField(),
-          ],
-        )
+            children: <Widget>[
+              _buildFirstNameField(),
+              verticalSpacer16,
+              _buildLastNameField(),
+            ],
+          )
         : Row(
-          children: <Widget>[
-            Expanded(child: _buildFirstNameField()),
-            horizontalSpacer16,
-            Flexible(child: _buildLastNameField()),
-          ],
-        );
+            children: <Widget>[
+              Expanded(child: _buildFirstNameField()),
+              horizontalSpacer16,
+              Flexible(child: _buildLastNameField()),
+            ],
+          );
   }
 
   /// Builds first name text field.
@@ -329,23 +283,25 @@ class SetupProfilePageState extends State<SetupProfilePage> {
     return ChangeNotifierProvider.value(
       value: _firstNameErrorMessage,
       child: Consumer<ValueNotifier<String?>>(
-        builder: (
-          BuildContext context,
-          ValueNotifier<String?> notifier,
-          Widget? child,
-        ) {
-          return CustomTextField(
-            controller: _firstNameController,
-            focusNode: _firstNameFocusNode,
-            hintText: 'First Name',
-            errorMessage: notifier.value,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.singleLineFormatter,
-              FilteringTextInputFormatter.allow(RegExp('[a-z A-z]')),
-            ],
-            onChanged: (String value) => _setupNotifier.validateNextButton(),
-          );
-        },
+        builder:
+            (
+              BuildContext context,
+              ValueNotifier<String?> notifier,
+              Widget? child,
+            ) {
+              return CustomTextField(
+                controller: _firstNameController,
+                focusNode: _firstNameFocusNode,
+                hintText: 'First Name',
+                errorMessage: notifier.value,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.singleLineFormatter,
+                  FilteringTextInputFormatter.allow(RegExp('[a-z A-z]')),
+                ],
+                onChanged: (String value) =>
+                    _setupNotifier.validateNextButton(),
+              );
+            },
       ),
     );
   }
@@ -355,51 +311,42 @@ class SetupProfilePageState extends State<SetupProfilePage> {
     return ChangeNotifierProvider.value(
       value: _lastNameErrorMessage,
       child: Consumer<ValueNotifier<String?>>(
-        builder: (
-          BuildContext context,
-          ValueNotifier<String?> notifier,
-          Widget? child,
-        ) {
-          return CustomTextField(
-            controller: _lastNameController,
-            focusNode: _lastNameFocusNode,
-            hintText: 'Last Name',
-            errorMessage: notifier.value,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.singleLineFormatter,
-              FilteringTextInputFormatter.allow(RegExp('[a-z A-z]')),
-            ],
-            onChanged: (String value) => _setupNotifier.validateNextButton(),
-          );
-        },
+        builder:
+            (
+              BuildContext context,
+              ValueNotifier<String?> notifier,
+              Widget? child,
+            ) {
+              return CustomTextField(
+                controller: _lastNameController,
+                focusNode: _lastNameFocusNode,
+                hintText: 'Last Name',
+                errorMessage: notifier.value,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.singleLineFormatter,
+                  FilteringTextInputFormatter.allow(RegExp('[a-z A-z]')),
+                ],
+                onChanged: (String value) =>
+                    _setupNotifier.validateNextButton(),
+              );
+            },
       ),
     );
   }
 
   /// Builds date of birth text field.
   Widget _buildDOBField(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: _datePickerErrorMessage,
-      child: Consumer<ValueNotifier<String?>>(
-        builder: (
-          BuildContext context,
-          ValueNotifier<String?> notifier,
-          Widget? child,
-        ) {
-          return CustomTextField(
-            controller: _datePickerController,
-            focusNode: _datePickerFocusNode,
-            hintText: 'Date Of Birth',
-            errorMessage: notifier.value,
-            suffixIcon: _buildDOBIcon(context),
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.singleLineFormatter,
-              FilteringTextInputFormatter.allow(RegExp('[0-9/]')),
-            ],
-            onChanged: _onChanged,
-          );
-        },
-      ),
+    return CustomTextField(
+      controller: _datePickerController,
+      focusNode: _datePickerFocusNode,
+      isRequired: false,
+      hintText: 'Date Of Birth',
+      suffixIcon: _buildDOBIcon(context),
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.singleLineFormatter,
+        FilteringTextInputFormatter.allow(RegExp('[0-9/]')),
+      ],
+      onChanged: _onChanged,
     );
   }
 
@@ -441,6 +388,7 @@ class SetupProfilePageState extends State<SetupProfilePage> {
       items: const <String>['Male', 'Female', 'Others'],
       controller: _genderController,
       focusNode: _genderFocusNode,
+      isRequired: false,
       hintText: 'Gender',
       initialValue: _selectedGender,
       onSelected: _genderOnSelected,
@@ -472,7 +420,7 @@ class SetupProfilePageState extends State<SetupProfilePage> {
       focusNode: _currencyFocusNode,
       hintText: 'Currency',
       onSelected: _currencyOnSelected,
-      selectedValue: currencySelectedValue,
+      selectedValue: currencies[0],
     );
   }
 
@@ -490,38 +438,73 @@ class SetupProfilePageState extends State<SetupProfilePage> {
     }
   }
 
-  /// Builds the setup button with functionality.
   Widget _buildSetUpButton(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildSkipButton(context),
+        const SizedBox(width: 1),
+        _buildNextButton(context),
+      ],
+    );
+  }
+
+  /// Builds the setup button with functionality.
+  Widget _buildNextButton(BuildContext context) {
     return Consumer<SetupNotifier>(
-      builder: (
-        BuildContext context,
-        SetupNotifier setupNotifier,
-        Widget? child,
-      ) {
-        final bool isEnabled = setupNotifier.enableNextButton(
-          _firstNameController.text,
-          _lastNameController.text,
-          _datePickerController.text,
-          _selectedGender ?? 'Male',
-          _currencyController.text,
-        );
-        return Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            onPressed:
-                isEnabled ? () => _onNextPressed(context, setupNotifier) : null,
-            style:
-                isEnabled
+      builder:
+          (BuildContext context, SetupNotifier setupNotifier, Widget? child) {
+            final bool isEnabled = setupNotifier.enableNextButton(
+              _firstNameController.text,
+              _lastNameController.text,
+              _currencyController.text,
+            );
+            return Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: isEnabled
+                    ? () => _onNextPressed(context, setupNotifier)
+                    : null,
+                style: isEnabled
                     ? null
                     : TextButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      overlayColor: Colors.transparent,
-                    ),
-            child: const Text('Next'),
-          ),
-        );
-      },
+                        foregroundColor: Colors.grey,
+                        overlayColor: Colors.transparent,
+                      ),
+                child: const Text('Next'),
+              ),
+            );
+          },
     );
+  }
+
+  Widget _buildSkipButton(BuildContext context) {
+    return Consumer<SetupNotifier>(
+      builder:
+          (BuildContext context, SetupNotifier setupNotifier, Widget? child) {
+            return Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  _onSkipPressed(context, setupNotifier);
+                },
+                child: const Text('Skip'),
+              ),
+            );
+          },
+    );
+  }
+
+  Future<void> _onSkipPressed(
+    BuildContext context,
+    SetupNotifier setupNotifier,
+  ) async {
+    _importNotifier.updateUserProfile(_setSkippedUserProfile());
+    widget.pageController.nextPage(
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+    );
+    _pageNotifier.currentPage = WelcomeScreens.importPage;
   }
 
   /// Handles action for the 'Next' button.
@@ -531,17 +514,17 @@ class SetupProfilePageState extends State<SetupProfilePage> {
   ) async {
     _validateAllFields(context);
     if (_areFieldsValid()) {
-      final Profile userProfile = _setUserProfile();
-      await updateUserProfile(context, userProfile, isNewUser: true);
-      final UserDetails userDetails = setDefaultUserDetails(userProfile);
+      _importNotifier.updateUserProfile(_setUserProfile());
+      // await updateUserProfile(context, userProfile, isNewUser: true);
+      // final UserDetails userDetails = setDefaultUserDetails(userProfile);
       if (context.mounted) {
-        await writeTransactionalDetailsToFile(
-          context,
-          userDetails,
-          UserInteractions.add,
-          addedDateTime: null,
-          isNewUser: true,
-        );
+        // await writeTransactionalDetailsToFile(
+        //   context,
+        //   userDetails,
+        //   UserInteractions.add,
+        //   addedDateTime: null,
+        //   isNewUser: true,
+        // );
       }
       widget.pageController.nextPage(
         duration: const Duration(milliseconds: 800),
@@ -549,6 +532,20 @@ class SetupProfilePageState extends State<SetupProfilePage> {
       );
       _pageNotifier.currentPage = WelcomeScreens.importPage;
     }
+  }
+
+  Profile _setSkippedUserProfile() {
+    return Profile(
+      firstName: 'Guest',
+      lastName: '',
+      userId: 'Guest01',
+      currency: 'Dollar',
+      isSelectedCurrency: true,
+      isDrawerExpanded: Provider.of<DrawerNotifier>(
+        context,
+        listen: false,
+      ).isExpanded,
+    );
   }
 
   Profile _setUserProfile() {
@@ -560,14 +557,17 @@ class SetupProfilePageState extends State<SetupProfilePage> {
       dateOfBirth: _selectedDate,
       currency: _selectedCurrencyNotifier.value,
       isSelectedCurrency: true,
-      isDrawerExpanded:
-          Provider.of<DrawerNotifier>(context, listen: false).isExpanded,
+      isDrawerExpanded: Provider.of<DrawerNotifier>(
+        context,
+        listen: false,
+      ).isExpanded,
     );
   }
 
   @override
   void initState() {
     _initializeFields();
+    _importNotifier = Provider.of<ImportNotifier>(context, listen: false);
     super.initState();
   }
 
@@ -575,6 +575,7 @@ class SetupProfilePageState extends State<SetupProfilePage> {
   void didChangeDependencies() {
     _setupNotifier = Provider.of<SetupNotifier>(context, listen: false);
     _pageNotifier = Provider.of<WelcomeScreenNotifier>(context, listen: false);
+    _importNotifier = Provider.of<ImportNotifier>(context, listen: false);
     super.didChangeDependencies();
   }
 
@@ -587,10 +588,9 @@ class SetupProfilePageState extends State<SetupProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child:
-          isMobile(context)
-              ? _buildMobileLayout(context)
-              : _buildDesktopLayout(context),
+      child: isMobile(context)
+          ? _buildMobileLayout(context)
+          : _buildDesktopLayout(context),
     );
   }
 }

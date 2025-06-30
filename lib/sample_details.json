@@ -29,6 +29,14 @@
                 "key": "data_pre_processing_sample",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_charts/data_pre_processing.dart",
                 "description": "AI-powered data cleaning and preprocessing work with the smart chart widget."
+              },
+              {
+                "status": "New",
+                "type": "sample",
+                "title": "Smart Charts",
+                "key": "smart_ai_charts",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_charts/ai_smart_chart/smart_chart.dart",
+                "description": "AI-powered chart generator creates interactive and dynamic charts."
               }
             ]
           },
@@ -38,15 +46,23 @@
             "subItems": [
               {
                 "type": "sample",
-                "title": "Anamoly Detection",
-                "key": "anamoly_detection",
-                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_datagrid/anamoly_detection.dart"
+                "title": "Anomaly Detection",
+                "key": "anomaly_detection",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_datagrid/anomaly_detection.dart"
               },
               {
                 "type": "sample",
                 "title": "Predictive Data Entry",
                 "key": "predictive_data_entry",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_datagrid/predictive_data_entry.dart"
+              },
+              {
+                "type": "sample",
+                "status": "New",
+                "title": "Smart Filtering",
+                "key": "semantic_filtering",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_datagrid/semantic_filtering.dart",
+                "description": "This sample showcases how Smart Filtering enhances a DataGrid displaying medical diagnostics. With AI, users can retrieve relevant results using related terms—for example, searching 'stomach' returns entries like 'Abdominal pain'."
               }
             ]
           },
@@ -56,7 +72,6 @@
             "subItems": [
               {
                 "type": "sample",
-                "status": "New",
                 "title": "Maps",
                 "key": "location_finder",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_maps/location_finder.dart",
@@ -92,10 +107,39 @@
                 "description": "This sample illustrates how the Syncfusion Flutter PDF Viewer, with the help of AI, can automatically fill form fields using the content copied by the user."
               },
               {
-                "status": "New",
                 "type": "sample",
                 "title": "Summarizer",
                 "key": "pdf_viewer_document_summarization",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_pdf_viewer/ai_document_summarization.dart",
+                "description": "This sample illustrates how the Syncfusion Flutter PDF Viewer, with the help of AI, can provide intelligent document summarization and contextual responses to user queries about PDF content."
+              }
+            ]
+          },
+          {
+            "status": "New",
+            "type": "child",
+            "title": "PDF Viewer",
+            "platformsToHide": [
+              "android",
+              "iOS",
+              "web",
+              "windows",
+              "macOS"
+            ],
+            "subItems": [
+              {
+                "status": "New",
+                "type": "sample",
+                "title": "PDF Viewer",
+                "key": "pdf_viewer_smart_fill_linux",
+                "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_pdf_viewer/ai_form_filling.dart",
+                "description": "This sample illustrates how the Syncfusion Flutter PDF Viewer, with the help of AI, can automatically fill form fields using the content copied by the user."
+              },
+              {
+                "status": "New",
+                "type": "sample",
+                "title": "Summarizer",
+                "key": "pdf_viewer_document_summarization_linux",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/ai_samples/ai_pdf_viewer/ai_document_summarization.dart",
                 "description": "This sample illustrates how the Syncfusion Flutter PDF Viewer, with the help of AI, can provide intelligent document summarization and contextual responses to user queries about PDF content."
               }
@@ -3408,6 +3452,81 @@
     ]
   },
   {
+    "categoryName": "Viewer",
+    "mobileCategoryId": 5,
+    "webCategoryId": 5,
+    "platformsToHide": [
+      "android",
+      "iOS",
+      "web",
+      "windows",
+      "macOS"
+    ],
+    "controlList": [
+      {
+        "title": "PDF Viewer",
+        "description": "View the PDF document seamlessly and efficiently",
+        "image": "images/pdf_viewer.png",
+        "displayType": "tab",
+        "controlId": 1,
+        "status": "New",
+        "subItems": [
+          {
+            "type": "sample",
+            "title": "Getting Started",
+            "key": "pdf_viewer_getting_started_linux",
+            "status": "New",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_getting_started.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Custom Toolbar",
+            "key": "pdf_viewer_custom_toolbar_linux",
+            "status": "New",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_custom_toolbar.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Annotations",
+            "key": "pdf_viewer_annotations_linux",
+            "status": "New",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_annotations.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Form Filling",
+            "key": "pdf_viewer_form_filling_linux",
+            "status": "New",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_form_filling.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Encrypted",
+            "key": "pdf_viewer_encrypted_linux",
+            "status": "New",
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_encrypted.dart"
+          },
+          {
+            "type": "sample",
+            "title": "RTL",
+            "key": "pdf_viewer_rtl_linux",
+            "status": "New",
+            "needsPropertyPanel": true,
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_rtl.dart"
+          },
+          {
+            "type": "sample",
+            "title": "Localization",
+            "key": "pdf_viewer_localization_linux",
+            "status": "New",
+            "needsPropertyPanel": true,
+            "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/pdf_viewer/pdf_viewer_localization.dart"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "categoryName": "File Formats",
     "mobileCategoryId": 6,
     "webCategoryId": 6,
@@ -3618,6 +3737,7 @@
     "controlList": [
       {
         "title": "Slider",
+        "status": "Updated",
         "description": "The horizontal slider enables you to select a date or a numeric value",
         "image": "images/slider.png",
         "displayType": "tab",
@@ -3673,6 +3793,7 @@
             "subItems": [
               {
                 "type": "sample",
+                "status": "Updated",
                 "title": "Labels customization",
                 "key": "labels_customization_slider",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/slider/customization/slider_labels_customization.dart",
@@ -3723,6 +3844,7 @@
       },
       {
         "title": "Range Slider",
+        "status": "Updated",
         "description": "The horizontal range slider enables you to select a date or a numeric range",
         "image": "images/range_slider.png",
         "controlId": 2,
@@ -3791,6 +3913,7 @@
             "subItems": [
               {
                 "type": "sample",
+                "status": "Updated",
                 "title": "Labels customization",
                 "key": "range_slider_label_customization",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/sliders/range_slider/customization/range_slider_label_customization.dart",
@@ -3841,6 +3964,7 @@
       },
       {
         "title": "Vertical Slider",
+        "status": "Updated",
         "description": "The vertical slider enables you to select a date or a numeric value",
         "image": "images/vertical_slider.png",
         "displayType": "tab",
@@ -3900,6 +4024,7 @@
             "subItems": [
               {
                 "type": "sample",
+                "status": "Updated",
                 "title": "Labels customization",
                 "key": "vertical_slider_label_customization",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_slider/customization/vertical_slider_label_customization.dart",
@@ -3936,6 +4061,7 @@
       },
       {
         "title": "Vertical Range Slider",
+        "status": "Updated",
         "description": "The vertical range slider enables you to select a date or a numeric range",
         "image": "images/vertical_range_slider.png",
         "displayType": "tab",
@@ -4011,6 +4137,7 @@
             "subItems": [
               {
                 "type": "sample",
+                "status": "Updated",
                 "title": "Labels customization",
                 "key": "vertical_range_slider_label_customization",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/vertical_range_slider/customization/vertical_range_slider_label_customization.dart",
@@ -4047,6 +4174,7 @@
       },
       {
         "title": "Range Selector",
+        "status": "Updated",
         "description": "Visualize data and select a date or numeric range",
         "image": "images/range_selector.png",
         "displayType": "tab",
@@ -4061,6 +4189,7 @@
           },
           {
             "type": "sample",
+            "status": "Updated",
             "title": "Labels customization",
             "key": "range_selector_label_customization",
             "codeLink": "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/sliders/range_selector/range_selector_label_customization.dart",

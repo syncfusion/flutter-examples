@@ -43,22 +43,28 @@ class _HijriDatePickerState extends SampleViewState {
   bool _showTodayButton = true;
 
   String _selectionModeString = 'extendableRange';
-  final List<String> _selectionModeList =
-      <String>[
-        'single',
-        'multiple',
-        'range',
-        'multiRange',
-        'extendableRange',
-      ].toList();
+  final List<String> _selectionModeList = <String>[
+    'single',
+    'multiple',
+    'range',
+    'multiRange',
+    'extendableRange',
+  ].toList();
 
   String _viewModeString = 'month';
-  final List<String> _viewModeList =
-      <String>['month', 'year', 'decade'].toList();
+  final List<String> _viewModeList = <String>[
+    'month',
+    'year',
+    'decade',
+  ].toList();
 
   String _selectionDirectionString = 'both';
-  final List<String> _selectionDirectionList =
-      <String>['forward', 'backward', 'both', 'none'].toList();
+  final List<String> _selectionDirectionList = <String>[
+    'forward',
+    'backward',
+    'both',
+    'none',
+  ].toList();
 
   @override
   void initState() {
@@ -128,10 +134,9 @@ class _HijriDatePickerState extends SampleViewState {
             _selectionMode == DateRangePickerSelectionMode.extendableRange);
     final Widget cardView = Card(
       elevation: 10,
-      margin:
-          model.isWebFullView
-              ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
-              : const EdgeInsets.all(30),
+      margin: model.isWebFullView
+          ? const EdgeInsets.fromLTRB(30, 60, 30, 10)
+          : const EdgeInsets.all(30),
       child: Container(
         padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
         color: model.sampleOutputCardColor,
@@ -162,37 +167,33 @@ class _HijriDatePickerState extends SampleViewState {
     return Scaffold(
       backgroundColor:
           model.themeData == null ||
-                  model.themeData.colorScheme.brightness == Brightness.light
-              ? null
-              : const Color(0x00171a21),
+              model.themeData.colorScheme.brightness == Brightness.light
+          ? null
+          : const Color(0x00171a21),
       body: Column(
         children: <Widget>[
           Expanded(
             flex: model.isWebFullView ? 9 : 8,
-            child:
-                model.isWebFullView
-                    ? Center(
-                      child: SizedBox(
-                        width: !enableMultiView ? 550 : 700,
-                        height: 600,
-                        child: cardView,
-                      ),
-                    )
-                    : ListView(
-                      padding: EdgeInsets.zero,
-                      children: <Widget>[
-                        SizedBox(height: 450, child: cardView),
-                      ],
+            child: model.isWebFullView
+                ? Center(
+                    child: SizedBox(
+                      width: !enableMultiView ? 550 : 700,
+                      height: 600,
+                      child: cardView,
                     ),
+                  )
+                : ListView(
+                    padding: EdgeInsets.zero,
+                    children: <Widget>[SizedBox(height: 450, child: cardView)],
+                  ),
           ),
           Expanded(
-            flex:
-                model.isWebFullView
-                    ? 1
-                    : model.isMobileResolution &&
-                        _deviceOrientation == Orientation.landscape
-                    ? 0
-                    : 1,
+            flex: model.isWebFullView
+                ? 1
+                : model.isMobileResolution &&
+                      _deviceOrientation == Orientation.landscape
+                ? 0
+                : 1,
             child: Container(),
           ),
         ],
@@ -322,17 +323,16 @@ class _HijriDatePickerState extends SampleViewState {
                         height: 1,
                       ),
                       value: _viewModeString,
-                      items:
-                          _viewModeList.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'month',
-                              child: Text(
-                                value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor),
-                              ),
-                            );
-                          }).toList(),
+                      items: _viewModeList.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'month',
+                          child: Text(
+                            value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: model.textColor),
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (dynamic value) {
                         _onPickerViewChange(value);
                         stateSetter(() {});
@@ -370,18 +370,16 @@ class _HijriDatePickerState extends SampleViewState {
                         height: 1,
                       ),
                       value: _selectionModeString,
-                      items:
-                          _selectionModeList.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value:
-                                  (value != null) ? value : 'extendableRange',
-                              child: Text(
-                                value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor),
-                              ),
-                            );
-                          }).toList(),
+                      items: _selectionModeList.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: (value != null) ? value : 'extendableRange',
+                          child: Text(
+                            value,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: model.textColor),
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (dynamic value) {
                         _onSelectionModeChange(value);
                         stateSetter(() {});
@@ -396,52 +394,51 @@ class _HijriDatePickerState extends SampleViewState {
         propertyOptions.add(
           _selectionModeString == 'extendableRange'
               ? SizedBox(
-                height: 50,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: model.isWebFullView ? 4 : 5,
-                      child: Text(
-                        'Selection Direction',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: model.textColor,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: model.isWebFullView ? 6 : 5,
-                      child: Container(
-                        alignment: Alignment.bottomLeft,
-                        child: DropdownButton<String>(
-                          dropdownColor: model.drawerBackgroundColor,
-                          focusColor: Colors.transparent,
-                          underline: Container(
-                            color: const Color(0xFFBDBDBD),
-                            height: 1,
+                  height: 50,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: model.isWebFullView ? 4 : 5,
+                        child: Text(
+                          'Selection Direction',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: model.textColor,
                           ),
-                          value: _selectionDirectionString,
-                          items:
-                              _selectionDirectionList.map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'both',
-                                  child: Text(
-                                    value,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: model.textColor),
-                                  ),
-                                );
-                              }).toList(),
-                          onChanged: (dynamic value) {
-                            _onSelectionDirectionChanged(value);
-                            stateSetter(() {});
-                          },
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
+                      Expanded(
+                        flex: model.isWebFullView ? 6 : 5,
+                        child: Container(
+                          alignment: Alignment.bottomLeft,
+                          child: DropdownButton<String>(
+                            dropdownColor: model.drawerBackgroundColor,
+                            focusColor: Colors.transparent,
+                            underline: Container(
+                              color: const Color(0xFFBDBDBD),
+                              height: 1,
+                            ),
+                            value: _selectionDirectionString,
+                            items: _selectionDirectionList.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: (value != null) ? value : 'both',
+                                child: Text(
+                                  value,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: model.textColor),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (dynamic value) {
+                              _onSelectionDirectionChanged(value);
+                              stateSetter(() {});
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               : Container(),
         );
         propertyOptions.add(
@@ -743,10 +740,9 @@ class _HijriDatePickerState extends SampleViewState {
 
         return Padding(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
-          child:
-              model.isWebFullView
-                  ? Column(children: propertyOptions)
-                  : ListView(children: propertyOptions),
+          child: model.isWebFullView
+              ? Column(children: propertyOptions)
+              : ListView(children: propertyOptions),
         );
       },
     );

@@ -92,8 +92,8 @@ class _VerticalThumbCustomizedRangeSliderState extends SampleViewState {
   Widget build(BuildContext context) {
     final double padding =
         MediaQuery.of(context).orientation == Orientation.landscape
-            ? 80.0
-            : 50.0;
+        ? 80.0
+        : 50.0;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[

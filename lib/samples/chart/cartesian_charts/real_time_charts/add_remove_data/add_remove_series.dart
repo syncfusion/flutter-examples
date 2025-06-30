@@ -129,10 +129,9 @@ class _LiveVerticalState extends SampleViewState {
                             size: 50,
                             color: model.primaryColor,
                           ),
-                          onPressed:
-                              () => setState(() {
-                                _removeSeries();
-                              }),
+                          onPressed: () => setState(() {
+                            _removeSeries();
+                          }),
                         ),
                       ),
                     ),

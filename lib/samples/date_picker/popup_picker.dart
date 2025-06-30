@@ -65,17 +65,15 @@ class _PopUpDatePickerState extends SampleViewState
   Widget _fetchBooking() {
     return Card(
       elevation: 10,
-      margin:
-          model.isWebFullView
-              ? const EdgeInsets.fromLTRB(30, 20, 30, 5)
-              : const EdgeInsets.all(30),
+      margin: model.isWebFullView
+          ? const EdgeInsets.fromLTRB(30, 20, 30, 5)
+          : const EdgeInsets.all(30),
       child: Container(
         color: model.sampleOutputCardColor,
         child: ListView(
-          padding:
-              model.isWebFullView
-                  ? const EdgeInsets.fromLTRB(30, 10, 10, 5)
-                  : const EdgeInsets.fromLTRB(30, 20, 10, 10),
+          padding: model.isWebFullView
+              ? const EdgeInsets.fromLTRB(30, 10, 10, 5)
+              : const EdgeInsets.fromLTRB(30, 20, 10, 10),
           children: <Widget>[
             Container(
               padding: const EdgeInsets.symmetric(vertical: 5),
@@ -116,10 +114,9 @@ class _PopUpDatePickerState extends SampleViewState
                             'One-way',
                             style: TextStyle(
                               fontSize: 16.0,
-                              fontWeight:
-                                  _value == 0
-                                      ? FontWeight.w600
-                                      : FontWeight.w400,
+                              fontWeight: _value == 0
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
                             ),
                           ),
                         ],
@@ -149,10 +146,9 @@ class _PopUpDatePickerState extends SampleViewState
                             'Round-Trip',
                             style: TextStyle(
                               fontSize: 16.0,
-                              fontWeight:
-                                  _value == 1
-                                      ? FontWeight.w600
-                                      : FontWeight.w400,
+                              fontWeight: _value == 1
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
                             ),
                           ),
                         ],
@@ -291,74 +287,70 @@ class _PopUpDatePickerState extends SampleViewState
                   flex: 5,
                   child: RawMaterialButton(
                     padding: const EdgeInsets.all(5),
-                    onPressed:
-                        _value == 0
-                            ? null
-                            : () async {
-                              final picker.PickerDateRange? range =
-                                  await showDialog<picker.PickerDateRange>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return DateRangePicker(
-                                        null,
-                                        picker.PickerDateRange(
-                                          _startDate,
-                                          _endDate,
-                                        ),
-                                        displayDate: _endDate,
-                                        minDate: DateTime.now(),
-                                        model: model,
-                                      );
-                                    },
-                                  );
+                    onPressed: _value == 0
+                        ? null
+                        : () async {
+                            final picker.PickerDateRange? range =
+                                await showDialog<picker.PickerDateRange>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DateRangePicker(
+                                      null,
+                                      picker.PickerDateRange(
+                                        _startDate,
+                                        _endDate,
+                                      ),
+                                      displayDate: _endDate,
+                                      minDate: DateTime.now(),
+                                      model: model,
+                                    );
+                                  },
+                                );
 
-                              if (range != null) {
-                                _onSelectedRangeChanged(range);
-                              }
-                            },
+                            if (range != null) {
+                              _onSelectedRangeChanged(range);
+                            }
+                          },
                     child: Container(
                       padding: EdgeInsets.zero,
                       alignment: Alignment.centerLeft,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children:
-                            _value == 0
-                                ? <Widget>[
-                                  const Text(
-                                    'Return Date',
-                                    style: TextStyle(
+                        children: _value == 0
+                            ? <Widget>[
+                                const Text(
+                                  'Return Date',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ]
+                            : <Widget>[
+                                const Text(
+                                  'Return Date',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    0,
+                                    5,
+                                    5,
+                                    0,
+                                  ),
+                                  child: Text(
+                                    DateFormat('dd MMM yyyy').format(_endDate),
+                                    style: const TextStyle(
                                       fontSize: 16,
-                                      color: Colors.grey,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                ]
-                                : <Widget>[
-                                  const Text(
-                                    'Return Date',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      0,
-                                      5,
-                                      5,
-                                      0,
-                                    ),
-                                    child: Text(
-                                      DateFormat(
-                                        'dd MMM yyyy',
-                                      ).format(_endDate),
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
+                              ],
                       ),
                     ),
                   ),
@@ -465,19 +457,14 @@ class _PopUpDatePickerState extends SampleViewState
     return Scaffold(
       backgroundColor:
           model.themeData == null ||
-                  model.themeData.colorScheme.brightness == Brightness.light
-              ? null
-              : const Color(0x00171a21),
-      body:
-          model.isWebFullView
-              ? Center(
-                child: SizedBox(
-                  width: 400,
-                  height: 380,
-                  child: _fetchBooking(),
-                ),
-              )
-              : SizedBox(height: 450, child: _fetchBooking()),
+              model.themeData.colorScheme.brightness == Brightness.light
+          ? null
+          : const Color(0x00171a21),
+      body: model.isWebFullView
+          ? Center(
+              child: SizedBox(width: 400, height: 380, child: _fetchBooking()),
+            )
+          : SizedBox(height: 450, child: _fetchBooking()),
     );
   }
 }
@@ -579,87 +566,87 @@ class _DateRangePickerState extends State<DateRangePicker> {
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
         child:
             _range == null ||
-                    _range.startDate == null ||
-                    _range.endDate == null ||
-                    _range.startDate == _range.endDate
-                ? Text(
-                  _isHijri
-                      ? _buildFormattedHijriString(
+                _range.startDate == null ||
+                _range.endDate == null ||
+                _range.startDate == _range.endDate
+            ? Text(
+                _isHijri
+                    ? _buildFormattedHijriString(
                         _range == null
                             ? _date
                             : (_range.startDate ?? _range.endDate),
                         _localizations,
                         'MMM',
                       )
-                      : DateFormat('dd MMM, yyyy').format(
+                    : DateFormat('dd MMM, yyyy').format(
                         _range == null
                             ? _date
                             : (_range.startDate ?? _range.endDate),
                       ),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: widget.model.textColor,
-                  ),
-                )
-                : Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 5,
-                      child: Text(
-                        _isHijri
-                            ? _buildFormattedHijriString(
-                              _range.startDate.isAfter(_range.endDate) == true
-                                  ? _range.endDate
-                                  : _range.startDate,
-                              _localizations,
-                              'MMM',
-                            )
-                            : DateFormat('dd MMM, yyyy').format(
-                              _range.startDate.isAfter(_range.endDate) == true
-                                  ? _range.endDate
-                                  : _range.startDate,
-                            ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: widget.model.textColor,
-                        ),
-                      ),
-                    ),
-                    const VerticalDivider(thickness: 1),
-                    Expanded(
-                      flex: 5,
-                      child: Text(
-                        _isHijri
-                            ? _buildFormattedHijriString(
-                              _range.startDate.isAfter(_range.endDate) == true
-                                  ? _range.startDate
-                                  : _range.endDate,
-                              _localizations,
-                              'MMM',
-                            )
-                            : DateFormat('dd MMM, yyyy').format(
-                              _range.startDate.isAfter(_range.endDate) == true
-                                  ? _range.startDate
-                                  : _range.endDate,
-                            ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: widget.model.textColor,
-                        ),
-                      ),
-                    ),
-                  ],
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: widget.model.textColor,
                 ),
+              )
+            : Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 5,
+                    child: Text(
+                      _isHijri
+                          ? _buildFormattedHijriString(
+                              _range.startDate.isAfter(_range.endDate) == true
+                                  ? _range.endDate
+                                  : _range.startDate,
+                              _localizations,
+                              'MMM',
+                            )
+                          : DateFormat('dd MMM, yyyy').format(
+                              _range.startDate.isAfter(_range.endDate) == true
+                                  ? _range.endDate
+                                  : _range.startDate,
+                            ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: widget.model.textColor,
+                      ),
+                    ),
+                  ),
+                  const VerticalDivider(thickness: 1),
+                  Expanded(
+                    flex: 5,
+                    child: Text(
+                      _isHijri
+                          ? _buildFormattedHijriString(
+                              _range.startDate.isAfter(_range.endDate) == true
+                                  ? _range.startDate
+                                  : _range.endDate,
+                              _localizations,
+                              'MMM',
+                            )
+                          : DateFormat('dd MMM, yyyy').format(
+                              _range.startDate.isAfter(_range.endDate) == true
+                                  ? _range.startDate
+                                  : _range.endDate,
+                            ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: widget.model.textColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
 
@@ -672,10 +659,9 @@ class _DateRangePickerState extends State<DateRangePicker> {
         initialDisplayDate: widget.displayDate,
         showNavigationArrow: true,
         enableMultiView: _range != null && _isWeb,
-        selectionMode:
-            _range == null
-                ? picker.DateRangePickerSelectionMode.single
-                : picker.DateRangePickerSelectionMode.range,
+        selectionMode: _range == null
+            ? picker.DateRangePickerSelectionMode.single
+            : picker.DateRangePickerSelectionMode.range,
         showActionButtons: true,
         onCancel: () => Navigator.pop(context),
         minDate: widget.minDate,
@@ -692,17 +678,16 @@ class _DateRangePickerState extends State<DateRangePicker> {
             Navigator.pop(context, _range);
           }
         },
-        onSelectionChanged: (
-          picker.DateRangePickerSelectionChangedArgs details,
-        ) {
-          setState(() {
-            if (_range == null) {
-              _date = details.value;
-            } else {
-              _range = details.value;
-            }
-          });
-        },
+        onSelectionChanged:
+            (picker.DateRangePickerSelectionChangedArgs details) {
+              setState(() {
+                if (_range == null) {
+                  _date = details.value;
+                } else {
+                  _range = details.value;
+                }
+              });
+            },
       );
     } else {
       pickerWidget = picker.SfDateRangePicker(
@@ -712,10 +697,9 @@ class _DateRangePickerState extends State<DateRangePicker> {
         showActionButtons: true,
         onCancel: () => Navigator.pop(context),
         enableMultiView: _range != null && _isWeb,
-        selectionMode:
-            _range == null
-                ? picker.DateRangePickerSelectionMode.single
-                : picker.DateRangePickerSelectionMode.range,
+        selectionMode: _range == null
+            ? picker.DateRangePickerSelectionMode.single
+            : picker.DateRangePickerSelectionMode.range,
         minDate: widget.minDate,
         maxDate: widget.maxDate,
         todayHighlightColor: Colors.transparent,
@@ -730,17 +714,16 @@ class _DateRangePickerState extends State<DateRangePicker> {
             Navigator.pop(context, _range);
           }
         },
-        onSelectionChanged: (
-          picker.DateRangePickerSelectionChangedArgs details,
-        ) {
-          setState(() {
-            if (_range == null) {
-              _date = details.value;
-            } else {
-              _range = details.value;
-            }
-          });
-        },
+        onSelectionChanged:
+            (picker.DateRangePickerSelectionChangedArgs details) {
+              setState(() {
+                if (_range == null) {
+                  _date = details.value;
+                } else {
+                  _range = details.value;
+                }
+              });
+            },
       );
     }
 

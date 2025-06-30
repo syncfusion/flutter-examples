@@ -81,20 +81,16 @@ class _TickShape extends SfTickShape {
   }) {
     final Size tickSize = getPreferredSize(themeData);
     final bool isTickRightOfThumb = offset.dx > thumbCenter!.dx;
-    final Color begin =
-        isTickRightOfThumb
-            ? themeData.disabledInactiveTickColor!
-            : themeData.disabledActiveTickColor!;
-    final Color end =
-        isTickRightOfThumb
-            ? themeData.inactiveTickColor!
-            : themeData.activeTickColor!;
-    final Paint paint =
-        Paint()
-          ..isAntiAlias = true
-          ..strokeWidth = tickSize.width
-          ..color =
-              ColorTween(begin: begin, end: end).evaluate(enableAnimation)!;
+    final Color begin = isTickRightOfThumb
+        ? themeData.disabledInactiveTickColor!
+        : themeData.disabledActiveTickColor!;
+    final Color end = isTickRightOfThumb
+        ? themeData.inactiveTickColor!
+        : themeData.activeTickColor!;
+    final Paint paint = Paint()
+      ..isAntiAlias = true
+      ..strokeWidth = tickSize.width
+      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation)!;
 
     context.canvas.drawLine(
       Offset(
@@ -139,20 +135,16 @@ class _MinorTickShape extends SfTickShape {
     final Size minorTickSize = getPreferredSize(themeData);
     final bool isMinorTickRightOfThumb = offset.dx > thumbCenter!.dx;
 
-    final Color begin =
-        isMinorTickRightOfThumb
-            ? themeData.disabledInactiveMinorTickColor!
-            : themeData.disabledActiveMinorTickColor!;
-    final Color end =
-        isMinorTickRightOfThumb
-            ? themeData.inactiveMinorTickColor!
-            : themeData.activeMinorTickColor!;
-    final Paint paint =
-        Paint()
-          ..isAntiAlias = true
-          ..strokeWidth = minorTickSize.width
-          ..color =
-              ColorTween(begin: begin, end: end).evaluate(enableAnimation)!;
+    final Color begin = isMinorTickRightOfThumb
+        ? themeData.disabledInactiveMinorTickColor!
+        : themeData.disabledActiveMinorTickColor!;
+    final Color end = isMinorTickRightOfThumb
+        ? themeData.inactiveMinorTickColor!
+        : themeData.activeMinorTickColor!;
+    final Paint paint = Paint()
+      ..isAntiAlias = true
+      ..strokeWidth = minorTickSize.width
+      ..color = ColorTween(begin: begin, end: end).evaluate(enableAnimation)!;
 
     context.canvas.drawLine(
       Offset(

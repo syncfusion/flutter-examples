@@ -60,8 +60,9 @@ class _MACDIndicatorState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
     final double dropDownWidth = 0.7 * screenWidth;
 
     return StatefulBuilder(
@@ -116,10 +117,9 @@ class _MACDIndicatorState extends SampleViewState {
             child: CustomDirectionalButtons(
               maxValue: 50,
               initialValue: _period,
-              onChanged:
-                  (double val) => setState(() {
-                    _period = val;
-                  }),
+              onChanged: (double val) => setState(() {
+                _period = val;
+              }),
               loop: true,
               iconColor: model.textColor,
               style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -148,10 +148,9 @@ class _MACDIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _longPeriod,
-            onChanged:
-                (double val) => setState(() {
-                  _longPeriod = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _longPeriod = val;
+            }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -179,10 +178,9 @@ class _MACDIndicatorState extends SampleViewState {
           child: CustomDirectionalButtons(
             maxValue: 50,
             initialValue: _shortPeriod,
-            onChanged:
-                (double val) => setState(() {
-                  _shortPeriod = val;
-                }),
+            onChanged: (double val) => setState(() {
+              _shortPeriod = val;
+            }),
             loop: true,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -211,16 +209,12 @@ class _MACDIndicatorState extends SampleViewState {
             isExpanded: true,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedMacdIndicatorType,
-            items:
-                _macdIndicatorTypeList!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'Both',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _macdIndicatorTypeList!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'Both',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (String? value) {
               _onMacdIndicatorTypeChanged(value.toString());
               stateSetter(() {});

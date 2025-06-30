@@ -99,10 +99,9 @@ class _DataPointsState extends SampleViewState {
   SfCartesianChart _buildDefaultColumnChart() {
     return SfCartesianChart(
       title: ChartTitle(
-        text:
-            isCardView
-                ? ''
-                : 'Percentage of people using social media on a daily basis',
+        text: isCardView
+            ? ''
+            : 'Percentage of people using social media on a daily basis',
       ),
       plotAreaBorderWidth: 0,
       primaryXAxis: const CategoryAxis(
@@ -244,9 +243,8 @@ class _DataPointsState extends SampleViewState {
         sortingOrder: _sortingOrder,
         gradient: _gradient,
         pointColorMapper: (ChartSampleData data, int index) => data.pointColor,
-        sortFieldValueMapper:
-            (ChartSampleData data, int index) =>
-                _sortingCriteria == 'sortByX' ? data.x : data.y,
+        sortFieldValueMapper: (ChartSampleData data, int index) =>
+            _sortingCriteria == 'sortByX' ? data.x : data.y,
         dataLabelSettings: const DataLabelSettings(
           isVisible: true,
           textStyle: TextStyle(fontSize: 10),

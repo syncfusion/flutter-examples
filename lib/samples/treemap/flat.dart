@@ -29,8 +29,8 @@ class TreemapLayoutSample extends SampleView {
 
   @override
   _TreemapLayoutSampleState createState() =>
-  // ignore: no_logic_in_create_state
-  _TreemapLayoutSampleState(layoutType);
+      // ignore: no_logic_in_create_state
+      _TreemapLayoutSampleState(layoutType);
 }
 
 class _TreemapLayoutSampleState extends SampleViewState {
@@ -132,9 +132,9 @@ class _TreemapLayoutSampleState extends SampleViewState {
       child: Padding(
         padding:
             MediaQuery.of(context).orientation == Orientation.portrait ||
-                    _isDesktop
-                ? const EdgeInsets.all(12.5)
-                : const EdgeInsets.all(10.0),
+                _isDesktop
+            ? const EdgeInsets.all(12.5)
+            : const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Text(
@@ -165,8 +165,8 @@ class _TreemapLayoutSampleState extends SampleViewState {
                       _isDesktop
                   ? current
                   : SingleChildScrollView(
-                    child: SizedBox(height: 400, child: current),
-                  );
+                      child: SizedBox(height: 400, child: current),
+                    );
             },
           ),
           if (layoutType != LayoutType.squarified)
@@ -175,10 +175,10 @@ class _TreemapLayoutSampleState extends SampleViewState {
               child: Padding(
                 padding:
                     MediaQuery.of(context).orientation ==
-                                Orientation.portrait ||
-                            _isDesktop
-                        ? const EdgeInsets.only(right: 16.5, bottom: 16.5)
-                        : const EdgeInsets.only(right: 14.0, bottom: 14.0),
+                            Orientation.portrait ||
+                        _isDesktop
+                    ? const EdgeInsets.only(right: 16.5, bottom: 16.5)
+                    : const EdgeInsets.only(right: 14.0, bottom: 14.0),
                 child: SizedBox(
                   height: 45.0,
                   width: 45.0,
@@ -211,10 +211,9 @@ class _TreemapLayoutSampleState extends SampleViewState {
                         });
                       },
                       child: Padding(
-                        padding:
-                            _isDesktop
-                                ? const EdgeInsets.all(2.0)
-                                : const EdgeInsets.all(1.0),
+                        padding: _isDesktop
+                            ? const EdgeInsets.all(2.0)
+                            : const EdgeInsets.all(1.0),
                         child: _buildIcon(layoutType),
                       ),
                     ),
@@ -231,23 +230,23 @@ class _TreemapLayoutSampleState extends SampleViewState {
     if (_isLightTheme) {
       return _sortAscending
           ? Tooltip(
-            message: 'Sort in descending order',
-            child: Image.asset('images/treemap_descending_light.png'),
-          )
+              message: 'Sort in descending order',
+              child: Image.asset('images/treemap_descending_light.png'),
+            )
           : Tooltip(
-            message: 'Sort in ascending order',
-            child: Image.asset('images/treemap_ascending_light.png'),
-          );
+              message: 'Sort in ascending order',
+              child: Image.asset('images/treemap_ascending_light.png'),
+            );
     } else {
       return _sortAscending
           ? Tooltip(
-            message: 'Sort in descending order',
-            child: Image.asset('images/treemap_descending_dark.png'),
-          )
+              message: 'Sort in descending order',
+              child: Image.asset('images/treemap_descending_dark.png'),
+            )
           : Tooltip(
-            message: 'Sort in ascending order',
-            child: Image.asset('images/treemap_ascending_dark.png'),
-          );
+              message: 'Sort in ascending order',
+              child: Image.asset('images/treemap_ascending_dark.png'),
+            );
     }
   }
 
@@ -267,10 +266,9 @@ class _TreemapLayoutSampleState extends SampleViewState {
         },
         sortAscending: _sortAscending,
         tooltipSettings: TreemapTooltipSettings(
-          color:
-              _isLightTheme
-                  ? const Color.fromRGBO(45, 45, 45, 1)
-                  : const Color.fromRGBO(242, 242, 242, 1),
+          color: _isLightTheme
+              ? const Color.fromRGBO(45, 45, 45, 1)
+              : const Color.fromRGBO(242, 242, 242, 1),
         ),
         levels: _getTreemapLevels(themeData),
       );
@@ -282,10 +280,9 @@ class _TreemapLayoutSampleState extends SampleViewState {
         },
         sortAscending: _sortAscending,
         tooltipSettings: TreemapTooltipSettings(
-          color:
-              _isLightTheme
-                  ? const Color.fromRGBO(45, 45, 45, 1)
-                  : const Color.fromRGBO(242, 242, 242, 1),
+          color: _isLightTheme
+              ? const Color.fromRGBO(45, 45, 45, 1)
+              : const Color.fromRGBO(242, 242, 242, 1),
         ),
         levels: _getTreemapLevels(themeData),
       );
@@ -296,10 +293,9 @@ class _TreemapLayoutSampleState extends SampleViewState {
           return _topTenMovies[index].boxOffice;
         },
         tooltipSettings: TreemapTooltipSettings(
-          color:
-              _isLightTheme
-                  ? const Color.fromRGBO(45, 45, 45, 1)
-                  : const Color.fromRGBO(242, 242, 242, 1),
+          color: _isLightTheme
+              ? const Color.fromRGBO(45, 45, 45, 1)
+              : const Color.fromRGBO(242, 242, 242, 1),
         ),
         levels: _getTreemapLevels(themeData),
       );
@@ -404,10 +400,9 @@ class _TreemapLayoutSampleState extends SampleViewState {
       return Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
-          padding:
-              _isDesktop
-                  ? const EdgeInsets.only(bottom: 10.0)
-                  : const EdgeInsets.only(bottom: 6.0),
+          padding: _isDesktop
+              ? const EdgeInsets.only(bottom: 10.0)
+              : const EdgeInsets.only(bottom: 6.0),
           child: RotatedBox(
             quarterTurns: 3,
             child: Text(
@@ -443,10 +438,9 @@ class _TreemapLayoutSampleState extends SampleViewState {
                 text: 'Director',
                 style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
-                  color:
-                      _isLightTheme
-                          ? const Color.fromRGBO(255, 255, 255, 0.75)
-                          : const Color.fromRGBO(10, 10, 10, 0.75),
+                  color: _isLightTheme
+                      ? const Color.fromRGBO(255, 255, 255, 0.75)
+                      : const Color.fromRGBO(10, 10, 10, 0.75),
                 ),
                 children: const <TextSpan>[TextSpan(text: '\nBox office')],
               ),
@@ -460,10 +454,9 @@ class _TreemapLayoutSampleState extends SampleViewState {
                 style: themeData.textTheme.bodySmall!.copyWith(
                   height: 1.5,
                   fontWeight: FontWeight.bold,
-                  color:
-                      _isLightTheme
-                          ? const Color.fromRGBO(255, 255, 255, 1)
-                          : const Color.fromRGBO(10, 10, 10, 1),
+                  color: _isLightTheme
+                      ? const Color.fromRGBO(255, 255, 255, 1)
+                      : const Color.fromRGBO(10, 10, 10, 1),
                 ),
                 children: <TextSpan>[
                   TextSpan(text: '\n\$${movieDetails.boxOffice}B'),

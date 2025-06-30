@@ -34,10 +34,10 @@ class _MultipleAxisExampleState extends SampleViewState {
           interval: 36,
           radiusFactor:
               MediaQuery.of(context).orientation == Orientation.portrait
-                  ? isCardView
-                      ? 0.5
-                      : 0.6
-                  : 0.5,
+              ? isCardView
+                    ? 0.5
+                    : 0.6
+              : 0.5,
           canRotateLabels: true,
           showLastLabel: true,
           minorTickStyle: const MinorTickStyle(

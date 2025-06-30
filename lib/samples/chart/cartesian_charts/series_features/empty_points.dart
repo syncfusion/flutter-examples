@@ -69,16 +69,15 @@ class _EmptyPointsState extends SampleViewState {
                 focusColor: Colors.transparent,
                 underline: Container(color: const Color(0xFFBDBDBD), height: 1),
                 value: _selectedMode,
-                items:
-                    _emptyPointMode!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'zero',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
+                items: _emptyPointMode!.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: (value != null) ? value : 'zero',
+                    child: Text(
+                      value,
+                      style: TextStyle(color: model.textColor),
+                    ),
+                  );
+                }).toList(),
                 onChanged: (dynamic value) {
                   _onEmptyPointModeChange(value.toString());
                   stateSetter(() {});

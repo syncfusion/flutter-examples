@@ -46,10 +46,9 @@ class _ProgressBarTrackWithMarkerState extends SampleViewState {
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size =
-          model.isWebFullView
-              ? MediaQuery.of(context).size.height / 3.5
-              : MediaQuery.of(context).size.height / 4.5;
+      _size = model.isWebFullView
+          ? MediaQuery.of(context).size.height / 3.5
+          : MediaQuery.of(context).size.height / 4.5;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

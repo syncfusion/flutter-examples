@@ -13,6 +13,7 @@ import '../../models/transaction.dart';
 import '../../models/user.dart';
 import '../../notifiers/dashboard_notifier.dart';
 import '../../pages/dashboard.dart';
+import 'dashboard_sections/active_goals.dart';
 import 'dashboard_sections/common_finance_widget.dart';
 import 'dashboard_sections/financial_overview.dart';
 import 'dashboard_sections/recent_transaction.dart';
@@ -26,8 +27,7 @@ enum DashboardWidgetType {
   financialOverview,
   accountBalance,
   recentTransaction,
-  // TODO(Hari): Need to implement goals page later.
-  // activeGoals,
+  activeGoals,
   savingGrowth,
 }
 
@@ -39,7 +39,7 @@ enum DashboardWidgetsSlot {
   financialOverviewWidget,
   accountBalanceChart,
   recentTransactionWidget,
-  // activeGoals,
+  activeGoals,
   savingGrowth,
 }
 
@@ -146,20 +146,15 @@ class OverallDetails extends StatelessWidget {
                     child: Text(
                       insightValue,
                       overflow: TextOverflow.ellipsis,
-                      style:
-                          isMobile(context)
-                              ? Theme.of(
-                                context,
-                              ).textTheme.labelLarge!.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontWeight: FontWeight.w600,
-                              )
-                              : Theme.of(
-                                context,
-                              ).textTheme.headlineSmall!.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      style: isMobile(context)
+                          ? Theme.of(context).textTheme.labelLarge!.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.w600,
+                            )
+                          : Theme.of(context).textTheme.headlineSmall!.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.w500,
+                            ),
                     ),
                   ),
                 ],
@@ -178,6 +173,7 @@ class DashboardLayout
   const DashboardLayout({
     required this.buildContext,
     required this.userDetails,
+    required this.cardAvatarColors,
     required this.incomeDetails,
     required this.expenseDetails,
     required this.transactions,
@@ -197,6 +193,7 @@ class DashboardLayout
 
   final BuildContext buildContext;
   final UserDetails userDetails;
+  final List<Color>? cardAvatarColors;
   final List<IncomeDetails> incomeDetails;
   final List<ExpenseDetails> expenseDetails;
   final TextEditingController accountBalanceController;
@@ -222,13 +219,13 @@ class DashboardLayout
             child: Column(
               children: [
                 Padding(
-                  padding:
-                      isMobile(buildContext)
-                          ? const EdgeInsets.all(10.0)
-                          : const EdgeInsets.all(16.0),
+                  padding: isMobile(buildContext)
+                      ? const EdgeInsets.all(10.0)
+                      : const EdgeInsets.all(16.0),
                   child: DashboardWidget(
                     buildContext: buildContext,
                     userDetails: userDetails,
+                    cardAvatarColors: cardAvatarColors,
                     incomeDetails: incomeDetails,
                     expenseDetails: expenseDetails,
                     transactions: transactions,
@@ -369,6 +366,7 @@ class DashboardWidget
   const DashboardWidget({
     required this.buildContext,
     required this.userDetails,
+    required this.cardAvatarColors,
     required this.incomeDetails,
     required this.expenseDetails,
     required this.transactions,
@@ -388,6 +386,7 @@ class DashboardWidget
 
   final BuildContext buildContext;
   final UserDetails userDetails;
+  final List<Color>? cardAvatarColors;
   final List<IncomeDetails> incomeDetails;
   final List<ExpenseDetails> expenseDetails;
   final List<Transaction> transactions;
@@ -409,8 +408,9 @@ class DashboardWidget
     switch (slot) {
       case DashboardWidgetsSlot.currentBalance:
         return Padding(
-          padding:
-              isMobile(buildContext) ? mobileCardPadding : windowsCardPadding,
+          padding: isMobile(buildContext)
+              ? mobileCardPadding
+              : windowsCardPadding,
           child: OverallDetails(
             insightTitle: 'Balance',
             insightValue: toCurrency(
@@ -424,8 +424,9 @@ class DashboardWidget
         );
       case DashboardWidgetsSlot.income:
         return Padding(
-          padding:
-              isMobile(buildContext) ? mobileCardPadding : windowsCardPadding,
+          padding: isMobile(buildContext)
+              ? mobileCardPadding
+              : windowsCardPadding,
           child: OverallDetails(
             insightTitle: 'Income',
             insightValue: toCurrency(totalIncome, userDetails.userProfile),
@@ -437,8 +438,9 @@ class DashboardWidget
         );
       case DashboardWidgetsSlot.expense:
         return Padding(
-          padding:
-              isMobile(buildContext) ? mobileCardPadding : windowsCardPadding,
+          padding: isMobile(buildContext)
+              ? mobileCardPadding
+              : windowsCardPadding,
           child: OverallDetails(
             insightTitle: 'Expense',
             insightValue: toCurrency(totalExpense, userDetails.userProfile),
@@ -450,8 +452,9 @@ class DashboardWidget
       case DashboardWidgetsSlot.savings:
         {
           return Padding(
-            padding:
-                isMobile(buildContext) ? mobileCardPadding : windowsCardPadding,
+            padding: isMobile(buildContext)
+                ? mobileCardPadding
+                : windowsCardPadding,
             child: OverallDetails(
               insightTitle: 'Savings',
               insightValue: toCurrency(totalSavings, userDetails.userProfile),
@@ -466,8 +469,9 @@ class DashboardWidget
         return ChangeNotifierProvider(
           create: (BuildContext context) => DashboardNotifier(),
           child: Padding(
-            padding:
-                isMobile(buildContext) ? mobileCardPadding : windowsCardPadding,
+            padding: isMobile(buildContext)
+                ? mobileCardPadding
+                : windowsCardPadding,
             child: FinancialOverview(
               userDetails: userDetails,
               incomeDetails: incomeDetails,
@@ -478,18 +482,21 @@ class DashboardWidget
         );
       case DashboardWidgetsSlot.recentTransactionWidget:
         return Padding(
-          padding:
-              isMobile(buildContext) ? mobileCardPadding : windowsCardPadding,
+          padding: isMobile(buildContext)
+              ? mobileCardPadding
+              : windowsCardPadding,
           child: RecentTransactions(
             userDetails: userDetails,
             transactionsCollection: transactions,
             expenseDetailCollections: expenseDetails,
+            cardAvatarColors: cardAvatarColors,
           ),
         );
       case DashboardWidgetsSlot.accountBalanceChart:
         return Padding(
-          padding:
-              isMobile(buildContext) ? mobileCardPadding : windowsCardPadding,
+          padding: isMobile(buildContext)
+              ? mobileCardPadding
+              : windowsCardPadding,
           child: CommonFinanceWidget(
             userDetails: userDetails,
             incomeDetails: incomeDetails,
@@ -500,17 +507,22 @@ class DashboardWidget
             title: 'Account Overview',
           ),
         );
-      // TODO(Hari): Need to implement goals page later.
-      // case DashboardWidgetsSlot.activeGoals:
-      //   return Padding(
-      //     padding:
-      //         isMobile(buildContext) ? mobileCardPadding : windowsCardPadding,
-      //     child: ActiveGoals(userDetails: userDetails, goals: goals),
-      //   );
+      case DashboardWidgetsSlot.activeGoals:
+        return Padding(
+          padding: isMobile(buildContext)
+              ? mobileCardPadding
+              : windowsCardPadding,
+          child: ActiveGoals(
+            userDetails: userDetails,
+            goals: goals,
+            cardAvatarColors: cardAvatarColors,
+          ),
+        );
       case DashboardWidgetsSlot.savingGrowth:
         return Padding(
-          padding:
-              isMobile(buildContext) ? mobileCardPadding : windowsCardPadding,
+          padding: isMobile(buildContext)
+              ? mobileCardPadding
+              : windowsCardPadding,
           child: CommonFinanceWidget(
             userDetails: userDetails,
             controller: accountBalanceController,
@@ -590,8 +602,9 @@ class RenderDashboardWidgetsLayout extends RenderBox
   @override
   void performLayout() {
     final Size availableSize = constraints.biggest;
-    final double commonInsightTileMinimumHeight =
-        isMobile(buildContext) ? 76.0 : 108.0;
+    final double commonInsightTileMinimumHeight = isMobile(buildContext)
+        ? 76.0
+        : 108.0;
     const double commonInsightWidthFactor = 0.25;
     const double commonInsightMobileWidthFactor = 0.5;
     final bool isMobileOrTablet =
@@ -683,16 +696,16 @@ class RenderDashboardWidgetsLayout extends RenderBox
       DashboardWidgetType.accountBalance,
     );
 
-    // final RenderBox? activeGoalsBox = childForSlot(
-    //   DashboardWidgetsSlot.activeGoals,
-    // );
-    // layoutForDashboardWidget(
-    //   activeGoalsBox,
-    //   buildContext,
-    //   dashboardWidgetBoxSize,
-    //   insightBoxSize,
-    //   DashboardWidgetType.activeGoals,
-    // );
+    final RenderBox? activeGoalsBox = childForSlot(
+      DashboardWidgetsSlot.activeGoals,
+    );
+    layoutForDashboardWidget(
+      activeGoalsBox,
+      buildContext,
+      dashboardWidgetBoxSize,
+      insightBoxSize,
+      DashboardWidgetType.activeGoals,
+    );
 
     final RenderBox? savingGrowthChartBox = childForSlot(
       DashboardWidgetsSlot.savingGrowth,
@@ -720,8 +733,8 @@ class RenderDashboardWidgetsLayout extends RenderBox
     bool isMobileOrTablet,
   ) {
     return isMobileOrTablet
-        ? (2 * insightBoxHeight) + (4 * dashboardWidgetBoxHeight)
-        : insightBoxHeight + (2 * dashboardWidgetBoxHeight);
+        ? (2 * insightBoxHeight) + (5 * dashboardWidgetBoxHeight)
+        : insightBoxHeight + (3 * dashboardWidgetBoxHeight);
   }
 
   @override
@@ -804,14 +817,14 @@ class RenderDashboardWidgetsLayout extends RenderBox
       );
     }
 
-    // final RenderBox? activeGoalsBox = childForSlot(
-    //   DashboardWidgetsSlot.activeGoals,
-    // );
-    // if (activeGoalsBox != null && activeGoalsBox.parentData != null) {
-    //   final DashboardWidgetParentData activeGoalsParentData =
-    //       activeGoalsBox.parentData! as DashboardWidgetParentData;
-    //   context.paintChild(activeGoalsBox, offset + activeGoalsParentData.offset);
-    // }
+    final RenderBox? activeGoalsBox = childForSlot(
+      DashboardWidgetsSlot.activeGoals,
+    );
+    if (activeGoalsBox != null && activeGoalsBox.parentData != null) {
+      final DashboardWidgetParentData activeGoalsParentData =
+          activeGoalsBox.parentData! as DashboardWidgetParentData;
+      context.paintChild(activeGoalsBox, offset + activeGoalsParentData.offset);
+    }
 
     final RenderBox? savingGrowthBox = childForSlot(
       DashboardWidgetsSlot.savingGrowth,

@@ -27,14 +27,14 @@ class _HeightCalculatorState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-            height: 500,
-            child: _buildHeightCalculator(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
+              height: 500,
+              child: _buildHeightCalculator(context),
+            ),
+          )
         : _buildHeightCalculator(context);
   }
 
@@ -46,10 +46,9 @@ class _HeightCalculatorState extends SampleViewState {
       padding: const EdgeInsets.all(10),
       child: Center(
         child: Container(
-          height:
-              isCardView
-                  ? MediaQuery.of(context).size.height
-                  : MediaQuery.of(context).size.height * 3 / 4,
+          height: isCardView
+              ? MediaQuery.of(context).size.height
+              : MediaQuery.of(context).size.height * 3 / 4,
           padding: const EdgeInsets.all(5.0),
           child: SfLinearGauge(
             orientation: LinearGaugeOrientation.vertical,
@@ -61,23 +60,23 @@ class _HeightCalculatorState extends SampleViewState {
             onGenerateLabels: () {
               return isCardView
                   ? <LinearAxisLabel>[
-                    const LinearAxisLabel(text: '0 cm', value: 0),
-                    const LinearAxisLabel(text: '50 cm', value: 50),
-                    const LinearAxisLabel(text: '100 cm', value: 100),
-                    const LinearAxisLabel(text: '150 cm', value: 150),
-                    const LinearAxisLabel(text: '200 cm', value: 200),
-                  ]
+                      const LinearAxisLabel(text: '0 cm', value: 0),
+                      const LinearAxisLabel(text: '50 cm', value: 50),
+                      const LinearAxisLabel(text: '100 cm', value: 100),
+                      const LinearAxisLabel(text: '150 cm', value: 150),
+                      const LinearAxisLabel(text: '200 cm', value: 200),
+                    ]
                   : <LinearAxisLabel>[
-                    const LinearAxisLabel(text: '0 cm', value: 0),
-                    const LinearAxisLabel(text: '25 cm', value: 25),
-                    const LinearAxisLabel(text: '50 cm', value: 50),
-                    const LinearAxisLabel(text: '75 cm', value: 75),
-                    const LinearAxisLabel(text: '100 cm', value: 100),
-                    const LinearAxisLabel(text: '125 cm', value: 125),
-                    const LinearAxisLabel(text: '150 cm', value: 150),
-                    const LinearAxisLabel(text: '175 cm', value: 175),
-                    const LinearAxisLabel(text: '200 cm', value: 200),
-                  ];
+                      const LinearAxisLabel(text: '0 cm', value: 0),
+                      const LinearAxisLabel(text: '25 cm', value: 25),
+                      const LinearAxisLabel(text: '50 cm', value: 50),
+                      const LinearAxisLabel(text: '75 cm', value: 75),
+                      const LinearAxisLabel(text: '100 cm', value: 100),
+                      const LinearAxisLabel(text: '125 cm', value: 125),
+                      const LinearAxisLabel(text: '150 cm', value: 150),
+                      const LinearAxisLabel(text: '175 cm', value: 175),
+                      const LinearAxisLabel(text: '200 cm', value: 200),
+                    ];
             },
             axisTrackStyle: const LinearAxisTrackStyle(),
             markerPointers: <LinearMarkerPointer>[
@@ -125,10 +124,9 @@ class _HeightCalculatorState extends SampleViewState {
                     color: model.homeCardColor,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                        color:
-                            brightness == Brightness.light
-                                ? Colors.grey
-                                : Colors.black54,
+                        color: brightness == Brightness.light
+                            ? Colors.grey
+                            : Colors.black54,
                         offset: const Offset(0.0, 1.0), //(x,y)
                         blurRadius: 6.0,
                       ),

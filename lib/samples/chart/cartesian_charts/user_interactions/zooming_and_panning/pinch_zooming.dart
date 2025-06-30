@@ -411,16 +411,12 @@ class _DefaultPanningState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _selectedModeType,
-            items:
-                _zoomModeTypeList.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'x',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _zoomModeTypeList.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'x',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (String? value) {
               _updateZoomMode(value.toString());
               stateSetter(() {});

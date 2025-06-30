@@ -58,14 +58,12 @@ class _VerticalSliderColorCustomizationPageState extends SampleViewState {
   SfSliderTheme _sliderWithThumbStrokeColorCustomization() {
     return SfSliderTheme(
       data: SfSliderThemeData(
-        inactiveDividerColor:
-            model.isWebFullView
-                ? model.backgroundColor
-                : model.sampleOutputCardColor,
-        activeDividerColor:
-            model.isWebFullView
-                ? model.backgroundColor
-                : model.sampleOutputCardColor,
+        inactiveDividerColor: model.isWebFullView
+            ? model.backgroundColor
+            : model.sampleOutputCardColor,
+        activeDividerColor: model.isWebFullView
+            ? model.backgroundColor
+            : model.sampleOutputCardColor,
         activeDividerStrokeWidth: 2,
         activeDividerStrokeColor: Colors.deepOrange.withValues(alpha: 0.24),
         inactiveDividerStrokeWidth: 2,
@@ -75,10 +73,9 @@ class _VerticalSliderColorCustomizationPageState extends SampleViewState {
         activeTrackColor: Colors.deepOrange,
         inactiveTrackColor: Colors.deepOrange.withValues(alpha: 0.24),
         overlayColor: Colors.deepOrange.withValues(alpha: 0.12),
-        thumbColor:
-            model.isWebFullView
-                ? model.backgroundColor
-                : model.sampleOutputCardColor,
+        thumbColor: model.isWebFullView
+            ? model.backgroundColor
+            : model.sampleOutputCardColor,
         thumbStrokeWidth: 2.0,
         tooltipBackgroundColor: Colors.deepOrange,
         thumbStrokeColor: Colors.deepOrange,
@@ -138,13 +135,14 @@ class _VerticalSliderColorCustomizationPageState extends SampleViewState {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final Widget slider =
-            model.isWebFullView ? _buildWebLayout() : _buildMobileLayout();
+        final Widget slider = model.isWebFullView
+            ? _buildWebLayout()
+            : _buildMobileLayout();
         return constraints.maxHeight > 350
             ? slider
             : SingleChildScrollView(
-              child: SizedBox(height: 400, child: slider),
-            );
+                child: SizedBox(height: 400, child: slider),
+              );
       },
     );
   }

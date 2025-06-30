@@ -143,9 +143,9 @@ class _JsonDataSourceDataGridState extends SampleViewState {
         return _jsonDataGridSource.employees.isEmpty
             ? const Center(child: CircularProgressIndicator(strokeWidth: 3))
             : SfDataGrid(
-              source: _jsonDataGridSource,
-              columns: _obtainColumns(),
-            );
+                source: _jsonDataGridSource,
+                columns: _obtainColumns(),
+              );
       },
     );
   }

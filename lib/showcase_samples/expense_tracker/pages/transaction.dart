@@ -92,18 +92,19 @@ class _TransactionPageState extends State<TransactionPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Consumer<TransactionSelectedCountNotifier>(
-            builder: (
-              BuildContext context,
-              TransactionSelectedCountNotifier value,
-              Widget? child,
-            ) {
-              _selectedCountNotifier = value;
-              if (value.selectedCount > 0) {
-                return _buildEditAndDeleteTag(transactionNotifier);
-              } else {
-                return _buildFilterSegmentAndExportButton();
-              }
-            },
+            builder:
+                (
+                  BuildContext context,
+                  TransactionSelectedCountNotifier value,
+                  Widget? child,
+                ) {
+                  _selectedCountNotifier = value;
+                  if (value.selectedCount > 0) {
+                    return _buildEditAndDeleteTag(transactionNotifier);
+                  } else {
+                    return _buildFilterSegmentAndExportButton();
+                  }
+                },
           ),
           if (isMobile(context))
             Row(
@@ -122,212 +123,209 @@ class _TransactionPageState extends State<TransactionPage> {
     final bool isWebFullView =
         kIsWeb || Platform.isWindows || Platform.isMacOS || Platform.isLinux;
     return Consumer<TransactionSelectedCountNotifier>(
-      builder: (
-        BuildContext context,
-        TransactionSelectedCountNotifier value,
-        Widget? child,
-      ) {
-        return SizedBox(
-          height: isWebFullView ? 40 : 46,
-          child: SelectedCountsTag(
-            selectedCount: value.selectedCount,
-            closeButtonPressed: () {
-              _dataGridController.selectedRows = <DataGridRow>[];
-              _selectedCountNotifier.countChecking(0);
-              _selectedCountNotifier.countChecking(
-                _dataGridController.selectedRows.length,
-              );
-            },
-            editButtonPressed: () {
-              final int startIndex =
-                  _dataSource.rowsPerPage * _dataSource.currentPageIndex;
-              final List<int> selectedIndexes =
-                  _dataGridController.selectedRows
+      builder:
+          (
+            BuildContext context,
+            TransactionSelectedCountNotifier value,
+            Widget? child,
+          ) {
+            return SizedBox(
+              height: isWebFullView ? 40 : 46,
+              child: SelectedCountsTag(
+                selectedCount: value.selectedCount,
+                closeButtonPressed: () {
+                  _dataGridController.selectedRows = <DataGridRow>[];
+                  _selectedCountNotifier.countChecking(0);
+                  _selectedCountNotifier.countChecking(
+                    _dataGridController.selectedRows.length,
+                  );
+                },
+                editButtonPressed: () {
+                  final int startIndex =
+                      _dataSource.rowsPerPage * _dataSource.currentPageIndex;
+                  final List<int> selectedIndexes = _dataGridController
+                      .selectedRows
                       .map((row) => startIndex + _dataSource.rows.indexOf(row))
                       .toList();
-              _userInteraction = UserInteractions.edit;
-              if (isMobile(context)) {
-                showDialog<Widget>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Consumer<TextButtonValidNotifier>(
-                      builder: (
-                        BuildContext context,
-                        TextButtonValidNotifier value,
-                        Widget? child,
-                      ) {
-                        return MobileCenterDialog(
-                          userInteraction: UserInteractions.edit,
-                          transactionNotifier: transactionNotifier,
-                          validateNotifier: value,
-                          currentMobileDialog: MobileDialogs.transactions,
-                          title: 'Edit transaction',
-                          buttonText: 'Save',
-                          index: selectedIndexes[0],
-                          userDetails: widget.currentUserDetails,
-                          onCancelPressed: () {
-                            Navigator.pop(context);
-                          },
-                          onPressed: () {
-                            final Transaction transaction = Transaction(
-                              type:
-                                  transactionNotifier
-                                      .transactionTextFieldDetails!
-                                      .type,
-                              category:
-                                  transactionNotifier
-                                      .transactionTextFieldDetails!
-                                      .category,
-                              subCategory:
-                                  transactionNotifier
-                                      .transactionTextFieldDetails!
-                                      .subCategory,
-                              transactionDate:
-                                  transactionNotifier
-                                      .transactionTextFieldDetails!
-                                      .date,
-                              amount:
-                                  transactionNotifier
-                                      .transactionTextFieldDetails!
-                                      .amount,
-                              remark:
-                                  transactionNotifier
-                                      .transactionTextFieldDetails!
-                                      .remarks,
-                            );
-                            transactionNotifier.editTransaction(
-                              selectedIndexes[0],
-                              transaction,
-                            );
-                            _selectedCountNotifier.countChecking(0);
-                            updateTransactions(
-                              context,
-                              widget.currentUserDetails,
-                              transaction,
-                              _userInteraction,
-                              selectedIndexes,
-                            );
-                            value.isTextButtonValid(false);
-                            Navigator.pop(context);
-                          },
+                  _userInteraction = UserInteractions.edit;
+                  if (isMobile(context)) {
+                    showDialog<Widget>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Consumer<TextButtonValidNotifier>(
+                          builder:
+                              (
+                                BuildContext context,
+                                TextButtonValidNotifier value,
+                                Widget? child,
+                              ) {
+                                return MobileCenterDialog(
+                                  userInteraction: UserInteractions.edit,
+                                  transactionNotifier: transactionNotifier,
+                                  validateNotifier: value,
+                                  currentMobileDialog:
+                                      MobileDialogs.transactions,
+                                  title: 'Edit transaction',
+                                  buttonText: 'Save',
+                                  index: selectedIndexes[0],
+                                  userDetails: widget.currentUserDetails,
+                                  onCancelPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  onPressed: () {
+                                    final Transaction transaction = Transaction(
+                                      type: transactionNotifier
+                                          .transactionTextFieldDetails!
+                                          .type,
+                                      category: transactionNotifier
+                                          .transactionTextFieldDetails!
+                                          .category,
+                                      subCategory: transactionNotifier
+                                          .transactionTextFieldDetails!
+                                          .subCategory,
+                                      transactionDate: transactionNotifier
+                                          .transactionTextFieldDetails!
+                                          .date,
+                                      amount: transactionNotifier
+                                          .transactionTextFieldDetails!
+                                          .amount,
+                                      remark: transactionNotifier
+                                          .transactionTextFieldDetails!
+                                          .remarks,
+                                    );
+                                    transactionNotifier.editTransaction(
+                                      selectedIndexes[0],
+                                      transaction,
+                                    );
+                                    _selectedCountNotifier.countChecking(0);
+                                    // updateTransactions(
+                                    //   widget.currentUserDetails,
+                                    //   transaction,
+                                    //   _userInteraction,
+                                    //   selectedIndexes,
+                                    // );
+                                    value.isTextButtonValid(false);
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              },
                         );
                       },
                     );
-                  },
-                );
-              } else {
-                showDialog<Transaction>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Consumer<TextButtonValidNotifier>(
-                      builder: (
-                        BuildContext context,
-                        TextButtonValidNotifier validNotifier,
-                        Widget? child,
-                      ) {
-                        return ResponsiveTransactionCenterDialog(
-                          notifier: transactionNotifier,
-                          validNotifier: validNotifier,
-                          selectedCountNotifier: value,
-                          addButtonOnPressedEvent: () {},
-                          userInteraction: _userInteraction,
-                          userDetails: widget.currentUserDetails,
-                          selectedIndex: selectedIndexes[0],
-                          categories: _categories,
-                          subCategories: _subCategories,
+                  } else {
+                    showDialog<Transaction>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Consumer<TextButtonValidNotifier>(
+                          builder:
+                              (
+                                BuildContext context,
+                                TextButtonValidNotifier validNotifier,
+                                Widget? child,
+                              ) {
+                                return ResponsiveTransactionCenterDialog(
+                                  notifier: transactionNotifier,
+                                  validNotifier: validNotifier,
+                                  selectedCountNotifier: value,
+                                  addButtonOnPressedEvent: () {},
+                                  userInteraction: _userInteraction,
+                                  userDetails: widget.currentUserDetails,
+                                  selectedIndex: selectedIndexes[0],
+                                  categories: _categories,
+                                  subCategories: _subCategories,
+                                );
+                              },
                         );
                       },
                     );
-                  },
-                );
-              }
-            },
-            deleteButtonPressed: () {
-              if (isMobile(context)) {
-                showMobileDeleteConfirmation(
-                  context,
-                  'Delete Transaction?',
-                  'Do you want delete this transaction?',
-                  () {
-                    final int startIndex =
-                        _dataSource.rowsPerPage * _dataSource.currentPageIndex;
-                    final List<int> selectedIndexes =
-                        _dataGridController.selectedRows
+                  }
+                },
+                deleteButtonPressed: () {
+                  if (isMobile(context)) {
+                    showMobileDeleteConfirmation(
+                      context,
+                      'Delete Transaction?',
+                      'Do you want delete this transaction?',
+                      () {
+                        final int startIndex =
+                            _dataSource.rowsPerPage *
+                            _dataSource.currentPageIndex;
+                        final List<int> selectedIndexes = _dataGridController
+                            .selectedRows
                             .map(
                               (row) =>
                                   startIndex + _dataSource.rows.indexOf(row),
                             )
                             .toList();
-                    transactionNotifier.deleteTransactions(selectedIndexes);
-                    _selectedCountNotifier.countChecking(0);
-                    updateTransactions(
-                      context,
-                      widget.currentUserDetails,
-                      transactionNotifier.transactions[0],
-                      UserInteractions.delete,
-                      transactionNotifier.selectedIndexes,
+                        transactionNotifier.deleteTransactions(selectedIndexes);
+                        _selectedCountNotifier.countChecking(0);
+                        // updateTransactions(
+                        //   widget.currentUserDetails,
+                        //   transactionNotifier.transactions[0],
+                        //   UserInteractions.delete,
+                        //   transactionNotifier.selectedIndexes,
+                        // );
+                        Navigator.pop(context);
+                        _dataGridController.selectedRows.clear();
+                      },
                     );
-                    Navigator.pop(context);
-                    _dataGridController.selectedRows.clear();
-                  },
-                );
-              } else {
-                showDeleteConfirmationDialog(
-                  context: context,
-                  title: 'Delete Transaction?',
-                  content: 'Do you want delete this transaction?',
-                  confirmAction: () {
-                    final int startIndex =
-                        _dataSource.rowsPerPage * _dataSource.currentPageIndex;
-                    final List<int> selectedIndexes =
-                        _dataGridController.selectedRows
+                  } else {
+                    showDeleteConfirmationDialog(
+                      context: context,
+                      title: 'Delete Transaction?',
+                      content: 'Do you want delete this transaction?',
+                      confirmAction: () {
+                        final int startIndex =
+                            _dataSource.rowsPerPage *
+                            _dataSource.currentPageIndex;
+                        final List<int> selectedIndexes = _dataGridController
+                            .selectedRows
                             .map(
                               (row) =>
                                   startIndex + _dataSource.rows.indexOf(row),
                             )
                             .toList();
-                    transactionNotifier.deleteTransactions(selectedIndexes);
-                    _selectedCountNotifier.countChecking(0);
-                    updateTransactions(
-                      context,
-                      widget.currentUserDetails,
-                      transactionNotifier.transactions[0],
-                      UserInteractions.delete,
-                      transactionNotifier.selectedIndexes,
+                        transactionNotifier.deleteTransactions(selectedIndexes);
+                        _selectedCountNotifier.countChecking(0);
+                        // updateTransactions(
+                        //   widget.currentUserDetails,
+                        //   transactionNotifier.transactions[0],
+                        //   UserInteractions.delete,
+                        //   transactionNotifier.selectedIndexes,
+                        // );
+                        _dataGridController.selectedRows.clear();
+                      },
                     );
-                    _dataGridController.selectedRows.clear();
-                  },
-                );
-              }
-            },
-          ),
-        );
-      },
+                  }
+                },
+              ),
+            );
+          },
     );
   }
 
   Widget _buildFilterSegmentAndExportButton() {
     return isMobile(context)
         ? SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: _buildSegmentButton(),
-        )
+            width: MediaQuery.of(context).size.width,
+            child: _buildSegmentButton(),
+          )
         : SizedBox(
-          height: 40.0,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              _buildSegmentButton(),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                spacing: 8.0,
-                children: <Widget>[_buildFilter(), _buildExportButton()],
-              ),
-            ],
-          ),
-        );
+            height: 40.0,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _buildSegmentButton(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 8.0,
+                  children: <Widget>[_buildFilter(), _buildExportButton()],
+                ),
+              ],
+            ),
+          );
   }
 
   SizedBox _buildExportButton() {
@@ -350,35 +348,35 @@ class _TransactionPageState extends State<TransactionPage> {
   }
 
   Widget _buildFilteringSegmentsOrDropDownButton(BuildContext context) {
-    final TransactionNotifier transactionNotifier =
-        context.watch<TransactionNotifier>();
+    final TransactionNotifier transactionNotifier = context
+        .watch<TransactionNotifier>();
     return isTablet(context)
         ? ChartsDropdownFilter(
-          width: isMobile(context) ? 150 : null,
-          intervalFilters: const <String>['All', 'Income', 'Expense'],
-          selectedDuration: transactionNotifier.selectedSegment,
-          showLeadingIcon: false,
-          horizontalPadding: 16.0,
-          onTap: (String? value) {
-            transactionNotifier.updateSelectedSegment(value!);
-            transactionNotifier.updateTransactionCount();
-            transactionNotifier.updateTransactions(_transactions);
-          },
-        )
+            width: isMobile(context) ? 150 : null,
+            intervalFilters: const <String>['All', 'Income', 'Expense'],
+            selectedDuration: transactionNotifier.selectedSegment,
+            showLeadingIcon: false,
+            horizontalPadding: 16.0,
+            onTap: (String? value) {
+              transactionNotifier.updateSelectedSegment(value!);
+              transactionNotifier.updateTransactionCount();
+              transactionNotifier.updateTransactions(_transactions);
+            },
+          )
         : SegmentedFilterButtons(
-          options: const <String>['All', 'Income', 'Expense'],
-          onSelectionChanged: (Set<String> selections) {
-            transactionNotifier.updateSelectedSegment(selections.first);
-            transactionNotifier.updateTransactionCount();
-            transactionNotifier.updateTransactions(_transactions);
-          },
-          selectedSegment: transactionNotifier.selectedSegment,
-        );
+            options: const <String>['All', 'Income', 'Expense'],
+            onSelectionChanged: (Set<String> selections) {
+              transactionNotifier.updateSelectedSegment(selections.first);
+              transactionNotifier.updateTransactionCount();
+              transactionNotifier.updateTransactions(_transactions);
+            },
+            selectedSegment: transactionNotifier.selectedSegment,
+          );
   }
 
   Widget _buildTransactionFilter(BuildContext context) {
-    final TransactionNotifier transactionNotifier =
-        context.watch<TransactionNotifier>();
+    final TransactionNotifier transactionNotifier = context
+        .watch<TransactionNotifier>();
     return ChartsDropdownFilter(
       width: 200.0,
       intervalFilters: dateDuration,
@@ -453,8 +451,8 @@ class _TransactionPageState extends State<TransactionPage> {
 
     _setInitialTransactionDateRange();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final TransactionNotifier transactionNotifier =
-          context.read<TransactionNotifier>();
+      final TransactionNotifier transactionNotifier = context
+          .read<TransactionNotifier>();
       final List<Transaction> transactions = readTransactions(
         widget.currentUserDetails,
       );
@@ -482,17 +480,14 @@ class _TransactionPageState extends State<TransactionPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<TransactionNotifier>(
-      builder: (
-        BuildContext context,
-        TransactionNotifier value,
-        Widget? child,
-      ) {
-        _transactions = value.transactions;
-        return Padding(
-          padding: EdgeInsets.all(isMobile(context) ? 16.0 : 24.0),
-          child: _buildTransactionPage(value),
-        );
-      },
+      builder:
+          (BuildContext context, TransactionNotifier value, Widget? child) {
+            _transactions = value.transactions;
+            return Padding(
+              padding: EdgeInsets.all(isMobile(context) ? 16.0 : 24.0),
+              child: _buildTransactionPage(value),
+            );
+          },
     );
   }
 }
@@ -507,116 +502,112 @@ class TransactionGridSource extends CustomDataGridSource<Transaction> {
          rowsPerPage: rowsPerPage,
          data: transactions,
          columns: const ['Date', 'Category', 'Type', 'Amount', 'Notes'],
-         buildCell: (
-           Transaction transaction,
-           String column,
-           BuildContext context,
-         ) {
-           final ThemeData theme = Theme.of(context);
-           final TextStyle bodyLargeMediumStyle = theme.textTheme.bodyLarge!
-               .copyWith(
-                 fontWeight: FontWeight.w400,
-                 color: theme.colorScheme.onSurface,
-               );
-           final TextStyle bodyMediumStyle = theme.textTheme.bodyMedium!
-               .copyWith(
-                 fontWeight: FontWeight.w400,
-                 color: theme.colorScheme.onSurface,
-               );
+         buildCell:
+             (Transaction transaction, String column, BuildContext context) {
+               final ThemeData theme = Theme.of(context);
+               final TextStyle bodyLargeMediumStyle = theme.textTheme.bodyLarge!
+                   .copyWith(
+                     fontWeight: FontWeight.w400,
+                     color: theme.colorScheme.onSurface,
+                   );
+               final TextStyle bodyMediumStyle = theme.textTheme.bodyMedium!
+                   .copyWith(
+                     fontWeight: FontWeight.w400,
+                     color: theme.colorScheme.onSurface,
+                   );
 
-           switch (column) {
-             case 'Date':
-               return Container(
-                 alignment: Alignment.centerLeft,
-                 padding: const EdgeInsets.only(left: 30.0),
-                 child: Text(
-                   formatDate(transaction.transactionDate, user: userDetails),
-                   style:
-                       isMobile(context)
+               switch (column) {
+                 case 'Date':
+                   return Container(
+                     alignment: Alignment.centerLeft,
+                     padding: const EdgeInsets.only(left: 30.0),
+                     child: Text(
+                       formatDate(
+                         transaction.transactionDate,
+                         user: userDetails,
+                       ),
+                       style: isMobile(context)
                            ? bodyMediumStyle
                            : bodyLargeMediumStyle,
-                 ),
-               );
-
-             case 'Category':
-               return Container(
-                 alignment: Alignment.centerLeft,
-                 child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   mainAxisAlignment: MainAxisAlignment.center,
-                   children: [
-                     Padding(
-                       padding: const EdgeInsets.only(left: 12.0),
-                       child: Text(
-                         transaction.category,
-                         overflow:
-                             !isMobile(context) ? TextOverflow.ellipsis : null,
-                         style:
-                             isMobile(context)
-                                 ? theme.textTheme.bodyMedium!.copyWith(
-                                   fontWeight: FontWeight.w500,
-                                   color: theme.colorScheme.onSurface,
-                                 )
-                                 : theme.textTheme.bodyLarge!.copyWith(
-                                   fontWeight: FontWeight.w500,
-                                   color: theme.colorScheme.onSurface,
-                                 ),
-                       ),
                      ),
-                     Padding(
-                       padding: const EdgeInsets.only(left: 12.0),
-                       child: Text(
-                         transaction.subCategory,
-                         overflow: TextOverflow.ellipsis,
-                         style: theme.textTheme.bodyMedium!.copyWith(
-                           fontWeight:
-                               isMobile(context)
+                   );
+
+                 case 'Category':
+                   return Container(
+                     alignment: Alignment.centerLeft,
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Padding(
+                           padding: const EdgeInsets.only(left: 12.0),
+                           child: Text(
+                             transaction.category,
+                             overflow: !isMobile(context)
+                                 ? TextOverflow.ellipsis
+                                 : null,
+                             style: isMobile(context)
+                                 ? theme.textTheme.bodyMedium!.copyWith(
+                                     fontWeight: FontWeight.w500,
+                                     color: theme.colorScheme.onSurface,
+                                   )
+                                 : theme.textTheme.bodyLarge!.copyWith(
+                                     fontWeight: FontWeight.w500,
+                                     color: theme.colorScheme.onSurface,
+                                   ),
+                           ),
+                         ),
+                         Padding(
+                           padding: const EdgeInsets.only(left: 12.0),
+                           child: Text(
+                             transaction.subCategory,
+                             overflow: TextOverflow.ellipsis,
+                             style: theme.textTheme.bodyMedium!.copyWith(
+                               fontWeight: isMobile(context)
                                    ? FontWeight.w300
                                    : FontWeight.w400,
-                           color: theme.colorScheme.onSurfaceVariant,
+                               color: theme.colorScheme.onSurfaceVariant,
+                             ),
+                           ),
                          ),
-                       ),
+                       ],
                      ),
-                   ],
-                 ),
-               );
+                   );
 
-             case 'Type':
-               return Container(
-                 alignment: Alignment.centerLeft,
-                 padding: const EdgeInsets.only(left: 12.0),
-                 child: TypeColor(type: transaction.type),
-               );
+                 case 'Type':
+                   return Container(
+                     alignment: Alignment.centerLeft,
+                     padding: const EdgeInsets.only(left: 12.0),
+                     child: TypeColor(type: transaction.type),
+                   );
 
-             case 'Amount':
-               return Container(
-                 alignment: Alignment.centerLeft,
-                 padding: const EdgeInsets.only(left: 24),
-                 child: Text(
-                   toCurrency(transaction.amount, userDetails.userProfile),
-                   style:
-                       isMobile(context)
+                 case 'Amount':
+                   return Container(
+                     alignment: Alignment.centerLeft,
+                     padding: const EdgeInsets.only(left: 24),
+                     child: Text(
+                       toCurrency(transaction.amount, userDetails.userProfile),
+                       style: isMobile(context)
                            ? bodyMediumStyle
                            : bodyLargeMediumStyle,
-                 ),
-               );
+                     ),
+                   );
 
-             case 'Notes':
-               return Container(
-                 alignment: Alignment.centerLeft,
-                 child: Text(
-                   transaction.remark,
-                   style:
-                       isMobile(context)
+                 case 'Notes':
+                   return Container(
+                     alignment: Alignment.centerLeft,
+                     child: Text(
+                       transaction.remark,
+                       style: isMobile(context)
                            ? bodyMediumStyle
                            : bodyLargeMediumStyle,
-                 ),
-               );
+                     ),
+                   );
 
-             default:
-               return Container();
-           }
-         },
+                 default:
+                   return Container();
+               }
+             },
        );
 
   @override

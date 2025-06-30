@@ -170,8 +170,8 @@ class _ColumnSpacingState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         width: isCardView ? 0.8 : _columnWidth,
         spacing: isCardView ? 0.2 : _columnSpacing,
         color: const Color.fromRGBO(177, 183, 188, 1),
@@ -180,8 +180,8 @@ class _ColumnSpacingState extends SampleViewState {
       ColumnSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
         width: isCardView ? 0.8 : _columnWidth,
         spacing: isCardView ? 0.2 : _columnSpacing,
         color: const Color.fromRGBO(140, 92, 69, 1),

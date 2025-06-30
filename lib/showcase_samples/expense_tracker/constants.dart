@@ -47,7 +47,7 @@ const Color linearGaugeLightThemeTrackColor = Color.fromARGB(
   218,
   218,
 );
-const Color linearGaugeDarkThemeTrackColor = Color.fromARGB(255, 82, 81, 81);
+const Color linearGaugeDarkThemeTrackColor = Color.fromARGB(255, 217, 217, 217);
 const Color progressRedColor = Color.fromRGBO(229, 57, 53, 1);
 const Color progressOrangeColor = Color.fromRGBO(251, 140, 0, 1);
 const Color progressGreenColor = Color.fromRGBO(67, 160, 71, 1);
@@ -111,7 +111,7 @@ IconData dashboardIcon = const IconData(0xe716, fontFamily: fontIconFamily);
 IconData transactionIcon = const IconData(0xe738, fontFamily: fontIconFamily);
 IconData budgetIcon = const IconData(0xe739, fontFamily: fontIconFamily);
 IconData savingIcon = const IconData(0xe737, fontFamily: fontIconFamily);
-// IconData goalIcon = const IconData(0xe739, fontFamily: fontIconFamily);
+IconData goalIcon = const IconData(0xe73a, fontFamily: fontIconFamily);
 IconData settingIcon = const IconData(0xe717, fontFamily: fontIconFamily);
 
 List<IconData> buildIconDataCollections(BuildContext context) {
@@ -121,7 +121,7 @@ List<IconData> buildIconDataCollections(BuildContext context) {
     transactionIcon,
     budgetIcon,
     savingIcon,
-    // goalIcon,
+    goalIcon,
     settingIcon,
   ];
 }
@@ -135,9 +135,9 @@ List<String> buildNavigationPages(BuildContext context) {
     if (!isMobile(context)) 'Expense Tracker',
     'Dashboard',
     'Transaction',
-    'Budget',
+    'Budgets',
     'Savings',
-    // 'Goals',
+    'Goals',
     'Settings',
   ];
 }

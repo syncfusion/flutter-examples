@@ -58,51 +58,50 @@ class _WidgetPointerState extends SampleViewState {
   Widget _buildWidgetPointer(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 32.0),
-      child:
-          _isHorizontalOrientation
-              ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildHorizontalGauges(
-                    'Text widget',
-                    _buildTextWidgetPointer(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Icon widget',
-                    _buildIconWidgetPointer(context),
-                  ),
-                  _buildHorizontalGauges(
-                    'Multiple widget pointers',
-                    _buildMultipleWidgetPointers(context),
-                  ),
-                ],
-              )
-              : Column(
-                children: <Widget>[
-                  Wrap(
-                    runSpacing: 30,
-                    spacing: 16,
-                    alignment: WrapAlignment.center,
-                    children: <Widget>[
-                      _buildVerticalGauges(
-                        'Text widget',
-                        _buildTextWidgetPointer(context),
-                      ),
-                      _buildVerticalGauges(
-                        'Icon widget',
-                        _buildIconWidgetPointer(context),
-                      ),
-                      _buildVerticalGauges(
-                        model.isDesktop
-                            ? 'Multiple widgets'
-                            : 'Multiple widget pointers',
-                        _buildMultipleWidgetPointers(context),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+      child: _isHorizontalOrientation
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildHorizontalGauges(
+                  'Text widget',
+                  _buildTextWidgetPointer(context),
+                ),
+                _buildHorizontalGauges(
+                  'Icon widget',
+                  _buildIconWidgetPointer(context),
+                ),
+                _buildHorizontalGauges(
+                  'Multiple widget pointers',
+                  _buildMultipleWidgetPointers(context),
+                ),
+              ],
+            )
+          : Column(
+              children: <Widget>[
+                Wrap(
+                  runSpacing: 30,
+                  spacing: 16,
+                  alignment: WrapAlignment.center,
+                  children: <Widget>[
+                    _buildVerticalGauges(
+                      'Text widget',
+                      _buildTextWidgetPointer(context),
+                    ),
+                    _buildVerticalGauges(
+                      'Icon widget',
+                      _buildIconWidgetPointer(context),
+                    ),
+                    _buildVerticalGauges(
+                      model.isDesktop
+                          ? 'Multiple widgets'
+                          : 'Multiple widget pointers',
+                      _buildMultipleWidgetPointers(context),
+                    ),
+                  ],
+                ),
+              ],
+            ),
     );
   }
 
@@ -142,10 +141,9 @@ class _WidgetPointerState extends SampleViewState {
       child: SfLinearGauge(
         animateAxis: true,
         axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         markerPointers: <LinearMarkerPointer>[
           LinearWidgetPointer(
             value: _textWidgetPointerValue,
@@ -158,16 +156,14 @@ class _WidgetPointerState extends SampleViewState {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color:
-                    brightness == Brightness.dark
-                        ? const Color(0xFFFFFFFF)
-                        : const Color(0xff06589C),
+                color: brightness == Brightness.dark
+                    ? const Color(0xFFFFFFFF)
+                    : const Color(0xff06589C),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    color:
-                        brightness == Brightness.light
-                            ? Colors.grey
-                            : Colors.black54,
+                    color: brightness == Brightness.light
+                        ? Colors.grey
+                        : Colors.black54,
                     offset: const Offset(0.0, 1.0), //(x,y)
                     blurRadius: 6.0,
                   ),
@@ -179,10 +175,9 @@ class _WidgetPointerState extends SampleViewState {
                   _textWidgetPointerValue.toStringAsFixed(0),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color:
-                        brightness == Brightness.light
-                            ? const Color(0xFFFFFFFF)
-                            : const Color(0xffF45656),
+                    color: brightness == Brightness.light
+                        ? const Color(0xFFFFFFFF)
+                        : const Color(0xffF45656),
                   ),
                 ),
               ),
@@ -202,10 +197,9 @@ class _WidgetPointerState extends SampleViewState {
       child: SfLinearGauge(
         animateAxis: true,
         axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         markerPointers: <LinearMarkerPointer>[
           LinearWidgetPointer(
             value: _iconWidgetPointerValue,
@@ -218,16 +212,14 @@ class _WidgetPointerState extends SampleViewState {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color:
-                    brightness == Brightness.dark
-                        ? const Color(0xFFFFFFFF)
-                        : const Color(0xff06589C),
+                color: brightness == Brightness.dark
+                    ? const Color(0xFFFFFFFF)
+                    : const Color(0xff06589C),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    color:
-                        brightness == Brightness.light
-                            ? Colors.grey
-                            : Colors.black54,
+                    color: brightness == Brightness.light
+                        ? Colors.grey
+                        : Colors.black54,
                     offset: const Offset(0.0, 1.0), //(x,y)
                     blurRadius: 6.0,
                   ),
@@ -238,10 +230,9 @@ class _WidgetPointerState extends SampleViewState {
                 child: Icon(
                   Icons.thumb_up_rounded,
                   size: 20,
-                  color:
-                      brightness == Brightness.light
-                          ? const Color(0xFFFFFFFF)
-                          : const Color(0xffF45656),
+                  color: brightness == Brightness.light
+                      ? const Color(0xFFFFFFFF)
+                      : const Color(0xffF45656),
                 ),
               ),
             ),
@@ -260,10 +251,9 @@ class _WidgetPointerState extends SampleViewState {
       child: SfLinearGauge(
         animateAxis: true,
         axisTrackStyle: const LinearAxisTrackStyle(thickness: 24),
-        orientation:
-            _isHorizontalOrientation
-                ? LinearGaugeOrientation.horizontal
-                : LinearGaugeOrientation.vertical,
+        orientation: _isHorizontalOrientation
+            ? LinearGaugeOrientation.horizontal
+            : LinearGaugeOrientation.vertical,
         markerPointers: <LinearMarkerPointer>[
           LinearWidgetPointer(
             value: _textPointerValue,
@@ -276,16 +266,14 @@ class _WidgetPointerState extends SampleViewState {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color:
-                    brightness == Brightness.dark
-                        ? const Color(0xFFFFFFFF)
-                        : const Color(0xff06589C),
+                color: brightness == Brightness.dark
+                    ? const Color(0xFFFFFFFF)
+                    : const Color(0xff06589C),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    color:
-                        brightness == Brightness.light
-                            ? Colors.grey
-                            : Colors.black54,
+                    color: brightness == Brightness.light
+                        ? Colors.grey
+                        : Colors.black54,
                     offset: const Offset(0.0, 1.0), //(x,y)
                     blurRadius: 6.0,
                   ),
@@ -297,10 +285,9 @@ class _WidgetPointerState extends SampleViewState {
                   _textPointerValue.toStringAsFixed(0),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color:
-                        brightness == Brightness.light
-                            ? const Color(0xFFFFFFFF)
-                            : const Color(0xffF45656),
+                    color: brightness == Brightness.light
+                        ? const Color(0xFFFFFFFF)
+                        : const Color(0xffF45656),
                   ),
                 ),
               ),
@@ -317,16 +304,14 @@ class _WidgetPointerState extends SampleViewState {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color:
-                    brightness == Brightness.dark
-                        ? const Color(0xFFFFFFFF)
-                        : const Color(0xff06589C),
+                color: brightness == Brightness.dark
+                    ? const Color(0xFFFFFFFF)
+                    : const Color(0xff06589C),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    color:
-                        brightness == Brightness.light
-                            ? Colors.grey
-                            : Colors.black54,
+                    color: brightness == Brightness.light
+                        ? Colors.grey
+                        : Colors.black54,
                     offset: const Offset(0.0, 1.0), //(x,y)
                     blurRadius: 6.0,
                   ),
@@ -337,10 +322,9 @@ class _WidgetPointerState extends SampleViewState {
                 child: Icon(
                   Icons.thumb_up_rounded,
                   size: 20,
-                  color:
-                      brightness == Brightness.light
-                          ? const Color(0xFFFFFFFF)
-                          : const Color(0xffF45656),
+                  color: brightness == Brightness.light
+                      ? const Color(0xFFFFFFFF)
+                      : const Color(0xffF45656),
                 ),
               ),
             ),
@@ -376,10 +360,9 @@ class _WidgetPointerState extends SampleViewState {
             ),
           ),
         },
-        onValueChanged:
-            (bool value) => setState(() {
-              _isHorizontalOrientation = value;
-            }),
+        onValueChanged: (bool value) => setState(() {
+          _isHorizontalOrientation = value;
+        }),
         groupValue: _isHorizontalOrientation,
       ),
     );

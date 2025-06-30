@@ -171,8 +171,9 @@ class _CartesianLegendOptionsState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
     final double dropDownWidth = 0.7 * screenWidth;
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
@@ -211,18 +212,15 @@ class _CartesianLegendOptionsState extends SampleViewState {
                                   height: 1,
                                 ),
                                 value: _selectedPosition,
-                                items:
-                                    _positionList!.map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: (value != null) ? value : 'auto',
-                                        child: Text(
-                                          value,
-                                          style: TextStyle(
-                                            color: model.textColor,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
+                                items: _positionList!.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: (value != null) ? value : 'auto',
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(color: model.textColor),
+                                    ),
+                                  );
+                                }).toList(),
                                 onChanged: (dynamic value) {
                                   _onPositionTypeChange(value.toString());
                                   stateSetter(() {});
@@ -259,18 +257,15 @@ class _CartesianLegendOptionsState extends SampleViewState {
                                   height: 1,
                                 ),
                                 value: _selectedMode,
-                                items:
-                                    _modeList!.map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: (value != null) ? value : 'wrap',
-                                        child: Text(
-                                          value,
-                                          style: TextStyle(
-                                            color: model.textColor,
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
+                                items: _modeList!.map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: (value != null) ? value : 'wrap',
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(color: model.textColor),
+                                    ),
+                                  );
+                                }).toList(),
                                 onChanged: (dynamic value) {
                                   _onModeTypeChange(value);
                                   stateSetter(() {});
@@ -299,10 +294,9 @@ class _CartesianLegendOptionsState extends SampleViewState {
                           Flexible(
                             child: Container(
                               padding: EdgeInsets.only(
-                                right:
-                                    model.isMobile
-                                        ? 0.29 * screenWidth
-                                        : 0.37 * screenWidth,
+                                right: model.isMobile
+                                    ? 0.29 * screenWidth
+                                    : 0.37 * screenWidth,
                               ),
                               width: dropDownWidth,
                               child: Checkbox(
@@ -339,10 +333,9 @@ class _CartesianLegendOptionsState extends SampleViewState {
                           Flexible(
                             child: Container(
                               padding: EdgeInsets.only(
-                                right:
-                                    model.isMobile
-                                        ? 0.29 * screenWidth
-                                        : 0.37 * screenWidth,
+                                right: model.isMobile
+                                    ? 0.29 * screenWidth
+                                    : 0.37 * screenWidth,
                               ),
                               width: dropDownWidth,
                               child: Checkbox(
@@ -379,10 +372,9 @@ class _CartesianLegendOptionsState extends SampleViewState {
                               minValue: -100,
                               maxValue: 100,
                               initialValue: _xOffset,
-                              onChanged:
-                                  (double val) => setState(() {
-                                    _xOffset = _enableFloatingLegend ? val : 0;
-                                  }),
+                              onChanged: (double val) => setState(() {
+                                _xOffset = _enableFloatingLegend ? val : 0;
+                              }),
                               step: _enableFloatingLegend ? 10 : 0,
                               iconColor: model.textColor.withValues(
                                 alpha: _enableFloatingLegend ? 1 : 0.5,
@@ -417,10 +409,9 @@ class _CartesianLegendOptionsState extends SampleViewState {
                               minValue: -100,
                               maxValue: 100,
                               initialValue: _yOffset,
-                              onChanged:
-                                  (double val) => setState(() {
-                                    _yOffset = _enableFloatingLegend ? val : 0;
-                                  }),
+                              onChanged: (double val) => setState(() {
+                                _yOffset = _enableFloatingLegend ? val : 0;
+                              }),
                               step: _enableFloatingLegend ? 10 : 0,
                               iconColor: model.textColor.withValues(
                                 alpha: _enableFloatingLegend ? 1 : 0.5,
@@ -474,14 +465,12 @@ class _CartesianLegendOptionsState extends SampleViewState {
         offset: _enableFloatingLegend ? Offset(_xOffset, _yOffset) : null,
         overflowMode: _overflowMode!,
         toggleSeriesVisibility: _toggleVisibility,
-        backgroundColor:
-            model.themeData.brightness == Brightness.light
-                ? Colors.white.withValues(alpha: 0.5)
-                : const Color.fromRGBO(33, 33, 33, 0.5),
-        borderColor:
-            model.themeData.brightness == Brightness.light
-                ? Colors.black.withValues(alpha: 0.5)
-                : Colors.white.withValues(alpha: 0.5),
+        backgroundColor: model.themeData.brightness == Brightness.light
+            ? Colors.white.withValues(alpha: 0.5)
+            : const Color.fromRGBO(33, 33, 33, 0.5),
+        borderColor: model.themeData.brightness == Brightness.light
+            ? Colors.black.withValues(alpha: 0.5)
+            : Colors.white.withValues(alpha: 0.5),
       ),
       tooltipBehavior: _tooltipBehavior,
     );
@@ -505,15 +494,15 @@ class _CartesianLegendOptionsState extends SampleViewState {
       StackedAreaSeries<ChartSampleData, DateTime>(
         dataSource: _fruitsSalesComparisonData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         name: 'Pear',
       ),
       StackedAreaSeries<ChartSampleData, DateTime>(
         dataSource: _fruitsSalesComparisonData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.thirdSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.thirdSeriesYValue,
         name: 'Others',
       ),
     ];

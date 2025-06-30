@@ -103,11 +103,10 @@ class _GettingStartedSignaturePadState extends SampleViewState {
               shape: BoxShape.circle,
             ),
             child: InkWell(
-              onTap:
-                  () => stateChanged(() {
-                    _strokeColor = _strokeColors[i];
-                    _selectedPenIndex = i;
-                  }),
+              onTap: () => stateChanged(() {
+                _strokeColor = _strokeColors[i];
+                _selectedPenIndex = i;
+              }),
               child: Center(
                 child: Stack(
                   children: <Widget>[
@@ -154,156 +153,150 @@ class _GettingStartedSignaturePadState extends SampleViewState {
 
     Color popUpBackgroundColor = model.backgroundColor;
     if (model.themeData.useMaterial3) {
-      popUpBackgroundColor =
-          _isDark
-              ? Color.alphaBlend(
-                Colors.black.withValues(alpha: 0.75),
-                model.themeData.colorScheme.primary,
-              )
-              : Color.alphaBlend(
-                Colors.white.withValues(alpha: 0.95),
-                model.themeData.colorScheme.primary,
-              );
+      popUpBackgroundColor = _isDark
+          ? Color.alphaBlend(
+              Colors.black.withValues(alpha: 0.75),
+              model.themeData.colorScheme.primary,
+            )
+          : Color.alphaBlend(
+              Colors.white.withValues(alpha: 0.95),
+              model.themeData.colorScheme.primary,
+            );
     }
 
     showDialog<Widget>(
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
-          builder: (
-            BuildContext context,
-            void Function(void Function()) setState,
-          ) {
-            final Color textColor = _isDark ? Colors.white : Colors.black87;
+          builder:
+              (BuildContext context, void Function(void Function()) setState) {
+                final Color textColor = _isDark ? Colors.white : Colors.black87;
 
-            return AlertDialog(
-              insetPadding:
-                  _isWebOrDesktop
+                return AlertDialog(
+                  insetPadding: _isWebOrDesktop
                       ? const EdgeInsets.fromLTRB(10, 10, 15, 10)
                       : const EdgeInsets.all(12),
-              backgroundColor: popUpBackgroundColor,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Draw your signature',
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Roboto-Medium',
-                    ),
-                  ),
-                  InkWell(
-                    //ignore: sdk_version_set_literal
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Icon(
-                      Icons.clear,
-                      color:
-                          _isDark
-                              ? Colors.grey[400]
-                              : const Color.fromRGBO(0, 0, 0, 0.54),
-                      size: 24.0,
-                    ),
-                  ),
-                ],
-              ),
-              titlePadding: const EdgeInsets.all(16.0),
-              content: SingleChildScrollView(
-                child: SizedBox(
-                  width:
-                      MediaQuery.of(context).size.width < 306
-                          ? MediaQuery.of(context).size.width
-                          : 450,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  backgroundColor: popUpBackgroundColor,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Container(
-                        width:
-                            MediaQuery.of(context).size.width < 306
-                                ? MediaQuery.of(context).size.width
-                                : 450,
-                        height: 172,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: _getBorderColor()!),
-                        ),
-                        child: SfSignaturePad(
-                          minimumStrokeWidth: _minWidth,
-                          maximumStrokeWidth: _maxWidth,
-                          strokeColor: _strokeColor,
-                          backgroundColor: padBackgroundColor,
-                          onDrawStart: _handleOnDrawStart,
-                          key: _signaturePadKey,
+                      Text(
+                        'Draw your signature',
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Roboto-Medium',
                         ),
                       ),
-                      const SizedBox(height: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Pen Color',
-                            style: TextStyle(
-                              color: textColor,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: 'Roboto-Regular',
-                            ),
-                          ),
-                          SizedBox(
-                            width: 124,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: _addStrokeColorPalettes(setState),
-                            ),
-                          ),
-                        ],
+                      InkWell(
+                        //ignore: sdk_version_set_literal
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Icon(
+                          Icons.clear,
+                          color: _isDark
+                              ? Colors.grey[400]
+                              : const Color.fromRGBO(0, 0, 0, 0.54),
+                          size: 24.0,
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
-              actionsPadding: const EdgeInsets.all(8.0),
-              buttonPadding: EdgeInsets.zero,
-              actions: <Widget>[
-                TextButton(
-                  onPressed: _handleClearButtonPressed,
-                  style: ButtonStyle(
-                    foregroundColor: WidgetStateProperty.all<Color>(
-                      model.primaryColor,
+                  titlePadding: const EdgeInsets.all(16.0),
+                  content: SingleChildScrollView(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width < 306
+                          ? MediaQuery.of(context).size.width
+                          : 450,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width < 306
+                                ? MediaQuery.of(context).size.width
+                                : 450,
+                            height: 172,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: _getBorderColor()!),
+                            ),
+                            child: SfSignaturePad(
+                              minimumStrokeWidth: _minWidth,
+                              maximumStrokeWidth: _maxWidth,
+                              strokeColor: _strokeColor,
+                              backgroundColor: padBackgroundColor,
+                              onDrawStart: _handleOnDrawStart,
+                              key: _signaturePadKey,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Pen Color',
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: 'Roboto-Regular',
+                                ),
+                              ),
+                              SizedBox(
+                                width: 124,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: _addStrokeColorPalettes(setState),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  child: const Text(
-                    'CLEAR',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Roboto-Medium',
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  actionsPadding: const EdgeInsets.all(8.0),
+                  buttonPadding: EdgeInsets.zero,
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: _handleClearButtonPressed,
+                      style: ButtonStyle(
+                        foregroundColor: WidgetStateProperty.all<Color>(
+                          model.primaryColor,
+                        ),
+                      ),
+                      child: const Text(
+                        'CLEAR',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Roboto-Medium',
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 8.0),
-                TextButton(
-                  onPressed: () {
-                    _handleSaveButtonPressed();
-                    Navigator.of(context).pop();
-                  },
-                  style: ButtonStyle(
-                    foregroundColor: WidgetStateProperty.all<Color>(
-                      model.primaryColor,
+                    const SizedBox(width: 8.0),
+                    TextButton(
+                      onPressed: () {
+                        _handleSaveButtonPressed();
+                        Navigator.of(context).pop();
+                      },
+                      style: ButtonStyle(
+                        foregroundColor: WidgetStateProperty.all<Color>(
+                          model.primaryColor,
+                        ),
+                      ),
+                      child: const Text(
+                        'SAVE',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Roboto-Medium',
+                        ),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    'SAVE',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Roboto-Medium',
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
+                  ],
+                );
+              },
         );
       },
     );
@@ -591,20 +584,19 @@ class _GettingStartedSignaturePadState extends SampleViewState {
                 ),
                 height: 78,
                 width: 138,
-                child:
-                    _isSigned
-                        ? Image.memory(_signatureData)
-                        : Center(
-                          child: Text(
-                            'Tap here to sign',
-                            textScaler: TextScaler.noScaling,
-                            style: TextStyle(
-                              fontSize: _fontSizeRegular,
-                              fontWeight: FontWeight.bold,
-                              color: _getTextColor(),
-                            ),
+                child: _isSigned
+                    ? Image.memory(_signatureData)
+                    : Center(
+                        child: Text(
+                          'Tap here to sign',
+                          textScaler: TextScaler.noScaling,
+                          style: TextStyle(
+                            fontSize: _fontSizeRegular,
+                            fontWeight: FontWeight.bold,
+                            color: _getTextColor(),
                           ),
                         ),
+                      ),
               ),
             ),
             Column(
@@ -643,46 +635,44 @@ class _GettingStartedSignaturePadState extends SampleViewState {
     final double screenWidth = MediaQuery.of(context).size.width;
     //ignore: unused_local_variable
     final double screenHeight = MediaQuery.of(context).size.height;
-    _isDark =
-        _productDataSource.isDark =
-            Theme.of(context).brightness == Brightness.dark;
-    _strokeColors[0] =
-        _isDark
-            ? const Color.fromRGBO(255, 255, 255, 1)
-            : const Color.fromRGBO(0, 0, 0, 1);
+    _isDark = _productDataSource.isDark =
+        Theme.of(context).brightness == Brightness.dark;
+    _strokeColors[0] = _isDark
+        ? const Color.fromRGBO(255, 255, 255, 1)
+        : const Color.fromRGBO(0, 0, 0, 1);
     _strokeColor = _strokeColors[_selectedPenIndex];
 
     return Container(
-      color:
-          _isDark ? Colors.transparent : const Color.fromRGBO(250, 250, 250, 1),
+      color: _isDark
+          ? Colors.transparent
+          : const Color.fromRGBO(250, 250, 250, 1),
       child: Center(
         child: SingleChildScrollView(
           child: Container(
-            width:
-                _isWebOrDesktop ? 600 : (screenWidth > 400 ? 400 : screenWidth),
+            width: _isWebOrDesktop
+                ? 600
+                : (screenWidth > 400 ? 400 : screenWidth),
             height: 625,
             margin: _isWebOrDesktop ? const EdgeInsets.all(10.0) : null,
-            decoration:
-                _isWebOrDesktop
-                    ? BoxDecoration(
-                      color: _isDark ? model.backgroundColor : Colors.white,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color:
-                              _isDark
-                                  ? Colors.black.withValues(alpha: 0.3)
-                                  : Colors.grey.withValues(alpha: 0.3),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: const Offset(
-                            0,
-                            3,
-                          ), // changes position of shadow
-                        ),
-                      ],
-                    )
-                    : null,
+            decoration: _isWebOrDesktop
+                ? BoxDecoration(
+                    color: _isDark ? model.backgroundColor : Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: _isDark
+                            ? Colors.black.withValues(alpha: 0.3)
+                            : Colors.grey.withValues(alpha: 0.3),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: const Offset(
+                          0,
+                          3,
+                        ), // changes position of shadow
+                      ),
+                    ],
+                  )
+                : null,
             child: Column(
               children: <Widget>[
                 _getInvoiceHeader(),
@@ -813,17 +803,16 @@ class _Product {
 
 class _ProductDataSource extends DataGridSource {
   _ProductDataSource(List<_Product> products) {
-    _products =
-        products.map<DataGridRow>((_Product e) {
-          return DataGridRow(
-            cells: <DataGridCell<Object>>[
-              DataGridCell<String>(columnName: 'name', value: e.name),
-              DataGridCell<double>(columnName: 'price', value: e.price),
-              DataGridCell<int>(columnName: 'quantity', value: e.quantity),
-              DataGridCell<double>(columnName: 'total', value: e.total),
-            ],
-          );
-        }).toList();
+    _products = products.map<DataGridRow>((_Product e) {
+      return DataGridRow(
+        cells: <DataGridCell<Object>>[
+          DataGridCell<String>(columnName: 'name', value: e.name),
+          DataGridCell<double>(columnName: 'price', value: e.price),
+          DataGridCell<int>(columnName: 'quantity', value: e.quantity),
+          DataGridCell<double>(columnName: 'total', value: e.total),
+        ],
+      );
+    }).toList();
   }
 
   late bool isDark;

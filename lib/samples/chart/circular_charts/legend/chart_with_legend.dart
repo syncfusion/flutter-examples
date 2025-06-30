@@ -138,16 +138,12 @@ class _LegendDefaultState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _selectedPosition,
-              items:
-                  _positionList!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'auto',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
+              items: _positionList!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : 'auto',
+                  child: Text(value, style: TextStyle(color: model.textColor)),
+                );
+              }).toList(),
               onChanged: (dynamic value) {
                 _updateLegendPosition(value.toString());
                 stateSetter(() {});
@@ -180,16 +176,12 @@ class _LegendDefaultState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _selectedMode,
-              items:
-                  _modeList!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'wrap',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
+              items: _modeList!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : 'wrap',
+                  child: Text(value, style: TextStyle(color: model.textColor)),
+                );
+              }).toList(),
               onChanged: (dynamic value) {
                 _updateLegendOverflowMode(value);
                 stateSetter(() {});

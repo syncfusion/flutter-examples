@@ -48,10 +48,9 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
     _progressBarColor = ProgressBarColor(model);
     if (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width) {
-      _size =
-          model.isWebFullView
-              ? MediaQuery.of(context).size.height / 5
-              : MediaQuery.of(context).size.height / 4.5;
+      _size = model.isWebFullView
+          ? MediaQuery.of(context).size.height / 5
+          : MediaQuery.of(context).size.height / 4.5;
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -169,9 +168,10 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
             radiusFactor: model.isWebFullView ? 0.7 : 0.8,
             axisLineStyle: AxisLineStyle(
               thickness: 0.05,
-              color: (_progressBarColor!.pointerColor ??
-                      const Color.fromRGBO(0, 169, 181, 1))
-                  .withAlpha(100),
+              color:
+                  (_progressBarColor!.pointerColor ??
+                          const Color.fromRGBO(0, 169, 181, 1))
+                      .withAlpha(100),
               thicknessUnit: GaugeSizeUnit.factor,
             ),
             pointers: <GaugePointer>[
@@ -195,12 +195,12 @@ class _ProgressBarDeterminateStyleState extends SampleViewState {
   /// Returns gradient progress style circular progress bar.
   Widget getGradientProgressStyle() {
     final ThemeData themeData = model.themeData;
-    final Color gradientColor1 =
-        themeData.useMaterial3
-            ? model.primaryColor.withValues(alpha: 0.4)
-            : const Color(0xFFa4edeb);
-    final Color gradientColor2 =
-        themeData.useMaterial3 ? model.primaryColor : const Color(0xFF00a9b5);
+    final Color gradientColor1 = themeData.useMaterial3
+        ? model.primaryColor.withValues(alpha: 0.4)
+        : const Color(0xFFa4edeb);
+    final Color gradientColor2 = themeData.useMaterial3
+        ? model.primaryColor
+        : const Color(0xFF00a9b5);
     return SizedBox(
       height: _size,
       width: _size,

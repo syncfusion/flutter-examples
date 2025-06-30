@@ -51,12 +51,11 @@ class _AreaZoneState extends SampleViewState {
   /// Return the Cartesian Chart with Area series.
   SfCartesianChart _buildCartesianChart(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
-    final double containerSize =
-        kIsWeb
-            ? 80
-            : orientation == Orientation.portrait
-            ? 80
-            : 45;
+    final double containerSize = kIsWeb
+        ? 80
+        : orientation == Orientation.portrait
+        ? 80
+        : 45;
     final double fontSize = 14 / MediaQuery.of(context).textScaler.scale(1);
     final double size = 13 / MediaQuery.of(context).textScaler.scale(1);
     return SfCartesianChart(

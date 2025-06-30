@@ -29,14 +29,13 @@ class _VolumeSettingsState extends SampleViewState {
     return isCardView
         ? _buildVolumeControl()
         : Center(
-          child: SizedBox(
-            height:
-                orientation == Orientation.landscape
-                    ? MediaQuery.of(context).size.height / 2
-                    : MediaQuery.of(context).size.height / 3,
-            child: _buildVolumeControl(),
-          ),
-        );
+            child: SizedBox(
+              height: orientation == Orientation.landscape
+                  ? MediaQuery.of(context).size.height / 2
+                  : MediaQuery.of(context).size.height / 3,
+              child: _buildVolumeControl(),
+            ),
+          );
   }
 
   /// Returns the volume settings.
@@ -60,14 +59,12 @@ class _VolumeSettingsState extends SampleViewState {
                 thickness: 40,
                 edgeStyle: LinearEdgeStyle.bothCurve,
                 borderWidth: 1,
-                borderColor:
-                    brightness == Brightness.dark
-                        ? const Color(0xff898989)
-                        : Colors.grey[350],
-                color:
-                    brightness == Brightness.dark
-                        ? Colors.transparent
-                        : Colors.grey[350],
+                borderColor: brightness == Brightness.dark
+                    ? const Color(0xff898989)
+                    : Colors.grey[350],
+                color: brightness == Brightness.dark
+                    ? Colors.transparent
+                    : Colors.grey[350],
               ),
               barPointers: <LinearBarPointer>[
                 LinearBarPointer(
@@ -144,14 +141,12 @@ class _VolumeSettingsState extends SampleViewState {
                 thickness: 40,
                 edgeStyle: LinearEdgeStyle.bothCurve,
                 borderWidth: 1,
-                borderColor:
-                    brightness == Brightness.dark
-                        ? const Color(0xff898989)
-                        : Colors.grey[350],
-                color:
-                    brightness == Brightness.dark
-                        ? Colors.transparent
-                        : Colors.grey[350],
+                borderColor: brightness == Brightness.dark
+                    ? const Color(0xff898989)
+                    : Colors.grey[350],
+                color: brightness == Brightness.dark
+                    ? Colors.transparent
+                    : Colors.grey[350],
               ),
               barPointers: <LinearBarPointer>[
                 LinearBarPointer(
@@ -230,14 +225,12 @@ class _VolumeSettingsState extends SampleViewState {
                 thickness: 40,
                 edgeStyle: LinearEdgeStyle.bothCurve,
                 borderWidth: 1,
-                borderColor:
-                    brightness == Brightness.dark
-                        ? const Color(0xff898989)
-                        : Colors.grey[350],
-                color:
-                    brightness == Brightness.dark
-                        ? Colors.transparent
-                        : Colors.grey[350],
+                borderColor: brightness == Brightness.dark
+                    ? const Color(0xff898989)
+                    : Colors.grey[350],
+                color: brightness == Brightness.dark
+                    ? Colors.transparent
+                    : Colors.grey[350],
               ),
               barPointers: <LinearBarPointer>[
                 LinearBarPointer(

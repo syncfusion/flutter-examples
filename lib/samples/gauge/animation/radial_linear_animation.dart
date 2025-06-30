@@ -48,8 +48,8 @@ class _RadialLinearAnimationState extends SampleViewState {
               knobStyle: KnobStyle(
                 knobRadius:
                     MediaQuery.of(context).orientation == Orientation.portrait
-                        ? 0.05
-                        : 0.07,
+                    ? 0.05
+                    : 0.07,
                 color: _linearNeedleColor,
               ),
               needleStartWidth: 0,
@@ -60,8 +60,8 @@ class _RadialLinearAnimationState extends SampleViewState {
               needleLength: 0.8,
               needleColor:
                   model.themeData.colorScheme.brightness == Brightness.light
-                      ? _linearNeedleColor
-                      : _linearNeedleDarkColor,
+                  ? _linearNeedleColor
+                  : _linearNeedleDarkColor,
             ),
           ],
           axisLineStyle: const AxisLineStyle(thickness: 3),

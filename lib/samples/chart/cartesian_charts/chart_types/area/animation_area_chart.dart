@@ -64,12 +64,11 @@ class _AnimationAreaDefaultState extends SampleViewState {
     bool isMaterial3,
     bool isLightMode,
   ) {
-    final Color color =
-        isMaterial3
-            ? (isLightMode
-                ? const Color.fromRGBO(6, 174, 224, 1)
-                : const Color.fromRGBO(255, 245, 0, 1))
-            : const Color.fromRGBO(75, 135, 185, 1);
+    final Color color = isMaterial3
+        ? (isLightMode
+              ? const Color.fromRGBO(6, 174, 224, 1)
+              : const Color.fromRGBO(255, 245, 0, 1))
+        : const Color.fromRGBO(75, 135, 185, 1);
     return <AreaSeries<_ChartData, num>>[
       AreaSeries<_ChartData, num>(
         dataSource: _chartData,

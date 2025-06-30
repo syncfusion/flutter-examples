@@ -55,8 +55,9 @@ class _PieGradientState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
 
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
@@ -91,16 +92,12 @@ class _PieGradientState extends SampleViewState {
             focusColor: Colors.transparent,
             underline: Container(color: const Color(0xFFBDBDBD), height: 1),
             value: _shaderType,
-            items:
-                _shaderTypes!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : 'point',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
+            items: _shaderTypes!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'point',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
             onChanged: (dynamic value) {
               setState(() {
                 _onShaderTyeChange(value);
@@ -166,10 +163,9 @@ class _PieGradientState extends SampleViewState {
         explodeAll: true,
         explodeOffset: '3%',
         explode: true,
-        strokeColor:
-            model.themeData.brightness == Brightness.light
-                ? Colors.black.withValues(alpha: 0.3)
-                : Colors.white.withValues(alpha: 0.3),
+        strokeColor: model.themeData.brightness == Brightness.light
+            ? Colors.black.withValues(alpha: 0.3)
+            : Colors.white.withValues(alpha: 0.3),
         strokeWidth: 1.5,
         dataLabelMapper: (ChartSampleData data, int index) => data.text,
         dataLabelSettings: const DataLabelSettings(

@@ -48,8 +48,9 @@ class CustomDataGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
 
-    final int pageCount =
-        totalRecords > 0 ? (totalRecords / (rowsPerPage ?? 8)).ceil() : 1;
+    final int pageCount = totalRecords > 0
+        ? (totalRecords / (rowsPerPage ?? 8)).ceil()
+        : 1;
 
     final Color gridColor = themeData.colorScheme.outlineVariant;
 
@@ -155,10 +156,9 @@ class DataGridWidget extends StatelessWidget {
       return GridColumn(
         columnName: columnHeaders[index],
         label: Padding(
-          padding:
-              index == 0
-                  ? const EdgeInsets.only(left: 30.0)
-                  : const EdgeInsets.only(left: 12.0),
+          padding: index == 0
+              ? const EdgeInsets.only(left: 30.0)
+              : const EdgeInsets.only(left: 12.0),
           child: Container(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -244,10 +244,9 @@ class CustomDataGridSource<T> extends DataGridSource {
     required this.buildCell,
     required this.rowsPerPage,
   }) {
-    _paginatedData =
-        data
-            .getRange(0, data.length < rowsPerPage ? data.length : rowsPerPage)
-            .toList();
+    _paginatedData = data
+        .getRange(0, data.length < rowsPerPage ? data.length : rowsPerPage)
+        .toList();
     _buildDataGridRows();
   }
 

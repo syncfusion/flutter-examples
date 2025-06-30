@@ -114,16 +114,12 @@ class _LegendOptionsState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _selectedPosition,
-              items:
-                  _positionList!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'auto',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
+              items: _positionList!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : 'auto',
+                  child: Text(value, style: TextStyle(color: model.textColor)),
+                );
+              }).toList(),
               onChanged: (dynamic value) {
                 _updateLegendPosition(value.toString());
                 stateSetter(() {});
@@ -162,16 +158,12 @@ class _LegendOptionsState extends SampleViewState {
                 height: 1,
               ),
               value: _selectedMode,
-              items:
-                  _modeList!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'wrap',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
+              items: _modeList!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : 'wrap',
+                  child: Text(value, style: TextStyle(color: model.textColor)),
+                );
+              }).toList(),
               onChanged: (dynamic value) {
                 _updateLegendOverflowMode(value);
                 stateSetter(() {});
@@ -272,10 +264,9 @@ class _LegendOptionsState extends SampleViewState {
               minValue: -100,
               maxValue: 100,
               initialValue: _xOffset,
-              onChanged:
-                  (double val) => setState(() {
-                    _xOffset = _enableFloatingLegend ? val : 0;
-                  }),
+              onChanged: (double val) => setState(() {
+                _xOffset = _enableFloatingLegend ? val : 0;
+              }),
               step: _enableFloatingLegend ? 10 : 0,
               iconColor: model.textColor.withValues(
                 alpha: _enableFloatingLegend ? 1 : 0.5,
@@ -316,10 +307,9 @@ class _LegendOptionsState extends SampleViewState {
               minValue: -100,
               maxValue: 100,
               initialValue: _yOffset,
-              onChanged:
-                  (double val) => setState(() {
-                    _yOffset = _enableFloatingLegend ? val : 0;
-                  }),
+              onChanged: (double val) => setState(() {
+                _yOffset = _enableFloatingLegend ? val : 0;
+              }),
               step: _enableFloatingLegend ? 10 : 0,
               iconColor: model.textColor.withValues(
                 alpha: _enableFloatingLegend ? 1 : 0.5,

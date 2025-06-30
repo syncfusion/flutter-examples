@@ -167,57 +167,54 @@ class _RadialBarCustomizedState extends SampleViewState {
     return Legend(
       isVisible: true,
       overflowMode: LegendItemOverflowMode.wrap,
-      legendItemBuilder: (
-        String name,
-        dynamic series,
-        dynamic point,
-        int index,
-      ) {
-        return SizedBox(
-          height: 60,
-          width: 150,
-          child: Row(
-            children: <Widget>[
-              SizedBox(
-                height: 75,
-                width: 65,
-                child: SfCircularChart(
-                  annotations: <CircularChartAnnotation>[
-                    _annotationSources![index],
-                  ],
-                  series: <RadialBarSeries<ChartSampleData, String>>[
-                    RadialBarSeries<ChartSampleData, String>(
-                      dataSource: <ChartSampleData>[_dataSources![index]],
-                      xValueMapper:
-                          (ChartSampleData data, int index) => point.x,
-                      yValueMapper: (ChartSampleData data, int index) => data.y,
-                      pointColorMapper:
-                          (ChartSampleData data, int index) => data.pointColor,
-                      pointRadiusMapper:
-                          (ChartSampleData data, int index) => data.text,
-                      innerRadius: '70%',
-                      animationDuration: 0,
-                      maximumValue: 100,
-                      radius: '100%',
-                      cornerStyle: CornerStyle.bothCurve,
+      legendItemBuilder:
+          (String name, dynamic series, dynamic point, int index) {
+            return SizedBox(
+              height: 60,
+              width: 150,
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 75,
+                    width: 65,
+                    child: SfCircularChart(
+                      annotations: <CircularChartAnnotation>[
+                        _annotationSources![index],
+                      ],
+                      series: <RadialBarSeries<ChartSampleData, String>>[
+                        RadialBarSeries<ChartSampleData, String>(
+                          dataSource: <ChartSampleData>[_dataSources![index]],
+                          xValueMapper: (ChartSampleData data, int index) =>
+                              point.x,
+                          yValueMapper: (ChartSampleData data, int index) =>
+                              data.y,
+                          pointColorMapper: (ChartSampleData data, int index) =>
+                              data.pointColor,
+                          pointRadiusMapper:
+                              (ChartSampleData data, int index) => data.text,
+                          innerRadius: '70%',
+                          animationDuration: 0,
+                          maximumValue: 100,
+                          radius: '100%',
+                          cornerStyle: CornerStyle.bothCurve,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: 72,
-                child: Text(
-                  point.x,
-                  style: TextStyle(
-                    color: _colors![index],
-                    fontWeight: FontWeight.bold,
                   ),
-                ),
+                  SizedBox(
+                    width: 72,
+                    child: Text(
+                      point.x,
+                      style: TextStyle(
+                        color: _colors![index],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
-      },
+            );
+          },
     );
   }
 

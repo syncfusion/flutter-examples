@@ -56,15 +56,15 @@ class _InteractiveChartState extends SampleViewState {
         height: model.isWebFullView ? 45 : 40,
         width: 45,
         child: FloatingActionButton(
-          onPressed:
-              _isResetVisible
-                  ? () => setState(() {
-                    _chartData = _buildChartData();
-                    _isResetVisible = false;
-                  })
-                  : null,
-          backgroundColor:
-              _isResetVisible ? model.primaryColor : Colors.grey[600],
+          onPressed: _isResetVisible
+              ? () => setState(() {
+                  _chartData = _buildChartData();
+                  _isResetVisible = false;
+                })
+              : null,
+          backgroundColor: _isResetVisible
+              ? model.primaryColor
+              : Colors.grey[600],
           child: const Icon(Icons.refresh, color: Colors.white),
         ),
       ),
@@ -94,11 +94,10 @@ class _InteractiveChartState extends SampleViewState {
           yValueMapper: (ChartSampleData data, int index) => data.y,
           name: 'Germany',
           markerSettings: const MarkerSettings(isVisible: true),
-          onRendererCreated: (
-            ChartSeriesController<ChartSampleData, num> controller,
-          ) {
-            _seriesController = controller;
-          },
+          onRendererCreated:
+              (ChartSeriesController<ChartSampleData, num> controller) {
+                _seriesController = controller;
+              },
         ),
       ],
       onChartTouchInteractionUp: (ChartTouchInteractionArgs args) {

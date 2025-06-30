@@ -25,13 +25,13 @@ class _ProgressBarState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-            child: _buildProgressBar(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
+              child: _buildProgressBar(context),
+            ),
+          )
         : _buildProgressBar(context);
   }
 
@@ -57,14 +57,12 @@ class _ProgressBarState extends SampleViewState {
                     thickness: 30,
                     edgeStyle: LinearEdgeStyle.bothCurve,
                     borderWidth: 1,
-                    borderColor:
-                        brightness == Brightness.dark
-                            ? const Color(0xff898989)
-                            : Colors.grey[350],
-                    color:
-                        brightness == Brightness.dark
-                            ? Colors.transparent
-                            : Colors.grey[350],
+                    borderColor: brightness == Brightness.dark
+                        ? const Color(0xff898989)
+                        : Colors.grey[350],
+                    color: brightness == Brightness.dark
+                        ? Colors.transparent
+                        : Colors.grey[350],
                   ),
                   barPointers: const <LinearBarPointer>[
                     LinearBarPointer(

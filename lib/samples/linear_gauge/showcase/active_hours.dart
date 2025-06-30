@@ -33,16 +33,15 @@ class _ActiveHoursState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            width:
-                MediaQuery.of(context).size.width >= 450
-                    ? 450
-                    : MediaQuery.of(context).size.width * 0.45,
-            child: _buildActiveHours(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width >= 450
+                  ? 450
+                  : MediaQuery.of(context).size.width * 0.45,
+              child: _buildActiveHours(context),
+            ),
+          )
         : _buildActiveHours(context);
   }
 
@@ -105,12 +104,12 @@ class _ActiveHoursState extends SampleViewState {
                   index * 4,
                   _inActiveHours.contains(index)
                       ? _getInActivePointerColor(
-                        const Color(0xFF05C3DD),
-                        0.7,
-                        brightness == Brightness.dark
-                            ? Colors.black
-                            : Colors.white,
-                      )
+                          const Color(0xFF05C3DD),
+                          0.7,
+                          brightness == Brightness.dark
+                              ? Colors.black
+                              : Colors.white,
+                        )
                       : const Color(0xFF05C3DD),
                 ),
               ),
@@ -153,11 +152,11 @@ class _ActiveHoursState extends SampleViewState {
     return color == Colors.transparent
         ? color
         : Color.fromRGBO(
-          ((1 - factor) * (color.r * 255) + factor * (mix.r * 255)).toInt(),
-          ((1 - factor) * (color.g * 255) + factor * (mix.g * 255)).toInt(),
-          ((1 - factor) * (color.b * 255) + factor * (mix.b * 255)).toInt(),
-          1,
-        );
+            ((1 - factor) * (color.r * 255) + factor * (mix.r * 255)).toInt(),
+            ((1 - factor) * (color.g * 255) + factor * (mix.g * 255)).toInt(),
+            ((1 - factor) * (color.b * 255) + factor * (mix.b * 255)).toInt(),
+            1,
+          );
   }
 
   ///Create Linear widget pointer

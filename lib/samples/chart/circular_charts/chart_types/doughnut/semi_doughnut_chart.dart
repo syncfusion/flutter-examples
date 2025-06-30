@@ -60,10 +60,9 @@ class _SemiDoughnutChartState extends SampleViewState {
             minValue: 90,
             maxValue: 270,
             initialValue: _startAngle.toDouble(),
-            onChanged:
-                (double val) => setState(() {
-                  _startAngle = val.toInt();
-                }),
+            onChanged: (double val) => setState(() {
+              _startAngle = val.toInt();
+            }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),
@@ -91,10 +90,9 @@ class _SemiDoughnutChartState extends SampleViewState {
             minValue: 90,
             maxValue: 270,
             initialValue: _endAngle.toDouble(),
-            onChanged:
-                (double val) => setState(() {
-                  _endAngle = val.toInt();
-                }),
+            onChanged: (double val) => setState(() {
+              _endAngle = val.toInt();
+            }),
             step: 10,
             iconColor: model.textColor,
             style: TextStyle(fontSize: 20.0, color: model.textColor),

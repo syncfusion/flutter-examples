@@ -93,10 +93,10 @@ class CustomTextFieldState extends State<CustomTextField> {
       builder: (context, isFocused, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            indicatorColor: colorScheme.onPrimary,
             textSelectionTheme: TextSelectionThemeData(
               selectionColor: colorScheme.primary,
             ),
+            tabBarTheme: TabBarThemeData(indicatorColor: colorScheme.onPrimary),
           ),
           child: TextField(
             maxLines: widget.maxLines,
@@ -122,10 +122,9 @@ class CustomTextFieldState extends State<CustomTextField> {
                 text: TextSpan(
                   text: widget.hintText,
                   style: themeData.textTheme.bodyMedium!.copyWith(
-                    color:
-                        isFocused
-                            ? colorScheme.primary
-                            : colorScheme.onSurfaceVariant,
+                    color: isFocused
+                        ? colorScheme.primary
+                        : colorScheme.onSurfaceVariant,
                   ),
                   children: <InlineSpan>[
                     if (widget.isRequired)
@@ -178,6 +177,7 @@ Widget buildDateTextField({
   FocusNode? focusNode,
   ValueChanged<String>? onChanged,
   Widget? suffixIcon,
+  bool canSelectFutureDate = false,
 }) {
   return CustomTextField(
     controller: dateController,
@@ -217,7 +217,7 @@ Widget buildDateTextField({
               onChanged(dateController.text);
             }
           },
-          maxDates: DateTime.now(),
+          maxDates: canSelectFutureDate ? null : DateTime.now(),
           enablePastDates: true,
         );
       },

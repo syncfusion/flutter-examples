@@ -167,10 +167,9 @@ class _ExportState extends SampleViewState {
         ],
         xValueMapper: (ChartSampleData sales, _) => sales.x as String,
         yValueMapper: (ChartSampleData sales, _) => sales.y,
-        strokeColor:
-            model.themeData.colorScheme.brightness == Brightness.light
-                ? Colors.white
-                : Colors.black,
+        strokeColor: model.themeData.colorScheme.brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
         explode: true,
         strokeWidth: 1,
         legendIconType: LegendIconType.rectangle,
@@ -216,8 +215,8 @@ class _ExportState extends SampleViewState {
     }
     document.pageSettings.orientation =
         MediaQuery.of(context).orientation == Orientation.landscape
-            ? PdfPageOrientation.landscape
-            : PdfPageOrientation.portrait;
+        ? PdfPageOrientation.landscape
+        : PdfPageOrientation.portrait;
     document.pageSettings.margins.all = 0;
     document.pageSettings.size = Size(
       bitmap.width.toDouble(),

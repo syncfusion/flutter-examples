@@ -145,8 +145,8 @@ class _ScatterDefaultState extends SampleViewState {
       ScatterSeries<ChartSampleData, DateTime>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         color: const Color.fromRGBO(0, 168, 181, 1),
         name: 'India',
         markerSettings: _markerSettings,

@@ -1,10 +1,10 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 29.1.33
+version: 30.1.37
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ^3.7.0
 
 dependencies:
   flutter_test:
@@ -17,7 +17,6 @@ dependencies:
   url_launcher: ^6.3.1
   provider: ^6.1.2
   path_provider: ^2.1.5
-  excel: ^4.0.6
   shared_preferences: ^2.5.1
   path_provider_foundation: ^2.1.0
   desktop_window: 0.4.0
@@ -26,22 +25,24 @@ dependencies:
   google_generative_ai: ^0.4.6
   flutter_markdown: ^0.7.4+1
   web: ^1.1.0
+  flutter_svg: ^2.1.0
+  image_picker: ^1.1.2
 
-  syncfusion_localizations: ^29.1.33
-  syncfusion_flutter_datagrid_export: ^29.1.33
-  syncfusion_flutter_calendar: ^29.1.33
-  syncfusion_flutter_datepicker: ^29.1.33
-  syncfusion_flutter_charts: ^29.1.33
-  syncfusion_flutter_gauges: ^29.1.33
-  syncfusion_flutter_sliders: ^29.1.33
-  syncfusion_flutter_pdf: ^29.1.33
-  syncfusion_flutter_barcodes: ^29.1.33
-  syncfusion_officechart: ^29.1.33
-  syncfusion_flutter_maps: ^29.1.33
-  syncfusion_flutter_signaturepad: ^29.1.33
-  syncfusion_flutter_pdfviewer: ^29.1.33
-  syncfusion_flutter_treemap: ^29.1.33
-  syncfusion_flutter_chat: ^29.1.33
+  syncfusion_localizations: ^30.1.37
+  syncfusion_flutter_datagrid_export: ^30.1.37
+  syncfusion_flutter_calendar: ^30.1.37
+  syncfusion_flutter_datepicker: ^30.1.37
+  syncfusion_flutter_charts: ^30.1.37
+  syncfusion_flutter_gauges: ^30.1.37
+  syncfusion_flutter_sliders: ^30.1.37
+  syncfusion_flutter_pdf: ^30.1.37
+  syncfusion_flutter_barcodes: ^30.1.37
+  syncfusion_officechart: ^30.1.37
+  syncfusion_flutter_maps: ^30.1.37
+  syncfusion_flutter_signaturepad: ^30.1.37
+  syncfusion_flutter_pdfviewer: ^30.1.37
+  syncfusion_flutter_treemap: ^30.1.37
+  syncfusion_flutter_chat: ^30.1.37
 
 flutter:
   uses-material-design: true
@@ -77,6 +78,22 @@ flutter:
     - assets/tesla.png
     - assets/export_icon.png
     - assets/screen_cover.png
+    - assets/stock_data/apple.json
+    - assets/stock_data/facebook.json
+    - assets/stock_data/google.json
+    - assets/stock_data/microsoft.json
+    - assets/stock_data/nestle.json
+    - assets/stock_data/netflix.json
+    - assets/stock_data/tesla.json
+    - assets/stock_logo/apple.svg
+    - assets/stock_logo/facebook.svg
+    - assets/stock_logo/google.svg
+    - assets/stock_logo/microsoft.svg
+    - assets/stock_logo/nestle.svg
+    - assets/stock_logo/netflix.svg
+    - assets/stock_logo/tesla.svg
+    - assets/stock_logo/app_logo.svg
+    - assets/stock_logo/cover_image.png
 
   fonts:
     - family: Expense Tracker Icons
@@ -97,3 +114,6 @@ flutter:
     - family: Roboto-Regular
       fonts:
         - asset: assets/fonts/Roboto-Regular.ttf
+    - family: Stock Analysis Font Icon
+      fonts:
+        - asset: assets/font_icon/stock_analysis_icon.ttf

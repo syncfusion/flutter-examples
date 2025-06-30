@@ -145,8 +145,8 @@ class _SplineDefaultState extends SampleViewState {
       SplineSeries<ChartSampleData, String>(
         dataSource: _chartData,
         xValueMapper: (ChartSampleData sales, int index) => sales.x,
-        yValueMapper:
-            (ChartSampleData sales, int index) => sales.secondSeriesYValue,
+        yValueMapper: (ChartSampleData sales, int index) =>
+            sales.secondSeriesYValue,
         markerSettings: const MarkerSettings(isVisible: true),
         name: 'Low',
       ),

@@ -30,10 +30,11 @@ class _SleepTrackerSampleState extends SampleViewState {
   Widget build(BuildContext context) {
     final bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape
-            ? true
-            : false;
-    final bool isDarkTheme =
-        Theme.of(context).brightness == Brightness.dark ? true : false;
+        ? true
+        : false;
+    final bool isDarkTheme = Theme.of(context).brightness == Brightness.dark
+        ? true
+        : false;
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -104,17 +105,16 @@ class _SleepTrackerSampleState extends SampleViewState {
                               BoxShadow(
                                 color:
                                     model.themeData.colorScheme.brightness ==
-                                            Brightness.light
-                                        ? Colors.grey
-                                        : Colors.white.withValues(alpha: 0.2),
+                                        Brightness.light
+                                    ? Colors.grey
+                                    : Colors.white.withValues(alpha: 0.2),
                                 blurRadius: 4.0,
                               ),
                             ],
                             border: Border.all(
-                              color:
-                                  isDarkTheme
-                                      ? Colors.white.withValues(alpha: 0.1)
-                                      : Colors.black.withValues(alpha: 0.1),
+                              color: isDarkTheme
+                                  ? Colors.white.withValues(alpha: 0.1)
+                                  : Colors.black.withValues(alpha: 0.1),
                               width: 0.0,
                             ),
                           ),
@@ -142,18 +142,16 @@ class _SleepTrackerSampleState extends SampleViewState {
                             shape: BoxShape.circle,
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                color:
-                                    isDarkTheme
-                                        ? Colors.white.withValues(alpha: 0.2)
-                                        : Colors.grey,
+                                color: isDarkTheme
+                                    ? Colors.white.withValues(alpha: 0.2)
+                                    : Colors.grey,
                                 blurRadius: 4.0,
                               ),
                             ],
                             border: Border.all(
-                              color:
-                                  isDarkTheme
-                                      ? Colors.white.withValues(alpha: 0.1)
-                                      : Colors.black.withValues(alpha: 0.1),
+                              color: isDarkTheme
+                                  ? Colors.white.withValues(alpha: 0.1)
+                                  : Colors.black.withValues(alpha: 0.1),
                               width: 0.0,
                             ),
                           ),
@@ -188,35 +186,32 @@ class _SleepTrackerSampleState extends SampleViewState {
                             alignment: AlignmentDirectional.center,
                             children: <Widget>[
                               AnimatedPositioned(
-                                right:
-                                    (_isWakeupTime && !_isBedTime)
-                                        ? isWebOrDesktop
-                                            ? 94
-                                            : isCardView
-                                            ? 110
-                                            : 120
-                                        : isWebOrDesktop
-                                        ? 155
-                                        : (isLandscape || isCardView)
-                                        ? 152
-                                        : 180,
+                                right: (_isWakeupTime && !_isBedTime)
+                                    ? isWebOrDesktop
+                                          ? 94
+                                          : isCardView
+                                          ? 110
+                                          : 120
+                                    : isWebOrDesktop
+                                    ? 155
+                                    : (isLandscape || isCardView)
+                                    ? 152
+                                    : 180,
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.decelerate,
                                 child: AnimatedOpacity(
                                   opacity: _isWakeupTime ? 1.0 : 0.0,
-                                  duration:
-                                      (_isWakeupTime && _isBedTime)
-                                          ? const Duration(milliseconds: 800)
-                                          : const Duration(milliseconds: 200),
+                                  duration: (_isWakeupTime && _isBedTime)
+                                      ? const Duration(milliseconds: 800)
+                                      : const Duration(milliseconds: 200),
                                   child: CustomAnimatedBuilder(
-                                    value:
-                                        !_isBedTime
-                                            ? (isWebOrDesktop || isCardView)
-                                                ? 1.1
-                                                : 2.0
-                                            : (isWebOrDesktop || isCardView)
-                                            ? 0.6
-                                            : 1.3,
+                                    value: !_isBedTime
+                                        ? (isWebOrDesktop || isCardView)
+                                              ? 1.1
+                                              : 2.0
+                                        : (isWebOrDesktop || isCardView)
+                                        ? 0.6
+                                        : 1.3,
                                     curve: Curves.decelerate,
                                     duration: const Duration(milliseconds: 300),
                                     builder:
@@ -234,12 +229,11 @@ class _SleepTrackerSampleState extends SampleViewState {
                                         Text(
                                           '4 Apr',
                                           style: TextStyle(
-                                            fontSize:
-                                                isWebOrDesktop
-                                                    ? 24
-                                                    : isCardView
-                                                    ? 14
-                                                    : 10,
+                                            fontSize: isWebOrDesktop
+                                                ? 24
+                                                : isCardView
+                                                ? 14
+                                                : 10,
                                             color: Colors.blue,
                                           ),
                                         ),
@@ -248,12 +242,11 @@ class _SleepTrackerSampleState extends SampleViewState {
                                           _wakeupTimeAnnotation,
                                           style: TextStyle(
                                             color: Colors.blue,
-                                            fontSize:
-                                                isWebOrDesktop
-                                                    ? 28
-                                                    : isCardView
-                                                    ? 20
-                                                    : 16,
+                                            fontSize: isWebOrDesktop
+                                                ? 28
+                                                : isCardView
+                                                ? 20
+                                                : 16,
                                           ),
                                         ),
                                       ],
@@ -262,17 +255,16 @@ class _SleepTrackerSampleState extends SampleViewState {
                                 ),
                               ),
                               AnimatedOpacity(
-                                opacity:
-                                    (_isBedTime && _isWakeupTime) ? 1.0 : 0.0,
-                                duration:
-                                    (_isWakeupTime && _isBedTime)
-                                        ? const Duration(milliseconds: 800)
-                                        : const Duration(milliseconds: 200),
+                                opacity: (_isBedTime && _isWakeupTime)
+                                    ? 1.0
+                                    : 0.0,
+                                duration: (_isWakeupTime && _isBedTime)
+                                    ? const Duration(milliseconds: 800)
+                                    : const Duration(milliseconds: 200),
                                 child: Container(
-                                  margin:
-                                      (isLandscape || isCardView)
-                                          ? const EdgeInsets.only(top: 8.0)
-                                          : const EdgeInsets.only(top: 16.0),
+                                  margin: (isLandscape || isCardView)
+                                      ? const EdgeInsets.only(top: 8.0)
+                                      : const EdgeInsets.only(top: 16.0),
                                   child: const Text(
                                     '-',
                                     textAlign: TextAlign.center,
@@ -284,35 +276,32 @@ class _SleepTrackerSampleState extends SampleViewState {
                                 ),
                               ),
                               AnimatedPositioned(
-                                left:
-                                    (_isBedTime && !_isWakeupTime)
-                                        ? isWebOrDesktop
-                                            ? 94
-                                            : isCardView
-                                            ? 110
-                                            : 120
-                                        : isWebOrDesktop
-                                        ? 155
-                                        : (isLandscape || isCardView)
-                                        ? 152
-                                        : 180,
+                                left: (_isBedTime && !_isWakeupTime)
+                                    ? isWebOrDesktop
+                                          ? 94
+                                          : isCardView
+                                          ? 110
+                                          : 120
+                                    : isWebOrDesktop
+                                    ? 155
+                                    : (isLandscape || isCardView)
+                                    ? 152
+                                    : 180,
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.decelerate,
                                 child: AnimatedOpacity(
                                   opacity: _isBedTime ? 1.0 : 0.0,
-                                  duration:
-                                      (_isWakeupTime && _isBedTime)
-                                          ? const Duration(milliseconds: 800)
-                                          : const Duration(milliseconds: 200),
+                                  duration: (_isWakeupTime && _isBedTime)
+                                      ? const Duration(milliseconds: 800)
+                                      : const Duration(milliseconds: 200),
                                   child: CustomAnimatedBuilder(
-                                    value:
-                                        !_isWakeupTime
-                                            ? (isWebOrDesktop || isCardView)
-                                                ? 1.1
-                                                : 2.0
-                                            : (isWebOrDesktop || isCardView)
-                                            ? 0.6
-                                            : 1.3,
+                                    value: !_isWakeupTime
+                                        ? (isWebOrDesktop || isCardView)
+                                              ? 1.1
+                                              : 2.0
+                                        : (isWebOrDesktop || isCardView)
+                                        ? 0.6
+                                        : 1.3,
                                     curve: Curves.decelerate,
                                     duration: const Duration(milliseconds: 300),
                                     builder:
@@ -330,12 +319,11 @@ class _SleepTrackerSampleState extends SampleViewState {
                                         Text(
                                           '5 Apr',
                                           style: TextStyle(
-                                            fontSize:
-                                                isWebOrDesktop
-                                                    ? 24
-                                                    : isCardView
-                                                    ? 14
-                                                    : 10,
+                                            fontSize: isWebOrDesktop
+                                                ? 24
+                                                : isCardView
+                                                ? 14
+                                                : 10,
                                             color: Colors.blue,
                                           ),
                                         ),
@@ -344,12 +332,11 @@ class _SleepTrackerSampleState extends SampleViewState {
                                           _bedTimeAnnotation,
                                           style: TextStyle(
                                             color: Colors.blue,
-                                            fontSize:
-                                                isWebOrDesktop
-                                                    ? 28
-                                                    : isCardView
-                                                    ? 20
-                                                    : 16,
+                                            fontSize: isWebOrDesktop
+                                                ? 28
+                                                : isCardView
+                                                ? 20
+                                                : 16,
                                           ),
                                         ),
                                       ],
@@ -415,8 +402,8 @@ class _SleepTrackerSampleState extends SampleViewState {
       _wakeupTimeValue = value;
       final int wakeupTimeValue =
           (_wakeupTimeValue - _wakeupTimeValue.toInt()) > 0.995
-              ? _wakeupTimeValue.round()
-              : _wakeupTimeValue.abs().toInt();
+          ? _wakeupTimeValue.round()
+          : _wakeupTimeValue.abs().toInt();
       // ignore: no_leading_underscores_for_local_identifiers
       final int _hourValue = wakeupTimeValue;
       final List<String> minList = _wakeupTimeValue
@@ -425,12 +412,11 @@ class _SleepTrackerSampleState extends SampleViewState {
       double currentMinutes = double.parse(minList[1]);
       currentMinutes = (currentMinutes * 60) / 100;
       final String minutesValue = currentMinutes.toStringAsFixed(0);
-      final double hour =
-          (_hourValue >= 0 && _hourValue <= 6)
-              ? (_hourValue + 6)
-              : (_hourValue >= 6 && _hourValue <= 12)
-              ? _hourValue - 6
-              : 0;
+      final double hour = (_hourValue >= 0 && _hourValue <= 6)
+          ? (_hourValue + 6)
+          : (_hourValue >= 6 && _hourValue <= 12)
+          ? _hourValue - 6
+          : 0;
       final String hourValue = hour.toString().split('.')[0];
 
       _wakeupTimeAnnotation =
@@ -467,10 +453,9 @@ class _SleepTrackerSampleState extends SampleViewState {
   void _handleBedTimeValueChanged(double bedTimeValue) {
     setState(() {
       _bedTimeValue = bedTimeValue;
-      final int value =
-          (_bedTimeValue - _bedTimeValue.toInt()) > 0.995
-              ? _bedTimeValue.round()
-              : _bedTimeValue.abs().toInt();
+      final int value = (_bedTimeValue - _bedTimeValue.toInt()) > 0.995
+          ? _bedTimeValue.round()
+          : _bedTimeValue.abs().toInt();
       final int hourValue = value;
 
       final List<String> minList = _bedTimeValue.toStringAsFixed(2).split('.');
@@ -610,9 +595,8 @@ class _CustomAnimatedBuilderState extends State<CustomAnimatedBuilder>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _animationController,
-      builder:
-          (BuildContext context, Widget? child) =>
-              widget.builder(context, widget.child, _animationController),
+      builder: (BuildContext context, Widget? child) =>
+          widget.builder(context, widget.child, _animationController),
     );
   }
 }

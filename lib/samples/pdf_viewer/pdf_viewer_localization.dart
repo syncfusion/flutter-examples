@@ -50,22 +50,20 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
   void didChangeDependencies() {
     _isLight = Theme.of(context).brightness == Brightness.light;
     _useMaterial3 = Theme.of(context).useMaterial3;
-    _color =
-        _useMaterial3
-            ? _isLight
-                ? const Color.fromRGBO(73, 69, 79, 1)
-                : const Color.fromRGBO(202, 196, 208, 1)
-            : _isLight
-            ? Colors.black.withValues(alpha: 0.54)
-            : Colors.white.withValues(alpha: 0.65);
-    _disabledColor =
-        _useMaterial3
-            ? _isLight
-                ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
-                : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
-            : _isLight
-            ? Colors.black12
-            : Colors.white12;
+    _color = _useMaterial3
+        ? _isLight
+              ? const Color.fromRGBO(73, 69, 79, 1)
+              : const Color.fromRGBO(202, 196, 208, 1)
+        : _isLight
+        ? Colors.black.withValues(alpha: 0.54)
+        : Colors.white.withValues(alpha: 0.65);
+    _disabledColor = _useMaterial3
+        ? _isLight
+              ? const Color.fromRGBO(28, 27, 31, 1).withValues(alpha: 0.38)
+              : const Color.fromRGBO(230, 225, 229, 1).withValues(alpha: 0.38)
+        : _isLight
+        ? Colors.black12
+        : Colors.white12;
     super.didChangeDependencies();
   }
 
@@ -92,16 +90,13 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           decoration: BoxDecoration(
-            color:
-                _useMaterial3
-                    ? Theme.of(context).colorScheme.brightness ==
-                            Brightness.light
-                        ? const Color.fromRGBO(247, 242, 251, 1)
-                        : const Color.fromRGBO(37, 35, 42, 1)
-                    : Theme.of(context).colorScheme.brightness ==
-                        Brightness.light
-                    ? const Color(0xFFFAFAFA)
-                    : const Color(0xFF424242),
+            color: _useMaterial3
+                ? Theme.of(context).colorScheme.brightness == Brightness.light
+                      ? const Color.fromRGBO(247, 242, 251, 1)
+                      : const Color.fromRGBO(37, 35, 42, 1)
+                : Theme.of(context).colorScheme.brightness == Brightness.light
+                ? const Color(0xFFFAFAFA)
+                : const Color(0xFF424242),
             boxShadow: const [
               BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.2),
@@ -112,64 +107,56 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
           ),
           height: 56,
           child: Align(
-            alignment:
-                model.locale == const Locale('ar', 'AE')
-                    ? Alignment.centerLeft
-                    : Alignment.centerRight,
+            alignment: model.locale == const Locale('ar', 'AE')
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
             child: SizedBox(
               height: 40,
               width: 40,
               child: RawMaterialButton(
-                shape:
-                    _useMaterial3
-                        ? RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                        )
-                        : RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(2.0),
-                        ),
+                shape: _useMaterial3
+                    ? RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.0),
+                      )
+                    : RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(2.0),
+                      ),
                 onPressed: () {
                   _pdfViewerKey.currentState?.openBookmarkView();
                 },
                 child: Tooltip(
-                  decoration:
-                      _useMaterial3
-                          ? BoxDecoration(
-                            color: Theme.of(context).colorScheme.inverseSurface,
-                            borderRadius: BorderRadius.circular(4),
-                          )
-                          : null,
-                  textStyle:
-                      _useMaterial3
-                          ? TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.onInverseSurface,
-                            fontSize: 14,
-                          )
-                          : null,
-                  padding:
-                      _useMaterial3
-                          ? const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 14,
-                          )
-                          : null,
-                  height: _useMaterial3 ? 48 : null,
+                  decoration: _useMaterial3
+                      ? BoxDecoration(
+                          color: Theme.of(context).colorScheme.inverseSurface,
+                          borderRadius: BorderRadius.circular(4),
+                        )
+                      : null,
+                  textStyle: _useMaterial3
+                      ? TextStyle(
+                          color: Theme.of(context).colorScheme.onInverseSurface,
+                          fontSize: 14,
+                        )
+                      : null,
+                  padding: _useMaterial3
+                      ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14)
+                      : null,
+                  constraints: _useMaterial3
+                      ? const BoxConstraints(maxHeight: 48)
+                      : null,
                   message: getBookmarkLocaleString(),
-                  child:
-                      isDesktop
-                          ? Icon(
-                            Icons.bookmark_border,
-                            color: _isPdfLoaded ? _color : _disabledColor,
-                            size: 20,
-                            semanticLabel: 'Bookmark',
-                          )
-                          : Icon(
-                            Icons.bookmark,
-                            color: _isPdfLoaded ? _color : Colors.black12,
-                            size: 24,
-                            semanticLabel: 'Bookmark',
-                          ),
+                  child: isDesktop
+                      ? Icon(
+                          Icons.bookmark_border,
+                          color: _isPdfLoaded ? _color : _disabledColor,
+                          size: 20,
+                          semanticLabel: 'Bookmark',
+                        )
+                      : Icon(
+                          Icons.bookmark,
+                          color: _isPdfLoaded ? _color : Colors.black12,
+                          size: 24,
+                          semanticLabel: 'Bookmark',
+                        ),
                 ),
               ),
             ),
@@ -177,11 +164,10 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
         ),
         Expanded(
           child: FutureBuilder(
-            future: Future<dynamic>.delayed(
-              const Duration(milliseconds: 200),
-            ).then((dynamic value) {
-              _canShowPdf = true;
-            }),
+            future: Future<dynamic>.delayed(const Duration(milliseconds: 200))
+                .then((dynamic value) {
+                  _canShowPdf = true;
+                }),
             builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
               if (_canShowPdf) {
                 return SfPdfViewerTheme(

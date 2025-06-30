@@ -80,16 +80,15 @@ class _DataPreProcessingSampleState extends SampleViewState
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder:
-              (context) => WelcomeDialog(
-                primaryColor: model.primaryColor,
-                apiKey: model.assistApiKey,
-                onApiKeySaved: (newApiKey) {
-                  setState(() {
-                    model.assistApiKey = newApiKey;
-                  });
-                },
-              ),
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+            },
+          ),
         );
         model.isFirstTime = false;
       }
@@ -324,10 +323,9 @@ class _DataPreProcessingSampleState extends SampleViewState
             final bool isNextDataNull =
                 count + 1 < _demoData!.length &&
                 _demoData![count + 1].visitors == null;
-            color =
-                isCurrDataNull || isNextDataNull
-                    ? const Color(0xFFD84227)
-                    : Colors.blue;
+            color = isCurrDataNull || isNextDataNull
+                ? const Color(0xFFD84227)
+                : Colors.blue;
             aiData.add(_ChartData(date, visitors, color));
             count = count + 1;
           }

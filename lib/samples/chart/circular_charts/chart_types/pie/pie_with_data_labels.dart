@@ -63,8 +63,9 @@ class _PieDataLabelsState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    final double screenWidth =
-        model.isWebFullView ? 245 : MediaQuery.of(context).size.width;
+    final double screenWidth = model.isWebFullView
+        ? 245
+        : MediaQuery.of(context).size.width;
     final double dropDownWidth = (model.isMobile ? 0.25 : 0.4) * screenWidth;
 
     return StatefulBuilder(
@@ -120,16 +121,12 @@ class _PieDataLabelsState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _selectedDataLabelPosition,
-              items:
-                  _positionList!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'outside',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
+              items: _positionList!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : 'outside',
+                  child: Text(value, style: TextStyle(color: model.textColor)),
+                );
+              }).toList(),
               onChanged: (dynamic value) {
                 _updateLabelPosition(value.toString());
                 stateSetter(() {});
@@ -155,10 +152,9 @@ class _PieDataLabelsState extends SampleViewState {
             softWrap: false,
             style: TextStyle(
               fontSize: 16,
-              color:
-                  _selectedDataLabelPosition != 'inside'
-                      ? model.textColor.withValues(alpha: 0.3)
-                      : model.textColor,
+              color: _selectedDataLabelPosition != 'inside'
+                  ? model.textColor.withValues(alpha: 0.3)
+                  : model.textColor,
             ),
           ),
         ),
@@ -172,18 +168,17 @@ class _PieDataLabelsState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _selectedOverflowMode,
-              items:
-                  _selectedDataLabelPosition != 'inside'
-                      ? null
-                      : _overflowModeList!.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'none',
-                          child: Text(
-                            value,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
+              items: _selectedDataLabelPosition != 'inside'
+                  ? null
+                  : _overflowModeList!.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'none',
+                        child: Text(
+                          value,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
               onChanged: (dynamic value) {
                 _updateOverflowMode(value.toString());
                 stateSetter(() {});
@@ -218,16 +213,12 @@ class _PieDataLabelsState extends SampleViewState {
               isExpanded: true,
               underline: Container(color: const Color(0xFFBDBDBD), height: 1),
               value: _connectorLineType,
-              items:
-                  _connectorLineList!.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: (value != null) ? value : 'line',
-                      child: Text(
-                        value,
-                        style: TextStyle(color: model.textColor),
-                      ),
-                    );
-                  }).toList(),
+              items: _connectorLineList!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : 'line',
+                  child: Text(value, style: TextStyle(color: model.textColor)),
+                );
+              }).toList(),
               onChanged: (dynamic value) {
                 _updateConnectorLineType(value.toString());
                 stateSetter(() {});
@@ -305,8 +296,9 @@ class _PieDataLabelsState extends SampleViewState {
           labelIntersectAction: LabelIntersectAction.none,
           overflowMode: _overflowMode,
           showZeroValue: !isCardView && !_isZeroVisible ? true : false,
-          labelPosition:
-              !isCardView ? _labelPosition : ChartDataLabelPosition.outside,
+          labelPosition: !isCardView
+              ? _labelPosition
+              : ChartDataLabelPosition.outside,
           connectorLineSettings: ConnectorLineSettings(
             type: !isCardView ? _connectorType : ConnectorType.curve,
           ),

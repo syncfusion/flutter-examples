@@ -29,19 +29,19 @@ class _WaterLevelIndicatorState extends SampleViewState {
   Widget build(BuildContext context) {
     return isWebOrDesktop
         ? Container(
-          alignment: Alignment.center,
-          child: Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
-            height: 350,
-            child: _buildWaterIndicator(context),
-          ),
-        )
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width >= 1000 ? 550 : 440,
+              height: 350,
+              child: _buildWaterIndicator(context),
+            ),
+          )
         : isCardView
         ? _buildWaterIndicator(context)
         : Center(
-          child: SizedBox(height: 300, child: _buildWaterIndicator(context)),
-        );
+            child: SizedBox(height: 300, child: _buildWaterIndicator(context)),
+          );
   }
 
   /// Returns the water indicator.
@@ -78,27 +78,26 @@ class _WaterLevelIndicatorState extends SampleViewState {
                   hoverColor: Colors.blueAccent,
                   onTap: () {},
                   child: Center(
-                    child:
-                        _level == _minimumLevel
-                            ? Icon(
-                              Icons.keyboard_arrow_up_outlined,
+                    child: _level == _minimumLevel
+                        ? Icon(
+                            Icons.keyboard_arrow_up_outlined,
+                            color: Colors.white,
+                            size: isCardView ? 18.0 : 20.0,
+                          )
+                        : _level == _maximumLevel
+                        ? Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Colors.white,
+                            size: isCardView ? 18.0 : 20.0,
+                          )
+                        : RotatedBox(
+                            quarterTurns: 3,
+                            child: Icon(
+                              Icons.code_outlined,
                               color: Colors.white,
                               size: isCardView ? 18.0 : 20.0,
-                            )
-                            : _level == _maximumLevel
-                            ? Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: Colors.white,
-                              size: isCardView ? 18.0 : 20.0,
-                            )
-                            : RotatedBox(
-                              quarterTurns: 3,
-                              child: Icon(
-                                Icons.code_outlined,
-                                color: Colors.white,
-                                size: isCardView ? 18.0 : 20.0,
-                              ),
                             ),
+                          ),
                   ),
                 ),
               ),
@@ -108,12 +107,11 @@ class _WaterLevelIndicatorState extends SampleViewState {
             value: _level,
             enableAnimation: false,
             markerAlignment: LinearMarkerAlignment.end,
-            offset:
-                isCardView
-                    ? 67
-                    : isWebOrDesktop
-                    ? 120
-                    : 95,
+            offset: isCardView
+                ? 67
+                : isWebOrDesktop
+                ? 120
+                : 95,
             position: LinearElementPosition.outside,
             child: SizedBox(
               width: 50,
@@ -122,10 +120,9 @@ class _WaterLevelIndicatorState extends SampleViewState {
                 child: Text(
                   _level.toStringAsFixed(0) + ' ml',
                   style: TextStyle(
-                    color:
-                        brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
+                    color: brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
@@ -138,12 +135,11 @@ class _WaterLevelIndicatorState extends SampleViewState {
           LinearBarPointer(
             value: _maximumLevel,
             enableAnimation: false,
-            thickness:
-                isCardView
-                    ? 150
-                    : isWebOrDesktop
-                    ? 250
-                    : 200,
+            thickness: isCardView
+                ? 150
+                : isWebOrDesktop
+                ? 250
+                : 200,
             offset: 18,
             position: LinearElementPosition.outside,
             color: Colors.transparent,
@@ -176,11 +172,10 @@ class _CustomPathPainter extends CustomPainter {
     final Path path = _buildTumblerPath(size.width, size.height);
     final double factor = size.height / maximumPoint;
     final double height = 2 * factor * waterLevel;
-    final Paint strokePaint =
-        Paint()
-          ..color = Colors.grey
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1;
+    final Paint strokePaint = Paint()
+      ..color = Colors.grey
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
     final Paint paint = Paint()..color = color;
     canvas.drawPath(path, strokePaint);
     final Rect clipper = Rect.fromCenter(

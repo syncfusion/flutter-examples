@@ -63,16 +63,15 @@ class _PredictiveDataSampleState extends SampleViewState
       if (model.isFirstTime) {
         showDialog(
           context: context,
-          builder:
-              (context) => WelcomeDialog(
-                primaryColor: model.primaryColor,
-                apiKey: model.assistApiKey,
-                onApiKeySaved: (newApiKey) {
-                  setState(() {
-                    model.assistApiKey = newApiKey;
-                  });
-                },
-              ),
+          builder: (context) => WelcomeDialog(
+            primaryColor: model.primaryColor,
+            apiKey: model.assistApiKey,
+            onApiKeySaved: (newApiKey) {
+              setState(() {
+                model.assistApiKey = newApiKey;
+              });
+            },
+          ),
         );
         model.isFirstTime = false;
       }
@@ -503,84 +502,78 @@ class StudentDataSource extends DataGridSource {
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-      cells:
-          row.getCells().map<Widget>((e) {
-            Color? getColor() {
-              final bool isDarkMode =
-                  model.themeData.brightness == Brightness.dark;
-              if (e.columnName == 'FinalYearGPA' ||
-                  e.columnName == 'TotalGPA') {
-                if (isDarkMode) {
-                  return const Color(0xFF095C37);
-                } else {
-                  return const Color(0xFFAAF0C4);
-                }
-              } else if (e.columnName == 'TotalGrade') {
-                if (e.value == 'A+' || e.value == 'A') {
-                  return isDarkMode
-                      ? const Color(0xFF283618)
-                      : const Color(0xFFD0EF84);
-                } else if (e.value == 'B+' || e.value == 'B') {
-                  return isDarkMode
-                      ? const Color(0xFFA15C07)
-                      : const Color(0xFFFFD6AE);
-                } else {
-                  return isDarkMode
-                      ? const Color(0xFFDF2935)
-                      : const Color(0xFFF08080);
-                }
-              }
-              return null;
+      cells: row.getCells().map<Widget>((e) {
+        Color? getColor() {
+          final bool isDarkMode = model.themeData.brightness == Brightness.dark;
+          if (e.columnName == 'FinalYearGPA' || e.columnName == 'TotalGPA') {
+            if (isDarkMode) {
+              return const Color(0xFF095C37);
+            } else {
+              return const Color(0xFFAAF0C4);
             }
+          } else if (e.columnName == 'TotalGrade') {
+            if (e.value == 'A+' || e.value == 'A') {
+              return isDarkMode
+                  ? const Color(0xFF283618)
+                  : const Color(0xFFD0EF84);
+            } else if (e.value == 'B+' || e.value == 'B') {
+              return isDarkMode
+                  ? const Color(0xFFA15C07)
+                  : const Color(0xFFFFD6AE);
+            } else {
+              return isDarkMode
+                  ? const Color(0xFFDF2935)
+                  : const Color(0xFFF08080);
+            }
+          }
+          return null;
+        }
 
-            return Container(
-              color: e.value == null ? null : getColor(),
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(e.value == null ? '' : e.value.toString()),
-            );
-          }).toList(),
+        return Container(
+          color: e.value == null ? null : getColor(),
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(8.0),
+          child: Text(e.value == null ? '' : e.value.toString()),
+        );
+      }).toList(),
     );
   }
 
   void _buildDataGridRows() {
-    _employeeData =
-        student.map<DataGridRow>((student) {
-          return DataGridRow(
-            cells:
-                _columns.map<DataGridCell>((column) {
-                  return DataGridCell(
-                    columnName: column.columnName,
-                    value: student[column.columnName],
-                  );
-                }).toList(),
+    _employeeData = student.map<DataGridRow>((student) {
+      return DataGridRow(
+        cells: _columns.map<DataGridCell>((column) {
+          return DataGridCell(
+            columnName: column.columnName,
+            value: student[column.columnName],
           );
-        }).toList();
+        }).toList(),
+      );
+    }).toList();
   }
 
   void updateDataRow(int rowIndex, StudentDetails student) {
     _employeeData[rowIndex] = DataGridRow(
-      cells:
-          _columns.map<DataGridCell>((column) {
-            return DataGridCell(
-              columnName: column.columnName,
-              value: student[column.columnName],
-            );
-          }).toList(),
+      cells: _columns.map<DataGridCell>((column) {
+        return DataGridCell(
+          columnName: column.columnName,
+          value: student[column.columnName],
+        );
+      }).toList(),
     );
   }
 
   void addColumns() {
     _columns.addAll([
       GridColumn(
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         minimumWidth: 150,
         columnName: 'FinalYearGPA',
         label: Container(
@@ -592,14 +585,14 @@ class StudentDataSource extends DataGridSource {
       GridColumn(
         columnName: 'TotalGPA',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -609,14 +602,14 @@ class StudentDataSource extends DataGridSource {
       GridColumn(
         columnName: 'TotalGrade',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -633,14 +626,14 @@ class StudentDataSource extends DataGridSource {
       GridColumn(
         columnName: 'StudentID',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 120
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 120
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -650,14 +643,14 @@ class StudentDataSource extends DataGridSource {
       GridColumn(
         columnName: 'StudentName',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -667,14 +660,14 @@ class StudentDataSource extends DataGridSource {
       GridColumn(
         columnName: 'FirstYearGPA',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -684,14 +677,14 @@ class StudentDataSource extends DataGridSource {
       GridColumn(
         columnName: 'SecondYearGPA',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -701,14 +694,14 @@ class StudentDataSource extends DataGridSource {
       GridColumn(
         columnName: 'ThirdYearGPA',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
