@@ -52,131 +52,8 @@ class StockChartViewer extends StatelessWidget {
   final String firstName;
   final String lastName;
 
-  Widget _buildResetButton(BuildContext context) {
-    final StockChartProvider provider = context.read<StockChartProvider>();
-    final ThemeData themeData = Theme.of(context);
-
-    return Material(
-      elevation: 3.0,
-      shape: const CircleBorder(),
-      child: IconButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: themeData.colorScheme.onPrimary,
-        ),
-        icon: const Icon(Icons.refresh),
-        onPressed: () {
-          updateDateRange(context, provider.selectedDateRange);
-          provider.enableReset = false;
-        },
-      ),
-    );
-  }
-
-  Widget _buildRangeSelector(StockChartViewModel viewModel) {
-    final DateTime min = DateTime.parse(viewModel.dataCollections.first.date);
-    final DateTime max = DateTime(2025);
-    return Selector(
-      selector: (BuildContext context, StockChartProvider provider) {
-        return provider.isFullScreen;
-      },
-      builder: (BuildContext context, bool isFullScreen, Widget? child) {
-        final StockChartProvider provider = context.read<StockChartProvider>();
-        final ThemeData themeData = Theme.of(context);
-        if (isFullScreen) {
-          return SfRangeSelectorTheme(
-            data: SfRangeSelectorThemeData(
-              activeLabelStyle: themeData.textTheme.labelMedium?.copyWith(
-                color: themeData.colorScheme.onSurface,
-              ),
-              inactiveLabelStyle: themeData.textTheme.labelMedium?.copyWith(
-                color: themeData.colorScheme.outline,
-              ),
-              inactiveRegionColor: themeData.colorScheme.surface.withAlpha(220),
-              inactiveTrackColor: provider.themeMode == ThemeMode.light
-                  ? const Color.fromRGBO(6, 174, 224, 1)
-                  : const Color.fromRGBO(255, 245, 0, 1),
-              thumbStrokeColor: provider.themeMode == ThemeMode.light
-                  ? const Color.fromRGBO(49, 90, 116, 1)
-                  : const Color.fromRGBO(218, 150, 70, 1),
-              activeTrackColor: provider.themeMode == ThemeMode.light
-                  ? const Color.fromRGBO(49, 90, 116, 1)
-                  : const Color.fromRGBO(218, 150, 70, 1),
-              thumbStrokeWidth: 2,
-              thumbColor: Colors.white,
-              overlayRadius: 0,
-            ),
-            child: slider.SfRangeSelector(
-              min: min,
-              max: max,
-              edgeLabelPlacement: slider.EdgeLabelPlacement.inside,
-              controller: provider.chartRangeController,
-              enableTooltip: true,
-              enableDeferredUpdate: true,
-              showLabels: true,
-              showTicks: true,
-              dateIntervalType: slider.DateIntervalType.years,
-              dateFormat: DateFormat.yMMM(),
-              interval: deviceType(context) == DeviceType.desktop ? 1 : 2,
-              onChanged: (slider.SfRangeValues values) {
-                final DateTime desiredMinDate = _startRange(provider, max);
-                for (final DateTimeAxisController? axisController
-                    in provider.zoomingHandlerList.values) {
-                  axisController?.visibleMinimum = values.start;
-                  axisController?.visibleMaximum = values.end;
-                }
-                if (values.start != desiredMinDate || values.end != max) {
-                  provider.enableReset = true;
-                } else {
-                  provider.enableReset = false;
-                }
-              },
-              child: SizedBox(
-                height: 60,
-                child: SfCartesianChart(
-                  margin: EdgeInsets.zero,
-                  primaryXAxis: const DateTimeAxis(isVisible: false),
-                  primaryYAxis: const NumericAxis(isVisible: false),
-                  plotAreaBorderWidth: 0,
-                  series: [
-                    SplineAreaSeries<Data, DateTime>(
-                      animationDuration: 0.0,
-                      dataSource: viewModel.dataCollections,
-                      xValueMapper: (Data data, int index) =>
-                          DateTime.parse(data.date),
-                      yValueMapper: (Data data, int index) => data.close,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        } else {
-          return const SizedBox.shrink();
-        }
-      },
-    );
-  }
-
-  DateTime _startRange(StockChartProvider provider, DateTime endDate) {
-    switch (provider.selectedDateRange) {
-      case DateRange.oneMonth:
-        return DateTime(endDate.year, endDate.month - 1, endDate.day);
-      case DateRange.threeMonth:
-        return DateTime(endDate.year, endDate.month - 3, endDate.day);
-      case DateRange.fiveMonth:
-        return DateTime(endDate.year, endDate.month - 5, endDate.day);
-      case DateRange.oneYear:
-        return DateTime(endDate.year - 1, endDate.month, endDate.day);
-      case DateRange.customRange:
-        return endDate;
-      case DateRange.all:
-        return DateTime.parse(provider.viewModel.dataCollections.first.date);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final StockChartProvider provider = context.read<StockChartProvider>();
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -191,78 +68,28 @@ class StockChartViewer extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Selector<StockChartProvider, ChartSettings>(
-          selector: (BuildContext context, StockChartProvider provider) {
-            return provider.chartSettings;
-          },
-          builder: (BuildContext context, ChartSettings settings, Widget? child) {
-            return Selector<StockChartProvider, bool>(
-              selector: (BuildContext context, StockChartProvider provider) {
-                return provider.isRangeControllerUpdate;
-              },
-              builder: (BuildContext context, bool value, Widget? child) {
-                return Column(
-                  children: <Widget>[
-                    // Only show headers in desktop mode or when not in fullscreen
-                    if (!isFullScreen ||
-                        deviceType(context) == DeviceType.desktop) ...[
-                      StockChartPrimaryHeader(
-                        isFullScreen: isFullScreen,
-                        defaultStocks: defaultStocks,
-                        firstName: firstName,
-                        lastName: lastName,
-                      ),
-                      Divider(
-                        thickness: 1,
-                        color: Theme.of(context).colorScheme.outlineVariant,
-                      ),
-                      StockChartSecondaryHeader(
-                        isFullScreen: isFullScreen,
-                        firstName: firstName,
-                        lastName: lastName,
-                      ),
-                    ],
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          StockChartView(key: ValueKey<bool>(isFullScreen)),
-                          Selector<StockChartProvider, bool>(
-                            selector:
-                                (
-                                  BuildContext context,
-                                  StockChartProvider provider,
-                                ) => provider.enableReset,
-                            builder:
-                                (
-                                  BuildContext context,
-                                  bool enableReset,
-                                  Widget? child,
-                                ) {
-                                  return Visibility(
-                                    visible: enableReset,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        bottom: 30,
-                                      ),
-                                      child: Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: _buildResetButton(context),
-                                      ),
-                                    ),
-                                  );
-                                },
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (provider.isFullScreen &&
-                        provider.chartSettings.rangeSelectorEnabled)
-                      _buildRangeSelector(provider.viewModel),
-                  ],
-                );
-              },
-            );
-          },
+        child: Column(
+          children: <Widget>[
+            // Only show headers in desktop mode or when not in fullscreen
+            if (!isFullScreen || deviceType(context) == DeviceType.desktop) ...[
+              StockChartPrimaryHeader(
+                isFullScreen: isFullScreen,
+                defaultStocks: defaultStocks,
+                firstName: firstName,
+                lastName: lastName,
+              ),
+              Divider(
+                thickness: 1,
+                color: Theme.of(context).colorScheme.outlineVariant,
+              ),
+              StockChartSecondaryHeader(
+                isFullScreen: isFullScreen,
+                firstName: firstName,
+                lastName: lastName,
+              ),
+            ],
+            Expanded(child: StockChartView(key: ValueKey<bool>(isFullScreen))),
+          ],
         ),
       ),
     );
@@ -720,14 +547,9 @@ class StockChartSettings extends StatelessWidget {
   }
 }
 
-class StockChartView extends StatefulWidget {
+class StockChartView extends StatelessWidget {
   const StockChartView({super.key});
 
-  @override
-  State<StockChartView> createState() => _StockChartViewState();
-}
-
-class _StockChartViewState extends State<StockChartView> {
   @override
   Widget build(BuildContext context) {
     return Selector<StockChartProvider, StockChartViewModel>(
@@ -768,53 +590,197 @@ class _StockChartViewState extends State<StockChartView> {
     );
     return Selector<StockChartProvider, bool>(
       selector: (BuildContext context, StockChartProvider provider) {
-        return provider.isTrendlineTypeChanged;
+        return provider.isRangeControllerUpdate;
       },
       builder: (BuildContext context, bool value, Widget? child) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Main chart with overlay indicators.
-            Flexible(
-              flex: 3,
-              child: Selector<StockChartProvider, bool>(
-                selector: (BuildContext context, StockChartProvider provider) {
-                  return provider.isOverlayPopupUpdate;
-                },
-                builder: (BuildContext context, bool value, Widget? child) {
-                  return Stack(
-                    children: [
-                      StockPrimaryCartesianChart(
-                        viewModel: viewModel,
-                        showXAxis: showMainChartXAxis,
-                      ),
-                      if (context
-                          .read<StockChartProvider>()
-                          .overlayIndicators
-                          .isNotEmpty)
-                        OverlayIndicatorPopup(
-                          indicatorTypes: context
+        return Selector<StockChartProvider, bool>(
+          selector: (BuildContext context, StockChartProvider provider) {
+            return provider.isTrendlineTypeChanged;
+          },
+          builder: (BuildContext context, bool value, Widget? child) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Main chart with overlay indicators.
+                Flexible(
+                  flex: 3,
+                  child: Selector<StockChartProvider, bool>(
+                    selector:
+                        (BuildContext context, StockChartProvider provider) {
+                          return provider.isOverlayPopupUpdate;
+                        },
+                    builder: (BuildContext context, bool value, Widget? child) {
+                      return Stack(
+                        children: [
+                          StockPrimaryCartesianChart(
+                            viewModel: viewModel,
+                            showXAxis: showMainChartXAxis,
+                          ),
+                          if (context
                               .read<StockChartProvider>()
-                              .overlayIndicators,
-                        ),
-                      if (context
-                          .read<StockChartProvider>()
-                          .stockTrendlines
-                          .isNotEmpty)
-                        OverlayTrendlinePopup(
-                          trendlineTypes: context
+                              .overlayIndicators
+                              .isNotEmpty)
+                            OverlayIndicatorPopup(
+                              indicatorTypes: context
+                                  .read<StockChartProvider>()
+                                  .overlayIndicators,
+                            ),
+                          if (context
                               .read<StockChartProvider>()
-                              .stockTrendlines,
-                        ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            ..._buildUnderlayIndicatorCharts(context, viewModel),
-          ],
+                              .stockTrendlines
+                              .isNotEmpty)
+                            OverlayTrendlinePopup(
+                              trendlineTypes: context
+                                  .read<StockChartProvider>()
+                                  .stockTrendlines,
+                            ),
+                          Selector<StockChartProvider, bool>(
+                            selector:
+                                (
+                                  BuildContext context,
+                                  StockChartProvider provider,
+                                ) => provider.enableReset,
+                            builder:
+                                (
+                                  BuildContext context,
+                                  bool enableReset,
+                                  Widget? child,
+                                ) {
+                                  return Visibility(
+                                    visible:
+                                        enableReset &&
+                                        provider.underlayIndicators.isEmpty,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        bottom: 30,
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: _buildResetButton(context),
+                                      ),
+                                    ),
+                                  );
+                                },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                ..._buildUnderlayIndicatorCharts(context, viewModel),
+                if (provider.isFullScreen &&
+                    provider.chartSettings.rangeSelectorEnabled)
+                  _buildRangeSelector(viewModel),
+              ],
+            );
+          },
         );
       },
+    );
+  }
+
+  Widget _buildRangeSelector(StockChartViewModel viewModel) {
+    final DateTime min = DateTime.parse(viewModel.dataCollections.first.date);
+    final DateTime max = DateTime(2025);
+    return Selector(
+      selector: (BuildContext context, StockChartProvider provider) {
+        return provider.isFullScreen;
+      },
+      builder: (BuildContext context, bool isFullScreen, Widget? child) {
+        final StockChartProvider provider = context.read<StockChartProvider>();
+        final ThemeData themeData = Theme.of(context);
+        if (isFullScreen) {
+          return SfRangeSelectorTheme(
+            data: SfRangeSelectorThemeData(
+              activeLabelStyle: themeData.textTheme.labelMedium?.copyWith(
+                color: themeData.colorScheme.onSurface,
+              ),
+              inactiveLabelStyle: themeData.textTheme.labelMedium?.copyWith(
+                color: themeData.colorScheme.outline,
+              ),
+              inactiveRegionColor: themeData.colorScheme.surface.withAlpha(220),
+              inactiveTrackColor: provider.themeMode == ThemeMode.light
+                  ? const Color.fromRGBO(6, 174, 224, 1)
+                  : const Color.fromRGBO(255, 245, 0, 1),
+              thumbStrokeColor: provider.themeMode == ThemeMode.light
+                  ? const Color.fromRGBO(49, 90, 116, 1)
+                  : const Color.fromRGBO(218, 150, 70, 1),
+              activeTrackColor: provider.themeMode == ThemeMode.light
+                  ? const Color.fromRGBO(49, 90, 116, 1)
+                  : const Color.fromRGBO(218, 150, 70, 1),
+              thumbStrokeWidth: 2,
+              thumbColor: Colors.white,
+              overlayRadius: 0,
+            ),
+            child: slider.SfRangeSelector(
+              min: min,
+              max: max,
+              edgeLabelPlacement: slider.EdgeLabelPlacement.inside,
+              controller: provider.chartRangeController,
+              enableTooltip: true,
+              enableDeferredUpdate: true,
+              showLabels: true,
+              showTicks: true,
+              dateIntervalType: slider.DateIntervalType.years,
+              dateFormat: DateFormat.yMMM(),
+              interval: deviceType(context) == DeviceType.desktop ? 1 : 2,
+              onChanged: (slider.SfRangeValues values) {
+                final DateTime desiredMinDate = _startRange(provider, max);
+                for (final DateTimeAxisController? axisController
+                    in provider.zoomingHandlerList.values) {
+                  axisController?.visibleMinimum = values.start;
+                  axisController?.visibleMaximum = values.end;
+                }
+                if (values.start != desiredMinDate || values.end != max) {
+                  provider.enableReset = true;
+                } else {
+                  provider.enableReset = false;
+                }
+              },
+              child: SizedBox(
+                height: 60,
+                child: SfCartesianChart(
+                  margin: EdgeInsets.zero,
+                  primaryXAxis: const DateTimeAxis(isVisible: false),
+                  primaryYAxis: const NumericAxis(isVisible: false),
+                  plotAreaBorderWidth: 0,
+                  series: [
+                    SplineAreaSeries<Data, DateTime>(
+                      animationDuration: 0.0,
+                      dataSource: viewModel.dataCollections,
+                      xValueMapper: (Data data, int index) =>
+                          DateTime.parse(data.date),
+                      yValueMapper: (Data data, int index) => data.close,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
+  }
+
+  Widget _buildResetButton(BuildContext context) {
+    final StockChartProvider provider = context.read<StockChartProvider>();
+    final ThemeData themeData = Theme.of(context);
+
+    return Material(
+      elevation: 3.0,
+      shape: const CircleBorder(),
+      child: IconButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: themeData.colorScheme.onPrimary,
+        ),
+        icon: const Icon(Icons.refresh),
+        onPressed: () {
+          updateDateRange(context, provider.selectedDateRange);
+          provider.enableReset = false;
+        },
+      ),
     );
   }
 

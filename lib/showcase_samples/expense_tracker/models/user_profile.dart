@@ -217,8 +217,7 @@ class Profile {
   IconData getIconForCategory(String categoryDisplayName) {
     final List<ETCategory> categories = _defaultCategories();
     for (final ETCategory category in categories) {
-      final String defaultCategoryName =
-          category.category.displayName.toLowerCase();
+      final String defaultCategoryName = category.category.name.toLowerCase();
       if (defaultCategoryName == categoryDisplayName) {
         return category.icon;
       }
@@ -229,8 +228,8 @@ class Profile {
   IconData getIconForGoalCategory(String categoryDisplayName) {
     final List<ETGoalCategory> goalCategories = _defaultGoalCategories();
     for (final ETGoalCategory goalCategory in goalCategories) {
-      final String defaultCategoryName =
-          goalCategory.category.displayName.toLowerCase();
+      final String defaultCategoryName = goalCategory.category.name
+          .toLowerCase();
       if (defaultCategoryName == categoryDisplayName) {
         return goalCategory.icon;
       }

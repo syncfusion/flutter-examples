@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../helper/helper.dart';
-import '../../notifier/stock_chart_notifier.dart';
 import '../settings_page.dart';
 
 class ProfileMenuPopup extends StatelessWidget {
@@ -86,7 +84,6 @@ class ProfileMenuPopup extends StatelessWidget {
         value: 'sample_browser',
         mouseCursor: SystemMouseCursors.click,
         onTap: () {
-          context.read<StockChartProvider>().resetData();
           Navigator.of(context, rootNavigator: true).pop(context);
         },
         child: Padding(

@@ -45,21 +45,23 @@ class _MainAppState extends State<MainApp> {
     return SplashScreen(
       nextScreen: Scaffold(
         body: Consumer<VerifyUserNotifier>(
-          builder: (
-            BuildContext context,
-            VerifyUserNotifier homeScreenNotifier,
-            Widget? child,
-          ) {
-            return FutureBuilder<FirstTimeUserDetails>(
-              future: homeScreenNotifier.isFirstTimeUser(),
-              builder: (
+          builder:
+              (
                 BuildContext context,
-                AsyncSnapshot<FirstTimeUserDetails> snapshot,
+                VerifyUserNotifier homeScreenNotifier,
+                Widget? child,
               ) {
-                return _buildConditionalPages(context, snapshot);
+                return FutureBuilder<FirstTimeUserDetails>(
+                  future: homeScreenNotifier.isFirstTimeUser(),
+                  builder:
+                      (
+                        BuildContext context,
+                        AsyncSnapshot<FirstTimeUserDetails> snapshot,
+                      ) {
+                        return _buildConditionalPages(context, snapshot);
+                      },
+                );
               },
-            );
-          },
         ),
       ),
     );
@@ -101,46 +103,44 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeNotifier>(
-      builder: (
-        BuildContext context,
-        ThemeNotifier themeNotifier,
-        Widget? child,
-      ) {
-        return Consumer<RestartAppNotifier>(
-          builder: (
-            BuildContext context,
-            RestartAppNotifier restartAppNotifier,
-            Widget? child,
-          ) {
-            if (restartAppNotifier.isRestarted) {
-              SharedPreferences.getInstance().then((preferences) {
-                preferences.remove('selected_theme');
-              });
-            }
+      builder:
+          (BuildContext context, ThemeNotifier themeNotifier, Widget? child) {
+            return Consumer<RestartAppNotifier>(
+              builder:
+                  (
+                    BuildContext context,
+                    RestartAppNotifier restartAppNotifier,
+                    Widget? child,
+                  ) {
+                    if (restartAppNotifier.isRestarted) {
+                      SharedPreferences.getInstance().then((preferences) {
+                        preferences.remove('selected_theme');
+                      });
+                    }
 
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              themeMode: themeNotifier.themeMode,
-              darkTheme: ThemeData(
-                useMaterial3: true,
-                colorSchemeSeed: const Color(0xff00639B),
-                brightness: Brightness.dark,
-              ),
-              theme: ThemeData(
-                useMaterial3: true,
-                colorSchemeSeed: const Color(0xff00639B),
-                brightness: Brightness.light,
-              ),
-              initialRoute: '/expense-tracker',
-              routes: {
-                '/expense-tracker': (context) {
-                  return _buildHomeScreen(context);
-                },
-              },
+                    return MaterialApp(
+                      debugShowCheckedModeBanner: false,
+                      themeMode: themeNotifier.themeMode,
+                      darkTheme: ThemeData(
+                        useMaterial3: true,
+                        colorSchemeSeed: const Color(0xff00639B),
+                        brightness: Brightness.dark,
+                      ),
+                      initialRoute: '/expense-tracker',
+                      routes: {
+                        '/expense-tracker': (context) {
+                          return _buildHomeScreen(context);
+                        },
+                      },
+                      theme: ThemeData(
+                        useMaterial3: true,
+                        colorSchemeSeed: const Color(0xff00639B),
+                        brightness: Brightness.light,
+                      ),
+                    );
+                  },
             );
           },
-        );
-      },
     );
   }
 }
@@ -206,10 +206,9 @@ class SetupOrImportPage extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color:
-              isActive
-                  ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.onSecondaryContainer,
+          color: isActive
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSecondaryContainer,
         ),
       ),
     );
@@ -230,22 +229,23 @@ class SetupOrImportPage extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width / 2.0;
 
     return Consumer<WelcomeScreenNotifier>(
-      builder: (
-        BuildContext context,
-        WelcomeScreenNotifier welcomeScreenNotifier,
-        Widget? child,
-      ) {
-        return Stack(
-          children: <Widget>[
-            _buildPageView(welcomeScreenNotifier),
-            _buildNavigationIndicators(
-              screenWidth,
-              context,
-              welcomeScreenNotifier,
-            ),
-          ],
-        );
-      },
+      builder:
+          (
+            BuildContext context,
+            WelcomeScreenNotifier welcomeScreenNotifier,
+            Widget? child,
+          ) {
+            return Stack(
+              children: <Widget>[
+                _buildPageView(welcomeScreenNotifier),
+                _buildNavigationIndicators(
+                  screenWidth,
+                  context,
+                  welcomeScreenNotifier,
+                ),
+              ],
+            );
+          },
     );
   }
 }

@@ -168,7 +168,8 @@ final List<Transaction> predefinedTransactions = [
     amount: 3000.0,
   ),
   Transaction(
-    category: Category.freelance.displayName, // Assuming Investment category is added
+    category:
+        Category.freelance.displayName, // Assuming Investment category is added
     transactionDate: DateTime.parse('2024-08-15T00:00:00.000Z'),
     subCategory: Subcategory.others.displayName,
     type: 'Income',
@@ -176,7 +177,8 @@ final List<Transaction> predefinedTransactions = [
     amount: 800.0,
   ),
   Transaction(
-    category: Category.utilities.displayName, // Assuming Business category is added
+    category:
+        Category.utilities.displayName, // Assuming Business category is added
     transactionDate: DateTime.parse('2024-09-05T00:00:00.000Z'),
     subCategory: Subcategory.others.displayName,
     type: 'Income',
@@ -200,7 +202,8 @@ final List<Transaction> predefinedTransactions = [
     amount: 1200.0,
   ),
   Transaction(
-    category: Category.utilities.displayName, // Assuming Bonus category is added
+    category:
+        Category.utilities.displayName, // Assuming Bonus category is added
     transactionDate: DateTime.parse('2024-12-01T00:00:00.000Z'),
     subCategory: Subcategory.others.displayName,
     type: 'Income',
@@ -208,7 +211,8 @@ final List<Transaction> predefinedTransactions = [
     amount: 1000.0,
   ),
   Transaction(
-    category: Category.socialEvents.displayName, // Assuming Gifts category is added
+    category:
+        Category.socialEvents.displayName, // Assuming Gifts category is added
     transactionDate: DateTime.parse('2025-01-25T00:00:00.000Z'),
     subCategory: Subcategory.others.displayName,
     type: 'Income',
@@ -289,8 +293,9 @@ final List<Transaction> predefinedTransactions = [
     amount: 250.0,
   ),
   Transaction(
-    category:
-        Category.housing.displayName, // Assuming Home Maintenance category is added
+    category: Category
+        .housing
+        .displayName, // Assuming Home Maintenance category is added
     transactionDate: DateTime.parse('2025-01-30T00:00:00.000Z'),
     subCategory: Subcategory.others.displayName,
     type: 'Expense',

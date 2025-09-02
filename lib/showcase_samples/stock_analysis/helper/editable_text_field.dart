@@ -141,33 +141,25 @@ class _NameTextFieldState extends State<NameTextField> {
               ),
               const SizedBox(width: 8),
               if (provider.isEditableTextMap[isEditableKey]!)
-                SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: () {
-                      if (controller.text.isNotEmpty) {
-                        _initialValue = controller.text;
-                        onUpdate(controller.text);
-                        setState(() {
-                          provider.isEditableTextMap[isEditableKey] = false;
-                        });
-                      } else {
-                        setState(() {
-                          controller.text = _initialValue;
-                          provider.isEditableTextMap[isEditableKey] = false;
-                        });
-                      }
-                      focusNode.unfocus();
-                    },
-                    child: Center(
-                      child: Icon(
-                        Icons.check,
-                        size: 18,
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                    ),
+                InkWell(
+                  onTap: () {
+                    if (controller.text.isNotEmpty) {
+                      _initialValue = controller.text;
+                      onUpdate(controller.text);
+                      setState(() {
+                        provider.isEditableTextMap[isEditableKey] = false;
+                      });
+                    } else {
+                      setState(() {
+                        controller.text = _initialValue;
+                        provider.isEditableTextMap[isEditableKey] = false;
+                      });
+                    }
+                  },
+                  child: Icon(
+                    Icons.check,
+                    size: 18,
+                    color: Theme.of(context).iconTheme.color,
                   ),
                 ),
             ],

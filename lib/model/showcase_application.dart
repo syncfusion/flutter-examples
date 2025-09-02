@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../sample_browser.dart';
 import 'model.dart';
 
@@ -32,7 +31,6 @@ class ShowcaseApplications extends StatelessWidget {
   final double applicationCardWidth;
   final int applicationCurrentPage;
   final PreferredSize appBar;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -50,24 +48,22 @@ class ShowcaseApplications extends StatelessWidget {
                   final int startIndex = pageIndex * itemsPerPage;
                   final int endIndex =
                       applicationCurrentPage == 1 && pageIndex > 0
-                          ? deviceWidth > 1060
-                              ? applications.length > 6
+                      ? deviceWidth > 1060
+                            ? applications.length > 6
                                   ? startIndex + 2
                                   : applications.length
-                              : (deviceWidth >= 768
+                            : (deviceWidth >= 768
                                   ? applications.length > 4
-                                      ? startIndex + 1
-                                      : applications.length
+                                        ? startIndex + 1
+                                        : applications.length
                                   : applications.length > 2
-                                      ? startIndex
-                                      : applications.length)
-                          : (startIndex + itemsPerPage > applications.length)
-                              ? applications.length
-                              : startIndex + itemsPerPage;
-
-                  final List<ShowCaseApplications> visibleApps =
-                      applications.sublist(startIndex, endIndex);
-
+                                  ? startIndex
+                                  : applications.length)
+                      : (startIndex + itemsPerPage > applications.length)
+                      ? applications.length
+                      : startIndex + itemsPerPage;
+                  final List<ShowCaseApplications> visibleApps = applications
+                      .sublist(startIndex, endIndex);
                   return Row(
                     children: [
                       ...visibleApps.map(
@@ -225,8 +221,8 @@ class ShowcaseApplications extends StatelessWidget {
                 color: model.themeData.useMaterial3
                     ? model.themeData.colorScheme.outlineVariant
                     : (model.themeData.colorScheme.brightness == Brightness.dark
-                        ? const Color.fromRGBO(61, 61, 61, 1)
-                        : const Color.fromRGBO(238, 238, 238, 1)),
+                          ? const Color.fromRGBO(61, 61, 61, 1)
+                          : const Color.fromRGBO(238, 238, 238, 1)),
                 thickness: 1,
                 height: 1,
               ),
@@ -244,9 +240,7 @@ class ShowcaseApplications extends StatelessWidget {
                         app.title,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
+                        style: Theme.of(context).textTheme.titleMedium!
                             .copyWith(
                               color: Theme.of(context).colorScheme.onSurface,
                               letterSpacing: 0,
@@ -260,8 +254,8 @@ class ShowcaseApplications extends StatelessWidget {
                         color: status.toLowerCase() == 'new'
                             ? const Color.fromRGBO(55, 153, 30, 1)
                             : status.toLowerCase() == 'updated'
-                                ? const Color.fromRGBO(246, 117, 0, 1)
-                                : Colors.transparent,
+                            ? const Color.fromRGBO(246, 117, 0, 1)
+                            : Colors.transparent,
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(10.0),
                           topLeft: Radius.circular(10.0),
@@ -398,7 +392,6 @@ class ShowcaseApplications extends StatelessWidget {
                             : (constraints.maxWidth > 768 ? 2 : 1);
                         final double appHeight =
                             MediaQuery.of(context).size.height * 0.4;
-
                         return GridView.builder(
                           padding: const EdgeInsets.only(
                             top: 10,
@@ -408,20 +401,22 @@ class ShowcaseApplications extends StatelessWidget {
                           ),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: itemsPerRow,
-                            crossAxisSpacing: padding,
-                            mainAxisSpacing: padding,
-                            childAspectRatio:
-                                constraints.maxWidth / itemsPerRow / appHeight,
-                          ),
+                                crossAxisCount: itemsPerRow,
+                                crossAxisSpacing: padding,
+                                mainAxisSpacing: padding,
+                                childAspectRatio:
+                                    constraints.maxWidth /
+                                    itemsPerRow /
+                                    appHeight,
+                              ),
                           itemCount: applications.length,
                           itemBuilder: (context, index) =>
                               _buildApplicationWidget(
-                            context,
-                            applications[index],
-                            model,
-                            constraints.maxWidth,
-                          ),
+                                context,
+                                applications[index],
+                                model,
+                                constraints.maxWidth,
+                              ),
                         );
                       },
                     ),

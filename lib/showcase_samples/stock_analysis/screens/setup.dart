@@ -449,8 +449,8 @@ class SetupProfilePageState extends State<SetupProfilePage> {
                 provider.isLoading,
             builder: (BuildContext context, bool isLoading, Widget? child) =>
                 isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : const SizedBox.shrink(),
+                ? const Center(child: CircularProgressIndicator())
+                : const SizedBox.shrink(),
           ),
         ],
       ),

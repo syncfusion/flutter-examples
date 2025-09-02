@@ -47,17 +47,16 @@ class _SemanticFilteringSampleState extends SampleViewState
 
   String _generatePrompt() {
     // Extract all symptoms from local patient records.
-    final List<String> allSymptoms =
-        _patientRecord
-            .map((record) => record.symptoms)
-            .expand(
-              (symptom) =>
-                  symptom.split(RegExp(r',|\band\b', caseSensitive: false)),
-            )
-            .map((symptom) => symptom.trim())
-            .where((symptom) => symptom.isNotEmpty)
-            .toSet()
-            .toList();
+    final List<String> allSymptoms = _patientRecord
+        .map((record) => record.symptoms)
+        .expand(
+          (symptom) =>
+              symptom.split(RegExp(r',|\band\b', caseSensitive: false)),
+        )
+        .map((symptom) => symptom.trim())
+        .where((symptom) => symptom.isNotEmpty)
+        .toSet()
+        .toList();
 
     final String availableSymptoms = allSymptoms.join(', ');
 
@@ -103,12 +102,11 @@ Now, generate a similar list for "${searchController.text}".
     _patientDataSource.clearFilters(columnName: 'Symptoms');
 
     // Split the response into individual terms.
-    final relatedTerms =
-        data
-            .split(',')
-            .map((e) => e.trim().toLowerCase())
-            .where((term) => term.isNotEmpty)
-            .toList();
+    final relatedTerms = data
+        .split(',')
+        .map((e) => e.trim().toLowerCase())
+        .where((term) => term.isNotEmpty)
+        .toList();
 
     // Apply each related term as a separate filter condition.
     // ignore: prefer_foreach
@@ -169,21 +167,20 @@ Now, generate a similar list for "${searchController.text}".
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    suffixIcon:
-                        searchController.text.isNotEmpty
-                            ? IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: () {
-                                searchController.clear();
-                                isLoadingNotifier.value = true;
+                    suffixIcon: searchController.text.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              searchController.clear();
+                              isLoadingNotifier.value = true;
 
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  _patientDataSource.clearFilters();
-                                  isLoadingNotifier.value = false;
-                                });
-                              },
-                            )
-                            : null,
+                              Future.delayed(const Duration(seconds: 1), () {
+                                _patientDataSource.clearFilters();
+                                isLoadingNotifier.value = false;
+                              });
+                            },
+                          )
+                        : null,
                   ),
                   onChanged: (value) {
                     if (value.trim().isEmpty) {
@@ -507,45 +504,41 @@ class PatientDataSource extends DataGridSource {
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
-      cells:
-          row.getCells().map<Widget>((e) {
-            final columnAlignment =
-                e.columnName == 'PatientID' || e.columnName == 'RecordID'
-                    ? Alignment.center
-                    : Alignment.centerLeft;
-            return Container(
-              alignment: columnAlignment,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(e.value == null ? '' : e.value.toString()),
-            );
-          }).toList(),
+      cells: row.getCells().map<Widget>((e) {
+        final columnAlignment =
+            e.columnName == 'PatientID' || e.columnName == 'RecordID'
+            ? Alignment.center
+            : Alignment.centerLeft;
+        return Container(
+          alignment: columnAlignment,
+          padding: const EdgeInsets.all(8.0),
+          child: Text(e.value == null ? '' : e.value.toString()),
+        );
+      }).toList(),
     );
   }
 
   void _buildDataGridRows() {
-    _patientData =
-        patient.map<DataGridRow>((cell) {
-          return DataGridRow(
-            cells:
-                _columns.map<DataGridCell>((column) {
-                  return DataGridCell(
-                    columnName: column.columnName,
-                    value: cell[column.columnName],
-                  );
-                }).toList(),
+    _patientData = patient.map<DataGridRow>((cell) {
+      return DataGridRow(
+        cells: _columns.map<DataGridCell>((column) {
+          return DataGridCell(
+            columnName: column.columnName,
+            value: cell[column.columnName],
           );
-        }).toList();
+        }).toList(),
+      );
+    }).toList();
   }
 
   void updateDataRow(int rowIndex, PatientRecord student) {
     _patientData[rowIndex] = DataGridRow(
-      cells:
-          _columns.map<DataGridCell>((column) {
-            return DataGridCell(
-              columnName: column.columnName,
-              value: student[column.columnName],
-            );
-          }).toList(),
+      cells: _columns.map<DataGridCell>((column) {
+        return DataGridCell(
+          columnName: column.columnName,
+          value: student[column.columnName],
+        );
+      }).toList(),
     );
   }
 
@@ -554,14 +547,14 @@ class PatientDataSource extends DataGridSource {
       GridColumn(
         columnName: 'RecordID',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -571,14 +564,14 @@ class PatientDataSource extends DataGridSource {
       GridColumn(
         columnName: 'PatientID',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -588,14 +581,14 @@ class PatientDataSource extends DataGridSource {
       GridColumn(
         columnName: 'Symptoms',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -605,14 +598,14 @@ class PatientDataSource extends DataGridSource {
       GridColumn(
         columnName: 'Diagnosis',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,
@@ -622,14 +615,14 @@ class PatientDataSource extends DataGridSource {
       GridColumn(
         columnName: 'DoctorInfo',
         minimumWidth: 150,
-        columnWidthMode:
-            !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-        width:
-            !isWebOrDesktop
-                ? 150
-                : (isWebOrDesktop && model.isMobileResolution)
-                ? 150.0
-                : double.nan,
+        columnWidthMode: !isWebOrDesktop
+            ? ColumnWidthMode.none
+            : ColumnWidthMode.fill,
+        width: !isWebOrDesktop
+            ? 150
+            : (isWebOrDesktop && model.isMobileResolution)
+            ? 150.0
+            : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
           alignment: Alignment.center,

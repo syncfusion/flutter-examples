@@ -129,6 +129,10 @@ class TransactionNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void reset() {
+    _isFirstTime = true;
+  }
+
   void editTransaction(int selectedIndex, Transaction editedTransaction) {
     if (_filteredTransactions.isNotEmpty) {
       _selectedIndexes.clear();
@@ -159,15 +163,13 @@ class TransactionNotifier extends ChangeNotifier {
     if (selectedSegment == 'All') {
       segmentFilteredTransactions = _transactions;
     } else if (selectedSegment == 'Income') {
-      segmentFilteredTransactions =
-          _transactions.where((transaction) {
-            return transaction.type == 'Income';
-          }).toList();
+      segmentFilteredTransactions = _transactions.where((transaction) {
+        return transaction.type == 'Income';
+      }).toList();
     } else if (selectedSegment == 'Expense') {
-      segmentFilteredTransactions =
-          _transactions.where((transaction) {
-            return transaction.type == 'Expense';
-          }).toList();
+      segmentFilteredTransactions = _transactions.where((transaction) {
+        return transaction.type == 'Expense';
+      }).toList();
     }
 
     final DateTime now = DateTime.now();
@@ -219,10 +221,6 @@ class TransactionNotifier extends ChangeNotifier {
       }),
     );
     sorting();
-  }
-
-  void reset() {
-    _isFirstTime = true;
   }
 }
 

@@ -138,24 +138,6 @@ class SettingsDialog extends StatelessWidget {
               .read<StockChartProvider>()
               .updateTempSetting(tooltipEnabled: value),
         ),
-        // _buildCheckboxOption(
-        //   context: context,
-        //   title: 'Enable Crosshair',
-        //   settingSelector: (ChartSettings settings) =>
-        //       settings.crosshairEnabled,
-        //   onChanged: (bool? value) => context
-        //       .read<StockChartProvider>()
-        //       .updateTempSetting(crosshairEnabled: value),
-        // ),
-        // _buildCheckboxOption(
-        //   context: context,
-        //   title: 'Enable Trackball',
-        //   settingSelector: (ChartSettings settings) =>
-        //       settings.trackballEnabled,
-        //   onChanged: (bool? value) => context
-        //       .read<StockChartProvider>()
-        //       .updateTempSetting(trackballEnabled: value),
-        // ),
       ],
     );
   }

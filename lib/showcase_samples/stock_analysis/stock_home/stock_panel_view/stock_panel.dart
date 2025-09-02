@@ -497,7 +497,6 @@ class _StockListItemState extends State<StockListItem> {
                         renderBox.size.width,
                         offset.dy + renderBox.size.height,
                       );
-
                       showMenu(
                         context: context,
                         position: position,
