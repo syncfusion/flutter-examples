@@ -139,15 +139,15 @@ class _SampleBrowserState extends State<SampleBrowser> {
         }
       }
 
-      navigationRoutes[sampleRoute.routeName!] =
-          (BuildContext context) => WebLayoutPage(
-                key: initialKey,
-                routeName: sampleRoute.routeName,
-                sampleModel: _sampleListModel,
-                category: category,
-                subItem: sampleRoute.subItem,
-                refresh: _refresh,
-              );
+      navigationRoutes[sampleRoute.routeName!] = (BuildContext context) =>
+          WebLayoutPage(
+            key: initialKey,
+            routeName: sampleRoute.routeName,
+            sampleModel: _sampleListModel,
+            category: category,
+            subItem: sampleRoute.subItem,
+            refresh: _refresh,
+          );
     }
 
     _addShowcaseNavigationRoutes(navigationRoutes);
@@ -176,10 +176,10 @@ class _SampleBrowserState extends State<SampleBrowser> {
   void _addShowcaseNavigationRoutes(
     Map<String, WidgetBuilder> navigationRoutes,
   ) {
-    navigationRoutes['/stock-chart'] =
-        (BuildContext context) => const StockAnalysis();
-    navigationRoutes['/expense-tracker'] =
-        (BuildContext context) => const ExpenseAnalysisApp();
+    navigationRoutes['/stock-chart'] = (BuildContext context) =>
+        const StockAnalysis();
+    navigationRoutes['/expense-tracker'] = (BuildContext context) =>
+        const ExpenseAnalysisApp();
   }
 
   MaterialApp _buildWebOrDesktopView(
@@ -278,7 +278,6 @@ class ShowCaseApplications {
     required this.routeName,
     required this.application,
   });
-
   final String title;
   final String routeName;
   final Widget application;
@@ -384,8 +383,9 @@ class _HomePageState extends State<HomePage> {
     bool isMaxXSize,
   ) {
     final double deviceWidth = MediaQuery.of(context).size.width;
-    final int itemsPerPage =
-        deviceWidth > 1060 ? 3 : (deviceWidth > 768 ? 2 : 1);
+    final int itemsPerPage = deviceWidth > 1060
+        ? 3
+        : (deviceWidth > 768 ? 2 : 1);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_pageController.hasClients &&
@@ -398,19 +398,20 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    final bool showViewAll = _applicationCurrentPage == 1 &&
+    final bool showViewAll =
+        _applicationCurrentPage == 1 &&
         (deviceWidth > 1060
             ? applications.length > 6
             : (deviceWidth >= 768
-                ? applications.length > 4
-                : applications.length > 2));
+                  ? applications.length > 4
+                  : applications.length > 2));
 
     double padding = 0;
     double sidePadding = deviceWidth > 1060
         ? deviceWidth * 0.038
         : deviceWidth >= 768
-            ? deviceWidth * 0.041
-            : deviceWidth * 0.05;
+        ? deviceWidth * 0.041
+        : deviceWidth * 0.05;
 
     if (deviceWidth > 1060) {
       padding = deviceWidth * 0.011;
@@ -552,8 +553,9 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.0,
         backgroundColor: model.primaryColor,
         flexibleSpace: Padding(
-          padding:
-              isMaterial3 ? EdgeInsets.zero : const EdgeInsets.only(top: 4.0),
+          padding: isMaterial3
+              ? EdgeInsets.zero
+              : const EdgeInsets.only(top: 4.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -654,7 +656,7 @@ class _HomePageState extends State<HomePage> {
         width: MediaQuery.of(context).size.width >= 920
             ? 300
             : MediaQuery.of(context).size.width /
-                (MediaQuery.of(context).size.width < 820 ? 5 : 4),
+                  (MediaQuery.of(context).size.width < 820 ? 5 : 4),
         child: CustomSearchBar(sampleListModel: model),
       ),
     );
@@ -1055,8 +1057,8 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
     double sidePadding = deviceWidth > 1060
         ? deviceWidth * 0.038
         : deviceWidth >= 768
-            ? deviceWidth * 0.041
-            : deviceWidth * 0.05;
+        ? deviceWidth * 0.041
+        : deviceWidth * 0.05;
 
     if (deviceWidth > 1060) {
       padding = deviceWidth * 0.011;
@@ -1197,8 +1199,8 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
             color: model.themeData.useMaterial3
                 ? model.themeData.colorScheme.outlineVariant
                 : (model.themeData.colorScheme.brightness == Brightness.dark
-                    ? const Color.fromRGBO(61, 61, 61, 1)
-                    : const Color.fromRGBO(238, 238, 238, 1)),
+                      ? const Color.fromRGBO(61, 61, 61, 1)
+                      : const Color.fromRGBO(238, 238, 238, 1)),
             thickness: 1,
           ),
           Column(children: _buildControlListView(category)),
@@ -1263,8 +1265,8 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                                   padding: const EdgeInsets.only(left: 8),
                                   child: Container(
                                     alignment: Alignment.center,
-                                    padding: model.isWeb &&
-                                            model.isMobileResolution
+                                    padding:
+                                        model.isWeb && model.isMobileResolution
                                         ? const EdgeInsets.fromLTRB(
                                             3,
                                             1.5,
@@ -1296,8 +1298,8 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                           color: status.toLowerCase() == 'new'
                               ? const Color.fromRGBO(55, 153, 30, 1)
                               : status.toLowerCase() == 'updated'
-                                  ? const Color.fromRGBO(246, 117, 0, 1)
-                                  : Colors.transparent,
+                              ? const Color.fromRGBO(246, 117, 0, 1)
+                              : Colors.transparent,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10),
                             bottomLeft: Radius.circular(10),

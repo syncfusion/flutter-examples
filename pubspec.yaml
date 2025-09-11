@@ -1,48 +1,11 @@
 name: flutter_examples
 description: This project contains the Syncfusion Flutter UI widgets examples.
-version: 30.1.37
+version: 31.1.17
 homepage: https://github.com/syncfusion/flutter-examples
 
 environment:
   sdk: ^3.7.0
-
-dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter:
-    sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-  file_picker: ^8.3.1
-  url_launcher: ^6.3.1
-  provider: ^6.1.2
-  path_provider: ^2.1.5
-  shared_preferences: ^2.5.1
-  path_provider_foundation: ^2.1.0
-  desktop_window: 0.4.0
-  intl: ">=0.18.1 <0.21.0"
-  cupertino_icons: ^1.0.8
-  google_generative_ai: ^0.4.6
-  flutter_markdown: ^0.7.4+1
-  web: ^1.1.0
-  flutter_svg: ^2.1.0
-  image_picker: ^1.1.2
-
-  syncfusion_localizations: ^30.1.37
-  syncfusion_flutter_datagrid_export: ^30.1.37
-  syncfusion_flutter_calendar: ^30.1.37
-  syncfusion_flutter_datepicker: ^30.1.37
-  syncfusion_flutter_charts: ^30.1.37
-  syncfusion_flutter_gauges: ^30.1.37
-  syncfusion_flutter_sliders: ^30.1.37
-  syncfusion_flutter_pdf: ^30.1.37
-  syncfusion_flutter_barcodes: ^30.1.37
-  syncfusion_officechart: ^30.1.37
-  syncfusion_flutter_maps: ^30.1.37
-  syncfusion_flutter_signaturepad: ^30.1.37
-  syncfusion_flutter_pdfviewer: ^30.1.37
-  syncfusion_flutter_treemap: ^30.1.37
-  syncfusion_flutter_chat: ^30.1.37
+  flutter: '>=3.29.0'
 
 flutter:
   uses-material-design: true
@@ -94,7 +57,6 @@ flutter:
     - assets/stock_logo/tesla.svg
     - assets/stock_logo/app_logo.svg
     - assets/stock_logo/cover_image.png
-
   fonts:
     - family: Expense Tracker Icons
       fonts:
@@ -116,4 +78,38 @@ flutter:
         - asset: assets/fonts/Roboto-Regular.ttf
     - family: Stock Analysis Font Icon
       fonts:
-        - asset: assets/font_icon/stock_analysis_icon.ttf
+        - asset: assets/fonts/Stock Analysis Font Icon.ttf
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  web: ^1.1.0
+  provider: ^6.1.2
+  flutter_svg: ^2.1.0
+  url_launcher: ^6.3.1
+  image_picker: ^1.1.2
+  desktop_window: 0.4.2
+  path_provider: ^2.1.5
+  cupertino_icons: ^1.0.8
+  intl: ">=0.18.1 <0.21.0"
+  shared_preferences: ^2.5.1
+  flutter_markdown: ^0.7.4+1
+  google_generative_ai: ^0.4.6
+  path_provider_foundation: ^2.1.0
+  syncfusion_localizations: ^31.1.17
+  syncfusion_flutter_datagrid_export: ^31.1.17
+  syncfusion_flutter_calendar: ^31.1.17
+  syncfusion_flutter_datepicker: ^31.1.17
+  syncfusion_flutter_charts: ^31.1.17
+  syncfusion_flutter_gauges: ^31.1.17
+  syncfusion_flutter_sliders: ^31.1.17
+  syncfusion_flutter_pdf: ^31.1.17
+  syncfusion_flutter_barcodes: ^31.1.17
+  syncfusion_officechart: ^31.1.17
+  syncfusion_flutter_maps: ^31.1.17
+  syncfusion_flutter_signaturepad: ^31.1.17
+  syncfusion_flutter_pdfviewer: ^31.1.17
+  syncfusion_flutter_treemap: ^31.1.17
+  syncfusion_flutter_chat: ^31.1.17

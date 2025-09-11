@@ -15,12 +15,8 @@ import '../../models/transactional_data.dart';
 import '../../models/transactional_details.dart';
 import '../../models/user.dart';
 import '../../models/user_profile.dart';
-import '../../notifiers/budget_notifier.dart';
-import '../../notifiers/goal_notifier.dart';
 import '../../notifiers/import_notifier.dart';
 import '../../notifiers/restart_notifier.dart';
-import '../../notifiers/savings_notifier.dart';
-import '../../notifiers/transaction_notifier.dart';
 import '../base_home.dart';
 import 'sections/appearance.dart';
 import 'sections/personalization.dart';
@@ -63,10 +59,9 @@ class _SettingsPageState extends State<SettingsPage> {
         vertical: isMobile(context) ? 16.0 : 24.0,
         horizontal: isMobile(context) ? 16.0 : 24.0,
       ),
-      child:
-          isMobile(context)
-              ? _buildSettingsPageContent()
-              : ExpenseCard(child: _buildSettingsPageContent()),
+      child: isMobile(context)
+          ? _buildSettingsPageContent()
+          : ExpenseCard(child: _buildSettingsPageContent()),
     );
   }
 
@@ -79,33 +74,36 @@ class _SettingsPageState extends State<SettingsPage> {
         }
         return ValueListenableBuilder(
           valueListenable: _showPersonalizationPage,
-          builder: (
-            BuildContext context,
-            bool showPersonalization,
-            Widget? child,
-          ) {
-            if (showPersonalization) {
-              return PersonalizationPage(_userProfile);
-            }
-            return ValueListenableBuilder(
-              valueListenable: _showAppearancePage,
-              builder: (
-                BuildContext context,
-                bool showAppearance,
-                Widget? child,
-              ) {
-                if (showAppearance) {
-                  return AppearancePage(_userProfile);
+          builder:
+              (BuildContext context, bool showPersonalization, Widget? child) {
+                if (showPersonalization) {
+                  return PersonalizationPage(_userProfile);
                 }
                 return ValueListenableBuilder(
-                  valueListenable: _showCategoryPage,
-                  builder: (BuildContext context, bool value, Widget? child) {
-                    return _buildSettingsPage();
-                  },
+                  valueListenable: _showAppearancePage,
+                  builder:
+                      (
+                        BuildContext context,
+                        bool showAppearance,
+                        Widget? child,
+                      ) {
+                        if (showAppearance) {
+                          return AppearancePage(_userProfile);
+                        }
+                        return ValueListenableBuilder(
+                          valueListenable: _showCategoryPage,
+                          builder:
+                              (
+                                BuildContext context,
+                                bool value,
+                                Widget? child,
+                              ) {
+                                return _buildSettingsPage();
+                              },
+                        );
+                      },
                 );
               },
-            );
-          },
         );
       },
     );
@@ -223,38 +221,37 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 TextButton(
-                  onPressed:
-                      isConfirmed
-                          ? () async {
-                            try {
-                              Navigator.of(dialogContext).pop();
-                              await _deleteAppData();
-                              if (mounted) {
-                                await _restartApp();
-                              }
-                            } catch (e) {
-                              if (context.mounted) {
-                                showDialog<void>(
-                                  context: context,
-                                  builder: (BuildContext errorContext) {
-                                    return AlertDialog(
-                                      title: const Text('Error'),
-                                      content: Text('Failed to reset: $e'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(errorContext).pop();
-                                          },
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              }
+                  onPressed: isConfirmed
+                      ? () async {
+                          try {
+                            Navigator.of(dialogContext).pop();
+                            await _deleteAppData();
+                            if (mounted) {
+                              await _restartApp();
+                            }
+                          } catch (e) {
+                            if (context.mounted) {
+                              showDialog<void>(
+                                context: context,
+                                builder: (BuildContext errorContext) {
+                                  return AlertDialog(
+                                    title: const Text('Error'),
+                                    content: Text('Failed to reset: $e'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(errorContext).pop();
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             }
                           }
-                          : null,
+                        }
+                      : null,
                   style: TextButton.styleFrom(
                     disabledForegroundColor: _colorScheme.error,
                     foregroundColor: _colorScheme.error,
@@ -262,10 +259,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Text(
                     'Reset',
                     style: _textTheme.labelLarge!.copyWith(
-                      color:
-                          isConfirmed
-                              ? _colorScheme.error
-                              : _colorScheme.error.withValues(alpha: 0.4),
+                      color: isConfirmed
+                          ? _colorScheme.error
+                          : _colorScheme.error.withValues(alpha: 0.4),
                     ),
                   ),
                 ),
@@ -309,17 +305,11 @@ class _SettingsPageState extends State<SettingsPage> {
       listen: false,
     ).resetAppData(widget.currentUserDetails.userProfile);
 
-    Provider.of<BudgetNotifier>(context, listen: false).reset();
-    Provider.of<GoalNotifier>(context, listen: false).reset();
-    Provider.of<SavingsNotifier>(context, listen: false).reset();
-    Provider.of<TransactionNotifier>(context, listen: false).reset();
-
     // Navigate to dashboard page
     await Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute<void>(
-        builder:
-            (BuildContext context) =>
-                ExpenseAnalysis(currentUserDetails: _defaultUserDetails()),
+        builder: (BuildContext context) =>
+            ExpenseAnalysis(currentUserDetails: _defaultUserDetails()),
       ),
       (Route<void> route) => true,
     );
@@ -404,13 +394,12 @@ class _SettingsPageState extends State<SettingsPage> {
     }
 
     final List<String> words = text.split(' ');
-    final List<String> capitalizedWords =
-        words.map((String word) {
-          if (word.isEmpty) {
-            return word;
-          }
-          return word[0].toUpperCase() + word.substring(1).toLowerCase();
-        }).toList();
+    final List<String> capitalizedWords = words.map((String word) {
+      if (word.isEmpty) {
+        return word;
+      }
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }).toList();
 
     return capitalizedWords.join(' ');
   }
@@ -575,26 +564,26 @@ class _SettingsPageState extends State<SettingsPage> {
                     borderRadius: BorderRadius.circular(10.0),
                     child: ValueListenableBuilder(
                       valueListenable: _isHovered,
-                      builder: (
-                        BuildContext context,
-                        bool value,
-                        Widget? child,
-                      ) {
-                        return _buildSettingOptions(
-                          'Appearance',
-                          'Light and Dark themes',
-                          Icon(
-                            const IconData(0xe72c, fontFamily: fontIconFamily),
-                            size: 24.0,
-                            color: _colorScheme.onSurfaceVariant,
-                          ),
-                          Icon(
-                            Icons.chevron_right,
-                            size: 24.0,
-                            color: _colorScheme.onPrimaryContainer,
-                          ),
-                        );
-                      },
+                      builder:
+                          (BuildContext context, bool value, Widget? child) {
+                            return _buildSettingOptions(
+                              'Appearance',
+                              'Light and Dark themes',
+                              Icon(
+                                const IconData(
+                                  0xe72c,
+                                  fontFamily: fontIconFamily,
+                                ),
+                                size: 24.0,
+                                color: _colorScheme.onSurfaceVariant,
+                              ),
+                              Icon(
+                                Icons.chevron_right,
+                                size: 24.0,
+                                color: _colorScheme.onPrimaryContainer,
+                              ),
+                            );
+                          },
                     ),
                   ),
                   if (!isMobile(context))

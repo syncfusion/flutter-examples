@@ -124,6 +124,10 @@ class SavingsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void reset() {
+    _isFirstTime = true;
+  }
+
   void filterSavingsData([String? selectedSegment]) {
     List<Saving> segmentFilteredSavings = [];
     if (selectedSegment == 'All') {
@@ -182,10 +186,6 @@ class SavingsNotifier extends ChangeNotifier {
     }).toList();
     sorting();
     _savingsCount++;
-  }
-
-  void reset() {
-    _isFirstTime = true;
   }
 }
 

@@ -113,15 +113,16 @@ class _StockProfileSettingsPageState extends State<StockProfileSettingsPage> {
                     IconData(0xe709, fontFamily: stockFontIconFamily),
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
                     context.read<StockChartProvider>()
                       ..isEditableTextMap['First'] = false
                       ..isEditableTextMap['Last'] = false;
+                    Navigator.of(context).pop();
                   },
                 ),
                 const Text('Stock Chart'),
               ],
             ),
+
             ProfileMenuPopup(
               user.firstName[0].capitalizeFirst(),
               user.lastName.isEmpty ? '' : user.lastName[0].capitalizeFirst(),
@@ -189,8 +190,8 @@ class _StockProfileSettingsPageState extends State<StockProfileSettingsPage> {
             Text(
               'Basic Info',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             const SizedBox(height: 16),
             _buildAvatarInfo(context),
@@ -263,8 +264,8 @@ class _StockProfileSettingsPageState extends State<StockProfileSettingsPage> {
             Text(
               'Appearance',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             const SizedBox(height: 16),
             Row(
@@ -273,9 +274,9 @@ class _StockProfileSettingsPageState extends State<StockProfileSettingsPage> {
                 Text(
                   'Theme',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontWeight: fontWeight400(),
-                      ),
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: fontWeight400(),
+                  ),
                 ),
                 const ThemeModePopup(),
               ],

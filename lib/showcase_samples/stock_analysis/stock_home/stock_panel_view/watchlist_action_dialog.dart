@@ -74,7 +74,6 @@ class _WatchlistActionDialogState extends State<WatchlistActionDialog> {
     final provider = Provider.of<StockChartProvider>(context, listen: false);
 
     if (widget.isRemoving) {
-      // Get selected watchlist
       // Get all selected watchlists
       final selectedWatchlistIds = _selectedWatchlists.entries
           .where((entry) => entry.value)

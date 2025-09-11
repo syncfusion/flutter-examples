@@ -266,7 +266,9 @@ class _NavigationWithEventsState extends SampleViewState {
   void _launchHyperLink(String text) {
     switch (text) {
       case 'Goldin Finance 117':
-      case '597 ft':
+      case '597 m':
+      case '500.0':
+      case '500':
       case '0':
         launchUrl(
           Uri.parse(
@@ -275,7 +277,9 @@ class _NavigationWithEventsState extends SampleViewState {
         );
         break;
       case 'Ping An Finance Center':
-      case '599 ft':
+      case '599 m':
+      case '600.0':
+      case '600':
       case '1':
         launchUrl(
           Uri.parse(
@@ -284,7 +288,9 @@ class _NavigationWithEventsState extends SampleViewState {
         );
         break;
       case 'Makkah Clock Royal Tower':
-      case '601 ft':
+      case '601 m':
+      case '700.0':
+      case '700':
       case '2':
         launchUrl(
           Uri.parse(
@@ -293,7 +299,9 @@ class _NavigationWithEventsState extends SampleViewState {
         );
         break;
       case 'Shanghai Tower':
-      case '632 ft':
+      case '632 m':
+      case '800.0':
+      case '800':
       case '3':
         launchUrl(
           Uri.parse(
@@ -302,7 +310,9 @@ class _NavigationWithEventsState extends SampleViewState {
         );
         break;
       case 'Burj Khalifa':
-      case '828 ft':
+      case '828 m':
+      case '900.0':
+      case '900':
       case '4':
         launchUrl(
           Uri.parse(

@@ -455,12 +455,7 @@ Map<String, Function> getSampleWidget() {
     'location_finder': (Key key) => MapLocationFinder(key),
     'calendar_sample': (Key key) => AICalendar(key),
     'pdf_viewer_smart_fill': (Key key) => SmartFillSample(key),
-    'pdf_viewer_smart_fill_linux': (Key key) => SmartFillSample(key),
     'pdf_viewer_document_summarization': (Key key) =>
-        DocumentSummarizerSample(key),
-    // Need to remove the below key specific to the Linux in the next release
-    // and update the `sample_details.json` file
-    'pdf_viewer_document_summarization_linux': (Key key) =>
         DocumentSummarizerSample(key),
     // cartesian charts
     'default_line_chart': (Key key) => LineDefault(key),
@@ -793,18 +788,6 @@ Map<String, Function> getSampleWidget() {
     'pdf_viewer_localization': (Key key) => LocalizationPdfViewer(key),
     'pdf_viewer_rtl': (Key key) => RTLModePdfViewer(key),
     'pdf_viewer_form_filling': (Key key) => FormFillingPdfViewer(key),
-
-    // PDF Viewer Linux samples
-    // Need to remove the below keys specific to the Linux in the next release
-    // and update the `sample_details.json` file
-    'pdf_viewer_getting_started_linux': (Key key) =>
-        GettingStartedPdfViewer(key),
-    'pdf_viewer_custom_toolbar_linux': (Key key) => CustomToolbarPdfViewer(key),
-    'pdf_viewer_annotations_linux': (Key key) => AnnotationsPdfViewer(key),
-    'pdf_viewer_encrypted_linux': (Key key) => EncryptedPdfViewer(key),
-    'pdf_viewer_localization_linux': (Key key) => LocalizationPdfViewer(key),
-    'pdf_viewer_rtl_linux': (Key key) => RTLModePdfViewer(key),
-    'pdf_viewer_form_filling_linux': (Key key) => FormFillingPdfViewer(key),
 
     // XlsIO samples
     'expenses_report': (Key key) => ExpensesReportXlsIO(key),
