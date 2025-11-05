@@ -7,7 +7,7 @@
 	<key>com.apple.security.cs.allow-jit</key>
 	<true/>
 	<!--The below configuration is added to access the network for Maps samples-->
-	<key>com.apple.security.network.client</key>
+	<key>com.apple.security.network.server</key>
 	<true/>
 	<!--The below configuration is added to access the network for Maps samples-->
 	<key>com.apple.security.network.client</key>
