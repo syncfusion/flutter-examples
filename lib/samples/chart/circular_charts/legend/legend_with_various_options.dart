@@ -254,29 +254,21 @@ class _LegendOptionsState extends SampleViewState {
             style: TextStyle(fontSize: 16, color: model.textColor),
           ),
         ),
-        Flexible(
-          flex: 4,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
-            height: 50,
-            alignment: Alignment.bottomLeft,
-            child: CustomDirectionalButtons(
-              minValue: -100,
-              maxValue: 100,
-              initialValue: _xOffset,
-              onChanged: (double val) => setState(() {
-                _xOffset = _enableFloatingLegend ? val : 0;
-              }),
-              step: _enableFloatingLegend ? 10 : 0,
-              iconColor: model.textColor.withValues(
-                alpha: _enableFloatingLegend ? 1 : 0.5,
-              ),
-              style: TextStyle(
-                fontSize: 16.0,
-                color: model.textColor.withValues(
-                  alpha: _enableFloatingLegend ? 1 : 0.5,
-                ),
-              ),
+        CustomDirectionalButtons(
+          minValue: -100,
+          maxValue: 100,
+          initialValue: _xOffset,
+          onChanged: (double val) => setState(() {
+            _xOffset = _enableFloatingLegend ? val : 0;
+          }),
+          step: _enableFloatingLegend ? 10 : 0,
+          iconColor: model.textColor.withValues(
+            alpha: _enableFloatingLegend ? 1 : 0.5,
+          ),
+          style: TextStyle(
+            fontSize: 16.0,
+            color: model.textColor.withValues(
+              alpha: _enableFloatingLegend ? 1 : 0.5,
             ),
           ),
         ),
@@ -297,29 +289,21 @@ class _LegendOptionsState extends SampleViewState {
             style: TextStyle(fontSize: 16, color: model.textColor),
           ),
         ),
-        Flexible(
-          flex: 4,
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
-            height: 50,
-            alignment: Alignment.bottomLeft,
-            child: CustomDirectionalButtons(
-              minValue: -100,
-              maxValue: 100,
-              initialValue: _yOffset,
-              onChanged: (double val) => setState(() {
-                _yOffset = _enableFloatingLegend ? val : 0;
-              }),
-              step: _enableFloatingLegend ? 10 : 0,
-              iconColor: model.textColor.withValues(
-                alpha: _enableFloatingLegend ? 1 : 0.5,
-              ),
-              style: TextStyle(
-                fontSize: 16.0,
-                color: model.textColor.withValues(
-                  alpha: _enableFloatingLegend ? 1 : 0.5,
-                ),
-              ),
+        CustomDirectionalButtons(
+          minValue: -100,
+          maxValue: 100,
+          initialValue: _yOffset,
+          onChanged: (double val) => setState(() {
+            _yOffset = _enableFloatingLegend ? val : 0;
+          }),
+          step: _enableFloatingLegend ? 10 : 0,
+          iconColor: model.textColor.withValues(
+            alpha: _enableFloatingLegend ? 1 : 0.5,
+          ),
+          style: TextStyle(
+            fontSize: 16.0,
+            color: model.textColor.withValues(
+              alpha: _enableFloatingLegend ? 1 : 0.5,
             ),
           ),
         ),

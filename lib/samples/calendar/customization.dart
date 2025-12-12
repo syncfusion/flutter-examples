@@ -111,7 +111,7 @@ class _CustomizationCalendarState extends SampleViewState {
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     final List<_Meeting> appointment = <_Meeting>[];
     _events.appointments.clear();
-    final Random random = Random();
+    final Random random = Random.secure();
 
     /// Remove the scroll bar on sample while change the view from
     /// month view or change the view to month view.

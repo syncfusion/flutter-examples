@@ -141,7 +141,7 @@ class _ResizingCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFF0A8043));
 
     final List<Appointment> appointments = <Appointment>[];
-    final Random random = Random();
+    final Random random = Random.secure();
     DateTime today = DateTime.now();
     final DateTime rangeStartDate = today.add(
       const Duration(days: -(365 ~/ 2)),

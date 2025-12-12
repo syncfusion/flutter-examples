@@ -42,42 +42,37 @@ class _VerticalCalendarPickerState extends SampleViewState {
           SizedBox(
             height: 50,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: 6,
-                  child: Text(
-                    'Navigation mode',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
+                Text(
+                  'Navigation mode',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Expanded(
-                  flex: 4,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      focusColor: Colors.transparent,
-                      underline: Container(
-                        color: const Color(0xFFBDBDBD),
-                        height: 1,
-                      ),
-                      value: _navigationModeString,
-                      items: _navigationModeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'scroll',
-                          child: Text(
-                            value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onNavigationModeChange(value);
-                        stateSetter(() {});
-                      },
+                Container(
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
+                    focusColor: Colors.transparent,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
                     ),
+                    value: _navigationModeString,
+                    items: _navigationModeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'scroll',
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onNavigationModeChange(value);
+                      stateSetter(() {});
+                    },
                   ),
                 ),
               ],

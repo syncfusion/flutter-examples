@@ -1962,9 +1962,6 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                   });
                 }
                 if (toolbarItem.toString() == 'Bookmarks') {
-                  setState(() {
-                    _canShowToolbar = false;
-                  });
                   _pdfViewerKey.currentState?.openBookmarkView();
                 } else if (toolbarItem.toString() == 'Search') {
                   setState(() {

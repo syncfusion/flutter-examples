@@ -530,7 +530,7 @@ class SearchToolbarState extends State<SearchToolbar> {
 /// Toolbar item widget
 class ToolbarItem extends StatelessWidget {
   ///Creates a toolbar item
-  const ToolbarItem({Key? key, this.height, this.width, @required this.child})
+  const ToolbarItem({Key? key, this.height, this.width, required this.child})
     : super(key: key);
 
   /// Height of the toolbar item

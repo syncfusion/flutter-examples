@@ -1,4 +1,3 @@
-/// package imports
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -6,6 +5,7 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///Local imports
+import '../meta_tag/meta_tag.dart';
 import '../widgets/expansion_tile.dart';
 import '../widgets/search_bar.dart';
 import 'helper.dart';
@@ -48,6 +48,7 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
   GlobalKey sampleInputKey = GlobalKey<State>();
   GlobalKey sampleOutputKey = GlobalKey<State>();
   GlobalKey<State> popUpKey = GlobalKey<State>();
+  final WebMetaTagUpdate metaTagUpdate = WebMetaTagUpdate();
 
   late _SampleInputContainer inputContainer;
   late _SampleOutputContainer outputContainer;
@@ -108,6 +109,10 @@ class _WebLayoutPageState extends State<WebLayoutPage> {
 
     model.addListener(_handleChange);
     super.initState();
+
+    // Updates meta tag details when navigating from the home page
+    // to a widget sample page.
+    metaTagUpdate.update(sample.title!, sample.control!.title!);
   }
 
   ///Notify the framework by calling this method
@@ -573,6 +578,14 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
               widget.webLayoutPageState!.sample = item.subItems != null
                   ? item.subItems![0] as SubItem
                   : item;
+
+              // Updates meta tag details when selecting a sample from the
+              // left panel in a widget page.
+              metaTagUpdate.update(
+                outputContainerState.sample.title!,
+                outputContainerState.sample.control!.title!,
+              );
+
               if (model.currentSampleKey == null ||
                   (item.key != null
                       ? model.currentSampleKey != item.key
@@ -751,6 +764,14 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
                         list[i].title!;
                     widget.webLayoutPageState!.selectSample = list[i].title;
                     resetLocaleValue(model, outputContainerState.sample);
+
+                    // Updates meta tag details when selecting a sample from
+                    // the left panel in a widget page.
+                    metaTagUpdate.update(
+                      outputContainerState.sample.title!,
+                      outputContainerState.sample.control!.title!,
+                    );
+
                     if (model.currentSampleKey == null ||
                         (list[i].key != null
                             ? model.currentSampleKey != list[i].key
@@ -884,6 +905,10 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
       if (MediaQuery.of(context).size.width <= 768) {
         Navigator.pop(context);
       }
+
+      // Sets default meta tag details when navigating back from a sample
+      // page to the home page.
+      metaTagUpdate.setDefault();
     }
   }
 
@@ -1844,6 +1869,13 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
           outputContainerState.needTabs = true;
           outputContainerState.subItems = subItems;
           outputContainerState.tabIndex = value;
+
+          // Updates meta tag details when switching between tab bar samples.
+          metaTagUpdate.update(
+            outputContainerState.sample.title!,
+            outputContainerState.sample.control!.title!,
+          );
+
           if (model.currentSampleKey == null ||
               model.currentSampleKey != outputContainerState.sample.key) {
             outputContainerState.refresh();
@@ -1921,9 +1953,15 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
         widget.webLayoutPageState!.popUpKey.currentState! as _PopupState;
     state._sampleDetails = sample;
     state._currentWidgetKey = model.currentRenderSample.key as GlobalKey;
+
     final _OutputContainerState outputContainerState =
         _outputKey.currentState! as _OutputContainerState;
+
+    // Updates meta tag details when expanding a sample to maximized view.
+    metaTagUpdate.update(sample.title!, sample.control!.title!);
+
     outputContainerState.setState(() {});
+
     state.refresh(true);
   }
 
@@ -1937,7 +1975,7 @@ class SampleOutputContainerState extends State<_SampleOutputContainer> {
     return Size(textPainter.width, textPainter.height);
   }
 
-  /// Get tabs which length is equal to list length
+  /// Get tabs which length is equal to list length.
   List<Widget> _buildTabs(List<SubItem> list) {
     final List<Widget> tabs = <Widget>[];
     _tabTextWidth = 0;
@@ -2537,6 +2575,14 @@ class _TileContainerState extends State<_TileContainer> {
                           list[i].subItems != null
                           ? list[i].subItems![0] as SubItem
                           : list[i];
+
+                      // Updates meta tag details when selecting a sample
+                      // from the left panel in a widget page.
+                      metaTagUpdate.update(
+                        outputContainerState.sample.title!,
+                        outputContainerState.sample.control!.title!,
+                      );
+
                       if (model.currentSampleKey == null ||
                           (list[i].key != null
                               ? (model.currentSampleKey != list[i].key ||
@@ -2674,6 +2720,14 @@ class _TileContainerState extends State<_TileContainer> {
                           list[i].subItems != null
                           ? list[i].subItems![0] as SubItem
                           : list[i];
+
+                      // Updates meta tag details when selecting a sample from
+                      // the left panel in a widget page.
+                      metaTagUpdate.update(
+                        outputContainerState.sample.title!,
+                        outputContainerState.sample.control!.title!,
+                      );
+
                       if (model.currentSampleKey == null ||
                           (list[i].key != null
                               ? (model.currentSampleKey != list[i].key ||
@@ -2898,6 +2952,15 @@ class _PopupState extends State<_Popup> {
                                 color: model!.drawerIconColor,
                               ),
                               onPressed: () {
+                                if (_sampleDetails != null) {
+                                  // Updates meta tag details when closing
+                                  // the maximized sample view and returning
+                                  // to normal mode.
+                                  metaTagUpdate.update(
+                                    _sampleDetails!.title!,
+                                    _sampleDetails!.control!.title!,
+                                  );
+                                }
                                 model!.needToMaximize = false;
                                 final _OutputContainerState
                                 outputContainerState =
@@ -2907,6 +2970,7 @@ class _PopupState extends State<_Popup> {
                                   outputContainerState.renderWidget =
                                       _currentWidgetKey?.currentWidget;
                                 });
+
                                 _sampleDetails = null;
                                 refresh(false);
                               },
@@ -2916,7 +2980,14 @@ class _PopupState extends State<_Popup> {
                       ],
                     ),
                   ),
-                  body: _currentWidgetKey?.currentWidget,
+                  body: ListenableBuilder(
+                    listenable: model!,
+                    builder: (BuildContext context, Widget? child) {
+                      final Function? sampleView =
+                          model!.sampleWidget[_sampleDetails!.key];
+                      return sampleView!(_currentWidgetKey);
+                    },
+                  ),
                 )
               : Container(),
         ),

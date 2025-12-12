@@ -22,7 +22,7 @@ class RealTimeUpdateDataGridSource extends DataGridSource {
   /// Check whether the device is desktop or mobile platform.
   final bool isWebOrDesktop;
 
-  final math.Random _random = math.Random();
+  final math.Random _random = math.Random.secure();
 
   List<Stock> _stocks = <Stock>[];
 

@@ -29,6 +29,7 @@ class _AnomalyDetectionSampleState extends SampleViewState
   late List<MachineData> _machineDetails;
   bool _isLoading = false;
   late bool _isWebOrDesktop;
+  late bool isMaterial3;
 
   @override
   void initState() {
@@ -76,6 +77,8 @@ class _AnomalyDetectionSampleState extends SampleViewState
         model.isFirstTime = false;
       }
     });
+
+    isMaterial3 = model.themeData.useMaterial3;
   }
 
   String _generatePrompt() {
@@ -197,6 +200,9 @@ class _AnomalyDetectionSampleState extends SampleViewState
               ),
             ),
           ],
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          backgroundColor: isMaterial3 ? Colors.transparent : null,
         ),
       ),
       body: Stack(
@@ -204,6 +210,9 @@ class _AnomalyDetectionSampleState extends SampleViewState
           SfDataGrid(
             source: _machineDataSource,
             columns: _machineDataSource._columns,
+            columnWidthMode: !_isWebOrDesktop && !model.isMobileResolution
+                ? ColumnWidthMode.fill
+                : ColumnWidthMode.none,
           ),
           if (_isLoading) const Center(child: CircularProgressIndicator()),
         ],

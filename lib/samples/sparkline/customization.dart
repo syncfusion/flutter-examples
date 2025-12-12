@@ -129,159 +129,151 @@ class _SparklineCustomizationState extends SampleViewState {
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return ListView(
+          padding: const EdgeInsets.only(right: 10),
           shrinkWrap: true,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Marker',
                   style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-                const Padding(padding: EdgeInsets.fromLTRB(75, 0, 0, 0)),
-                Container(
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                    dropdownColor: model.drawerBackgroundColor,
-                    focusColor: Colors.transparent,
-                    underline: Container(
-                      color: const Color(0xFFBDBDBD),
-                      height: 1,
-                    ),
-                    value: _selectedMarkerDisplayMode,
-                    items: _markerDisplayModeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'none',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      _onMarkerDisplayModeChange(value.toString());
-                      stateSetter(() {});
-                    },
+                DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
+                  focusColor: Colors.transparent,
+                  underline: Container(
+                    color: const Color(0xFFBDBDBD),
+                    height: 1,
                   ),
+                  value: _selectedMarkerDisplayMode,
+                  items: _markerDisplayModeList.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'none',
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    _onMarkerDisplayModeChange(value.toString());
+                    stateSetter(() {});
+                  },
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Data label',
                   style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-                const Padding(padding: EdgeInsets.fromLTRB(55, 0, 0, 0)),
-                Container(
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
-                  child: DropdownButton<String>(
-                    dropdownColor: model.drawerBackgroundColor,
-                    focusColor: Colors.transparent,
-                    underline: Container(
-                      color: const Color(0xFFBDBDBD),
-                      height: 1,
-                    ),
-                    value: _selectedDatalabelDisplayMode,
-                    items: _datalabelDisplayModeList.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'none',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      _onDatalabelDisplayModeChange(value.toString());
-                      stateSetter(() {});
-                    },
+                DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
+                  focusColor: Colors.transparent,
+                  underline: Container(
+                    color: const Color(0xFFBDBDBD),
+                    height: 1,
                   ),
+                  value: _selectedDatalabelDisplayMode,
+                  items: _datalabelDisplayModeList.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'none',
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    _onDatalabelDisplayModeChange(value.toString());
+                    stateSetter(() {});
+                  },
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Trackball',
                   style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-                const Padding(padding: EdgeInsets.fromLTRB(16, 0, 0, 0)),
-                SizedBox(
-                  width: 90,
-                  child: CheckboxListTile(
-                    activeColor: model.primaryColor,
-                    value: _enableTrackLine,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _enableTrackLine = value!;
-                        stateSetter(() {});
-                      });
-                    },
-                  ),
+                Checkbox(
+                  activeColor: model.primaryColor,
+                  value: _enableTrackLine,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _enableTrackLine = value!;
+                      stateSetter(() {});
+                    });
+                  },
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Axis value',
                   style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-                const Padding(padding: EdgeInsets.fromLTRB(30, 0, 0, 0)),
-                SizedBox(
-                  width: 150,
-                  child: SliderTheme(
-                    data: SliderThemeData(
-                      tickMarkShape: SliderTickMarkShape.noTickMark,
+                Row(
+                  spacing: 2,
+                  children: [
+                    SizedBox(
+                      width: 130,
+                      child: SliderTheme(
+                        data: SliderThemeData(
+                          tickMarkShape: SliderTickMarkShape.noTickMark,
+                        ),
+                        child: Slider(
+                          value: _axisCrossingValue,
+                          min: -10,
+                          max: 13,
+                          divisions: 24,
+                          onChanged: (double value) {
+                            setState(() {
+                              _axisCrossingValue = value;
+                              stateSetter(() {});
+                            });
+                          },
+                        ),
+                      ),
                     ),
-                    child: Slider(
-                      value: _axisCrossingValue,
-                      min: -10,
-                      max: 13,
-                      divisions: 24,
-                      onChanged: (double value) {
-                        setState(() {
-                          _axisCrossingValue = value;
-                          stateSetter(() {});
-                        });
-                      },
+                    Text(
+                      '${_axisCrossingValue.floor()}',
+                      style: TextStyle(color: model.textColor, fontSize: 16),
                     ),
-                  ),
-                ),
-                const Padding(padding: EdgeInsets.fromLTRB(2, 0, 0, 0)),
-                Text(
-                  '${_axisCrossingValue.floor()}',
-                  style: TextStyle(color: model.textColor, fontSize: 16),
+                  ],
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Plot band',
                   style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-                const Padding(padding: EdgeInsets.fromLTRB(12, 0, 0, 0)),
-                SizedBox(
-                  width: 90,
-                  child: CheckboxListTile(
-                    activeColor: model.primaryColor,
-                    value: _enablePlotband,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _enablePlotband = value!;
-                        stateSetter(() {});
-                      });
-                    },
-                  ),
+                Checkbox(
+                  activeColor: model.primaryColor,
+                  value: _enablePlotband,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _enablePlotband = value!;
+                      stateSetter(() {});
+                    });
+                  },
                 ),
               ],
             ),
             Visibility(
               visible: _enablePlotband,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -295,7 +287,6 @@ class _SparklineCustomizationState extends SampleViewState {
                       ),
                     ],
                   ),
-                  const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -324,6 +315,7 @@ class _SparklineCustomizationState extends SampleViewState {
             Visibility(
               visible: _enablePlotband,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -337,7 +329,6 @@ class _SparklineCustomizationState extends SampleViewState {
                       ),
                     ],
                   ),
-                  const Padding(padding: EdgeInsets.fromLTRB(25, 0, 0, 0)),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[

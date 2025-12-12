@@ -184,7 +184,7 @@ class _AirFareCalendarCalendarState extends SampleViewState {
     BuildContext buildContext,
     MonthCellDetails details,
   ) {
-    final Random random = Random();
+    final Random random = Random.secure();
     final bool isToday = isSameDate(details.date, DateTime.now());
     final AirFare airFare = _airFareDataCollection[random.nextInt(100)];
     final Color defaultColor =

@@ -74,31 +74,24 @@ class _SortingDefaultState extends SampleViewState {
   /// Builds the dropdown for sorting options.
   Widget _buildSortByDropdown(StateSetter stateSetter) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(
-          'Sort by ',
-          style: TextStyle(color: model.textColor, fontSize: 16),
-        ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-          height: 50,
-          alignment: Alignment.bottomLeft,
-          child: DropdownButton<String>(
-            dropdownColor: model.drawerBackgroundColor,
-            focusColor: Colors.transparent,
-            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-            value: _selectedType,
-            items: _labelList!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'y',
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
-            onChanged: (dynamic value) {
-              _onPositionTypeChange(value.toString());
-              stateSetter(() {});
-            },
-          ),
+        Text('Sort by', style: TextStyle(color: model.textColor, fontSize: 16)),
+        DropdownButton<String>(
+          dropdownColor: model.drawerBackgroundColor,
+          focusColor: Colors.transparent,
+          underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+          value: _selectedType,
+          items: _labelList!.map((String value) {
+            return DropdownMenuItem<String>(
+              value: (value != null) ? value : 'y',
+              child: Text(value, style: TextStyle(color: model.textColor)),
+            );
+          }).toList(),
+          onChanged: (dynamic value) {
+            _onPositionTypeChange(value.toString());
+            stateSetter(() {});
+          },
         ),
       ],
     );
@@ -107,29 +100,27 @@ class _SortingDefaultState extends SampleViewState {
   /// Builds the dropdown for sorting order options.
   Widget _buildSortingOrderDropdown(StateSetter stateSetter) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
-          'Sorting order   ',
+          'Sorting order',
           style: TextStyle(color: model.textColor, fontSize: 16),
         ),
-        SizedBox(
-          height: 50,
-          child: DropdownButton<String>(
-            dropdownColor: model.drawerBackgroundColor,
-            focusColor: Colors.transparent,
-            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-            value: _selectedSortType,
-            items: _sortList!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'none',
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
-            onChanged: (dynamic value) {
-              _onSortingTypeChange(value.toString());
-              stateSetter(() {});
-            },
-          ),
+        DropdownButton<String>(
+          dropdownColor: model.drawerBackgroundColor,
+          focusColor: Colors.transparent,
+          underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+          value: _selectedSortType,
+          items: _sortList!.map((String value) {
+            return DropdownMenuItem<String>(
+              value: (value != null) ? value : 'none',
+              child: Text(value, style: TextStyle(color: model.textColor)),
+            );
+          }).toList(),
+          onChanged: (dynamic value) {
+            _onSortingTypeChange(value.toString());
+            stateSetter(() {});
+          },
         ),
       ],
     );

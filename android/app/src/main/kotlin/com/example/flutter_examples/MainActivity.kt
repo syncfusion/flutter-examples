@@ -53,6 +53,12 @@ class MainActivity : FlutterActivity() {
     private fun launchFile(filePath: String) {
         val file = File(filePath)
         if (file.exists()) {
+            // Check if the file is sensitive
+            if (isSensitiveFile(file)) {
+               // Deny opening sensitive files for now; handle as per your requirements
+               return
+            }
+
             val intent = Intent(Intent.ACTION_VIEW)
             intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             intent.addCategory(Intent.CATEGORY_DEFAULT)
@@ -75,5 +81,16 @@ class MainActivity : FlutterActivity() {
                 // Could not launch the file.
             }
         }
+    }
+
+    // Check whether the file is sensitive (simple logic: is in cache or temp or matches special name)
+    private fun isSensitiveFile(file: File): Boolean {
+        val sensitivePaths = listOf("cache", "temp")
+        val pathLower = file.absolutePath.lowercase()
+        if (sensitivePaths.any { pathLower.contains(it) }) return true
+        val sensitiveExtensions = listOf(".key", ".pem", ".p12", ".crt")
+        if (sensitiveExtensions.any { pathLower.endsWith(it) }) return true
+        // Add further logic as needed for your use case
+        return false
     }
 }

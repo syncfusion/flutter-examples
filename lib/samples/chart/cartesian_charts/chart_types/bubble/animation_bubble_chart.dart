@@ -81,12 +81,12 @@ class _AnimationBubbleDefaultState extends SampleViewState {
 
   /// To get the random data and return to the chart data source.
   int _buildRandomInt(int min, int max) {
-    final Random random = Random();
+    final Random random = Random.secure();
     return min + random.nextInt(max - min);
   }
 
   void _buildChartData() {
-    final Random randomValue = Random();
+    final Random randomValue = Random.secure();
     _chartData = <_ChartData>[];
     for (int i = 1; i <= 7; i++) {
       _chartData!.add(

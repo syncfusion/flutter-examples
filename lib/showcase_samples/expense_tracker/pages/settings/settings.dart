@@ -289,8 +289,7 @@ class _SettingsPageState extends State<SettingsPage> {
           await excelFile.delete();
         }
       }
-    } catch (e, stackTrace) {
-      debugPrint('Error deleting app data: $e\n$stackTrace');
+    } catch (e) {
       throw Exception('Failed to delete app data: $e');
     }
   }

@@ -22,7 +22,7 @@ class CustomerDataGridSource extends DataGridSource {
   /// Determine to decide whether the platform is web or desktop.
   final bool isWebOrDesktop;
 
-  final math.Random _random = math.Random();
+  final math.Random _random = math.Random.secure();
 
   /// Instance of DataGridRow.
   List<DataGridRow> dataGridRows = <DataGridRow>[];

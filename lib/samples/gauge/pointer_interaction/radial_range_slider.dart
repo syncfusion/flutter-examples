@@ -136,6 +136,7 @@ class _RadialRangeSliderExampleState extends SampleViewState {
           children: <Widget>[
             SizedBox(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     'Enable dragging',
@@ -161,28 +162,24 @@ class _RadialRangeSliderExampleState extends SampleViewState {
             Visibility(
               visible: _enableDragging,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     'Overlay radius',
                     style: TextStyle(color: model.textColor),
                   ),
-                  Container(
-                    padding: !model.isWebFullView
-                        ? const EdgeInsets.fromLTRB(25, 0, 0, 0)
-                        : const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                    child: CustomDirectionalButtons(
-                      maxValue: 35,
-                      minValue: 15,
-                      initialValue: _overlayRadius,
-                      onChanged: (double val) {
-                        setState(() {
-                          _overlayRadius = val;
-                        });
-                      },
-                      step: 5,
-                      iconColor: model.textColor,
-                      style: TextStyle(fontSize: 16.0, color: model.textColor),
-                    ),
+                  CustomDirectionalButtons(
+                    maxValue: 35,
+                    minValue: 15,
+                    initialValue: _overlayRadius,
+                    onChanged: (double val) {
+                      setState(() {
+                        _overlayRadius = val;
+                      });
+                    },
+                    step: 5,
+                    iconColor: model.textColor,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ],
               ),

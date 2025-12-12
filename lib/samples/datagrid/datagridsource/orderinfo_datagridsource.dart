@@ -41,7 +41,7 @@ class OrderInfoDataGridSource extends DataGridSource {
 
   /// Get data count of an order.
   int? orderDataCount;
-  final math.Random _random = math.Random();
+  final math.Random _random = math.Random.secure();
 
   /// Instance of an order.
   List<OrderInfo> orders = <OrderInfo>[];

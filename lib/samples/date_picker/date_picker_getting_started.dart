@@ -309,41 +309,36 @@ class _GettingStartedDatePickerState extends SampleViewState {
           SizedBox(
             height: 50,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: model.isWebFullView ? 4 : 5,
-                  child: Text(
-                    'Picker view',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
+                Text(
+                  'Picker view',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Expanded(
-                  flex: model.isWebFullView ? 6 : 5,
-                  child: Container(
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      focusColor: Colors.transparent,
-                      underline: Container(
-                        color: const Color(0xFFBDBDBD),
-                        height: 1,
-                      ),
-                      value: _viewModeString,
-                      items: _viewModeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'month',
-                          child: Text(
-                            value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onPickerViewChange(value);
-                        stateSetter(() {});
-                      },
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
+                    focusColor: Colors.transparent,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
                     ),
+                    value: _viewModeString,
+                    items: _viewModeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'month',
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onPickerViewChange(value);
+                      stateSetter(() {});
+                    },
                   ),
                 ),
               ],
@@ -355,42 +350,39 @@ class _GettingStartedDatePickerState extends SampleViewState {
           SizedBox(
             height: 50,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: model.isWebFullView ? 4 : 5,
+                Flexible(
                   child: Text(
                     'Selection mode',
                     style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
-                Expanded(
-                  flex: model.isWebFullView ? 6 : 5,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      focusColor: Colors.transparent,
-                      underline: Container(
-                        color: const Color(0xFFBDBDBD),
-                        height: 1,
-                      ),
-                      value: _selectionModeString,
-                      items: _selectionModeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'extendableRange',
-                          child: Text(
-                            value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        _onSelectionModeChange(value);
-                        stateSetter(() {});
-                      },
+                Container(
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
+                    focusColor: Colors.transparent,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
                     ),
+                    value: _selectionModeString,
+                    items: _selectionModeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'extendableRange',
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      _onSelectionModeChange(value);
+                      stateSetter(() {});
+                    },
                   ),
                 ),
               ],
@@ -402,44 +394,39 @@ class _GettingStartedDatePickerState extends SampleViewState {
               ? SizedBox(
                   height: 50,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Expanded(
-                        flex: model.isWebFullView ? 4 : 5,
-                        child: Text(
-                          'Selection Direction',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: model.textColor,
-                          ),
+                      Text(
+                        'Selection Direction',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: model.textColor,
                         ),
                       ),
-                      Expanded(
-                        flex: model.isWebFullView ? 6 : 5,
-                        child: Container(
-                          alignment: Alignment.bottomLeft,
-                          child: DropdownButton<String>(
-                            dropdownColor: model.drawerBackgroundColor,
-                            focusColor: Colors.transparent,
-                            underline: Container(
-                              color: const Color(0xFFBDBDBD),
-                              height: 1,
-                            ),
-                            value: _selectionDirectionString,
-                            items: _selectionDirectionList.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: (value != null) ? value : 'both',
-                                child: Text(
-                                  value,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(color: model.textColor),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (dynamic value) {
-                              _onSelectionDirectionChanged(value);
-                              stateSetter(() {});
-                            },
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        child: DropdownButton<String>(
+                          dropdownColor: model.drawerBackgroundColor,
+                          focusColor: Colors.transparent,
+                          underline: Container(
+                            color: const Color(0xFFBDBDBD),
+                            height: 1,
                           ),
+                          value: _selectionDirectionString,
+                          items: _selectionDirectionList.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: (value != null) ? value : 'both',
+                              child: Text(
+                                value,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: model.textColor),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (dynamic value) {
+                            _onSelectionDirectionChanged(value);
+                            stateSetter(() {});
+                          },
                         ),
                       ),
                     ],
@@ -451,29 +438,24 @@ class _GettingStartedDatePickerState extends SampleViewState {
           SizedBox(
             height: 50,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: model.isWebFullView ? 4 : 5,
-                  child: Text(
-                    'Display date',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
+                Text(
+                  'Display date',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Expanded(
-                  flex: model.isWebFullView ? 6 : 5,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.centerLeft,
-                    child: Theme(
-                      data: model.themeData.copyWith(
-                        canvasColor: model.drawerBackgroundColor,
-                      ),
-                      child: _DateRangePickerOption(
-                        _onDisplayDateChanged,
-                        _controller.displayDate!,
-                        model,
-                        displayDate: _controller.displayDate!,
-                      ),
+                Container(
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.centerLeft,
+                  child: Theme(
+                    data: model.themeData.copyWith(
+                      canvasColor: model.drawerBackgroundColor,
+                    ),
+                    child: _DateRangePickerOption(
+                      _onDisplayDateChanged,
+                      _controller.displayDate!,
+                      model,
+                      displayDate: _controller.displayDate!,
                     ),
                   ),
                 ),
@@ -485,166 +467,31 @@ class _GettingStartedDatePickerState extends SampleViewState {
           SizedBox(
             height: 50,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: 7,
-                  child: Text(
-                    'Show action buttons',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
+                Text(
+                  'Show action buttons',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(canvasColor: model.drawerBackgroundColor),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            value: _showActionButtons,
-                            onChanged: (dynamic value) {
-                              setState(() {
-                                _onBoolValueChange('ShowActionButtons', value);
-                                stateSetter(() {});
-                              });
-                            },
-                            activeTrackColor: model.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-        propertyOptions.add(
-          SizedBox(
-            height: 50,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 7,
-                  child: Text(
-                    'Show today button',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(canvasColor: model.drawerBackgroundColor),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            value: _showTodayButton,
-                            onChanged: (dynamic value) {
-                              setState(() {
-                                _onBoolValueChange('ShowTodayButton', value);
-                                stateSetter(() {});
-                              });
-                            },
-                            activeTrackColor: model.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-        propertyOptions.add(
-          SizedBox(
-            height: 50,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 7,
-                  child: Text(
-                    'Enable view navigation',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(canvasColor: model.drawerBackgroundColor),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            value: _enableViewNavigation,
-                            onChanged: (bool value) {
-                              setState(() {
-                                _onBoolValueChange(
-                                  'EnableViewNavigation',
-                                  value,
-                                );
-                                stateSetter(() {});
-                              });
-                            },
-                            activeTrackColor: model.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-        propertyOptions.add(
-          SizedBox(
-            height: 50,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 7,
-                  child: Text(
-                    'Enable past dates',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(canvasColor: model.drawerBackgroundColor),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            value: _enablePastDates,
-                            onChanged: (dynamic value) {
-                              _onBoolValueChange('EnablePastDates', value);
+                Container(
+                  padding: EdgeInsets.zero,
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          value: _showActionButtons,
+                          onChanged: (dynamic value) {
+                            setState(() {
+                              _onBoolValueChange('ShowActionButtons', value);
                               stateSetter(() {});
-                            },
-                            activeTrackColor: model.primaryColor,
-                          ),
+                            });
+                          },
+                          activeTrackColor: model.primaryColor,
                         ),
                       ),
                     ),
@@ -658,39 +505,31 @@ class _GettingStartedDatePickerState extends SampleViewState {
           SizedBox(
             height: 50,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: 7,
-                  child: Text(
-                    'Enable swipe selection',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
+                Text(
+                  'Show today button',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(canvasColor: model.drawerBackgroundColor),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            value: _enableSwipingSelection,
-                            onChanged: (dynamic value) {
-                              setState(() {
-                                _onBoolValueChange(
-                                  'EnableSwipingSelection',
-                                  value,
-                                );
-                                stateSetter(() {});
-                              });
-                            },
-                            activeTrackColor: model.primaryColor,
-                          ),
+                Container(
+                  padding: EdgeInsets.zero,
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          value: _showTodayButton,
+                          onChanged: (dynamic value) {
+                            setState(() {
+                              _onBoolValueChange('ShowTodayButton', value);
+                              stateSetter(() {});
+                            });
+                          },
+                          activeTrackColor: model.primaryColor,
                         ),
                       ),
                     ),
@@ -704,36 +543,31 @@ class _GettingStartedDatePickerState extends SampleViewState {
           SizedBox(
             height: 50,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: 7,
-                  child: Text(
-                    'Show week number',
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
+                Text(
+                  'Enable view navigation',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(canvasColor: model.drawerBackgroundColor),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            value: _showWeekNumber,
-                            onChanged: (dynamic value) {
-                              setState(() {
-                                _onBoolValueChange('ShowWeekNumber', value);
-                                stateSetter(() {});
-                              });
-                            },
-                            activeTrackColor: model.primaryColor,
-                          ),
+                Container(
+                  padding: EdgeInsets.zero,
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          value: _enableViewNavigation,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _onBoolValueChange('EnableViewNavigation', value);
+                              stateSetter(() {});
+                            });
+                          },
+                          activeTrackColor: model.primaryColor,
                         ),
                       ),
                     ),
@@ -747,37 +581,149 @@ class _GettingStartedDatePickerState extends SampleViewState {
           SizedBox(
             height: 50,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: 7,
+                Text(
+                  'Enable past dates',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+                Container(
+                  padding: EdgeInsets.zero,
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          value: _enablePastDates,
+                          onChanged: (dynamic value) {
+                            _onBoolValueChange('EnablePastDates', value);
+                            stateSetter(() {});
+                          },
+                          activeTrackColor: model.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Enable swipe selection',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+                Container(
+                  padding: EdgeInsets.zero,
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          value: _enableSwipingSelection,
+                          onChanged: (dynamic value) {
+                            setState(() {
+                              _onBoolValueChange(
+                                'EnableSwipingSelection',
+                                value,
+                              );
+                              stateSetter(() {});
+                            });
+                          },
+                          activeTrackColor: model.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  'Show week number',
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
+                ),
+                Container(
+                  padding: EdgeInsets.zero,
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          value: _showWeekNumber,
+                          onChanged: (dynamic value) {
+                            setState(() {
+                              _onBoolValueChange('ShowWeekNumber', value);
+                              stateSetter(() {});
+                            });
+                          },
+                          activeTrackColor: model.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+        propertyOptions.add(
+          SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
                   child: Text(
                     'Show trailing and leading dates',
                     style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.zero,
-                    child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(canvasColor: model.drawerBackgroundColor),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: CupertinoSwitch(
-                            value: _showTrailingAndLeadingDates,
-                            onChanged: (dynamic value) {
-                              _onBoolValueChange(
-                                'ShowLeadingTrailingDates',
-                                value,
-                              );
-                              stateSetter(() {});
-                            },
-                            activeTrackColor: model.primaryColor,
-                          ),
+                Container(
+                  padding: EdgeInsets.zero,
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: CupertinoSwitch(
+                          value: _showTrailingAndLeadingDates,
+                          onChanged: (dynamic value) {
+                            _onBoolValueChange(
+                              'ShowLeadingTrailingDates',
+                              value,
+                            );
+                            stateSetter(() {});
+                          },
+                          activeTrackColor: model.primaryColor,
                         ),
                       ),
                     ),

@@ -36,6 +36,11 @@ class _SignPdfState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+    final List<Widget> digestChildWidgets = getDigestChildWidgets(context);
+    final List<Widget> cryptographicChildWidgets = getCryptographicChildWidgets(
+      context,
+    );
     return Scaffold(
       backgroundColor: model.sampleOutputCardColor,
       body: SingleChildScrollView(
@@ -58,10 +63,13 @@ class _SignPdfState extends SampleViewState {
                 ),
               ),
               const SizedBox(height: 10, width: 30),
-              if (MediaQuery.of(context).size.width > 800)
-                Row(children: getCryptographicChildWidgets(context))
-              else
-                Column(children: getCryptographicChildWidgets(context)),
+              RadioGroup<int>(
+                groupValue: _cryptoGroupValue,
+                onChanged: _cryptoChanged,
+                child: (width > 800)
+                    ? Row(children: cryptographicChildWidgets)
+                    : Column(children: cryptographicChildWidgets),
+              ),
               const SizedBox(height: 20, width: 30),
               Text(
                 'Digest Algorithm',
@@ -72,10 +80,13 @@ class _SignPdfState extends SampleViewState {
                 ),
               ),
               const SizedBox(height: 10, width: 30),
-              if (MediaQuery.of(context).size.width > 800)
-                Row(children: getDigestChildWidgets(context))
-              else
-                Column(children: getDigestChildWidgets(context)),
+              RadioGroup<int>(
+                groupValue: _groupValue,
+                onChanged: _digestChanged,
+                child: (width > 800)
+                    ? Row(children: digestChildWidgets)
+                    : Column(children: digestChildWidgets),
+              ),
               const SizedBox(height: 10, width: 30),
               Align(
                 child: TextButton(
@@ -110,21 +121,13 @@ class _SignPdfState extends SampleViewState {
     return <Widget>[
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 0,
-            groupValue: _groupValue,
-            onChanged: _digestChanged,
-          ),
+          const Radio<int>(value: 0),
           Text('SHA1', style: TextStyle(fontSize: 16, color: model.textColor)),
         ],
       ),
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 1,
-            groupValue: _groupValue,
-            onChanged: _digestChanged,
-          ),
+          const Radio<int>(value: 1),
           Text(
             'SHA256',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -133,11 +136,7 @@ class _SignPdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 2,
-            groupValue: _groupValue,
-            onChanged: _digestChanged,
-          ),
+          const Radio<int>(value: 2),
           Text(
             'SHA384',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -146,11 +145,7 @@ class _SignPdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 3,
-            groupValue: _groupValue,
-            onChanged: _digestChanged,
-          ),
+          const Radio<int>(value: 3),
           Text(
             'SHA512',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -164,21 +159,13 @@ class _SignPdfState extends SampleViewState {
     return <Widget>[
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 0,
-            groupValue: _cryptoGroupValue,
-            onChanged: _cryptoChanged,
-          ),
+          const Radio<int>(value: 0),
           Text('CMS', style: TextStyle(fontSize: 16, color: model.textColor)),
         ],
       ),
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 1,
-            groupValue: _cryptoGroupValue,
-            onChanged: _cryptoChanged,
-          ),
+          const Radio<int>(value: 1),
           Text('CAdES', style: TextStyle(fontSize: 16, color: model.textColor)),
         ],
       ),

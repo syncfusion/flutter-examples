@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../meta_tag/meta_tag.dart';
+
 /// A widget that displays a splash screen with animation.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({required this.nextScreen, super.key});
@@ -19,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   /// Animation for fading effect.
   late final Animation<double> _fadeAnimation;
+  final WebMetaTagUpdate metaTagUpdate = WebMetaTagUpdate();
 
   /// Initializes animations for the splash screen.
   void _initializeAnimations() {
@@ -95,6 +98,10 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     _initializeAnimations();
     _startNavigationTimer();
+
+    // Updates meta tag details when navigating from the home page to the
+    // setup page in Stock Analysis.
+    metaTagUpdate.update('Setup page', 'Stock Analysis');
   }
 
   @override

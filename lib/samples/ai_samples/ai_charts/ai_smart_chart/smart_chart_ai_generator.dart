@@ -725,7 +725,7 @@ class _ChartFromJsonState extends SampleViewState
   }
 
   void updateDataSource() {
-    final Random random = Random();
+    final Random random = Random.secure();
     for (final series in chartConfig.seriesList) {
       for (final data in series.data) {
         data.yValue = random.nextInt(100) + 50;

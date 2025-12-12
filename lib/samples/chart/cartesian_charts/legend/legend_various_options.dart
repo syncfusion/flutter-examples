@@ -189,88 +189,80 @@ class _CartesianLegendOptionsState extends SampleViewState {
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        spacing: 40,
                         children: <Widget>[
-                          Flexible(
-                            child: Text(
-                              'Position',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: model.textColor,
-                              ),
+                          Text(
+                            'Position',
+                            softWrap: false,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: model.textColor,
                             ),
                           ),
                           Flexible(
-                            child: SizedBox(
-                              width: dropDownWidth,
-                              child: DropdownButton<String>(
-                                dropdownColor: model.drawerBackgroundColor,
-                                focusColor: Colors.transparent,
-                                isExpanded: true,
-                                underline: Container(
-                                  color: const Color(0xFFBDBDBD),
-                                  height: 1,
-                                ),
-                                value: _selectedPosition,
-                                items: _positionList!.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: (value != null) ? value : 'auto',
-                                    child: Text(
-                                      value,
-                                      style: TextStyle(color: model.textColor),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (dynamic value) {
-                                  _onPositionTypeChange(value.toString());
-                                  stateSetter(() {});
-                                },
+                            child: DropdownButton<String>(
+                              dropdownColor: model.drawerBackgroundColor,
+                              focusColor: Colors.transparent,
+                              isExpanded: true,
+                              underline: Container(
+                                color: const Color(0xFFBDBDBD),
+                                height: 1,
                               ),
+                              value: _selectedPosition,
+                              items: _positionList!.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: (value != null) ? value : 'auto',
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(color: model.textColor),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (dynamic value) {
+                                _onPositionTypeChange(value.toString());
+                                stateSetter(() {});
+                              },
                             ),
                           ),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        spacing: 30,
                         children: <Widget>[
-                          Flexible(
-                            child: Text(
-                              model.isWebFullView
-                                  ? 'Overflow \nmode'
-                                  : 'Overflow mode',
-                              softWrap: false,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: model.textColor,
-                              ),
+                          Text(
+                            model.isWebFullView
+                                ? 'Overflow \nmode'
+                                : 'Overflow mode',
+                            softWrap: false,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: model.textColor,
                             ),
                           ),
                           Flexible(
-                            child: SizedBox(
-                              width: dropDownWidth,
-                              child: DropdownButton<String>(
-                                dropdownColor: model.drawerBackgroundColor,
-                                focusColor: Colors.transparent,
-                                isExpanded: true,
-                                underline: Container(
-                                  color: const Color(0xFFBDBDBD),
-                                  height: 1,
-                                ),
-                                value: _selectedMode,
-                                items: _modeList!.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: (value != null) ? value : 'wrap',
-                                    child: Text(
-                                      value,
-                                      style: TextStyle(color: model.textColor),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (dynamic value) {
-                                  _onModeTypeChange(value);
-                                  stateSetter(() {});
-                                },
+                            child: DropdownButton<String>(
+                              dropdownColor: model.drawerBackgroundColor,
+                              focusColor: Colors.transparent,
+                              isExpanded: true,
+                              underline: Container(
+                                color: const Color(0xFFBDBDBD),
+                                height: 1,
                               ),
+                              value: _selectedMode,
+                              items: _modeList!.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: (value != null) ? value : 'wrap',
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(color: model.textColor),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (dynamic value) {
+                                _onModeTypeChange(value);
+                                stateSetter(() {});
+                              },
                             ),
                           ),
                         ],

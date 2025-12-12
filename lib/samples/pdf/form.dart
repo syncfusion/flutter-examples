@@ -127,7 +127,11 @@ class _FormFillingPdfState extends SampleViewState {
                   ),
                   child: SizedBox(
                     height: 25,
-                    child: Row(children: _getGenderWidgets(context)),
+                    child: RadioGroup<int>(
+                      groupValue: _groupValue,
+                      onChanged: _changed,
+                      child: Row(children: _getGenderWidgets(context)),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20, width: 30),
@@ -151,11 +155,9 @@ class _FormFillingPdfState extends SampleViewState {
                 ),
                 const SizedBox(height: 20, width: 30),
                 DropdownButtonFormField<String>(
-                  value: _dropdownValue,
+                  initialValue: _dropdownValue,
                   onChanged: (String? newValue) {
-                    setState(() {
-                      _dropdownValue = newValue!;
-                    });
+                    _dropdownValue = newValue!;
                   },
                   items:
                       <String>[
@@ -312,10 +314,8 @@ class _FormFillingPdfState extends SampleViewState {
     return <Widget>[
       Row(
         children: <Widget>[
-          Radio<int>(
+          const Radio<int>(
             value: 0,
-            groupValue: _groupValue,
-            onChanged: _changed,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           Text('Male', style: TextStyle(fontSize: 16, color: model.textColor)),
@@ -323,10 +323,8 @@ class _FormFillingPdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(
+          const Radio<int>(
             value: 2,
-            groupValue: _groupValue,
-            onChanged: _changed,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           Text(
@@ -337,10 +335,8 @@ class _FormFillingPdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(
+          const Radio<int>(
             value: 1,
-            groupValue: _groupValue,
-            onChanged: _changed,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           Text(

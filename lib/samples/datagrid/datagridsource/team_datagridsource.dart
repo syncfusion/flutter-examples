@@ -229,7 +229,7 @@ class EmployeeDataGridSource extends DataGridSource {
     _buildDataGridRows();
   }
 
-  final math.Random _random = math.Random();
+  final math.Random _random = math.Random.secure();
   List<DataGridRow> _dataGridRows = <DataGridRow>[];
   List<Employee> _employees = <Employee>[];
 

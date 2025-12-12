@@ -138,26 +138,21 @@ class _HistogramDefaultState extends SampleViewState {
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              'Show distribution line ',
+              'Show distribution line',
               style: TextStyle(color: model.textColor, fontSize: 16),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 90,
-                child: CheckboxListTile(
-                  activeColor: model.primaryColor,
-                  value: _showDistributionCurve,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _showDistributionCurve = value!;
-                      stateSetter(() {});
-                    });
-                  },
-                ),
-              ),
+            Checkbox(
+              activeColor: model.primaryColor,
+              value: _showDistributionCurve,
+              onChanged: (bool? value) {
+                setState(() {
+                  _showDistributionCurve = value!;
+                  stateSetter(() {});
+                });
+              },
             ),
           ],
         );

@@ -72,27 +72,24 @@ class _PiePointRenderModeState extends SampleViewState {
     double screenWidth,
     StateSetter stateSetter,
   ) {
-    return SizedBox(
-      height: 60,
-      child: ListView(
-        shrinkWrap: true,
-        physics: const ClampingScrollPhysics(),
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Text(
-                model.isWebFullView
-                    ? 'Point \nrendering \nmode'
-                    : 'Point rendering mode',
-                softWrap: false,
-                style: TextStyle(fontSize: 16, color: model.textColor),
-              ),
-              _buildPointRenderModeDropdown(screenWidth, stateSetter),
-            ],
-          ),
-        ],
-      ),
+    return ListView(
+      shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Text(
+              model.isWebFullView
+                  ? 'Point \nrendering \nmode'
+                  : 'Point rendering mode',
+              softWrap: false,
+              style: TextStyle(fontSize: 16, color: model.textColor),
+            ),
+            _buildPointRenderModeDropdown(screenWidth, stateSetter),
+          ],
+        ),
+      ],
     );
   }
 
@@ -101,28 +98,23 @@ class _PiePointRenderModeState extends SampleViewState {
     double screenWidth,
     StateSetter stateSetter,
   ) {
-    return Container(
-      padding: EdgeInsets.only(left: 0.07 * screenWidth),
-      width: 0.5 * screenWidth,
-      alignment: Alignment.bottomLeft,
-      child: DropdownButton<String>(
-        dropdownColor: model.drawerBackgroundColor,
-        focusColor: Colors.transparent,
-        underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-        value: _selectedMode,
-        items: _modeList!.map((String value) {
-          return DropdownMenuItem<String>(
-            value: (value != null) ? value : 'Render mode',
-            child: Text(value, style: TextStyle(color: model.textColor)),
-          );
-        }).toList(),
-        onChanged: (dynamic value) {
-          setState(() {
-            _onPointRenderModeChange(value);
-            stateSetter(() {});
-          });
-        },
-      ),
+    return DropdownButton<String>(
+      dropdownColor: model.drawerBackgroundColor,
+      focusColor: Colors.transparent,
+      underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+      value: _selectedMode,
+      items: _modeList!.map((String value) {
+        return DropdownMenuItem<String>(
+          value: (value != null) ? value : 'Render mode',
+          child: Text(value, style: TextStyle(color: model.textColor)),
+        );
+      }).toList(),
+      onChanged: (dynamic value) {
+        setState(() {
+          _onPointRenderModeChange(value);
+          stateSetter(() {});
+        });
+      },
     );
   }
 

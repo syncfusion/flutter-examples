@@ -119,6 +119,7 @@ class _SplineTypesState extends SampleViewState {
       primaryXAxis: const NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
         interval: 1,
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
       ),
       primaryYAxis: const NumericAxis(
         labelFormat: '{value}%',

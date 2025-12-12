@@ -25,7 +25,7 @@ class ProductDataGridSource extends DataGridSource {
     _buildDataGridRows(sampleType);
   }
 
-  final Random _random = Random();
+  final Random _random = Random.secure();
 
   /// Get data count of product.
   final int productDataCount;

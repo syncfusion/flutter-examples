@@ -58,26 +58,24 @@ class _AxisAnimationDefaultState extends SampleViewState {
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
               'Enable axis elements\nanimation',
               textAlign: TextAlign.start,
               style: TextStyle(color: model.textColor, fontSize: 16),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 90,
-                child: CheckboxListTile(
-                  activeColor: model.primaryColor,
-                  value: _animation,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _animation = value!;
-                      stateSetter(() {});
-                    });
-                  },
-                ),
+            SizedBox(
+              width: 90,
+              child: CheckboxListTile(
+                activeColor: model.primaryColor,
+                value: _animation,
+                onChanged: (bool? value) {
+                  setState(() {
+                    _animation = value!;
+                    stateSetter(() {});
+                  });
+                },
               ),
             ),
           ],
@@ -146,7 +144,7 @@ class _AxisAnimationDefaultState extends SampleViewState {
   }
 
   int _createRandomIntData(int min, int max) {
-    final Random random = Random();
+    final Random random = Random.secure();
     return min + random.nextInt(max - min);
   }
 

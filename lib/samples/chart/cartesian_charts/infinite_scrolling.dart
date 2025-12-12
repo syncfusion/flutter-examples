@@ -233,7 +233,7 @@ class _InfiniteScrollingState extends SampleViewState {
   }
 
   int _generateRandomInteger(int min, int max) {
-    final Random random = Random();
+    final Random random = Random.secure();
     final int result = min + random.nextInt(max - min);
     return result < 50 ? 95 : result;
   }

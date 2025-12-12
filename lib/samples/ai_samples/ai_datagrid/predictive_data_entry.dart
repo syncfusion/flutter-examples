@@ -29,6 +29,7 @@ class _PredictiveDataSampleState extends SampleViewState
   late List<StudentDetails> _studentDetails;
   bool _isLoading = false;
   late bool _isWebOrDesktop;
+  late bool isMaterial3;
 
   @override
   void initState() {
@@ -76,6 +77,8 @@ class _PredictiveDataSampleState extends SampleViewState
         model.isFirstTime = false;
       }
     });
+
+    isMaterial3 = model.themeData.useMaterial3;
   }
 
   String _generatePrompt() {
@@ -213,6 +216,9 @@ class _PredictiveDataSampleState extends SampleViewState
               ),
             ),
           ],
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          backgroundColor: isMaterial3 ? Colors.transparent : null,
         ),
       ),
       body: Stack(
@@ -629,10 +635,10 @@ class StudentDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 120
-            : (isWebOrDesktop && model.isMobileResolution)
-            ? 150.0
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
+            ? 120.0
             : double.nan,
         label: Container(
           padding: const EdgeInsets.all(16.0),
@@ -646,9 +652,9 @@ class StudentDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
             ? 150.0
             : double.nan,
         label: Container(
@@ -663,9 +669,9 @@ class StudentDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
             ? 150.0
             : double.nan,
         label: Container(
@@ -680,9 +686,9 @@ class StudentDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
             ? 150.0
             : double.nan,
         label: Container(
@@ -697,9 +703,9 @@ class StudentDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
             ? 150.0
             : double.nan,
         label: Container(

@@ -69,13 +69,14 @@ class _AxisCrossingState extends SampleViewState {
           shrinkWrap: true,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Axis  ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(138, 0, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(138, 0, 20, 0),
                   child: DropdownButton<String>(
                     dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
@@ -102,28 +103,27 @@ class _AxisCrossingState extends SampleViewState {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Cross at  ',
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(85, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    minValue: -8,
-                    maxValue: 8,
-                    initialValue: _crossAt,
-                    onChanged: (double val) => setState(() {
-                      _crossAt = val;
-                    }),
-                    step: 2,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 20.0, color: model.textColor),
-                  ),
+                CustomDirectionalButtons(
+                  minValue: -8,
+                  maxValue: 8,
+                  initialValue: _crossAt,
+                  onChanged: (double val) => setState(() {
+                    _crossAt = val;
+                  }),
+                  step: 2,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 20.0, color: model.textColor),
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Labels near axis line',

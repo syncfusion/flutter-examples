@@ -19,7 +19,7 @@ class ConditionalStyleDataGridSource extends DataGridSource {
     _buildDataGridRows();
   }
 
-  final math.Random _random = math.Random();
+  final math.Random _random = math.Random.secure();
 
   List<Stock> _stocks = <Stock>[];
 

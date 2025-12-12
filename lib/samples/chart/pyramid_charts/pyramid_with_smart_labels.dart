@@ -150,33 +150,28 @@ class _PyramidSmartLabelState extends SampleViewState {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Flexible(
-          child: Text(
-            'Label position',
-            softWrap: false,
-            style: TextStyle(fontSize: 16, color: model.textColor),
-          ),
+        Text(
+          'Label position',
+          style: TextStyle(fontSize: 16, color: model.textColor),
         ),
-        Flexible(
-          child: SizedBox(
-            width: dropDownWidth,
-            child: DropdownButton<String>(
-              dropdownColor: model.drawerBackgroundColor,
-              focusColor: Colors.transparent,
-              isExpanded: true,
-              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-              value: _selectedPosition,
-              items: _labelPosition!.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: (value != null) ? value : 'outside',
-                  child: Text(value, style: TextStyle(color: model.textColor)),
-                );
-              }).toList(),
-              onChanged: (dynamic value) {
-                _updateLabelPosition(value.toString());
-                stateSetter(() {});
-              },
-            ),
+        SizedBox(
+          width: dropDownWidth,
+          child: DropdownButton<String>(
+            dropdownColor: model.drawerBackgroundColor,
+            focusColor: Colors.transparent,
+            isExpanded: true,
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+            value: _selectedPosition,
+            items: _labelPosition!.map((String value) {
+              return DropdownMenuItem<String>(
+                value: (value != null) ? value : 'outside',
+                child: Text(value, style: TextStyle(color: model.textColor)),
+              );
+            }).toList(),
+            onChanged: (dynamic value) {
+              _updateLabelPosition(value.toString());
+              stateSetter(() {});
+            },
           ),
         ),
       ],
@@ -188,44 +183,39 @@ class _PyramidSmartLabelState extends SampleViewState {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Flexible(
-          child: Text(
-            'Overflow mode',
-            softWrap: false,
-            style: TextStyle(
-              fontSize: 16,
-              color: _selectedPosition != 'inside'
-                  ? model.textColor.withValues(alpha: 0.3)
-                  : model.textColor,
-            ),
+        Text(
+          'Overflow mode',
+          style: TextStyle(
+            fontSize: 16,
+            color: _selectedPosition != 'inside'
+                ? model.textColor.withValues(alpha: 0.3)
+                : model.textColor,
           ),
         ),
-        Flexible(
-          child: SizedBox(
-            height: 50,
-            width: dropDownWidth,
-            child: DropdownButton<String>(
-              dropdownColor: model.drawerBackgroundColor,
-              focusColor: Colors.transparent,
-              isExpanded: true,
-              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-              value: _selectedOverflowMode,
-              items: _selectedPosition != 'inside'
-                  ? null
-                  : _overflowModeList!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'none',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
-              onChanged: (dynamic value) {
-                _updateOverflowMode(value.toString());
-                stateSetter(() {});
-              },
-            ),
+        SizedBox(
+          height: 50,
+          width: dropDownWidth,
+          child: DropdownButton<String>(
+            dropdownColor: model.drawerBackgroundColor,
+            focusColor: Colors.transparent,
+            isExpanded: true,
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+            value: _selectedOverflowMode,
+            items: _selectedPosition != 'inside'
+                ? null
+                : _overflowModeList!.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'none',
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+            onChanged: (dynamic value) {
+              _updateOverflowMode(value.toString());
+              stateSetter(() {});
+            },
           ),
         ),
       ],
@@ -240,48 +230,43 @@ class _PyramidSmartLabelState extends SampleViewState {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Flexible(
-          child: Text(
-            'Label intersect \naction',
-            softWrap: false,
-            style: TextStyle(
-              fontSize: 16,
-              color:
-                  (_selectedOverflowMode != 'none' &&
-                      _selectedPosition != 'outside')
-                  ? model.textColor.withValues(alpha: 0.3)
-                  : model.textColor,
-            ),
+        Text(
+          'Label intersect \naction',
+          style: TextStyle(
+            fontSize: 16,
+            color:
+                (_selectedOverflowMode != 'none' &&
+                    _selectedPosition != 'outside')
+                ? model.textColor.withValues(alpha: 0.3)
+                : model.textColor,
           ),
         ),
-        Flexible(
-          child: SizedBox(
-            height: 50,
-            width: dropDownWidth,
-            child: DropdownButton<String>(
-              dropdownColor: model.drawerBackgroundColor,
-              focusColor: Colors.transparent,
-              isExpanded: true,
-              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-              value: _selectedIntersectAction,
-              items:
-                  (_selectedOverflowMode != 'none' &&
-                      _selectedPosition != 'outside')
-                  ? null
-                  : _labelIntersectActionList!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'shift',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
-              onChanged: (dynamic value) {
-                _updateLabelIntersectAction(value.toString());
-                stateSetter(() {});
-              },
-            ),
+        SizedBox(
+          height: 50,
+          width: dropDownWidth,
+          child: DropdownButton<String>(
+            dropdownColor: model.drawerBackgroundColor,
+            focusColor: Colors.transparent,
+            isExpanded: true,
+            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+            value: _selectedIntersectAction,
+            items:
+                (_selectedOverflowMode != 'none' &&
+                    _selectedPosition != 'outside')
+                ? null
+                : _labelIntersectActionList!.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'shift',
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+            onChanged: (dynamic value) {
+              _updateLabelIntersectAction(value.toString());
+              stateSetter(() {});
+            },
           ),
         ),
       ],

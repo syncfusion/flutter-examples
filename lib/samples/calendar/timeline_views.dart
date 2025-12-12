@@ -76,7 +76,7 @@ class _TimelineViewsCalendarState extends SampleViewState {
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     final List<_Meeting> appointment = <_Meeting>[];
     _events.appointments.clear();
-    final Random random = Random();
+    final Random random = Random.secure();
     final List<DateTime> blockedDates = <DateTime>[];
     if (_calendarController.view == CalendarView.timelineMonth) {
       for (int i = 0; i < 5; i++) {

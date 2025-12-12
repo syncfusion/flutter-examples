@@ -179,7 +179,7 @@ class _LiveVerticalState extends SampleViewState {
 
   /// Generates a random integer within the specified range.
   int _generateRandomInt(int min, int max) {
-    final Random random = Random();
+    final Random random = Random.secure();
     return min + random.nextInt(max - min);
   }
 

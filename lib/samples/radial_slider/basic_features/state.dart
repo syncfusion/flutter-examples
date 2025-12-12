@@ -113,6 +113,7 @@ class _RadialSliderStateTypesState extends SampleViewState {
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text('Enable drag', style: TextStyle(color: model.textColor)),
             Padding(

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../meta_tag/meta_tag.dart';
 import '../../constants.dart';
 import '../../custom_widgets/custom_drop_down_menu.dart';
 import '../../custom_widgets/single_selection_date_picker.dart';
@@ -54,6 +55,7 @@ class SetupProfilePageState extends State<SetupProfilePage> {
   late WelcomeScreenNotifier _pageNotifier;
   late ImportNotifier _importNotifier;
   DateTime? _selectedDate;
+  final WebMetaTagUpdate metaTagUpdate = WebMetaTagUpdate();
 
   /// Initializes all controllers, notifiers, and focus nodes.
   void _initializeFields() {
@@ -165,6 +167,10 @@ class SetupProfilePageState extends State<SetupProfilePage> {
                     ),
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop(context);
+
+                      // Sets default meta tag details when navigating from the
+                      // sign-up page to the home page.
+                      metaTagUpdate.setDefault();
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -576,6 +582,13 @@ class SetupProfilePageState extends State<SetupProfilePage> {
     _setupNotifier = Provider.of<SetupNotifier>(context, listen: false);
     _pageNotifier = Provider.of<WelcomeScreenNotifier>(context, listen: false);
     _importNotifier = Provider.of<ImportNotifier>(context, listen: false);
+
+    if (_pageNotifier.currentPage == WelcomeScreens.setupPage) {
+      // Updates meta tag details when navigating from the home page to the
+      // expense tracker setup (sign-up) page.
+      metaTagUpdate.update('Setup', 'Expense Tracker');
+    }
+
     super.didChangeDependencies();
   }
 

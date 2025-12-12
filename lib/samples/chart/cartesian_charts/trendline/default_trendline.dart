@@ -85,24 +85,22 @@ class _TrendLineDefaultState extends SampleViewState {
         ? 245
         : MediaQuery.of(context).size.width;
     final double dropDownWidth =
-        (model.isWebFullView ? 0.76 : 0.57) * screenWidth;
+        (model.isWebFullView ? 0.72 : 0.57) * screenWidth;
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return ListView(
           shrinkWrap: true,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                  child: Text(
-                    'Trendline \ntype',
-                    style: TextStyle(color: model.textColor),
-                  ),
+                Text(
+                  'Trendline \ntype',
+                  style: TextStyle(color: model.textColor),
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(
-                    model.isWebFullView ? 50 : 70,
+                    model.isWebFullView ? 30 : 70,
                     0,
                     0,
                     0,

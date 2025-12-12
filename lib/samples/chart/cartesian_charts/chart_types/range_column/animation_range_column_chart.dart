@@ -67,7 +67,7 @@ class _AnimationRangeColumnDefaultState extends SampleViewState {
   }
 
   int _buildRandomInt(int min, int max) {
-    final Random random = Random();
+    final Random random = Random.secure();
     return min + random.nextInt(max - min);
   }
 

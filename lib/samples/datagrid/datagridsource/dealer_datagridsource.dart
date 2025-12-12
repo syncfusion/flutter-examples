@@ -48,7 +48,7 @@ class DealerDataGridSource extends DataGridSource {
   late TextStyle _textStyle;
 
   /// Help to generate the random number.
-  final Random _random = Random();
+  final Random _random = Random.secure();
 
   /// Help to control the editable text in [TextField] widget.
   final TextEditingController _editingController = TextEditingController();

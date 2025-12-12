@@ -94,7 +94,7 @@ class _CustomSplineSeriesRenderer<T, D> extends SplineSeriesRenderer<T, D> {
 
   final SplineSeries<dynamic, dynamic> series;
 
-  static Random randomNumber = Random();
+  static Random randomNumber = Random.secure();
 
   @override
   SplineSegment<T, D> createSegment() {

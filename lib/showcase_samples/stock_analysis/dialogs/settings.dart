@@ -218,49 +218,45 @@ class SettingsDialog extends StatelessWidget {
           selector: (BuildContext context, StockChartProvider provider) =>
               provider.tempSettings.logarithmicYAxis,
           builder: (BuildContext context, bool isLogarithmic, Widget? child) =>
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: RadioListTile<bool>(
-                      title: Text(
-                        'Numeric Axis',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontWeight: fontWeight400(),
+              RadioGroup<bool>(
+                groupValue: isLogarithmic,
+                onChanged: (bool? value) {
+                  if (value != null) {
+                    context.read<StockChartProvider>().updateTempSetting(
+                      logarithmicYAxis: value,
+                    );
+                  }
+                },
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: RadioListTile<bool>(
+                        title: Text(
+                          'Numeric Axis',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontWeight: fontWeight400(),
+                              ),
                         ),
+                        value: false,
                       ),
-                      value: false,
-                      groupValue: isLogarithmic,
-                      onChanged: (bool? value) {
-                        if (value != null) {
-                          context.read<StockChartProvider>().updateTempSetting(
-                            logarithmicYAxis: value,
-                          );
-                        }
-                      },
                     ),
-                  ),
-                  Expanded(
-                    child: RadioListTile<bool>(
-                      title: Text(
-                        'Log Axis',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                          fontWeight: fontWeight400(),
+                    Expanded(
+                      child: RadioListTile<bool>(
+                        title: Text(
+                          'Log Axis',
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontWeight: fontWeight400(),
+                              ),
                         ),
+                        value: true,
                       ),
-                      value: true,
-                      groupValue: isLogarithmic,
-                      onChanged: (bool? value) {
-                        if (value != null) {
-                          context.read<StockChartProvider>().updateTempSetting(
-                            logarithmicYAxis: value,
-                          );
-                        }
-                      },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
         ),
       ],

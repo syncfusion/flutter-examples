@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../../meta_tag/meta_tag.dart';
 import '../../helper/helper.dart';
 import '../settings_page.dart';
+
+final WebMetaTagUpdate metaTagUpdate = WebMetaTagUpdate();
 
 class ProfileMenuPopup extends StatelessWidget {
   const ProfileMenuPopup(
@@ -85,6 +88,10 @@ class ProfileMenuPopup extends StatelessWidget {
         mouseCursor: SystemMouseCursors.click,
         onTap: () {
           Navigator.of(context, rootNavigator: true).pop(context);
+
+          // Reset meta tags to default when navigating from Stock Analyst
+          // page to Home page.
+          metaTagUpdate.setDefault();
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 10),

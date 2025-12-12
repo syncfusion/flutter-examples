@@ -81,25 +81,23 @@ class _DataLabelDefaultState extends SampleViewState {
   /// Builds the checkbox for using series color.
   Widget buildSeriesColorCheckbox(StateSetter stateSetter) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
           'Use series color',
           style: TextStyle(color: model.textColor, fontSize: 16),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-          child: SizedBox(
-            width: 90,
-            child: CheckboxListTile(
-              activeColor: model.primaryColor,
-              value: _useSeriesColor,
-              onChanged: (bool? value) {
-                setState(() {
-                  _useSeriesColor = value!;
-                  stateSetter(() {});
-                });
-              },
-            ),
+        SizedBox(
+          width: 90,
+          child: CheckboxListTile(
+            activeColor: model.primaryColor,
+            value: _useSeriesColor,
+            onChanged: (bool? value) {
+              setState(() {
+                _useSeriesColor = value!;
+                stateSetter(() {});
+              });
+            },
           ),
         ),
       ],
@@ -109,31 +107,27 @@ class _DataLabelDefaultState extends SampleViewState {
   /// Builds the dropdown for label alignment settings.
   Widget buildLabelAlignmentDropdown(StateSetter stateSetter) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
           'Label alignment',
           style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(52, 0, 0, 0),
-          height: 50,
-          alignment: Alignment.bottomLeft,
-          child: DropdownButton<String>(
-            dropdownColor: model.drawerBackgroundColor,
-            focusColor: Colors.transparent,
-            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-            value: _labelAlignment,
-            items: _chartAlign!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'center',
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
-            onChanged: (dynamic value) {
-              _onAlignmentChange(value.toString());
-              stateSetter(() {});
-            },
-          ),
+        DropdownButton<String>(
+          dropdownColor: model.drawerBackgroundColor,
+          focusColor: Colors.transparent,
+          underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+          value: _labelAlignment,
+          items: _chartAlign!.map((String value) {
+            return DropdownMenuItem<String>(
+              value: (value != null) ? value : 'center',
+              child: Text(value, style: TextStyle(color: model.textColor)),
+            );
+          }).toList(),
+          onChanged: (dynamic value) {
+            _onAlignmentChange(value.toString());
+            stateSetter(() {});
+          },
         ),
       ],
     );
@@ -142,31 +136,27 @@ class _DataLabelDefaultState extends SampleViewState {
   /// Builds the dropdown for label position settings.
   Widget buildLabelPositionDropdown(StateSetter stateSetter) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
           'Label position',
           style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(67, 0, 0, 0),
-          height: 50,
-          alignment: Alignment.bottomLeft,
-          child: DropdownButton<String>(
-            dropdownColor: model.drawerBackgroundColor,
-            focusColor: Colors.transparent,
-            underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-            value: _labelPosition,
-            items: _positionType!.map((String value) {
-              return DropdownMenuItem<String>(
-                value: (value != null) ? value : 'top',
-                child: Text(value, style: TextStyle(color: model.textColor)),
-              );
-            }).toList(),
-            onChanged: (dynamic value) {
-              _onPositionChange(value.toString());
-              stateSetter(() {});
-            },
-          ),
+        DropdownButton<String>(
+          dropdownColor: model.drawerBackgroundColor,
+          focusColor: Colors.transparent,
+          underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+          value: _labelPosition,
+          items: _positionType!.map((String value) {
+            return DropdownMenuItem<String>(
+              value: (value != null) ? value : 'top',
+              child: Text(value, style: TextStyle(color: model.textColor)),
+            );
+          }).toList(),
+          onChanged: (dynamic value) {
+            _onPositionChange(value.toString());
+            stateSetter(() {});
+          },
         ),
       ],
     );
@@ -175,24 +165,24 @@ class _DataLabelDefaultState extends SampleViewState {
   /// Builds the slider for horizontal padding settings.
   Widget buildHorizontalPaddingSlider() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(
-          'Horizontal padding',
-          style: TextStyle(fontSize: 16.0, color: model.textColor),
-        ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: CustomDirectionalButtons(
-            minValue: -50,
-            maxValue: 50,
-            initialValue: _horizontalPadding,
-            onChanged: (double value) => setState(() {
-              _horizontalPadding = value;
-            }),
-            step: 10,
-            iconColor: model.textColor,
-            style: TextStyle(fontSize: 20.0, color: model.textColor),
+        Flexible(
+          child: Text(
+            'Horizontal padding',
+            style: TextStyle(fontSize: 16.0, color: model.textColor),
           ),
+        ),
+        CustomDirectionalButtons(
+          minValue: -50,
+          maxValue: 50,
+          initialValue: _horizontalPadding,
+          onChanged: (double value) => setState(() {
+            _horizontalPadding = value;
+          }),
+          step: 10,
+          iconColor: model.textColor,
+          style: TextStyle(fontSize: 20.0, color: model.textColor),
         ),
       ],
     );
@@ -201,24 +191,22 @@ class _DataLabelDefaultState extends SampleViewState {
   /// Builds the slider for vertical padding settings.
   Widget buildVerticalPaddingSlider() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
           'Vertical padding',
           style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(28, 0, 0, 0),
-          child: CustomDirectionalButtons(
-            minValue: -50,
-            maxValue: 50,
-            initialValue: _verticalPadding,
-            onChanged: (double val) => setState(() {
-              _verticalPadding = val;
-            }),
-            step: 10,
-            iconColor: model.textColor,
-            style: TextStyle(fontSize: 20.0, color: model.textColor),
-          ),
+        CustomDirectionalButtons(
+          minValue: -50,
+          maxValue: 50,
+          initialValue: _verticalPadding,
+          onChanged: (double val) => setState(() {
+            _verticalPadding = val;
+          }),
+          step: 10,
+          iconColor: model.textColor,
+          style: TextStyle(fontSize: 20.0, color: model.textColor),
         ),
       ],
     );

@@ -49,6 +49,7 @@ class _SemiDoughnutChartState extends SampleViewState {
   /// Builds the start angle adjustment setting.
   Widget _buildStartAngleSetting() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
           'Start angle  ',
@@ -75,7 +76,7 @@ class _SemiDoughnutChartState extends SampleViewState {
   /// Builds the end angle adjustment setting.
   Widget _buildEndAngleSetting() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),

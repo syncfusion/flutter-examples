@@ -61,6 +61,7 @@ class _ImportAndExportAnnotationDataState extends SampleViewState {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: model.sampleOutputCardColor,
       body: SingleChildScrollView(
@@ -83,10 +84,13 @@ class _ImportAndExportAnnotationDataState extends SampleViewState {
                 ),
               ),
               const SizedBox(height: 10, width: 30),
-              if (MediaQuery.of(context).size.width > 800)
-                Row(children: getDataTypeChildWidgets(context))
-              else
-                Column(children: getDataTypeChildWidgets(context)),
+              RadioGroup<int>(
+                groupValue: _groupDataTypeValue,
+                onChanged: _dataTypeChanged,
+                child: (width > 800)
+                    ? Row(children: getDataTypeChildWidgets(context))
+                    : Column(children: getDataTypeChildWidgets(context)),
+              ),
               const SizedBox(height: 20, width: 30),
               Text(
                 'Select import or export:',
@@ -97,10 +101,13 @@ class _ImportAndExportAnnotationDataState extends SampleViewState {
                 ),
               ),
               const SizedBox(height: 10, width: 30),
-              if (MediaQuery.of(context).size.width > 800)
-                Row(children: getProcessChildWidgets(context))
-              else
-                Column(children: getProcessChildWidgets(context)),
+              RadioGroup<int>(
+                groupValue: _groupProcessValue,
+                onChanged: _processChanged,
+                child: (width > 800)
+                    ? Row(children: getProcessChildWidgets(context))
+                    : Column(children: getProcessChildWidgets(context)),
+              ),
               const SizedBox(height: 20, width: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -160,31 +167,19 @@ class _ImportAndExportAnnotationDataState extends SampleViewState {
     return <Widget>[
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 0,
-            groupValue: _groupDataTypeValue,
-            onChanged: _dataTypeChanged,
-          ),
+          const Radio<int>(value: 0),
           Text('XFDF', style: TextStyle(fontSize: 16, color: model.textColor)),
         ],
       ),
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 1,
-            groupValue: _groupDataTypeValue,
-            onChanged: _dataTypeChanged,
-          ),
+          const Radio<int>(value: 1),
           Text('JSON', style: TextStyle(fontSize: 16, color: model.textColor)),
         ],
       ),
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 2,
-            groupValue: _groupDataTypeValue,
-            onChanged: _dataTypeChanged,
-          ),
+          const Radio<int>(value: 2),
           Text('FDF', style: TextStyle(fontSize: 16, color: model.textColor)),
         ],
       ),
@@ -195,11 +190,7 @@ class _ImportAndExportAnnotationDataState extends SampleViewState {
     return <Widget>[
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 0,
-            groupValue: _groupProcessValue,
-            onChanged: _processChanged,
-          ),
+          const Radio<int>(value: 0),
           Text(
             'Import',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -208,11 +199,7 @@ class _ImportAndExportAnnotationDataState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(
-            value: 1,
-            groupValue: _groupProcessValue,
-            onChanged: _processChanged,
-          ),
+          const Radio<int>(value: 1),
           Text(
             'Export',
             style: TextStyle(fontSize: 16, color: model.textColor),

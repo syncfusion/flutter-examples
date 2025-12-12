@@ -164,8 +164,7 @@ class _FunnelDefaultState extends SampleViewState {
           softWrap: false,
           style: TextStyle(fontSize: 16, color: model.textColor),
         ),
-        Container(
-          padding: EdgeInsets.only(left: 0.06 * screenWidth),
+        SizedBox(
           width: 0.5 * screenWidth,
           child: CheckboxListTile(
             controlAffinity: ListTileControlAffinity.leading,

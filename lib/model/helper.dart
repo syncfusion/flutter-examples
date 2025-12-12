@@ -9,11 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Local imports
+import '../meta_tag/meta_tag.dart';
 import '../widgets/bottom_sheet.dart';
 import '../widgets/search_bar.dart';
 import 'mobile_view.dart';
 import 'model.dart';
 import 'sample_view.dart';
+
+final WebMetaTagUpdate metaTagUpdate = WebMetaTagUpdate();
 
 /// Callback for changing the theme.
 typedef ChangeThemeCallback =
@@ -81,6 +84,13 @@ void onTapControlInWeb(
       : category.controlList![category.selectedIndex!].subItems[0] as SubItem;
 
   Navigator.pushNamed(context, subItem.breadCrumbText!);
+
+  // Updates meta tag details when navigating from the home page
+  // to a widget sample page.
+  metaTagUpdate.update(
+    subItem.title!,
+    category.controlList![category.selectedIndex!].subItems[0].title,
+  );
 }
 
 /// On tap the expand button, get the fullview sample.
