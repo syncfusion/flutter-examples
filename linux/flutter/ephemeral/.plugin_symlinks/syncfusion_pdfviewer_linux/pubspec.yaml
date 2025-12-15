@@ -1,0 +1,20 @@
+name: syncfusion_pdfviewer_linux
+description: Linux platform implementation of the Flutter PDF Viewer library that lets you view the PDF documents seamlessly and efficiently.
+version: 32.1.19
+homepage: https://github.com/syncfusion/flutter-widgets/tree/master/packages/syncfusion_pdfviewer_linux
+
+environment:
+  sdk: ^3.7.0
+  flutter: '>=3.35.1'
+
+flutter:
+  plugin:
+    platforms:
+      linux:
+        pluginClass: SyncfusionPdfviewerLinuxPlugin
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+

@@ -1,0 +1,18 @@
+name: syncfusion_pdfviewer_linux_example
+description: "Demonstrates how to use the syncfusion_pdfviewer_linux plugin."
+publish_to: 'none'
+
+environment:
+  sdk: ^3.7.0
+
+flutter:
+  uses-material-design: true
+
+dependencies:
+  flutter:
+    sdk: flutter
+  syncfusion_flutter_pdfviewer:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
