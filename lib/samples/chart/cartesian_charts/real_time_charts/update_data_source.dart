@@ -35,7 +35,7 @@ class _LiveVerticalState extends SampleViewState {
       ChartSampleData(x: 7, y: 30),
       ChartSampleData(x: 9, y: 72),
     ];
-    _random = Random();
+    _random = Random.secure();
     super.initState();
   }
 

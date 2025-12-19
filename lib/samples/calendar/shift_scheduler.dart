@@ -417,7 +417,7 @@ class _ShiftSchedulerState extends SampleViewState {
   /// Method that creates the resource collection for the Calendar, with the
   /// required information.
   void _addResources() {
-    final Random random = Random();
+    final Random random = Random.secure();
     for (int i = 0; i < _nameCollection.length; i++) {
       _employeeCollection.add(
         CalendarResource(
@@ -441,7 +441,7 @@ class _ShiftSchedulerState extends SampleViewState {
   /// required information.
   void _addSpecialRegions() {
     final DateTime date = DateTime.now();
-    final Random random = Random();
+    final Random random = Random.secure();
     for (int i = 0; i < _employeeCollection.length; i++) {
       _specialTimeRegions.add(
         TimeRegion(
@@ -478,7 +478,7 @@ class _ShiftSchedulerState extends SampleViewState {
   /// Method that creates the collection the data source for Calendar, with
   /// required information.
   void _addAppointments() {
-    final Random random = Random();
+    final Random random = Random.secure();
     for (int i = 0; i < _employeeCollection.length; i++) {
       final List<Object> employeeIds = <Object>[_employeeCollection[i].id];
       if (i == _employeeCollection.length - 1) {

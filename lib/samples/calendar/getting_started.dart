@@ -151,7 +151,7 @@ class GettingStartedCalendarState extends SampleViewState {
   void _onViewChanged(ViewChangedDetails visibleDatesChangedDetails) {
     final List<_Meeting> appointment = <_Meeting>[];
     _events.appointments.clear();
-    final Random random = Random();
+    final Random random = Random.secure();
     final List<DateTime> blockedDates = <DateTime>[];
     if (_calendarController.view == CalendarView.month ||
         _calendarController.view == CalendarView.timelineMonth) {
@@ -496,92 +496,82 @@ class GettingStartedCalendarState extends SampleViewState {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(
-                  flex: model.isWebFullView ? 5 : 6,
                   child: Text(
-                    model.isWebFullView
-                        ? 'View navigation \nmode'
-                        : 'View navigation mode',
-                    softWrap: false,
+                    'View navigation mode',
                     style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
-                Expanded(
-                  flex: model.isWebFullView ? 5 : 4,
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 60),
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      focusColor: Colors.transparent,
-                      underline: Container(
-                        color: const Color(0xFFBDBDBD),
-                        height: 1,
-                      ),
-                      value: _viewNavigationModeString,
-                      items: _viewNavigationModeList.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: (value != null) ? value : 'Snap',
-                          child: Text(
-                            value,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: model.textColor),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (dynamic value) {
-                        onViewNavigationModeChange(value);
-                        stateSetter(() {});
-                      },
+                Container(
+                  padding: const EdgeInsets.only(left: 60),
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
+                    focusColor: Colors.transparent,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
                     ),
+                    value: _viewNavigationModeString,
+                    items: _viewNavigationModeList.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: (value != null) ? value : 'Snap',
+                        child: Text(
+                          value,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: model.textColor),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      onViewNavigationModeChange(value);
+                      stateSetter(() {});
+                    },
                   ),
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  flex: model.isWebFullView ? 5 : 6,
+                Flexible(
                   child: Text(
                     'Number of days',
-                    softWrap: false,
                     style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ),
-                Expanded(
-                  flex: model.isWebFullView ? 6 : 4,
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 60),
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                      dropdownColor: model.drawerBackgroundColor,
-                      focusColor: Colors.transparent,
-                      underline: Container(
-                        color: const Color(0xFFBDBDBD),
-                        height: 1,
-                      ),
-                      value: _numberOfDaysString,
-                      items:
-                          (_calendarController.view == CalendarView.workWeek
-                                  ? _numberOfDaysListWorkWeek
-                                  : _numberOfDaysList)
-                              .map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: (value != null) ? value : 'default',
-                                  child: Text(
-                                    value,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: model.textColor),
-                                  ),
-                                );
-                              })
-                              .toList(),
-                      onChanged: (dynamic value) {
-                        customNumberOfDaysInView(value);
-                        stateSetter(() {});
-                      },
+                Container(
+                  padding: const EdgeInsets.only(left: 60),
+                  alignment: Alignment.bottomLeft,
+                  child: DropdownButton<String>(
+                    dropdownColor: model.drawerBackgroundColor,
+                    focusColor: Colors.transparent,
+                    underline: Container(
+                      color: const Color(0xFFBDBDBD),
+                      height: 1,
                     ),
+                    value: _numberOfDaysString,
+                    items:
+                        (_calendarController.view == CalendarView.workWeek
+                                ? _numberOfDaysListWorkWeek
+                                : _numberOfDaysList)
+                            .map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: (value != null) ? value : 'default',
+                                child: Text(
+                                  value,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: model.textColor),
+                                ),
+                              );
+                            })
+                            .toList(),
+                    onChanged: (dynamic value) {
+                      customNumberOfDaysInView(value);
+                      stateSetter(() {});
+                    },
                   ),
                 ),
               ],

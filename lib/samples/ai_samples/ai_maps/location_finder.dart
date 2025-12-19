@@ -173,8 +173,7 @@ class _MapLocationFinderState extends SampleViewState
                                 ? 'Search location'
                                 : 'Hospital in New York',
                             hintStyle: TextStyle(
-                              color: model.themeData.colorScheme.primary
-                                  .withValues(alpha: 0.6),
+                              color: model.themeData.colorScheme.secondary,
                             ),
                             filled: true,
                             fillColor:
@@ -318,7 +317,7 @@ class _MapLocationFinderState extends SampleViewState
                         ),
                         icon: Icon(
                           Icons.search,
-                          color: model.themeData.colorScheme.primary,
+                          color: model.themeData.colorScheme.secondary,
                         ),
                         onPressed: () => _isButtonVisible
                             ? _handleSearch(_textFieldController.text)

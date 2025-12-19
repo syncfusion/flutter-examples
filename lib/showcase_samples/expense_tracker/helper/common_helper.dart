@@ -49,7 +49,7 @@ List<Color> randomColors(BuildContext context) {
     context,
     listen: false,
   );
-  final Random random = Random();
+  final Random random = Random.secure();
   final List<Color> cardAvatarColors = _cardAvatarColors(themeNotifier);
 
   return List.generate(10, (int index) {

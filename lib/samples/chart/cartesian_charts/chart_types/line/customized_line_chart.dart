@@ -133,7 +133,7 @@ class _CustomLineSeriesRenderer<T, D> extends LineSeriesRenderer<T, D> {
   _CustomLineSeriesRenderer(this.series);
 
   final LineSeries<dynamic, dynamic> series;
-  static Random randomNumber = Random();
+  static Random randomNumber = Random.secure();
 
   @override
   LineSegment<T, D> createSegment() {

@@ -115,7 +115,7 @@ class _LiveLineChartState extends SampleViewState {
 
   /// Generates a random integer within the specified range.
   int _generateRandomInteger(int min, int max) {
-    final math.Random random = math.Random();
+    final math.Random random = math.Random.secure();
     return min + random.nextInt(max - min);
   }
 

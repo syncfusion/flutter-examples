@@ -364,7 +364,7 @@ class _SparklineLiveUpdateState extends SampleViewState {
 
   ///Get random value
   double _getRandomInt(int min, int max) {
-    final Random random = Random();
+    final Random random = Random.secure();
     return min + random.nextInt(max - min).toDouble();
   }
 

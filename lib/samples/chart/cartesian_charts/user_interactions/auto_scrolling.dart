@@ -173,7 +173,7 @@ class _AutoScrollingChartState extends SampleViewState {
   }
 
   int _generateRandomInt(int min, int max) {
-    final math.Random random = math.Random();
+    final math.Random random = math.Random.secure();
     return min + random.nextInt(max - min);
   }
 

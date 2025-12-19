@@ -238,7 +238,7 @@ class _DefaultCrossHairState extends SampleViewState {
 /// Method to get random data points for the chart with crosshair sample.
 List<ChartSampleData> _buildChartData() {
   final List<ChartSampleData> randomData = <ChartSampleData>[];
-  final Random rand = Random();
+  final Random rand = Random.secure();
   double value = 100;
   for (int i = 1; i < 2000; i++) {
     if (rand.nextDouble() > 0.5) {

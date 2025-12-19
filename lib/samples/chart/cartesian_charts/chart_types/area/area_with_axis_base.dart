@@ -50,34 +50,27 @@ class _AxisCrossingBaseValueState extends SampleViewState {
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
               'Axis base value ',
               style: TextStyle(fontSize: 16.0, color: model.textColor),
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-              height: 50,
-              alignment: Alignment.bottomLeft,
-              child: DropdownButton<String>(
-                dropdownColor: model.drawerBackgroundColor,
-                focusColor: Colors.transparent,
-                underline: Container(color: const Color(0xFFBDBDBD), height: 1),
-                value: _selectedAxis,
-                items: _axis!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: (value != null) ? value : '-2 (modified)',
-                    child: Text(
-                      value,
-                      style: TextStyle(color: model.textColor),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (dynamic value) {
-                  _onAxisTypeChange(value.toString());
-                  stateSetter(() {});
-                },
-              ),
+            DropdownButton<String>(
+              dropdownColor: model.drawerBackgroundColor,
+              focusColor: Colors.transparent,
+              underline: Container(color: const Color(0xFFBDBDBD), height: 1),
+              value: _selectedAxis,
+              items: _axis!.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: (value != null) ? value : '-2 (modified)',
+                  child: Text(value, style: TextStyle(color: model.textColor)),
+                );
+              }).toList(),
+              onChanged: (dynamic value) {
+                _onAxisTypeChange(value.toString());
+                stateSetter(() {});
+              },
             ),
           ],
         );

@@ -92,10 +92,10 @@ class _RangeAreaState extends SampleViewState {
     chartData = <ChartSampleData>[];
     double value = 15;
     for (int i = 0; i < 100; i++) {
-      final Random yValue = Random();
+      final Random yValue = Random.secure();
       (yValue.nextDouble() > .5)
-          ? value += Random().nextDouble()
-          : value -= Random().nextDouble();
+          ? value += Random.secure().nextDouble()
+          : value -= Random.secure().nextDouble();
 
       chartData.add(
         ChartSampleData(

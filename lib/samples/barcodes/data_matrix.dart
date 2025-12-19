@@ -69,12 +69,12 @@ class _DataMatrixGeneratorState extends SampleViewState {
       shrinkWrap: true,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Input value:   ',
+                'Input value:',
                 overflow: TextOverflow.clip,
                 softWrap: false,
                 style: TextStyle(
@@ -83,8 +83,7 @@ class _DataMatrixGeneratorState extends SampleViewState {
                   color: model.textColor,
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 5, 10, 0),
+              SizedBox(
                 height: 50,
                 child: Align(
                   alignment: Alignment.bottomLeft,

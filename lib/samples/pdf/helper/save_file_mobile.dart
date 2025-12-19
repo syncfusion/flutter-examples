@@ -1,7 +1,7 @@
-///Dart import
+/// Dart import
 import 'dart:io';
 
-///Package imports
+/// Package imports
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 // ignore: depend_on_referenced_packages
@@ -12,7 +12,7 @@ import 'package:path_provider_platform_interface/path_provider_platform_interfac
 class FileSaveHelper {
   static const MethodChannel _platformCall = MethodChannel('launchFile');
 
-  ///To save the pdf file in the device
+  /// To save the pdf file in the device
   static Future<void> saveAndLaunchFile(
     List<int> bytes,
     String fileName,
@@ -22,7 +22,7 @@ class FileSaveHelper {
       final Directory directory = await getApplicationSupportDirectory();
       path = directory.path;
     } else if (Platform.isAndroid) {
-      final Directory? directory = await getExternalStorageDirectory();
+      final Directory? directory = await getExternalFilesDirectory();
       if (directory != null) {
         path = directory.path;
       } else {
@@ -59,6 +59,15 @@ class FileSaveHelper {
       await Process.run('xdg-open', <String>[
         '$path/$fileName',
       ], runInShell: true);
+    }
+  }
+
+  /// Helper for app-private external storage directory on Android
+  static Future<Directory?> getExternalFilesDirectory() async {
+    try {
+      return await getExternalStorageDirectory();
+    } catch (e) {
+      return null;
     }
   }
 }

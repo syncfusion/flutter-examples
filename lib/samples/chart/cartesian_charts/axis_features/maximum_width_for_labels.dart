@@ -61,7 +61,7 @@ class ChartMaximumLabelWidthState extends SampleViewState {
           shrinkWrap: true,
           children: <Widget>[
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -70,30 +70,26 @@ class ChartMaximumLabelWidthState extends SampleViewState {
                     style: TextStyle(color: model.textColor),
                   ),
                 ),
-                Container(
-                  padding: !model.isWebFullView
-                      ? const EdgeInsets.fromLTRB(32, 0, 0, 0)
-                      : const EdgeInsets.fromLTRB(42, 0, 0, 0),
-                  child: CustomDirectionalButtons(
-                    maxValue: 120,
-                    minValue: 1,
-                    initialValue: _xMaximumLabelWidth,
-                    onChanged: (double val) {
-                      setState(() {
-                        _xMaximumLabelWidth = val;
-                      });
-                    },
-                    step: 10,
-                    loop: true,
-                    padding: 5.0,
-                    iconColor: model.textColor,
-                    style: TextStyle(fontSize: 16.0, color: model.textColor),
-                  ),
+                CustomDirectionalButtons(
+                  maxValue: 120,
+                  minValue: 1,
+                  initialValue: _xMaximumLabelWidth,
+                  onChanged: (double val) {
+                    setState(() {
+                      _xMaximumLabelWidth = val;
+                    });
+                  },
+                  step: 10,
+                  loop: true,
+                  padding: 5.0,
+                  iconColor: model.textColor,
+                  style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
               ],
             ),
             SizedBox(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     'Enable label extent',
@@ -119,29 +115,25 @@ class ChartMaximumLabelWidthState extends SampleViewState {
             Visibility(
               visible: _isEnableLabelExtend,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     'Labels extent',
                     style: TextStyle(color: model.textColor),
                   ),
-                  Container(
-                    padding: !model.isWebFullView
-                        ? const EdgeInsets.fromLTRB(40, 0, 0, 0)
-                        : const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                    child: CustomDirectionalButtons(
-                      maxValue: 200,
-                      minValue: 1,
-                      initialValue: _xLabelsExtent,
-                      onChanged: (double val) {
-                        setState(() {
-                          _xLabelsExtent = val;
-                        });
-                      },
-                      step: 10,
-                      loop: true,
-                      iconColor: model.textColor,
-                      style: TextStyle(fontSize: 16.0, color: model.textColor),
-                    ),
+                  CustomDirectionalButtons(
+                    maxValue: 200,
+                    minValue: 1,
+                    initialValue: _xLabelsExtent,
+                    onChanged: (double val) {
+                      setState(() {
+                        _xLabelsExtent = val;
+                      });
+                    },
+                    step: 10,
+                    loop: true,
+                    iconColor: model.textColor,
+                    style: TextStyle(fontSize: 16.0, color: model.textColor),
                   ),
                 ],
               ),

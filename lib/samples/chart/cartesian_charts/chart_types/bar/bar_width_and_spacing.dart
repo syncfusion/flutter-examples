@@ -50,48 +50,37 @@ class _BarSpacingState extends SampleViewState {
       shrinkWrap: true,
       children: <Widget>[
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text('Width  ', style: TextStyle(color: model.textColor)),
-            Container(
-              padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-              child: CustomDirectionalButtons(
-                maxValue: 1,
-                initialValue: _columnWidth,
-                onChanged: (double val) => setState(() {
-                  _columnWidth = val;
-                }),
-                step: 0.1,
-                loop: true,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 16.0, color: model.textColor),
-              ),
+            CustomDirectionalButtons(
+              maxValue: 1,
+              initialValue: _columnWidth,
+              onChanged: (double val) => setState(() {
+                _columnWidth = val;
+              }),
+              step: 0.1,
+              loop: true,
+              iconColor: model.textColor,
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
             ),
           ],
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-              child: Text(
-                'Spacing  ',
-                style: TextStyle(color: model.textColor),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-              child: CustomDirectionalButtons(
-                maxValue: 1,
-                initialValue: _columnSpacing,
-                onChanged: (double val) => setState(() {
-                  _columnSpacing = val;
-                }),
-                step: 0.1,
-                loop: true,
-                padding: 5.0,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 16.0, color: model.textColor),
-              ),
+            Text('Spacing  ', style: TextStyle(color: model.textColor)),
+            CustomDirectionalButtons(
+              maxValue: 1,
+              initialValue: _columnSpacing,
+              onChanged: (double val) => setState(() {
+                _columnSpacing = val;
+              }),
+              step: 0.1,
+              loop: true,
+              padding: 5.0,
+              iconColor: model.textColor,
+              style: TextStyle(fontSize: 16.0, color: model.textColor),
             ),
           ],
         ),

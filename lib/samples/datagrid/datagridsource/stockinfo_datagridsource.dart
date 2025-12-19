@@ -24,7 +24,7 @@ class StockInfoDataGridSource extends DataGridSource {
   /// Checks whether it's a grouping sample source or not.
   late bool isGroupingSample;
 
-  final math.Random _random = math.Random();
+  final math.Random _random = math.Random.secure();
 
   List<StockInfo> _stocks = <StockInfo>[];
 

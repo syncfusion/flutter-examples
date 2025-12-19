@@ -334,6 +334,6 @@ class _IntervalTypeState extends SampleViewState {
 }
 
 num _buildRandomIntData(int min, int max) {
-  final Random random = Random();
+  final Random random = Random.secure();
   return min + random.nextInt(max - min);
 }

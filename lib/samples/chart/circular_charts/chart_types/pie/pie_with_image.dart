@@ -113,7 +113,7 @@ class _PieImageShaderState extends SampleViewState {
                   image1!,
                   TileMode.repeated,
                   TileMode.repeated,
-                  Matrix4.identity().scaled(0.5).storage,
+                  Matrix4.identity().scaledByDouble(0.5, 0.5, 0.5, 1.0).storage,
                 ),
               ),
               _ChartShaderData(
@@ -124,7 +124,7 @@ class _PieImageShaderState extends SampleViewState {
                   image2!,
                   TileMode.repeated,
                   TileMode.repeated,
-                  Matrix4.identity().scaled(0.6).storage,
+                  Matrix4.identity().scaledByDouble(0.6, 0.6, 0.6, 1.0).storage,
                 ),
               ),
               _ChartShaderData(
@@ -135,7 +135,7 @@ class _PieImageShaderState extends SampleViewState {
                   image3!,
                   TileMode.repeated,
                   TileMode.repeated,
-                  Matrix4.identity().scaled(0.6).storage,
+                  Matrix4.identity().scaledByDouble(0.6, 0.6, 0.6, 1.0).storage,
                 ),
               ),
               _ChartShaderData(
@@ -146,7 +146,7 @@ class _PieImageShaderState extends SampleViewState {
                   image4!,
                   TileMode.repeated,
                   TileMode.repeated,
-                  Matrix4.identity().scaled(0.5).storage,
+                  Matrix4.identity().scaledByDouble(0.5, 0.5, 0.5, 1.0).storage,
                 ),
               ),
             ],

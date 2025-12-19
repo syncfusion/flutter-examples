@@ -337,6 +337,7 @@ class _CandleChartState extends SampleViewState {
   Widget _buildEnableSolidCandlesRow(StateSetter stateSetter) {
     return SizedBox(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
             'Enable solid candles',
@@ -364,6 +365,7 @@ class _CandleChartState extends SampleViewState {
   Widget _buildShowIndicationRow(StateSetter stateSetter) {
     return SizedBox(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
             'Show indication for  \nsame values',
@@ -390,27 +392,24 @@ class _CandleChartState extends SampleViewState {
   // Method to build the row for setting width.
   Widget _buildWidthRow() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
           child: Text('Width  ', style: TextStyle(color: model.textColor)),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(95, 0, 0, 0),
-          child: CustomDirectionalButtons(
-            maxValue: 1,
-            initialValue: _width,
-            onChanged: (double val) {
-              setState(() {
-                _width = val;
-              });
-            },
-            step: 0.1,
-            loop: true,
-            iconColor: model.textColor,
-            style: TextStyle(fontSize: 16.0, color: model.textColor),
-          ),
+        CustomDirectionalButtons(
+          maxValue: 1,
+          initialValue: _width,
+          onChanged: (double val) {
+            setState(() {
+              _width = val;
+            });
+          },
+          step: 0.1,
+          loop: true,
+          iconColor: model.textColor,
+          style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
       ],
     );
@@ -419,28 +418,25 @@ class _CandleChartState extends SampleViewState {
   // Method to build the row for setting spacing.
   Widget _buildSpacingRow() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
           child: Text('Spacing  ', style: TextStyle(color: model.textColor)),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(85, 0, 0, 0),
-          child: CustomDirectionalButtons(
-            maxValue: 1,
-            initialValue: _space,
-            onChanged: (double val) {
-              setState(() {
-                _space = val;
-              });
-            },
-            step: 0.1,
-            loop: true,
-            padding: 5.0,
-            iconColor: model.textColor,
-            style: TextStyle(fontSize: 16.0, color: model.textColor),
-          ),
+        CustomDirectionalButtons(
+          maxValue: 1,
+          initialValue: _space,
+          onChanged: (double val) {
+            setState(() {
+              _space = val;
+            });
+          },
+          step: 0.1,
+          loop: true,
+          padding: 5.0,
+          iconColor: model.textColor,
+          style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
       ],
     );
@@ -449,7 +445,7 @@ class _CandleChartState extends SampleViewState {
   // Method to build the row for setting border radius.
   Widget _buildBorderRadiusRow() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -458,21 +454,18 @@ class _CandleChartState extends SampleViewState {
             style: TextStyle(color: model.textColor),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(55, 0, 0, 0),
-          child: CustomDirectionalButtons(
-            maxValue: 10,
-            initialValue: _borderRadius,
-            onChanged: (double val) {
-              setState(() {
-                _borderRadius = val;
-              });
-            },
-            loop: true,
-            padding: 5.0,
-            iconColor: model.textColor,
-            style: TextStyle(fontSize: 16.0, color: model.textColor),
-          ),
+        CustomDirectionalButtons(
+          maxValue: 10,
+          initialValue: _borderRadius,
+          onChanged: (double val) {
+            setState(() {
+              _borderRadius = val;
+            });
+          },
+          loop: true,
+          padding: 5.0,
+          iconColor: model.textColor,
+          style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
       ],
     );

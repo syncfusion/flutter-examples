@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../meta_tag/meta_tag.dart';
 import '../../base.dart';
 import '../../constants.dart';
 // import '../../data_processing/utils.dart';
@@ -34,6 +35,7 @@ class ImportPageState extends State<ImportPage> {
 
   VerifyUserNotifier? _homeScreenNotifier;
   ImportNotifier? _importNotifier;
+  final WebMetaTagUpdate metaTagUpdate = WebMetaTagUpdate();
 
   Widget _buildMobileLayout(BuildContext context) {
     return Padding(
@@ -353,6 +355,11 @@ class ImportPageState extends State<ImportPage> {
       listen: false,
     );
     _importNotifier = Provider.of<ImportNotifier>(context, listen: false);
+
+    // Updates meta tag details when navigating from the setup page to the
+    // import page in Expense Tracker.
+    metaTagUpdate.update('Import', 'Expense Tracker');
+
     super.didChangeDependencies();
   }
 

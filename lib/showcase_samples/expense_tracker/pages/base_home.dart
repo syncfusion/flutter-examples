@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../meta_tag/meta_tag.dart';
 import '../constants.dart';
 // import '../data_processing/budget_handler.dart'
 //     if (dart.library.html) '../data_processing/budget_web_handler.dart';
@@ -70,11 +71,29 @@ class _ExpenseAnalysisState extends State<ExpenseAnalysis> {
   final GlobalKey<PopupMenuButtonState<String>> _popupMenuKey = GlobalKey();
   final GlobalKey<PopupMenuButtonState<String>> _profilePopupMenuKey =
       GlobalKey();
+  final WebMetaTagUpdate metaTagUpdate = WebMetaTagUpdate();
+
+  void _onPageNavigatorChanged() {
+    final String pageTitle = _buildPageTitle(
+      context,
+      pageNavigatorNotifier.value,
+    );
+    metaTagUpdate.update(pageTitle, 'Expense Tracker');
+  }
 
   @override
   void initState() {
     currentUserDetails = widget.currentUserDetails;
     super.initState();
+
+    // Updates meta tag details when navigating from the import page
+    // to the dashboard page in Expense Tracker.
+    metaTagUpdate.update(
+      _buildPageTitle(context, pageNavigatorNotifier.value),
+      'Expense Tracker',
+    );
+
+    pageNavigatorNotifier.addListener(_onPageNavigatorChanged);
   }
 
   @override
@@ -89,6 +108,7 @@ class _ExpenseAnalysisState extends State<ExpenseAnalysis> {
     _isAccountPageActive.dispose();
     _isGoalsPageActive.dispose();
     _appBarTitle.dispose();
+    pageNavigatorNotifier.removeListener(_onPageNavigatorChanged);
     super.dispose();
   }
 
@@ -799,6 +819,9 @@ class _ExpenseAnalysisState extends State<ExpenseAnalysis> {
         mouseCursor: SystemMouseCursors.click,
         onTap: () {
           Navigator.of(context, rootNavigator: true).pop(context);
+          // Sets default meta tag details when navigating back from the
+          // Expense Tracker to the home page.
+          metaTagUpdate.setDefault();
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 10),

@@ -60,42 +60,33 @@ class _CategoryTicksState extends SampleViewState {
           shrinkWrap: true,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Label placement ',
+                  'Label \nplacement ',
                   style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(
-                    model.isWebFullView ? 4 : 20,
-                    0,
-                    0,
-                    0,
+                DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
+                  focusColor: Colors.transparent,
+                  underline: Container(
+                    color: const Color(0xFFBDBDBD),
+                    height: 1,
                   ),
-                  height: 50,
-                  alignment: Alignment.bottomCenter,
-                  child: DropdownButton<String>(
-                    dropdownColor: model.drawerBackgroundColor,
-                    focusColor: Colors.transparent,
-                    underline: Container(
-                      color: const Color(0xFFBDBDBD),
-                      height: 1,
-                    ),
-                    value: _selectedType,
-                    items: _labelPosition!.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'betweenTicks',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (dynamic value) {
-                      _onPositionTypeChange(value.toString());
-                      stateSetter(() {});
-                    },
-                  ),
+                  value: _selectedType,
+                  items: _labelPosition!.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'betweenTicks',
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    _onPositionTypeChange(value.toString());
+                    stateSetter(() {});
+                  },
                 ),
               ],
             ),

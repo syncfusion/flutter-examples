@@ -345,6 +345,7 @@
         "description": "Plot over 30 chart types ranging from line charts to financial charts",
         "image": "images/cartesian_types.png",
         "controlId": 1,
+        "status": "Updated",
         "subItems": [
           {
             "type": "parent",
@@ -1133,7 +1134,8 @@
                 "title": "Plot band",
                 "key": "plot_band",
                 "codeLink": "https://github.com/syncfusion/flutter-examples/blob/master/lib/samples/chart/cartesian_charts/axis_features/plot_band.dart",
-                "needsPropertyPanel": true
+                "needsPropertyPanel": true,
+                "status": "Updated"
               },
               {
                 "title": "Plot band recurrence",

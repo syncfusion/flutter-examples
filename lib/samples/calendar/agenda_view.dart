@@ -99,7 +99,7 @@ class _AgendaViewCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFF0A8043));
 
     final List<_Meeting> meetings = <_Meeting>[];
-    final Random random = Random();
+    final Random random = Random.secure();
     final DateTime rangeStartDate = DateTime.now().add(
       const Duration(days: -(365 ~/ 2)),
     );

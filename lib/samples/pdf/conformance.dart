@@ -54,10 +54,13 @@ class _ConformancePdfState extends SampleViewState {
                 ),
               ),
               const SizedBox(height: 10, width: 25),
-              if (MediaQuery.of(context).size.width > 800)
-                Row(children: getChildWidgets(context))
-              else
-                Column(children: getChildWidgets(context)),
+              RadioGroup<int>(
+                groupValue: _groupValue,
+                onChanged: _changed,
+                child: (MediaQuery.of(context).size.width > 800)
+                    ? Row(children: getChildWidgets(context))
+                    : Column(children: getChildWidgets(context)),
+              ),
               const SizedBox(height: 10, width: 30),
               Align(
                 child: TextButton(
@@ -92,7 +95,7 @@ class _ConformancePdfState extends SampleViewState {
     return <Widget>[
       Row(
         children: <Widget>[
-          Radio<int>(groupValue: _groupValue, onChanged: _changed, value: 0),
+          const Radio<int>(value: 0),
           Text(
             'PDF/A-1B',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -101,7 +104,7 @@ class _ConformancePdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(groupValue: _groupValue, onChanged: _changed, value: 1),
+          const Radio<int>(value: 1),
           Text(
             'PDF/A-2B',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -110,7 +113,7 @@ class _ConformancePdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(groupValue: _groupValue, onChanged: _changed, value: 2),
+          const Radio<int>(value: 2),
           Text(
             'PDF/A-3B',
             style: TextStyle(fontSize: 16, color: model.textColor),

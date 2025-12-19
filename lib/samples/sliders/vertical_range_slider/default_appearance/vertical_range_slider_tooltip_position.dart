@@ -100,7 +100,7 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
   }
 
   Widget _buildMobileLayout() {
-    final double padding = MediaQuery.of(context).size.height / 10.0;
+    final double padding = MediaQuery.of(context).size.height / 12.0;
     return Padding(
       padding: EdgeInsets.all(padding),
       child: Row(
@@ -144,6 +144,7 @@ class _VerticalTooltipRangeSliderPageState extends SampleViewState {
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter stateSetter) {
         return Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             CheckboxListTile(
               value: _isInversed,

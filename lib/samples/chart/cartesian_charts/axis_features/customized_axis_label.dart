@@ -71,7 +71,7 @@ class _CustomLabelsEventState extends SampleViewState<CustomLabelsEvent> {
     _isHours = false;
     _isMinutes = false;
     _tooltipBehavior = TooltipBehavior(enable: true);
-    _random = Random();
+    _random = Random.secure();
     _chartData = <_LabelData>[
       _LabelData(DateTime(2016), 57),
       _LabelData(DateTime(2017), 70),

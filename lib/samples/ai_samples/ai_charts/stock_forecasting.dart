@@ -862,7 +862,7 @@ class _StockForecastingSampleState extends SampleViewState
 
   List<_ChartData> _generateDataSource(List<_ChartData> stockData) {
     final List<_ChartData> items = [];
-    final Random random = Random();
+    final Random random = Random.secure();
 
     // Find the last date in the stock data
     final DateTime lastDate = stockData[stockData.length - 1].date;

@@ -316,35 +316,30 @@ class _HierarchicalTreemapSampleState extends SampleViewState {
                   'Layout direction',
                   style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15.0),
-                  child: DropdownButton<TreemapLayoutDirection>(
-                    dropdownColor: model.drawerBackgroundColor,
-                    value: _layoutDirection,
-                    items: _dropDownMenuItems,
-                    onChanged: (TreemapLayoutDirection? value) {
-                      setState(() {
-                        _layoutDirection = value!;
-                        switch (_layoutDirection) {
-                          case TreemapLayoutDirection.topLeft:
-                            _layoutDirection = TreemapLayoutDirection.topLeft;
-                            break;
-                          case TreemapLayoutDirection.topRight:
-                            _layoutDirection = TreemapLayoutDirection.topRight;
-                            break;
-                          case TreemapLayoutDirection.bottomLeft:
-                            _layoutDirection =
-                                TreemapLayoutDirection.bottomLeft;
-                            break;
-                          case TreemapLayoutDirection.bottomRight:
-                            _layoutDirection =
-                                TreemapLayoutDirection.bottomRight;
-                            break;
-                        }
-                        stateSetter(() {});
-                      });
-                    },
-                  ),
+                DropdownButton<TreemapLayoutDirection>(
+                  dropdownColor: model.drawerBackgroundColor,
+                  value: _layoutDirection,
+                  items: _dropDownMenuItems,
+                  onChanged: (TreemapLayoutDirection? value) {
+                    setState(() {
+                      _layoutDirection = value!;
+                      switch (_layoutDirection) {
+                        case TreemapLayoutDirection.topLeft:
+                          _layoutDirection = TreemapLayoutDirection.topLeft;
+                          break;
+                        case TreemapLayoutDirection.topRight:
+                          _layoutDirection = TreemapLayoutDirection.topRight;
+                          break;
+                        case TreemapLayoutDirection.bottomLeft:
+                          _layoutDirection = TreemapLayoutDirection.bottomLeft;
+                          break;
+                        case TreemapLayoutDirection.bottomRight:
+                          _layoutDirection = TreemapLayoutDirection.bottomRight;
+                          break;
+                      }
+                      stateSetter(() {});
+                    });
+                  },
                 ),
               ],
             ),

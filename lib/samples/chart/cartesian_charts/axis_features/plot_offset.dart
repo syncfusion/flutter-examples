@@ -61,7 +61,6 @@ class _PlotOffsetState extends SampleViewState {
 
   @override
   Widget buildSettings(BuildContext context) {
-    const double height = 40;
     final TextStyle textStyle = TextStyle(
       fontSize: 16.0,
       color: model.textColor,
@@ -84,86 +83,59 @@ class _PlotOffsetState extends SampleViewState {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('PlotOffset', style: textStyle),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                  height: height,
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    height: height,
-                    alignment: Alignment.bottomLeft,
-                    child: CustomDirectionalButtons(
-                      maxValue: 50,
-                      initialValue: _plotOffsetX ?? 0,
-                      onChanged: (double val) {
-                        setState(() {
-                          _plotOffsetX = val;
-                          if (val == 0) {
-                            _plotOffsetX = null;
-                          }
-                        });
-                      },
-                      step: 5,
-                      iconColor: model.textColor,
-                      style: textStyle,
-                    ),
-                  ),
+                CustomDirectionalButtons(
+                  maxValue: 50,
+                  initialValue: _plotOffsetX ?? 0,
+                  onChanged: (double val) {
+                    setState(() {
+                      _plotOffsetX = val;
+                      if (val == 0) {
+                        _plotOffsetX = null;
+                      }
+                    });
+                  },
+                  step: 5,
+                  iconColor: model.textColor,
+                  style: textStyle,
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('PlotOffsetStart', style: textStyle),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(18, 0, 0, 0),
-                  height: height,
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    height: height,
-                    alignment: Alignment.bottomLeft,
-                    child: CustomDirectionalButtons(
-                      maxValue: 50,
-                      initialValue: _plotOffsetStartX ?? 0,
-                      onChanged: (double val) {
-                        setState(() {
-                          _plotOffsetStartX = val;
-                        });
-                      },
-                      step: 5,
-                      iconColor: model.textColor,
-                      style: textStyle,
-                    ),
-                  ),
+                CustomDirectionalButtons(
+                  maxValue: 50,
+                  initialValue: _plotOffsetStartX ?? 0,
+                  onChanged: (double val) {
+                    setState(() {
+                      _plotOffsetStartX = val;
+                    });
+                  },
+                  step: 5,
+                  iconColor: model.textColor,
+                  style: textStyle,
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('PlotOffsetEnd', style: textStyle),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                  height: height,
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    height: height,
-                    alignment: Alignment.bottomLeft,
-                    child: CustomDirectionalButtons(
-                      maxValue: 50,
-                      initialValue: _plotOffsetEndX ?? 0,
-                      onChanged: (double val) {
-                        setState(() {
-                          _plotOffsetEndX = val;
-                        });
-                      },
-                      step: 5,
-                      iconColor: model.textColor,
-                      style: textStyle,
-                    ),
-                  ),
+                CustomDirectionalButtons(
+                  maxValue: 50,
+                  initialValue: _plotOffsetEndX ?? 0,
+                  onChanged: (double val) {
+                    setState(() {
+                      _plotOffsetEndX = val;
+                    });
+                  },
+                  step: 5,
+                  iconColor: model.textColor,
+                  style: textStyle,
                 ),
               ],
             ),
@@ -180,106 +152,84 @@ class _PlotOffsetState extends SampleViewState {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('PlotOffset', style: textStyle),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-                  height: height,
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    height: height,
-                    alignment: Alignment.bottomLeft,
-                    child: CustomDirectionalButtons(
-                      maxValue: 50,
-                      initialValue: _plotOffsetY ?? 0,
-                      onChanged: (double val) {
-                        setState(() {
-                          _plotOffsetY = val;
-                          if (_plotOffsetY == 0) {
-                            _plotOffsetY = null;
-                          }
-                        });
-                      },
-                      step: 5,
-                      iconColor: model.textColor,
-                      style: textStyle,
-                    ),
-                  ),
+                CustomDirectionalButtons(
+                  maxValue: 50,
+                  initialValue: _plotOffsetY ?? 0,
+                  onChanged: (double val) {
+                    setState(() {
+                      _plotOffsetY = val;
+                      if (_plotOffsetY == 0) {
+                        _plotOffsetY = null;
+                      }
+                    });
+                  },
+                  step: 5,
+                  iconColor: model.textColor,
+                  style: textStyle,
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('PlotOffsetStart', style: textStyle),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(18, 0, 0, 0),
-                  height: height,
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    height: height,
-                    alignment: Alignment.bottomLeft,
-                    child: CustomDirectionalButtons(
-                      maxValue: 50,
-                      initialValue: _plotOffsetStartY ?? 0,
-                      onChanged: (double val) {
-                        setState(() {
-                          _plotOffsetStartY = val;
-                        });
-                      },
-                      step: 5,
-                      iconColor: model.textColor,
-                      style: textStyle,
-                    ),
-                  ),
+                CustomDirectionalButtons(
+                  maxValue: 50,
+                  initialValue: _plotOffsetStartY ?? 0,
+                  onChanged: (double val) {
+                    setState(() {
+                      _plotOffsetStartY = val;
+                    });
+                  },
+                  step: 5,
+                  iconColor: model.textColor,
+                  style: textStyle,
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('PlotOffsetEnd', style: textStyle),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
-                  height: height,
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    height: height,
-                    alignment: Alignment.bottomLeft,
-                    child: CustomDirectionalButtons(
-                      maxValue: 50,
-                      initialValue: _plotOffsetEndY ?? 0,
-                      onChanged: (double val) {
-                        setState(() {
-                          _plotOffsetEndY = val;
-                        });
-                      },
-                      step: 5,
-                      iconColor: model.textColor,
-                      style: textStyle,
-                    ),
-                  ),
+                CustomDirectionalButtons(
+                  maxValue: 50,
+                  initialValue: _plotOffsetEndY ?? 0,
+                  onChanged: (double val) {
+                    setState(() {
+                      _plotOffsetEndY = val;
+                    });
+                  },
+                  step: 5,
+                  iconColor: model.textColor,
+                  style: textStyle,
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  'Inverse series',
-                  style: TextStyle(color: model.textColor, fontSize: 16),
+                Flexible(
+                  child: Text(
+                    'Inverse series',
+                    style: TextStyle(color: model.textColor, fontSize: 16),
+                  ),
                 ),
-                SizedBox(
-                  width: 127,
-                  child: CheckboxListTile(
-                    activeColor: model.primaryColor,
-                    value: _isTransposed,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _isTransposed = value;
-                        stateSetter(() {});
-                      });
-                    },
+                Flexible(
+                  child: SizedBox(
+                    width: 127,
+                    child: CheckboxListTile(
+                      activeColor: model.primaryColor,
+                      value: _isTransposed,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _isTransposed = value;
+                          stateSetter(() {});
+                        });
+                      },
+                    ),
                   ),
                 ),
               ],

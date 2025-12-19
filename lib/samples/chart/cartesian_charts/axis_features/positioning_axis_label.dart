@@ -77,6 +77,7 @@ class _AxisCrossingState extends SampleViewState {
           shrinkWrap: true,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Y Axis',
@@ -89,6 +90,7 @@ class _AxisCrossingState extends SampleViewState {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Label position  ',
@@ -124,6 +126,7 @@ class _AxisCrossingState extends SampleViewState {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Label alignment',
@@ -159,6 +162,7 @@ class _AxisCrossingState extends SampleViewState {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'X Axis',
@@ -171,6 +175,7 @@ class _AxisCrossingState extends SampleViewState {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Label position  ',
@@ -206,6 +211,7 @@ class _AxisCrossingState extends SampleViewState {
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Label alignment',

@@ -149,7 +149,7 @@ class _LoadMoreCalendarState extends SampleViewState {
     colorCollection.add(const Color(0xFF636363));
     colorCollection.add(const Color(0xFF0A8043));
 
-    final Random random = Random();
+    final Random random = Random.secure();
     _dataCollection = <DateTime, List<_Meeting>>{};
     final DateTime today = DateTime.now();
     final DateTime rangeStartDate = DateTime(

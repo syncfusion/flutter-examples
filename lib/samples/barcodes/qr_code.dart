@@ -86,159 +86,128 @@ class _QRCodeGeneratorState extends SampleViewState {
       builder: (BuildContext context, StateSetter stateSetter) {
         return ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-              child: SizedBox(
-                height: 100,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Input value:   ',
-                      overflow: TextOverflow.clip,
-                      softWrap: false,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: model.textColor,
-                      ),
+            SizedBox(
+              height: 100,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Input value:',
+                    overflow: TextOverflow.clip,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: model.textColor,
                     ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                      height: 50,
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Theme(
-                          data: Theme.of(
-                            context,
-                          ).copyWith(canvasColor: model.drawerBackgroundColor),
-                          child: TextField(
-                            style: TextStyle(color: model.textColor),
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: model.textColor),
-                              ),
-                            ),
-                            keyboardType: TextInputType.text,
-                            onChanged: (String text) {
-                              setState(() {
-                                _inputValue = text;
-                              });
-                            },
-                            controller: _textEditingController,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Theme(
+                      data: Theme.of(
+                        context,
+                      ).copyWith(canvasColor: model.drawerBackgroundColor),
+                      child: TextField(
+                        style: TextStyle(color: model.textColor),
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: model.textColor),
                           ),
                         ),
+                        keyboardType: TextInputType.text,
+                        onChanged: (String text) {
+                          setState(() {
+                            _inputValue = text;
+                          });
+                        },
+                        controller: _textEditingController,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-              child: SizedBox(
-                height: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        'Input mode:',
-                        overflow: TextOverflow.clip,
-                        softWrap: false,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          color: model.textColor,
-                        ),
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'Input mode:',
+                    overflow: TextOverflow.clip,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: model.textColor,
                     ),
-                    Expanded(
-                      child: Container(
-                        height: 50,
-                        alignment: Alignment.bottomLeft,
-                        child: DropdownButton<String>(
-                          dropdownColor: model.drawerBackgroundColor,
-                          focusColor: Colors.transparent,
-                          underline: Container(
-                            color: const Color(0xFFBDBDBD),
-                            height: 1,
-                          ),
-                          value: _selectedInputMode,
-                          items: _encoding.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'binary',
-                              child: Text(
-                                value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            _onInputModeChanged(value.toString());
-                            stateSetter(() {});
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
+                  focusColor: Colors.transparent,
+                  underline: Container(
+                    color: const Color(0xFFBDBDBD),
+                    height: 1,
+                  ),
+                  value: _selectedInputMode,
+                  items: _encoding.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'binary',
+                      child: Text(
+                        value,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    _onInputModeChanged(value.toString());
+                    stateSetter(() {});
+                  },
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-              child: SizedBox(
-                height: 70,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        'Error level:   ',
-                        overflow: TextOverflow.clip,
-                        softWrap: false,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          color: model.textColor,
-                        ),
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'Error level:',
+                    overflow: TextOverflow.clip,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: model.textColor,
                     ),
-                    Expanded(
-                      child: Container(
-                        height: 50,
-                        alignment: Alignment.bottomLeft,
-                        child: DropdownButton<String>(
-                          dropdownColor: model.drawerBackgroundColor,
-                          focusColor: Colors.transparent,
-                          underline: Container(
-                            color: const Color(0xFFBDBDBD),
-                            height: 1,
-                          ),
-                          value: _selectedErrorCorrectionLevel,
-                          items: _errorCorrectionLevels.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: (value != null) ? value : 'quartile',
-                              child: Text(
-                                value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: model.textColor),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            _onErrorCorrectionLevelChanged(value.toString());
-                            stateSetter(() {});
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
+                  focusColor: Colors.transparent,
+                  underline: Container(
+                    color: const Color(0xFFBDBDBD),
+                    height: 1,
+                  ),
+                  value: _selectedErrorCorrectionLevel,
+                  items: _errorCorrectionLevels.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'quartile',
+                      child: Text(
+                        value,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    _onErrorCorrectionLevelChanged(value.toString());
+                    stateSetter(() {});
+                  },
+                ),
+              ],
             ),
           ],
         );

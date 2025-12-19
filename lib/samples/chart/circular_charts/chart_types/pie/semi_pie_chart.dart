@@ -55,24 +55,22 @@ class _SemiPieChartState extends SampleViewState {
   /// Creates a UI component for adjusting the starting angle of the chart.
   Widget _buildStartAngleSetting() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
-          'Start angle  ',
+          'Start angle',
           style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-          child: CustomDirectionalButtons(
-            minValue: 90,
-            maxValue: 270,
-            initialValue: _startAngle.toDouble(),
-            onChanged: (double val) => setState(() {
-              _startAngle = val.toInt();
-            }),
-            step: 10,
-            iconColor: model.textColor,
-            style: TextStyle(fontSize: 20.0, color: model.textColor),
-          ),
+        CustomDirectionalButtons(
+          minValue: 90,
+          maxValue: 270,
+          initialValue: _startAngle.toDouble(),
+          onChanged: (double val) => setState(() {
+            _startAngle = val.toInt();
+          }),
+          step: 10,
+          iconColor: model.textColor,
+          style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
       ],
     );
@@ -81,28 +79,22 @@ class _SemiPieChartState extends SampleViewState {
   /// Creates a UI component for adjusting the ending angle of the chart.
   Widget _buildEndAngleSetting() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-          child: Text(
-            'End angle ',
-            style: TextStyle(fontSize: 16.0, color: model.textColor),
-          ),
+        Text(
+          'End angle',
+          style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-          child: CustomDirectionalButtons(
-            minValue: 90,
-            maxValue: 270,
-            initialValue: _endAngle.toDouble(),
-            onChanged: (double val) => setState(() {
-              _endAngle = val.toInt();
-            }),
-            step: 10,
-            iconColor: model.textColor,
-            style: TextStyle(fontSize: 20.0, color: model.textColor),
-          ),
+        CustomDirectionalButtons(
+          minValue: 90,
+          maxValue: 270,
+          initialValue: _endAngle.toDouble(),
+          onChanged: (double val) => setState(() {
+            _endAngle = val.toInt();
+          }),
+          step: 10,
+          iconColor: model.textColor,
+          style: TextStyle(fontSize: 16.0, color: model.textColor),
         ),
       ],
     );

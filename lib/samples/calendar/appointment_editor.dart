@@ -470,7 +470,7 @@ class _CalendarAppointmentEditorState extends SampleViewState {
     _timeZoneCollection.add('Yakutsk Standard Time');
 
     final DateTime today = DateTime.now();
-    final Random random = Random();
+    final Random random = Random.secure();
     for (int month = -1; month < 2; month++) {
       for (int day = -5; day < 5; day++) {
         for (int hour = 9; hour < 18; hour += 5) {
@@ -2285,193 +2285,196 @@ class _SelectRuleDialogState extends State<_SelectRuleDialog> {
             Container(
               width: 360,
               padding: const EdgeInsets.only(bottom: 10),
-              child: Column(
-                children: <Widget>[
-                  RadioListTile<_SelectRule>(
-                    title: const Text('Does not repeat'),
-                    value: _SelectRule.doesNotRepeat,
-                    groupValue: _rule,
-                    toggleable: true,
-                    activeColor: widget.model.primaryColor,
-                    onChanged: (_SelectRule? value) {
-                      setState(() {
-                        if (value != null) {
-                          _rule = value;
-                          widget.recurrenceProperties = null;
-                          widget.onChanged(
-                            PickerChangedDetails(selectedRule: _rule),
-                          );
-                        }
-                      });
+              child: RadioGroup<_SelectRule>(
+                groupValue: _rule,
+                onChanged: (_SelectRule? value) async {
+                  dynamic properties;
+                  if (value != null && value == _SelectRule.custom) {
+                    properties = await _navigateToCustomRule(context);
+                  }
+                  _handleSpecificRuleLogics(value, properties);
+                  if (context.mounted && value != null) {
+                    if (value == _SelectRule.custom) {
+                      Navigator.pop(context, properties);
+                    } else {
                       Navigator.pop(context, widget.recurrenceProperties);
-                    },
-                  ),
-                  RadioListTile<_SelectRule>(
-                    title: const Text('Every day'),
-                    value: _SelectRule.everyDay,
-                    toggleable: true,
-                    groupValue: _rule,
-                    activeColor: widget.model.primaryColor,
-                    onChanged: (_SelectRule? value) {
-                      setState(() {
-                        if (value != null) {
-                          _rule = value;
-                          widget.recurrenceProperties = RecurrenceProperties(
-                            startDate: _startDate,
-                          );
-                          widget.recurrenceProperties!.recurrenceType =
-                              RecurrenceType.daily;
-                          widget.recurrenceProperties!.interval = 1;
-                          widget.recurrenceProperties!.recurrenceRange =
-                              RecurrenceRange.noEndDate;
-                          widget.onChanged(
-                            PickerChangedDetails(selectedRule: _rule),
-                          );
-                        }
-                      });
-                      Navigator.pop(context, widget.recurrenceProperties);
-                    },
-                  ),
-                  RadioListTile<_SelectRule>(
-                    title: const Text('Every week'),
-                    value: _SelectRule.everyWeek,
-                    toggleable: true,
-                    groupValue: _rule,
-                    activeColor: widget.model.primaryColor,
-                    onChanged: (_SelectRule? value) {
-                      setState(() {
-                        if (value != null) {
-                          _rule = value;
-                          widget.recurrenceProperties = RecurrenceProperties(
-                            startDate: _startDate,
-                          );
-                          widget.recurrenceProperties!.recurrenceType =
-                              RecurrenceType.weekly;
-                          widget.recurrenceProperties!.interval = 1;
-                          widget.recurrenceProperties!.recurrenceRange =
-                              RecurrenceRange.noEndDate;
-                          widget.recurrenceProperties!.weekDays =
-                              _startDate.weekday == 1
-                              ? <WeekDays>[WeekDays.monday]
-                              : _startDate.weekday == 2
-                              ? <WeekDays>[WeekDays.tuesday]
-                              : _startDate.weekday == 3
-                              ? <WeekDays>[WeekDays.wednesday]
-                              : _startDate.weekday == 4
-                              ? <WeekDays>[WeekDays.thursday]
-                              : _startDate.weekday == 5
-                              ? <WeekDays>[WeekDays.friday]
-                              : _startDate.weekday == 6
-                              ? <WeekDays>[WeekDays.saturday]
-                              : <WeekDays>[WeekDays.sunday];
-                          widget.onChanged(
-                            PickerChangedDetails(selectedRule: _rule),
-                          );
-                        }
-                      });
-                      Navigator.pop(context, widget.recurrenceProperties);
-                    },
-                  ),
-                  RadioListTile<_SelectRule>(
-                    title: const Text('Every month'),
-                    value: _SelectRule.everyMonth,
-                    toggleable: true,
-                    groupValue: _rule,
-                    activeColor: widget.model.primaryColor,
-                    onChanged: (_SelectRule? value) {
-                      setState(() {
-                        if (value != null) {
-                          _rule = value;
-                          widget.recurrenceProperties = RecurrenceProperties(
-                            startDate: _startDate,
-                          );
-                          widget.recurrenceProperties!.recurrenceType =
-                              RecurrenceType.monthly;
-                          widget.recurrenceProperties!.interval = 1;
-                          widget.recurrenceProperties!.recurrenceRange =
-                              RecurrenceRange.noEndDate;
-                          widget.recurrenceProperties!.dayOfMonth =
-                              widget.selectedAppointment!.startTime.day;
-                          widget.onChanged(
-                            PickerChangedDetails(selectedRule: _rule),
-                          );
-                        }
-                      });
-                      Navigator.pop(context, widget.recurrenceProperties);
-                    },
-                  ),
-                  RadioListTile<_SelectRule>(
-                    title: const Text('Every year'),
-                    value: _SelectRule.everyYear,
-                    toggleable: true,
-                    groupValue: _rule,
-                    activeColor: widget.model.primaryColor,
-                    onChanged: (_SelectRule? value) {
-                      setState(() {
-                        if (value != null) {
-                          _rule = value;
-                          widget.recurrenceProperties = RecurrenceProperties(
-                            startDate: _startDate,
-                          );
-                          widget.recurrenceProperties!.recurrenceType =
-                              RecurrenceType.yearly;
-                          widget.recurrenceProperties!.interval = 1;
-                          widget.recurrenceProperties!.recurrenceRange =
-                              RecurrenceRange.noEndDate;
-                          widget.recurrenceProperties!.month =
-                              widget.selectedAppointment!.startTime.month;
-                          widget.recurrenceProperties!.dayOfMonth =
-                              widget.selectedAppointment!.startTime.day;
-                          widget.onChanged(
-                            PickerChangedDetails(selectedRule: _rule),
-                          );
-                        }
-                      });
-                      Navigator.pop(context, widget.recurrenceProperties);
-                    },
-                  ),
-                  RadioListTile<_SelectRule>(
-                    title: const Text('Custom'),
-                    value: _SelectRule.custom,
-                    toggleable: true,
-                    groupValue: _rule,
-                    activeColor: widget.model.primaryColor,
-                    onChanged: (_SelectRule? value) async {
-                      final dynamic properties = await Navigator.push<dynamic>(
-                        context,
-                        MaterialPageRoute<dynamic>(
-                          builder: (BuildContext context) => _CustomRule(
-                            widget.model,
-                            widget.selectedAppointment!,
-                            widget.appointmentColor,
-                            widget.events,
-                            widget.recurrenceProperties,
-                          ),
-                        ),
-                      );
-                      if (properties != widget.recurrenceProperties) {
-                        setState(() {
-                          _rule = _SelectRule.custom;
-                          widget.onChanged(
-                            PickerChangedDetails(selectedRule: _rule),
-                          );
-                        });
-                      }
-                      if (!mounted) {
-                        return;
-                      }
-                      if (context.mounted) {
-                        Navigator.pop(context, properties);
-                      }
-                    },
-                  ),
-                ],
+                    }
+                  }
+                },
+                child: Column(
+                  children: <Widget>[
+                    RadioListTile<_SelectRule>(
+                      title: const Text('Does not repeat'),
+                      value: _SelectRule.doesNotRepeat,
+                      toggleable: true,
+                      activeColor: widget.model.primaryColor,
+                    ),
+                    RadioListTile<_SelectRule>(
+                      title: const Text('Every day'),
+                      value: _SelectRule.everyDay,
+                      toggleable: true,
+                      activeColor: widget.model.primaryColor,
+                    ),
+                    RadioListTile<_SelectRule>(
+                      title: const Text('Every week'),
+                      value: _SelectRule.everyWeek,
+                      toggleable: true,
+                      activeColor: widget.model.primaryColor,
+                    ),
+                    RadioListTile<_SelectRule>(
+                      title: const Text('Every month'),
+                      value: _SelectRule.everyMonth,
+                      toggleable: true,
+                      activeColor: widget.model.primaryColor,
+                    ),
+                    RadioListTile<_SelectRule>(
+                      title: const Text('Every year'),
+                      value: _SelectRule.everyYear,
+                      toggleable: true,
+                      activeColor: widget.model.primaryColor,
+                    ),
+                    RadioListTile<_SelectRule>(
+                      title: const Text('Custom'),
+                      value: _SelectRule.custom,
+                      toggleable: true,
+                      activeColor: widget.model.primaryColor,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _handleSpecificRuleLogics(_SelectRule? value, properties) {
+    setState(() {
+      if (value != null) {
+        switch (value) {
+          case _SelectRule.doesNotRepeat:
+            {
+              _doesNotRepeatRule(value);
+              break;
+            }
+          case _SelectRule.everyDay:
+            {
+              _everyDayRule(value);
+              break;
+            }
+          case _SelectRule.everyWeek:
+            {
+              _everyWeekRule(value);
+              break;
+            }
+          case _SelectRule.everyMonth:
+            {
+              _everyMonthRule(value);
+              break;
+            }
+          case _SelectRule.everyYear:
+            {
+              _everyYearRule(value);
+              break;
+            }
+          case _SelectRule.custom:
+            {
+              _onChangedCustomRule(properties);
+              if (!mounted) {
+                return;
+              }
+              break;
+            }
+        }
+      }
+    });
+  }
+
+  void _onChangedCustomRule(properties) {
+    if (properties != widget.recurrenceProperties) {
+      _rule = _SelectRule.custom;
+      widget.onChanged(PickerChangedDetails(selectedRule: _rule));
+    }
+  }
+
+  Future<dynamic> _navigateToCustomRule(BuildContext context) async {
+    final dynamic properties = await Navigator.push<dynamic>(
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => _CustomRule(
+          widget.model,
+          widget.selectedAppointment!,
+          widget.appointmentColor,
+          widget.events,
+          widget.recurrenceProperties,
+        ),
+      ),
+    );
+    return properties;
+  }
+
+  void _everyYearRule(_SelectRule value) {
+    _rule = value;
+    widget.recurrenceProperties = RecurrenceProperties(startDate: _startDate);
+    widget.recurrenceProperties!.recurrenceType = RecurrenceType.yearly;
+    widget.recurrenceProperties!.interval = 1;
+    widget.recurrenceProperties!.recurrenceRange = RecurrenceRange.noEndDate;
+    widget.recurrenceProperties!.month =
+        widget.selectedAppointment!.startTime.month;
+    widget.recurrenceProperties!.dayOfMonth =
+        widget.selectedAppointment!.startTime.day;
+    widget.onChanged(PickerChangedDetails(selectedRule: _rule));
+  }
+
+  void _everyMonthRule(_SelectRule value) {
+    _rule = value;
+    widget.recurrenceProperties = RecurrenceProperties(startDate: _startDate);
+    widget.recurrenceProperties!.recurrenceType = RecurrenceType.monthly;
+    widget.recurrenceProperties!.interval = 1;
+    widget.recurrenceProperties!.recurrenceRange = RecurrenceRange.noEndDate;
+    widget.recurrenceProperties!.dayOfMonth =
+        widget.selectedAppointment!.startTime.day;
+    widget.onChanged(PickerChangedDetails(selectedRule: _rule));
+  }
+
+  void _everyWeekRule(_SelectRule value) {
+    _rule = value;
+    widget.recurrenceProperties = RecurrenceProperties(startDate: _startDate);
+    widget.recurrenceProperties!.recurrenceType = RecurrenceType.weekly;
+    widget.recurrenceProperties!.interval = 1;
+    widget.recurrenceProperties!.recurrenceRange = RecurrenceRange.noEndDate;
+    widget.recurrenceProperties!.weekDays = _startDate.weekday == 1
+        ? <WeekDays>[WeekDays.monday]
+        : _startDate.weekday == 2
+        ? <WeekDays>[WeekDays.tuesday]
+        : _startDate.weekday == 3
+        ? <WeekDays>[WeekDays.wednesday]
+        : _startDate.weekday == 4
+        ? <WeekDays>[WeekDays.thursday]
+        : _startDate.weekday == 5
+        ? <WeekDays>[WeekDays.friday]
+        : _startDate.weekday == 6
+        ? <WeekDays>[WeekDays.saturday]
+        : <WeekDays>[WeekDays.sunday];
+    widget.onChanged(PickerChangedDetails(selectedRule: _rule));
+  }
+
+  void _everyDayRule(_SelectRule value) {
+    _rule = value;
+    widget.recurrenceProperties = RecurrenceProperties(startDate: _startDate);
+    widget.recurrenceProperties!.recurrenceType = RecurrenceType.daily;
+    widget.recurrenceProperties!.interval = 1;
+    widget.recurrenceProperties!.recurrenceRange = RecurrenceRange.noEndDate;
+    widget.onChanged(PickerChangedDetails(selectedRule: _rule));
+  }
+
+  void _doesNotRepeatRule(_SelectRule? value) {
+    if (value != null) {
+      _rule = value;
+      widget.recurrenceProperties = null;
+      widget.onChanged(PickerChangedDetails(selectedRule: _rule));
+    }
   }
 }
 
@@ -2510,137 +2513,78 @@ class _DeleteDialogState extends State<_DeleteDialog> {
           child: Container(
             width: 370,
             padding: const EdgeInsets.only(bottom: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: 30,
-                  padding: const EdgeInsets.only(left: 25, top: 5),
-                  child: Text(
-                    'Delete recurring event',
-                    style: TextStyle(
-                      color: defaultTextColor,
-                      fontWeight: FontWeight.w500,
+            child: RadioGroup<_Delete>(
+              groupValue: _delete,
+              onChanged: (_Delete? value) {
+                setState(() {
+                  _delete = value!;
+                });
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: 30,
+                    padding: const EdgeInsets.only(left: 25, top: 5),
+                    child: Text(
+                      'Delete recurring event',
+                      style: TextStyle(
+                        color: defaultTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-                Container(width: 20),
-                RadioListTile<_Delete>(
-                  title: const Text('This event'),
-                  value: _Delete.event,
-                  groupValue: _delete,
-                  activeColor: widget.model.primaryColor,
-                  onChanged: (_Delete? value) {
-                    setState(() {
-                      _delete = value!;
-                    });
-                  },
-                ),
-                RadioListTile<_Delete>(
-                  title: const Text('All events'),
-                  value: _Delete.series,
-                  groupValue: _delete,
-                  activeColor: widget.model.primaryColor,
-                  onChanged: (_Delete? value) {
-                    setState(() {
-                      _delete = value!;
-                    });
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    RawMaterialButton(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: widget.model.primaryColor,
-                          fontWeight: FontWeight.w500,
+                  Container(width: 20),
+                  RadioListTile<_Delete>(
+                    title: const Text('This event'),
+                    value: _Delete.event,
+                    activeColor: widget.model.primaryColor,
+                  ),
+                  RadioListTile<_Delete>(
+                    title: const Text('All events'),
+                    value: _Delete.series,
+                    activeColor: widget.model.primaryColor,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      RawMaterialButton(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: widget.model.primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    RawMaterialButton(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        final Appointment? parentAppointment =
-                            widget.events.getPatternAppointment(
-                                  widget.selectedAppointment,
-                                  '',
-                                )
-                                as Appointment?;
-                        if (_delete == _Delete.event) {
-                          if (widget.selectedAppointment.recurrenceId != null) {
-                            widget.events.appointments!.remove(
-                              widget.selectedAppointment,
-                            );
-                            widget.events.notifyListeners(
-                              CalendarDataSourceAction.remove,
-                              <Appointment>[widget.selectedAppointment],
-                            );
-                          }
-                          widget.events.appointments!.removeAt(
-                            widget.events.appointments!.indexOf(
-                              parentAppointment,
-                            ),
-                          );
-                          widget.events.notifyListeners(
-                            CalendarDataSourceAction.remove,
-                            <Appointment>[parentAppointment!],
-                          );
-                          parentAppointment.recurrenceExceptionDates != null
-                              ? parentAppointment.recurrenceExceptionDates!.add(
-                                  widget.selectedAppointment.startTime,
-                                )
-                              : parentAppointment.recurrenceExceptionDates =
-                                    <DateTime>[
-                                      widget.selectedAppointment.startTime,
-                                    ];
-                          widget.events.appointments!.add(parentAppointment);
-                          widget.events.notifyListeners(
-                            CalendarDataSourceAction.add,
-                            <Appointment>[parentAppointment],
-                          );
-                        } else {
-                          if (parentAppointment!.recurrenceExceptionDates ==
-                              null) {
-                            widget.events.appointments!.removeAt(
-                              widget.events.appointments!.indexOf(
-                                parentAppointment,
-                              ),
-                            );
-                            widget.events.notifyListeners(
-                              CalendarDataSourceAction.remove,
-                              <Appointment>[parentAppointment],
-                            );
-                          } else {
-                            final List<DateTime>? exceptionDates =
-                                parentAppointment.recurrenceExceptionDates;
-                            for (int i = 0; i < exceptionDates!.length; i++) {
-                              final Appointment? changedOccurrence = widget
-                                  .events
-                                  .getOccurrenceAppointment(
-                                    parentAppointment,
-                                    exceptionDates[i],
+                      RawMaterialButton(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          final Appointment? parentAppointment =
+                              widget.events.getPatternAppointment(
+                                    widget.selectedAppointment,
                                     '',
-                                  );
-                              if (changedOccurrence != null) {
-                                widget.events.appointments!.remove(
-                                  changedOccurrence,
-                                );
-                                widget.events.notifyListeners(
-                                  CalendarDataSourceAction.remove,
-                                  <Appointment>[changedOccurrence],
-                                );
-                              }
+                                  )
+                                  as Appointment?;
+                          if (_delete == _Delete.event) {
+                            if (widget.selectedAppointment.recurrenceId !=
+                                null) {
+                              widget.events.appointments!.remove(
+                                widget.selectedAppointment,
+                              );
+                              widget.events.notifyListeners(
+                                CalendarDataSourceAction.remove,
+                                <Appointment>[widget.selectedAppointment],
+                              );
                             }
                             widget.events.appointments!.removeAt(
                               widget.events.appointments!.indexOf(
@@ -2649,23 +2593,78 @@ class _DeleteDialogState extends State<_DeleteDialog> {
                             );
                             widget.events.notifyListeners(
                               CalendarDataSourceAction.remove,
+                              <Appointment>[parentAppointment!],
+                            );
+                            parentAppointment.recurrenceExceptionDates != null
+                                ? parentAppointment.recurrenceExceptionDates!
+                                      .add(widget.selectedAppointment.startTime)
+                                : parentAppointment.recurrenceExceptionDates =
+                                      <DateTime>[
+                                        widget.selectedAppointment.startTime,
+                                      ];
+                            widget.events.appointments!.add(parentAppointment);
+                            widget.events.notifyListeners(
+                              CalendarDataSourceAction.add,
                               <Appointment>[parentAppointment],
                             );
+                          } else {
+                            if (parentAppointment!.recurrenceExceptionDates ==
+                                null) {
+                              widget.events.appointments!.removeAt(
+                                widget.events.appointments!.indexOf(
+                                  parentAppointment,
+                                ),
+                              );
+                              widget.events.notifyListeners(
+                                CalendarDataSourceAction.remove,
+                                <Appointment>[parentAppointment],
+                              );
+                            } else {
+                              final List<DateTime>? exceptionDates =
+                                  parentAppointment.recurrenceExceptionDates;
+                              for (int i = 0; i < exceptionDates!.length; i++) {
+                                final Appointment? changedOccurrence = widget
+                                    .events
+                                    .getOccurrenceAppointment(
+                                      parentAppointment,
+                                      exceptionDates[i],
+                                      '',
+                                    );
+                                if (changedOccurrence != null) {
+                                  widget.events.appointments!.remove(
+                                    changedOccurrence,
+                                  );
+                                  widget.events.notifyListeners(
+                                    CalendarDataSourceAction.remove,
+                                    <Appointment>[changedOccurrence],
+                                  );
+                                }
+                              }
+                              widget.events.appointments!.removeAt(
+                                widget.events.appointments!.indexOf(
+                                  parentAppointment,
+                                ),
+                              );
+                              widget.events.notifyListeners(
+                                CalendarDataSourceAction.remove,
+                                <Appointment>[parentAppointment],
+                              );
+                            }
                           }
-                        }
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Delete',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: widget.model.primaryColor,
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Delete',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: widget.model.primaryColor,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -2716,231 +2715,229 @@ class _EditDialogState extends State<_EditDialog> {
           child: Container(
             width: 370,
             padding: const EdgeInsets.only(bottom: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: 30,
-                  padding: const EdgeInsets.only(left: 25, top: 5),
-                  child: Text(
-                    'Save recurring event',
-                    style: TextStyle(
-                      color: defaultTextColor,
-                      fontWeight: FontWeight.w500,
+            child: RadioGroup<_Edit>(
+              groupValue: _edit,
+              onChanged: (_Edit? value) {
+                setState(() {
+                  _edit = value!;
+                });
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: 30,
+                    padding: const EdgeInsets.only(left: 25, top: 5),
+                    child: Text(
+                      'Save recurring event',
+                      style: TextStyle(
+                        color: defaultTextColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-                Container(width: 20),
-                RadioListTile<_Edit>(
-                  title: const Text('This event'),
-                  value: _Edit.event,
-                  groupValue: _edit,
-                  activeColor: widget.model.primaryColor,
-                  onChanged: (_Edit? value) {
-                    setState(() {
-                      _edit = value!;
-                    });
-                  },
-                ),
-                RadioListTile<_Edit>(
-                  title: const Text('All events'),
-                  value: _Edit.series,
-                  groupValue: _edit,
-                  activeColor: widget.model.primaryColor,
-                  onChanged: (_Edit? value) {
-                    setState(() {
-                      _edit = value!;
-                    });
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    RawMaterialButton(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: widget.model.primaryColor,
-                          fontWeight: FontWeight.w500,
+                  Container(width: 20),
+                  RadioListTile<_Edit>(
+                    title: const Text('This event'),
+                    value: _Edit.event,
+                    activeColor: widget.model.primaryColor,
+                  ),
+                  RadioListTile<_Edit>(
+                    title: const Text('All events'),
+                    value: _Edit.series,
+                    activeColor: widget.model.primaryColor,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      RawMaterialButton(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: widget.model.primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    RawMaterialButton(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                      ),
-                      onPressed: () {
-                        if (_edit == _Edit.event) {
-                          final Appointment? parentAppointment =
-                              widget.events.getPatternAppointment(
-                                    widget.selectedAppointment,
-                                    '',
-                                  )
-                                  as Appointment?;
-                          final Appointment newAppointment = Appointment(
-                            startTime: widget.newAppointment.startTime,
-                            endTime: widget.newAppointment.endTime,
-                            color: widget.newAppointment.color,
-                            notes: widget.newAppointment.notes,
-                            isAllDay: widget.newAppointment.isAllDay,
-                            location: widget.newAppointment.location,
-                            subject: widget.newAppointment.subject,
-                            resourceIds: widget.newAppointment.resourceIds,
-                            id:
-                                widget.selectedAppointment.appointmentType ==
-                                    AppointmentType.changedOccurrence
-                                ? widget.selectedAppointment.id
-                                : null,
-                            recurrenceId: parentAppointment!.id,
-                            startTimeZone: widget.newAppointment.startTimeZone,
-                            endTimeZone: widget.newAppointment.endTimeZone,
-                          );
-                          parentAppointment.recurrenceExceptionDates != null
-                              ? parentAppointment.recurrenceExceptionDates!.add(
-                                  widget.selectedAppointment.startTime,
-                                )
-                              : parentAppointment.recurrenceExceptionDates =
-                                    <DateTime>[
-                                      widget.selectedAppointment.startTime,
-                                    ];
-                          widget.events.appointments!.removeAt(
-                            widget.events.appointments!.indexOf(
-                              parentAppointment,
-                            ),
-                          );
-                          widget.events.notifyListeners(
-                            CalendarDataSourceAction.remove,
-                            <Appointment>[parentAppointment],
-                          );
-                          widget.events.appointments!.add(parentAppointment);
-                          widget.events.notifyListeners(
-                            CalendarDataSourceAction.add,
-                            <Appointment>[parentAppointment],
-                          );
-                          if (widget.selectedAppointment.appointmentType ==
-                              AppointmentType.changedOccurrence) {
+                      RawMaterialButton(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                        ),
+                        onPressed: () {
+                          if (_edit == _Edit.event) {
+                            final Appointment? parentAppointment =
+                                widget.events.getPatternAppointment(
+                                      widget.selectedAppointment,
+                                      '',
+                                    )
+                                    as Appointment?;
+                            final Appointment newAppointment = Appointment(
+                              startTime: widget.newAppointment.startTime,
+                              endTime: widget.newAppointment.endTime,
+                              color: widget.newAppointment.color,
+                              notes: widget.newAppointment.notes,
+                              isAllDay: widget.newAppointment.isAllDay,
+                              location: widget.newAppointment.location,
+                              subject: widget.newAppointment.subject,
+                              resourceIds: widget.newAppointment.resourceIds,
+                              id:
+                                  widget.selectedAppointment.appointmentType ==
+                                      AppointmentType.changedOccurrence
+                                  ? widget.selectedAppointment.id
+                                  : null,
+                              recurrenceId: parentAppointment!.id,
+                              startTimeZone:
+                                  widget.newAppointment.startTimeZone,
+                              endTimeZone: widget.newAppointment.endTimeZone,
+                            );
+                            parentAppointment.recurrenceExceptionDates != null
+                                ? parentAppointment.recurrenceExceptionDates!
+                                      .add(widget.selectedAppointment.startTime)
+                                : parentAppointment.recurrenceExceptionDates =
+                                      <DateTime>[
+                                        widget.selectedAppointment.startTime,
+                                      ];
                             widget.events.appointments!.removeAt(
                               widget.events.appointments!.indexOf(
-                                widget.selectedAppointment,
+                                parentAppointment,
                               ),
                             );
                             widget.events.notifyListeners(
                               CalendarDataSourceAction.remove,
-                              <Appointment>[widget.selectedAppointment],
+                              <Appointment>[parentAppointment],
                             );
-                          }
-                          widget.events.appointments!.add(newAppointment);
-                          widget.events.notifyListeners(
-                            CalendarDataSourceAction.add,
-                            <Appointment>[newAppointment],
-                          );
-                        } else {
-                          Appointment? parentAppointment =
-                              widget.events.getPatternAppointment(
-                                    widget.selectedAppointment,
-                                    '',
-                                  )
-                                  as Appointment?;
-                          final List<DateTime>? exceptionDates =
-                              parentAppointment!.recurrenceExceptionDates;
-                          if (exceptionDates != null &&
-                              exceptionDates.isNotEmpty) {
-                            for (int i = 0; i < exceptionDates.length; i++) {
-                              final Appointment? changedOccurrence = widget
-                                  .events
-                                  .getOccurrenceAppointment(
-                                    parentAppointment,
-                                    exceptionDates[i],
-                                    '',
+                            widget.events.appointments!.add(parentAppointment);
+                            widget.events.notifyListeners(
+                              CalendarDataSourceAction.add,
+                              <Appointment>[parentAppointment],
+                            );
+                            if (widget.selectedAppointment.appointmentType ==
+                                AppointmentType.changedOccurrence) {
+                              widget.events.appointments!.removeAt(
+                                widget.events.appointments!.indexOf(
+                                  widget.selectedAppointment,
+                                ),
+                              );
+                              widget.events.notifyListeners(
+                                CalendarDataSourceAction.remove,
+                                <Appointment>[widget.selectedAppointment],
+                              );
+                            }
+                            widget.events.appointments!.add(newAppointment);
+                            widget.events.notifyListeners(
+                              CalendarDataSourceAction.add,
+                              <Appointment>[newAppointment],
+                            );
+                          } else {
+                            Appointment? parentAppointment =
+                                widget.events.getPatternAppointment(
+                                      widget.selectedAppointment,
+                                      '',
+                                    )
+                                    as Appointment?;
+                            final List<DateTime>? exceptionDates =
+                                parentAppointment!.recurrenceExceptionDates;
+                            if (exceptionDates != null &&
+                                exceptionDates.isNotEmpty) {
+                              for (int i = 0; i < exceptionDates.length; i++) {
+                                final Appointment? changedOccurrence = widget
+                                    .events
+                                    .getOccurrenceAppointment(
+                                      parentAppointment,
+                                      exceptionDates[i],
+                                      '',
+                                    );
+                                if (changedOccurrence != null) {
+                                  widget.events.appointments!.remove(
+                                    changedOccurrence,
                                   );
-                              if (changedOccurrence != null) {
-                                widget.events.appointments!.remove(
-                                  changedOccurrence,
-                                );
-                                widget.events.notifyListeners(
-                                  CalendarDataSourceAction.remove,
-                                  <Appointment>[changedOccurrence],
-                                );
+                                  widget.events.notifyListeners(
+                                    CalendarDataSourceAction.remove,
+                                    <Appointment>[changedOccurrence],
+                                  );
+                                }
                               }
                             }
-                          }
-                          widget.events.appointments!.removeAt(
-                            widget.events.appointments!.indexOf(
-                              parentAppointment,
-                            ),
-                          );
-                          widget.events.notifyListeners(
-                            CalendarDataSourceAction.remove,
-                            <Appointment>[parentAppointment],
-                          );
-                          DateTime startDate, endDate;
-                          if (widget.newAppointment.startTime.isBefore(
-                            parentAppointment.startTime,
-                          )) {
-                            startDate = widget.newAppointment.startTime;
-                            endDate = widget.newAppointment.endTime;
-                          } else {
-                            startDate = DateTime(
-                              parentAppointment.startTime.year,
-                              parentAppointment.startTime.month,
-                              parentAppointment.startTime.day,
-                              widget.newAppointment.startTime.hour,
-                              widget.newAppointment.startTime.minute,
+                            widget.events.appointments!.removeAt(
+                              widget.events.appointments!.indexOf(
+                                parentAppointment,
+                              ),
                             );
-                            endDate = DateTime(
-                              parentAppointment.endTime.year,
-                              parentAppointment.endTime.month,
-                              parentAppointment.endTime.day,
-                              widget.newAppointment.endTime.hour,
-                              widget.newAppointment.endTime.minute,
+                            widget.events.notifyListeners(
+                              CalendarDataSourceAction.remove,
+                              <Appointment>[parentAppointment],
+                            );
+                            DateTime startDate, endDate;
+                            if (widget.newAppointment.startTime.isBefore(
+                              parentAppointment.startTime,
+                            )) {
+                              startDate = widget.newAppointment.startTime;
+                              endDate = widget.newAppointment.endTime;
+                            } else {
+                              startDate = DateTime(
+                                parentAppointment.startTime.year,
+                                parentAppointment.startTime.month,
+                                parentAppointment.startTime.day,
+                                widget.newAppointment.startTime.hour,
+                                widget.newAppointment.startTime.minute,
+                              );
+                              endDate = DateTime(
+                                parentAppointment.endTime.year,
+                                parentAppointment.endTime.month,
+                                parentAppointment.endTime.day,
+                                widget.newAppointment.endTime.hour,
+                                widget.newAppointment.endTime.minute,
+                              );
+                            }
+                            parentAppointment = Appointment(
+                              startTime: startDate,
+                              endTime: endDate,
+                              color: widget.newAppointment.color,
+                              notes: widget.newAppointment.notes,
+                              isAllDay: widget.newAppointment.isAllDay,
+                              location: widget.newAppointment.location,
+                              subject: widget.newAppointment.subject,
+                              resourceIds: widget.newAppointment.resourceIds,
+                              id: parentAppointment.id,
+                              recurrenceRule:
+                                  widget.recurrenceProperties == null
+                                  ? null
+                                  : SfCalendar.generateRRule(
+                                      widget.recurrenceProperties!,
+                                      startDate,
+                                      endDate,
+                                    ),
+                              startTimeZone:
+                                  widget.newAppointment.startTimeZone,
+                              endTimeZone: widget.newAppointment.endTimeZone,
+                            );
+                            widget.events.appointments!.add(parentAppointment);
+                            widget.events.notifyListeners(
+                              CalendarDataSourceAction.add,
+                              <Appointment>[parentAppointment],
                             );
                           }
-                          parentAppointment = Appointment(
-                            startTime: startDate,
-                            endTime: endDate,
-                            color: widget.newAppointment.color,
-                            notes: widget.newAppointment.notes,
-                            isAllDay: widget.newAppointment.isAllDay,
-                            location: widget.newAppointment.location,
-                            subject: widget.newAppointment.subject,
-                            resourceIds: widget.newAppointment.resourceIds,
-                            id: parentAppointment.id,
-                            recurrenceRule: widget.recurrenceProperties == null
-                                ? null
-                                : SfCalendar.generateRRule(
-                                    widget.recurrenceProperties!,
-                                    startDate,
-                                    endDate,
-                                  ),
-                            startTimeZone: widget.newAppointment.startTimeZone,
-                            endTimeZone: widget.newAppointment.endTimeZone,
-                          );
-                          widget.events.appointments!.add(parentAppointment);
-                          widget.events.notifyListeners(
-                            CalendarDataSourceAction.add,
-                            <Appointment>[parentAppointment],
-                          );
-                        }
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Save',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: widget.model.primaryColor,
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Save',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: widget.model.primaryColor,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -3708,203 +3705,222 @@ class _CustomRuleState extends State<_CustomRule> {
             ),
           ),
           if (_selectedRecurrenceType == 'year') const Divider(thickness: 1),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(left: 15, top: 15),
-                child: Text('ENDS'),
-              ),
-              RadioListTile<_EndRule>(
-                contentPadding: const EdgeInsets.only(left: 7),
-                title: const Text('Never'),
-                value: _EndRule.never,
-                groupValue: _endRule,
-                activeColor: widget.model.primaryColor,
-                onChanged: (_EndRule? value) {
-                  setState(() {
-                    _endRule = _EndRule.never;
-                    _rangeNoEndDate();
-                  });
-                },
-              ),
-              const Divider(indent: 50, height: 1.0, thickness: 1),
-              RadioListTile<_EndRule>(
-                contentPadding: const EdgeInsets.only(left: 7),
-                title: Row(
-                  children: <Widget>[
-                    const Text('On'),
-                    Container(
-                      margin: const EdgeInsets.only(left: 5),
-                      width: 110,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(3),
-                      ),
-                      child: ButtonTheme(
-                        minWidth: 30.0,
-                        child: MaterialButton(
-                          elevation: 0,
-                          focusElevation: 0,
-                          highlightElevation: 0,
-                          disabledElevation: 0,
-                          hoverElevation: 0,
-                          onPressed: () async {
-                            final DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: _selectedDate,
-                              firstDate: _startDate.isBefore(_firstDate)
-                                  ? _startDate
-                                  : _firstDate,
-                              currentDate: _selectedDate,
-                              lastDate: DateTime(2050),
-                              builder: (BuildContext context, Widget? child) {
-                                return Theme(
-                                  data: ThemeData(
-                                    brightness: widget
-                                        .model
-                                        .themeData
-                                        .colorScheme
-                                        .brightness,
-                                    colorScheme: getColorScheme(
-                                      widget.model,
-                                      true,
+          RadioGroup<_EndRule>(
+            groupValue: _endRule,
+            onChanged: (_EndRule? value) {
+              if (value != null) {
+                setState(() {
+                  switch (value) {
+                    case _EndRule.never:
+                      {
+                        _neverEndRule();
+                        break;
+                      }
+                    case _EndRule.endDate:
+                      {
+                        _endDateEndRule(value);
+                        break;
+                      }
+                    case _EndRule.count:
+                      {
+                        _countEndRule(value);
+                        break;
+                      }
+                  }
+                });
+              }
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.only(left: 15, top: 15),
+                  child: Text('ENDS'),
+                ),
+                RadioListTile<_EndRule>(
+                  contentPadding: const EdgeInsets.only(left: 7),
+                  title: const Text('Never'),
+                  value: _EndRule.never,
+                  activeColor: widget.model.primaryColor,
+                ),
+                const Divider(indent: 50, height: 1.0, thickness: 1),
+                RadioListTile<_EndRule>(
+                  contentPadding: const EdgeInsets.only(left: 7),
+                  title: Row(
+                    children: <Widget>[
+                      const Text('On'),
+                      Container(
+                        margin: const EdgeInsets.only(left: 5),
+                        width: 110,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        child: ButtonTheme(
+                          minWidth: 30.0,
+                          child: MaterialButton(
+                            elevation: 0,
+                            focusElevation: 0,
+                            highlightElevation: 0,
+                            disabledElevation: 0,
+                            hoverElevation: 0,
+                            onPressed: () async {
+                              final DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: _selectedDate,
+                                firstDate: _startDate.isBefore(_firstDate)
+                                    ? _startDate
+                                    : _firstDate,
+                                currentDate: _selectedDate,
+                                lastDate: DateTime(2050),
+                                builder: (BuildContext context, Widget? child) {
+                                  return Theme(
+                                    data: ThemeData(
+                                      brightness: widget
+                                          .model
+                                          .themeData
+                                          .colorScheme
+                                          .brightness,
+                                      colorScheme: getColorScheme(
+                                        widget.model,
+                                        true,
+                                      ),
                                     ),
-                                  ),
-                                  child: child!,
-                                );
-                              },
-                            );
-                            if (pickedDate == null) {
-                              return;
-                            }
-                            setState(() {
-                              _endRule = _EndRule.endDate;
-                              _recurrenceProperties!.recurrenceRange =
-                                  RecurrenceRange.endDate;
-                              _selectedDate = DateTime(
-                                pickedDate.year,
-                                pickedDate.month,
-                                pickedDate.day,
+                                    child: child!,
+                                  );
+                                },
                               );
-                              _recurrenceProperties!.endDate = _selectedDate;
-                            });
-                          },
-                          shape: const CircleBorder(),
-                          child: Text(
-                            DateFormat('MM/dd/yyyy').format(_selectedDate),
+                              if (pickedDate == null) {
+                                return;
+                              }
+                              setState(() {
+                                _endRule = _EndRule.endDate;
+                                _recurrenceProperties!.recurrenceRange =
+                                    RecurrenceRange.endDate;
+                                _selectedDate = DateTime(
+                                  pickedDate.year,
+                                  pickedDate.month,
+                                  pickedDate.day,
+                                );
+                                _recurrenceProperties!.endDate = _selectedDate;
+                              });
+                            },
+                            shape: const CircleBorder(),
+                            child: Text(
+                              DateFormat('MM/dd/yyyy').format(_selectedDate),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: defaultTextColor,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  value: _EndRule.endDate,
+                  activeColor: widget.model.primaryColor,
+                ),
+                const Divider(indent: 50, height: 1.0, thickness: 1),
+                SizedBox(
+                  height: 40,
+                  child: RadioListTile<_EndRule>(
+                    contentPadding: const EdgeInsets.only(left: 7),
+                    title: Row(
+                      children: <Widget>[
+                        const Text('After'),
+                        Container(
+                          height: 40,
+                          width: 60,
+                          padding: const EdgeInsets.only(left: 5, bottom: 10),
+                          margin: const EdgeInsets.only(left: 5),
+                          alignment: Alignment.topCenter,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                          child: TextField(
+                            readOnly: _endRule != _EndRule.count,
+                            controller: TextEditingController.fromValue(
+                              TextEditingValue(
+                                text: _count.toString(),
+                                selection: TextSelection.collapsed(
+                                  offset: _count.toString().length,
+                                ),
+                              ),
+                            ),
+                            cursorColor: widget.model.primaryColor,
+                            onTap: () {
+                              setState(() {
+                                _endRule = _EndRule.count;
+                              });
+                            },
+                            onChanged: (String value) async {
+                              if (value != null && value.isNotEmpty) {
+                                _count = int.parse(value);
+                                if (_count == 0) {
+                                  _count = 1;
+                                } else if (_count! >= 999) {
+                                  setState(() {
+                                    _count = 999;
+                                  });
+                                }
+                              } else if (value.isEmpty || value == null) {
+                                _count = 1;
+                              }
+                              _endRule = _EndRule.count;
+                              _recurrenceProperties!.recurrenceRange =
+                                  RecurrenceRange.count;
+                              _recurrenceProperties!.recurrenceCount = _count!;
+                            },
+                            keyboardType: TextInputType.number,
+                            // ignore: always_specify_types
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
                             style: TextStyle(
                               fontSize: 13,
                               color: defaultTextColor,
                               fontWeight: FontWeight.w400,
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                value: _EndRule.endDate,
-                groupValue: _endRule,
-                activeColor: widget.model.primaryColor,
-                onChanged: (_EndRule? value) {
-                  setState(() {
-                    _endRule = value;
-                    _rangeEndDate();
-                  });
-                },
-              ),
-              const Divider(indent: 50, height: 1.0, thickness: 1),
-              SizedBox(
-                height: 40,
-                child: RadioListTile<_EndRule>(
-                  contentPadding: const EdgeInsets.only(left: 7),
-                  title: Row(
-                    children: <Widget>[
-                      const Text('After'),
-                      Container(
-                        height: 40,
-                        width: 60,
-                        padding: const EdgeInsets.only(left: 5, bottom: 10),
-                        margin: const EdgeInsets.only(left: 5),
-                        alignment: Alignment.topCenter,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                        child: TextField(
-                          readOnly: _endRule != _EndRule.count,
-                          controller: TextEditingController.fromValue(
-                            TextEditingValue(
-                              text: _count.toString(),
-                              selection: TextSelection.collapsed(
-                                offset: _count.toString().length,
-                              ),
+                            textAlign: TextAlign.center,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
                             ),
                           ),
-                          cursorColor: widget.model.primaryColor,
-                          onTap: () {
-                            setState(() {
-                              _endRule = _EndRule.count;
-                            });
-                          },
-                          onChanged: (String value) async {
-                            if (value != null && value.isNotEmpty) {
-                              _count = int.parse(value);
-                              if (_count == 0) {
-                                _count = 1;
-                              } else if (_count! >= 999) {
-                                setState(() {
-                                  _count = 999;
-                                });
-                              }
-                            } else if (value.isEmpty || value == null) {
-                              _count = 1;
-                            }
-                            _endRule = _EndRule.count;
-                            _recurrenceProperties!.recurrenceRange =
-                                RecurrenceRange.count;
-                            _recurrenceProperties!.recurrenceCount = _count!;
-                          },
-                          keyboardType: TextInputType.number,
-                          // ignore: always_specify_types
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: defaultTextColor,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
                         ),
-                      ),
-                      Container(width: 10),
-                      const Text('occurrence'),
-                    ],
+                        Container(width: 10),
+                        const Text('occurrence'),
+                      ],
+                    ),
+                    value: _EndRule.count,
+                    activeColor: widget.model.primaryColor,
                   ),
-                  value: _EndRule.count,
-                  groupValue: _endRule,
-                  activeColor: widget.model.primaryColor,
-                  onChanged: (_EndRule? value) {
-                    setState(() {
-                      _endRule = value;
-                      _recurrenceProperties!.recurrenceRange =
-                          RecurrenceRange.count;
-                      _recurrenceProperties!.recurrenceCount = _count!;
-                    });
-                  },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
     );
+  }
+
+  void _countEndRule(_EndRule value) {
+    _endRule = value;
+    _recurrenceProperties!.recurrenceRange = RecurrenceRange.count;
+    _recurrenceProperties!.recurrenceCount = _count!;
+  }
+
+  void _endDateEndRule(_EndRule value) {
+    _endRule = value;
+    _rangeEndDate();
+  }
+
+  void _neverEndRule() {
+    _endRule = _EndRule.never;
+    _rangeNoEndDate();
   }
 
   @override

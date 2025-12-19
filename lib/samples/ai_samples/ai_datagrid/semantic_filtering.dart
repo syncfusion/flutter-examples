@@ -25,6 +25,7 @@ class _SemanticFilteringSampleState extends SampleViewState
   final TextEditingController searchController = TextEditingController();
   late bool _isWebOrDesktop;
   late ValueNotifier<bool> isLoadingNotifier;
+  late bool isMaterial3;
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _SemanticFilteringSampleState extends SampleViewState
       model: model,
     );
     isLoadingNotifier = ValueNotifier(false);
+    isMaterial3 = model.themeData.useMaterial3;
   }
 
   String _generatePrompt() {
@@ -139,64 +141,77 @@ Now, generate a similar list for "${searchController.text}".
     }
   }
 
+  Widget _buildSearchTextField() {
+    return SizedBox(
+      width: 250,
+      height: 45,
+      child: ValueListenableBuilder(
+        valueListenable: searchController,
+        builder: (context, value, child) {
+          return TextField(
+            controller: searchController,
+            onSubmitted: (value) {
+              if (value.trim().isNotEmpty) {
+                _sendChatMessage(_generatePrompt());
+              }
+            },
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 8,
+              ),
+              hintText: 'Search',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  _isWebOrDesktop || !isMaterial3 ? 4 : 100,
+                ),
+              ),
+              suffixIcon: searchController.text.isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        searchController.clear();
+                        isLoadingNotifier.value = true;
+
+                        Future.delayed(const Duration(seconds: 1), () {
+                          _patientDataSource.clearFilters();
+                          isLoadingNotifier.value = false;
+                        });
+                      },
+                    )
+                  : null,
+            ),
+            onChanged: (value) {
+              if (value.trim().isEmpty) {
+                isLoadingNotifier.value = true;
+
+                Future.delayed(const Duration(seconds: 1), () {
+                  _patientDataSource.clearFilters();
+                  isLoadingNotifier.value = false;
+                });
+                return;
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
+
   Widget searchField() {
     return Padding(
-      padding: const EdgeInsets.only(left: 12, top: 10),
+      padding: EdgeInsets.only(
+        left: 12,
+        top: 10,
+        right: !_isWebOrDesktop && model.isMobileResolution ? 12 : 0,
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 250,
-            height: 45,
-            child: ValueListenableBuilder(
-              valueListenable: searchController,
-              builder: (context, value, child) {
-                return TextField(
-                  controller: searchController,
-                  onSubmitted: (value) {
-                    if (value.trim().isNotEmpty) {
-                      _sendChatMessage(_generatePrompt());
-                    }
-                  },
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    hintText: 'Search',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    suffixIcon: searchController.text.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              searchController.clear();
-                              isLoadingNotifier.value = true;
-
-                              Future.delayed(const Duration(seconds: 1), () {
-                                _patientDataSource.clearFilters();
-                                isLoadingNotifier.value = false;
-                              });
-                            },
-                          )
-                        : null,
-                  ),
-                  onChanged: (value) {
-                    if (value.trim().isEmpty) {
-                      isLoadingNotifier.value = true;
-
-                      Future.delayed(const Duration(seconds: 1), () {
-                        _patientDataSource.clearFilters();
-                        isLoadingNotifier.value = false;
-                      });
-                      return;
-                    }
-                  },
-                );
-              },
-            ),
-          ),
+          if (!_isWebOrDesktop && model.isMobileResolution)
+            Expanded(child: _buildSearchTextField())
+          else
+            _buildSearchTextField(),
           const SizedBox(width: 10),
           SizedBox(
             height: 45,
@@ -233,6 +248,9 @@ Now, generate a similar list for "${searchController.text}".
             ),
           ),
           automaticallyImplyLeading: false,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          backgroundColor: isMaterial3 ? Colors.transparent : null,
         ),
       ),
       body: Column(
@@ -242,7 +260,12 @@ Now, generate a similar list for "${searchController.text}".
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [searchField()],
+              children: [
+                if (!_isWebOrDesktop && model.isMobileResolution)
+                  Expanded(child: searchField())
+                else
+                  searchField(),
+              ],
             ),
           ),
           Expanded(
@@ -251,8 +274,10 @@ Now, generate a similar list for "${searchController.text}".
                 SfDataGrid(
                   source: _patientDataSource,
                   columns: _patientDataSource._columns,
-                  columnWidthMode: ColumnWidthMode.auto,
-                  onQueryRowHeight: (details) => 60.0,
+                  columnWidthMode: !_isWebOrDesktop && !model.isMobileResolution
+                      ? ColumnWidthMode.fill
+                      : ColumnWidthMode.auto,
+                  onQueryRowHeight: (details) => _isWebOrDesktop ? 60.0 : 80.0,
                   placeholder: const Center(
                     child: Text(
                       'No Records Found',
@@ -550,9 +575,9 @@ class PatientDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
             ? 150.0
             : double.nan,
         label: Container(
@@ -567,9 +592,9 @@ class PatientDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
             ? 150.0
             : double.nan,
         label: Container(
@@ -584,9 +609,9 @@ class PatientDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
             ? 150.0
             : double.nan,
         label: Container(
@@ -601,9 +626,9 @@ class PatientDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
             ? 150.0
             : double.nan,
         label: Container(
@@ -618,9 +643,9 @@ class PatientDataSource extends DataGridSource {
         columnWidthMode: !isWebOrDesktop
             ? ColumnWidthMode.none
             : ColumnWidthMode.fill,
-        width: !isWebOrDesktop
-            ? 150
-            : (isWebOrDesktop && model.isMobileResolution)
+        width: isWebOrDesktop
+            ? double.nan
+            : (!isWebOrDesktop && model.isMobileResolution)
             ? 150.0
             : double.nan,
         label: Container(

@@ -59,38 +59,37 @@ class _MarkerPointerExampleState extends SampleViewState {
           shrinkWrap: true,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Marker type ',
                   style: TextStyle(color: model.textColor, fontSize: 16),
                 ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  child: DropdownButton<String>(
-                    dropdownColor: model.drawerBackgroundColor,
-                    underline: Container(
-                      color: const Color(0xFFBDBDBD),
-                      height: 1,
-                    ),
-                    value: _selectedMarkerType,
-                    items: _markerTypes.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: (value != null) ? value : 'invertedTriangle',
-                        child: Text(
-                          value,
-                          style: TextStyle(color: model.textColor),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      _onMarkerTypeChange(value.toString());
-                      stateSetter(() {});
-                    },
+                DropdownButton<String>(
+                  dropdownColor: model.drawerBackgroundColor,
+                  underline: Container(
+                    color: const Color(0xFFBDBDBD),
+                    height: 1,
                   ),
+                  value: _selectedMarkerType,
+                  items: _markerTypes.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: (value != null) ? value : 'invertedTriangle',
+                      child: Text(
+                        value,
+                        style: TextStyle(color: model.textColor),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    _onMarkerTypeChange(value.toString());
+                    stateSetter(() {});
+                  },
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   'Elevation',

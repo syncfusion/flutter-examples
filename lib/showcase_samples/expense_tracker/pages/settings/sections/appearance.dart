@@ -186,30 +186,28 @@ class _AppearancePageState extends State<AppearancePage> {
   ) {
     return InkWell(
       onTap: () => _updateTheme(title),
-      child: Row(
-        children: [
-          Center(
-            child: Radio<String>(
-              value: title,
-              groupValue: themeNotifier.selectedTheme,
-              onChanged: (value) => _updateTheme(value!),
-            ),
-          ),
-          horizontalSpacer14,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: textTheme.bodyLarge?.copyWith(
-                    color: colorScheme.onSurface,
+      child: RadioGroup<String>(
+        groupValue: themeNotifier.selectedTheme,
+        onChanged: (value) => _updateTheme(value!),
+        child: Row(
+          children: [
+            Center(child: Radio<String>(value: title)),
+            horizontalSpacer14,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

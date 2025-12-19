@@ -51,10 +51,13 @@ class _EncryptPdfState extends SampleViewState {
                 ),
               ),
               const SizedBox(height: 10, width: 30),
-              if (MediaQuery.of(context).size.width > 800)
-                Row(children: getChildWidgets(context))
-              else
-                Column(children: getChildWidgets(context)),
+              RadioGroup<int>(
+                groupValue: _groupValue,
+                onChanged: _changed,
+                child: (MediaQuery.of(context).size.width > 800)
+                    ? Row(children: getChildWidgets(context))
+                    : Column(children: getChildWidgets(context)),
+              ),
               const SizedBox(height: 10, width: 30),
               Row(
                 children: <Widget>[
@@ -123,7 +126,7 @@ class _EncryptPdfState extends SampleViewState {
     return <Widget>[
       Row(
         children: <Widget>[
-          Radio<int>(value: 0, groupValue: _groupValue, onChanged: _changed),
+          const Radio<int>(value: 0),
           Text(
             '40-bit RC4',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -132,7 +135,7 @@ class _EncryptPdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(value: 1, groupValue: _groupValue, onChanged: _changed),
+          const Radio<int>(value: 1),
           Text(
             '128-bit RC4',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -141,7 +144,7 @@ class _EncryptPdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(value: 2, groupValue: _groupValue, onChanged: _changed),
+          const Radio<int>(value: 2),
           Text(
             '128-bit AES',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -150,7 +153,7 @@ class _EncryptPdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(value: 3, groupValue: _groupValue, onChanged: _changed),
+          const Radio<int>(value: 3),
           Text(
             '256-bit AES',
             style: TextStyle(fontSize: 16, color: model.textColor),
@@ -159,7 +162,7 @@ class _EncryptPdfState extends SampleViewState {
       ),
       Row(
         children: <Widget>[
-          Radio<int>(value: 4, groupValue: _groupValue, onChanged: _changed),
+          const Radio<int>(value: 4),
           Text(
             '256-bit AES Revision 6',
             style: TextStyle(fontSize: 16, color: model.textColor),

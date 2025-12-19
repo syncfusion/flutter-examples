@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../../../meta_tag/meta_tag.dart';
 import '../enum.dart';
 import '../helper/helper.dart';
 import '../helper/responsive_layout.dart';
@@ -55,6 +56,7 @@ class SetupProfilePage extends StatefulWidget {
 class SetupProfilePageState extends State<SetupProfilePage> {
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
+  final WebMetaTagUpdate metaTagUpdate = WebMetaTagUpdate();
 
   @override
   void initState() {
@@ -396,6 +398,10 @@ class SetupProfilePageState extends State<SetupProfilePage> {
                   context.read<StockChartProvider>().isLoading = false;
                 }
               }
+
+              // Updates meta tag details when navigating from the setup page
+              // to the Stock Chart page in Stock Analysis.
+              metaTagUpdate.update('Stock Chart', 'Stock Analysis');
             },
             child: const Text('Skip', textAlign: TextAlign.left),
           ),
@@ -421,6 +427,10 @@ class SetupProfilePageState extends State<SetupProfilePage> {
                         context.read<StockChartProvider>().isLoading = false;
                       }
                     }
+
+                    // Updates meta tag details when navigating from the
+                    // setup page to the Stock Chart page in Stock Analysis.
+                    metaTagUpdate.update('Stock Chart', 'Stock Analysis');
                   }
                 : null,
             child: Text(

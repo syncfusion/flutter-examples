@@ -39,7 +39,7 @@ class _CustomizedDatePickerState extends SampleViewState {
       const Duration(days: 200),
     );
     final DateTime endDate = DateTime.now().add(const Duration(days: 500));
-    final Random random = Random();
+    final Random random = Random.secure();
     for (
       DateTime date = startDate;
       date.isBefore(endDate);

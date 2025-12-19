@@ -63,7 +63,7 @@ class _AnimationLineDefaultState extends SampleViewState {
   }
 
   int _createRandomInt(int min, int max) {
-    final Random random = Random();
+    final Random random = Random.secure();
     return min + random.nextInt(max - min);
   }
 

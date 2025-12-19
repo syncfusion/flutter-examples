@@ -416,7 +416,7 @@ class RecurrenceCalendarState extends SampleViewState {
     _colorCollection.add(const Color(0xFF636363));
 
     final List<Appointment> appointments = <Appointment>[];
-    final Random random = Random();
+    final Random random = Random.secure();
     final DateTime currentDate = DateTime.now();
 
     final DateTime startTime = DateTime(

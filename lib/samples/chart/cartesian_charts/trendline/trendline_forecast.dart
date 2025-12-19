@@ -80,44 +80,44 @@ class _TrendLineForecastState extends SampleViewState {
       shrinkWrap: true,
       children: <Widget>[
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              'Forward forecast',
-              style: TextStyle(fontSize: 16.0, color: model.textColor),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(30, 0, 20, 0),
-              child: CustomDirectionalButtons(
-                maxValue: 50,
-                initialValue: _forwardForecastValue,
-                onChanged: (double val) => setState(() {
-                  _forwardForecastValue = val;
-                }),
-                loop: true,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 20.0, color: model.textColor),
+            Flexible(
+              child: Text(
+                'Forward forecast',
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
+            ),
+            CustomDirectionalButtons(
+              maxValue: 50,
+              initialValue: _forwardForecastValue,
+              onChanged: (double val) => setState(() {
+                _forwardForecastValue = val;
+              }),
+              loop: true,
+              iconColor: model.textColor,
+              style: TextStyle(fontSize: 20.0, color: model.textColor),
             ),
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              'Backward forecast',
-              style: TextStyle(fontSize: 16.0, color: model.textColor),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: CustomDirectionalButtons(
-                maxValue: 50,
-                initialValue: _backwardForecastValue,
-                onChanged: (double val) => setState(() {
-                  _backwardForecastValue = val;
-                }),
-                loop: true,
-                iconColor: model.textColor,
-                style: TextStyle(fontSize: 20.0, color: model.textColor),
+            Flexible(
+              child: Text(
+                'Backward forecast',
+                style: TextStyle(fontSize: 16.0, color: model.textColor),
               ),
+            ),
+            CustomDirectionalButtons(
+              maxValue: 50,
+              initialValue: _backwardForecastValue,
+              onChanged: (double val) => setState(() {
+                _backwardForecastValue = val;
+              }),
+              loop: true,
+              iconColor: model.textColor,
+              style: TextStyle(fontSize: 20.0, color: model.textColor),
             ),
           ],
         ),

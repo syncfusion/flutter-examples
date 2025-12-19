@@ -54,7 +54,7 @@ class _RangeSelectorZoomingPageState extends SampleViewState
       chartData.add(
         ChartSampleData(
           x: DateTime(2000).add(Duration(days: i)),
-          y: Random().nextInt(190) + 50,
+          y: Random.secure().nextInt(190) + 50,
         ),
       );
     }

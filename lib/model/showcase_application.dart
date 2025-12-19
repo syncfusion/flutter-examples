@@ -173,7 +173,6 @@ class ShowcaseApplications extends StatelessWidget {
     double width,
   ) {
     final String imagePath = _imagePathBasedOnTheme(app.title);
-    final String status = app.title == 'Expense Tracker' ? 'Updated' : 'New';
     return Container(
       decoration: BoxDecoration(
         color: model.homeCardColor,
@@ -232,46 +231,16 @@ class ShowcaseApplications extends StatelessWidget {
                   top: 16.0,
                   bottom: 16.0,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        app.title,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.titleMedium!
-                            .copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              letterSpacing: 0,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w700,
-                            ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: status.toLowerCase() == 'new'
-                            ? const Color.fromRGBO(55, 153, 30, 1)
-                            : status.toLowerCase() == 'updated'
-                            ? const Color.fromRGBO(246, 117, 0, 1)
-                            : Colors.transparent,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(10.0),
-                          topLeft: Radius.circular(10.0),
-                        ),
-                      ),
-                      padding: const EdgeInsets.fromLTRB(5, 2.7, 5, 2.7),
-                      child: Text(
-                        status,
-                        style: const TextStyle(
-                          fontSize: 10.5,
-                          fontFamily: 'Roboto-Medium',
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  app.title,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    letterSpacing: 0,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

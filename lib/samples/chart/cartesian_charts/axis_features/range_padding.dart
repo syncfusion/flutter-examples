@@ -79,28 +79,22 @@ class _RangePaddingViewState extends SampleViewState {
         return ListView(
           shrinkWrap: true,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text(
-                  'X Axis',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            Text(
+              'X Axis',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: model.textColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Range padding ',
+                  'Range padding',
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
+                Flexible(
                   child: DropdownButton<String>(
                     dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
@@ -126,28 +120,22 @@ class _RangePaddingViewState extends SampleViewState {
                 ),
               ],
             ),
-            Row(
-              children: <Widget>[
-                Text(
-                  'Y Axis',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: model.textColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            Text(
+              'Y Axis',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: model.textColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Range padding ',
+                  'Range padding',
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  height: 50,
-                  alignment: Alignment.bottomLeft,
+                Flexible(
                   child: DropdownButton<String>(
                     dropdownColor: model.drawerBackgroundColor,
                     focusColor: Colors.transparent,
