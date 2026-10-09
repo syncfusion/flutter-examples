@@ -25,9 +25,8 @@ Future<void> showSingleDatePickerDialog(
   if (picked != null) {
     String formattedDate = '';
     if (currentUserDetails != null) {
-      formattedDate = DateFormat(
-        currentUserDetails.userProfile.dateFormat,
-      ).format(picked);
+      formattedDate = DateFormat(currentUserDetails.userProfile.dateFormat)
+          .format(picked);
     } else {
       formattedDate = DateFormat('M/d/yyyy').format(picked);
     }

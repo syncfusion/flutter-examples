@@ -705,14 +705,12 @@ Future<void> updateControlItems() async {
             );
             if (firstLevelSubItems[j].type == 'parent') {
               for (int k = 0; k < firstLevelSubItems[j].subItems!.length; k++) {
-                if (SubItem.fromJson(
-                          firstLevelSubItems[j].subItems![k],
-                        ).platformsToHide ==
+                if (SubItem.fromJson(firstLevelSubItems[j].subItems![k])
+                            .platformsToHide ==
                         null ||
                     _needToShow(
-                      SubItem.fromJson(
-                        firstLevelSubItems[j].subItems![k],
-                      ).platformsToHide,
+                      SubItem.fromJson(firstLevelSubItems[j].subItems![k])
+                          .platformsToHide,
                     )) {
                   secondLevelSubItems.add(
                     SubItem.fromJson(firstLevelSubItems[j].subItems![k]),
@@ -808,14 +806,12 @@ Future<void> updateControlItems() async {
                   k < firstLevelSubItems[j].subItems!.length;
                   k++
                 ) {
-                  if (SubItem.fromJson(
-                            firstLevelSubItems[j].subItems![k],
-                          ).platformsToHide ==
+                  if (SubItem.fromJson(firstLevelSubItems[j].subItems![k])
+                              .platformsToHide ==
                           null ||
                       _needToShow(
-                        SubItem.fromJson(
-                          firstLevelSubItems[j].subItems![k],
-                        ).platformsToHide,
+                        SubItem.fromJson(firstLevelSubItems[j].subItems![k])
+                            .platformsToHide,
                       )) {
                     secondLevelSubItems.add(
                       SubItem.fromJson(firstLevelSubItems[j].subItems![k]),

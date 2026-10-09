@@ -8,9 +8,8 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> buildSnackBar(
 ) {
   final double snackBarTextWidth = measureTextWidth(
     content,
-    Theme.of(context).textTheme.labelLarge!.copyWith(
-      color: Theme.of(context).colorScheme.onInverseSurface,
-    ),
+    Theme.of(context).textTheme.labelLarge!
+        .copyWith(color: Theme.of(context).colorScheme.onInverseSurface),
   );
 
   final double snackBarWidth = snackBarTextWidth + 32.0 + 18.0 + 30.0;
@@ -33,9 +32,8 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> buildSnackBar(
       closeIconColor: Theme.of(context).colorScheme.onInverseSurface,
       content: Text(
         content,
-        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-          color: Theme.of(context).colorScheme.onInverseSurface,
-        ),
+        style: Theme.of(context).textTheme.labelLarge!
+            .copyWith(color: Theme.of(context).colorScheme.onInverseSurface),
       ),
     ),
   );

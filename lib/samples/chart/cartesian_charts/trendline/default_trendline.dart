@@ -399,9 +399,8 @@ class _TrendLineDefaultState extends SampleViewState {
             polynomialOrder: _polynomialOrder,
             period: _period,
             onRenderDetailsUpdate: (TrendlineRenderParams args) {
-              _rSquare = double.parse(
-                args.rSquaredValue!.toStringAsFixed(4),
-              ).toString();
+              _rSquare = double.parse(args.rSquaredValue!.toStringAsFixed(4))
+                  .toString();
               _slope = args.slope;
               _intercept = args.intercept;
               _createSlopeEquation(_slope, _intercept);

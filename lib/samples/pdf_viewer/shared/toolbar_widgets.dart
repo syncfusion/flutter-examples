@@ -766,15 +766,11 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                   Padding(
                     padding: widget.textDirection == TextDirection.rtl
                         ? EdgeInsets.only(
-                            right: _useMaterial3
-                                ? 32
-                                : 8, // x position of clear button in search menu
+                            right: _useMaterial3 ? 32 : 8, // x position of clear button in search menu
                             top: 8, // y position of clear button in search menu
                           )
                         : EdgeInsets.only(
-                            left: _useMaterial3
-                                ? 32
-                                : 8, // x position of clear button in search menu
+                            left: _useMaterial3 ? 32 : 8, // x position of clear button in search menu
                             top: 8, // y position of clear button in search menu
                           ),
                     child: SizedBox(
@@ -826,9 +822,7 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                             ),
                       child: SizedBox(
                         width: _useMaterial3 ? 297 : null,
-                        height: _useMaterial3
-                            ? 40
-                            : null, // height of search text field in search menu
+                        height: _useMaterial3 ? 40 : null, // height of search text field in search menu
                         child: TextFormField(
                           focusNode: _focusNode,
                           controller: _editingController,
@@ -882,9 +876,8 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                                 : 'Find in document',
                             hintStyle: TextStyle(
                               color: _isLight
-                                  ? const Color(
-                                      0x00000000,
-                                    ).withValues(alpha: 0.34)
+                                  ? const Color(0x00000000)
+                                        .withValues(alpha: 0.34)
                                   : const Color(0xFF949494),
                               fontSize: 15,
                               fontFamily: 'Roboto',
@@ -903,12 +896,8 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                                             top: 15,
                                           ),
                                     child: SizedBox(
-                                      height: _useMaterial3
-                                          ? 18
-                                          : 14.57, // height of search button in search menu
-                                      width: _useMaterial3
-                                          ? 18
-                                          : 14.57, // width of search button in search menu
+                                      height: _useMaterial3 ? 18 : 14.57, // height of search button in search menu
+                                      width: _useMaterial3 ? 18 : 14.57, // width of search button in search menu
                                       child: RawMaterialButton(
                                         onPressed: () {
                                           setState(() {
@@ -939,12 +928,8 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                                             top: 18,
                                           ),
                                     child: SizedBox(
-                                      height: _useMaterial3
-                                          ? 18
-                                          : 14.57, // height of clear search button
-                                      width: _useMaterial3
-                                          ? 18
-                                          : 14.57, // width of clear search button
+                                      height: _useMaterial3 ? 18 : 14.57, // height of clear search button
+                                      width: _useMaterial3 ? 18 : 14.57, // width of clear search button
                                       child: RawMaterialButton(
                                         onPressed: () {
                                           setState(() {
@@ -1191,9 +1176,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                             });
                           },
                           side: BorderSide(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant,
                             width: 2,
                           ),
                         ),
@@ -1243,9 +1228,9 @@ class TextSearchOverlayState extends State<TextSearchOverlay> {
                             });
                           },
                           side: BorderSide(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurfaceVariant,
                             width: 2,
                           ),
                         ),
@@ -2012,15 +1997,16 @@ class _BottomToolbarState extends State<BottomToolbar> {
       child: Column(
         children: [
           if (_isStickyNoteIconToolBarVisible) _stickyNoteIconToolBar(),
+
           if (widget.selectedAnnotation != null &&
-              !widget.showAddTextMarkupToolbar) ...[
-            _textMarkupSettingsToolbar(),
-          ] else if (widget.showAddTextMarkupToolbar)
+              !widget.showAddTextMarkupToolbar)
+            _textMarkupSettingsToolbar()
+          else if (widget.showAddTextMarkupToolbar)
             _addTextMarkupToolbar()
+          else if (!_isSecondaryToolbarVisible)
+            _textMarkupToolbar()
           else
-            !_isSecondaryToolbarVisible
-                ? _textMarkupToolbar()
-                : _addTextMarkupToolbar(),
+            _addTextMarkupToolbar(),
         ],
       ),
     );

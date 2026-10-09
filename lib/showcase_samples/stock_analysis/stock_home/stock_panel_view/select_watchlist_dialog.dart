@@ -83,9 +83,8 @@ class _SelectWatchlistDialogState extends State<SelectWatchlistDialog> {
       children: [
         Text(
           'Add $stockName to Watchlist',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: colorScheme.onSurface),
           overflow: TextOverflow.ellipsis,
         ),
         buildCloseIconButton(context, () {
@@ -101,9 +100,8 @@ class _SelectWatchlistDialogState extends State<SelectWatchlistDialog> {
 
     return Text(
       'Select Watchlist',
-      style: Theme.of(
-        context,
-      ).textTheme.titleMedium?.copyWith(color: colorScheme.onSurface),
+      style: Theme.of(context).textTheme.titleMedium
+          ?.copyWith(color: colorScheme.onSurface),
     );
   }
 

@@ -223,8 +223,7 @@ class _InvoiceXlsIOState extends SampleViewState {
     range8.cellStyle.hAlign = HAlignType.right;
     range8.cellStyle.bold = true;
 
-    sheet.getRangeByIndex(26, 1).text =
-        '800 Interchange Blvd, Suite 2501, Austin, TX 78721 | support@adventure-works.com';
+    sheet.getRangeByIndex(26, 1).text = '800 Interchange Blvd, Suite 2501, Austin, TX 78721 | support@adventure-works.com';
     sheet.getRangeByIndex(26, 1).cellStyle.fontSize = 8;
 
     final Range range9 = sheet.getRangeByName('A26:H27');

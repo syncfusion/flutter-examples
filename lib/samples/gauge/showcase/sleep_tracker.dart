@@ -380,12 +380,11 @@ class _SleepTrackerSampleState extends SampleViewState {
   }
 
   String _sleepDuration() {
-    final DateTime bedTime = DateFormat(
-      'hh:mm a',
-    ).parse(_bedTimeAnnotation.toUpperCase()).add(const Duration(days: 1));
-    DateTime wakeupTime = DateFormat(
-      'hh:mm a',
-    ).parse(_wakeupTimeAnnotation.toUpperCase());
+    final DateTime bedTime = DateFormat('hh:mm a')
+        .parse(_bedTimeAnnotation.toUpperCase())
+        .add(const Duration(days: 1));
+    DateTime wakeupTime = DateFormat('hh:mm a')
+        .parse(_wakeupTimeAnnotation.toUpperCase());
     if (_wakeupTimeAnnotation.contains('12:00 am')) {
       wakeupTime = wakeupTime.add(const Duration(days: 1));
     }

@@ -884,11 +884,10 @@ class _SampleInputContainerState extends State<_SampleInputContainer> {
               if (currentSampleRoute.routeName != null) {
                 SampleModel.sampleRoutes.removeAt(i);
                 isReplaced = true;
-                await Navigator.of(
-                  context,
-                ).pushReplacementNamed<dynamic, dynamic>(
-                  currentSampleRoute.routeName!,
-                );
+                await Navigator.of(context)
+                    .pushReplacementNamed<dynamic, dynamic>(
+                      currentSampleRoute.routeName!,
+                    );
               }
             }
           }

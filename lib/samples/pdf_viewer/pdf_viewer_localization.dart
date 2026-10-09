@@ -77,11 +77,10 @@ class _LocalizationPdfViewerState extends LocalizationSampleViewState {
     }
 
     if (isDesktop && _isPdfLoaded && !_isInitialBookmarkShown) {
-      Future<dynamic>.delayed(const Duration(milliseconds: 2000)).then((
-        dynamic value,
-      ) {
-        _pdfViewerKey.currentState?.openBookmarkView();
-      });
+      Future<dynamic>.delayed(const Duration(milliseconds: 2000))
+          .then((dynamic value) {
+            _pdfViewerKey.currentState?.openBookmarkView();
+          });
       _isInitialBookmarkShown = true;
     }
 

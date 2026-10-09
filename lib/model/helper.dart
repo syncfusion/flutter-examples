@@ -19,8 +19,10 @@ import 'sample_view.dart';
 final WebMetaTagUpdate metaTagUpdate = WebMetaTagUpdate();
 
 /// Callback for changing the theme.
-typedef ChangeThemeCallback =
-    void Function(bool isMaterial3, Brightness brightness);
+typedef ChangeThemeCallback = void Function(
+  bool isMaterial3,
+  Brightness brightness,
+);
 
 /// The index of the selected palette color.
 int selectedColorPaletteIndex = 0;
@@ -879,7 +881,7 @@ Widget _buildCompanyLogoAndAppVersion(SampleModel model) {
         Align(
           alignment: Alignment.bottomCenter,
           child: Text(
-            'Version 34.1.29',
+            'Version 35.1.37',
             style: TextStyle(
               color: model.drawerTextIconColor,
               fontSize: 12,

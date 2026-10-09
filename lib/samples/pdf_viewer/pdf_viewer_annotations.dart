@@ -241,11 +241,10 @@ class _AnnotationsPdfViewerState extends SampleViewState {
     return Scaffold(
       appBar: appBar,
       body: FutureBuilder(
-        future: Future<dynamic>.delayed(const Duration(milliseconds: 200)).then(
-          (dynamic value) {
-            _canShowPdf = true;
-          },
-        ),
+        future: Future<dynamic>.delayed(const Duration(milliseconds: 200))
+            .then((dynamic value) {
+              _canShowPdf = true;
+            }),
         builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
           final Widget pdfViewer = Listener(
             onPointerDown: (PointerDownEvent details) {

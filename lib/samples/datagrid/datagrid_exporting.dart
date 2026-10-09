@@ -94,9 +94,8 @@ class _ExportingDataGridState extends SampleViewState {
         cellExport: (DataGridCellPdfExportDetails details) {
           if (details.cellType == DataGridExportCellType.row) {
             if (details.columnName == 'Shipped Date') {
-              details.pdfCell.value = DateFormat(
-                'MM/dd/yyyy',
-              ).format(DateTime.parse(details.pdfCell.value));
+              details.pdfCell.value = DateFormat('MM/dd/yyyy')
+                  .format(DateTime.parse(details.pdfCell.value));
             }
           }
         },

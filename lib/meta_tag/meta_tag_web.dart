@@ -40,11 +40,9 @@ class WebMetaTagUpdate implements MetaTagUpdate {
       return;
     }
 
-    web.HTMLMetaElement? metaTag =
-        web.document.head?.querySelector(
-              'meta[property="$name"], meta[name="$name"]',
-            )
-            as web.HTMLMetaElement?;
+    web.HTMLMetaElement? metaTag = web.document.head?.querySelector(
+      'meta[property="$name"], meta[name="$name"]',
+    ) as web.HTMLMetaElement?;
 
     if (metaTag == null) {
       metaTag = web.document.createElement('meta') as web.HTMLMetaElement;

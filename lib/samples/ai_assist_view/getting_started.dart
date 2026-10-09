@@ -232,8 +232,7 @@ class _AssistViewState extends SampleViewState {
       if (model.assistApiKey.isEmpty) {
         _addMessageAndRebuild(
           AssistMessage.response(
-            data:
-                'Please connect to your preferred AI server for real-time queries.',
+            data: 'Please connect to your preferred AI server for real-time queries.',
             author: _aiAuthor,
             time: DateTime.now(),
           ),

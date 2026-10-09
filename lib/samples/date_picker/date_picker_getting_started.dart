@@ -476,9 +476,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(
-                      context,
-                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Transform.scale(
@@ -514,9 +513,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(
-                      context,
-                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Transform.scale(
@@ -552,9 +550,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(
-                      context,
-                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Transform.scale(
@@ -590,9 +587,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(
-                      context,
-                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Transform.scale(
@@ -626,9 +622,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(
-                      context,
-                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Transform.scale(
@@ -667,9 +662,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(
-                      context,
-                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Transform.scale(
@@ -707,9 +701,8 @@ class _GettingStartedDatePickerState extends SampleViewState {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(
-                      context,
-                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Transform.scale(

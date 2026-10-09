@@ -31,8 +31,7 @@ class _BubbleMultiSeriesState extends SampleViewState {
       enable: true,
       header: '',
       canShowMarker: false,
-      format:
-          'Literacy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB',
+      format: 'Literacy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB',
     );
     _chartData1 = <ChartSampleData>[
       ChartSampleData(x: 'US', xValue: 99.4, y: 2.2, size: 0.312),

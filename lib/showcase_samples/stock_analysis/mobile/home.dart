@@ -111,9 +111,9 @@ class _StockMobileHomeScreenState extends State<StockMobileHomeScreen> {
                           onVerticalDragUpdate: (details) {
                             final double dragDistance =
                                 _dragStartPosition - details.globalPosition.dy;
-                            final double screenHeight = MediaQuery.of(
-                              context,
-                            ).size.height;
+                            final double screenHeight = MediaQuery.of(context)
+                                .size
+                                .height;
                             final double newSize =
                                 _sheetStartSize + (dragDistance / screenHeight);
 

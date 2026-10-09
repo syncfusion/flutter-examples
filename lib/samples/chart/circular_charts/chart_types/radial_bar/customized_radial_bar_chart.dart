@@ -190,8 +190,10 @@ class _RadialBarCustomizedState extends SampleViewState {
                               data.y,
                           pointColorMapper: (ChartSampleData data, int index) =>
                               data.pointColor,
-                          pointRadiusMapper:
-                              (ChartSampleData data, int index) => data.text,
+                          pointRadiusMapper: (
+                            ChartSampleData data,
+                            int index,
+                          ) => data.text,
                           innerRadius: '70%',
                           animationDuration: 0,
                           maximumValue: 100,

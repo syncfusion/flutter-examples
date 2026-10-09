@@ -10,8 +10,7 @@ List<MapLocation> hospitalNewYork = [
   ),
   MapLocation(
     name: 'Mount Sinai Hospital',
-    details:
-        'A leading hospital in New York, known for its medical research and treatment.',
+    details: 'A leading hospital in New York, known for its medical research and treatment.',
     coordinates: const MapLatLng(40.7895, -73.9531),
     address: '1468 Madison Ave, New York, NY 10029',
     image: 'images/hospital2.png',
@@ -25,8 +24,7 @@ List<MapLocation> hospitalNewYork = [
   ),
   MapLocation(
     name: 'Lenox Hill Hospital',
-    details:
-        'A member of Northwell Health, offering a wide range of medical services.',
+    details: 'A member of Northwell Health, offering a wide range of medical services.',
     coordinates: const MapLatLng(40.7739, -73.9602),
     address: '100 E 77th St, New York, NY 10075',
     image: 'images/hospital4.png',
@@ -63,24 +61,21 @@ List<MapLocation> hospitalNewYork = [
   ),
   MapLocation(
     name: 'Memorial Sloan Kettering Cancer Center',
-    details:
-        "One of the world's oldest and most comprehensive cancer treatment centers.",
+    details: "One of the world's oldest and most comprehensive cancer treatment centers.",
     coordinates: const MapLatLng(40.7641, -73.9549),
     address: '1275 York Ave, New York, NY 10065',
     image: 'images/hospital2.png',
   ),
   MapLocation(
     name: 'New York Eye and Ear Infirmary of Mount Sinai',
-    details:
-        'Specializes in the treatment of eye, ear, nose, and throat conditions.',
+    details: 'Specializes in the treatment of eye, ear, nose, and throat conditions.',
     coordinates: const MapLatLng(40.7323, -73.9875),
     address: '310 E 14th St, New York, NY 10003',
     image: 'images/hospital3.png',
   ),
   MapLocation(
     name: "St. Luke's Roosevelt Hospital Center",
-    details:
-        'Part of Mount Sinai Health System, providing a wide range of health services.',
+    details: 'Part of Mount Sinai Health System, providing a wide range of health services.',
     coordinates: const MapLatLng(40.7690, -73.9866),
     address: '1111 Amsterdam Ave, New York, NY 10025',
     image: 'images/hospital4.png',

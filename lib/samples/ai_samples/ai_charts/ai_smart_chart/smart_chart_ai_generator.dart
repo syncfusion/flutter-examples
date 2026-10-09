@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -705,8 +706,7 @@ class _ChartFromJsonState extends SampleViewState
     setState(() {
       _messages.add(
         const AssistMessage.response(
-          data:
-              'API key is missing. Please provide a valid API key to generate a response.',
+          data: 'API key is missing. Please provide a valid API key to generate a response.',
         ),
       );
     });

@@ -1,5 +1,6 @@
 /// Package import.
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 
 /// Chart import.

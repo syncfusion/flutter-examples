@@ -298,9 +298,8 @@ class _BudgetsCenterDialogState extends State<BudgetsCenterDialog> {
       ),
       notes: _remarkController.text,
       expense: 0,
-      createdDate: DateFormat(
-        widget.userDetails.userProfile.dateFormat,
-      ).parse(_dateController.text),
+      createdDate: DateFormat(widget.userDetails.userProfile.dateFormat)
+          .parse(_dateController.text),
       category: _categoryController.text,
     );
   }

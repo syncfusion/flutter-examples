@@ -3,6 +3,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
 import '../../../model/model.dart';
 import '../../../model/sample_view.dart';
 
@@ -352,8 +353,7 @@ Now, generate a similar list for "${searchController.text}".
       PatientRecord(
         recordId: 7,
         patientId: 615007,
-        symptoms:
-            'Frequent urination, excessive thirst, and unexplained weight loss.',
+        symptoms: 'Frequent urination, excessive thirst, and unexplained weight loss.',
         diagnosis: 'Diabetes',
         doctorInfo: 'Dr. Robert Johnson - Specialized in Endocrinology',
       ),
@@ -423,8 +423,7 @@ Now, generate a similar list for "${searchController.text}".
       PatientRecord(
         recordId: 17,
         patientId: 615017,
-        symptoms:
-            'Painful urination, lower abdominal pain, and frequent urge to urinate.',
+        symptoms: 'Painful urination, lower abdominal pain, and frequent urge to urinate.',
         diagnosis: 'Urinary Tract Infection (UTI)',
         doctorInfo: 'Dr. Linda Martinez - Specialized in Psychiatry',
       ),

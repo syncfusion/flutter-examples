@@ -370,9 +370,8 @@ class StockResponsiveDropdown<T extends Enum> extends StatelessWidget {
     if (selectedType != null) {
       switch (selectedType.runtimeType) {
         case DateRange:
-          return _formatDateRangeName(
-            selectedType as DateRange,
-          ).capitalizeFirst();
+          return _formatDateRangeName(selectedType as DateRange)
+              .capitalizeFirst();
         case SeriesType:
           return _formatSeriesName(selectedType as SeriesType);
         default:

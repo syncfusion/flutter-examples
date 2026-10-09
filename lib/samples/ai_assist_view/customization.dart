@@ -128,8 +128,7 @@ class AssistViewState extends SampleViewState {
         setState(() {
           _addMessageAndRebuild(
             AssistMessage.response(
-              data:
-                  'Please connect to your preferred AI server for real-time queries.',
+              data: 'Please connect to your preferred AI server for real-time queries.',
               author: _aiAuthor,
               toolbarItems: _buildToolbarItems(),
             ),

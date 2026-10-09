@@ -454,9 +454,8 @@ class _HijriDatePickerState extends SampleViewState {
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
@@ -486,9 +485,8 @@ class _HijriDatePickerState extends SampleViewState {
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
@@ -518,9 +516,8 @@ class _HijriDatePickerState extends SampleViewState {
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
@@ -550,9 +547,8 @@ class _HijriDatePickerState extends SampleViewState {
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
@@ -580,9 +576,8 @@ class _HijriDatePickerState extends SampleViewState {
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(
@@ -612,9 +607,8 @@ class _HijriDatePickerState extends SampleViewState {
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Transform.scale(
                     scale: 0.8,
                     child: CupertinoSwitch(

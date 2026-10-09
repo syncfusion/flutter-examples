@@ -604,11 +604,10 @@ class _RTLModePdfViewerState extends DirectionalitySampleViewState {
       appBar: appBar,
       // ignore: always_specify_types
       body: FutureBuilder(
-        future: Future<dynamic>.delayed(const Duration(milliseconds: 200)).then(
-          (dynamic value) {
-            _canShowPdf = true;
-          },
-        ),
+        future: Future<dynamic>.delayed(const Duration(milliseconds: 200))
+            .then((dynamic value) {
+              _canShowPdf = true;
+            }),
         builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
           final Widget pdfViewer = Listener(
             onPointerDown: (PointerDownEvent details) {
@@ -1262,9 +1261,8 @@ class ToolbarState extends State<Toolbar> {
     return _useMaterial3
         ? OutlineInputBorder(
             borderSide: BorderSide(
-              color: Theme.of(
-                context,
-              ).colorScheme.outline.withValues(alpha: 0.38),
+              color: Theme.of(context).colorScheme.outline
+                  .withValues(alpha: 0.38),
             ),
           )
         : const UnderlineInputBorder();
@@ -1275,9 +1273,8 @@ class ToolbarState extends State<Toolbar> {
     return _useMaterial3
         ? OutlineInputBorder(
             borderSide: BorderSide(
-              color: Theme.of(
-                context,
-              ).colorScheme.outline.withValues(alpha: 0.38),
+              color: Theme.of(context).colorScheme.outline
+                  .withValues(alpha: 0.38),
             ),
           )
         : null;
@@ -1288,9 +1285,8 @@ class ToolbarState extends State<Toolbar> {
     return _useMaterial3
         ? OutlineInputBorder(
             borderSide: BorderSide(
-              color: Theme.of(
-                context,
-              ).colorScheme.outline.withValues(alpha: 0.38),
+              color: Theme.of(context).colorScheme.outline
+                  .withValues(alpha: 0.38),
             ),
           )
         : UnderlineInputBorder(

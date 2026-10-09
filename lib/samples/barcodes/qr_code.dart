@@ -106,9 +106,8 @@ class _QRCodeGeneratorState extends SampleViewState {
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Theme(
-                      data: Theme.of(
-                        context,
-                      ).copyWith(canvasColor: model.drawerBackgroundColor),
+                      data: Theme.of(context)
+                          .copyWith(canvasColor: model.drawerBackgroundColor),
                       child: TextField(
                         style: TextStyle(color: model.textColor),
                         decoration: InputDecoration(

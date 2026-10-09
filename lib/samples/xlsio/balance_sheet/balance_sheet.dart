@@ -294,8 +294,7 @@ class _BalanceSheetXlsIOState extends SampleViewState {
     sheet.getRangeByIndex(11, 4).formula = r'=SUM(Liabilities!$D$11:$D$12)';
     sheet.getRangeByIndex(12, 4).formula =
         r'=SUM(SUM(Assets!$D$4:$D$8),SUM(Assets!$D$9:$D$12),SUM(Assets!$D$13))';
-    sheet.getRangeByIndex(13, 4).formula =
-        r'=SUM(SUM(Liabilities!$D$4:$D$8), SUM(Liabilities!$D$9:$D$10), SUM(Liabilities!$D$11:$D$12))';
+    sheet.getRangeByIndex(13, 4).formula = r'=SUM(SUM(Liabilities!$D$4:$D$8), SUM(Liabilities!$D$9:$D$10), SUM(Liabilities!$D$11:$D$12))';
     sheet.getRangeByIndex(14, 4).formula = '=D12-D13';
 
     sheet.getRangeByIndex(6, 5).formula = r'=SUM(Assets!$E$4:$E$8)';
@@ -306,8 +305,7 @@ class _BalanceSheetXlsIOState extends SampleViewState {
     sheet.getRangeByIndex(11, 5).formula = r'=SUM(Liabilities!$E$11:$E$12)';
     sheet.getRangeByIndex(12, 5).formula =
         r'=SUM(SUM(Assets!$E$4:$E$8),SUM(Assets!$E$9:$E$12),SUM(Assets!$E$13))';
-    sheet.getRangeByIndex(13, 5).formula =
-        r'=SUM(SUM(Liabilities!$E$4:$E$8), SUM(Liabilities!$E$9:$E$10), SUM(Liabilities!$E$11:$E$12))';
+    sheet.getRangeByIndex(13, 5).formula = r'=SUM(SUM(Liabilities!$E$4:$E$8), SUM(Liabilities!$E$9:$E$10), SUM(Liabilities!$E$11:$E$12))';
     sheet.getRangeByIndex(14, 5).formula = '=E12-E13';
 
     // sheet1 Image Hyperlink

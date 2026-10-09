@@ -157,9 +157,8 @@ class _ExpansionTileState extends State<CustomExpansionTile>
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: DefaultTextStyle(
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleMedium!.copyWith(color: _headerColor),
+                  style: Theme.of(context).textTheme.titleMedium!
+                      .copyWith(color: _headerColor),
                   child: widget.title!,
                 ),
               ),

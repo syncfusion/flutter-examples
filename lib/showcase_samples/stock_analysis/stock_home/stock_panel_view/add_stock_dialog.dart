@@ -145,9 +145,8 @@ class _AddStockDialogState extends State<AddStockDialog> {
       children: [
         Text(
           'Add stock',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: colorScheme.onSurface),
         ),
         buildCloseIconButton(context, () {
           Navigator.of(context).pop();
@@ -211,9 +210,8 @@ class _AddStockDialogState extends State<AddStockDialog> {
 
     return Text(
       'Search stock',
-      style: Theme.of(
-        context,
-      ).textTheme.titleMedium?.copyWith(color: colorScheme.onSurface),
+      style: Theme.of(context).textTheme.titleMedium
+          ?.copyWith(color: colorScheme.onSurface),
     );
   }
 
@@ -262,9 +260,8 @@ class _AddStockDialogState extends State<AddStockDialog> {
 
     return Text(
       'Select Watchlist',
-      style: Theme.of(
-        context,
-      ).textTheme.titleMedium?.copyWith(color: colorScheme.onSurface),
+      style: Theme.of(context).textTheme.titleMedium
+          ?.copyWith(color: colorScheme.onSurface),
     );
   }
 
@@ -311,9 +308,8 @@ class _AddStockDialogState extends State<AddStockDialog> {
         icon: Icon(Icons.add, color: colorScheme.onSurfaceVariant),
         label: Text(
           'New Watchlist',
-          style: Theme.of(
-            context,
-          ).textTheme.labelLarge?.copyWith(color: colorScheme.onSurfaceVariant),
+          style: Theme.of(context).textTheme.labelLarge
+              ?.copyWith(color: colorScheme.onSurfaceVariant),
         ),
         onPressed: () {
           switch (deviceType(context)) {

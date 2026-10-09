@@ -336,9 +336,8 @@ class GettingStartedCalendarState extends SampleViewState {
                   style: TextStyle(fontSize: 16.0, color: model.textColor),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Container(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
@@ -369,9 +368,8 @@ class GettingStartedCalendarState extends SampleViewState {
                 Container(
                   padding: EdgeInsets.zero,
                   child: Theme(
-                    data: Theme.of(
-                      context,
-                    ).copyWith(canvasColor: model.drawerBackgroundColor),
+                    data: Theme.of(context)
+                        .copyWith(canvasColor: model.drawerBackgroundColor),
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Transform.scale(
@@ -405,9 +403,8 @@ class GettingStartedCalendarState extends SampleViewState {
                   ),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
@@ -440,9 +437,8 @@ class GettingStartedCalendarState extends SampleViewState {
                   ),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(
@@ -473,9 +469,8 @@ class GettingStartedCalendarState extends SampleViewState {
                   ),
                 ),
                 Theme(
-                  data: Theme.of(
-                    context,
-                  ).copyWith(canvasColor: model.drawerBackgroundColor),
+                  data: Theme.of(context)
+                      .copyWith(canvasColor: model.drawerBackgroundColor),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Transform.scale(

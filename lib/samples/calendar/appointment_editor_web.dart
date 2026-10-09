@@ -2863,29 +2863,24 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                                                             lastDate: DateTime(
                                                               2050,
                                                             ),
-                                                            builder:
-                                                                (
-                                                                  BuildContext
-                                                                  context,
-                                                                  Widget? child,
-                                                                ) {
-                                                                  return Theme(
-                                                                    data: ThemeData(
-                                                                      brightness: widget
-                                                                          .model
-                                                                          .themeData
-                                                                          .colorScheme
-                                                                          .brightness,
-                                                                      colorScheme:
-                                                                          getColorScheme(
-                                                                            widget.model,
-                                                                            true,
-                                                                          ),
-                                                                    ),
-                                                                    child:
-                                                                        child!,
-                                                                  );
-                                                                },
+                                                            builder: (BuildContext context, Widget? child) {
+                                                              return Theme(
+                                                                data: ThemeData(
+                                                                  brightness: widget
+                                                                      .model
+                                                                      .themeData
+                                                                      .colorScheme
+                                                                      .brightness,
+                                                                  colorScheme:
+                                                                      getColorScheme(
+                                                                        widget
+                                                                            .model,
+                                                                        true,
+                                                                      ),
+                                                                ),
+                                                                child: child!,
+                                                              );
+                                                            },
                                                           );
                                                           if (pickedDate ==
                                                               null) {
@@ -3718,10 +3713,9 @@ class _AppointmentEditorWebState extends State<AppointmentEditorWeb> {
                               null) {
                             final Appointment? parentAppointment =
                                 widget.events.getPatternAppointment(
-                                      widget.selectedAppointment,
-                                      '',
-                                    )
-                                    as Appointment?;
+                                  widget.selectedAppointment,
+                                  '',
+                                ) as Appointment?;
                             widget.events.appointments!.removeAt(
                               widget.events.appointments!.indexOf(
                                 parentAppointment,

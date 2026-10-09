@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 /// DataGrid import
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
 import '../../../../model/sample_view.dart';
 import '../../../model/model.dart';
 import '../../helper/ai_pop_up_api_key.dart';
@@ -84,16 +86,12 @@ class _PredictiveDataSampleState extends SampleViewState
   String _generatePrompt() {
     String prompt = 'Provide the results in strict JSON format only.';
     prompt += 'Each student should have the following properties: ';
-    prompt +=
-        '`studentID` (int), `finalYearGPA` (Double), `totalGPA` (Double), and `totalGrade` (String). ';
+    prompt += '`studentID` (int), `finalYearGPA` (Double), `totalGPA` (Double), and `totalGrade` (String). ';
     prompt += 'Here is the data and calculation criteria:\n\n';
 
-    prompt +=
-        '1. `finalYearGPA` should be equal of the GPA from the third year (thirdYearGPA) only.\n';
-    prompt +=
-        "2. `totalGPA` should be the average of all three years' GPAs (first, second, and third years) with one decimal digit.\n";
-    prompt +=
-        '3. `totalGrade` should be assigned based on `totalGPA` following standard grading. Updated the grade based on following details, 0 - 2.5 = F, 2.6 - 2.9 = C, 3.0 - 3.4 = B, 3.5 - 3.9 = B+, 4.0 - 4.4 = A, 4.5 - 5 = A+.\n\n';
+    prompt += '1. `finalYearGPA` should be equal of the GPA from the third year (thirdYearGPA) only.\n';
+    prompt += "2. `totalGPA` should be the average of all three years' GPAs (first, second, and third years) with one decimal digit.\n";
+    prompt += '3. `totalGrade` should be assigned based on `totalGPA` following standard grading. Updated the grade based on following details, 0 - 2.5 = F, 2.6 - 2.9 = C, 3.0 - 3.4 = B, 3.5 - 3.9 = B+, 4.0 - 4.4 = A, 4.5 - 5 = A+.\n\n';
 
     final String studentJson = jsonEncode(
       _studentDetails.map((student) => student.toJson()).toList(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+
 import '../../enum.dart';
 import '../../helper/helper.dart';
 import '../../model/chart_data.dart';

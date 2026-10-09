@@ -197,15 +197,13 @@ class _LocalizationDataGridState extends LocalizationSampleViewState {
             Container(
               height: _dataPagerHeight,
               decoration: BoxDecoration(
-                color: Theme.of(
-                  context,
-                ).colorScheme.surface.withValues(alpha: 0.12),
+                color: Theme.of(context).colorScheme.surface
+                    .withValues(alpha: 0.12),
                 border: Border(
                   top: BorderSide(
                     width: .5,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.12),
+                    color: Theme.of(context).colorScheme.onSurface
+                        .withValues(alpha: 0.12),
                   ),
                 ),
               ),

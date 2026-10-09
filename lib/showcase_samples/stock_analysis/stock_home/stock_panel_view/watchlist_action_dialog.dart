@@ -123,9 +123,8 @@ class _WatchlistActionDialogState extends State<WatchlistActionDialog> {
           widget.isRemoving
               ? 'Remove Stock in Watchlist'
               : 'Add Stock in Watchlist',
-          style: Theme.of(
-            context,
-          ).textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: colorScheme.onSurface),
           overflow: TextOverflow.ellipsis,
         ),
         buildCloseIconButton(context, () {
@@ -143,9 +142,8 @@ class _WatchlistActionDialogState extends State<WatchlistActionDialog> {
       widget.isRemoving
           ? 'Select Watchlist to Remove From'
           : 'Select Watchlist',
-      style: Theme.of(
-        context,
-      ).textTheme.titleMedium?.copyWith(color: colorScheme.onSurface),
+      style: Theme.of(context).textTheme.titleMedium
+          ?.copyWith(color: colorScheme.onSurface),
     );
   }
 

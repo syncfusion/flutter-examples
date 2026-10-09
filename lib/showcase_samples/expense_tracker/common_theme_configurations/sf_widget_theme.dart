@@ -23,13 +23,11 @@ SfDataGridThemeData dataGridTheme(BuildContext context) {
 SfDataPagerThemeData dataPagerTheme(BuildContext context) {
   return SfDataPagerThemeData(
     backgroundColor: Colors.transparent,
-    selectedItemTextStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
-      color: Theme.of(context).colorScheme.onPrimary,
-    ),
+    selectedItemTextStyle: Theme.of(context).textTheme.labelLarge!
+        .copyWith(color: Theme.of(context).colorScheme.onPrimary),
     selectedItemColor: Theme.of(context).colorScheme.primary,
-    itemTextStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-      color: Theme.of(context).colorScheme.onSurface,
-    ),
+    itemTextStyle: Theme.of(context).textTheme.bodyMedium!
+        .copyWith(color: Theme.of(context).colorScheme.onSurface),
     itemBorderRadius: BorderRadius.circular(5),
   );
 }

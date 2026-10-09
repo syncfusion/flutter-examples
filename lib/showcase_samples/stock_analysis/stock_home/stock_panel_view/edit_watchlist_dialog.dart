@@ -85,10 +85,8 @@ class _EditWatchlistDialogState extends State<EditWatchlistDialog> {
 
     return Text(
       'Edit Watchlist',
-      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-        color: colorScheme.onSurface,
-        fontWeight: fontWeight500(),
-      ),
+      style: Theme.of(context).textTheme.titleLarge
+          ?.copyWith(color: colorScheme.onSurface, fontWeight: fontWeight500()),
     );
   }
 
@@ -150,9 +148,8 @@ class _EditWatchlistDialogState extends State<EditWatchlistDialog> {
 
     return Text(
       'Edit Watchlist',
-      style: Theme.of(
-        context,
-      ).textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+      style: Theme.of(context).textTheme.bodyMedium
+          ?.copyWith(color: colorScheme.onSurfaceVariant),
     );
   }
 
@@ -161,9 +158,8 @@ class _EditWatchlistDialogState extends State<EditWatchlistDialog> {
       controller: _nameController,
       decoration: InputDecoration(
         hintText: 'Watchlist Name',
-        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-        ),
+        hintStyle: Theme.of(context).textTheme.bodyLarge!
+            .copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12,
@@ -178,9 +174,8 @@ class _EditWatchlistDialogState extends State<EditWatchlistDialog> {
 
     return Text(
       'Select stock to add to your new watchlist',
-      style: Theme.of(
-        context,
-      ).textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+      style: Theme.of(context).textTheme.bodyMedium
+          ?.copyWith(color: colorScheme.onSurfaceVariant),
     );
   }
 

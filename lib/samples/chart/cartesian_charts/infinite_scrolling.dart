@@ -103,9 +103,10 @@ class _InfiniteScrollingState extends SampleViewState {
         themeData.useMaterial3,
         themeData.brightness == Brightness.light,
       ),
-      loadMoreIndicatorBuilder:
-          (BuildContext context, ChartSwipeDirection direction) =>
-              _buildLoadMoreIndicator(context, direction),
+      loadMoreIndicatorBuilder: (
+        BuildContext context,
+        ChartSwipeDirection direction,
+      ) => _buildLoadMoreIndicator(context, direction),
     );
   }
 
