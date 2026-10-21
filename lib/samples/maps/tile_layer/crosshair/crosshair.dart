@@ -92,9 +92,8 @@ class _MapCrosshairPageState extends SampleViewState {
               child: TextField(
                 controller: _textController,
                 enabled: false,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.apply(color: Colors.black),
+                style: Theme.of(context).textTheme.bodySmall
+                    ?.apply(color: Colors.black),
                 decoration: const InputDecoration(border: InputBorder.none),
               ),
             ),

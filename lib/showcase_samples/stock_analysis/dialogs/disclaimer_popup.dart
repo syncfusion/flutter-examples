@@ -1,5 +1,6 @@
 // flutter_examples/lib/showcase_samples/stock_analysis/dialogs/disclaimer_popup.dart
 import 'package:flutter/material.dart';
+
 import '../helper/helper.dart';
 
 class DisclaimerPopup extends StatefulWidget {
@@ -56,10 +57,8 @@ Widget _buildDisclaimerText(BuildContext context) {
 
   return Text(
     'Disclaimer',
-    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-      color: colorScheme.onSurface,
-      fontWeight: fontWeight500(),
-    ),
+    style: Theme.of(context).textTheme.titleLarge
+        ?.copyWith(color: colorScheme.onSurface, fontWeight: fontWeight500()),
   );
 }
 

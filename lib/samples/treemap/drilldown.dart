@@ -1693,9 +1693,8 @@ class _TreemapDrilldownSampleState extends SampleViewState
         padding: const EdgeInsets.only(left: 4.0, top: 4.0, right: 4),
         child: Text(
           tile.group,
-          style: Theme.of(
-            context,
-          ).textTheme.bodySmall!.copyWith(fontSize: 11, color: color),
+          style: Theme.of(context).textTheme.bodySmall!
+              .copyWith(fontSize: 11, color: color),
           overflow: TextOverflow.ellipsis,
         ),
       ),

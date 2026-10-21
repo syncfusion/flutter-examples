@@ -721,9 +721,8 @@ class _ExpenseAnalysisState extends State<ExpenseAnalysis> {
           ),
           message: '$firstName $lastName',
           textAlign: TextAlign.center,
-          textStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
-            color: themeData.colorScheme.onInverseSurface,
-          ),
+          textStyle: Theme.of(context).textTheme.labelLarge!
+              .copyWith(color: themeData.colorScheme.onInverseSurface),
           child: SizedBox.square(
             dimension: 36.0,
             child: InkWell(
@@ -835,9 +834,8 @@ class _ExpenseAnalysisState extends State<ExpenseAnalysis> {
               ),
               Text(
                 'Go to Sample Browser',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: themeData.colorScheme.primary,
-                ),
+                style: Theme.of(context).textTheme.bodyLarge!
+                    .copyWith(color: themeData.colorScheme.primary),
               ),
             ],
           ),
@@ -955,12 +953,10 @@ class _NavigationRailAndDrawerState extends State<NavigationRailAndDrawer> {
           focusColor: isSelected
               ? Theme.of(context).colorScheme.primaryContainer
               : Theme.of(context).colorScheme.primary,
-          hoverColor: Theme.of(
-            context,
-          ).colorScheme.primaryContainer.withValues(alpha: 0.4),
-          splashColor: Theme.of(
-            context,
-          ).colorScheme.primaryContainer.withValues(alpha: 0.2),
+          hoverColor: Theme.of(context).colorScheme.primaryContainer
+              .withValues(alpha: 0.4),
+          splashColor: Theme.of(context).colorScheme.primaryContainer
+              .withValues(alpha: 0.2),
           tileColor: isSelected
               ? Theme.of(context).colorScheme.primaryContainer
               : Theme.of(context).colorScheme.primary,
@@ -1220,9 +1216,9 @@ class _NavigationRailAndDrawerState extends State<NavigationRailAndDrawer> {
                                           Divider(
                                             height: 1,
                                             thickness: 1,
-                                            color: Theme.of(
-                                              context,
-                                            ).colorScheme.primaryContainer,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primaryContainer,
                                           ),
                                         ],
                                       );
@@ -1263,9 +1259,9 @@ class _NavigationRailAndDrawerState extends State<NavigationRailAndDrawer> {
                                 Divider(
                                   height: 1,
                                   thickness: 1,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
                                 ),
                                 _createDrawerItem(
                                   icon: Icons.settings,
@@ -1879,9 +1875,8 @@ class _CustomFabMenuState extends State<CustomFabMenu>
             children: <Widget>[
               Text(
                 label,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                style: Theme.of(context).textTheme.labelLarge
+                    ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
               ),
               const SizedBox(width: 6),
               Icon(

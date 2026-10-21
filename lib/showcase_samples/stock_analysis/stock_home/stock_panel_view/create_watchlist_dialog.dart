@@ -92,10 +92,8 @@ class _CreateWatchlistDialogState extends State<CreateWatchlistDialog> {
 
     return Text(
       'New Watchlist',
-      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-        color: colorScheme.onSurface,
-        fontWeight: fontWeight500(),
-      ),
+      style: Theme.of(context).textTheme.titleLarge
+          ?.copyWith(color: colorScheme.onSurface, fontWeight: fontWeight500()),
     );
   }
 
@@ -161,9 +159,8 @@ class _CreateWatchlistDialogState extends State<CreateWatchlistDialog> {
 
     return Text(
       'New Watchlist Name',
-      style: Theme.of(
-        context,
-      ).textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+      style: Theme.of(context).textTheme.bodyMedium
+          ?.copyWith(color: colorScheme.onSurfaceVariant),
     );
   }
 
@@ -186,9 +183,8 @@ class _CreateWatchlistDialogState extends State<CreateWatchlistDialog> {
 
     return Text(
       'Select stock to add to your new watchlist',
-      style: Theme.of(
-        context,
-      ).textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+      style: Theme.of(context).textTheme.bodyMedium
+          ?.copyWith(color: colorScheme.onSurfaceVariant),
     );
   }
 

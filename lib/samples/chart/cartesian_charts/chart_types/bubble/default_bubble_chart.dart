@@ -28,8 +28,7 @@ class _BubbleDefaultState extends SampleViewState {
       enable: true,
       header: '',
       canShowMarker: false,
-      format:
-          'point.x\nLiteracy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB',
+      format: 'point.x\nLiteracy rate : point.x%\nGDP growth rate : point.y\nPopulation : point.sizeB',
     );
     _chartData = <ChartSampleData>[
       ChartSampleData(x: 'China', xValue: 92.2, y: 7.8, size: 1.347),

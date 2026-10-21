@@ -161,9 +161,12 @@ class _PieImageShaderState extends SampleViewState {
             explodeOffset: '3%',
             radius: isCardView ? '85%' : '63%',
             dataLabelMapper: (_ChartShaderData data, int index) => data.text,
-            pointShaderMapper:
-                (dynamic data, int index, Color color, Rect rect) =>
-                    data.shader,
+            pointShaderMapper: (
+              dynamic data,
+              int index,
+              Color color,
+              Rect rect,
+            ) => data.shader,
             dataLabelSettings: DataLabelSettings(
               isVisible: true,
               labelPosition: ChartDataLabelPosition.outside,

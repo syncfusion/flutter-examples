@@ -19,6 +19,7 @@ import '../models/transactional_data.dart';
 import '../models/transactional_details.dart';
 import '../models/user.dart';
 import '../models/user_profile.dart';
+
 // import 'utils.dart';
 
 // /// Key for storing the data in shared preferences

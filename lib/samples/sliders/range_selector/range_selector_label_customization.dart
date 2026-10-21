@@ -1291,17 +1291,16 @@ class _RangeSelectorLabelCustomizationState extends SampleViewState
                             return RangeSelectorLabel(
                               text: labelStyleText,
                               textStyle: (isStartIndex || isEndIndex)
-                                  ? Theme.of(
-                                      context,
-                                    ).textTheme.bodySmall!.copyWith(
-                                      color: const Color.fromRGBO(
-                                        255,
-                                        125,
-                                        30,
-                                        1,
-                                      ),
-                                      fontWeight: FontWeight.bold,
-                                    )
+                                  ? Theme.of(context).textTheme.bodySmall!
+                                        .copyWith(
+                                          color: const Color.fromRGBO(
+                                            255,
+                                            125,
+                                            30,
+                                            1,
+                                          ),
+                                          fontWeight: FontWeight.bold,
+                                        )
                                   : textStyle,
                             );
                           },

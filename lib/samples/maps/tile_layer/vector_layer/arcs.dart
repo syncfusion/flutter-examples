@@ -485,9 +485,8 @@ class _ArcsSampleState extends SampleViewState
               padding: const EdgeInsets.only(top: 5.0),
               child: Text(
                 _airports[index].destination,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: const Color.fromRGBO(255, 255, 255, 1),
-                ),
+                style: Theme.of(context).textTheme.bodySmall!
+                    .copyWith(color: const Color.fromRGBO(255, 255, 255, 1)),
               ),
             ),
           ],

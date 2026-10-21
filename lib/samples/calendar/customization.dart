@@ -128,16 +128,12 @@ class _CustomizationCalendarState extends SampleViewState {
         _currentView == CalendarView.week ||
         _currentView == CalendarView.workWeek) {
       final Map<String, String> events = <String, String>{};
-      events['Environmental Discussion'] =
-          'The day that encourages awareness to promote the healthy planet and reduce air pollution crisis on nature earth';
-      events['Health Checkup'] =
-          'The day that raises awareness on different health issues. It marks the anniversary of the foundation of WHO';
-      events['Cancer awareness'] =
-          'The day that promotes awareness on cancer and its preventive measures. Early detection saves life';
+      events['Environmental Discussion'] = 'The day that encourages awareness to promote the healthy planet and reduce air pollution crisis on nature earth';
+      events['Health Checkup'] = 'The day that raises awareness on different health issues. It marks the anniversary of the foundation of WHO';
+      events['Cancer awareness'] = 'The day that promotes awareness on cancer and its preventive measures. Early detection saves life';
       events['Happiness'] =
           'The general idea is to promote happiness and smile around the world';
-      events['Tourism'] =
-          'The day that raises awareness to the role of tourism and its effect on social and economic values';
+      events['Tourism'] = 'The day that raises awareness to the role of tourism and its effect on social and economic values';
       final List<Color> colors = <Color>[
         const Color(0xFF56AB56),
         const Color(0xFF357CD2),

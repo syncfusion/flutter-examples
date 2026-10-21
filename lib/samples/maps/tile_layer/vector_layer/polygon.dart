@@ -310,8 +310,10 @@ class _MapPolygonPageState extends SampleViewState {
 }
 
 /// Builder for expanded button
-typedef ExpandableButtonWidgetBuilder =
-    _ExpandedButton Function(int index, BuildContext context);
+typedef ExpandableButtonWidgetBuilder = _ExpandedButton Function(
+  int index,
+  BuildContext context,
+);
 
 /// Renders the expandable animated button
 class ExpandableAnimatedButton extends StatefulWidget {

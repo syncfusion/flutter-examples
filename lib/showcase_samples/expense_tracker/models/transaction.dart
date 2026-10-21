@@ -21,12 +21,10 @@ class Transaction {
       transactionDate = DateTime.parse(json['transactionDate']);
       addedDateTime = DateTime.parse(json['addedDateTime']);
     } catch (_) {
-      transactionDate = DateFormat(
-        currentDateFormat,
-      ).parse(json['transactionDate']);
-      addedDateTime = DateFormat(
-        currentDateFormat,
-      ).parse(json['addedDateTime']);
+      transactionDate = DateFormat(currentDateFormat)
+          .parse(json['transactionDate']);
+      addedDateTime = DateFormat(currentDateFormat)
+          .parse(json['addedDateTime']);
     }
 
     return Transaction(

@@ -78,17 +78,17 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       child: Tooltip(
                         decoration: _useMaterial3
                             ? BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.inverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inverseSurface,
                                 borderRadius: BorderRadius.circular(4),
                               )
                             : null,
                         textStyle: _useMaterial3
                             ? TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onInverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onInverseSurface,
                                 fontSize: 14,
                               )
                             : null,
@@ -146,17 +146,17 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       child: Tooltip(
                         decoration: _useMaterial3
                             ? BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.inverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inverseSurface,
                                 borderRadius: BorderRadius.circular(4),
                               )
                             : null,
                         textStyle: _useMaterial3
                             ? TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onInverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onInverseSurface,
                                 fontSize: 14,
                               )
                             : null,
@@ -218,17 +218,17 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       child: Tooltip(
                         decoration: _useMaterial3
                             ? BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.inverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inverseSurface,
                                 borderRadius: BorderRadius.circular(4),
                               )
                             : null,
                         textStyle: _useMaterial3
                             ? TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onInverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onInverseSurface,
                                 fontSize: 14,
                               )
                             : null,
@@ -282,17 +282,17 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       child: Tooltip(
                         decoration: _useMaterial3
                             ? BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.inverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inverseSurface,
                                 borderRadius: BorderRadius.circular(4),
                               )
                             : null,
                         textStyle: _useMaterial3
                             ? TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onInverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onInverseSurface,
                                 fontSize: 14,
                               )
                             : null,
@@ -343,17 +343,17 @@ class _FormFillingPdfViewerState extends SampleViewState {
                       child: Tooltip(
                         decoration: _useMaterial3
                             ? BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.inverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inverseSurface,
                                 borderRadius: BorderRadius.circular(4),
                               )
                             : null,
                         textStyle: _useMaterial3
                             ? TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onInverseSurface,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onInverseSurface,
                                 fontSize: 14,
                               )
                             : null,

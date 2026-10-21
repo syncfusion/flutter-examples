@@ -249,17 +249,14 @@ class _ClockWidgetState extends State<_ClockWidget> {
         ),
         Text(
           widget.countryName,
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.bodyMedium!
+              .copyWith(fontWeight: FontWeight.bold),
         ),
         Center(
           child: Text(
             _currentTime,
-            style: Theme.of(context).textTheme.labelSmall!.copyWith(
-              letterSpacing: 0.5,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.labelSmall!
+                .copyWith(letterSpacing: 0.5, fontWeight: FontWeight.w500),
           ),
         ),
       ],

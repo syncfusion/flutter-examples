@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../enum.dart';
 
 /// Notifier for handling page state changes.

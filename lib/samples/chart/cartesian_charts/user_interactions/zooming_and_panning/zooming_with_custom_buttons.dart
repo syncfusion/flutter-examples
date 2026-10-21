@@ -122,30 +122,15 @@ class _ButtonZoomingState extends SampleViewState {
                     _buildZoomButton(Icons.remove, 'Zoom Out', () {
                       _zoomPan.zoomOut();
                     }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
-                    _buildZoomButton(
-                      Icons.keyboard_arrow_up,
-                      'Pan Up',
-                      () {
-                        _zoomPan.panToDirection('top');
-                      },
-                      const EdgeInsets.fromLTRB(20, 15, 0, 0),
-                    ),
-                    _buildZoomButton(
-                      Icons.keyboard_arrow_down,
-                      'Pan Down',
-                      () {
-                        _zoomPan.panToDirection('bottom');
-                      },
-                      const EdgeInsets.fromLTRB(20, 15, 0, 0),
-                    ),
-                    _buildZoomButton(
-                      Icons.keyboard_arrow_left,
-                      'Pan Left',
-                      () {
-                        _zoomPan.panToDirection('left');
-                      },
-                      const EdgeInsets.fromLTRB(20, 15, 0, 0),
-                    ),
+                    _buildZoomButton(Icons.keyboard_arrow_up, 'Pan Up', () {
+                      _zoomPan.panToDirection('top');
+                    }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
+                    _buildZoomButton(Icons.keyboard_arrow_down, 'Pan Down', () {
+                      _zoomPan.panToDirection('bottom');
+                    }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
+                    _buildZoomButton(Icons.keyboard_arrow_left, 'Pan Left', () {
+                      _zoomPan.panToDirection('left');
+                    }, const EdgeInsets.fromLTRB(20, 15, 0, 0)),
                     _buildZoomButton(
                       Icons.keyboard_arrow_right,
                       'Pan Right',

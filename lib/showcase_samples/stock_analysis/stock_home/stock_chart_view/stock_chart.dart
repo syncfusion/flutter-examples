@@ -635,11 +635,10 @@ class StockChartView extends StatelessWidget {
                                   .stockTrendlines,
                             ),
                           Selector<StockChartProvider, bool>(
-                            selector:
-                                (
-                                  BuildContext context,
-                                  StockChartProvider provider,
-                                ) => provider.enableReset,
+                            selector: (
+                              BuildContext context,
+                              StockChartProvider provider,
+                            ) => provider.enableReset,
                             builder:
                                 (
                                   BuildContext context,
@@ -1911,9 +1910,8 @@ mixin ChartBehaviorMixin {
           color: colorScheme.outlineVariant,
           width: 0.5,
         ),
-        labelStyle: Theme.of(
-          context,
-        ).textTheme.labelMedium?.copyWith(color: colorScheme.onSurface),
+        labelStyle: Theme.of(context).textTheme.labelMedium
+            ?.copyWith(color: colorScheme.onSurface),
         axisLabelFormatter: (AxisLabelRenderDetails axisLabelRenderArgs) {
           return ChartAxisLabel(
             '\$${axisLabelRenderArgs.text}',
@@ -1937,9 +1935,8 @@ mixin ChartBehaviorMixin {
           width: 0.5,
         ),
         name: 'primaryYAxis',
-        labelStyle: Theme.of(
-          context,
-        ).textTheme.labelMedium?.copyWith(color: colorScheme.onSurface),
+        labelStyle: Theme.of(context).textTheme.labelMedium
+            ?.copyWith(color: colorScheme.onSurface),
         axisLine: const AxisLine(width: 0),
         axisLabelFormatter: (AxisLabelRenderDetails axisLabelRenderArgs) {
           return ChartAxisLabel(

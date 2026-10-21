@@ -214,9 +214,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             fontFamily: 'Roboto',
             fontSize: 20,
             fontWeight: FontWeight.w500,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.87),
+            color: Theme.of(context).colorScheme.onSurface
+                .withValues(alpha: 0.87),
           ),
         ),
         SizedBox(
@@ -235,9 +234,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
             },
             child: Icon(
               Icons.clear,
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.6),
+              color: Theme.of(context).colorScheme.onSurface
+                  .withValues(alpha: 0.6),
               size: 24,
             ),
           ),
@@ -271,9 +269,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
                 fontFamily: 'Roboto',
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.6),
+                color: Theme.of(context).colorScheme.onSurface
+                    .withValues(alpha: 0.6),
               ),
             ),
           ),
@@ -465,9 +462,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               fontFamily: 'Roboto',
               fontSize: 20,
               fontWeight: FontWeight.w500,
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.87),
+              color: Theme.of(context).colorScheme.onSurface
+                  .withValues(alpha: 0.87),
             ),
           ),
           SizedBox(
@@ -480,9 +476,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
               ),
               child: Icon(
                 Icons.clear,
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.6),
+                color: Theme.of(context).colorScheme.onSurface
+                    .withValues(alpha: 0.6),
                 size: 24,
               ),
             ),
@@ -518,9 +513,8 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
           fontFamily: 'Roboto',
           fontSize: 17,
           fontWeight: FontWeight.w400,
-          color: Theme.of(
-            context,
-          ).colorScheme.onSurface.withValues(alpha: 0.87),
+          color: Theme.of(context).colorScheme.onSurface
+              .withValues(alpha: 0.87),
         ),
         obscureText: _passwordVisible,
         obscuringCharacter: '*',
@@ -2141,11 +2135,10 @@ class _CustomToolbarPdfViewerState extends SampleViewState {
       appBar: appBar,
       // ignore: always_specify_types
       body: FutureBuilder(
-        future: Future<dynamic>.delayed(const Duration(milliseconds: 200)).then(
-          (dynamic value) {
-            _canShowPdf = true;
-          },
-        ),
+        future: Future<dynamic>.delayed(const Duration(milliseconds: 200))
+            .then((dynamic value) {
+              _canShowPdf = true;
+            }),
         builder: (BuildContext context, AsyncSnapshot<Object?> snapshot) {
           final Widget pdfViewer = Listener(
             onPointerDown: (PointerDownEvent details) {
@@ -3597,27 +3590,24 @@ class ToolbarState extends State<Toolbar> {
       border: _useMaterial3
           ? OutlineInputBorder(
               borderSide: BorderSide(
-                color: Theme.of(
-                  context,
-                ).colorScheme.outline.withValues(alpha: 0.38),
+                color: Theme.of(context).colorScheme.outline
+                    .withValues(alpha: 0.38),
               ),
             )
           : const UnderlineInputBorder(),
       enabledBorder: _useMaterial3
           ? OutlineInputBorder(
               borderSide: BorderSide(
-                color: Theme.of(
-                  context,
-                ).colorScheme.outline.withValues(alpha: 0.38),
+                color: Theme.of(context).colorScheme.outline
+                    .withValues(alpha: 0.38),
               ),
             )
           : null,
       focusedBorder: _useMaterial3
           ? OutlineInputBorder(
               borderSide: BorderSide(
-                color: Theme.of(
-                  context,
-                ).colorScheme.outline.withValues(alpha: 0.38),
+                color: Theme.of(context).colorScheme.outline
+                    .withValues(alpha: 0.38),
               ),
             )
           : UnderlineInputBorder(

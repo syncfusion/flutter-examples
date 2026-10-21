@@ -61,9 +61,8 @@ class ExtendableRangeSelectionDatepickerDialogState
   Widget _buildTitle() {
     return Text(
       'Date Range',
-      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-        color: Theme.of(context).colorScheme.onSurface,
-      ),
+      style: Theme.of(context).textTheme.headlineSmall
+          ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
     );
   }
 
@@ -255,9 +254,8 @@ class ExtendableRangeSelectionDatepickerDialogState
       onPressed: () => Navigator.pop(context),
       child: Text(
         'Cancel',
-        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        style: Theme.of(context).textTheme.labelLarge
+            ?.copyWith(color: Theme.of(context).colorScheme.primary),
       ),
     );
   }
@@ -267,9 +265,8 @@ class ExtendableRangeSelectionDatepickerDialogState
       onPressed: () => handleApplyButtonPressed(context),
       child: Text(
         'Apply',
-        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        style: Theme.of(context).textTheme.labelLarge
+            ?.copyWith(color: Theme.of(context).colorScheme.primary),
       ),
     );
   }

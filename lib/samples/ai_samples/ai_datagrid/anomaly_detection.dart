@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 /// DataGrid import
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
 import '../../../../model/sample_view.dart';
 import '../../../model/model.dart';
 import '../../helper/ai_pop_up_api_key.dart';
@@ -84,19 +86,14 @@ class _AnomalyDetectionSampleState extends SampleViewState
   String _generatePrompt() {
     String prompt = 'Provide the results in strict JSON format only.';
     prompt += 'Each machine should have the following properties: ';
-    prompt +=
-        '`machineID` (String), `temperature` (int), `pressure` (int), `voltage` (int), `motorSpeed` (int), `productionRate` (int), and `anomalyDescription` (String). ';
+    prompt += '`machineID` (String), `temperature` (int), `pressure` (int), `voltage` (int), `motorSpeed` (int), `productionRate` (int), and `anomalyDescription` (String). ';
     prompt += 'Here is the data and calculation criteria:\n\n';
 
-    prompt +=
-        '1. Check the production rate (`productionRate`) and ensure that it aligns with the expected factors used to achieve this rate (Temperature, Pressure, Motor Speed).\n';
-    prompt +=
-        '2. If the production rate does not correlate with the expected factors, mark it as anomaly data.\n';
+    prompt += '1. Check the production rate (`productionRate`) and ensure that it aligns with the expected factors used to achieve this rate (Temperature, Pressure, Motor Speed).\n';
+    prompt += '2. If the production rate does not correlate with the expected factors, mark it as anomaly data.\n';
     prompt += '3. Include only entries that have been marked as anomalies.\n';
-    prompt +=
-        '4. The anomaly field should be updated with the column name that caused the anomaly (e.g., temperature, pressure, motor speed).\n';
-    prompt +=
-        '5. Add a short description in the anomalyDescription field explaining why the data was marked as an anomaly (e.g., "Since the mentioned temperature is too high than expected, it is marked as anomaly data").\n\n';
+    prompt += '4. The anomaly field should be updated with the column name that caused the anomaly (e.g., temperature, pressure, motor speed).\n';
+    prompt += '5. Add a short description in the anomalyDescription field explaining why the data was marked as an anomaly (e.g., "Since the mentioned temperature is too high than expected, it is marked as anomaly data").\n\n';
 
     final String machineJson = jsonEncode(
       _machineDetails.map((machine) => machine.toJson()).toList(),
@@ -104,8 +101,7 @@ class _AnomalyDetectionSampleState extends SampleViewState
 
     prompt += machineJson;
     prompt += '\n\nOutput Format (strict JSON):\n';
-    prompt +=
-        '[{"machineID": "M001", "anomalyDescription": "Since the mentioned temperature is too high than expected, it is marked as anomaly data"}]\n';
+    prompt += '[{"machineID": "M001", "anomalyDescription": "Since the mentioned temperature is too high than expected, it is marked as anomaly data"}]\n';
     return prompt;
   }
 
@@ -256,8 +252,7 @@ class MachineData {
     this.voltage,
     this.motorSpeed,
     this.productionRate, {
-    this.anomalyDescription =
-        'The factor that supporting the Production rate is releveant to the count produced, hence the row data is marked as normal data',
+    this.anomalyDescription = 'The factor that supporting the Production rate is releveant to the count produced, hence the row data is marked as normal data',
   });
 
   final String machineID;

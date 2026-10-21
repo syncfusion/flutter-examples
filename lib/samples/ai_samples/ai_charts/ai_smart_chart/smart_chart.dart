@@ -740,8 +740,7 @@ class _SmartAIChartState extends SampleViewState {
                         style: TextStyle(fontSize: 14),
                       ),
                       TextSpan(
-                        text:
-                            '“Create a doughnut chart showing 2024 Q3 metal sales in the USA.”',
+                        text: '“Create a doughnut chart showing 2024 Q3 metal sales in the USA.”',
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
                           color: textColor,
@@ -805,8 +804,7 @@ class _SmartAIChartState extends SampleViewState {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text:
-                            'Area, bar, bubble, column, doughnut, line, pie, radial bar and scatter',
+                        text: 'Area, bar, bubble, column, doughnut, line, pie, radial bar and scatter',
                       ),
                       TextSpan(text: '.\n'),
                       TextSpan(
@@ -814,8 +812,7 @@ class _SmartAIChartState extends SampleViewState {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text:
-                            'Data labels, data source updates, legends, tooltips',
+                        text: 'Data labels, data source updates, legends, tooltips',
                       ),
                     ],
                   ),

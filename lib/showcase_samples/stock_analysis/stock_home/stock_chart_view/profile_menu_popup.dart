@@ -106,9 +106,8 @@ class ProfileMenuPopup extends StatelessWidget {
               ),
               Text(
                 'Go to Sample Browser',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: themeData.colorScheme.primary,
-                ),
+                style: Theme.of(context).textTheme.bodyLarge!
+                    .copyWith(color: themeData.colorScheme.primary),
               ),
             ],
           ),
@@ -208,9 +207,8 @@ class ProfileMenuPopup extends StatelessWidget {
       ),
       message: '$firstName $lastName',
       textAlign: TextAlign.center,
-      textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-        color: themeData.colorScheme.onInverseSurface,
-      ),
+      textStyle: Theme.of(context).textTheme.labelLarge
+          ?.copyWith(color: themeData.colorScheme.onInverseSurface),
       child: GestureDetector(
         onTap: () {
           profilePopupMenuKey.currentState?.showButtonMenu();

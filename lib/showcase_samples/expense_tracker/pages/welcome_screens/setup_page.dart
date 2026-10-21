@@ -178,9 +178,9 @@ class SetupProfilePageState extends State<SetupProfilePage> {
                         Icon(
                           Icons.arrow_back,
                           size: 20,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onPrimaryContainer,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onPrimaryContainer,
                         ),
                         const SizedBox(width: 8),
                         Padding(
@@ -189,9 +189,9 @@ class SetupProfilePageState extends State<SetupProfilePage> {
                             'Go to Sample Browser', // Updated text
                             style: TextStyle(
                               fontSize: 16,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onPrimaryContainer,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer,
                             ),
                           ),
                         ),
@@ -246,9 +246,8 @@ class SetupProfilePageState extends State<SetupProfilePage> {
   Widget _buildTitleText(BuildContext context) {
     return Text(
       "Let's Set Up Your Account",
-      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-        color: Theme.of(context).colorScheme.onSurface,
-      ),
+      style: Theme.of(context).textTheme.titleLarge!
+          .copyWith(color: Theme.of(context).colorScheme.onSurface),
     );
   }
 

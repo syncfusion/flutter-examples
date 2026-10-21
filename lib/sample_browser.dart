@@ -1257,39 +1257,34 @@ class _CategorizedCardsState extends State<_CategorizedCards> {
                             fontFamily: 'Roboto-Bold',
                           ),
                         ),
+
                         if (!model.isWebFullView && Platform.isIOS)
                           Container()
+                        else if (control.isBeta ?? false)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: model.isWeb && model.isMobileResolution
+                                  ? const EdgeInsets.fromLTRB(3, 1.5, 3, 5.5)
+                                  : const EdgeInsets.fromLTRB(3, 3, 3, 2),
+                              decoration: const BoxDecoration(
+                                color: Color.fromRGBO(245, 188, 14, 1),
+                              ),
+                              child: const Text(
+                                'BETA',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.12,
+                                  fontFamily: 'Roboto-Medium',
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          )
                         else
-                          (control.isBeta ?? false)
-                              ? Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    padding:
-                                        model.isWeb && model.isMobileResolution
-                                        ? const EdgeInsets.fromLTRB(
-                                            3,
-                                            1.5,
-                                            3,
-                                            5.5,
-                                          )
-                                        : const EdgeInsets.fromLTRB(3, 3, 3, 2),
-                                    decoration: const BoxDecoration(
-                                      color: Color.fromRGBO(245, 188, 14, 1),
-                                    ),
-                                    child: const Text(
-                                      'BETA',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.12,
-                                        fontFamily: 'Roboto-Medium',
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : Container(),
+                          Container(),
                       ],
                     ),
                     if (status != null)

@@ -346,9 +346,8 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: const EdgeInsets.only(bottom: 4.0),
               child: Text(
                 'Reset',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
+                style: Theme.of(context).textTheme.bodyLarge
+                    ?.copyWith(color: Theme.of(context).colorScheme.error),
               ),
             ),
           ],
@@ -376,9 +375,8 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           child: Text(
             'Reset',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Theme.of(context).colorScheme.error,
-            ),
+            style: Theme.of(context).textTheme.bodyLarge
+                ?.copyWith(color: Theme.of(context).colorScheme.error),
           ),
         ),
       );

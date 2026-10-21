@@ -763,9 +763,8 @@ class _MapSelectionPageState extends SampleViewState {
                                             alignment: Alignment.centerRight,
                                             child: GestureDetector(
                                               onTap: () {
-                                                ScaffoldMessenger.of(
-                                                  context,
-                                                ).removeCurrentSnackBar();
+                                                ScaffoldMessenger.of(context)
+                                                    .removeCurrentSnackBar();
                                               },
                                               child: const Icon(
                                                 Icons.close,

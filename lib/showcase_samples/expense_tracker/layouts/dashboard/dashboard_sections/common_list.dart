@@ -378,9 +378,9 @@ class CommonList extends StatelessWidget {
                                     // height: 10,
                                     letterSpacing: 0.15,
                                     fontWeight: FontWeight.w500,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onPrimary,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary,
                                   ),
                             ),
                           ),

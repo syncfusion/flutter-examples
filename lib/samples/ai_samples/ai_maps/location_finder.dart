@@ -250,37 +250,39 @@ class _MapLocationFinderState extends SampleViewState
                                     padding: EdgeInsets.zero,
                                     shrinkWrap: true,
                                     itemCount: options.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      final String option = options.elementAt(
-                                        index,
-                                      );
-                                      if (!_validSentences.contains(option)) {
-                                        return ListTile(
-                                          title: Text(
-                                            'Offline search provides results for "Hospitals in New York" and "Hotels in Denver". To get more results, connect to the internet and gemini',
-                                            style: TextStyle(
-                                              color: model
-                                                  .themeData
-                                                  .colorScheme
-                                                  .onPrimaryContainer,
-                                              fontSize: 12,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                          final String option = options
+                                              .elementAt(index);
+                                          if (!_validSentences.contains(
+                                            option,
+                                          )) {
+                                            return ListTile(
+                                              title: Text(
+                                                'Offline search provides results for "Hospitals in New York" and "Hotels in Denver". To get more results, connect to the internet and gemini',
+                                                style: TextStyle(
+                                                  color: model
+                                                      .themeData
+                                                      .colorScheme
+                                                      .onPrimaryContainer,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                          return ListTile(
+                                            title: Text(
+                                              option,
+                                              style: TextStyle(
+                                                color: model
+                                                    .themeData
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }
-                                      return ListTile(
-                                        title: Text(
-                                          option,
-                                          style: TextStyle(
-                                            color: model
-                                                .themeData
-                                                .colorScheme
-                                                .primary,
-                                          ),
-                                        ),
-                                        onTap: () => onSelected(option),
-                                      );
-                                    },
+                                            onTap: () => onSelected(option),
+                                          );
+                                        },
                                   ),
                                 ),
                               ),

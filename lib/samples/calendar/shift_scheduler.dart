@@ -1,7 +1,9 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+
 import '../../model/sample_view.dart';
 import 'appointment_editor.dart';
 import 'pop_up_editor.dart';

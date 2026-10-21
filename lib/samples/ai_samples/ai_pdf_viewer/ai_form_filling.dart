@@ -665,9 +665,9 @@ class _SmartFillSampleState extends SampleViewState
                                     _isExpanded
                                         ? Icons.keyboard_arrow_down
                                         : Icons.keyboard_arrow_up,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurfaceVariant,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
                                   ),
                                 ),
                                 Padding(
@@ -678,9 +678,9 @@ class _SmartFillSampleState extends SampleViewState
                                   child: Text(
                                     'Sample Content to copy',
                                     style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurfaceVariant,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant,
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -738,9 +738,9 @@ class _SmartFillSampleState extends SampleViewState
                                 child: Text(
                                   'Sample Content to copy',
                                   style: TextStyle(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurfaceVariant,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                     overflow: TextOverflow.ellipsis,

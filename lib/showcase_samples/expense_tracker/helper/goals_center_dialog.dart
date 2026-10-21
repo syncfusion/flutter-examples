@@ -339,9 +339,8 @@ class _GoalsCenterDialogState extends State<GoalsCenterDialog> {
       ),
       notes: _remarkController.text,
       priority: _typeController.text,
-      date: DateFormat(
-        widget.userDetails.userProfile.dateFormat,
-      ).parse(_dateController.text),
+      date: DateFormat(widget.userDetails.userProfile.dateFormat)
+          .parse(_dateController.text),
       category: _categoryController.text,
     );
   }

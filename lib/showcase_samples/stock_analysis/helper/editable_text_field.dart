@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 // import '../../expense_tracker/constants.dart';
 import '../model/user_detail.dart';
 import '../notifier/stock_chart_notifier.dart';

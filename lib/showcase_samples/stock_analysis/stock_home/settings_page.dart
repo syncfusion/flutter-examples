@@ -189,9 +189,8 @@ class _StockProfileSettingsPageState extends State<StockProfileSettingsPage> {
           children: [
             Text(
               'Basic Info',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+              style: Theme.of(context).textTheme.titleMedium
+                  ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
             ),
             const SizedBox(height: 16),
             _buildAvatarInfo(context),
@@ -263,9 +262,8 @@ class _StockProfileSettingsPageState extends State<StockProfileSettingsPage> {
           children: [
             Text(
               'Appearance',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+              style: Theme.of(context).textTheme.titleMedium
+                  ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
             ),
             const SizedBox(height: 16),
             Row(

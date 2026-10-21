@@ -372,8 +372,7 @@ PDF files are structured with a header for identification, a body containing the
           } else {
             _addMessageAndRebuild(
               const AssistMessage.response(
-                data:
-                    'Please connect to your preferred AI service for real-time queries.',
+                data: 'Please connect to your preferred AI service for real-time queries.',
               ),
             );
           }

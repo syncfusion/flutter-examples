@@ -109,9 +109,8 @@ class _BudgetLayoutState extends State<BudgetLayout> {
               return buildNoRecordsFound(context);
             }
             return ScrollConfiguration(
-              behavior: ScrollConfiguration.of(
-                context,
-              ).copyWith(scrollbars: false),
+              behavior: ScrollConfiguration.of(context)
+                  .copyWith(scrollbars: false),
               child: SingleChildScrollView(
                 child: Column(
                   children: [

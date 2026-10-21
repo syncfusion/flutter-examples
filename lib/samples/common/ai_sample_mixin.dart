@@ -32,8 +32,7 @@ mixin AISampleMixin on SampleViewState {
                       _buildApiKeyTextField(stateSetter),
                       const SizedBox(height: 10.0),
                       _buildRichText(
-                        text:
-                            '\n If you prefer to explore this sample without an API key, you may close this pop-up. You can still access samples featuring AI responses that are stored locally',
+                        text: '\n If you prefer to explore this sample without an API key, you may close this pop-up. You can still access samples featuring AI responses that are stored locally',
                         linkText: '',
                         url: '',
                         trailingText: '.\n',
@@ -71,12 +70,10 @@ mixin AISampleMixin on SampleViewState {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildRichText(
-          text:
-              'This is a prototype sample that demonstrates user requests and AI responses in a conversational format with enhanced visualization. The ',
+          text: 'This is a prototype sample that demonstrates user requests and AI responses in a conversational format with enhanced visualization. The ',
           linkText: 'google_generative_ai',
           url: 'https://pub.dev/packages/google_generative_ai',
-          trailingText:
-              ' package is utilized to interact with Google AI and obtain responses for the requests.',
+          trailingText: ' package is utilized to interact with Google AI and obtain responses for the requests.',
         ),
         _buildRichText(
           text: '\n To create an API key, visit ',

@@ -528,8 +528,9 @@ class _CalendarAppointmentEditorState extends SampleViewState {
 }
 
 /// Signature for callback which reports the picker value changed.
-typedef PickerChanged =
-    void Function(PickerChangedDetails pickerChangedDetails);
+typedef PickerChanged = void Function(
+  PickerChangedDetails pickerChangedDetails,
+);
 
 /// Details for the [PickerChanged].
 class PickerChangedDetails {
@@ -579,15 +580,13 @@ String _getAppointmentTimeText(Appointment selectedAppointment) {
     }
 
     endFormat += ' dd hh:mm a';
-    return DateFormat(
-          'EEEE, MMM dd hh:mm a',
-        ).format(selectedAppointment.startTime) +
+    return DateFormat('EEEE, MMM dd hh:mm a')
+            .format(selectedAppointment.startTime) +
         ' - ' +
         DateFormat(endFormat).format(selectedAppointment.endTime);
   } else {
-    return DateFormat(
-          'EEEE, MMM dd hh:mm a',
-        ).format(selectedAppointment.startTime) +
+    return DateFormat('EEEE, MMM dd hh:mm a')
+            .format(selectedAppointment.startTime) +
         ' - ' +
         DateFormat('hh:mm a').format(selectedAppointment.endTime);
   }
@@ -2571,10 +2570,9 @@ class _DeleteDialogState extends State<_DeleteDialog> {
                           Navigator.pop(context);
                           final Appointment? parentAppointment =
                               widget.events.getPatternAppointment(
-                                    widget.selectedAppointment,
-                                    '',
-                                  )
-                                  as Appointment?;
+                                widget.selectedAppointment,
+                                '',
+                              ) as Appointment?;
                           if (_delete == _Delete.event) {
                             if (widget.selectedAppointment.recurrenceId !=
                                 null) {
@@ -2773,10 +2771,9 @@ class _EditDialogState extends State<_EditDialog> {
                           if (_edit == _Edit.event) {
                             final Appointment? parentAppointment =
                                 widget.events.getPatternAppointment(
-                                      widget.selectedAppointment,
-                                      '',
-                                    )
-                                    as Appointment?;
+                                  widget.selectedAppointment,
+                                  '',
+                                ) as Appointment?;
                             final Appointment newAppointment = Appointment(
                               startTime: widget.newAppointment.startTime,
                               endTime: widget.newAppointment.endTime,
@@ -2837,10 +2834,9 @@ class _EditDialogState extends State<_EditDialog> {
                           } else {
                             Appointment? parentAppointment =
                                 widget.events.getPatternAppointment(
-                                      widget.selectedAppointment,
-                                      '',
-                                    )
-                                    as Appointment?;
+                                  widget.selectedAppointment,
+                                  '',
+                                ) as Appointment?;
                             final List<DateTime>? exceptionDates =
                                 parentAppointment!.recurrenceExceptionDates;
                             if (exceptionDates != null &&
@@ -3019,9 +3015,10 @@ class _CustomRuleState extends State<_CustomRule> {
     if (_days == null) {
       _mobileInitialWeekdays(_startDate.weekday);
     }
-    final Appointment? parentAppointment =
-        widget.events.getPatternAppointment(widget.selectedAppointment, '')
-            as Appointment?;
+    final Appointment? parentAppointment = widget.events.getPatternAppointment(
+      widget.selectedAppointment,
+      '',
+    ) as Appointment?;
     if (parentAppointment == null) {
       _firstDate = _startDate;
     } else {

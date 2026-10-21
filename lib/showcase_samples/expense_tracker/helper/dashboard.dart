@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'responsive_layout.dart';
 
 Widget buildHeaderText(
@@ -38,9 +39,8 @@ class DropDownButtonWidget extends StatelessWidget {
       child: SizedBox(
         height: 32.0,
         child: DropdownButton<String>(
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
+          style: Theme.of(context).textTheme.labelLarge!
+              .copyWith(color: Theme.of(context).colorScheme.onSurface),
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
           value: value,
           icon: const Center(child: Icon(size: 24, Icons.arrow_drop_down)),

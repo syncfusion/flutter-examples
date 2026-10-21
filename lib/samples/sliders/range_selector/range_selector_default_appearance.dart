@@ -83,15 +83,13 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
         startRate = chartData[i].y!.toDouble();
       }
       if (chartData[i].x.isAfter(
-                //ignore: avoid_as
-                (values.start as DateTime).subtract(const Duration(hours: 12)),
-              )
-              as bool &&
+            //ignore: avoid_as
+            (values.start as DateTime).subtract(const Duration(hours: 12)),
+          ) as bool &&
           chartData[i].x.isBefore(
-                //ignore: avoid_as
-                (values.end as DateTime).add(const Duration(hours: 12)),
-              )
-              as bool) {
+            //ignore: avoid_as
+            (values.end as DateTime).add(const Duration(hours: 12)),
+          ) as bool) {
         dataCount++;
         totalData += chartData[i].y!;
       }
@@ -226,9 +224,8 @@ class _DefaultRangeSelectorPageState extends SampleViewState {
                 height: 25,
                 child: Text(
                   'Average rate   :   ' +
-                      _getAverageInflationRate(
-                        rangeController,
-                      ).toStringAsFixed(2) +
+                      _getAverageInflationRate(rangeController)
+                          .toStringAsFixed(2) +
                       '%',
                   style: const TextStyle(fontSize: 18),
                 ),

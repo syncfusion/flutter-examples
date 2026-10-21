@@ -1,4 +1,5 @@
 import 'package:syncfusion_flutter_charts/charts.dart';
+
 import '../../model/chart_settings.dart';
 
 TooltipBehavior stockToolTipBehavior(ChartSettings chartSettings) {

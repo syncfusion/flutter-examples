@@ -51,8 +51,7 @@ class _TileLayerSampleState extends SampleViewState {
         country: 'Mexico',
         latitude: 20.6843,
         longitude: -88.5678,
-        description:
-            "Mayan ruins on Mexico's Yucatan Peninsula. It was one of the largest Maya cities, thriving from around A.D. 600 to 1200.",
+        description: "Mayan ruins on Mexico's Yucatan Peninsula. It was one of the largest Maya cities, thriving from around A.D. 600 to 1200.",
         imagePath: 'images/maps_chichen_itza.jpg',
         tooltipImagePath: 'images/maps-chichen-itza.jpg',
       ),
@@ -65,8 +64,7 @@ class _TileLayerSampleState extends SampleViewState {
         country: 'Peru',
         latitude: -13.1631,
         longitude: -72.5450,
-        description:
-            'An Inca citadel built in the mid-1400s. It was not widely known until the early twentieth century.',
+        description: 'An Inca citadel built in the mid-1400s. It was not widely known until the early twentieth century.',
         imagePath: 'images/maps_machu_pichu.jpg',
         tooltipImagePath: 'images/maps-machu-picchu.jpg',
       ),
@@ -79,8 +77,7 @@ class _TileLayerSampleState extends SampleViewState {
         country: 'Brazil',
         latitude: -22.9519,
         longitude: -43.2105,
-        description:
-            'An enormous statue of Jesus Christ with open arms, constructed between 1922 and 1931.',
+        description: 'An enormous statue of Jesus Christ with open arms, constructed between 1922 and 1931.',
         imagePath: 'images/maps_christ_redeemer.jpg',
         tooltipImagePath: 'images/maps-christ-the-redeemer.jpg',
       ),
@@ -93,8 +90,7 @@ class _TileLayerSampleState extends SampleViewState {
         country: 'Rome',
         latitude: 41.8902,
         longitude: 12.4922,
-        description:
-            'Built between A.D. 70 and 80, it could accommodate 50,000 to 80,000 people in tiered seating. It is one of the most popular tourist attractions in Europe.',
+        description: 'Built between A.D. 70 and 80, it could accommodate 50,000 to 80,000 people in tiered seating. It is one of the most popular tourist attractions in Europe.',
         imagePath: 'images/maps_colosseum.jpg',
         tooltipImagePath: 'images/maps-colosseum.jpg',
       ),
@@ -107,8 +103,7 @@ class _TileLayerSampleState extends SampleViewState {
         country: 'Jordan',
         latitude: 30.3285,
         longitude: 35.4444,
-        description:
-            'An ancient stone city located in southern Jordan. It became the capital city for the Nabataeans around the fourth century BC.',
+        description: 'An ancient stone city located in southern Jordan. It became the capital city for the Nabataeans around the fourth century BC.',
         imagePath: 'images/maps_petra.jpg',
         tooltipImagePath: 'images/maps-petra.jpg',
       ),
@@ -121,8 +116,7 @@ class _TileLayerSampleState extends SampleViewState {
         country: 'India',
         latitude: 27.1751,
         longitude: 78.0421,
-        description:
-            'A white marble mausoleum in Agra, India. It was commissioned in A.D. 1632 by the Mughal emperor Shah Jahan to hold the remains of his favorite wife. It was completed in 1653.',
+        description: 'A white marble mausoleum in Agra, India. It was commissioned in A.D. 1632 by the Mughal emperor Shah Jahan to hold the remains of his favorite wife. It was completed in 1653.',
         imagePath: 'images/maps_taj_mahal.jpg',
         tooltipImagePath: 'images/maps-tajmahal.jpg',
       ),
@@ -135,8 +129,7 @@ class _TileLayerSampleState extends SampleViewState {
         country: 'China',
         latitude: 40.4319,
         longitude: 116.5704,
-        description:
-            'A series of walls and fortifications built along the northern border of China to protect Chinese states from invaders. Counting all of its offshoots, its length is more than 13,000 miles.',
+        description: 'A series of walls and fortifications built along the northern border of China to protect Chinese states from invaders. Counting all of its offshoots, its length is more than 13,000 miles.',
         imagePath: 'images/maps_great_wall_of_china.jpg',
         tooltipImagePath: 'images/maps-great-wall-of-china.png',
       ),

@@ -808,16 +808,14 @@ class _AiCalendarState extends SampleViewState
 
         conversationHistory.add(Content.text(responseText));
       } else {
-        responseText =
-            'API key is missing. Please provide a valid API key to generate a response.';
+        responseText = 'API key is missing. Please provide a valid API key to generate a response.';
       }
 
       if (responseText.contains(_appointmentBooked)) {
         convertAIResponse(responseText, setState);
       }
     } catch (e) {
-      responseText =
-          'API key is invalid. Please provide a valid API key to generate a response.';
+      responseText = 'API key is invalid. Please provide a valid API key to generate a response.';
     } finally {
       // Handle finally
     }
